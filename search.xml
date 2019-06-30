@@ -1747,14 +1747,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[世界，您好！]]></title>
-    <url>%2F2017%2F08%2F25%2Fhello-world-1%2F</url>
-    <content type="text"><![CDATA[print(&quot;Hello World&quot;)]]></content>
-      <categories>
-        <category>未分类</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[hello-world]]></title>
     <url>%2F2017%2F08%2F25%2Fhello-world%2F</url>
     <content type="text"><![CDATA[1print(&quot;hello world&quot;)]]></content>

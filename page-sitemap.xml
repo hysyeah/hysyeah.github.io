@@ -8,6 +8,13 @@
     </url>
     
     <url>
+        <loc>https://hysyeah.github.io/categories/</loc>
+        <lastmod>2019-06-30T14:34:55.499Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
         <loc>https://hysyeah.github.io/sample-page/</loc>
         <lastmod>2019-06-30T14:14:24.287Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -24,13 +31,6 @@
     <url>
         <loc>https://hysyeah.github.io/tags/</loc>
         <lastmod>2019-06-30T12:37:41.618Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://hysyeah.github.io/categories/</loc>
-        <lastmod>2019-06-30T12:29:59.920Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
