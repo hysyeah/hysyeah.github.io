@@ -486,7 +486,8 @@ SELECT nspname FROM pg_catalog.pg_namespace;
 SELECT * FROM pg_stat_activity;
 
 # kill 连接数据库ptldwh的所有session
-SELECT pg_terminate_backend(a.pid) FROM pg_stat_activity a WHERE datname=&apos;ptldwh&apos;;</code></pre>
+SELECT pg_terminate_backend(a.pid) FROM pg_stat_activity a WHERE datname=&#39;ptldwh&#39;;
+</code></pre>
       
     </div>
 

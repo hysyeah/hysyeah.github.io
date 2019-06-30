@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="1.打开一个数据库 import rocksdb db = rocksdb.DB(&amp;quot;test.db&amp;quot;,rocksdb.Options(create_if_missing=True))  # create_if_missing=True 如果不存在则创建名为&amp;apos;test.db&amp;apos;的数据库2.设置键值对和获取值 # RocksDB中存储的是byte strings。">
+  <meta name="description" content="1.打开一个数据库 import rocksdb db = rocksdb.DB(&amp;quot;test.db&amp;quot;,rocksdb.Options(create_if_missing=True))  # create_if_missing=True 如果不存在则创建名为&amp;#39;test.db&amp;#39;的数据库 2.设置键值对和获取值 # RocksDB中存储的是byte strings。在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python-rocksdb的基本使用">
 <meta property="og:url" content="https://hysyeah.github.io/2018/10/14/python-rocksdb-e7-9a-84-e5-9f-ba-e6-9c-ac-e4-bd-bf-e7-94-a8/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.打开一个数据库 import rocksdb db = rocksdb.DB(&amp;quot;test.db&amp;quot;,rocksdb.Options(create_if_missing=True))  # create_if_missing=True 如果不存在则创建名为&amp;apos;test.db&amp;apos;的数据库2.设置键值对和获取值 # RocksDB中存储的是byte strings。">
+<meta property="og:description" content="1.打开一个数据库 import rocksdb db = rocksdb.DB(&amp;quot;test.db&amp;quot;,rocksdb.Options(create_if_missing=True))  # create_if_missing=True 如果不存在则创建名为&amp;#39;test.db&amp;#39;的数据库 2.设置键值对和获取值 # RocksDB中存储的是byte strings。在">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python-rocksdb的基本使用">
-<meta name="twitter:description" content="1.打开一个数据库 import rocksdb db = rocksdb.DB(&amp;quot;test.db&amp;quot;,rocksdb.Options(create_if_missing=True))  # create_if_missing=True 如果不存在则创建名为&amp;apos;test.db&amp;apos;的数据库2.设置键值对和获取值 # RocksDB中存储的是byte strings。">
+<meta name="twitter:description" content="1.打开一个数据库 import rocksdb db = rocksdb.DB(&amp;quot;test.db&amp;quot;,rocksdb.Options(create_if_missing=True))  # create_if_missing=True 如果不存在则创建名为&amp;#39;test.db&amp;#39;的数据库 2.设置键值对和获取值 # RocksDB中存储的是byte strings。在">
 
 
 
@@ -480,12 +480,13 @@
 <pre><code>import rocksdb
 db = rocksdb.DB(&quot;test.db&quot;,rocksdb.Options(create_if_missing=True))
 
-# create_if_missing=True 如果不存在则创建名为&apos;test.db&apos;的数据库</code></pre><p>2.设置键值对和获取值</p>
+# create_if_missing=True 如果不存在则创建名为&#39;test.db&#39;的数据库
+</code></pre><p>2.设置键值对和获取值</p>
 <pre><code># RocksDB中存储的是byte strings。在python2中为str类型，在python3中为bytes类型。
 db.put(b&quot;key&quot;,b&quot;value&quot;) #设置一个键值对，key =&gt; value
 
 db.get(b&quot;key&quot;)          #获取键为key的值，如果不在则返回为空
-b&apos;value&apos;
+b&#39;value&#39;
 
 db.delete(b&quot;key&quot;)       #删除键为key为的键值对
 
@@ -502,45 +503,49 @@ db.write(batch)
 &gt;&gt;&gt; db.put(b&quot;key1&quot;,b&quot;v1&quot;)
 &gt;&gt;&gt; ret = db.multi_get([b&quot;key&quot;,b&quot;key1&quot;])
 &gt;&gt;&gt; ret
-{b&apos;key&apos;: b&apos;v3&apos;, b&apos;key1&apos;: b&apos;v1&apos;}</code></pre><p>3.迭代</p>
+{b&#39;key&#39;: b&#39;v3&#39;, b&#39;key1&#39;: b&#39;v1&#39;}
+</code></pre><p>3.迭代</p>
 <pre><code>&gt;&gt;&gt; it = db.iterkeys()  # 默认是无效的，先得调用seek方法
 &gt;&gt;&gt; it.seek_to_first()
 &gt;&gt;&gt; print(list(it))
-[b&apos;a&apos;, b&apos;key&apos;, b&apos;key1&apos;]
+[b&#39;a&#39;, b&#39;key&#39;, b&#39;key1&#39;]
 
 &gt;&gt;&gt; it.seek_to_last()
 &gt;&gt;&gt; print(list(it))
-[b&apos;key1&apos;]
+[b&#39;key1&#39;]
 
 
 &gt;&gt;&gt; it = db.itervalues()   #对值进行迭代
 &gt;&gt;&gt; it.seek_to_first()
 &gt;&gt;&gt; print(list(it))
-[b&apos;b&apos;, b&apos;v3&apos;, b&apos;v1&apos;]
+[b&#39;b&#39;, b&#39;v3&#39;, b&#39;v1&#39;]
 
 &gt;&gt;&gt; it = db.iteritems()   #对键值对进行迭代
 &gt;&gt;&gt; it.seek_to_first()
 &gt;&gt;&gt; print(list(it))
-[(b&apos;a&apos;, b&apos;b&apos;), (b&apos;key&apos;, b&apos;v3&apos;), (b&apos;key1&apos;, b&apos;v1&apos;)]
+[(b&#39;a&#39;, b&#39;b&#39;), (b&#39;key&#39;, b&#39;v3&#39;), (b&#39;key1&#39;, b&#39;v1&#39;)]
 
 # 反向迭代
 &gt;&gt;&gt; it.seek_to_last()
 &gt;&gt;&gt; print(list(reversed(it)))
-[(b&apos;key1&apos;, b&apos;v1&apos;), (b&apos;key&apos;, b&apos;v3&apos;), (b&apos;a&apos;, b&apos;b&apos;)]</code></pre><p>4.快照</p>
+[(b&#39;key1&#39;, b&#39;v1&#39;), (b&#39;key&#39;, b&#39;v3&#39;), (b&#39;a&#39;, b&#39;b&#39;)]
+</code></pre><p>4.快照</p>
 <pre><code>&gt;&gt;&gt; snapshot = db.snapshot()
 &gt;&gt;&gt; it = db.iteritems(snapshot=snapshot)
 &gt;&gt;&gt; it
 &lt;rocksdb._rocksdb.ItemsIterator object at 0x7f77ae179608&gt;
 &gt;&gt;&gt; it.seek_to_first()
 &gt;&gt;&gt; print(dict(it))
-{b&apos;a&apos;: b&apos;b&apos;, b&apos;key&apos;: b&apos;v3&apos;, b&apos;key1&apos;: b&apos;v1&apos;}</code></pre><p>5.备份和恢复</p>
+{b&#39;a&#39;: b&#39;b&#39;, b&#39;key&#39;: b&#39;v3&#39;, b&#39;key1&#39;: b&#39;v1&#39;}
+</code></pre><p>5.备份和恢复</p>
 <pre><code># 备份
 backup = rocksdb.BackupEngine(&quot;test.db/backups&quot;)
 backup.create_backup(db, flush_before_backup=True)
 
 # 恢复
 backup = rocksdb.BackupEngine(&quot;test.db/backups&quot;)
-backup.restore_latest_backup(&quot;test.db&quot;, &quot;test.db&quot;)</code></pre><hr>
+backup.restore_latest_backup(&quot;test.db&quot;, &quot;test.db&quot;)
+</code></pre><hr>
 <p>参考： 1.<a href="https://python-rocksdb.readthedocs.io/en/latest/" target="_blank" rel="noopener">https://python-rocksdb.readthedocs.io/en/latest/</a></p>
 
       

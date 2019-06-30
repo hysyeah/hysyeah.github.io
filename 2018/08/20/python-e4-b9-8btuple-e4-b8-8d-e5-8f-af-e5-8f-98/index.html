@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3])tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [1">
+  <meta name="description" content="最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3]) tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python面试之tuple不可变">
 <meta property="og:url" content="https://hysyeah.github.io/2018/08/20/python-e4-b9-8btuple-e4-b8-8d-e5-8f-af-e5-8f-98/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3])tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [1">
+<meta property="og:description" content="最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3]) tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python面试之tuple不可变">
-<meta name="twitter:description" content="最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3])tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [1">
+<meta name="twitter:description" content="最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3]) tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [">
 
 
 
@@ -481,14 +481,15 @@
 In [18]: tu = (1, [1, 2])
 In [19]: tu[1].append(3)
 In [20]: print(tu)
-(1, [1, 2, 3])</code></pre><p>tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。</p>
+(1, [1, 2, 3])
+</code></pre><p>tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。</p>
 <pre><code>In [22]: tu[1] = [1,2,3]
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
 &lt;ipython-input-22-1e2059dd0201&gt; in &lt;module&gt;()
 ----&gt; 1 tu[1] = [1,2,3]
 
-TypeError: &apos;tuple&apos; object does not support item assignment
+TypeError: &#39;tuple&#39; object does not support item assignment
 
 
 
@@ -502,7 +503,8 @@ In [28]: t = (1, a)
 In [29]: t[1].a = 2
 
 In [31]: print(t[1].a)
-2</code></pre>
+2
+</code></pre>
       
     </div>
 

@@ -493,7 +493,8 @@ Out[22]: 30
 In [23]: b(10)
 Out[23]: 30
 
-# lambda表达式中用到的x是一个自由变量，在运行进才进行绑定而不是定义的时候进行绑定。因此，lambda表达式中的x是在执行的时候确定的。</code></pre><p>再来看这么一个例子：</p>
+# lambda表达式中用到的x是一个自由变量，在运行进才进行绑定而不是定义的时候进行绑定。因此，lambda表达式中的x是在执行的时候确定的。
+</code></pre><p>再来看这么一个例子：</p>
 <pre><code>In [27]: def multipliers():
     ...:     return [lambda x: i*x for i in range(4)]
 In [28 print([m(2) for m in multipliers()])
@@ -520,7 +521,8 @@ In [35]: def multipliers():
     ...:
 
 In [36]: print([m(2) for m in multipliers()])
-[0, 2, 4, 6]</code></pre><hr>
+[0, 2, 4, 6]
+</code></pre><hr>
 <p>参考： 1.python cookbook</p>
 
       

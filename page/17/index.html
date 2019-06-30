@@ -650,8 +650,10 @@
       
         
           
-            <h3 id="获取一张表的所有字段名"><a href="#获取一张表的所有字段名" class="headerlink" title="获取一张表的所有字段名"></a>获取一张表的所有字段名</h3><pre><code>select COLUMN_NAME from information_schema.columns where table_name=&apos;TableName&apos;</code></pre><h3 id="对一个数据库进行赋权"><a href="#对一个数据库进行赋权" class="headerlink" title="对一个数据库进行赋权"></a>对一个数据库进行赋权</h3><pre><code>grant all privileges on database.* to username@ip identified by &apos;passwd&apos;
-flush privileges</code></pre>
+            <h3 id="获取一张表的所有字段名"><a href="#获取一张表的所有字段名" class="headerlink" title="获取一张表的所有字段名"></a>获取一张表的所有字段名</h3><pre><code>select COLUMN_NAME from information_schema.columns where table_name=&#39;TableName&#39;
+</code></pre><h3 id="对一个数据库进行赋权"><a href="#对一个数据库进行赋权" class="headerlink" title="对一个数据库进行赋权"></a>对一个数据库进行赋权</h3><pre><code>grant all privileges on database.* to username@ip identified by &#39;passwd&#39;
+flush privileges
+</code></pre>
           
         
       
@@ -825,9 +827,11 @@ flush privileges</code></pre>
 <pre><code>yum install mysql-devel
 
 
-pip install mysqlclient</code></pre><hr>
+pip install mysqlclient
+</code></pre><hr>
 <p>ubuntu</p>
-<pre><code>apt-get install libmysqlclient-dev python3-dev</code></pre>
+<pre><code>apt-get install libmysqlclient-dev python3-dev
+</code></pre>
           
         
       
@@ -998,23 +1002,27 @@ pip install mysqlclient</code></pre><hr>
         
           
             <p>1.关系运算符</p>
-<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  </code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
-<pre><code>&gt; a = {x=1,y=0}
-&gt; b = {x=1,y=0}
-&gt; c == a
-false
-&gt; c = a
-&gt; a == c
-true
-&gt; a == b
-false</code></pre><p>数字、字符串的比较</p>
+<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  
+</code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
+<pre><code> &gt; a = {x=1,y=0}
+ &gt; b = {x=1,y=0}
+ &gt; c == a
+ false
+ &gt; c = a
+ &gt; a == c
+ true
+ &gt; a == b
+ false
+</code></pre><p>数字、字符串的比较</p>
 <pre><code>&gt; 0 == &quot;0&quot;
 false
 &gt; 2 &lt; 15
 true
 &gt; &quot;2&quot; &lt; &quot;15&quot;  --按字母顺序进行比较
-false</code></pre><p>2.逻辑运算符</p>
-<pre><code>and  or not</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
+false
+</code></pre><p>2.逻辑运算符</p>
+<pre><code>and  or not
+</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
 <pre><code>a and b -- 如果a为false,则返回a,否则返回b
 a or b  --如果a为true,则返回a,否则返回b
 &gt; print(1 and 2)
@@ -1024,20 +1032,28 @@ nil
 &gt; print(1 or 2)
 1
 &gt; print(false or 1)
-1</code></pre><p>例：</p>
-<pre><code>x = x or v</code></pre><p>等价于：</p>
+1
+</code></pre><p>例：</p>
+<pre><code>x = x or v
+</code></pre><p>等价于：</p>
 <pre><code>if not x then
    x = v
-end</code></pre><p>C语言中的三元运算符</p>
-<pre><code>a ? b:c</code></pre><p>在Lua中可以这样实现:</p>
-<pre><code>(a and b) or c</code></pre><p>not 结果只返回false或者true</p>
+end
+</code></pre><p>C语言中的三元运算符</p>
+<pre><code>a ? b:c
+</code></pre><p>在Lua中可以这样实现:</p>
+<pre><code>(a and b) or c
+</code></pre><p>not 结果只返回false或者true</p>
 <pre><code>&gt; print(not 0)
-false</code></pre><p>3.连接运算符</p>
-<pre><code>.. --两个点</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
+false
+</code></pre><p>3.连接运算符</p>
+<pre><code>.. --两个点
+</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
 <pre><code>&gt; print(&quot;Hello &quot; .. &quot;World&quot;)
 Hello World
 &gt; print(0 .. 1)
-01</code></pre>
+01
+</code></pre>
           
         
       
@@ -1207,7 +1223,8 @@ Hello World
       
         
           
-            <pre><code>super(Entity,self).__init__()</code></pre><p>这是对继承自父类的属性进行初始化。而且是用父类的初始化方法来初始化继承的属性。 也就是说，子类继承了父类的所有属性和方法，父类属性自然会用父类方法来进行初始化。当然，如果初始化的逻辑与父类的不同，不使用父类的方法，自己重新初始化也是可以的 和php中的parent::__construct()的作用应该是一样的。</p>
+            <pre><code>super(Entity,self).__init__()
+</code></pre><p>这是对继承自父类的属性进行初始化。而且是用父类的初始化方法来初始化继承的属性。 也就是说，子类继承了父类的所有属性和方法，父类属性自然会用父类方法来进行初始化。当然，如果初始化的逻辑与父类的不同，不使用父类的方法，自己重新初始化也是可以的 和php中的parent::__construct()的作用应该是一样的。</p>
 
           
         
@@ -1379,7 +1396,8 @@ Hello World
         
           
             <h4 id="python提供了一个异常类，来处理代码中可能出现的异常"><a href="#python提供了一个异常类，来处理代码中可能出现的异常" class="headerlink" title="python提供了一个异常类，来处理代码中可能出现的异常"></a>python提供了一个异常类，来处理代码中可能出现的异常</h4><p>class BaseException BaseException是所有内建异常都继承于这个类。但用户自定义的异常类用不继承这个类，而是继承自Exception。 class Exception Exception <strong>traceback</strong> 当异常发生时python会自动创建traceback对象，并关联到<strong>traceback</strong>属性中，你可以使用with_traceback()创建异常和设置你自己的traceback。(Python3) raise python2到python3</p>
-<pre><code>raise E, V 改为raise E(V),raise E, V, T 改为raise E(V).with_traceback(T)</code></pre><p>兼容python2和python3的写法</p>
+<pre><code>raise E, V 改为raise E(V),raise E, V, T 改为raise E(V).with_traceback(T)
+</code></pre><p>兼容python2和python3的写法</p>
 <pre><code>peewee
 PY3:
 def reraise(tp, value, tb=None):#type,value,traceback
@@ -1387,14 +1405,15 @@ def reraise(tp, value, tb=None):#type,value,traceback
         raise value.with_traceback(tb)
     raise value
 PY2:
-exec(&apos;def reraise(tp, value, tb=None): raise tp, value, tb&apos;) #在python3下会报语法错误，通过exec绕过检查
+exec(&#39;def reraise(tp, value, tb=None): raise tp, value, tb&#39;) #在python3下会报语法错误，通过exec绕过检查
 
 bottle
 PY3:
 def _raise(*a):
     raise a[0](a[1]).with_traceback(a[2])
 PY2:
-exec(compile(&apos;def _raise(*a): raise a[0], a[1], a[2]&apos;, &apos;&lt;py3fix&gt;&apos;, &apos;exec&apos;))</code></pre><p>参考： 1.<a href="https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html" target="_blank" rel="noopener">https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html</a></p>
+exec(compile(&#39;def _raise(*a): raise a[0], a[1], a[2]&#39;, &#39;&lt;py3fix&gt;&#39;, &#39;exec&#39;))
+</code></pre><p>参考： 1.<a href="https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html" target="_blank" rel="noopener">https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html</a></p>
 
           
         
@@ -1577,7 +1596,8 @@ In [4]: a = A()
 init
 
 In [5]: del a
-del</code></pre>
+del
+</code></pre>
           
         
       
@@ -1750,10 +1770,12 @@ del</code></pre>
             <h4 id="python2中的默认编码为ASCII-在python3改为了unicode。"><a href="#python2中的默认编码为ASCII-在python3改为了unicode。" class="headerlink" title="python2中的默认编码为ASCII,在python3改为了unicode。"></a>python2中的默认编码为ASCII,在python3改为了unicode。</h4><p><img src="http://hysyeah.top/wp-content/uploads/2017/10/u.jpg" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2017/10/u-1.jpg" alt="image"></p>
 <h4 id="python2中-python3中已经没有-unicode-basestring"><a href="#python2中-python3中已经没有-unicode-basestring" class="headerlink" title="python2中,python3中已经没有(unicode,basestring)"></a>python2中,python3中已经没有(unicode,basestring)</h4><pre><code>unicode_type = unicode
 
-string_type = basestring</code></pre><p>python3中</p>
+string_type = basestring
+</code></pre><p>python3中</p>
 <pre><code>unicode_type = str
 
-string_type = bytes</code></pre><hr>
+string_type = bytes
+</code></pre><hr>
 <p>参考： 1.<a href="http://www.jianshu.com/p/2bb8a1300bfd" target="_blank" rel="noopener">http://www.jianshu.com/p/2bb8a1300bfd</a></p>
 
           
@@ -1926,15 +1948,17 @@ string_type = bytes</code></pre><hr>
         
           
             <p>Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下：</p>
-<pre><code>url(&apos;^&apos;, include(&apos;django.contrib.auth.urls&apos;))</code></pre><p>相当于</p>
-<pre><code>^login/$ [name=&apos;login&apos;]
-^logout/$ [name=&apos;logout&apos;]
-^password_change/$ [name=&apos;password_change&apos;]
-^password_change/done/$ [name=&apos;password_change_done&apos;]
-^password_reset/$ [name=&apos;password_reset&apos;]
-^password_reset/done/$ [name=&apos;password_reset_done&apos;]
-^reset/(?P&lt;uidb64&gt;[0-9A-Za-z_\-]+)/(?P&lt;token&gt;[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$ [name=&apos;password_reset_confirm&apos;]
-^reset/done/$ [name=&apos;password_reset_complete&apos;]</code></pre><p>2.<a href="http://hysyeah.top/2017/09/27/django%E9%80%9A%E8%BF%87qq%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">配置好发送邮件配置</a> 3.在前端配置好url就可实现密码修改，重置功能。</p>
+<pre><code>url(&#39;^&#39;, include(&#39;django.contrib.auth.urls&#39;))
+</code></pre><p>相当于</p>
+<pre><code>^login/$ [name=&#39;login&#39;]
+^logout/$ [name=&#39;logout&#39;]
+^password_change/$ [name=&#39;password_change&#39;]
+^password_change/done/$ [name=&#39;password_change_done&#39;]
+^password_reset/$ [name=&#39;password_reset&#39;]
+^password_reset/done/$ [name=&#39;password_reset_done&#39;]
+^reset/(?P&lt;uidb64&gt;[0-9A-Za-z_\-]+)/(?P&lt;token&gt;[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$ [name=&#39;password_reset_confirm&#39;]
+^reset/done/$ [name=&#39;password_reset_complete&#39;]
+</code></pre><p>2.<a href="http://hysyeah.top/2017/09/27/django%E9%80%9A%E8%BF%87qq%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">配置好发送邮件配置</a> 3.在前端配置好url就可实现密码修改，重置功能。</p>
 <hr>
 <p>参考： 1.<a href="https://docs.djangoproject.com/en/1.11/topics/auth/default/#all-authentication-views" target="_blank" rel="noopener">官方文档</a></p>
 
@@ -2109,11 +2133,12 @@ string_type = bytes</code></pre><hr>
           
             <p>通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下</p>
 <pre><code>EMAIL_USE_TLS = True
-EMAIL_HOST = &apos;smtp.qq.com&apos;  #若是企业邮箱要改为：&apos;smtp.exmail.qq.com&apos;
+EMAIL_HOST = &#39;smtp.qq.com&#39;  #若是企业邮箱要改为：&#39;smtp.exmail.qq.com&#39;
 EMAIL_PORT = 587
-EMAIL_HOST_USER = &apos;12345678@qq.com&apos;
-EMAIL_HOST_PASSWORD = &apos;xxxxxxxxxxxxxxxx&apos;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
-DEFAULT_FROM_EMAIL = &apos;12345678@qq.com&apos;</code></pre>
+EMAIL_HOST_USER = &#39;12345678@qq.com&#39;
+EMAIL_HOST_PASSWORD = &#39;xxxxxxxxxxxxxxxx&#39;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
+DEFAULT_FROM_EMAIL = &#39;12345678@qq.com&#39;
+</code></pre>
           
         
       

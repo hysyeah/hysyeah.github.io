@@ -478,7 +478,8 @@
       
         <pre><code>1.SELECT * FROM br_apply_check_info LIMIT 20 OFFSET 612000; --0.769s
 
-2.SELECT * FROM br_apply_check_info INNER JOIN (SELECT id from br_apply_check_info LIMIT 20 OFFSET 612000) AS x USING(ID);-- 0.438s</code></pre><p>当偏移量的增加，MYSQL需要花费大量的时间来扫描需要丢弃的数据。反范式化，预先计算和缓存可能是解决这类查询的仅有策略。 优化这类索引的另一个比较好的策略是使用延迟关联，通过使用覆盖索引查询返回需要的主键，再根据这些主键关联原表获得需要的行。这样可以减少MYSQL扫描那些需要丢弃的行数。 如上：第二方法比第一种方法快一倍(当偏移量足够大的时候)</p>
+2.SELECT * FROM br_apply_check_info INNER JOIN (SELECT id from br_apply_check_info LIMIT 20 OFFSET 612000) AS x USING(ID);-- 0.438s
+</code></pre><p>当偏移量的增加，MYSQL需要花费大量的时间来扫描需要丢弃的数据。反范式化，预先计算和缓存可能是解决这类查询的仅有策略。 优化这类索引的另一个比较好的策略是使用延迟关联，通过使用覆盖索引查询返回需要的主键，再根据这些主键关联原表获得需要的行。这样可以减少MYSQL扫描那些需要丢弃的行数。 如上：第二方法比第一种方法快一倍(当偏移量足够大的时候)</p>
 <hr>
 <p>参考：&lt;&lt;高性能MYSQL&gt;&gt;</p>
 

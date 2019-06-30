@@ -94,12 +94,12 @@
 
 
 
-  <meta name="description" content="mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%) create user &amp;apos;hys&amp;apos;@&amp;apos;%&amp;apos; identified by &amp;apos;hello&amp;apos;; create user &amp;apos;hys&amp;apos;@&amp;apos;localhost&amp;apos; identif">
+  <meta name="description" content="mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%) create user &amp;#39;hys&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;hello&amp;#39;; create user &amp;#39;hys&amp;#39;@&amp;#39;localhost&amp;#39; identified by &amp;#3">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql之％">
 <meta property="og:url" content="https://hysyeah.github.io/2019/02/23/mysql-e4-b9-8b-ef-bc-85/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%) create user &amp;apos;hys&amp;apos;@&amp;apos;%&amp;apos; identified by &amp;apos;hello&amp;apos;; create user &amp;apos;hys&amp;apos;@&amp;apos;localhost&amp;apos; identif">
+<meta property="og:description" content="mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%) create user &amp;#39;hys&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;hello&amp;#39;; create user &amp;#39;hys&amp;#39;@&amp;#39;localhost&amp;#39; identified by &amp;#3">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/02/mysqluser.png">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png">
@@ -108,7 +108,7 @@
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之％">
-<meta name="twitter:description" content="mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%) create user &amp;apos;hys&amp;apos;@&amp;apos;%&amp;apos; identified by &amp;apos;hello&amp;apos;; create user &amp;apos;hys&amp;apos;@&amp;apos;localhost&amp;apos; identif">
+<meta name="twitter:description" content="mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%) create user &amp;#39;hys&amp;#39;@&amp;#39;%&amp;#39; identified by &amp;#39;hello&amp;#39;; create user &amp;#39;hys&amp;#39;@&amp;#39;localhost&amp;#39; identified by &amp;#3">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2019/02/mysqluser.png">
 
 
@@ -482,10 +482,11 @@
 
       
         <p>mysql在创建用户时可以指定host,通配符%表示可以匹配任何host(当然localhost除外，localhost优先级大于%)</p>
-<pre><code>create user &apos;hys&apos;@&apos;%&apos; identified by &apos;hello&apos;;
-create user &apos;hys&apos;@&apos;localhost&apos; identified by &apos;wtf&apos;;
-create user &apos;hys&apos;@&apos;127.0.0.1&apos; identified by &apos;666&apos;;
-flush privileges;</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/02/mysqluser.png" alt> 使用命令进行连接<code>mysql -uhys -phello</code>,报错如下 <img src="http://hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png" alt> 使用命令进行连接<code>mysql -uhys -pwtf</code>则可以正常连接。 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code> <img src="http://hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png" alt> 说明mysql在进行连接时把<code>127.0.0.1</code>转换成了<code>localhost</code> 删除掉<code>hys@localhost</code> 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code>可正常连接</p>
+<pre><code>create user &#39;hys&#39;@&#39;%&#39; identified by &#39;hello&#39;;
+create user &#39;hys&#39;@&#39;localhost&#39; identified by &#39;wtf&#39;;
+create user &#39;hys&#39;@&#39;127.0.0.1&#39; identified by &#39;666&#39;;
+flush privileges;
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/02/mysqluser.png" alt> 使用命令进行连接<code>mysql -uhys -phello</code>,报错如下 <img src="http://hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png" alt> 使用命令进行连接<code>mysql -uhys -pwtf</code>则可以正常连接。 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code> <img src="http://hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png" alt> 说明mysql在进行连接时把<code>127.0.0.1</code>转换成了<code>localhost</code> 删除掉<code>hys@localhost</code> 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code>可正常连接</p>
 <hr>
 <p>结论： 1.通配符不包括<code>localhost</code> 2.当同一用户host同时存在<code>localhost</code>和<code>%</code>时，会优先匹配<code>localhost</code> 3.当同一用户host同时存在<code>localhost</code>和<code>127.0.0.1</code>时,虽然连接时指定了<code>-h127.0.0.1</code>但也会先匹配<code>localhost</code> 4.当存在<code>127.0.0.1</code>而不存在<code>localhost</code>，指定<code>-h127.0.0.1</code>可以进行连接</p>
 <hr>

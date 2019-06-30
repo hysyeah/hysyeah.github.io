@@ -483,16 +483,17 @@ os.path.dirname(zipfile.__file__)  #查看zipfile.py文件所在路径
 
 if flags &amp; 0x800:
     # UTF-8 file names extension
-    filename = filename.decode(&apos;utf-8&apos;)
+    filename = filename.decode(&#39;utf-8&#39;)
 else:
     # Historical ZIP filename encoding
-    filename = filename.decode(&apos;cp437&apos;)  #改为filename = filename.decode(&apos;gbk&apos;)
+    filename = filename.decode(&#39;cp437&#39;)  #改为filename = filename.decode(&#39;gbk&#39;)
 
 if zinfo.flag_bits &amp; 0x800:
     # UTF-8 filename
     fname_str = fname.decode(&quot;utf-8&quot;)
  else:
-    fname_str = fname.decode(&quot;cp437&quot;)   #改为fname_str = fname.decode(&quot;gbk&quot;)</code></pre><hr>
+    fname_str = fname.decode(&quot;cp437&quot;)   #改为fname_str = fname.decode(&quot;gbk&quot;)
+</code></pre><hr>
 <p>参考 1.<a href="https://blog.csdn.net/tian544556/article/details/78635840" target="_blank" rel="noopener">https://blog.csdn.net/tian544556/article/details/78635840</a></p>
 
       

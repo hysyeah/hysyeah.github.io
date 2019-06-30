@@ -486,7 +486,8 @@
 3
 
 &gt; ((lambda (x [y 5]) (list y x)) 1 2);参数y有一个默认值5,若没有提供参数，则y输出5
-&apos;(2 1)</code></pre><p><strong>let</strong> location和top-level变量类似，location产生的时候使用一个从未使用过的名称，不能被重新生成和直接访问， 这里top-level变量应该指的是其它语言的全局变量。</p>
+&#39;(2 1)
+</code></pre><p><strong>let</strong> location和top-level变量类似，location产生的时候使用一个从未使用过的名称，不能被重新生成和直接访问， 这里top-level变量应该指的是其它语言的全局变量。</p>
 <pre><code>(let ([id val-expr] ...) body ...+)
 (let proc-id ([id init-expr] ...) body ...+)
 
@@ -506,7 +507,7 @@
 &gt;(let* ([x 1]
        [y (+ x 1)])
    (list y x))
-&apos;(2 1)
+&#39;(2 1)
 如果此处将let*改为let,则会报错(x未定义,因为x为绑定到var-exprS中)
 
 
@@ -521,11 +522,12 @@ idS马上被初始化，绑定到val-exprS和bodyS命名空间中。
 
 &gt; (let-values ([(x y) (quotient/remainder 10 3)])
     (list y x))
-&apos;(1 3)
+&#39;(1 3)
 (let*-values ([(id ...) val-expr] ...) body ...+);和let-values相似，但会把location绑定到val-exprS中。
 
-(letrec-values ([(id ...) val-expr] ...) body ...+);和letrec相似，对id赋值的方式不一样</code></pre><hr>
-<p>参考： 1.<a href="https://docs.racket-lang.org/reference/lambda.html#%28form._%28%28lib._racket%2Fprivate%2Fbase..rkt%29._lambda%29%29" " target="_blank" rel="noopener">官方文档lambda</a> 2.<a href="https://docs.racket-lang.org/reference/let.html#%28form._%28%28lib._racket%2Fprivate%2Fletstx-scheme..rkt%29._let%29%29" target="_blank" rel="noopener">官方文档let</a></p>
+(letrec-values ([(id ...) val-expr] ...) body ...+);和letrec相似，对id赋值的方式不一样
+</code></pre><hr>
+<p>参考： 1.<a href="https://docs.racket-lang.org/reference/lambda.html#%28form._%28%28lib._racket%2Fprivate%2Fbase..rkt%29._lambda%29%29&quot;" target="_blank" rel="noopener">官方文档lambda</a> 2.<a href="https://docs.racket-lang.org/reference/let.html#%28form._%28%28lib._racket%2Fprivate%2Fletstx-scheme..rkt%29._let%29%29" target="_blank" rel="noopener">官方文档let</a></p>
 
       
     </div>

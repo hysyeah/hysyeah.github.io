@@ -489,21 +489,22 @@ def move_sympyplot_to_axes(p, ax):
     backend = p.backend(p)
     backend.ax = ax
     backend.process_series()
-    backend.ax.spines[&apos;right&apos;].set_color(&apos;none&apos;)
-    backend.ax.spines[&apos;bottom&apos;].set_position(&apos;zero&apos;)
-    backend.ax.spines[&apos;top&apos;].set_color(&apos;none&apos;)
+    backend.ax.spines[&#39;right&#39;].set_color(&#39;none&#39;)
+    backend.ax.spines[&#39;bottom&#39;].set_position(&#39;zero&#39;)
+    backend.ax.spines[&#39;top&#39;].set_color(&#39;none&#39;)
     plt.close(backend.fig)
 
-x = symbols(&apos;x&apos;)
+x = symbols(&#39;x&#39;)
 p1 = plot((x**2,(x,-2,2)),(x,(x,-4,4)),legend=True, show=False)
-p1[1].line_color = &apos;r&apos;
+p1[1].line_color = &#39;r&#39;
 p2 = plot((1/x,(x,-4,4)),ylim=(-2,2),legend=True, show=False)
 
 
 fig,(ax,ax2) = plt.subplots(ncols=2)
 move_sympyplot_to_axes(p1,ax)
 move_sympyplot_to_axes(p2, ax2)
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/some_graf.png" alt></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/some_graf.png" alt></p>
 
       
     </div>

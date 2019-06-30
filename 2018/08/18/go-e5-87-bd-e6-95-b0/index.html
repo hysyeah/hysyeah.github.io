@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。 func name(parameter-list) (result-list) {     body }实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。  递归:Go语">
+  <meta name="description" content="函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。 func name(parameter-list) (result-list) {     body } 实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。  递归:Go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go函数">
 <meta property="og:url" content="https://hysyeah.github.io/2018/08/18/go-e5-87-bd-e6-95-b0/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。 func name(parameter-list) (result-list) {     body }实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。  递归:Go语">
+<meta property="og:description" content="函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。 func name(parameter-list) (result-list) {     body } 实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。  递归:Go">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go函数">
-<meta name="twitter:description" content="函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。 func name(parameter-list) (result-list) {     body }实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。  递归:Go语">
+<meta name="twitter:description" content="函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。 func name(parameter-list) (result-list) {     body } 实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。  递归:Go">
 
 
 
@@ -479,7 +479,8 @@
         <p>函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。</p>
 <pre><code>func name(parameter-list) (result-list) {
     body
-}</code></pre><p>实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。</p>
+}
+</code></pre><p>实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。</p>
 <hr>
 <p>递归:Go语言使用可变栈，栈的大小按需增加(初始时很小)。这使得我们使用递归时不必考虑溢出和安全问题。 虽然Go的垃圾回收机制会回收不被使用的内存，但不包括操作系统层面的资源，比如打开的文件、网络连接。 log包中的所有函数会为没有换行符的字符串增加换行符。 fmt.Errorf函数使用fmt.Sprintf格式化错误信息并返回。 匿名函数：</p>
 <pre><code>func squares() func() int {
@@ -488,14 +489,16 @@
         x++
         return x * x
     }
-}</code></pre><p>可变参数:</p>
+}
+</code></pre><p>可变参数:</p>
 <pre><code>func sum(vals...int) int {
     total := 0
     for _, val := range vals {
         total += val
     }
     return total
-}</code></pre><hr>
+}
+</code></pre><hr>
 <p>defer语句经常用于处理成对的操作，如打开、关闭、连接、断开连接、加锁、释放锁。通过defer机制，不论函数逻辑多复杂，都能保证在执行路径下，资源被释放。释放资源的defer应该直接跟在请求资源的语句后。</p>
 <pre><code>package ioutil
 func ReadFile(filename string) ([]byte, error) {
@@ -513,7 +516,8 @@ func lookup(key string) int {
     mu.Lock()
     defer mu.Unlock()
     return m[key]
-}</code></pre><p>Panic异常 Go的类型系统会在编译时捕获很多错误，但有些错误只能在运行时检查，如数组访问越界、 空指针引用等。这些运行时错误会引起painc异常。 一般而言，当panic异常发生时，程序会中断运行，并立即执行在该goroutine（可以先理解成线程)中被延迟的函数（defer 机制）。随后，程序崩溃并输出日志信息。日志信息包括panic value和函数调用的堆栈跟踪信息。panic value通常是某种错误信息。</p>
+}
+</code></pre><p>Panic异常 Go的类型系统会在编译时捕获很多错误，但有些错误只能在运行时检查，如数组访问越界、 空指针引用等。这些运行时错误会引起painc异常。 一般而言，当panic异常发生时，程序会中断运行，并立即执行在该goroutine（可以先理解成线程)中被延迟的函数（defer 机制）。随后，程序崩溃并输出日志信息。日志信息包括panic value和函数调用的堆栈跟踪信息。panic value通常是某种错误信息。</p>
 <hr>
 <p>Recover捕获异常 如果在deferred函数中调用了内置函数recover，并且定义该defer语句的函数发生了panic异 常，recover会使程序从panic中恢复，并返回panic value。导致panic异常的函数不会继续运 行，但能正常返回。在未发生panic时调用recover，recover会返回nil。</p>
 <pre><code>func Parse(input string) (s *Syntax, err error) {
@@ -523,7 +527,8 @@ func lookup(key string) int {
     }
    }()
 // ...parser...
-}</code></pre><hr>
+}
+</code></pre><hr>
 <p>参考： 1.The Go Programming Language</p>
 
       

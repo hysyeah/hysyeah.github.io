@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句  ROW:也被称作physical logging,记录每行数据的变化  MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使">
+  <meta name="description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句 ROW:也被称作physical logging,记录每行数据的变化 MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使用的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql之binlog-format">
 <meta property="og:url" content="https://hysyeah.github.io/2019/03/09/mysql-e4-b9-8bbinlog-format/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句  ROW:也被称作physical logging,记录每行数据的变化  MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使">
+<meta property="og:description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句 ROW:也被称作physical logging,记录每行数据的变化 MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使用的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之binlog-format">
-<meta name="twitter:description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句  ROW:也被称作physical logging,记录每行数据的变化  MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使">
+<meta name="twitter:description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句 ROW:也被称作physical logging,记录每行数据的变化 MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使用的">
 
 
 
@@ -478,10 +478,8 @@
       
         <p><code>mysql</code>支持3种日志记录格式，<code>STATEMENT</code>,<code>ROW</code>,<code>MIXED</code> 可在启动时通过<code>--binlog_format=type</code>指定。</p>
 <ul>
-<li><p><code>STATEMENT</code>:也被称作logical logging,记录<code>mysql</code>执行的语句</p>
-</li>
-<li><p><code>ROW</code>:也被称作physical logging,记录每行数据的变化</p>
-</li>
+<li><code>STATEMENT</code>:也被称作logical logging,记录<code>mysql</code>执行的语句</li>
+<li><code>ROW</code>:也被称作physical logging,记录每行数据的变化</li>
 <li><p><code>MIXED</code>:即<code>STATEMENT</code>和<code>ROW</code>的混合形式，<code>mysql</code>会根据场景决定使用哪种日志格式</p>
 <h1 id="查看目前使用的日志格式"><a href="#查看目前使用的日志格式" class="headerlink" title="查看目前使用的日志格式"></a>查看目前使用的日志格式</h1><p>show variables like ‘binlog_format’;</p>
 <h1 id="设置全局binlog-format，重新登录后生效"><a href="#设置全局binlog-format，重新登录后生效" class="headerlink" title="设置全局binlog_format，重新登录后生效"></a>设置全局binlog_format，重新登录后生效</h1><p>SET GLOBAL binlog_format = ‘STATEMENT’;<br>SET GLOBAL binlog_format = ‘ROW’;<br>SET GLOBAL binlog_format = ‘MIXED’;</p>

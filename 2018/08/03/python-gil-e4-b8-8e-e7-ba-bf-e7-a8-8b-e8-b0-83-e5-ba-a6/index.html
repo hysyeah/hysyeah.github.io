@@ -481,16 +481,19 @@
         <p>GIL(Global Interpreter Lock)-全局解释锁，python使用GIL来互斥线程对python虚拟机的使用，同一时间只能并且仅有一个线程使用python虚拟机。</p>
 <h4 id="为什么要使用GIL"><a href="#为什么要使用GIL" class="headerlink" title="为什么要使用GIL"></a>为什么要使用GIL</h4><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/threadab.png" alt> 假设有两个线程A、B，在两个线程中，都同时保存着对内存中同一对象obj的引用，也就是说，这时obj-&gt;ob_refcnt的值为2。如果A销毁对obj的引用，显然，A将通过Py_DECREF调整obj的引用计数值。Py_DECREF的整个 动作可以分为两个部分：</p>
 <pre><code>--obj-&gt;ob_refcnt;
-if(obj-&gt;ob_refcnt == 0) destory object and free memory</code></pre><p>如果A在执行完第一个动作之后，obj-&gt;ob_refcnt的值变为1。若此时线程A被挂起，而唤醒了B线程。如果B同样也开始销毁对obj的引用。B完成第一动作之后，obj-&gt;ob_refcnt为0，若此时B没有被线程调度打断，而是顺利地完成了接下来的第二个动作，将对象销毁，内存释放。然后A又被重新唤醒，obj-&gt;ob_refcnt已经被B减少到0，而不是当初的1。此时A开始对已经销毁的对象进行对象销毁和内存释放动作。这将会发生意外。。 为了支持多线程机制，一个基本的要求就是需要实现不同线程对共享资源访问的互斥，所以引入了GIL。</p>
+if(obj-&gt;ob_refcnt == 0) destory object and free memory
+</code></pre><p>如果A在执行完第一个动作之后，obj-&gt;ob_refcnt的值变为1。若此时线程A被挂起，而唤醒了B线程。如果B同样也开始销毁对obj的引用。B完成第一动作之后，obj-&gt;ob_refcnt为0，若此时B没有被线程调度打断，而是顺利地完成了接下来的第二个动作，将对象销毁，内存释放。然后A又被重新唤醒，obj-&gt;ob_refcnt已经被B减少到0，而不是当初的1。此时A开始对已经销毁的对象进行对象销毁和内存释放动作。这将会发生意外。。 为了支持多线程机制，一个基本的要求就是需要实现不同线程对共享资源访问的互斥，所以引入了GIL。</p>
 <hr>
 <p>python线程的调度 python会在两个情况下启动线程调度机制 1.线程执行完成，释放全局锁 2.当python执行了N条指令后会立即启动线程调度机制。这个值可以通过sys.getcheckinterval()获取。</p>
 <pre><code>In [3]: sys.getcheckinterval()
 /usr/local/bin/ipython:1: DeprecationWarning: sys.getcheckinterval() and sys.setcheckinterval() are deprecated.  Use sys.getswitchinterval() instead.
   #!/usr/bin/python3
-Out[3]: 100</code></pre><p>从python3.2开始这个函数已经被废弃了，改用sys.getswitchinterval()，调度间隔时间改为了0.005秒。</p>
+Out[3]: 100
+</code></pre><p>从python3.2开始这个函数已经被废弃了，改用sys.getswitchinterval()，调度间隔时间改为了0.005秒。</p>
 <pre><code>In [4]: sys.getswitchinterval()
-Out[4]: 0.005</code></pre><hr>
-<p>参考： 1.python源码剖析–深度探索动态语言核心技术 2.<a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval" target="_blank" rel="noopener">官方文档</a></p>
+Out[4]: 0.005
+</code></pre><hr>
+<p>参考： 1.python源码剖析—深度探索动态语言核心技术 2.<a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval" target="_blank" rel="noopener">官方文档</a></p>
 
       
     </div>

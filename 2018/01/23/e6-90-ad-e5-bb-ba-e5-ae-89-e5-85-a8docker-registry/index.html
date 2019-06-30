@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt 3.docker run -d -p 5000:5000 --restart=always --nam">
+  <meta name="description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt  3.docker run -d -p 5000:5000 --restart=always --na">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建安全Docker Registry">
 <meta property="og:url" content="https://hysyeah.github.io/2018/01/23/e6-90-ad-e5-bb-ba-e5-ae-89-e5-85-a8docker-registry/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt 3.docker run -d -p 5000:5000 --restart=always --nam">
+<meta property="og:description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt  3.docker run -d -p 5000:5000 --restart=always --na">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/01/ca.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建安全Docker Registry">
-<meta name="twitter:description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt 3.docker run -d -p 5000:5000 --restart=always --nam">
+<meta name="twitter:description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt  3.docker run -d -p 5000:5000 --restart=always --na">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/01/ca.png">
 
 
@@ -482,7 +482,8 @@
 docker pull registry
 
 2.制作证书
-openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/ca.png" alt="image"></p>
+openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/ca.png" alt="image"></p>
 <pre><code>3.docker run -d -p 5000:5000 --restart=always --name registry \
   -v /data/registry:/var/lib/registry \
   -v /certs:/certs \
@@ -498,7 +499,8 @@ sudo service docker restart
 
 6.docker tag busybox d.hysyeah.top:5000/busybox 
 
-7.docker push d.hysyeah.top:5000/busybox</code></pre>
+7.docker push d.hysyeah.top:5000/busybox
+</code></pre>
       
     </div>
 

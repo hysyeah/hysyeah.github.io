@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="1.导入numpy包，调用array()函数创建一维数组 In [3]: import numpy as np  In [4]: a = np.array(range(6))  In [5]: a Out[5]: array([0, 1, 2, 3, 4, 5])  In [6]: print(a) [0 1 2 3 4 5]2.array的shape属性 In [7]: a.shape Out[">
+  <meta name="description" content="1.导入numpy包，调用array()函数创建一维数组 In [3]: import numpy as np  In [4]: a = np.array(range(6))  In [5]: a Out[5]: array([0, 1, 2, 3, 4, 5])  In [6]: print(a) [0 1 2 3 4 5] 2.array的shape属性 In [7]: a.shape Out">
 <meta property="og:type" content="article">
 <meta property="og:title" content="numpy数据类型基本操作">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/05/numpy-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8b-e5-9f-ba-e6-9c-ac-e6-93-8d-e4-bd-9c/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.导入numpy包，调用array()函数创建一维数组 In [3]: import numpy as np  In [4]: a = np.array(range(6))  In [5]: a Out[5]: array([0, 1, 2, 3, 4, 5])  In [6]: print(a) [0 1 2 3 4 5]2.array的shape属性 In [7]: a.shape Out[">
+<meta property="og:description" content="1.导入numpy包，调用array()函数创建一维数组 In [3]: import numpy as np  In [4]: a = np.array(range(6))  In [5]: a Out[5]: array([0, 1, 2, 3, 4, 5])  In [6]: print(a) [0 1 2 3 4 5] 2.array的shape属性 In [7]: a.shape Out">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="numpy数据类型基本操作">
-<meta name="twitter:description" content="1.导入numpy包，调用array()函数创建一维数组 In [3]: import numpy as np  In [4]: a = np.array(range(6))  In [5]: a Out[5]: array([0, 1, 2, 3, 4, 5])  In [6]: print(a) [0 1 2 3 4 5]2.array的shape属性 In [7]: a.shape Out[">
+<meta name="twitter:description" content="1.导入numpy包，调用array()函数创建一维数组 In [3]: import numpy as np  In [4]: a = np.array(range(6))  In [5]: a Out[5]: array([0, 1, 2, 3, 4, 5])  In [6]: print(a) [0 1 2 3 4 5] 2.array的shape属性 In [7]: a.shape Out">
 
 
 
@@ -485,7 +485,8 @@ In [5]: a
 Out[5]: array([0, 1, 2, 3, 4, 5])
 
 In [6]: print(a)
-[0 1 2 3 4 5]</code></pre><p>2.array的shape属性</p>
+[0 1 2 3 4 5]
+</code></pre><p>2.array的shape属性</p>
 <pre><code>In [7]: a.shape
 Out[7]: (6,)
 
@@ -494,7 +495,8 @@ In [8]: a.shape = 2, 3
 In [9]: a
 Out[9]:
 array([[0, 1, 2],
-[3, 4, 5]])</code></pre><p>3.通过reshape()函数在a的基础上创建一个新的二维结构的数组a1,a的shape属性值不会变</p>
+[3, 4, 5]])
+</code></pre><p>3.通过reshape()函数在a的基础上创建一个新的二维结构的数组a1,a的shape属性值不会变</p>
 <pre><code>In [17]: a1 = a.reshape(3,2)
 
 In [18]: print(a1)
@@ -506,7 +508,8 @@ In [19]: a1.shape
 Out[19]: (3, 2)
 
 In [20]: a.shape
-Out[20]: (2, 3)</code></pre><p>数组a和a1共用内存中的数据存储值，若更改其中任意一个数组中的元素值，则另一个相对应的元素也会改变。</p>
+Out[20]: (2, 3)
+</code></pre><p>数组a和a1共用内存中的数据存储值，若更改其中任意一个数组中的元素值，则另一个相对应的元素也会改变。</p>
 <pre><code>In [23]: print(a1)
 [[0 1]
 [2 3]
@@ -517,23 +520,27 @@ In [24]: a[1, 2] = 88
 In [25]: print(a1)
 [[ 0 1]
 [ 2 3]
-[ 4 88]]</code></pre><p>4.利用arange([start,] stop[, step,], dtype=None)函数生成数组</p>
+[ 4 88]]
+</code></pre><p>4.利用arange([start,] stop[, step,], dtype=None)函数生成数组</p>
 <pre><code>In [2]: a = np.arange(13, 1, -1)
 
 In [3]: print(a)
-[13 12 11 10 9 8 7 6 5 4 3 2]</code></pre><p>5.利用linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)函数生成数组</p>
+[13 12 11 10 9 8 7 6 5 4 3 2]
+</code></pre><p>5.利用linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)函数生成数组</p>
 <pre><code>In [9]: a = np.linspace(1, 12, 12)
 
 In [10]: print(a)
 [ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12.]
 
 In [11]: a.dtype
-Out[11]: dtype(&apos;float64&apos;)</code></pre><p>6.常用函数</p>
-<pre><code>zeros(shape, dtype=float, order=&apos;C&apos;)生成元素全部为0的数组
+Out[11]: dtype(&#39;float64&#39;)
+</code></pre><p>6.常用函数</p>
+<pre><code>zeros(shape, dtype=float, order=&#39;C&#39;)生成元素全部为0的数组
 
-ones(shape, dtype=None, order=&apos;C&apos;)生成元素全部为1的数组
+ones(shape, dtype=None, order=&#39;C&#39;)生成元素全部为1的数组
 
-empty(shape, dtype=float, order=&apos;C&apos;)生成给定维度无初始值的数组</code></pre>
+empty(shape, dtype=float, order=&#39;C&#39;)生成给定维度无初始值的数组
+</code></pre>
       
     </div>
 

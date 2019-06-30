@@ -101,12 +101,12 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="统计学习(statistical learning)是关于计算机基于数据构建概率统计模型并运用模型对数据进行预测与分析的一门学科。 统计学习的主要特点： 1.统计学习以计算机及网络为平台，是建立大计算机及网络之上的 2.统计学习以数据为研究对象，是数据驱动的学科 3.统计学习的目的是对数据进行预测与分析 4.统计学习以方法为中心，统计学习方法构建模型并应用模型进行预测与分析 5.统计学习是概率论、">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/05/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0.png">
+<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/05/向量范数.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第1章 统计学习方法概论">
 <meta name="twitter:description" content="统计学习(statistical learning)是关于计算机基于数据构建概率统计模型并运用模型对数据进行预测与分析的一门学科。 统计学习的主要特点： 1.统计学习以计算机及网络为平台，是建立大计算机及网络之上的 2.统计学习以数据为研究对象，是数据驱动的学科 3.统计学习的目的是对数据进行预测与分析 4.统计学习以方法为中心，统计学习方法构建模型并应用模型进行预测与分析 5.统计学习是概率论、">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/05/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0.png">
+<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/05/向量范数.png">
 
 
 
@@ -484,12 +484,12 @@
 <hr>
 <p>根据输入、输出变量的不同类型，对预测任务给予不同的名称：输入变量与输出变量均为连续变量的预测问题称为回归问题；输出变量为有限个离散变量的预测问题称为分类问题；输入变量与输出变量均为变量序列的预测问题称为标注问题。 在监督学习过程中，模型就是所要学习的条件概率分布或决策函数。 假设空间用[latex]\mathcal{F}[/latex]表示。假设空间可以定义为决策函数的集合 [latex]\mathcal{F}= \{ {\mathcal{f}|Y = f(X)}\}[/latex] 其中，X和Y是定义在输入空间[latex]\chi[/latex]和输出空间[latex]\mathcal{Y}[/latex]上的变量。这时[latex]\mathcal{F}[/latex]通常是由一个参数向量决定的函数族：<br>[latex]\mathcal{F} = \{ {f|Y=f_{\theta}}(X),\theta\in R^{n}\}[/latex] 参数向量[latex]\theta[/latex]取值于n维欧式空间[latex]R^{n}[/latex],称为参数空间。 假设空间也可以定义为条件概率的集合[latex]\mathcal{F}=\{ {P|P(Y|X)}\}[/latex] 策略： 统计学习的目标在于从假设空间中选取最优模型。<br>损失函数度量模型一次预测的好坏，风险函数度量平均意义下模型预测的好坏。 统计学习常用损失函数：<br>(1) 0-1损失函数<br>[latex]L(Y,f(X))= \begin{cases} 0,&amp; {Y\neq f(X)}\\ 1,&amp; {Y\neq f(X)} \end{cases} [/latex]<br>(2) 平方损失函数<br>[latex]L(Y, f(X)) = (Y - f(X))^2[/latex] (3) 绝对损失函数<br>[latex]L(Y, f(X)) = |(Y - f(X))|[/latex] (4) 对数损失函数<br>[latex]L(Y, P(Y|X)) = -log P(Y|X)[/latex]</p>
 <hr>
-<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： [latex]min_{f\in\mathcal{F}} \frac{1}{N}\sum_{i=1}^NL(y_{(i)}, f(x_{i})) + \lambda J(f) [/latex] 其中，第一项是经验风险，第二项是正则化项，[latex]\lambda \geq 0[/latex]为调整两者之间关系的系数。</p>
+<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： [latex]min<em>{f\in\mathcal{F}} \frac{1}{N}\sum</em>{i=1}^NL(y<em>{(i)}, f(x</em>{i})) + \lambda J(f) [/latex] 其中，第一项是经验风险，第二项是正则化项，[latex]\lambda \geq 0[/latex]为调整两者之间关系的系数。</p>
 <h4 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h4><p>1.简单交叉验证 简单交叉验证方法是：首先随机地将已给数据分为两部分，一部分作为训练，另一部分作为测试集。 2.S折交叉验证 首先随机地将已给数据切分为S个互不相交的大小相同的子集；然后利用S-1个子集的数据训练模型，利用余下的子集测试模型；将这一过程可能的S种选择重复进行；最后选出S次评测中平均测试误差最小的模型。 3.留一交叉验证 S折交叉验证的特殊情形是S=N，称为留一交叉验证，往往在数据缺乏的情况下使用，N是给定的数据集容量。</p>
-<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 [latex]A = \frac{TP+TN}{TP+FN+FP+TN}[/latex] 精确率 [latex]P = \frac{TP}{TP+FP}[/latex] 召回率 [latex]R = \frac{TP}{TP+FN}[/latex] [latex]F_{1}[/latex]值 [latex]\frac{2}{F_{1}}= \frac{1}{P}+\frac{1}{R}[/latex] [latex]F_{1} = \frac{2TP}{2TP+FP+FN}[/latex]</p>
-<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是[latex]\hat f[/latex],那么利用这个模型 对未知数据预测的误差就是泛化误差<br>[latex]R_{exp}(\hat f) = E[L(Y, \hat f(X))] = \int_{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy[/latex] 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合[latex]\mathcal{F}={f_{1},f_{2},\cdot \cdot \cdot, f_{d}}[/latex]时，对于任意一个函数[latex]f \in \mathcal{F}[/latex],至少以概率[latex]1-\delta[/latex],以下不等式成立<br>[latex]R(f) \leq \hat R(f) + \varepsilon(d, N, \delta)[/latex],其中[latex]\varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)} [/latex]<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项[latex]\varepsilon(d, N, \delta)[/latex]是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
+<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 [latex]A = \frac{TP+TN}{TP+FN+FP+TN}[/latex] 精确率 [latex]P = \frac{TP}{TP+FP}[/latex] 召回率 [latex]R = \frac{TP}{TP+FN}[/latex] [latex]F<em>{1}[/latex]值 [latex]\frac{2}{F</em>{1}}= \frac{1}{P}+\frac{1}{R}[/latex] [latex]F_{1} = \frac{2TP}{2TP+FP+FN}[/latex]</p>
+<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是[latex]\hat f[/latex],那么利用这个模型 对未知数据预测的误差就是泛化误差<br>[latex]R<em>{exp}(\hat f) = E[L(Y, \hat f(X))] = \int</em>{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy[/latex] 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合[latex]\mathcal{F}={f<em>{1},f</em>{2},\cdot \cdot \cdot, f_{d}}[/latex]时，对于任意一个函数[latex]f \in \mathcal{F}[/latex],至少以概率[latex]1-\delta[/latex],以下不等式成立<br>[latex]R(f) \leq \hat R(f) + \varepsilon(d, N, \delta)[/latex],其中[latex]\varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)} [/latex]<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项[latex]\varepsilon(d, N, \delta)[/latex]是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
 <hr>
-<p><img src="http://hysyeah.top/wp-content/uploads/2018/05/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0.png" alt="image"></p>
+<p><img src="http://hysyeah.top/wp-content/uploads/2018/05/向量范数.png" alt="image"></p>
 
       
     </div>

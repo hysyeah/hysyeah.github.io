@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="1.安装python3 2.安装virtualenv sudo apt-get install python3-virtualenv(ubuntu环境下)或者 pip3 install virtualenv3.建立虚拟环境 virtualenv venv4.激活虚拟环境 source venv/bin/activate(Linux环境）  venv\Scripts\activate(Windows">
+  <meta name="description" content="1.安装python3 2.安装virtualenv sudo apt-get install python3-virtualenv(ubuntu环境下) 或者 pip3 install virtualenv 3.建立虚拟环境 virtualenv venv 4.激活虚拟环境 source venv/bin/activate(Linux环境）  venv\Scripts\activate(Wind">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django开发环境搭建与项目结构">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/01/django-e5-bc-80-e5-8f-91-e7-8e-af-e5-a2-83-e6-90-ad-e5-bb-ba-e4-b8-8e-e9-a1-b9-e7-9b-ae-e7-bb-93-e6-9e-84/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.安装python3 2.安装virtualenv sudo apt-get install python3-virtualenv(ubuntu环境下)或者 pip3 install virtualenv3.建立虚拟环境 virtualenv venv4.激活虚拟环境 source venv/bin/activate(Linux环境）  venv\Scripts\activate(Windows">
+<meta property="og:description" content="1.安装python3 2.安装virtualenv sudo apt-get install python3-virtualenv(ubuntu环境下) 或者 pip3 install virtualenv 3.建立虚拟环境 virtualenv venv 4.激活虚拟环境 source venv/bin/activate(Linux环境）  venv\Scripts\activate(Wind">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/tree.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django开发环境搭建与项目结构">
-<meta name="twitter:description" content="1.安装python3 2.安装virtualenv sudo apt-get install python3-virtualenv(ubuntu环境下)或者 pip3 install virtualenv3.建立虚拟环境 virtualenv venv4.激活虚拟环境 source venv/bin/activate(Linux环境）  venv\Scripts\activate(Windows">
+<meta name="twitter:description" content="1.安装python3 2.安装virtualenv sudo apt-get install python3-virtualenv(ubuntu环境下) 或者 pip3 install virtualenv 3.建立虚拟环境 virtualenv venv 4.激活虚拟环境 source venv/bin/activate(Linux环境）  venv\Scripts\activate(Wind">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/tree.png">
 
 
@@ -479,16 +479,22 @@
 
       
         <p>1.安装python3 2.安装virtualenv</p>
-<pre><code>sudo apt-get install python3-virtualenv(ubuntu环境下)</code></pre><p>或者</p>
-<pre><code>pip3 install virtualenv</code></pre><p>3.建立虚拟环境</p>
-<pre><code>virtualenv venv</code></pre><p>4.激活虚拟环境</p>
+<pre><code>sudo apt-get install python3-virtualenv(ubuntu环境下)
+</code></pre><p>或者</p>
+<pre><code>pip3 install virtualenv
+</code></pre><p>3.建立虚拟环境</p>
+<pre><code>virtualenv venv
+</code></pre><p>4.激活虚拟环境</p>
 <pre><code>source venv/bin/activate(Linux环境）
 
-venv\Scripts\activate(Windows）</code></pre><p>根据自己文件路径，需适当修改 5.在虚拟环境下通过pip3安装所需软件，如为旧项目，根据项目中的requests.txt文件安装所需依赖。</p>
-<pre><code>pip3 install -r requests.txt</code></pre><p>6.建立项目，APP(如新建好，则跳过此步骤)</p>
+venv\Scripts\activate(Windows）
+</code></pre><p>根据自己文件路径，需适当修改 5.在虚拟环境下通过pip3安装所需软件，如为旧项目，根据项目中的requests.txt文件安装所需依赖。</p>
+<pre><code>pip3 install -r requests.txt
+</code></pre><p>6.建立项目，APP(如新建好，则跳过此步骤)</p>
 <pre><code>django-admin startproject xxxx
 
-django-admin startapp xxxx</code></pre><p>7.项目结构 <img src="http://hysyeah.top/wp-content/uploads/2017/09/tree.png" alt="image"></p>
+django-admin startapp xxxx
+</code></pre><p>7.项目结构 <img src="http://hysyeah.top/wp-content/uploads/2017/09/tree.png" alt="image"></p>
 <pre><code>- report/static 一些静态文件，如js,css文件
 - report/templates 项目模版
 - report/urls.py   路由配置文件
@@ -496,8 +502,10 @@ django-admin startapp xxxx</code></pre><p>7.项目结构 <img src="http://hysyea
 - report/views/views.py 视图函数
 - report/views/xls_export.py xsl文件导出相关
 - xfbank/config    一些项目配置文件,dev_settings.py(测试环境),pro_settings.py(正式环境)
-- xfbank/urls.py   项目主配置urls文件&lt;/pre&gt;</code></pre><p>8.运行Django项目</p>
-<pre><code>python manage.py runserver</code></pre>
+- xfbank/urls.py   项目主配置urls文件&lt;/pre&gt;
+</code></pre><p>8.运行Django项目</p>
+<pre><code>python manage.py runserver
+</code></pre>
       
     </div>
 

@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="# 将给定的字符串对象转换为native string def to_native_string(string, encoding=&amp;apos;ascii&amp;apos;):     if isinstance(string, builtin_str):         out = string     else:         if is_py2:             out = string">
+  <meta name="description" content="# 将给定的字符串对象转换为native string def to_native_string(string, encoding=&amp;#39;ascii&amp;#39;):     if isinstance(string, builtin_str):         out = string     else:         if is_py2:             out = string.e">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python中的native string">
 <meta property="og:url" content="https://hysyeah.github.io/2018/03/26/python-e4-b8-ad-e7-9a-84native-string/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="# 将给定的字符串对象转换为native string def to_native_string(string, encoding=&amp;apos;ascii&amp;apos;):     if isinstance(string, builtin_str):         out = string     else:         if is_py2:             out = string">
+<meta property="og:description" content="# 将给定的字符串对象转换为native string def to_native_string(string, encoding=&amp;#39;ascii&amp;#39;):     if isinstance(string, builtin_str):         out = string     else:         if is_py2:             out = string.e">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python中的native string">
-<meta name="twitter:description" content="# 将给定的字符串对象转换为native string def to_native_string(string, encoding=&amp;apos;ascii&amp;apos;):     if isinstance(string, builtin_str):         out = string     else:         if is_py2:             out = string">
+<meta name="twitter:description" content="# 将给定的字符串对象转换为native string def to_native_string(string, encoding=&amp;#39;ascii&amp;#39;):     if isinstance(string, builtin_str):         out = string     else:         if is_py2:             out = string.e">
 
 
 
@@ -477,7 +477,7 @@
 
       
         <pre><code># 将给定的字符串对象转换为native string
-def to_native_string(string, encoding=&apos;ascii&apos;):
+def to_native_string(string, encoding=&#39;ascii&#39;):
     if isinstance(string, builtin_str):
         out = string
     else:
@@ -486,7 +486,8 @@ def to_native_string(string, encoding=&apos;ascii&apos;):
         else:
             out = string.decode(encoding)
 
-    return out</code></pre><hr>
+    return out
+</code></pre><hr>
 <p>1.”Native” strings(指那些类型名为str的字符串类型)，用于请求/响应头和元数据。 2.”Bytestring”(在python3中类型名为bytes,python2中为str),用于请求/响应中的body。</p>
 <hr>
 <p>参考： 1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a> 2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a> 3.<a href="http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>

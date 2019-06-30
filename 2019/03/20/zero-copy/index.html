@@ -487,12 +487,15 @@
       
         <p>在许多web应用中需要从磁盘中读取数据然后再将数据发送到socket中，而数据复制这一操作是非常消耗资源的。 <img src="http://hysyeah.top/wp-content/uploads/2019/03/cp.png" alt> 当执行<code>content_to_write = content[1024:]</code>时，这个操作是复制从1024字节后的所有数据到变量<code>content_to_write</code>中，这个过程中增加了9.789MB内存。 有没有方法可以在这种操作中不复制数据呢，在实现了<code>buffer protocol</code>的对象中是可以实现的。当一个对象实现了这个协议，你可以使用<code>memoryview</code>构造一个<code>memoryview</code>对象，实现对源对象内存数据的引用。 使用<code>memoryview</code> 并没有产生多余的内存。 <img src="http://hysyeah.top/wp-content/uploads/2019/03/cp_memoryview.png" alt> 在web应用中将数据从磁盘复制，然后发送到socket中。 普通的复制操作是这样的</p>
 <pre><code>file.read(fileDesc, buf, len);
-socket.send(socket, buf, len);</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/03/copy_traditional.png" alt> 用户请求向web应用请求数据，数据复制的过程如下： 1.web应用调用系统调用<code>read()</code>方法，此处从用户态切换到内核态。1过程使用DMA从磁盘中复制数据到<code>Read buffer</code>中。 2.当<code>read()</code>返回时，此处从内核态切换到用户态，将数据复制到应用缓存中。 3.web应用调用<code>send()</code>方法，此处从用户态切换到内核态，将数据复制到内核空间的内存中。 4. 4过程使用DMA方法从内核空间的缓存中复制数据到<code>socket</code>中。 当数据量很大时，这一过程是极其缓慢的。</p>
+socket.send(socket, buf, len);
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/03/copy_traditional.png" alt> 用户请求向web应用请求数据，数据复制的过程如下： 1.web应用调用系统调用<code>read()</code>方法，此处从用户态切换到内核态。1过程使用DMA从磁盘中复制数据到<code>Read buffer</code>中。 2.当<code>read()</code>返回时，此处从内核态切换到用户态，将数据复制到应用缓存中。 3.web应用调用<code>send()</code>方法，此处从用户态切换到内核态，将数据复制到内核空间的内存中。 4. 4过程使用DMA方法从内核空间的缓存中复制数据到<code>socket</code>中。 当数据量很大时，这一过程是极其缓慢的。</p>
 <hr>
 <p>零拷贝方法:直接将数据从源端拷贝到目标端</p>
-<pre><code>os.sendfile(out, in, offset, count, [headers, ][trailers, ]flags=0) </code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/03/copy_zero.png" alt> 传统拷贝方法所消耗的时间： <img src="http://hysyeah.top/wp-content/uploads/2019/03/normal_time.png" alt> 零拷贝方法所消耗的时间： <img src="http://hysyeah.top/wp-content/uploads/2019/03/zero_time.png" alt> 使用传统方法的客户端： <img src="http://hysyeah.top/wp-content/uploads/2019/03/normal_client.png" alt> 使用零拷贝方法的客户端：没产生大内存 <img src="http://hysyeah.top/wp-content/uploads/2019/03/zero_client.png" alt></p>
+<pre><code>os.sendfile(out, in, offset, count, [headers, ][trailers, ]flags=0) 
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/03/copy_zero.png" alt> 传统拷贝方法所消耗的时间： <img src="http://hysyeah.top/wp-content/uploads/2019/03/normal_time.png" alt> 零拷贝方法所消耗的时间： <img src="http://hysyeah.top/wp-content/uploads/2019/03/zero_time.png" alt> 使用传统方法的客户端： <img src="http://hysyeah.top/wp-content/uploads/2019/03/normal_client.png" alt> 使用零拷贝方法的客户端：没产生大内存 <img src="http://hysyeah.top/wp-content/uploads/2019/03/zero_client.png" alt></p>
 <pre><code>pip3 install memory_profiler
-pip3 install line_profiler</code></pre><hr>
+pip3 install line_profiler
+</code></pre><hr>
 <p>参考: 1.<a href="https://developer.ibm.com/articles/j-zerocopy/" target="_blank" rel="noopener">Efficient data transfer through zero copy</a> 2.<a href="https://julien.danjou.info/high-performance-in-python-with-zero-copy-and-the-buffer-protocol/" target="_blank" rel="noopener">high-performance-in-python-with-zero-copy-and-the-buffer-protocol/</a></p>
 
       

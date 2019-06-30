@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="如果用户写成 from sound.effects import *将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的init.py代码定义了一个名为all的列表，那么在遇到 fr">
+  <meta name="description" content="如果用户写成 from sound.effects import * 将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的init.py代码定义了一个名为all的列表，那么在遇到 f">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python魔法变量之__all__">
 <meta property="og:url" content="https://hysyeah.github.io/2017/08/30/python-e9-ad-94-e6-b3-95-e5-8f-98-e9-87-8f-e4-b9-8b-all/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="如果用户写成 from sound.effects import *将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的init.py代码定义了一个名为all的列表，那么在遇到 fr">
+<meta property="og:description" content="如果用户写成 from sound.effects import * 将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的init.py代码定义了一个名为all的列表，那么在遇到 f">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python魔法变量之__all__">
-<meta name="twitter:description" content="如果用户写成 from sound.effects import *将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的init.py代码定义了一个名为all的列表，那么在遇到 fr">
+<meta name="twitter:description" content="如果用户写成 from sound.effects import * 将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的init.py代码定义了一个名为all的列表，那么在遇到 f">
 
 
 
@@ -477,16 +477,22 @@
 
       
         <p>如果用户写成</p>
-<pre><code>from sound.effects import *</code></pre><p>将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的<strong>init</strong>.py代码定义了一个名为<strong>all</strong>的列表，那么在遇到</p>
-<pre><code>from package import *</code></pre><p>语句时，会把列表中的所有模块导入。 例如，文件sound/effects/<strong>init</strong>.py可以包含以下代码：</p>
-<pre><code>__all__ = [&quot;echo&quot;, &quot;surround&quot;, &quot;reverse&quot;]</code></pre><p>这意味着</p>
-<pre><code>from sound.effects import *</code></pre><p>将导入sound包的三个子模块。 如果<strong>all</strong>没有定义，</p>
-<pre><code>from sound.effects import *</code></pre><p>不会从sound.effects包中导入所有的子模块到当前命名空间，它只保证sound.effects包已经被导入(可能会运行<strong>init</strong>.py中任何初始化 的代码)，然后导入包中定义的任何名称。这包括 由<strong>init</strong>.py定义的任何的名称（以及显式加载的子模块）。还包括这个包中已经由前面的import 语句显式加载的子模块。 例：</p>
+<pre><code>from sound.effects import *
+</code></pre><p>将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的<strong>init</strong>.py代码定义了一个名为<strong>all</strong>的列表，那么在遇到</p>
+<pre><code>from package import *
+</code></pre><p>语句时，会把列表中的所有模块导入。 例如，文件sound/effects/<strong>init</strong>.py可以包含以下代码：</p>
+<pre><code>__all__ = [&quot;echo&quot;, &quot;surround&quot;, &quot;reverse&quot;]
+</code></pre><p>这意味着</p>
+<pre><code>from sound.effects import *
+</code></pre><p>将导入sound包的三个子模块。 如果<strong>all</strong>没有定义，</p>
+<pre><code>from sound.effects import *
+</code></pre><p>不会从sound.effects包中导入所有的子模块到当前命名空间，它只保证sound.effects包已经被导入(可能会运行<strong>init</strong>.py中任何初始化 的代码)，然后导入包中定义的任何名称。这包括 由<strong>init</strong>.py定义的任何的名称（以及显式加载的子模块）。还包括这个包中已经由前面的import 语句显式加载的子模块。 例：</p>
 <pre><code>import sound.effects.echo
 
 import sound.effects.surround
 
-from sound.effects import *</code></pre><p>当执行from … import语句时，echo和surround模块被导入当前命名空间，因为前面已经通过import语句显式加载。 参考：官方文档</p>
+from sound.effects import *
+</code></pre><p>当执行from … import语句时，echo和surround模块被导入当前命名空间，因为前面已经通过import语句显式加载。 参考：官方文档</p>
 
       
     </div>

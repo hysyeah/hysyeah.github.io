@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="( if ‹expr› ‹expr› ‹expr› )if语句，若2&amp;gt;3输出”bigger”,否则输出”smaller”&amp;gt; (if (&amp;gt; 2 3)       &amp;quot;bigger&amp;quot;       &amp;quot;smaller&amp;quot;)( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)&amp;gt;">
+  <meta name="description" content="( if ‹expr› ‹expr› ‹expr› )if语句，若2&amp;gt;3输出”bigger”,否则输出”smaller”&amp;gt; (if (&amp;gt; 2 3)       &amp;quot;bigger&amp;quot;       &amp;quot;smaller&amp;quot;) ( cond {[ ‹expr› ‹expr› ]} )(相当于C中的switch,else相当于c中的default)&amp;gt;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="racket条件语句">
 <meta property="og:url" content="https://hysyeah.github.io/2018/07/11/racket-e6-9d-a1-e4-bb-b6-e8-af-ad-e5-8f-a5/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="( if ‹expr› ‹expr› ‹expr› )if语句，若2&amp;gt;3输出”bigger”,否则输出”smaller”&amp;gt; (if (&amp;gt; 2 3)       &amp;quot;bigger&amp;quot;       &amp;quot;smaller&amp;quot;)( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)&amp;gt;">
+<meta property="og:description" content="( if ‹expr› ‹expr› ‹expr› )if语句，若2&amp;gt;3输出”bigger”,否则输出”smaller”&amp;gt; (if (&amp;gt; 2 3)       &amp;quot;bigger&amp;quot;       &amp;quot;smaller&amp;quot;) ( cond {[ ‹expr› ‹expr› ]} )(相当于C中的switch,else相当于c中的default)&amp;gt;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="racket条件语句">
-<meta name="twitter:description" content="( if ‹expr› ‹expr› ‹expr› )if语句，若2&amp;gt;3输出”bigger”,否则输出”smaller”&amp;gt; (if (&amp;gt; 2 3)       &amp;quot;bigger&amp;quot;       &amp;quot;smaller&amp;quot;)( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)&amp;gt;">
+<meta name="twitter:description" content="( if ‹expr› ‹expr› ‹expr› )if语句，若2&amp;gt;3输出”bigger”,否则输出”smaller”&amp;gt; (if (&amp;gt; 2 3)       &amp;quot;bigger&amp;quot;       &amp;quot;smaller&amp;quot;) ( cond {[ ‹expr› ‹expr› ]} )(相当于C中的switch,else相当于c中的default)&amp;gt;">
 
 
 
@@ -478,7 +478,8 @@
       
         <h4 id="if-‹expr›-‹expr›-‹expr›"><a href="#if-‹expr›-‹expr›-‹expr›" class="headerlink" title="( if ‹expr› ‹expr› ‹expr› )"></a>( if ‹expr› ‹expr› ‹expr› )</h4><h4 id="if语句，若2-gt-3输出”bigger”-否则输出”smaller”"><a href="#if语句，若2-gt-3输出”bigger”-否则输出”smaller”" class="headerlink" title="if语句，若2&gt;3输出”bigger”,否则输出”smaller”"></a>if语句，若2&gt;3输出”bigger”,否则输出”smaller”</h4><pre><code>&gt; (if (&gt; 2 3)
       &quot;bigger&quot;
-      &quot;smaller&quot;)</code></pre><h4 id="cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default"><a href="#cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default" class="headerlink" title="( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)"></a>( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)</h4><pre><code>&gt; (define (reply-more s)
+      &quot;smaller&quot;)
+</code></pre><h4 id="cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default"><a href="#cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default" class="headerlink" title="( cond {[ ‹expr› ‹expr› ]} )(相当于C中的switch,else相当于c中的default)"></a>( cond {[ ‹expr› ‹expr›<em> ]}</em> )(相当于C中的switch,else相当于c中的default)</h4><pre><code>&gt; (define (reply-more s)
     (cond
       [(equal? &quot;hello&quot; (substring s 0 5))
        (string-append &quot;this is &quot; s)]
@@ -489,15 +490,18 @@
 &gt; (reply-more &quot;hello&quot;)
 &quot;this is hello&quot;
 &gt; (reply-more &quot;dfdfllfd&quot;)
-&quot;hehe&quot;</code></pre><h4 id="and-‹expr›-当所有表达式为真时，返回真"><a href="#and-‹expr›-当所有表达式为真时，返回真" class="headerlink" title="( and ‹expr›* )(当所有表达式为真时，返回真)"></a>( and ‹expr›* )(当所有表达式为真时，返回真)</h4><pre><code>&gt; (define (is-digit v)
+&quot;hehe&quot;
+</code></pre><h4 id="and-‹expr›-当所有表达式为真时，返回真"><a href="#and-‹expr›-当所有表达式为真时，返回真" class="headerlink" title="( and ‹expr›* )(当所有表达式为真时，返回真)"></a>( and ‹expr›* )(当所有表达式为真时，返回真)</h4><pre><code>&gt; (define (is-digit v)
     (if (and (number? v) (&gt; v 0) (&lt; v 10))
         &quot;v is a number and value is between 1-9&quot;
         &quot;v is not a number&quot;))
 &gt; (is-digit 5)
-&quot;v is a number and value is between 1-9&quot;</code></pre><h4 id="or-‹expr›-当任一表达式为真时，返回真"><a href="#or-‹expr›-当任一表达式为真时，返回真" class="headerlink" title="( or ‹expr›* )(当任一表达式为真时，返回真)"></a>( or ‹expr›* )(当任一表达式为真时，返回真)</h4><pre><code>&gt; (define (str-num v)
+&quot;v is a number and value is between 1-9&quot;
+</code></pre><h4 id="or-‹expr›-当任一表达式为真时，返回真"><a href="#or-‹expr›-当任一表达式为真时，返回真" class="headerlink" title="( or ‹expr›* )(当任一表达式为真时，返回真)"></a>( or ‹expr›* )(当任一表达式为真时，返回真)</h4><pre><code>&gt; (define (str-num v)
     (if (or (string? v) (number? v))
         &quot;v is string or number&quot;
-        &quot;v is not string or number&quot;))</code></pre><hr>
+        &quot;v is not string or number&quot;))
+</code></pre><hr>
 <p>参考： 1.<a href="https://docs.racket-lang.org/guide/syntax-overview.html" target="_blank" rel="noopener">官方文档</a></p>
 
       
@@ -754,7 +758,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#if-‹expr›-‹expr›-‹expr›"><span class="nav-number">1.</span> <span class="nav-text">( if ‹expr› ‹expr› ‹expr› )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#if语句，若2-gt-3输出”bigger”-否则输出”smaller”"><span class="nav-number">2.</span> <span class="nav-text">if语句，若2&gt;3输出”bigger”,否则输出”smaller”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default"><span class="nav-number">3.</span> <span class="nav-text">( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#and-‹expr›-当所有表达式为真时，返回真"><span class="nav-number">4.</span> <span class="nav-text">( and ‹expr›* )(当所有表达式为真时，返回真)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#or-‹expr›-当任一表达式为真时，返回真"><span class="nav-number">5.</span> <span class="nav-text">( or ‹expr›* )(当任一表达式为真时，返回真)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#if-‹expr›-‹expr›-‹expr›"><span class="nav-number">1.</span> <span class="nav-text">( if ‹expr› ‹expr› ‹expr› )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#if语句，若2-gt-3输出”bigger”-否则输出”smaller”"><span class="nav-number">2.</span> <span class="nav-text">if语句，若2&gt;3输出”bigger”,否则输出”smaller”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default"><span class="nav-number">3.</span> <span class="nav-text">( cond {[ ‹expr› ‹expr› ]} )(相当于C中的switch,else相当于c中的default)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#and-‹expr›-当所有表达式为真时，返回真"><span class="nav-number">4.</span> <span class="nav-text">( and ‹expr›* )(当所有表达式为真时，返回真)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#or-‹expr›-当任一表达式为真时，返回真"><span class="nav-number">5.</span> <span class="nav-text">( or ‹expr›* )(当任一表达式为真时，返回真)</span></a></li></ol></div>
             
 
           </div>

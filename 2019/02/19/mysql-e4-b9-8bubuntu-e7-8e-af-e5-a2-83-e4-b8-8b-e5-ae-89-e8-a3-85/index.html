@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="直接上命令sudo apt-get install mysql-server sudo apt-get install mysql-client sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库但是在这过程中没有提示设置密码。 在/etc/mysql/目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用户名为d">
+  <meta name="description" content="直接上命令 sudo apt-get install mysql-server  sudo apt-get install mysql-client  sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库 但是在这过程中没有提示设置密码。 在/etc/mysql/目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql之ubuntu环境下安装">
 <meta property="og:url" content="https://hysyeah.github.io/2019/02/19/mysql-e4-b9-8bubuntu-e7-8e-af-e5-a2-83-e4-b8-8b-e5-ae-89-e8-a3-85/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="直接上命令sudo apt-get install mysql-server sudo apt-get install mysql-client sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库但是在这过程中没有提示设置密码。 在/etc/mysql/目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用户名为d">
+<meta property="og:description" content="直接上命令 sudo apt-get install mysql-server  sudo apt-get install mysql-client  sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库 但是在这过程中没有提示设置密码。 在/etc/mysql/目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之ubuntu环境下安装">
-<meta name="twitter:description" content="直接上命令sudo apt-get install mysql-server sudo apt-get install mysql-client sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库但是在这过程中没有提示设置密码。 在/etc/mysql/目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用户名为d">
+<meta name="twitter:description" content="直接上命令 sudo apt-get install mysql-server  sudo apt-get install mysql-client  sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库 但是在这过程中没有提示设置密码。 在/etc/mysql/目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用">
 
 
 
@@ -476,14 +476,16 @@
       
 
       
-        <h5 id="直接上命令"><a href="#直接上命令" class="headerlink" title="直接上命令"></a>直接上命令</h5><pre><code>sudo apt-get install mysql-server
-sudo apt-get install mysql-client
-sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库</code></pre><p>但是在这过程中没有提示设置密码。 在<code>/etc/mysql/</code>目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用户名为<code>debian-sys-maint</code>,通过这个用户就可以操作mysql了。</p>
+        <h5 id="直接上命令"><a href="#直接上命令" class="headerlink" title="直接上命令"></a>直接上命令</h5><pre><code> sudo apt-get install mysql-server
+ sudo apt-get install mysql-client
+ sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库
+</code></pre><p>但是在这过程中没有提示设置密码。 在<code>/etc/mysql/</code>目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用户名为<code>debian-sys-maint</code>,通过这个用户就可以操作mysql了。</p>
 <pre><code>可以新建一个root用户并对其进行授权,然后用新用户进行登录。
 
-create user &apos;root&apos;@&apos;%&apos; ;
-grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;hello&apos;;
-flush privileges;</code></pre>
+create user &#39;root&#39;@&#39;%&#39; ;
+grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;hello&#39;;
+flush privileges;
+</code></pre>
       
     </div>
 

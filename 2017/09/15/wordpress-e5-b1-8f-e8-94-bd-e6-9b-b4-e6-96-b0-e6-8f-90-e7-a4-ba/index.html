@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="wordpress/wp-includes/update.php 在最后面添加 add_filter(&amp;apos;pre_site_transient_update_core&amp;apos;, create_function(&amp;apos;$a&amp;apos;, &amp;quot;return null;&amp;quot;));//关闭核心提示 add_filter(&amp;apos;pre_site_transient_u">
+  <meta name="description" content="wordpress/wp-includes/update.php 在最后面添加 add_filter(&amp;#39;pre_site_transient_update_core&amp;#39;, create_function(&amp;#39;$a&amp;#39;, &amp;quot;return null;&amp;quot;));//关闭核心提示 add_filter(&amp;#39;pre_site_transient_update">
 <meta property="og:type" content="article">
 <meta property="og:title" content="wordpress屏蔽更新提示">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/15/wordpress-e5-b1-8f-e8-94-bd-e6-9b-b4-e6-96-b0-e6-8f-90-e7-a4-ba/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="wordpress/wp-includes/update.php 在最后面添加 add_filter(&amp;apos;pre_site_transient_update_core&amp;apos;, create_function(&amp;apos;$a&amp;apos;, &amp;quot;return null;&amp;quot;));//关闭核心提示 add_filter(&amp;apos;pre_site_transient_u">
+<meta property="og:description" content="wordpress/wp-includes/update.php 在最后面添加 add_filter(&amp;#39;pre_site_transient_update_core&amp;#39;, create_function(&amp;#39;$a&amp;#39;, &amp;quot;return null;&amp;quot;));//关闭核心提示 add_filter(&amp;#39;pre_site_transient_update">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="wordpress屏蔽更新提示">
-<meta name="twitter:description" content="wordpress/wp-includes/update.php 在最后面添加 add_filter(&amp;apos;pre_site_transient_update_core&amp;apos;, create_function(&amp;apos;$a&amp;apos;, &amp;quot;return null;&amp;quot;));//关闭核心提示 add_filter(&amp;apos;pre_site_transient_u">
+<meta name="twitter:description" content="wordpress/wp-includes/update.php 在最后面添加 add_filter(&amp;#39;pre_site_transient_update_core&amp;#39;, create_function(&amp;#39;$a&amp;#39;, &amp;quot;return null;&amp;quot;));//关闭核心提示 add_filter(&amp;#39;pre_site_transient_update">
 
 
 
@@ -477,12 +477,14 @@
 
       
         <p>wordpress/wp-includes/update.php 在最后面添加</p>
-<pre><code>add_filter(&apos;pre_site_transient_update_core&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;));//关闭核心提示
-add_filter(&apos;pre_site_transient_update_plugins&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;));//关闭插件提示
-add_filter(&apos;pre_site_transient_update_themes&apos;, create_function(&apos;$a&apos;, &quot;return null;&quot;));//关闭主题提示</code></pre><p>并注释掉</p>
-<pre><code>//add_action( &apos;admin_init&apos;, &apos;_maybe_update_plugins&apos; );
+<pre><code>add_filter(&#39;pre_site_transient_update_core&#39;, create_function(&#39;$a&#39;, &quot;return null;&quot;));//关闭核心提示
+add_filter(&#39;pre_site_transient_update_plugins&#39;, create_function(&#39;$a&#39;, &quot;return null;&quot;));//关闭插件提示
+add_filter(&#39;pre_site_transient_update_themes&#39;, create_function(&#39;$a&#39;, &quot;return null;&quot;));//关闭主题提示
+</code></pre><p>并注释掉</p>
+<pre><code>//add_action( &#39;admin_init&#39;, &#39;_maybe_update_plugins&#39; );
 
-//add_action( &apos;admin_init&apos;, &apos;_maybe_update_themes&apos; );</code></pre><p>重启php-fpm即可。</p>
+//add_action( &#39;admin_init&#39;, &#39;_maybe_update_themes&#39; );
+</code></pre><p>重启php-fpm即可。</p>
 
       
     </div>

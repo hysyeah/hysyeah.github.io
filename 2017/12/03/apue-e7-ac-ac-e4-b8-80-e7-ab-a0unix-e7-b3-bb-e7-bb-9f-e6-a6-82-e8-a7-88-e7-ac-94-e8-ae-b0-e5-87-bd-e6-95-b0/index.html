@@ -506,38 +506,45 @@ struct dirent {
      unsigned short d_reclen;    /* length of this record */
      unsigned char  d_type;      /* type of file; not supported by all filesystem types */
      char           d_name[256]; /* filename */
-};</code></pre><hr>
+};
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man2/read.2.html" target="_blank" rel="noopener">read</a> <a href="http://man7.org/linux/man-pages/man2/write.2.html" target="_blank" rel="noopener">write</a></p>
 <pre><code>#include &lt;unistd.h&gt;
 /*从文件描述符fd中读取count字节到buf中*/
 ssize_t read(int fd, void *buf, size_t count);
-ssize_t write(int fd, const void *buf, size_t count);</code></pre><hr>
+ssize_t write(int fd, const void *buf, size_t count);
+</code></pre><hr>
 <pre><code>#include &lt;sys/types.h&gt;
 #include &lt;unistd.h&gt;
 
 /*返回进程ID*/
 pid_t getpid(void);
 /*返回进程的父亲进程ID*/
-pid_t getppid(void);</code></pre><hr>
+pid_t getppid(void);
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man2/fork.2.html" target="_blank" rel="noopener">fork</a> <a href="http://man7.org/linux/man-pages/man3/execlp.3.html" target="_blank" rel="noopener">execlp</a></p>
 <pre><code>#include &lt;sys/types.h&gt;
 #include &lt;unistd.h&gt;
 
-pid_t fork(void);</code></pre><hr>
+pid_t fork(void);
+</code></pre><hr>
 <pre><code>#include &lt;string.h&gt;
 /*返回指向错误信息字符串的指针*/
 char *strerror(int errnum);
 
 #include &lt;stdio.h&gt;
 /*根据errno的值返回错误信息*/
-void perror(const char *msg);</code></pre><hr>
+void perror(const char *msg);
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man3/getuid.3p.html" target="_blank" rel="noopener">getuid</a> <a href="http://man7.org/linux/man-pages/man3/getgid.3p.html" target="_blank" rel="noopener">getgid</a></p>
 <pre><code>#include &lt;unistd.h&gt;
 uid_t getuid(void);
-gid_t getgid(void);</code></pre><hr>
+gid_t getgid(void);
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man3/waitpid.3p.html" target="_blank" rel="noopener">waitpid</a></p>
 <pre><code>#include &lt;sys/wait.h&gt;
-pid_t waitpid(pid_t pid, int *stat_loc, int options);</code></pre>
+pid_t waitpid(pid_t pid, int *stat_loc, int options);
+</code></pre>
       
     </div>
 

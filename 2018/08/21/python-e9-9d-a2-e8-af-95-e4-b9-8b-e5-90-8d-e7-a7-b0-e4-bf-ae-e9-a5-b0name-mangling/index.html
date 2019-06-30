@@ -485,11 +485,12 @@
 &gt;&gt;&gt; print mc.__superprivate
 Traceback (most recent call last):
 File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-AttributeError: myClass instance has no attribute &apos;__superprivate&apos;
+AttributeError: myClass instance has no attribute &#39;__superprivate&#39;
 &gt;&gt;&gt; print mc._semiprivate
 , world!
 &gt;&gt;&gt; print mc.__dict__
-{&apos;_MyClass__superprivate&apos;: &apos;Hello&apos;, &apos;_semiprivate&apos;: &apos;, world!&apos;}</code></pre><p><strong>foo</strong> :一种约定,Python内部的名字,用来区别其他用户自定义的命名,以防冲突. _foo :一种约定,用来指定变量私有.程序员用来指定私有变量的一种方式. __foo :这个有真正的意义:解析器用 _classname__foo 来代替这个名字,以区别和其他类相同的命名.</p>
+{&#39;_MyClass__superprivate&#39;: &#39;Hello&#39;, &#39;_semiprivate&#39;: &#39;, world!&#39;}
+</code></pre><p><strong>foo</strong> :一种约定,Python内部的名字,用来区别其他用户自定义的命名,以防冲突. _foo :一种约定,用来指定变量私有.程序员用来指定私有变量的一种方式. __foo :这个有真正的意义:解析器用 _classname__foo 来代替这个名字,以区别和其他类相同的命名.</p>
 <hr>
 <pre><code>In [1]: class A:
    ...:     __p = 1
@@ -501,18 +502,19 @@ AttributeError                            Traceback (most recent call last)
 &lt;ipython-input-2-f532f70a0839&gt; in &lt;module&gt;()
 ----&gt; 1 A.__p
 
-AttributeError: type object &apos;A&apos; has no attribute &apos;__p&apos;
+AttributeError: type object &#39;A&#39; has no attribute &#39;__p&#39;
 
 In [6]: A._A__p
 Out[6]: 1
 
 
 In [7]: print(A.__dict__)
-{&apos;__module__&apos;: &apos;__main__&apos;, &apos;_A__p&apos;: 1, &apos;__dict__&apos;: &lt;attribute &apos;__dict__&apos; of &apos;A&apos; objects&gt;, &apos;__weakref__&apos;: &lt;attribute &apos;__weakref__&apos; of &apos;A&apos; objects&gt;, &apos;__doc__&apos;: None}
+{&#39;__module__&#39;: &#39;__main__&#39;, &#39;_A__p&#39;: 1, &#39;__dict__&#39;: &lt;attribute &#39;__dict__&#39; of &#39;A&#39; objects&gt;, &#39;__weakref__&#39;: &lt;attribute &#39;__weakref__&#39; of &#39;A&#39; objects&gt;, &#39;__doc__&#39;: None}
 
 
 # 在python中名称修饰用于私有成员，当一个成员名称以双下划线开头和不超过一个下划线结尾，  
-# 它会在运行时被解释器重命名，以避免与任何子类中的方法产生命名冲突。重命名规则为&quot;_类名+变量&quot;,如_A__p。</code></pre><hr>
+# 它会在运行时被解释器重命名，以避免与任何子类中的方法产生命名冲突。重命名规则为&quot;_类名+变量&quot;,如_A__p。
+</code></pre><hr>
 <p>参考： 1.<a href="https://en.wikipedia.org/wiki/Name_mangling#Python" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Name_mangling#Python</a></p>
 
       

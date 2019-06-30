@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&amp;lt;&amp;lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。  逻辑右移与算术右移逻辑右移在左端补k个0，得到的结果是[">
+  <meta name="description" content="对于一个位表示为[ [latex]x{w-1},x{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&amp;lt;&amp;lt; k会生成一个值，其位表示为[ [latex]x{w-k-1},x{w-k-2},…,x_1,x_0,0,…,0[/latex] ]也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。  逻辑右移与算术右移逻辑右移在左端补k个0，得到的结果是[ [lat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c语言移位操作">
 <meta property="og:url" content="https://hysyeah.github.io/2017/12/10/c-e8-af-ad-e8-a8-80-e7-a7-bb-e4-bd-8d-e6-93-8d-e4-bd-9c/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&amp;lt;&amp;lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。  逻辑右移与算术右移逻辑右移在左端补k个0，得到的结果是[">
+<meta property="og:description" content="对于一个位表示为[ [latex]x{w-1},x{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&amp;lt;&amp;lt; k会生成一个值，其位表示为[ [latex]x{w-k-1},x{w-k-2},…,x_1,x_0,0,…,0[/latex] ]也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。  逻辑右移与算术右移逻辑右移在左端补k个0，得到的结果是[ [lat">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c语言移位操作">
-<meta name="twitter:description" content="对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&amp;lt;&amp;lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。  逻辑右移与算术右移逻辑右移在左端补k个0，得到的结果是[">
+<meta name="twitter:description" content="对于一个位表示为[ [latex]x{w-1},x{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&amp;lt;&amp;lt; k会生成一个值，其位表示为[ [latex]x{w-k-1},x{w-k-2},…,x_1,x_0,0,…,0[/latex] ]也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。  逻辑右移与算术右移逻辑右移在左端补k个0，得到的结果是[ [lat">
 
 
 
@@ -476,9 +476,9 @@
       
 
       
-        <p>对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&lt;&lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]<br>也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。</p>
+        <p>对于一个位表示为[ [latex]x<em>{w-1},x</em>{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&lt;&lt; k会生成一个值，其位表示为[ [latex]x<em>{w-k-1},x</em>{w-k-2},…,x_1,x_0,0,…,0[/latex] ]<br>也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。</p>
 <hr>
-<p>逻辑右移与算术右移<br>逻辑右移在左端补k个0，得到的结果是[ [latex]0,…,0,x_{w-1},x_{w-2},…,x_k[/latex] ]<br>算术右移是在左端补k个最高有效位的值，得到的结果是[ [latex]x_{w-1},…,x_{w-1},x_{w-1},x_{w-2}…,x_k[/latex] ]</p>
+<p>逻辑右移与算术右移<br>逻辑右移在左端补k个0，得到的结果是[ [latex]0,…,0,x<em>{w-1},x</em>{w-2},…,x<em>k[/latex] ]<br>算术右移是在左端补k个最高有效位的值，得到的结果是[ [latex]x</em>{w-1},…,x<em>{w-1},x</em>{w-1},x_{w-2}…,x_k[/latex] ]</p>
 <hr>
 <p>操作</p>
 <p>值1</p>

@@ -490,7 +490,8 @@ CREATE TABLE b (
 id int not null,
 a_id int not null,
 CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCADE
-);</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/03/cascade.png" alt> 当设置<code>SET GLOBAL FOREIGN_KEY_CHECKS=0;(下次登录生效)</code>时，级联删除并不会生效。 当我们使用语句<code>delete from a</code>时，mysql会将b表中的数据也会删除，那删除b表中的数据这一操作会不会记在binlog中呢？？ 经过验证不管设置何种<code>binlog_format</code>b表中的数据变化并不会记录在日志文件中。级联操作是根据存储引擎通过外键关系来进行操作的，并不会体现在日志文件中。mysql文档中有详细的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-and-mysql-replication.html" target="_blank" rel="noopener">解释</a></p>
+);
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/03/cascade.png" alt> 当设置<code>SET GLOBAL FOREIGN_KEY_CHECKS=0;(下次登录生效)</code>时，级联删除并不会生效。 当我们使用语句<code>delete from a</code>时，mysql会将b表中的数据也会删除，那删除b表中的数据这一操作会不会记在binlog中呢？？ 经过验证不管设置何种<code>binlog_format</code>b表中的数据变化并不会记录在日志文件中。级联操作是根据存储引擎通过外键关系来进行操作的，并不会体现在日志文件中。mysql文档中有详细的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-and-mysql-replication.html" target="_blank" rel="noopener">解释</a></p>
 
       
     </div>

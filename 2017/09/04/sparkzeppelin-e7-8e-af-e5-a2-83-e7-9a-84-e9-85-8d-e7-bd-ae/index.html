@@ -101,12 +101,12 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="系统环境为Ubuntu16.04 1.安装java,从官网下载java包，放下/opt目录下，解压，往~/.zshrc文件添加环境变量，如下 export JAVA_HOME=/opt/jdk1.8.0_144 export JRE_HOME=$JAVA_HOME/jre export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib export PATH=&amp;qu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C.png">
+<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/和.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark,zeppelin环境的配置">
 <meta name="twitter:description" content="系统环境为Ubuntu16.04 1.安装java,从官网下载java包，放下/opt目录下，解压，往~/.zshrc文件添加环境变量，如下 export JAVA_HOME=/opt/jdk1.8.0_144 export JRE_HOME=$JAVA_HOME/jre export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib export PATH=&amp;qu">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C.png">
+<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/和.png">
 
 
 
@@ -482,17 +482,22 @@
 <pre><code>export JAVA_HOME=/opt/jdk1.8.0_144
 export JRE_HOME=$JAVA_HOME/jre
 export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib
-export PATH=&quot;/opt/jdk1.8.0_144/bin:$PATH&quot;</code></pre><p>2.scala安装，下载安装包，解压到/opt/目录下，往~/.zshrc文件添加环境变量，如下</p>
+export PATH=&quot;/opt/jdk1.8.0_144/bin:$PATH&quot;
+</code></pre><p>2.scala安装，下载安装包，解压到/opt/目录下，往~/.zshrc文件添加环境变量，如下</p>
 <pre><code>export SCALA_HOME=/opt/scala-2.11.11
-export PATH=&quot;/opt/scala-2.11.11/bin:$PATH&quot;</code></pre><p>3.下载spark(<a href="http://spark.apache.org/downloads.html),解压到/opt/，往~/.zshrc文件添加环境变量，如下" target="_blank" rel="noopener">http://spark.apache.org/downloads.html),解压到/opt/，往~/.zshrc文件添加环境变量，如下</a></p>
+export PATH=&quot;/opt/scala-2.11.11/bin:$PATH&quot;
+</code></pre><p>3.下载spark(<a href="http://spark.apache.org/downloads.html),解压到/opt/，往~/.zshrc文件添加环境变量，如下" target="_blank" rel="noopener">http://spark.apache.org/downloads.html),解压到/opt/，往~/.zshrc文件添加环境变量，如下</a></p>
 <pre><code>export SPARK_HOME=/opt/spark-2.1.0-bin-hadoop2.7
 export PATH=&quot;/opt/spark-2.1.0-bin-hadoop2.7/bin:$PATH&quot;
 export PYSPARK_PYTHON=python3 //表示使用python3
-export PYSPARK_DRIVER_PYTHON=ipython3</code></pre><p>4.<a href="http://zeppelin.apache.org/download.html" target="_blank" rel="noopener">下载zeppelin</a>,解压到/opt/，往~/.zshrc文件添加环境变量，如下</p>
-<pre><code>export PATH=&quot;/opt/zeppelin-0.7.2-bin-all/bin:$PATH&quot;</code></pre><p>5.运行zeppelin,</p>
+export PYSPARK_DRIVER_PYTHON=ipython3
+</code></pre><p>4.<a href="http://zeppelin.apache.org/download.html" target="_blank" rel="noopener">下载zeppelin</a>,解压到/opt/，往~/.zshrc文件添加环境变量，如下</p>
+<pre><code>export PATH=&quot;/opt/zeppelin-0.7.2-bin-all/bin:$PATH&quot;
+</code></pre><p>5.运行zeppelin,</p>
 <pre><code>sudo chown -R hys:hys zeppelin-0.7.2-bin-all
 
-zeppelin-daemon.sh start</code></pre><p>6.访问<a href="http://127.0.0.1:8080出现如下界面则表示安装成功。" target="_blank" rel="noopener">http://127.0.0.1:8080出现如下界面则表示安装成功。</a> <img src="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C.png" alt="image"></p>
+zeppelin-daemon.sh start
+</code></pre><p>6.访问<a href="http://127.0.0.1:8080出现如下界面则表示安装成功。" target="_blank" rel="noopener">http://127.0.0.1:8080出现如下界面则表示安装成功。</a> <img src="http://hysyeah.top/wp-content/uploads/2017/09/和.png" alt="image"></p>
 
       
     </div>

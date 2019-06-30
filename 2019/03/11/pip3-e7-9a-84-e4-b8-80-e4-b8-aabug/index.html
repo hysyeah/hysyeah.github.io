@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="import sys  from pip import main if __name__ == &amp;apos;__main__&amp;apos;:     sys.exit(main())sudo vim /usr/bin/pip3 #将上面代码改为如下import sys  from pip import __main__ if __name__ == &amp;apos;__main__&amp;apos;:">
+  <meta name="description" content="import sys  from pip import main if __name__ == &amp;#39;__main__&amp;#39;:     sys.exit(main()) sudo vim /usr/bin/pip3 #将上面代码改为如下import sys  from pip import __main__ if __name__ == &amp;#39;__main__&amp;#39;:     s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pip3的一个bug">
 <meta property="og:url" content="https://hysyeah.github.io/2019/03/11/pip3-e7-9a-84-e4-b8-80-e4-b8-aabug/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="import sys  from pip import main if __name__ == &amp;apos;__main__&amp;apos;:     sys.exit(main())sudo vim /usr/bin/pip3 #将上面代码改为如下import sys  from pip import __main__ if __name__ == &amp;apos;__main__&amp;apos;:">
+<meta property="og:description" content="import sys  from pip import main if __name__ == &amp;#39;__main__&amp;#39;:     sys.exit(main()) sudo vim /usr/bin/pip3 #将上面代码改为如下import sys  from pip import __main__ if __name__ == &amp;#39;__main__&amp;#39;:     s">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/03/pip3.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pip3的一个bug">
-<meta name="twitter:description" content="import sys  from pip import main if __name__ == &amp;apos;__main__&amp;apos;:     sys.exit(main())sudo vim /usr/bin/pip3 #将上面代码改为如下import sys  from pip import __main__ if __name__ == &amp;apos;__main__&amp;apos;:">
+<meta name="twitter:description" content="import sys  from pip import main if __name__ == &amp;#39;__main__&amp;#39;:     sys.exit(main()) sudo vim /usr/bin/pip3 #将上面代码改为如下import sys  from pip import __main__ if __name__ == &amp;#39;__main__&amp;#39;:     s">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2019/03/pip3.png">
 
 
@@ -482,12 +482,14 @@
 <pre><code>import sys
 
 from pip import main
-if __name__ == &apos;__main__&apos;:
-    sys.exit(main())</code></pre><h4 id="sudo-vim-usr-bin-pip3-将上面代码改为如下"><a href="#sudo-vim-usr-bin-pip3-将上面代码改为如下" class="headerlink" title="sudo vim /usr/bin/pip3 #将上面代码改为如下"></a>sudo vim /usr/bin/pip3 #将上面代码改为如下</h4><pre><code>import sys
+if __name__ == &#39;__main__&#39;:
+    sys.exit(main())
+</code></pre><h4 id="sudo-vim-usr-bin-pip3-将上面代码改为如下"><a href="#sudo-vim-usr-bin-pip3-将上面代码改为如下" class="headerlink" title="sudo vim /usr/bin/pip3 #将上面代码改为如下"></a>sudo vim /usr/bin/pip3 #将上面代码改为如下</h4><pre><code>import sys
 
 from pip import __main__
-if __name__ == &apos;__main__&apos;:
-    sys.exit(__main__._main())</code></pre><hr>
+if __name__ == &#39;__main__&#39;:
+    sys.exit(__main__._main())
+</code></pre><hr>
 <p>参考： 1.<a href="https://stackoverflow.com/questions/28210269/importerror-cannot-import-name-main-when-running-pip-version-command-in-windo" target="_blank" rel="noopener">stackoverflow</a></p>
 
       

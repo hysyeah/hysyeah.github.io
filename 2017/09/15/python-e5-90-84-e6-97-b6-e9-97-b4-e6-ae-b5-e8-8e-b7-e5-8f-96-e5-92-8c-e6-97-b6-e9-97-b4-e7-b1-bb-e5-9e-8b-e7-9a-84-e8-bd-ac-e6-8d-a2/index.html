@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="python获取各时段起始时间和各种类型时间的相互转换In [1]: import datetime  In [2]: from datetime import timedelta1.获取今天时间 In [3]: now = datetime.datetime.now()  In [4]: now Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44,">
+  <meta name="description" content="python获取各时段起始时间和各种类型时间的相互转换In [1]: import datetime  In [2]: from datetime import timedelta 1.获取今天时间 In [3]: now = datetime.datetime.now()  In [4]: now Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python各时间段获取和时间类型的转换">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/15/python-e5-90-84-e6-97-b6-e9-97-b4-e6-ae-b5-e8-8e-b7-e5-8f-96-e5-92-8c-e6-97-b6-e9-97-b4-e7-b1-bb-e5-9e-8b-e7-9a-84-e8-bd-ac-e6-8d-a2/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="python获取各时段起始时间和各种类型时间的相互转换In [1]: import datetime  In [2]: from datetime import timedelta1.获取今天时间 In [3]: now = datetime.datetime.now()  In [4]: now Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44,">
+<meta property="og:description" content="python获取各时段起始时间和各种类型时间的相互转换In [1]: import datetime  In [2]: from datetime import timedelta 1.获取今天时间 In [3]: now = datetime.datetime.now()  In [4]: now Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44,">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python各时间段获取和时间类型的转换">
-<meta name="twitter:description" content="python获取各时段起始时间和各种类型时间的相互转换In [1]: import datetime  In [2]: from datetime import timedelta1.获取今天时间 In [3]: now = datetime.datetime.now()  In [4]: now Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44,">
+<meta name="twitter:description" content="python获取各时段起始时间和各种类型时间的相互转换In [1]: import datetime  In [2]: from datetime import timedelta 1.获取今天时间 In [3]: now = datetime.datetime.now()  In [4]: now Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44,">
 
 
 
@@ -485,11 +485,13 @@
       
         <h3 id="python获取各时段起始时间和各种类型时间的相互转换"><a href="#python获取各时段起始时间和各种类型时间的相互转换" class="headerlink" title="python获取各时段起始时间和各种类型时间的相互转换"></a>python获取各时段起始时间和各种类型时间的相互转换</h3><pre><code>In [1]: import datetime
 
-In [2]: from datetime import timedelta</code></pre><p>1.获取今天时间</p>
+In [2]: from datetime import timedelta
+</code></pre><p>1.获取今天时间</p>
 <pre><code>In [3]: now = datetime.datetime.now()
 
 In [4]: now
-Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44, 878801)</code></pre><p>2.获取明天，昨天的时间</p>
+Out[4]: datetime.datetime(2017, 9, 14, 9, 38, 44, 878801)
+</code></pre><p>2.获取明天，昨天的时间</p>
 <pre><code>In [5]: tomorrow = now + timedelta(days=1)
 
 In [6]: tomorrow
@@ -498,7 +500,8 @@ Out[6]: datetime.datetime(2017, 9, 15, 9, 38, 44, 878801)
 In [7]: yesterday = now - timedelta(days=1)
 
 In [8]: yesterday
-Out[8]: datetime.datetime(2017, 9, 13, 9, 38, 44, 878801)</code></pre><p>3.获取本月时间</p>
+Out[8]: datetime.datetime(2017, 9, 13, 9, 38, 44, 878801)
+</code></pre><p>3.获取本月时间</p>
 <pre><code>In [9]: this_month_start = datetime.datetime(now.year, now.month, 1)
 
 In [10]: this_month_start
@@ -507,7 +510,8 @@ Out[10]: datetime.datetime(2017, 9, 1, 0, 0)
 In [11]: this_month_end = datetime.datetime(now.year, now.month+1, 1) - timedelta(days=1)
 
 In [12]: this_month_end
-Out[12]: datetime.datetime(2017, 9, 30, 0, 0)</code></pre><p>4.获取上月时间</p>
+Out[12]: datetime.datetime(2017, 9, 30, 0, 0)
+</code></pre><p>4.获取上月时间</p>
 <pre><code>In [13]: last_month_end = this_month_start - timedelta(days=1)
 
 In [14]: last_month_start = datetime.datetime(last_month_end.year, last_month_end.month, 1)
@@ -516,11 +520,13 @@ In [15]: last_month_start
 Out[15]: datetime.datetime(2017, 8, 1, 0, 0)
 
 In [16]: last_month_end
-Out[16]: datetime.datetime(2017, 8, 31, 0, 0)</code></pre><p>5.获取近30天时间</p>
+Out[16]: datetime.datetime(2017, 8, 31, 0, 0)
+</code></pre><p>5.获取近30天时间</p>
 <pre><code>In [17]: last_thirty_days = now - timedelta(days=30)
 
 In [18]: last_thirty_days
-Out[18]: datetime.datetime(2017, 8, 15, 9, 38, 44, 878801)</code></pre><p>6.获取本季起始时间(可通过本季起始时间获取上季开始时间，从而获取上季起始时间)</p>
+Out[18]: datetime.datetime(2017, 8, 15, 9, 38, 44, 878801)
+</code></pre><p>6.获取本季起始时间(可通过本季起始时间获取上季开始时间，从而获取上季起始时间)</p>
 <pre><code>In [19]: m = (now.month -1) - (now.month - 1)%3 +1
 
 In [20]: m
@@ -539,7 +545,8 @@ In [26]: this_quarter_satart
 Out[26]: datetime.datetime(2017, 7, 1, 0, 0)
 
 In [27]: this_quarter_end
-Out[27]: datetime.datetime(2017, 9, 30, 0, 0)</code></pre><p>7.本周起始时间</p>
+Out[27]: datetime.datetime(2017, 9, 30, 0, 0)
+</code></pre><p>7.本周起始时间</p>
 <pre><code>In [29]: this_week_start = now - timedelta(days=now.weekday())
 
 In [30]: this_week_end = now + timedelta(days=6-now.weekday())
@@ -548,7 +555,8 @@ In [31]: this_week_start
 Out[31]: datetime.datetime(2017, 9, 11, 9, 38, 44, 878801)
 
 In [32]: this_week_end
-Out[32]: datetime.datetime(2017, 9, 17, 9, 38, 44, 878801)</code></pre><p>8.上周起始时间</p>
+Out[32]: datetime.datetime(2017, 9, 17, 9, 38, 44, 878801)
+</code></pre><p>8.上周起始时间</p>
 <pre><code>In [33]: last_week_start = now - timedelta(days=now.weekday()+7)
 
 In [34]: last_week_end = now - timedelta(days=now.weekday()+1)
@@ -557,16 +565,18 @@ In [35]: last_week_start
 Out[35]: datetime.datetime(2017, 9, 4, 9, 38, 44, 878801)
 
 In [36]: last_week_end
-Out[36]: datetime.datetime(2017, 9, 10, 9, 38, 44, 878801)</code></pre><p>9.字符串时间和datetime的相互转换</p>
+Out[36]: datetime.datetime(2017, 9, 10, 9, 38, 44, 878801)
+</code></pre><p>9.字符串时间和datetime的相互转换</p>
 <pre><code>In [37]: str_time = now.strftime(&quot;%Y-%m-%d %H:%m:%s&quot;)
 
 In [38]: str_time
-Out[38]: &apos;2017-09-14 09:09:1505396324&apos;
+Out[38]: &#39;2017-09-14 09:09:1505396324&#39;
 
-In [41]: dt = datetime.datetime.strptime(&apos;2017-09-14&apos;,&quot;%Y-%m-%d&quot;)
+In [41]: dt = datetime.datetime.strptime(&#39;2017-09-14&#39;,&quot;%Y-%m-%d&quot;)
 
 In [42]: dt
-Out[42]: datetime.datetime(2017, 9, 14, 0, 0)</code></pre><p>10.date转换为时间戳</p>
+Out[42]: datetime.datetime(2017, 9, 14, 0, 0)
+</code></pre><p>10.date转换为时间戳</p>
 <pre><code>In [16]: dt = datetime.date(2017, 8, 8)
 
 In [17]: dt
@@ -575,12 +585,14 @@ Out[17]: datetime.date(2017, 8, 8)
 In [18]: timestamp = time.mktime(dt.timetuple())
 
 In [19]: timestamp
-Out[19]: 1502121600.0</code></pre><p>11.</p>
+Out[19]: 1502121600.0
+</code></pre><p>11.</p>
 <pre><code>时间戳到--字符串时间
 datetime.datetime.fromtimestamp(psutil.boot_time()).strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
 
 字符串到时间戳
-s = time.mktime(time.strptime(&apos;2016-06-06 10:00:00&apos;,&apos;%Y-%m-%d %H:%M:%S&apos;))</code></pre><hr>
+s = time.mktime(time.strptime(&#39;2016-06-06 10:00:00&#39;,&#39;%Y-%m-%d %H:%M:%S&#39;))
+</code></pre><hr>
 <p>参考： 1.<a href="http://www.cnblogs.com/prolifes/articles/5195528.html" target="_blank" rel="noopener">http://www.cnblogs.com/prolifes/articles/5195528.html</a></p>
 
       

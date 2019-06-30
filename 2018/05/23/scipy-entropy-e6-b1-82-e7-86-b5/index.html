@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x_{i}) = p_{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum_{i=1}^n p_{i}\log {p_{i}}[/latex] 对数以2或">
+  <meta name="description" content="熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x{i}) = p{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum{i=1}^n p{i}\log {p_{i}}[/latex] 对数以2或e为底">
 <meta property="og:type" content="article">
 <meta property="og:title" content="scipy entropy求熵">
 <meta property="og:url" content="https://hysyeah.github.io/2018/05/23/scipy-entropy-e6-b1-82-e7-86-b5/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x_{i}) = p_{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum_{i=1}^n p_{i}\log {p_{i}}[/latex] 对数以2或">
+<meta property="og:description" content="熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x{i}) = p{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum{i=1}^n p{i}\log {p_{i}}[/latex] 对数以2或e为底">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scipy entropy求熵">
-<meta name="twitter:description" content="熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x_{i}) = p_{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum_{i=1}^n p_{i}\log {p_{i}}[/latex] 对数以2或">
+<meta name="twitter:description" content="熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x{i}) = p{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum{i=1}^n p{i}\log {p_{i}}[/latex] 对数以2或e为底">
 
 
 
@@ -476,7 +476,7 @@
       
 
       
-        <p>熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x_{i}) = p_{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum_{i=1}^n p_{i}\log {p_{i}}[/latex] 对数以2或e为底</p>
+        <p>熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x<em>{i}) = p</em>{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum<em>{i=1}^n p</em>{i}\log {p_{i}}[/latex] 对数以2或e为底</p>
 <pre><code>scipy.stats.entropy(pk, qk=None,base=None)
 计算给定概率值的分布的熵
 
@@ -484,7 +484,8 @@
 In [213]: from scipy import stats
 
 In [215]: stats.entropy([9/15,6/15],base=2)
-Out[215]: 0.9709505944546688</code></pre><hr>
+Out[215]: 0.9709505944546688
+</code></pre><hr>
 <p>参考： 1.<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.entropy.html" target="_blank" rel="noopener">scipy文档</a> 2.统计学习方法</p>
 
       

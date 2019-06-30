@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="Iterable–可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了iter方法就会被看作为可迭代对象。 In [3]: from collections import Iterable, Iterator  In [4]: class A: ...:        def __init__(self): ...:">
+  <meta name="description" content="Iterable—可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了iter方法就会被看作为可迭代对象。 In [3]: from collections import Iterable, Iterator  In [4]: class A: ...:        def __init__(self): ...:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python迭代器与生成器">
 <meta property="og:url" content="https://hysyeah.github.io/2017/08/30/python-e8-bf-ad-e4-bb-a3-e5-99-a8-e4-b8-8e-e7-94-9f-e6-88-90-e5-99-a8/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Iterable–可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了iter方法就会被看作为可迭代对象。 In [3]: from collections import Iterable, Iterator  In [4]: class A: ...:        def __init__(self): ...:">
+<meta property="og:description" content="Iterable—可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了iter方法就会被看作为可迭代对象。 In [3]: from collections import Iterable, Iterator  In [4]: class A: ...:        def __init__(self): ...:">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python迭代器与生成器">
-<meta name="twitter:description" content="Iterable–可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了iter方法就会被看作为可迭代对象。 In [3]: from collections import Iterable, Iterator  In [4]: class A: ...:        def __init__(self): ...:">
+<meta name="twitter:description" content="Iterable—可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了iter方法就会被看作为可迭代对象。 In [3]: from collections import Iterable, Iterator  In [4]: class A: ...:        def __init__(self): ...:">
 
 
 
@@ -476,7 +476,7 @@
       
 
       
-        <p>Iterable–可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了<strong>iter</strong>方法就会被看作为可迭代对象。</p>
+        <p>Iterable—可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了<strong>iter</strong>方法就会被看作为可迭代对象。</p>
 <pre><code>In [3]: from collections import Iterable, Iterator
 
 In [4]: class A:
@@ -489,7 +489,8 @@ In [4]: class A:
 In [5]: a = A()
 
 In [6]: isinstance(a, Iterable)
-Out[6]: True</code></pre><p>Iterator–迭代器 Iterator必须实现<strong>iter</strong>()和<strong>next</strong>()(python3)或next()(python2)两个方法，组成了迭代器协议。</p>
+Out[6]: True
+</code></pre><p>Iterator—迭代器 Iterator必须实现<strong>iter</strong>()和<strong>next</strong>()(python3)或next()(python2)两个方法，组成了迭代器协议。</p>
 <pre><code>In [13]: class yrange:
 ...:         def __init__(self, n):
 ...:             self.i = 0
@@ -530,7 +531,8 @@ StopIteration Traceback (most recent call last)
 ---&gt; 15 raise StopIteration()
 16
 
-StopIteration:</code></pre><p>反向迭代一个序列，使用内置的reversed()函数，可以通过在自定义类上实现reversed () 方法来实现反向 迭代。</p>
+StopIteration:
+</code></pre><p>反向迭代一个序列，使用内置的reversed()函数，可以通过在自定义类上实现reversed () 方法来实现反向 迭代。</p>
 <pre><code>In [19]: class yrange:
 ...:         def __init__(self, n):
 ...:             self.i = 0
@@ -562,7 +564,8 @@ In [22]: it.__next__()
 Out[22]: 1
 
 In [23]: it.__next__()
-Out[23]: 0</code></pre><p>generator–生成器 生成器是一个返回迭代器对象的函数。它和普通函数看起来一样，除了它包含了yield语句，产生可以通过for循环访问的值，或者可以通过调用<strong>next</strong>方法一次访问一个值。 生成的<strong>iter</strong>()和<strong>next</strong>()方法是自动创建的。。每次next()调用时，生成器再恢复它离开的位置（它记忆语句最 后一次执行的位置和所有的数据值）</p>
+Out[23]: 0
+</code></pre><p>generator—生成器 生成器是一个返回迭代器对象的函数。它和普通函数看起来一样，除了它包含了yield语句，产生可以通过for循环访问的值，或者可以通过调用<strong>next</strong>方法一次访问一个值。 生成的<strong>iter</strong>()和<strong>next</strong>()方法是自动创建的。。每次next()调用时，生成器再恢复它离开的位置（它记忆语句最 后一次执行的位置和所有的数据值）</p>
 <pre><code>In [25]: def integer():
 ...:         i = 1
 ...:         while True:
@@ -576,7 +579,8 @@ In [27]: i
 Out[27]: &lt;generator object integer at 0x7fb940696fc0&gt;
 
 In [29]: i.__next__()
-Out[29]: 1</code></pre><p>生成器–send方法,调用send()方法前，必须先调用<strong>next</strong>()方法（pep342)</p>
+Out[29]: 1
+</code></pre><p>生成器—send方法,调用send()方法前，必须先调用<strong>next</strong>()方法（pep342)</p>
 <pre><code>In [37]: def double_input():
 ...:         while True:
 ...:             x = yield
@@ -597,7 +601,8 @@ Out[63]: 8
 In [64]: gen.__next__()
 
 In [65]: gen.send(5)
-Out[65]: 10</code></pre><p>参考： 1.<a href="http://anandology.com/python-practice-book/iterators.html" target="_blank" rel="noopener">http://anandology.com/python-practice-book/iterators.html</a> 2.官方文档</p>
+Out[65]: 10
+</code></pre><p>参考： 1.<a href="http://anandology.com/python-practice-book/iterators.html" target="_blank" rel="noopener">http://anandology.com/python-practice-book/iterators.html</a> 2.官方文档</p>
 
       
     </div>

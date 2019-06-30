@@ -481,7 +481,8 @@
 case        defer            go       map         struct
 chan        else             goto     package     switch
 const       fallthrough      if       range       type
-continue    for              import   return      var</code></pre><p>内置常量，类型，函数</p>
+continue    for              import   return      var
+</code></pre><p>内置常量，类型，函数</p>
 <pre><code>true        false       iota        nil
 
 
@@ -493,7 +494,8 @@ bool    byte    rune    string  error
 
 make    len     cap     new     append      copy    close   delete
 complex     real    imag
-panic   recover</code></pre><p>如果一个名称是以大写字母开头的，表示此名称对于其它的package是可见和可获取的。</p>
+panic   recover
+</code></pre><p>如果一个名称是以大写字母开头的，表示此名称对于其它的package是可见和可获取的。</p>
 <hr>
 <pre><code>// 常量a是package级别的声明，f是一个局部变量，package级别的实体是整个package可见的，不止在声明它的文件中。
 package main
@@ -501,7 +503,8 @@ package main
 const a = 123;
 func main() {
     var f = a
-}</code></pre><hr>
+}
+</code></pre><hr>
 <p>变量</p>
 <pre><code>var name  type = expression
 
@@ -510,7 +513,8 @@ var i, j, k int        // int, int, int
 
 i := 100
 i, j: = 0, 1
-i, j = j, i            //交换变量</code></pre><hr>
+i, j = j, i            //交换变量
+</code></pre><hr>
 <p>指针</p>
 <pre><code>指针的&quot;零值&quot;是nil
 x := 1
@@ -532,7 +536,8 @@ func f() {
     var x int
     x = 1
     global = &amp;x
-}</code></pre><p>赋值</p>
+}
+</code></pre><p>赋值</p>
 <pre><code>var s string = &quot;hello&quot;
 s := &quot;hello&quot;
 x, y := 0, 1
@@ -546,17 +551,20 @@ medals := []string{&quot;hello&quot;, &quot;world&quot;}
 m3 := map[string]string{
     &quot;a&quot;: &quot;aa&quot;,
     &quot;b&quot;: &quot;bb&quot;,
-}</code></pre><p>类型声明</p>
+}
+</code></pre><p>类型声明</p>
 <pre><code>type name underlying-type
 
-type new_int int                        //给int定义一个别名new_int</code></pre><p>作用域</p>
+type new_int int                        //给int定义一个别名new_int
+</code></pre><p>作用域</p>
 <pre><code>if f, err := os.Open(fname); err != nil { // compile error: unused: f
 return err
 }
 f.ReadByte() // compile error: undefined f
 f.Close() // compile error: undefined f
 
-//变量f的作用域只有在if语句内，因此后面的语句将无法引入它，这将导致编译错误</code></pre><p>包的初始化</p>
+//变量f的作用域只有在if语句内，因此后面的语句将无法引入它，这将导致编译错误
+</code></pre><p>包的初始化</p>
 <pre><code>包的初始化首先是解决包级变量的依赖顺序，然后安照包级变量声明出现的顺序依次初始
 化：
 var a = b + c // a 第三个初始化, 为 3
@@ -566,7 +574,8 @@ func f() int { return c + 1 }
 
 
 // init初始化函数除了不能被调用或引用外，其也行为和普通函数类似。在每个文件中的init初始化函数，在程序开始执行时按照它们声明的顺序被自动调用。
-func init() {  }</code></pre><p><a href="https://github.com/hys20151008/gopl/tree/master/src/ch2" target="_blank" rel="noopener">相关代码</a></p>
+func init() {  }
+</code></pre><p><a href="https://github.com/hys20151008/gopl/tree/master/src/ch2" target="_blank" rel="noopener">相关代码</a></p>
 <hr>
 <p>参考： 1.The Go Programming Language</p>
 

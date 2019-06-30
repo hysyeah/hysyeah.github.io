@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="In [5]: def f(a,*args,**kwargs):             print(a)             print(args)             print(kwargs)  In [6]: keys =[1, 2, 3] In [7]: kwargs = {&amp;apos;a&amp;apos;,&amp;apos;b&amp;apos;}  In [8]: f(&amp;apos;b&amp;apos;">
+  <meta name="description" content="In [5]: def f(a,*args,**kwargs):             print(a)             print(args)             print(kwargs)  In [6]: keys =[1, 2, 3] In [7]: kwargs = {&amp;#39;a&amp;#39;,&amp;#39;b&amp;#39;}  In [8]: f(&amp;#39;b&amp;#39;,*keys">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python之dict与set">
 <meta property="og:url" content="https://hysyeah.github.io/2018/09/01/python-e4-b9-8bdict-e4-b8-8eset/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="In [5]: def f(a,*args,**kwargs):             print(a)             print(args)             print(kwargs)  In [6]: keys =[1, 2, 3] In [7]: kwargs = {&amp;apos;a&amp;apos;,&amp;apos;b&amp;apos;}  In [8]: f(&amp;apos;b&amp;apos;">
+<meta property="og:description" content="In [5]: def f(a,*args,**kwargs):             print(a)             print(args)             print(kwargs)  In [6]: keys =[1, 2, 3] In [7]: kwargs = {&amp;#39;a&amp;#39;,&amp;#39;b&amp;#39;}  In [8]: f(&amp;#39;b&amp;#39;,*keys">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python之dict与set">
-<meta name="twitter:description" content="In [5]: def f(a,*args,**kwargs):             print(a)             print(args)             print(kwargs)  In [6]: keys =[1, 2, 3] In [7]: kwargs = {&amp;apos;a&amp;apos;,&amp;apos;b&amp;apos;}  In [8]: f(&amp;apos;b&amp;apos;">
+<meta name="twitter:description" content="In [5]: def f(a,*args,**kwargs):             print(a)             print(args)             print(kwargs)  In [6]: keys =[1, 2, 3] In [7]: kwargs = {&amp;#39;a&amp;#39;,&amp;#39;b&amp;#39;}  In [8]: f(&amp;#39;b&amp;#39;,*keys">
 
 
 
@@ -482,13 +482,13 @@
             print(kwargs)
 
 In [6]: keys =[1, 2, 3]
-In [7]: kwargs = {&apos;a&apos;,&apos;b&apos;}
+In [7]: kwargs = {&#39;a&#39;,&#39;b&#39;}
 
-In [8]: f(&apos;b&apos;,*keys,**kwargs)
+In [8]: f(&#39;b&#39;,*keys,**kwargs)
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
 &lt;ipython-input-8-5ffd5def4f0f&gt; in &lt;module&gt;()
-----&gt; 1 f(&apos;b&apos;,*keys,**kwargs)
+----&gt; 1 f(&#39;b&#39;,*keys,**kwargs)
 
 TypeError: f() argument after ** must be a mapping, not set
 
@@ -496,27 +496,28 @@ TypeError: f() argument after ** must be a mapping, not set
 
 
 
-In [9]: k = {&apos;a&apos;:&apos;b&apos;,&apos;c&apos;:&apos;d&apos;}
+In [9]: k = {&#39;a&#39;:&#39;b&#39;,&#39;c&#39;:&#39;d&#39;}
 
-In [10]: f(&apos;b&apos;,*keys,**k) # *表示可选参数列表，**表示可选参数字典
+In [10]: f(&#39;b&#39;,*keys,**k) # *表示可选参数列表，**表示可选参数字典
 ---------------------------------------------------------------------------
 TypeError                                 Traceback (most recent call last)
 &lt;ipython-input-10-8147c79d6830&gt; in &lt;module&gt;()
-----&gt; 1 f(&apos;b&apos;,*keys,**k)
+----&gt; 1 f(&#39;b&#39;,*keys,**k)
 
-TypeError: f() got multiple values for argument &apos;a&apos;
+TypeError: f() got multiple values for argument &#39;a&#39;
 
-# 若k中有把&apos;a&apos;作为键的键值对，则会报错
+# 若k中有把&#39;a&#39;作为键的键值对，则会报错
 
-In [13]: f(&apos;a&apos;,*keys,{&apos;b&apos;:&apos;c&apos;}) # 没加**会把{&apos;a&apos;:&apos;c&apos;}当作可参数列表中的一部分
+In [13]: f(&#39;a&#39;,*keys,{&#39;b&#39;:&#39;c&#39;}) # 没加**会把{&#39;a&#39;:&#39;c&#39;}当作可参数列表中的一部分
 a
-(1, 2, 3, {&apos;b&apos;: &apos;c&apos;})
+(1, 2, 3, {&#39;b&#39;: &#39;c&#39;})
 {}
 
-In [14]: f(&apos;a&apos;,*keys,**{&apos;b&apos;:&apos;c&apos;})
+In [14]: f(&#39;a&#39;,*keys,**{&#39;b&#39;:&#39;c&#39;})
 a
 (1, 2, 3)
-{&apos;b&apos;: &apos;c&apos;}</code></pre>
+{&#39;b&#39;: &#39;c&#39;}
+</code></pre>
       
     </div>
 

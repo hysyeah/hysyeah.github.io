@@ -499,7 +499,7 @@ nper:Number of periodic payments 付款期数
 rate: 利率
 
 
-numpy.fv(rate, nper, pmt, pv, when=&apos;end&apos;)   #计算未来的值
+numpy.fv(rate, nper, pmt, pv, when=&#39;end&#39;)   #计算未来的值
 
 #例子：年利率为5%,每年定期存款14000，40年为累积财富为1691196.84
 
@@ -507,7 +507,7 @@ In [4]: np.fv(0.05, 40-1, -14000, -14000)
 Out[4]: 1691196.839394904
 
 
-numpy.pv(rate, nper, pmt,fv=0.0, when=&apos;end&apos;) #计算现值
+numpy.pv(rate, nper, pmt,fv=0.0, when=&#39;end&#39;) #计算现值
 
 #例子：年利率5%，每月投入100，需要投入多少本金才可以在10年后的15682.93
 
@@ -568,10 +568,11 @@ Out[5]: 0.28094842115996066
 
 numpy.mirr(values, finance_rate, reinvest_rate) #返回修正内部收益率
 
-values：现金流，一个列表，正数代表&apos;收入&apos;或&apos;取款&apos;，负数代表&apos;投资&apos;或&apos;存款&apos;
+values：现金流，一个列表，正数代表&#39;收入&#39;或&#39;取款&#39;，负数代表&#39;投资&#39;或&#39;存款&#39;
 
 In [6]: np.mirr([-1000, -4000, 5000, 2000], 0.1, 0.12)
-Out[6]: 0.17908568603489283</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/08/mirr.png" alt="image"></p>
+Out[6]: 0.17908568603489283
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/08/mirr.png" alt="image"></p>
 <hr>
 <p>参考文章： 1.<a href="http://www.jianshu.com/p/9ad131856078" target="_blank" rel="noopener">http://www.jianshu.com/p/9ad131856078</a> 2.<a href="https://en.wikipedia.org/wiki/Modified_internal_rate_of_return#Calculation_of_the_MIRR" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Modified_internal_rate_of_return#Calculation_of_the_MIRR</a></p>
 

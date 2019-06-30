@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="import pandas as pd df = pd.DataFrame() df[:n] #取前n行  df.loc[行标签,列标签] df.loc[&amp;apos;a&amp;apos;:&amp;apos;b&amp;apos;]#选取ab两行数据,ab为行名 df.loc[:,&amp;apos;one&amp;apos;]#选取one列的数据  df.iloc(n)    #取第n行 df.iloc[:,0]  #取第0列 df">
+  <meta name="description" content="import pandas as pd df = pd.DataFrame() df[:n] #取前n行  df.loc[行标签,列标签] df.loc[&amp;#39;a&amp;#39;:&amp;#39;b&amp;#39;]#选取ab两行数据,ab为行名 df.loc[:,&amp;#39;one&amp;#39;]#选取one列的数据  df.iloc(n)    #取第n行 df.iloc[:,0]  #取第0列 df.iloc[">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pandas数据类型DataFrame及基本操作">
 <meta property="og:url" content="https://hysyeah.github.io/2018/05/23/pandas-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8bdataframe-e5-8f-8a-e5-9f-ba-e6-9c-ac-e6-93-8d-e4-bd-9c/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="import pandas as pd df = pd.DataFrame() df[:n] #取前n行  df.loc[行标签,列标签] df.loc[&amp;apos;a&amp;apos;:&amp;apos;b&amp;apos;]#选取ab两行数据,ab为行名 df.loc[:,&amp;apos;one&amp;apos;]#选取one列的数据  df.iloc(n)    #取第n行 df.iloc[:,0]  #取第0列 df">
+<meta property="og:description" content="import pandas as pd df = pd.DataFrame() df[:n] #取前n行  df.loc[行标签,列标签] df.loc[&amp;#39;a&amp;#39;:&amp;#39;b&amp;#39;]#选取ab两行数据,ab为行名 df.loc[:,&amp;#39;one&amp;#39;]#选取one列的数据  df.iloc(n)    #取第n行 df.iloc[:,0]  #取第0列 df.iloc[">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pandas数据类型DataFrame及基本操作">
-<meta name="twitter:description" content="import pandas as pd df = pd.DataFrame() df[:n] #取前n行  df.loc[行标签,列标签] df.loc[&amp;apos;a&amp;apos;:&amp;apos;b&amp;apos;]#选取ab两行数据,ab为行名 df.loc[:,&amp;apos;one&amp;apos;]#选取one列的数据  df.iloc(n)    #取第n行 df.iloc[:,0]  #取第0列 df">
+<meta name="twitter:description" content="import pandas as pd df = pd.DataFrame() df[:n] #取前n行  df.loc[行标签,列标签] df.loc[&amp;#39;a&amp;#39;:&amp;#39;b&amp;#39;]#选取ab两行数据,ab为行名 df.loc[:,&amp;#39;one&amp;#39;]#选取one列的数据  df.iloc(n)    #取第n行 df.iloc[:,0]  #取第0列 df.iloc[">
 
 
 
@@ -481,33 +481,34 @@ df = pd.DataFrame()
 df[:n] #取前n行
 
 df.loc[行标签,列标签]
-df.loc[&apos;a&apos;:&apos;b&apos;]#选取ab两行数据,ab为行名
-df.loc[:,&apos;one&apos;]#选取one列的数据
+df.loc[&#39;a&#39;:&#39;b&#39;]#选取ab两行数据,ab为行名
+df.loc[:,&#39;one&#39;]#选取one列的数据
 
 df.iloc(n)    #取第n行
 df.iloc[:,0]  #取第0列
 df.iloc[:,[0,1]] #取第0列和第1列
 
 df2 = df.fillna(pd.NaT)
-df.to_excel(&apos;foo.xlsx&apos;, sheet_name=&apos;Sheet1&apos;) #写入Excel
+df.to_excel(&#39;foo.xlsx&#39;, sheet_name=&#39;Sheet1&#39;) #写入Excel
 
-df.dropna(how=&apos;any&apos;) #当有一项为NaN时，丢弃整行或整列
-df.dropna(how=&apos;all&apos;) #当所有项都为NaN时，丢弃整行或整列
+df.dropna(how=&#39;any&#39;) #当有一项为NaN时，丢弃整行或整列
+df.dropna(how=&#39;all&#39;) #当所有项都为NaN时，丢弃整行或整列
 
 df.describe()        #展示df的相关信息
 
 
 # 创建DataFrame
 In [63]: import pandas as pd
-In [64]: d ={&apos;A&apos;:[1,2,3],&apos;B&apos;:[4,5,6]}
-In [65]: df = pd.DataFrame(df,index=[&apos;x&apos;,&apos;y&apos;,&apos;z&apos;])
+In [64]: d ={&#39;A&#39;:[1,2,3],&#39;B&#39;:[4,5,6]}
+In [65]: df = pd.DataFrame(df,index=[&#39;x&#39;,&#39;y&#39;,&#39;z&#39;])
 
 In [67]: df
 Out[67]:
    A  B
 x  1  4
 y  2  5
-z  3  6</code></pre>
+z  3  6
+</code></pre>
       
     </div>
 

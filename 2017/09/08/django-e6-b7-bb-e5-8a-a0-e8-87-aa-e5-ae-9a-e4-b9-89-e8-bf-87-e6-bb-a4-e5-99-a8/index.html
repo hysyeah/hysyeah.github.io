@@ -94,19 +94,19 @@
 
 
 
-  <meta name="description" content="1.在app目录下与models.py同级目录下新建一个templatetags文件夹，  2.utils.py from django import template  register = template.Library()  @register.filter def val_type(val):     return type(val).__name__3.此函数是返回变量的类型名，在模版">
+  <meta name="description" content="1.在app目录下与models.py同级目录下新建一个templatetags文件夹，  2.utils.py from django import template  register = template.Library()  @register.filter def val_type(val):     return type(val).__name__ 3.此函数是返回变量的类型名，在模">
 <meta property="og:type" content="article">
 <meta property="og:title" content="django添加自定义过滤器">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/08/django-e6-b7-bb-e5-8a-a0-e8-87-aa-e5-ae-9a-e4-b9-89-e8-bf-87-e6-bb-a4-e5-99-a8/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.在app目录下与models.py同级目录下新建一个templatetags文件夹，  2.utils.py from django import template  register = template.Library()  @register.filter def val_type(val):     return type(val).__name__3.此函数是返回变量的类型名，在模版">
+<meta property="og:description" content="1.在app目录下与models.py同级目录下新建一个templatetags文件夹，  2.utils.py from django import template  register = template.Library()  @register.filter def val_type(val):     return type(val).__name__ 3.此函数是返回变量的类型名，在模">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/%E7%AC%94.png">
+<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/笔.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="django添加自定义过滤器">
-<meta name="twitter:description" content="1.在app目录下与models.py同级目录下新建一个templatetags文件夹，  2.utils.py from django import template  register = template.Library()  @register.filter def val_type(val):     return type(val).__name__3.此函数是返回变量的类型名，在模版">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/%E7%AC%94.png">
+<meta name="twitter:description" content="1.在app目录下与models.py同级目录下新建一个templatetags文件夹，  2.utils.py from django import template  register = template.Library()  @register.filter def val_type(val):     return type(val).__name__ 3.此函数是返回变量的类型名，在模">
+<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/笔.png">
 
 
 
@@ -478,16 +478,19 @@
       
 
       
-        <p>1.在app目录下与models.py同级目录下新建一个templatetags文件夹， <img src="http://hysyeah.top/wp-content/uploads/2017/09/%E7%AC%94.png" alt="image"> 2.utils.py</p>
+        <p>1.在app目录下与models.py同级目录下新建一个templatetags文件夹， <img src="http://hysyeah.top/wp-content/uploads/2017/09/笔.png" alt="image"> 2.utils.py</p>
 <pre><code>from django import template
 
 register = template.Library()
 
 @register.filter
 def val_type(val):
-    return type(val).__name__</code></pre><p>3.此函数是返回变量的类型名，在模版文件中通过</p>
-<pre><code>{% load utils %}</code></pre><p>导入</p>
-<pre><code>{ { val|val_type }}</code></pre><p>返回变量的类型</p>
+    return type(val).__name__
+</code></pre><p>3.此函数是返回变量的类型名，在模版文件中通过</p>
+<pre><code>{% load utils %}
+</code></pre><p>导入</p>
+<pre><code>{ { val|val_type }}
+</code></pre><p>返回变量的类型</p>
 
       
     </div>

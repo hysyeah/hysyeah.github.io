@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="创建一个list,并赋值给变量lst&amp;gt; (define lst (list 1 2 3 4)) &amp;gt; lst &amp;apos;(1 2 3 4)list内置方法&amp;gt; (length lst)                      ;列表长度 4 &amp;gt; (list-ref lst 0)                  ;根据下标取值 1 &amp;gt; (append lst (lis">
+  <meta name="description" content="创建一个list,并赋值给变量lst&amp;gt; (define lst (list 1 2 3 4)) &amp;gt; lst &amp;#39;(1 2 3 4) list内置方法&amp;gt; (length lst)                      ;列表长度 4 &amp;gt; (list-ref lst 0)                  ;根据下标取值 1 &amp;gt; (append lst (lis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="racket list类型">
 <meta property="og:url" content="https://hysyeah.github.io/2018/07/11/racket-list-e7-b1-bb-e5-9e-8b/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="创建一个list,并赋值给变量lst&amp;gt; (define lst (list 1 2 3 4)) &amp;gt; lst &amp;apos;(1 2 3 4)list内置方法&amp;gt; (length lst)                      ;列表长度 4 &amp;gt; (list-ref lst 0)                  ;根据下标取值 1 &amp;gt; (append lst (lis">
+<meta property="og:description" content="创建一个list,并赋值给变量lst&amp;gt; (define lst (list 1 2 3 4)) &amp;gt; lst &amp;#39;(1 2 3 4) list内置方法&amp;gt; (length lst)                      ;列表长度 4 &amp;gt; (list-ref lst 0)                  ;根据下标取值 1 &amp;gt; (append lst (lis">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="racket list类型">
-<meta name="twitter:description" content="创建一个list,并赋值给变量lst&amp;gt; (define lst (list 1 2 3 4)) &amp;gt; lst &amp;apos;(1 2 3 4)list内置方法&amp;gt; (length lst)                      ;列表长度 4 &amp;gt; (list-ref lst 0)                  ;根据下标取值 1 &amp;gt; (append lst (lis">
+<meta name="twitter:description" content="创建一个list,并赋值给变量lst&amp;gt; (define lst (list 1 2 3 4)) &amp;gt; lst &amp;#39;(1 2 3 4) list内置方法&amp;gt; (length lst)                      ;列表长度 4 &amp;gt; (list-ref lst 0)                  ;根据下标取值 1 &amp;gt; (append lst (lis">
 
 
 
@@ -478,30 +478,32 @@
       
         <h4 id="创建一个list-并赋值给变量lst"><a href="#创建一个list-并赋值给变量lst" class="headerlink" title="创建一个list,并赋值给变量lst"></a>创建一个list,并赋值给变量lst</h4><pre><code>&gt; (define lst (list 1 2 3 4))
 &gt; lst
-&apos;(1 2 3 4)</code></pre><h4 id="list内置方法"><a href="#list内置方法" class="headerlink" title="list内置方法"></a>list内置方法</h4><pre><code>&gt; (length lst)                      ;列表长度
+&#39;(1 2 3 4)
+</code></pre><h4 id="list内置方法"><a href="#list内置方法" class="headerlink" title="list内置方法"></a>list内置方法</h4><pre><code>&gt; (length lst)                      ;列表长度
 4
 &gt; (list-ref lst 0)                  ;根据下标取值
 1
 &gt; (append lst (list 5 6 7))         ;连接两个列表
-&apos;(1 2 3 4 5 6 7)
+&#39;(1 2 3 4 5 6 7)
 &gt; (reverse lst)                     ;反转列表
-&apos;(4 3 2 1)
+&#39;(4 3 2 1)
 &gt; (member 5 (list 1 2 3))           ;判断元素是否存在于列表中
 #f
 &gt; (map sqrt (list 1 4 9 16))        ;依次对列表中的每个元素求算术平方根
-&apos;(1 2 3 4)
+&#39;(1 2 3 4)
 
 &gt; (andmap string? (list &quot;a&quot; &quot;b&quot; 6)) ;判断列表中元素是否全部为string,
 #f
 &gt; (ormap number? (list &quot;a&quot; &quot;b&quot; 6))  ;判断列表中元素是否存在number
 
 &gt; (filter string? (list &quot;a&quot; &quot;b&quot; 6)) ;对列表元素进行过滤
-&apos;(&quot;a&quot; &quot;b&quot;)
+&#39;(&quot;a&quot; &quot;b&quot;)
 
 &gt; (first (list 1 2 3))              ;返回列表中的第一个元素
 1
 &gt; (rest (list 1 2 3))               ;返回除第一个元素的剩余元素
-&apos;(2 3)</code></pre><hr>
+&#39;(2 3)
+</code></pre><hr>
 <p>参考： 1.<a href="https://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html" target="_blank" rel="noopener">官方文档</a></p>
 
       

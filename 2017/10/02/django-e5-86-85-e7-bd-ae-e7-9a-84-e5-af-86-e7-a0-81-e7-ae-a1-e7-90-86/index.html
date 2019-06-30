@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下： url(&amp;apos;^&amp;apos;, include(&amp;apos;django.contrib.auth.urls&amp;apos;))相当于 ^login/$ [name=&amp;apos;login&amp;apos;] ^logout/$ [name=&amp;apos;logout&amp;apos;] ^passw">
+  <meta name="description" content="Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下： url(&amp;#39;^&amp;#39;, include(&amp;#39;django.contrib.auth.urls&amp;#39;)) 相当于 ^login/$ [name=&amp;#39;login&amp;#39;] ^logout/$ [name=&amp;#39;logout&amp;#39;] ^password_cha">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django内置的密码管理">
 <meta property="og:url" content="https://hysyeah.github.io/2017/10/02/django-e5-86-85-e7-bd-ae-e7-9a-84-e5-af-86-e7-a0-81-e7-ae-a1-e7-90-86/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下： url(&amp;apos;^&amp;apos;, include(&amp;apos;django.contrib.auth.urls&amp;apos;))相当于 ^login/$ [name=&amp;apos;login&amp;apos;] ^logout/$ [name=&amp;apos;logout&amp;apos;] ^passw">
+<meta property="og:description" content="Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下： url(&amp;#39;^&amp;#39;, include(&amp;#39;django.contrib.auth.urls&amp;#39;)) 相当于 ^login/$ [name=&amp;#39;login&amp;#39;] ^logout/$ [name=&amp;#39;logout&amp;#39;] ^password_cha">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django内置的密码管理">
-<meta name="twitter:description" content="Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下： url(&amp;apos;^&amp;apos;, include(&amp;apos;django.contrib.auth.urls&amp;apos;))相当于 ^login/$ [name=&amp;apos;login&amp;apos;] ^logout/$ [name=&amp;apos;logout&amp;apos;] ^passw">
+<meta name="twitter:description" content="Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下： url(&amp;#39;^&amp;#39;, include(&amp;#39;django.contrib.auth.urls&amp;#39;)) 相当于 ^login/$ [name=&amp;#39;login&amp;#39;] ^logout/$ [name=&amp;#39;logout&amp;#39;] ^password_cha">
 
 
 
@@ -477,15 +477,17 @@
 
       
         <p>Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下：</p>
-<pre><code>url(&apos;^&apos;, include(&apos;django.contrib.auth.urls&apos;))</code></pre><p>相当于</p>
-<pre><code>^login/$ [name=&apos;login&apos;]
-^logout/$ [name=&apos;logout&apos;]
-^password_change/$ [name=&apos;password_change&apos;]
-^password_change/done/$ [name=&apos;password_change_done&apos;]
-^password_reset/$ [name=&apos;password_reset&apos;]
-^password_reset/done/$ [name=&apos;password_reset_done&apos;]
-^reset/(?P&lt;uidb64&gt;[0-9A-Za-z_\-]+)/(?P&lt;token&gt;[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$ [name=&apos;password_reset_confirm&apos;]
-^reset/done/$ [name=&apos;password_reset_complete&apos;]</code></pre><p>2.<a href="http://hysyeah.top/2017/09/27/django%E9%80%9A%E8%BF%87qq%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">配置好发送邮件配置</a> 3.在前端配置好url就可实现密码修改，重置功能。</p>
+<pre><code>url(&#39;^&#39;, include(&#39;django.contrib.auth.urls&#39;))
+</code></pre><p>相当于</p>
+<pre><code>^login/$ [name=&#39;login&#39;]
+^logout/$ [name=&#39;logout&#39;]
+^password_change/$ [name=&#39;password_change&#39;]
+^password_change/done/$ [name=&#39;password_change_done&#39;]
+^password_reset/$ [name=&#39;password_reset&#39;]
+^password_reset/done/$ [name=&#39;password_reset_done&#39;]
+^reset/(?P&lt;uidb64&gt;[0-9A-Za-z_\-]+)/(?P&lt;token&gt;[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$ [name=&#39;password_reset_confirm&#39;]
+^reset/done/$ [name=&#39;password_reset_complete&#39;]
+</code></pre><p>2.<a href="http://hysyeah.top/2017/09/27/django%E9%80%9A%E8%BF%87qq%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">配置好发送邮件配置</a> 3.在前端配置好url就可实现密码修改，重置功能。</p>
 <hr>
 <p>参考： 1.<a href="https://docs.djangoproject.com/en/1.11/topics/auth/default/#all-authentication-views" target="_blank" rel="noopener">官方文档</a></p>
 

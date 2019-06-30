@@ -480,19 +480,22 @@
 <h4 id="在centos下安装pgloader"><a href="#在centos下安装pgloader" class="headerlink" title="在centos下安装pgloader"></a>在centos下安装pgloader</h4><p>1.安装依赖</p>
 <pre><code>sudo yum -y install yum-utils rpmdevtools @&quot;Development Tools&quot; sqlite-devel zlib-devel  
 sudo yum -y install epel-release sbcl  
-sudo yum -y install freetds freetds-devel</code></pre><p>2.<a href="https://github.com/dimitri/pgloader/releases/download/v3.5.1/pgloader-bundle-3.5.1.tgz" title="下载源码" target="_blank" rel="noopener">下载源码</a></p>
+sudo yum -y install freetds freetds-devel
+</code></pre><p>2.<a href="https://github.com/dimitri/pgloader/releases/download/v3.5.1/pgloader-bundle-3.5.1.tgz" title="下载源码" target="_blank" rel="noopener">下载源码</a></p>
 <pre><code>tar -xv pgloader-bundle-3.5.1.tgz
 cd pgloader-bundle-3.5.1.tgz
-make pgloader</code></pre><p>3.编译成功后bin文件夹下会出现pgloader可执行文件，将路径添加到环境变量。</p>
+make pgloader
+</code></pre><p>3.编译成功后bin文件夹下会出现pgloader可执行文件，将路径添加到环境变量。</p>
 <pre><code>vim ~/.bash_profile
-source ~/.bash_profile</code></pre><hr>
+source ~/.bash_profile
+</code></pre><hr>
 <h4 id="pgloader的使用-from-mysql-to-postgresql"><a href="#pgloader的使用-from-mysql-to-postgresql" class="headerlink" title="pgloader的使用 from mysql to postgresql"></a>pgloader的使用 from mysql to postgresql</h4><pre><code>load database
     from mysql://username:password@localhost/test
     into postgresql://username:password@110.110.110.110/datahub
 with include drop, create tables,  create indexes,  reset sequences, disable triggers, foreign keys, workers=8, concurrency=1
-   set work_mem to &apos;16MB&apos;, maintenance_work_mem to &apos;512MB&apos;
+   set work_mem to &#39;16MB&#39;, maintenance_work_mem to &#39;512MB&#39;
 
-   INCLUDING ONLY TABLE NAMES MATCHING &apos;base_job_type&apos;
+   INCLUDING ONLY TABLE NAMES MATCHING &#39;base_job_type&#39;
 
    CAST type timestamp when default &quot;0000-00-00 00:00:00&quot; with extra on update current timestamp to timestamptz drop default drop not nul drop extra using zero-dates-to-null,
         type smallint when unsigned to integer drop typemod
@@ -521,7 +524,8 @@ with include drop, create tables,  create indexes,  reset sequences, disable tri
 # downcase identifiers: 将表名，索引名，列名改为小写
 # quote identifiers: 保留大小写
 # schema only: 只迁移表结构
-# data only: 只复制数据</code></pre><h4 id="pgloader转换规则中的坑"><a href="#pgloader转换规则中的坑" class="headerlink" title="pgloader转换规则中的坑"></a>pgloader转换规则中的坑</h4><p>假设mysql中有一个字段的类型为datetime,默认值为”0000-00-00 00:00:00” 如果转换规则写为<code>type datetime to timestamptz</code>此时pgloader并不会匹配上，因为pgloader必须全部匹配时，才会执行类型转换。可写为<code>cast type datetime when default &quot;0000-00-00 00:00:00&quot; to timestamptz</code>才能匹配,如果还有其它的限制也必须加上，如<code>with extra on update current timestamp</code>。这种情况和代码异常处理是不一样的。</p>
+# data only: 只复制数据
+</code></pre><h4 id="pgloader转换规则中的坑"><a href="#pgloader转换规则中的坑" class="headerlink" title="pgloader转换规则中的坑"></a>pgloader转换规则中的坑</h4><p>假设mysql中有一个字段的类型为datetime,默认值为”0000-00-00 00:00:00” 如果转换规则写为<code>type datetime to timestamptz</code>此时pgloader并不会匹配上，因为pgloader必须全部匹配时，才会执行类型转换。可写为<code>cast type datetime when default &quot;0000-00-00 00:00:00&quot; to timestamptz</code>才能匹配,如果还有其它的限制也必须加上，如<code>with extra on update current timestamp</code>。这种情况和代码异常处理是不一样的。</p>
 <hr>
 <p>参考： 1.<a href="https://pgloader.readthedocs.io/en/latest/ref/mysql.html" target="_blank" rel="noopener">https://pgloader.readthedocs.io/en/latest/ref/mysql.html</a></p>
 

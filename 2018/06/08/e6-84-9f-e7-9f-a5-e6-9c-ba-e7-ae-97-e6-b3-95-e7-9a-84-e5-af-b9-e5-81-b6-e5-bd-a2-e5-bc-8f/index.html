@@ -94,12 +94,12 @@
 
 
 
-  <meta name="description" content="class PerceptionPair:        #初始化一些参数学习率，gram矩阵等等  7     def __init__(self, dataSet, target, learningrate=1):  8         self.lr = learningrate  9         self.a = np.zeros(len(dataSet), np.float">
+  <meta name="description" content="class PerceptionPair:         #初始化一些参数学习率，gram矩阵等等   7     def __init__(self, dataSet, target, learningrate=1):   8         self.lr = learningrate   9         self.a = np.zeros(len(dataSet), np.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="感知机算法的对偶形式">
 <meta property="og:url" content="https://hysyeah.github.io/2018/06/08/e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-97-e6-b3-95-e7-9a-84-e5-af-b9-e5-81-b6-e5-bd-a2-e5-bc-8f/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="class PerceptionPair:        #初始化一些参数学习率，gram矩阵等等  7     def __init__(self, dataSet, target, learningrate=1):  8         self.lr = learningrate  9         self.a = np.zeros(len(dataSet), np.float">
+<meta property="og:description" content="class PerceptionPair:         #初始化一些参数学习率，gram矩阵等等   7     def __init__(self, dataSet, target, learningrate=1):   8         self.lr = learningrate   9         self.a = np.zeros(len(dataSet), np.">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual1.png">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual2.png">
@@ -110,7 +110,7 @@
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="感知机算法的对偶形式">
-<meta name="twitter:description" content="class PerceptionPair:        #初始化一些参数学习率，gram矩阵等等  7     def __init__(self, dataSet, target, learningrate=1):  8         self.lr = learningrate  9         self.a = np.zeros(len(dataSet), np.float">
+<meta name="twitter:description" content="class PerceptionPair:         #初始化一些参数学习率，gram矩阵等等   7     def __init__(self, dataSet, target, learningrate=1):   8         self.lr = learningrate   9         self.a = np.zeros(len(dataSet), np.">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual1.png">
 
 
@@ -485,31 +485,32 @@
       
         <p><img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual1.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual2.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual3.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual4.png" alt="image"></p>
 <hr>
-<pre><code>class PerceptionPair:
-       #初始化一些参数学习率，gram矩阵等等
- 7     def __init__(self, dataSet, target, learningrate=1):
- 8         self.lr = learningrate
- 9         self.a = np.zeros(len(dataSet), np.float)
-10         self.b = 0.0
-11         self.gram = np.matmul(np.array(dataSet), np.array(dataSet).T)
-12         self.target = target
+<pre><code> class PerceptionPair:
+        #初始化一些参数学习率，gram矩阵等等
+  7     def __init__(self, dataSet, target, learningrate=1):
+  8         self.lr = learningrate
+  9         self.a = np.zeros(len(dataSet), np.float)
+ 10         self.b = 0.0
+ 11         self.gram = np.matmul(np.array(dataSet), np.array(dataSet).T)
+ 12         self.target = target
 
-13     #计算判断是否误分类的值
-14     def calc(self,i):
-15         res = np.dot(self.a*self.target, self.gram[i])
-16         res = (res+self.b)*target[i]
-17         return res
-18
-19     def train(self, inputs, target):
-20         flag = False
-21         m = len(inputs)
-22         res = 0.0
-23         for i in range(m):
-               # 进行权值更新
-24             if self.calc(i) &lt;= 0:
-25                 self.a[i] += self.lr
-26                 self.b += target[i]
-27                 print(self.a, self.b)</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual5.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_pair.png" alt="image"></p>
+ 13     #计算判断是否误分类的值
+ 14     def calc(self,i):
+ 15         res = np.dot(self.a*self.target, self.gram[i])
+ 16         res = (res+self.b)*target[i]
+ 17         return res
+ 18
+ 19     def train(self, inputs, target):
+ 20         flag = False
+ 21         m = len(inputs)
+ 22         res = 0.0
+ 23         for i in range(m):
+                # 进行权值更新
+ 24             if self.calc(i) &lt;= 0:
+ 25                 self.a[i] += self.lr
+ 26                 self.b += target[i]
+ 27                 print(self.a, self.b)
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual5.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_pair.png" alt="image"></p>
 <hr>
 <p><a href="https://github.com/hys20151008/ml_python/blob/master/perceptron_pair.py" target="_blank" rel="noopener">完整代码</a> 参考： 1.统计学习方法-李航</p>
 

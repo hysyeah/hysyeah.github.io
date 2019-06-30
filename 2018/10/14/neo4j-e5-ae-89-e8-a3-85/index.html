@@ -484,12 +484,15 @@
 <pre><code>export JAVA_HOME=/opt/jdk1.8.0_191
 export JRE_HOME=/opt/jdk1.8.0_191/jre
 export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
-export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</code></pre><hr>
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+</code></pre><hr>
 <p>1.<a href="https://neo4j.com/download-center/#releases" target="_blank" rel="noopener">下载neo4j安装包</a> 2.解压，添加环境变量</p>
 <pre><code>cp neo4j-community-3.4.8-unix.tar.gz /opt
 tar -xf neo4j-community-3.4.8-unix.tar.gz
-export PATH=&quot;/opt/neo4j-community-3.4.8/bin:$PATH&quot;</code></pre><p>3.修改配置文件 neo4j默认只能从本机访问，因些修改conf/neo4j.conf,改为可从其它主机访问</p>
-<pre><code>dbms.connectors.default_listen_address=0.0.0.0</code></pre><p>4.开启neo4j服务<code>neo4j console</code> 5.打开浏览器输入<code>xxx.xxx.xxx.xxx:7474</code>,即可连接neo4j服务。默认用户名密码为:neo4j/neo4j,第一次会提示修改密码 6.连接后的界面如下 <img src="http://hysyeah.top/wp-content/uploads/2018/10/neo4j.png" alt></p>
+export PATH=&quot;/opt/neo4j-community-3.4.8/bin:$PATH&quot;
+</code></pre><p>3.修改配置文件 neo4j默认只能从本机访问，因些修改conf/neo4j.conf,改为可从其它主机访问</p>
+<pre><code>dbms.connectors.default_listen_address=0.0.0.0
+</code></pre><p>4.开启neo4j服务<code>neo4j console</code> 5.打开浏览器输入<code>xxx.xxx.xxx.xxx:7474</code>,即可连接neo4j服务。默认用户名密码为:neo4j/neo4j,第一次会提示修改密码 6.连接后的界面如下 <img src="http://hysyeah.top/wp-content/uploads/2018/10/neo4j.png" alt></p>
 
       
     </div>

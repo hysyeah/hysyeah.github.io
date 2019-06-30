@@ -489,7 +489,8 @@ for i, v := range a {
 r :=[...]int{99:-1} //定义了一个大小为100，最后一个元素初始为-1,其余为0
 
 
-c1 := sha256.Sum256([]byte(&quot;x&quot;))      //</code></pre><p>切片</p>
+c1 := sha256.Sum256([]byte(&quot;x&quot;))      //
+</code></pre><p>切片</p>
 <pre><code>// 切片共享底层数组数据
 months := [...]string{1: &quot;January&quot;, 2: &quot;February&quot;, 3: &quot;March&quot;, 4: &quot;April&quot;, 5: &quot;June&quot;}
 Q1 := months[0:3]
@@ -506,7 +507,8 @@ slice := array[:4]             //基于底层数组创建
 
 var slice = []int{1, 2, 3, 4, 5} //直接创建
 
-var slice = make([]int 5, 10) //使用make函数创建有5个元素的切片，cap为10</code></pre><p>字典：</p>
+var slice = make([]int 5, 10) //使用make函数创建有5个元素的切片，cap为10
+</code></pre><p>字典：</p>
 <pre><code>ages := map[string]int{
     &quot;alice&quot;: 31,
     &quot;joke&quot;: 33,
@@ -522,7 +524,8 @@ age, ok := ages[&quot;bob&quot;]
 if !ok {/* &quot;bob&quot; is not in this map&quot;*/}
 //也可以写成如下形式
 if age, ok := ages[&quot;bob&quot;]; !ok {/*...*/}
-//不能对字典元素进行取地址的操作，因为字典元素的地址是会发生变化的，当装载因子超过一定数值后，会对字典进行rehash操作。</code></pre><p>结构体</p>
+//不能对字典元素进行取地址的操作，因为字典元素的地址是会发生变化的，当装载因子超过一定数值后，会对字典进行rehash操作。
+</code></pre><p>结构体</p>
 <pre><code>type Point struct {
     X, Y int
 }
@@ -533,7 +536,8 @@ pp := new(Point)
 *pp = Point{1, 2}           //等价于上种方式
 
 pp.X              //1
-pp.Y              //2</code></pre><p>结构体嵌套</p>
+pp.Y              //2
+</code></pre><p>结构体嵌套</p>
 <pre><code>type Point struct {
     X, Y int
 }
@@ -572,7 +576,8 @@ var w Wheel = Wheel {
         Radius: 5,
     },
     Spokes: 20,
-}</code></pre><p>JSON</p>
+}
+</code></pre><p>JSON</p>
 <pre><code>// 只有导出的结构体成员才会被编码，这也就是我们为什么选择用大写字
 母开头的成员名称。
 type Movie struct {
@@ -580,7 +585,8 @@ type Movie struct {
     Year int `json:&quot;released&quot;`    //输出json格式时指定的别名
     Color bool `json:&quot;color, omitempty&quot;` //omitempty表示结构体成员为空时不生成JSON对象
     Actors []string
-}</code></pre><p>文本和HTML模版</p>
+}
+</code></pre><p>文本和HTML模版</p>
 <pre><code>const templ = `{ {.TotalCount}} issues:
 { {range .Items}}----------------------------------------
 Number: { {.Number}}
@@ -599,7 +605,8 @@ Funcs(template.FuncMap{&quot;daysAgo&quot;: daysAgo}).
 Parse(templ)
 
 //执行模版，result为传入的参数
-report.Execute(os.Stdout, result)</code></pre><hr>
+report.Execute(os.Stdout, result)
+</code></pre><hr>
 <p>参考： 1.The Go Programming Language</p>
 
       

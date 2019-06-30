@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="sbt默认使用的是国外的源，速度太慢，因此改为国内的源。  1.修改下面两个文件，在末尾添加-Dsbt.override.build.repos=true /usr/share/sbt/conf/sbtconfig.txt /usr/share/sbt/conf/sbtopts2.vim ~/.sbt/repositories如果不存在则创建 hys@hys:~$ cat ~/.sbt/repos">
+  <meta name="description" content="sbt默认使用的是国外的源，速度太慢，因此改为国内的源。  1.修改下面两个文件，在末尾添加-Dsbt.override.build.repos=true /usr/share/sbt/conf/sbtconfig.txt /usr/share/sbt/conf/sbtopts 2.vim ~/.sbt/repositories如果不存在则创建 hys@hys:~$ cat ~/.sbt/repo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sbt设置国内源">
 <meta property="og:url" content="https://hysyeah.github.io/2019/04/09/sbt-e8-ae-be-e7-bd-ae-e5-9b-bd-e5-86-85-e6-ba-90/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="sbt默认使用的是国外的源，速度太慢，因此改为国内的源。  1.修改下面两个文件，在末尾添加-Dsbt.override.build.repos=true /usr/share/sbt/conf/sbtconfig.txt /usr/share/sbt/conf/sbtopts2.vim ~/.sbt/repositories如果不存在则创建 hys@hys:~$ cat ~/.sbt/repos">
+<meta property="og:description" content="sbt默认使用的是国外的源，速度太慢，因此改为国内的源。  1.修改下面两个文件，在末尾添加-Dsbt.override.build.repos=true /usr/share/sbt/conf/sbtconfig.txt /usr/share/sbt/conf/sbtopts 2.vim ~/.sbt/repositories如果不存在则创建 hys@hys:~$ cat ~/.sbt/repo">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/sbt_source.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sbt设置国内源">
-<meta name="twitter:description" content="sbt默认使用的是国外的源，速度太慢，因此改为国内的源。  1.修改下面两个文件，在末尾添加-Dsbt.override.build.repos=true /usr/share/sbt/conf/sbtconfig.txt /usr/share/sbt/conf/sbtopts2.vim ~/.sbt/repositories如果不存在则创建 hys@hys:~$ cat ~/.sbt/repos">
+<meta name="twitter:description" content="sbt默认使用的是国外的源，速度太慢，因此改为国内的源。  1.修改下面两个文件，在末尾添加-Dsbt.override.build.repos=true /usr/share/sbt/conf/sbtconfig.txt /usr/share/sbt/conf/sbtopts 2.vim ~/.sbt/repositories如果不存在则创建 hys@hys:~$ cat ~/.sbt/repo">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2019/04/sbt_source.png">
 
 
@@ -480,7 +480,8 @@
       
         <p>sbt默认使用的是国外的源，速度太慢，因此改为国内的源。 <img src="http://hysyeah.top/wp-content/uploads/2019/04/sbt_source.png" alt> 1.修改下面两个文件，在末尾添加<code>-Dsbt.override.build.repos=true</code></p>
 <pre><code>/usr/share/sbt/conf/sbtconfig.txt
-/usr/share/sbt/conf/sbtopts</code></pre><p>2.<code>vim ~/.sbt/repositories</code>如果不存在则创建</p>
+/usr/share/sbt/conf/sbtopts
+</code></pre><p>2.<code>vim ~/.sbt/repositories</code>如果不存在则创建</p>
 <pre><code>hys@hys:~$ cat ~/.sbt/repositories 
 [repositories]
   local
@@ -488,7 +489,8 @@
   typesafe: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext], bootOnly
 sonatype-oss-releases
 maven-central
-sonatype-oss-snapshots</code></pre><p>3.生效。</p>
+sonatype-oss-snapshots
+</code></pre><p>3.生效。</p>
 <hr>
 <p>参考： １.<a href="https://www.jianshu.com/p/a867b2a7c3c8" target="_blank" rel="noopener">https://www.jianshu.com/p/a867b2a7c3c8</a></p>
 

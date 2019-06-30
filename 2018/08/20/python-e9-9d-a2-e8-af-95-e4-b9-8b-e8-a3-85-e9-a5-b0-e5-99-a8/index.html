@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="import functools  def a(f):     print(&amp;apos;a&amp;apos;)      @functools.wraps(f)     def wraps(*args, **kwargs):         print(&amp;apos;wraps&amp;apos;)         return f(*args, **kwargs)     return wraps  @a de">
+  <meta name="description" content="import functools  def a(f):     print(&amp;#39;a&amp;#39;)      @functools.wraps(f)     def wraps(*args, **kwargs):         print(&amp;#39;wraps&amp;#39;)         return f(*args, **kwargs)     return wraps  @a def b(">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python面试之装饰器">
 <meta property="og:url" content="https://hysyeah.github.io/2018/08/20/python-e9-9d-a2-e8-af-95-e4-b9-8b-e8-a3-85-e9-a5-b0-e5-99-a8/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="import functools  def a(f):     print(&amp;apos;a&amp;apos;)      @functools.wraps(f)     def wraps(*args, **kwargs):         print(&amp;apos;wraps&amp;apos;)         return f(*args, **kwargs)     return wraps  @a de">
+<meta property="og:description" content="import functools  def a(f):     print(&amp;#39;a&amp;#39;)      @functools.wraps(f)     def wraps(*args, **kwargs):         print(&amp;#39;wraps&amp;#39;)         return f(*args, **kwargs)     return wraps  @a def b(">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/08/doc.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python面试之装饰器">
-<meta name="twitter:description" content="import functools  def a(f):     print(&amp;apos;a&amp;apos;)      @functools.wraps(f)     def wraps(*args, **kwargs):         print(&amp;apos;wraps&amp;apos;)         return f(*args, **kwargs)     return wraps  @a de">
+<meta name="twitter:description" content="import functools  def a(f):     print(&amp;#39;a&amp;#39;)      @functools.wraps(f)     def wraps(*args, **kwargs):         print(&amp;#39;wraps&amp;#39;)         return f(*args, **kwargs)     return wraps  @a def b(">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/08/doc.png">
 
 
@@ -481,36 +481,37 @@
         <pre><code>import functools
 
 def a(f):
-    print(&apos;a&apos;)
+    print(&#39;a&#39;)
 
     @functools.wraps(f)
     def wraps(*args, **kwargs):
-        print(&apos;wraps&apos;)
+        print(&#39;wraps&#39;)
         return f(*args, **kwargs)
     return wraps
 
 @a
 def b():
-    print(&apos;b&apos;)
+    print(&#39;b&#39;)
 
 b()
-b()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/doc.png" alt> 第二次调用b()函数，并没有输出’a’,其实调用b(),b()相当于</p>
+b()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/doc.png" alt> 第二次调用b()函数，并没有输出’a’,其实调用b(),b()相当于</p>
 <pre><code>import functools
 
 def a(f):
-    print(&apos;a&apos;)
+    print(&#39;a&#39;)
 
     @functools.wraps(f)
     def wraps(*args, **kwargs):
-        print(&apos;wraps&apos;)
+        print(&#39;wraps&#39;)
         return f(*args, **kwargs)
     return wraps
 
 def b():
-    print(&apos;b&apos;)
+    print(&#39;b&#39;)
 
 
-b = a(b)                 //此时打印&apos;a&apos;
+b = a(b)                 //此时打印&#39;a&#39;
 b()
 b()
 
@@ -518,7 +519,8 @@ b()
 
 # 当导入b的时候装饰器已经运行，而不是自己原以为的调用b时装饰器才运行
 In [1]: from t1 import b
-a</code></pre><hr>
+a
+</code></pre><hr>
 <p>update_wrapper是wraps的主要功能提供者，它负责考贝原函数的属性，默认是：’<strong>module</strong>‘, ‘<strong>name</strong>‘, ‘<strong>doc</strong>‘， ‘<strong>dict</strong>‘</p>
 <pre><code>functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES) 
 
@@ -553,7 +555,8 @@ In [31]: @time1
     ...:         pass
     ...:     
 
-In [32]: fori()</code></pre>
+In [32]: fori()
+</code></pre>
       
     </div>
 

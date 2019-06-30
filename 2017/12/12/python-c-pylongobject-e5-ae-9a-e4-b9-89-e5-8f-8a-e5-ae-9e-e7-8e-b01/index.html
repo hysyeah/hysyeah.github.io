@@ -485,8 +485,10 @@ struct _longobject {
     PyObject_VAR_HEAD
     digit ob_digit[1];
 };
-typedef struct _longobject PyLongObject;</code></pre><p>PyLongObject对象除了引用计数ob_refcnt,*ob_type指针，与PyIntObject不同的是，通过动态改变ob_digit数组的大小，以实现任意精度的长整形。 PyLongObject对象的绝对值表示为</p>
-<pre><code>SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)</code></pre><p>当数值为0L时，ob_size = 0，不会为ob_digit数组分配内存。 当数值为负数时，ob_size &lt; 0; 当创建一个PyLongObject时，内存分配函数会为ob_digit数组分配足够的空间，所以ob_digit[0] … ob_digit[abs(ob_size)-1]是有效的。 <a href="http://hysyeah.top/2017/12/12/%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%88%90%E5%91%98%E6%95%B0%E7%BB%84%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%A4%A7%E5%B0%8F/" target="_blank" rel="noopener">为结构体的成员数组动态分配大小</a></p>
+typedef struct _longobject PyLongObject;
+</code></pre><p>PyLongObject对象除了引用计数ob_refcnt,*ob_type指针，与PyIntObject不同的是，通过动态改变ob_digit数组的大小，以实现任意精度的长整形。 PyLongObject对象的绝对值表示为</p>
+<pre><code>SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)
+</code></pre><p>当数值为0L时，ob_size = 0，不会为ob_digit数组分配内存。 当数值为负数时，ob_size &lt; 0; 当创建一个PyLongObject时，内存分配函数会为ob_digit数组分配足够的空间，所以ob_digit[0] … ob_digit[abs(ob_size)-1]是有效的。 <a href="http://hysyeah.top/2017/12/12/%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%88%90%E5%91%98%E6%95%B0%E7%BB%84%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%A4%A7%E5%B0%8F/" target="_blank" rel="noopener">为结构体的成员数组动态分配大小</a></p>
 
       
     </div>

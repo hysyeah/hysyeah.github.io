@@ -483,7 +483,8 @@
 2.docker pull mysql
 
 3.mkidr mysql
-  vim docker-compose.yml</code></pre><h4 id="docker-compose-yml-包括version-services-networks三大部分"><a href="#docker-compose-yml-包括version-services-networks三大部分" class="headerlink" title="docker-compose.yml(包括version,services,networks三大部分)"></a>docker-compose.yml(包括version,services,networks三大部分)</h4><pre><code>version: &apos;2&apos;
+  vim docker-compose.yml
+</code></pre><h4 id="docker-compose-yml-包括version-services-networks三大部分"><a href="#docker-compose-yml-包括version-services-networks三大部分" class="headerlink" title="docker-compose.yml(包括version,services,networks三大部分)"></a>docker-compose.yml(包括version,services,networks三大部分)</h4><pre><code>version: &#39;2&#39;
 services:
   mysql:
     image: mysql   #指定镜像为mysql
@@ -511,7 +512,8 @@ networks:
       - subnet: xxx.xxx.xxx.0/26
 
 
-docker-compose up -d #启动后，可访问mysql服务</code></pre>
+docker-compose up -d #启动后，可访问mysql服务
+</code></pre>
           
         
       
@@ -691,12 +693,13 @@ sudo mv MSYH.TTF MSYH.ttf
 In [1]: import matplotlib
 
 In [2]: matplotlib.matplotlib_fname()
-Out[2]: &apos;/usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc&apos;
+Out[2]: &#39;/usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc&#39;
 
 font.family         : Microsoft YaHei
 font.sans-serif     : DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif, Microsoft YaHei
 
-3.删除~/.cache/matplotlib下文件fontList.py3k.cache,重启终端。</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/matplotlibrc.png" alt="image"></p>
+3.删除~/.cache/matplotlib下文件fontList.py3k.cache,重启终端。
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/matplotlibrc.png" alt="image"></p>
 
           
         
@@ -887,7 +890,8 @@ DS-Data Segment--数据段寄存器
 %r12-%r12d-%r12w-%r12b---被调用者保存
 %r13-%r13d-%r13w-%r13b---被调用者保存
 %r14-%r14d-%r14w-%r14b---被调用者保存
-%r15-%r15d-%r15w-%r15b---被调用者保存</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/register.jpg" alt="image"></p>
+%r15-%r15d-%r15w-%r15b---被调用者保存
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/register.jpg" alt="image"></p>
 
           
         
@@ -1093,7 +1097,8 @@ DS-Data Segment--数据段寄存器
 .got:动态链接的跳转表和全局入口表
 
 .init
-.fini:程序初始化与终结代码段</code></pre>
+.fini:程序初始化与终结代码段
+</code></pre>
           
         
       
@@ -1279,7 +1284,8 @@ gcc -c hello.c
 gcc hello.c -o hello
 
 /*-fpic(Position-Independent Code)器生成位置无关的代码,共享库的编译必须总是使用这个选项;-shared指示编译器创建一个共享的目标文件*/
-gcc -shared -fpic -o lib.so a.c b.c</code></pre>
+gcc -shared -fpic -o lib.so a.c b.c
+</code></pre>
           
         
       
@@ -1459,7 +1465,7 @@ Usage: readelf &lt;option(s)&gt; elf-file(s)
   -h --file-header       Display the ELF file header
   -l --program-headers   Display the program headers
      --segments          An alias for --program-headers
-  -S --section-headers   Display the sections&apos; header
+  -S --section-headers   Display the sections&#39; header
      --sections          An alias for --section-headers
   -g --section-groups    Display the section groups
   -t --section-details   Display the section details
@@ -1495,7 +1501,8 @@ Usage: readelf &lt;option(s)&gt; elf-file(s)
   -W --wide              Allow output width to exceed 80 characters
   @&lt;file&gt;                Read options from &lt;file&gt;
   -H --help              Display this information
-  -v --version           Display the version number of readelf</code></pre>
+  -v --version           Display the version number of readelf
+</code></pre>
           
         
       
@@ -1673,7 +1680,8 @@ Usage: readelf &lt;option(s)&gt; elf-file(s)
         
           
             <pre><code>修改models.py后，python manage.py makemigrations未发现改变  
-原因是settings.py中INSTALLED_APPS未添加app名称</code></pre>
+原因是settings.py中INSTALLED_APPS未添加app名称
+</code></pre>
           
         
       
@@ -1844,7 +1852,8 @@ Usage: readelf &lt;option(s)&gt; elf-file(s)
         
           
             <pre><code>/*根据长整型生成python PyLongObject对象*/
-PyObject* PyLong_FromLong(long v) </code></pre><p>通过这个函数我们来了解python是怎么构造一个PyLongObject对象。 PyLong_FromLong函数源码</p>
+PyObject* PyLong_FromLong(long v) 
+</code></pre><p>通过这个函数我们来了解python是怎么构造一个PyLongObject对象。 PyLong_FromLong函数源码</p>
 <pre><code>/*在64位系统中PyLong_SHIFT=30,*/
 #define PyLong_BASE    ((digit)1 &lt;&lt; PyLong_SHIFT)
 #define PyLong_MASK    ((digit)(PyLong_BASE - 1))
@@ -1853,7 +1862,7 @@ PyLong_FromLong(long ival)
 {
     PyLongObject *v;
     unsigned long abs_ival;
-    unsigned long t;  /* unsigned so &gt;&gt; doesn&apos;t propagate sign bit */
+    unsigned long t;  /* unsigned so &gt;&gt; doesn&#39;t propagate sign bit */
     int ndigits = 0;
     int negative = 0;
 
@@ -1869,7 +1878,7 @@ PyLong_FromLong(long ival)
     }
 
     /* Count the number of Python digits.
-       We used to pick 5 (&quot;big enough for anything&quot;), but that&apos;s a
+       We used to pick 5 (&quot;big enough for anything&quot;), but that&#39;s a
        waste of time and space given that 5*15 = 75 bits are rarely
        needed. */
     t = abs_ival;
@@ -1888,7 +1897,8 @@ PyLong_FromLong(long ival)
         }
     }
     return (PyObject *)v;
-}</code></pre><hr>
+}
+</code></pre><hr>
 <p>转换成可以单独执行的C代码</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;math.h&gt;
@@ -1930,7 +1940,8 @@ int main(int argc, char *argv[]){
 gcc longo.c -lm //不加-lm则会报错
 out:
 1073741823  3   
-4294967295</code></pre><hr>
+4294967295
+</code></pre><hr>
 <p>base = 0x40000000 mask = 0x3fffffff abs_ival = 0xffffffff ob_digit中元素的最大值为(2**30)-1</p>
 <hr>
 <p>？PyLong_SHIFT为什么是30。 参考：python2.7源码</p>
@@ -2113,8 +2124,10 @@ struct _longobject {
     PyObject_VAR_HEAD
     digit ob_digit[1];
 };
-typedef struct _longobject PyLongObject;</code></pre><p>PyLongObject对象除了引用计数ob_refcnt,*ob_type指针，与PyIntObject不同的是，通过动态改变ob_digit数组的大小，以实现任意精度的长整形。 PyLongObject对象的绝对值表示为</p>
-<pre><code>SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)</code></pre><p>当数值为0L时，ob_size = 0，不会为ob_digit数组分配内存。 当数值为负数时，ob_size &lt; 0; 当创建一个PyLongObject时，内存分配函数会为ob_digit数组分配足够的空间，所以ob_digit[0] … ob_digit[abs(ob_size)-1]是有效的。 <a href="http://hysyeah.top/2017/12/12/%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%88%90%E5%91%98%E6%95%B0%E7%BB%84%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%A4%A7%E5%B0%8F/" target="_blank" rel="noopener">为结构体的成员数组动态分配大小</a></p>
+typedef struct _longobject PyLongObject;
+</code></pre><p>PyLongObject对象除了引用计数ob_refcnt,*ob_type指针，与PyIntObject不同的是，通过动态改变ob_digit数组的大小，以实现任意精度的长整形。 PyLongObject对象的绝对值表示为</p>
+<pre><code>SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)
+</code></pre><p>当数值为0L时，ob_size = 0，不会为ob_digit数组分配内存。 当数值为负数时，ob_size &lt; 0; 当创建一个PyLongObject时，内存分配函数会为ob_digit数组分配足够的空间，所以ob_digit[0] … ob_digit[abs(ob_size)-1]是有效的。 <a href="http://hysyeah.top/2017/12/12/%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%88%90%E5%91%98%E6%95%B0%E7%BB%84%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%A4%A7%E5%B0%8F/" target="_blank" rel="noopener">为结构体的成员数组动态分配大小</a></p>
 
           
         
@@ -2299,7 +2312,8 @@ p = (PyLongObject*)malloc(sizeof(PyLongObject)+sizeof(digit)*abs(ob_size))
 for(int i = 0; i &lt; ob_size; i++){
     p-&gt;ob_digit[i] = 1;
 }
-这就是PyLongObject对象的内存分配，只不过python源码由内存管理模块进行内存的分配，不那么好理解。</code></pre><hr>
+这就是PyLongObject对象的内存分配，只不过python源码由内存管理模块进行内存的分配，不那么好理解。
+</code></pre><hr>
 <h4 id="example"><a href="#example" class="headerlink" title="example"></a>example</h4><pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -2322,7 +2336,8 @@ int main(int argc, char *argv[]){
 }
 输出：
 8,4,0
-hello</code></pre><hr>
+hello
+</code></pre><hr>
 <p>参考：<a href="https://wiki.sei.cmu.edu/confluence/display/c/MEM33-C.++Allocate+and+copy+structures+containing+a+flexible+array+member+dynamically" target="_blank" rel="noopener">https://wiki.sei.cmu.edu/confluence/display/c/MEM33-C.++Allocate+and+copy+structures+containing+a+flexible+array+member+dynamically</a></p>
 
           

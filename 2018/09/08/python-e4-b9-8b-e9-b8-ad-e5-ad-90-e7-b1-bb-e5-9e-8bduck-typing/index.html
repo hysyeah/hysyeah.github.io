@@ -498,9 +498,10 @@ whale = Whale()
 
 lift_off(duck) # prints `Duck flying`
 lift_off(airplane) # prints `Airplane flying`
-lift_off(whale) # Throws the error `&apos;Whale&apos; object has no attribute &apos;fly&apos;
+lift_off(whale) # Throws the error `&#39;Whale&#39; object has no attribute &#39;fly&#39;
 
-# 在lift_off函数中我们并不关心传入的参数是什么类型，只关心这个对象拥有什么方法。</code></pre><p>比如在python中，有很多file-like的东西，比如StringIO,GzipFile,socket。它们有很多相同的方法，我们把它们当作文件使用。 再如只要一个类实现了<code>__iter__</code>方法，我们就说这个对象是可迭代的。</p>
+# 在lift_off函数中我们并不关心传入的参数是什么类型，只关心这个对象拥有什么方法。
+</code></pre><p>比如在python中，有很多file-like的东西，比如StringIO,GzipFile,socket。它们有很多相同的方法，我们把它们当作文件使用。 再如只要一个类实现了<code>__iter__</code>方法，我们就说这个对象是可迭代的。</p>
 <pre><code>In [1]: class A:
    ...:     def __iter__(self):
    ...:         pass
@@ -511,7 +512,8 @@ In [2]: a = A()
 In [3]: from collections import Iterable
 
 In [4]: isinstance(a, Iterable)
-Out[4]: True</code></pre><hr>
+Out[4]: True
+</code></pre><hr>
 <p>参考： 1.<a href="https://en.wikipedia.org/wiki/Duck_typing" target="_blank" rel="noopener">wikipedia</a> 2.<a href="https://blog.csdn.net/handsomekang/article/details/40270009" target="_blank" rel="noopener">csdn</a></p>
 
       

@@ -489,16 +489,17 @@
 <pre><code>import matplotlib.pyplot as plt
 
 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-labels = &apos;Frogs&apos;, &apos;Hogs&apos;, &apos;Dogs&apos;, &apos;Logs&apos;
+labels = &#39;Frogs&#39;, &#39;Hogs&#39;, &#39;Dogs&#39;, &#39;Logs&#39;
 sizes = [15, 30, 45, 10]
-explode = (0, 0.1, 0, 0)  # only &quot;explode&quot; the 2nd slice (i.e. &apos;Hogs&apos;)
+explode = (0, 0.1, 0, 0)  # only &quot;explode&quot; the 2nd slice (i.e. &#39;Hogs&#39;)
 
 fig1, ax1 = plt.subplots()
-ax1.pie(sizes, explode=explode, labels=labels, autopct=&apos;%1.1f%%&apos;,
+ax1.pie(sizes, explode=explode, labels=labels, autopct=&#39;%1.1f%%&#39;,
         shadow=True, startangle=90) #autopct 扇形区域显示的文字格式
 ax1.axis(&quot;equal&quot;)  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-plt.show()</code></pre><p><img src="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png" alt="image"></p>
 <hr>
 <pre><code>#通过两个饼图绘制双层饼图
 import matplotlib.pyplot as plt
@@ -509,14 +510,15 @@ vals3 = [1]
 vals4 = [1]
 
 fig, ax = plt.subplots()
-labels = &apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;
+labels = &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;
 
 ax.pie(vals1, radius=1.2)
 ax.pie(vals2, radius=1.0,startangle=90)
 ax.pie(vals3, radius=0.8)
 ax.pie(vals4, radius=0.4)
 ax.set(aspect=&quot;equal&quot;)
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ%E5%9B%BE%E7%89%8720171127185444.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png" alt="image"></p>
 <hr>
 <p>参考： 1.<a href="https://zhuanlan.zhihu.com/p/27442584" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27442584</a> 2.<a href="http://matplotlib.org/api/pyplot_api.html" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html</a></p>
 
@@ -713,14 +715,15 @@ fig = plt.figure() #添加一个画布
 ax1 = fig.add_subplot(211)#添加个子图，两行一列中的第一个图
 ax1.xcorr(x, y, usevlines=True, maxlags=50, normed=True, lw=2)#互相关函数
 ax1.grid(True) #添加网格
-ax1.axhline(0, color=&apos;black&apos;, lw=2)
+ax1.axhline(0, color=&#39;black&#39;, lw=2)
 
 ax2 = fig.add_subplot(212, sharex=ax1)
 ax2.acorr(x, usevlines=True, normed=True, maxlags=50, lw=2)#自相关函数
 ax2.grid(True)
-ax2.axhline(0, color=&apos;black&apos;, lw=2)
+ax2.axhline(0, color=&#39;black&#39;, lw=2)
 
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ%E5%9B%BE%E7%89%8720171118102729.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ图片20171118102729.png" alt="image"></p>
 <hr>
 <p>参考： 1.<a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.xcorr" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.xcorr</a></p>
 
@@ -916,7 +919,8 @@ int main(void){
     printf(&quot;double_size=%lu\n&quot;, sizeof(double));
     printf(&quot;long_double_size=%lu\n&quot;, sizeof(long double));
     return 0;
-}</code></pre><p>输出</p>
+}
+</code></pre><p>输出</p>
 <pre><code>//32位                                //64位
 char_size=1                           char_size=1
 unsigned_char=1                       unsigned_char=1
@@ -930,7 +934,8 @@ long_int_size=4                       long_int_size=8
 unsigned_long_size=4                  unsigned_long_size=8
 float_size=4                          float_size=4
 double_size=8                         double_size=8
-long_double_size=12                   long_double_size=16</code></pre>
+long_double_size=12                   long_double_size=16
+</code></pre>
           
         
       
@@ -1125,7 +1130,8 @@ long_double_size=12                   long_double_size=16</code></pre>
 struct spwd *getspnam(const char *name);//通过用户名获取指向struct spwd结构体的指针
 struct spwd *getspent(void);//获取/etc/shadow文件中的信息，返回struct spwd结构体指针
 void setspent(void);//初始化输入流
-void endspent(void);//释放资源</code></pre><p>例：</p>
+void endspent(void);//释放资源
+</code></pre><p>例：</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;shadow.h&gt;
 #include &lt;unistd.h&gt;
@@ -1150,7 +1156,8 @@ while((ptr = getspent())!=NULL){
 }
 endspent();
 return 0;
-}</code></pre><p>参考： 1.<a href="http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html" target="_blank" rel="noopener">http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html</a> 2.<a href="https://linux.die.net/man/3/getspnam" target="_blank" rel="noopener">https://linux.die.net/man/3/getspnam</a></p>
+}
+</code></pre><p>参考： 1.<a href="http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html" target="_blank" rel="noopener">http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html</a> 2.<a href="https://linux.die.net/man/3/getspnam" target="_blank" rel="noopener">https://linux.die.net/man/3/getspnam</a></p>
 
           
         
@@ -1324,23 +1331,28 @@ return 0;
             <p>1.安装zsh,oh-my-zsh</p>
 <pre><code>sudo apt-get install zsh git wget
 wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-chsh -s /bin/zsh</code></pre><p>注销重新进入后生效 2.安装autojump</p>
+chsh -s /bin/zsh
+</code></pre><p>注销重新进入后生效 2.安装autojump</p>
 <pre><code>git clone git://github.com/joelthelion/autojump.git
 cd autojump
 sudo ./install.py
 . /home/hys/.autojump/etc/profile.d/autojump.sh #在~/.zshrc文件最后添加
 source ~/.zshrc
 
-重启终端后生效</code></pre><p>或者直接通过软件仓库安装</p>
+重启终端后生效
+</code></pre><p>或者直接通过软件仓库安装</p>
 <pre><code>sudo apt-get install autojump
 
 . /usr/share/autojump/autojump.sh #在~/.zshrc文件最后添加
 
 source ~/.zshrc
 
-重启终端后生效</code></pre><p>3.安装terminator</p>
-<pre><code>sudo apt-get install terminator</code></pre><p>安装oh-my-zsh可能会出现这样的错误 1.you may not change the shell for ‘username’</p>
-<pre><code>sudo usermod -s /bin/zsh username</code></pre>
+重启终端后生效
+</code></pre><p>3.安装terminator</p>
+<pre><code>sudo apt-get install terminator
+</code></pre><p>安装oh-my-zsh可能会出现这样的错误 1.you may not change the shell for ‘username’</p>
+<pre><code>sudo usermod -s /bin/zsh username
+</code></pre>
           
         
       
@@ -1511,7 +1523,8 @@ source ~/.zshrc
         
           
             <p>C++为了与C兼容，在符号的管理上，C++提供了一 个用来声明或定义C符号的”extern “C””关键字。C++编译器会将在extern “C”的大括号内部的代码当作C语言处理，C++的名称修饰机制将不起作用。 <img src="http://hysyeah.top/wp-content/uploads/2017/11/1.png" alt> 很多时候我们会碰到有些头文件声明了一些C语言的 函数和全局变量，但是这个头文件可能会被C语言代码或c++代码包含。比 如很常见的，我们的C语言库函数中的string.h中声明了memset这个函数，它的原型如下：</p>
-<pre><code>void *memset (void *, int ,size);</code></pre><p>如果不加任何处理，当我们的C语言程序包含string.h的时候，并且用到了memset这个函数 ，编译器会将memset符号引用正确处理；但是在C++语言中，编译器会认为这个memset函数是一个C++函数，将memset的符号修饰成_Z6memsetPvii,这样链接器就无法与C语言库中的memset符号进行链接。所以对于C++来说，必须使用extern “C”来声明memset这个函数。但是C语言又不支持extern “C”语法，如果为了兼容C语言和C++语言定义两套头文件，未免于麻烦。幸好我们有一种很好的方法可以解决上述问题，就是使用C++的宏”__cplusplus”,C++编译会在编译c++的程序默认定义这个宏，我们可以使用条件宏来判断当前编译单元是不是C++代码。具体代码如下：</p>
+<pre><code>void *memset (void *, int ,size);
+</code></pre><p>如果不加任何处理，当我们的C语言程序包含string.h的时候，并且用到了memset这个函数 ，编译器会将memset符号引用正确处理；但是在C++语言中，编译器会认为这个memset函数是一个C++函数，将memset的符号修饰成_Z6memsetPvii,这样链接器就无法与C语言库中的memset符号进行链接。所以对于C++来说，必须使用extern “C”来声明memset这个函数。但是C语言又不支持extern “C”语法，如果为了兼容C语言和C++语言定义两套头文件，未免于麻烦。幸好我们有一种很好的方法可以解决上述问题，就是使用C++的宏”__cplusplus”,C++编译会在编译c++的程序默认定义这个宏，我们可以使用条件宏来判断当前编译单元是不是C++代码。具体代码如下：</p>
 <pre><code>#ifdef __cplusplus
 
 extern &quot;C&quot; {
@@ -1524,7 +1537,8 @@ void *memset (void *, int,  size_t);
 
 }
 
-#endif</code></pre><p>如果当前编译单元是C++代码，那么memset会在extern “C”里面被声明；如果是C代码，就直接声明。 参考： 1.程序员的自我修养 2.<a href="https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html" target="_blank" rel="noopener">https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html</a></p>
+#endif
+</code></pre><p>如果当前编译单元是C++代码，那么memset会在extern “C”里面被声明；如果是C代码，就直接声明。 参考： 1.程序员的自我修养 2.<a href="https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html" target="_blank" rel="noopener">https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html</a></p>
 
           
         
@@ -1815,7 +1829,7 @@ void *memset (void *, int,  size_t);
 
 
 &gt;(string-&gt;list &quot;Apple&quot;)
-&apos;(#\A #\p #\p #\l #\e)
+&#39;(#\A #\p #\p #\l #\e)
 
 
 (list-&gt;string lst) → string?
@@ -1888,7 +1902,7 @@ void *memset (void *, int,  size_t);
   after-last : string? = &quot;&quot;)
 
 
-&gt;(string-join &apos;(&quot;one&quot; &quot;two&quot; &quot;three&quot; &quot;four&quot;) &quot;;&quot;)
+&gt;(string-join &#39;(&quot;one&quot; &quot;two&quot; &quot;three&quot; &quot;four&quot;) &quot;;&quot;)
 &quot;one;two;three;four&quot;
 
 
@@ -1903,7 +1917,7 @@ void *memset (void *, int,  size_t);
 
 
 &gt;(string-split &quot; foo bar baz \r\n\t&quot;)
-&apos;(&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;)
+&#39;(&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;)
 
 
 (string-trim str    ;去掉字符串前后的sep
@@ -1955,7 +1969,8 @@ void *memset (void *, int,  size_t);
 
 
 &gt;(string-suffix? &quot;hello&quot; &quot;lo&quot;)
-#t</code></pre><p>参考： 1.<a href="https://docs.racket-lang.org/reference/strings.html?q=string#%28def._%28%28quote._~23~25kernel%29._string%29%29" target="_blank" rel="noopener">官方文档</a></p>
+#t
+</code></pre><p>参考： 1.<a href="https://docs.racket-lang.org/reference/strings.html?q=string#%28def._%28%28quote._~23~25kernel%29._string%29%29" target="_blank" rel="noopener">官方文档</a></p>
 
           
         
@@ -2136,7 +2151,8 @@ void *memset (void *, int,  size_t);
 3
 
 &gt; ((lambda (x [y 5]) (list y x)) 1 2);参数y有一个默认值5,若没有提供参数，则y输出5
-&apos;(2 1)</code></pre><p><strong>let</strong> location和top-level变量类似，location产生的时候使用一个从未使用过的名称，不能被重新生成和直接访问， 这里top-level变量应该指的是其它语言的全局变量。</p>
+&#39;(2 1)
+</code></pre><p><strong>let</strong> location和top-level变量类似，location产生的时候使用一个从未使用过的名称，不能被重新生成和直接访问， 这里top-level变量应该指的是其它语言的全局变量。</p>
 <pre><code>(let ([id val-expr] ...) body ...+)
 (let proc-id ([id init-expr] ...) body ...+)
 
@@ -2156,7 +2172,7 @@ void *memset (void *, int,  size_t);
 &gt;(let* ([x 1]
        [y (+ x 1)])
    (list y x))
-&apos;(2 1)
+&#39;(2 1)
 如果此处将let*改为let,则会报错(x未定义,因为x为绑定到var-exprS中)
 
 
@@ -2171,11 +2187,12 @@ idS马上被初始化，绑定到val-exprS和bodyS命名空间中。
 
 &gt; (let-values ([(x y) (quotient/remainder 10 3)])
     (list y x))
-&apos;(1 3)
+&#39;(1 3)
 (let*-values ([(id ...) val-expr] ...) body ...+);和let-values相似，但会把location绑定到val-exprS中。
 
-(letrec-values ([(id ...) val-expr] ...) body ...+);和letrec相似，对id赋值的方式不一样</code></pre><hr>
-<p>参考： 1.<a href="https://docs.racket-lang.org/reference/lambda.html#%28form._%28%28lib._racket%2Fprivate%2Fbase..rkt%29._lambda%29%29" " target="_blank" rel="noopener">官方文档lambda</a> 2.<a href="https://docs.racket-lang.org/reference/let.html#%28form._%28%28lib._racket%2Fprivate%2Fletstx-scheme..rkt%29._let%29%29" target="_blank" rel="noopener">官方文档let</a></p>
+(letrec-values ([(id ...) val-expr] ...) body ...+);和letrec相似，对id赋值的方式不一样
+</code></pre><hr>
+<p>参考： 1.<a href="https://docs.racket-lang.org/reference/lambda.html#%28form._%28%28lib._racket%2Fprivate%2Fbase..rkt%29._lambda%29%29&quot;" target="_blank" rel="noopener">官方文档lambda</a> 2.<a href="https://docs.racket-lang.org/reference/let.html#%28form._%28%28lib._racket%2Fprivate%2Fletstx-scheme..rkt%29._let%29%29" target="_blank" rel="noopener">官方文档let</a></p>
 
           
         
@@ -2353,9 +2370,9 @@ idS马上被初始化，绑定到val-exprS和bodyS命名空间中。
 
 &gt; (define p2 (struct-copy posn p1 [x 3]));拷贝posn p1 将p1.x修改为3,并将这个变量赋值给p2
 &gt; (list (posn-x p2) (posn-y p2));p2.x=3
-&apos;(3 2)
+&#39;(3 2)
 &gt; (list (posn-x p1) (posn-x p2));而p1.x=1,使用struct-copy并不会改变p1.x的值
-&apos;(1 3)
+&#39;(1 3)
 
 
 
@@ -2390,7 +2407,8 @@ int z;
 cannot reference an identifier before its definition
 可以这样访问
 &gt; (posn-x p)
-1</code></pre><p>透明结构体，会显示成员变量的值，结构体默认是不透明的</p>
+1
+</code></pre><p>透明结构体，会显示成员变量的值，结构体默认是不透明的</p>
 <pre><code>&gt; (struct posn (x y)
 #:transparent)
 &gt; (posn 1 2)
@@ -2403,7 +2421,8 @@ cannot reference an identifier before its definition
 #t
 &gt; (struct op (x y))
 &gt; (equal? (op 1 2) (op 1 2));要比较不透明结构体，可通过#:methods,gen:equal+hash实现三种方法
-#f</code></pre><p>未完</p>
+#f
+</code></pre><p>未完</p>
 <hr>
 <p>参考： 1.<a href="https://docs.racket-lang.org/guide/define-struct.html#%28part._.Simple_.Structure_.Types__struct%29" target="_blank" rel="noopener">官方文档</a></p>
 
@@ -2584,44 +2603,55 @@ cannot reference an identifier before its definition
 &gt; 1+2i
 1+2i
 &gt; 3.14
-3.14</code></pre><p>1.2 Booleans,#t表示真，#f表示假 1.3 Byte,值在0-255的整数</p>
+3.14
+</code></pre><p>1.2 Booleans,#t表示真，#f表示假 1.3 Byte,值在0-255的整数</p>
 <pre><code>&gt;(byte? 0)
 #t
 &gt; (byte? 256)
-#f</code></pre><p>1.4 Characters,单个字符</p>
+#f
+</code></pre><p>1.4 Characters,单个字符</p>
 <pre><code>&gt; (integer-&gt;char 65)
 #\A
 &gt; (display #\A)
-A</code></pre><p>1.5 Strings,用双引号包围</p>
+A
+</code></pre><p>1.5 Strings,用双引号包围</p>
 <pre><code>&gt; &quot;Hello,World&quot;
-&quot;Hello,World&quot;</code></pre><p>1.6 Symbols 就原子值，打印的时候以’开始</p>
-<pre><code>&gt; &apos;a
-&apos;a
-&gt; (symbol? &apos;a)
-#t</code></pre><p>1.7 Keyword,和symbol类似，但打印的时候以#:开始</p>
+&quot;Hello,World&quot;
+</code></pre><p>1.6 Symbols 就原子值，打印的时候以’开始</p>
+<pre><code>&gt; &#39;a
+&#39;a
+&gt; (symbol? &#39;a)
+#t
+</code></pre><p>1.7 Keyword,和symbol类似，但打印的时候以#:开始</p>
 <pre><code>&gt; (string-&gt;keyword &quot;apple&quot;)
-&apos;#:apple</code></pre><p>1.8 Pairs,可以连接两个任意值，cons函数用来构造Pairs</p>
+&#39;#:apple
+</code></pre><p>1.8 Pairs,可以连接两个任意值，cons函数用来构造Pairs</p>
 <pre><code>&gt; (pair? (cons 1 2))
-#t</code></pre><p>1.9 Lists 列表</p>
+#t
+</code></pre><p>1.9 Lists 列表</p>
 <pre><code>&gt; (list 1 2 3)
-&apos;(1 2 3)</code></pre><p>2.0 Vector,是固定长度可以存放任意值的列表，支持常量 时间获取元素和更新元素</p>
+&#39;(1 2 3)
+</code></pre><p>2.0 Vector,是固定长度可以存放任意值的列表，支持常量 时间获取元素和更新元素</p>
 <pre><code>&gt; (vector-ref #(name (that tune)) 1)
-&apos;(that tune)</code></pre><p>2.1 Hash Tables,字典</p>
+&#39;(that tune)
+</code></pre><p>2.1 Hash Tables,字典</p>
 <pre><code>&gt;(define ht (make-hash))
 
-&gt;(hash-set! ht &quot;apple&quot; &apos;(red round))
+&gt;(hash-set! ht &quot;apple&quot; &#39;(red round))
 
 &gt;(hash-ref ht &quot;apple&quot;)
 
-&apos;(red round)</code></pre><p>2.2 Boxes,是一个只有一个元素的vertor,打印以#&amp;开始</p>
+&#39;(red round)
+</code></pre><p>2.2 Boxes,是一个只有一个元素的vertor,打印以#&amp;开始</p>
 <pre><code>&gt; (define b (box &quot;apple&quot;))
 &gt; b
-&apos;#&amp;&quot;apple&quot;
+&#39;#&amp;&quot;apple&quot;
 &gt; (unbox b)
 &quot;apple&quot;
-&gt; (set-box! b &apos;(banana boat))
+&gt; (set-box! b &#39;(banana boat))
 &gt; b
-&apos;#&amp;(banana boat)</code></pre>
+&#39;#&amp;(banana boat)
+</code></pre>
           
         
       

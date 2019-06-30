@@ -477,9 +477,9 @@
       
         
           
-            <p>对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&lt;&lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]<br>也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。</p>
+            <p>对于一个位表示为[ [latex]x<em>{w-1},x</em>{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&lt;&lt; k会生成一个值，其位表示为[ [latex]x<em>{w-k-1},x</em>{w-k-2},…,x_1,x_0,0,…,0[/latex] ]<br>也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。</p>
 <hr>
-<p>逻辑右移与算术右移<br>逻辑右移在左端补k个0，得到的结果是[ [latex]0,…,0,x_{w-1},x_{w-2},…,x_k[/latex] ]<br>算术右移是在左端补k个最高有效位的值，得到的结果是[ [latex]x_{w-1},…,x_{w-1},x_{w-1},x_{w-2}…,x_k[/latex] ]</p>
+<p>逻辑右移与算术右移<br>逻辑右移在左端补k个0，得到的结果是[ [latex]0,…,0,x<em>{w-1},x</em>{w-2},…,x<em>k[/latex] ]<br>算术右移是在左端补k个最高有效位的值，得到的结果是[ [latex]x</em>{w-1},…,x<em>{w-1},x</em>{w-1},x_{w-2}…,x_k[/latex] ]</p>
 <hr>
 <p>操作</p>
 <p>值1</p>
@@ -698,7 +698,7 @@ typedef struct {
     /* Vector of pointers to list elements.  list[0] is ob_item[0], etc. */
     PyObject **ob_item;
 
-    /* ob_item contains space for &apos;allocated&apos; elements.  The number
+    /* ob_item contains space for &#39;allocated&#39; elements.  The number
      * currently in use is ob_size.
      * Invariants:
      *     0 &lt;= ob_size &lt;= allocated
@@ -726,7 +726,7 @@ typedef struct {
 typedef struct {
     PyObject_HEAD
     PyObject *func_code;  /* A code object */
-    PyObject *func_globals; /* A dictionary (other mappings won&apos;t do) */
+    PyObject *func_globals; /* A dictionary (other mappings won&#39;t do) */
     PyObject *func_defaults;  /* NULL or a tuple */
     PyObject *func_closure; /* NULL or a tuple of cell objects */
     PyObject *func_doc;   /* The __doc__ attribute, can be anything */
@@ -771,7 +771,7 @@ typedef struct {
     PyObject *f_name;
     PyObject *f_mode;
     int (*f_close)(FILE *);
-    int f_softspace;            /* Flag used by &apos;print&apos; command */
+    int f_softspace;            /* Flag used by &#39;print&#39; command */
     int f_binary;               /* Flag which indicates whether the file is
                                open in binary (1) or text (0) mode */
     char* f_buf;                /* Allocated readahead buffer */
@@ -823,10 +823,10 @@ typedef struct _frame {
 
     /* If an exception is raised in this frame, the next three are used to
      * record the exception info (if any) originally in the thread state.  See
-     * comments before set_exc_info() -- it&apos;s not obvious.
+     * comments before set_exc_info() -- it&#39;s not obvious.
      * Invariant:  if _type is NULL, then so are _value and _traceback.
      * Desired invariant:  all three are NULL, or all three are non-NULL.  That
-     * one isn&apos;t currently true, but &quot;should be&quot;.
+     * one isn&#39;t currently true, but &quot;should be&quot;.
      */
     PyObject *f_exc_type, *f_exc_value, *f_exc_traceback;
 
@@ -889,14 +889,14 @@ struct _dictobject {
     Py_ssize_t ma_fill;  /* # Active + # Dummy */
     Py_ssize_t ma_used;  /* # Active */
 
-    /* The table contains ma_mask + 1 slots, and that&apos;s a power of 2.
+    /* The table contains ma_mask + 1 slots, and that&#39;s a power of 2.
      * We store the mask instead of the size because the mask is more
      * frequently needed.
      */
     Py_ssize_t ma_mask;
 
     /* ma_table points to ma_smalltable for small tables, else to
-     * additional malloc&apos;ed memory.  ma_table is never NULL!  This rule
+     * additional malloc&#39;ed memory.  ma_table is never NULL!  This rule
      * saves repeated runtime null-tests in the workhorse getitem and
      * setitem calls.
      */
@@ -912,7 +912,7 @@ struct _dictobject {
 typedef struct {
     PyObject_HEAD
     PyMethodDef *m_ml; /* Description of the C function to call */
-    PyObject    *m_self; /* Passed as &apos;self&apos; arg to the C func, can be NULL */
+    PyObject    *m_self; /* Passed as &#39;self&#39; arg to the C func, can be NULL */
     PyObject    *m_module; /* The __module__ attribute, can be anything */
 } PyCFunctionObject;
 
@@ -931,7 +931,7 @@ typedef struct {
     PyObject *co_varnames;  /* tuple of strings (local variable names) */
     PyObject *co_freevars;  /* tuple of strings (free variable names) */
     PyObject *co_cellvars;      /* tuple of strings (cell variable names) */
-    /* The rest doesn&apos;t count for hash/cmp */
+    /* The rest doesn&#39;t count for hash/cmp */
     PyObject *co_filename;  /* string (where it was loaded from) */
     PyObject *co_name;    /* string (name, for reference) */
     int co_firstlineno;   /* first source line number */
@@ -1047,14 +1047,15 @@ typedef struct _typeobject {
    so that ob_digit[0] ... ob_digit[abs(ob_size)-1] are actually available.
 
    CAUTION:  Generic code manipulating subtypes of PyVarObject has to
-   aware that longs abuse  ob_size&apos;s sign bit.
+   aware that longs abuse  ob_size&#39;s sign bit.
 */
 
 struct _longobject {
   PyObject_VAR_HEAD
   digit ob_digit[1];
 };
-typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */</code></pre>
+typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
+</code></pre>
           
         
       
@@ -1238,7 +1239,8 @@ typedef struct _object {
 typedef struct _object {
     Py_ssize_t ob_refcnt;
     struct _typeobject *ob_type;
-} PyObject;</code></pre><hr>
+} PyObject;
+</code></pre><hr>
 <pre><code>#include &lt;stdio.h&gt;
 
 #define T int b;int c;
@@ -1253,7 +1255,8 @@ int main(int argc, char *argv[]){
 }
 输出：
 1
-2</code></pre><hr>
+2
+</code></pre><hr>
 
           
         
@@ -1431,7 +1434,8 @@ In [4]: sys.getsizeof(1)                       In [4]: sys.getsizeof(1)
 Out[4]: 28                                     Out[4]: 24
 
 In [6]: sys.getsizeof(0)                       In [6]: sys.getsizeof(0)
-Out[6]: 24                                     Out[6]: 24</code></pre><p>在python2 int对象为24个字节,</p>
+Out[6]: 24                                     Out[6]: 24
+</code></pre><p>在python2 int对象为24个字节,</p>
 <pre><code>#define PyObject_HEAD                   \
     Py_ssize_t ob_refcnt;               \
     struct _typeobject *ob_type;
@@ -1439,15 +1443,18 @@ Out[6]: 24                                     Out[6]: 24</code></pre><p>在pyth
 typedef struct {
     PyObject_HEAD
     long ob_ival;
-} PyIntObject;</code></pre><hr>
+} PyIntObject;
+</code></pre><hr>
 <p>python3中已不区分int,long对象，而是将python2中的long对象改名为int对象</p>
 <pre><code>typedef unsigned short digit;
 struct _longobject {
     PyObject_VAR_HEAD
     digit ob_digit[1];
-};</code></pre><p>python3中sys.getsizeof(0) == 24</p>
-<pre><code>/*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
-ob_digit[1],所以大小为24Bytes.*/</code></pre><hr>
+};
+</code></pre><p>python3中sys.getsizeof(0) == 24</p>
+<pre><code> /*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
+ ob_digit[1],所以大小为24Bytes.*/
+</code></pre><hr>
 <p>参考：python源码</p>
 
           
@@ -1648,38 +1655,45 @@ struct dirent {
      unsigned short d_reclen;    /* length of this record */
      unsigned char  d_type;      /* type of file; not supported by all filesystem types */
      char           d_name[256]; /* filename */
-};</code></pre><hr>
+};
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man2/read.2.html" target="_blank" rel="noopener">read</a> <a href="http://man7.org/linux/man-pages/man2/write.2.html" target="_blank" rel="noopener">write</a></p>
 <pre><code>#include &lt;unistd.h&gt;
 /*从文件描述符fd中读取count字节到buf中*/
 ssize_t read(int fd, void *buf, size_t count);
-ssize_t write(int fd, const void *buf, size_t count);</code></pre><hr>
+ssize_t write(int fd, const void *buf, size_t count);
+</code></pre><hr>
 <pre><code>#include &lt;sys/types.h&gt;
 #include &lt;unistd.h&gt;
 
 /*返回进程ID*/
 pid_t getpid(void);
 /*返回进程的父亲进程ID*/
-pid_t getppid(void);</code></pre><hr>
+pid_t getppid(void);
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man2/fork.2.html" target="_blank" rel="noopener">fork</a> <a href="http://man7.org/linux/man-pages/man3/execlp.3.html" target="_blank" rel="noopener">execlp</a></p>
 <pre><code>#include &lt;sys/types.h&gt;
 #include &lt;unistd.h&gt;
 
-pid_t fork(void);</code></pre><hr>
+pid_t fork(void);
+</code></pre><hr>
 <pre><code>#include &lt;string.h&gt;
 /*返回指向错误信息字符串的指针*/
 char *strerror(int errnum);
 
 #include &lt;stdio.h&gt;
 /*根据errno的值返回错误信息*/
-void perror(const char *msg);</code></pre><hr>
+void perror(const char *msg);
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man3/getuid.3p.html" target="_blank" rel="noopener">getuid</a> <a href="http://man7.org/linux/man-pages/man3/getgid.3p.html" target="_blank" rel="noopener">getgid</a></p>
 <pre><code>#include &lt;unistd.h&gt;
 uid_t getuid(void);
-gid_t getgid(void);</code></pre><hr>
+gid_t getgid(void);
+</code></pre><hr>
 <p><a href="http://man7.org/linux/man-pages/man3/waitpid.3p.html" target="_blank" rel="noopener">waitpid</a></p>
 <pre><code>#include &lt;sys/wait.h&gt;
-pid_t waitpid(pid_t pid, int *stat_loc, int options);</code></pre>
+pid_t waitpid(pid_t pid, int *stat_loc, int options);
+</code></pre>
           
         
       
@@ -1850,11 +1864,12 @@ pid_t waitpid(pid_t pid, int *stat_loc, int options);</code></pre>
         
           
             <p>1.unix架构</p>
-<h6 id="狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。"><a href="#狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。" class="headerlink" title="狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。"></a>狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。</h6><h6 id="广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"><a href="#广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。" class="headerlink" title="广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"></a>广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。</h6><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ%E5%9B%BE%E7%89%8720171127185444.png" alt="image"></p>
+<h6 id="狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。"><a href="#狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。" class="headerlink" title="狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。"></a>狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。</h6><h6 id="广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"><a href="#广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。" class="headerlink" title="广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"></a>广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。</h6><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png" alt="image"></p>
 <hr>
 <p>2.用户登录</p>
 <h6 id="当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。"><a href="#当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。" class="headerlink" title="当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。"></a>当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,<a href="http://hysyeah.top/2017/11/13/etcshadow%E5%8F%8A%E7%9B%B8%E5%85%B3c%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener">/etc/shadow介绍</a>。</h6><pre><code># /etc/passwd
-hys:x:1000:1000:hys,,,:/home/hys:/bin/zsh</code></pre><p>用户名</p>
+hys:x:1000:1000:hys,,,:/home/hys:/bin/zsh
+</code></pre><p>用户名</p>
 <p>加密后密码</p>
 <p>用户ID</p>
 <p>组ID</p>
@@ -1869,7 +1884,8 @@ hys:x:1000:1000:hys,,,:/home/hys:/bin/zsh</code></pre><p>用户名</p>
 <p>/home/hys/</p>
 <p>/bin/zsh</p>
 <pre><code># 打印出系统中的所有用户
-cat /etc/passwd | awk -F : &apos;{print $1}&apos;</code></pre><hr>
+cat /etc/passwd | awk -F : &#39;{print $1}&#39;
+</code></pre><hr>
 <p>3.以’/‘开头的路径叫<strong>绝对路径</strong>，反之都是<strong>相对路径</strong>。</p>
 <hr>
 <p>4.输入，输出</p>
@@ -1879,7 +1895,8 @@ cat /etc/passwd | awk -F : &apos;{print $1}&apos;</code></pre><hr>
 <hr>
 <p>6.用户标识</p>
 <h6 id="User-ID非负数，系统用于标识用户"><a href="#User-ID非负数，系统用于标识用户" class="headerlink" title="User ID非负数，系统用于标识用户"></a>User ID非负数，系统用于标识用户</h6><h6 id="Group-ID，组ID，用于用户分组"><a href="#Group-ID，组ID，用于用户分组" class="headerlink" title="Group ID，组ID，用于用户分组"></a>Group ID，组ID，用于用户分组</h6><pre><code># /etc/group
-adm:x:4:syslog,hys</code></pre><p>组名</p>
+adm:x:4:syslog,hys
+</code></pre><p>组名</p>
 <p>口令</p>
 <p>组ID</p>
 <p>所属组用户(用,隔开)</p>
@@ -2102,7 +2119,8 @@ int main(int argc, char* argv[]){
 output:
 1
 2
-3</code></pre><hr>
+3
+</code></pre><hr>
 <pre><code>/*返回迭代器对象*/
 PyObject* PyObject_GetIter(PyObject *o)
 
@@ -2110,7 +2128,8 @@ PyObject* PyObject_GetIter(PyObject *o)
 PyObject* PyIter_Next(PyObject *o)
 
 /*将python对象转换为c long*/
-long PyLong_AsLong(PyObject *pylong)</code></pre>
+long PyLong_AsLong(PyObject *pylong)
+</code></pre>
           
         
       
@@ -2324,7 +2343,8 @@ PyObject* PyList_GetItem(PyObject *list, Py_ssize_t index)
 long PyLong_AsLong(PyObject *obj)
 
 /*释放资源*/
-void Py_Finalize()</code></pre><hr>
+void Py_Finalize()
+</code></pre><hr>
 <pre><code>/*编译运行,ubuntu 16.04,gcc5.4.0,python3.5*/
 /*-L 指定库的路径，-l 指定需连接的库名
 如果文件为libpython3.5.so,刚库名为python3.5*/
@@ -2332,7 +2352,8 @@ gcc hello.c -L/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu -lpython3.5
 out:
 1
 2
-3</code></pre><hr>
+3
+</code></pre><hr>
 <p>若/usr/include/python3.5m下无Python.h文件，请参考<a href="http://hysyeah.top/2017/11/30/ubuntu%E6%9C%AA%E5%8F%91%E7%8E%B0python-h%E6%96%87%E4%BB%B6/" target="_blank" rel="noopener">Python.h</a></p>
 <hr>
 <p>参考： 1.<a href="https://docs.python.org/3/c-api/" target="_blank" rel="noopener">官方文档</a></p>
@@ -2506,7 +2527,8 @@ out:
       
         
           
-            <h5 id="usr-include-python3-5m下没有Python-h头文件"><a href="#usr-include-python3-5m下没有Python-h头文件" class="headerlink" title="/usr/include/python3.5m下没有Python.h头文件"></a>/usr/include/python3.5m下没有Python.h头文件</h5><pre><code>sudo apt-get install python3-dev</code></pre>
+            <h5 id="usr-include-python3-5m下没有Python-h头文件"><a href="#usr-include-python3-5m下没有Python-h头文件" class="headerlink" title="/usr/include/python3.5m下没有Python.h头文件"></a>/usr/include/python3.5m下没有Python.h头文件</h5><pre><code>sudo apt-get install python3-dev
+</code></pre>
           
         
       
@@ -2696,7 +2718,7 @@ plt.autoscale() #自动适应
 plt.xlim(0, 100) #设置x轴坐标 范围
 
 plt.legend() #左上角或右上角上的说明
-plt.grid(True,linestyle=&apos;-&apos;, color=&apos;0.75&apos;) #网格
+plt.grid(True,linestyle=&#39;-&#39;, color=&#39;0.75&#39;) #网格
 plt.xticks(locs, [label]) #Set locations and labels
 plt.axis([xmin, xmax, ymin, ymax]) #设置x,y轴的最小最大坐标值
 
@@ -2712,8 +2734,9 @@ fig
 ax:坐标对象
 
 
-plt.imshow(X, cmap=&apos;Greys&apos;) #展示关于X的图像，X可以是矩阵或PIL Image
-plt.matshow()               #将矩阵以图像的形式展示出来</code></pre>
+plt.imshow(X, cmap=&#39;Greys&#39;) #展示关于X的图像，X可以是矩阵或PIL Image
+plt.matshow()               #将矩阵以图像的形式展示出来
+</code></pre>
           
         
       

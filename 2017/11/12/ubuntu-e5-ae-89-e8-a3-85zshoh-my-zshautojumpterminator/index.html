@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="1.安装zsh,oh-my-zsh sudo apt-get install zsh git wget wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh chsh -s /bin/zsh注销重新进入后生效 2.安装autojump g">
+  <meta name="description" content="1.安装zsh,oh-my-zsh sudo apt-get install zsh git wget wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh chsh -s /bin/zsh 注销重新进入后生效 2.安装autojump">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ubuntu安装zsh,oh-my-zsh,autojump,terminator">
 <meta property="og:url" content="https://hysyeah.github.io/2017/11/12/ubuntu-e5-ae-89-e8-a3-85zshoh-my-zshautojumpterminator/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.安装zsh,oh-my-zsh sudo apt-get install zsh git wget wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh chsh -s /bin/zsh注销重新进入后生效 2.安装autojump g">
+<meta property="og:description" content="1.安装zsh,oh-my-zsh sudo apt-get install zsh git wget wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh chsh -s /bin/zsh 注销重新进入后生效 2.安装autojump">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu安装zsh,oh-my-zsh,autojump,terminator">
-<meta name="twitter:description" content="1.安装zsh,oh-my-zsh sudo apt-get install zsh git wget wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh chsh -s /bin/zsh注销重新进入后生效 2.安装autojump g">
+<meta name="twitter:description" content="1.安装zsh,oh-my-zsh sudo apt-get install zsh git wget wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh chsh -s /bin/zsh 注销重新进入后生效 2.安装autojump">
 
 
 
@@ -479,23 +479,28 @@
         <p>1.安装zsh,oh-my-zsh</p>
 <pre><code>sudo apt-get install zsh git wget
 wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-chsh -s /bin/zsh</code></pre><p>注销重新进入后生效 2.安装autojump</p>
+chsh -s /bin/zsh
+</code></pre><p>注销重新进入后生效 2.安装autojump</p>
 <pre><code>git clone git://github.com/joelthelion/autojump.git
 cd autojump
 sudo ./install.py
 . /home/hys/.autojump/etc/profile.d/autojump.sh #在~/.zshrc文件最后添加
 source ~/.zshrc
 
-重启终端后生效</code></pre><p>或者直接通过软件仓库安装</p>
+重启终端后生效
+</code></pre><p>或者直接通过软件仓库安装</p>
 <pre><code>sudo apt-get install autojump
 
 . /usr/share/autojump/autojump.sh #在~/.zshrc文件最后添加
 
 source ~/.zshrc
 
-重启终端后生效</code></pre><p>3.安装terminator</p>
-<pre><code>sudo apt-get install terminator</code></pre><p>安装oh-my-zsh可能会出现这样的错误 1.you may not change the shell for ‘username’</p>
-<pre><code>sudo usermod -s /bin/zsh username</code></pre>
+重启终端后生效
+</code></pre><p>3.安装terminator</p>
+<pre><code>sudo apt-get install terminator
+</code></pre><p>安装oh-my-zsh可能会出现这样的错误 1.you may not change the shell for ‘username’</p>
+<pre><code>sudo usermod -s /bin/zsh username
+</code></pre>
       
     </div>
 

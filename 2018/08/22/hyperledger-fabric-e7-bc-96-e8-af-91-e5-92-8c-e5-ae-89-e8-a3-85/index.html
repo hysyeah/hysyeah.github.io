@@ -485,20 +485,25 @@
 cd $GOPATH/src/github.com/hyperledger
 git clone http://gerrit.hyperledger.org/r/fabric
 cd fabric
-git checkout release-1.0  # release-1.0才支持go 1.9.x</code></pre><p>3.安装依赖软件</p>
+git checkout release-1.0  # release-1.0才支持go 1.9.x
+</code></pre><p>3.安装依赖软件</p>
 <pre><code>go get github.com/golang/protobuf/protoc-gen-go
 mkdir -p $GOPATH/src/github.com/hyperledger/fabric/build/docker/gotools/bin
 # go get之后编译好的文件会放到$GOBIN对应的目录中，如果没有设置$GOBIN的值，生成的文件将默认存放到$GOPATH/bin下面
-cp protoc-gen-go $GOPATH/src/github.com/hyperledger/fabric/build/docker/gotools/bin</code></pre><p>4.编译</p>
+cp protoc-gen-go $GOPATH/src/github.com/hyperledger/fabric/build/docker/gotools/bin
+</code></pre><p>4.编译</p>
 <pre><code>cd $GOPATH/src/github.com/hyperledger/fabric
 make release
 
-make docker //生成docker镜像文件</code></pre><p>5.编译成功后会在<code>$GOPATH/src/github.com/hyperledger/fabric/release/linux-amd64/bin</code>生成如下可执行文件。 <img src="http://hysyeah.top/wp-content/uploads/2018/08/fabric-exe.png" alt> 6.make docker 经过漫长的等待后 <img src="http://hysyeah.top/wp-content/uploads/2018/08/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180823091621.png" alt> mysql镜像除外</p>
+make docker //生成docker镜像文件
+</code></pre><p>5.编译成功后会在<code>$GOPATH/src/github.com/hyperledger/fabric/release/linux-amd64/bin</code>生成如下可执行文件。 <img src="http://hysyeah.top/wp-content/uploads/2018/08/fabric-exe.png" alt> 6.make docker 经过漫长的等待后 <img src="http://hysyeah.top/wp-content/uploads/2018/08/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180823091621.png" alt> mysql镜像除外</p>
 <hr>
 <p>遇到的问题： 1.执行make release时报如下错误</p>
-<pre><code>gotools.mk:22: *** target pattern contains no &apos;%&apos;.  Stop</code></pre><p>原因是我的$GOPATH设置了多个路径，改成一个路径之后错误消失。</p>
+<pre><code>gotools.mk:22: *** target pattern contains no &#39;%&#39;.  Stop
+</code></pre><p>原因是我的$GOPATH设置了多个路径，改成一个路径之后错误消失。</p>
 <pre><code>export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl:/home/hys/mycode/go/block&quot;
-==&gt; export GOPATH=&quot;/home/hys/mycode/go/block&quot;</code></pre><p>2.<code>golang.org/x</code>不能访问的问题 <a href="http://hysyeah.top/2018/08/22/go-get-golang-orgx-%E5%8C%85%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">解决方法</a></p>
+==&gt; export GOPATH=&quot;/home/hys/mycode/go/block&quot;
+</code></pre><p>2.<code>golang.org/x</code>不能访问的问题 <a href="http://hysyeah.top/2018/08/22/go-get-golang-orgx-%E5%8C%85%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">解决方法</a></p>
 
       
     </div>

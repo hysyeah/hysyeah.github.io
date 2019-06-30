@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="SELECT ... UNION [ALL | DISTINCT] SELECT ... [UNION [ALL | DISTINCT] SELECT ...]UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行 mysql&amp;gt;&amp;gt; select 1 union select 2 union select 2; +---+ |">
+  <meta name="description" content="SELECT ... UNION [ALL | DISTINCT] SELECT ... [UNION [ALL | DISTINCT] SELECT ...] UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行 mysql&amp;gt;&amp;gt; select 1 union select 2 union select 2; +---+ |">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql-UNION与UNION ALL">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/19/mysql-union-e4-b8-8eunion-all/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="SELECT ... UNION [ALL | DISTINCT] SELECT ... [UNION [ALL | DISTINCT] SELECT ...]UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行 mysql&amp;gt;&amp;gt; select 1 union select 2 union select 2; +---+ |">
+<meta property="og:description" content="SELECT ... UNION [ALL | DISTINCT] SELECT ... [UNION [ALL | DISTINCT] SELECT ...] UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行 mysql&amp;gt;&amp;gt; select 1 union select 2 union select 2; +---+ |">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql-UNION与UNION ALL">
-<meta name="twitter:description" content="SELECT ... UNION [ALL | DISTINCT] SELECT ... [UNION [ALL | DISTINCT] SELECT ...]UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行 mysql&amp;gt;&amp;gt; select 1 union select 2 union select 2; +---+ |">
+<meta name="twitter:description" content="SELECT ... UNION [ALL | DISTINCT] SELECT ... [UNION [ALL | DISTINCT] SELECT ...] UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行 mysql&amp;gt;&amp;gt; select 1 union select 2 union select 2; +---+ |">
 
 
 
@@ -478,7 +478,8 @@
       
         <pre><code>SELECT ...
 UNION [ALL | DISTINCT] SELECT ...
-[UNION [ALL | DISTINCT] SELECT ...]</code></pre><p>UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行</p>
+[UNION [ALL | DISTINCT] SELECT ...]
+</code></pre><p>UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行</p>
 <pre><code>mysql&gt;&gt; select 1 union select 2 union select 2;
 +---+
 | 1 |
@@ -496,7 +497,8 @@ mysql&gt;&gt; select 1 union select 2 union all select 2;
 | 2 |
 | 2 |
 +---+
-3 rows in set (0.00 sec)</code></pre><p>第一个SELECT语句中的列名将会作为整个结果集的列名。SELECT中对应的列应具有相同的数据类型。 在UNION中使用SELECT有以下的限制 - 只有最后一个SELECT语句才可以使用INTO OUTFILE - 不能使用HIGH_PRIORITY 除非确定需要服务器消除重复的行，否则就一定要使用UNION ALL，如果没有ALL关键字，MYSQL会给临时表加上 DISTINCT选项，这会导致对整个临时表的数据做唯一性检查。即使有ALL关键字，MYSQL仍然会使用临时表存储 结果。MYSQL总是将结果入入临时表，然后再读出，再返回客户端。</p>
+3 rows in set (0.00 sec)
+</code></pre><p>第一个SELECT语句中的列名将会作为整个结果集的列名。SELECT中对应的列应具有相同的数据类型。 在UNION中使用SELECT有以下的限制 - 只有最后一个SELECT语句才可以使用INTO OUTFILE - 不能使用HIGH_PRIORITY 除非确定需要服务器消除重复的行，否则就一定要使用UNION ALL，如果没有ALL关键字，MYSQL会给临时表加上 DISTINCT选项，这会导致对整个临时表的数据做唯一性检查。即使有ALL关键字，MYSQL仍然会使用临时表存储 结果。MYSQL总是将结果入入临时表，然后再读出，再返回客户端。</p>
 
       
     </div>

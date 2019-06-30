@@ -94,19 +94,19 @@
 
 
 
-  <meta name="description" content="在使用shell脚本创建目录的过程中发现一个现象 当解释器为#!/bin/sh时，结果如下  当解释器为!/bin/bash时，结果如下  原因可能是sh解释器不支持{}语法。 #!/bin/bash  mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target  echo &amp;apos;name := &amp;quot">
+  <meta name="description" content="在使用shell脚本创建目录的过程中发现一个现象 当解释器为#!/bin/sh时，结果如下  当解释器为!/bin/bash时，结果如下  原因可能是sh解释器不支持{}语法。 #!/bin/bash  mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target  echo &amp;#39;name := &amp;quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shell创建目录">
 <meta property="og:url" content="https://hysyeah.github.io/2019/04/09/shell-e5-88-9b-e5-bb-ba-e7-9b-ae-e5-bd-95/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="在使用shell脚本创建目录的过程中发现一个现象 当解释器为#!/bin/sh时，结果如下  当解释器为!/bin/bash时，结果如下  原因可能是sh解释器不支持{}语法。 #!/bin/bash  mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target  echo &amp;apos;name := &amp;quot">
+<meta property="og:description" content="在使用shell脚本创建目录的过程中发现一个现象 当解释器为#!/bin/sh时，结果如下  当解释器为!/bin/bash时，结果如下  原因可能是sh解释器不支持{}语法。 #!/bin/bash  mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target  echo &amp;#39;name := &amp;quot;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/Screenshot-from-2019-04-09-07-05-42.png">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/tree_right.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell创建目录">
-<meta name="twitter:description" content="在使用shell脚本创建目录的过程中发现一个现象 当解释器为#!/bin/sh时，结果如下  当解释器为!/bin/bash时，结果如下  原因可能是sh解释器不支持{}语法。 #!/bin/bash  mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target  echo &amp;apos;name := &amp;quot">
+<meta name="twitter:description" content="在使用shell脚本创建目录的过程中发现一个现象 当解释器为#!/bin/sh时，结果如下  当解释器为!/bin/bash时，结果如下  原因可能是sh解释器不支持{}语法。 #!/bin/bash  mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target  echo &amp;#39;name := &amp;quot;">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2019/04/Screenshot-from-2019-04-09-07-05-42.png">
 
 
@@ -485,9 +485,10 @@
 mkdir -p src/{main,test}/{java,resources,scala}
 mkdir lib project target
 
-echo &apos;name := &quot;myproject&quot;
+echo &#39;name := &quot;myproject&quot;
 version := &quot;1.0&quot;
-scalaVersion := &quot;2.12.0&quot;&apos; &gt; build.sbt</code></pre>
+scalaVersion := &quot;2.12.0&quot;&#39; &gt; build.sbt
+</code></pre>
       
     </div>
 

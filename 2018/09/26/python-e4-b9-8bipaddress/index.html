@@ -479,10 +479,10 @@
         <p>ip地址一共32位阿,20的掩码表示使用20位作为网络地址选项,那么就还剩下12位来做主机地址了。粗略就是2^12个主机ip了。 我们通过ipaddress模块，生成类似于”123.45.67.89/27”这样的CIDR(Classless InterDomain Routing)网络地址可表示的全部IP地址范围。</p>
 <pre><code>In [1]: import ipaddress
 
-In [2]: net = ipaddress.ip_network(&apos;123.45.67.64/27&apos;)
+In [2]: net = ipaddress.ip_network(&#39;123.45.67.64/27&#39;)
 
 In [3]: net
-Out[3]: IPv4Network(&apos;123.45.67.64/27&apos;)
+Out[3]: IPv4Network(&#39;123.45.67.64/27&#39;)
 
 In [4]: for elt in net:
    ...:     print(elt)
@@ -524,12 +524,13 @@ In [5]: net.num_addresses
 Out[5]: 32
 
 In [6]: net[0]
-Out[6]: IPv4Address(&apos;123.45.67.64&apos;)
+Out[6]: IPv4Address(&#39;123.45.67.64&#39;)
 
-In [7]: a = ipaddress.ip_address(&apos;123.45.67.69&apos;)
+In [7]: a = ipaddress.ip_address(&#39;123.45.67.69&#39;)
 
 In [8]: a in net           #判断ip是否在CIDR中
-Out[8]: True</code></pre><p>ipaddress模块同其他网络相关的模块比如socket库之间的交互是有局限性的。通常不能用IPv4Address的实例作为地址字符串的替代。必须显式的通过str()将其转换为字符串。</p>
+Out[8]: True
+</code></pre><p>ipaddress模块同其他网络相关的模块比如socket库之间的交互是有局限性的。通常不能用IPv4Address的实例作为地址字符串的替代。必须显式的通过str()将其转换为字符串。</p>
 
       
     </div>

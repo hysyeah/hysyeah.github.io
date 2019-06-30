@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;q">
+  <meta name="description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain 2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;">
 <meta name="keywords" content="mysql,shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql批量导出恢复指定库中的特定表">
 <meta property="og:url" content="https://hysyeah.github.io/2019/04/11/mysql-e6-89-b9-e9-87-8f-e5-af-bc-e5-87-ba-e6-81-a2-e5-a4-8d-e6-8c-87-e5-ae-9a-e5-ba-93-e4-b8-ad-e7-9a-84-e7-89-b9-e5-ae-9a-e8-a1-a8/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;q">
+<meta property="og:description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain 2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql批量导出恢复指定库中的特定表">
-<meta name="twitter:description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;q">
+<meta name="twitter:description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain 2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;">
 
 
 
@@ -480,19 +480,21 @@
         <p>目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 <code>cat databases.txt</code></p>
 <pre><code># 每行第一个为库名，其余为表名，以英文逗号分隔
 portal,if_zone,uc_order,ecs_instance
-cdn,cdn_domain</code></pre><p>2.编写dump脚本</p>
+cdn,cdn_domain
+</code></pre><p>2.编写dump脚本</p>
 <pre><code>#!/bin/bash
 
 for elt in $(cat databases.txt)
 do
   echo &quot;start dump $(echo $elt|cut -d \, -f 1)&quot;
-  mysqldump -hlocalhost -uroot -pxxxx --databases  $(echo $elt|cut -d \, -f 1) --tables $(echo $elt|cut -d \, -f 2- | sed &apos;s/,/ /g&apos;) &gt; $(echo $elt|cut -d \, -f 1).sql
+  mysqldump -hlocalhost -uroot -pxxxx --databases  $(echo $elt|cut -d \, -f 1) --tables $(echo $elt|cut -d \, -f 2- | sed &#39;s/,/ /g&#39;) &gt; $(echo $elt|cut -d \, -f 1).sql
   echo &quot;done&quot;
 done
 
 # cut -d \, -f 1       对输入字符以逗号进行切割，取第 一个
 # cut -d \, -f 2-      对输入字符以逗号进行切割，取第 二个到最后一个
-# sed &apos;s/,/ /g&apos;        将输入中的全部&apos;,&apos;替换为空格</code></pre><p>3.编写restore脚本</p>
+# sed &#39;s/,/ /g&#39;        将输入中的全部&#39;,&#39;替换为空格
+</code></pre><p>3.编写restore脚本</p>
 <pre><code>#!/bin/sh
 
 for elt in $(ls *.sql)
@@ -501,7 +503,8 @@ do
   mysql -uroot -pxxxx -e &quot;create database if not exists ${elt%%.*}&quot;
   mysql -uroot -pxxxx ${elt%%.*} &lt; $elt
   echo &quot;done&quot;
-done</code></pre><h4 id="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"><a href="#警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。" class="headerlink" title="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"></a>警示：在运行的系统中执行<code>mysqldump</code>命令，需考虑风险，因为<code>mysqldump</code>会有一些锁表的操作，详情详见下面参考中的链接。</h4><hr>
+done
+</code></pre><h4 id="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"><a href="#警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。" class="headerlink" title="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"></a>警示：在运行的系统中执行<code>mysqldump</code>命令，需考虑风险，因为<code>mysqldump</code>会有一些锁表的操作，详情详见下面参考中的链接。</h4><hr>
 <p>参考： 1.<a href="http://hysyeah.top/2019/04/11/linux-sed/" target="_blank" rel="noopener">linux sed</a> 2.<a href="http://hysyeah.top/2019/04/11/linux-cut/" target="_blank" rel="noopener">linux cut</a> 3.<a href="http://hysyeah.top/2019/04/12/mysqldump/" target="_blank" rel="noopener">mysqldump</a></p>
 
       

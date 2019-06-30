@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="# 将字典转换为元素为(key, val)的列表 In [1]: def dict_to_sequnce(d):              if hasattr(d, &amp;apos;items&amp;apos;):                  d = d.items()              return d In [2]: d = {&amp;apos;a&amp;apos;: 1, &amp;apos;b&amp;apos">
+  <meta name="description" content="# 将字典转换为元素为(key, val)的列表 In [1]: def dict_to_sequnce(d):              if hasattr(d, &amp;#39;items&amp;#39;):                  d = d.items()              return d In [2]: d = {&amp;#39;a&amp;#39;: 1, &amp;#39;b&amp;#39;: 2}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="requests中的公共函数utils.py">
 <meta property="og:url" content="https://hysyeah.github.io/2018/07/10/requests-e4-b8-ad-e7-9a-84-e5-85-ac-e5-85-b1-e5-87-bd-e6-95-b0utils-py/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="# 将字典转换为元素为(key, val)的列表 In [1]: def dict_to_sequnce(d):              if hasattr(d, &amp;apos;items&amp;apos;):                  d = d.items()              return d In [2]: d = {&amp;apos;a&amp;apos;: 1, &amp;apos;b&amp;apos">
+<meta property="og:description" content="# 将字典转换为元素为(key, val)的列表 In [1]: def dict_to_sequnce(d):              if hasattr(d, &amp;#39;items&amp;#39;):                  d = d.items()              return d In [2]: d = {&amp;#39;a&amp;#39;: 1, &amp;#39;b&amp;#39;: 2}">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="requests中的公共函数utils.py">
-<meta name="twitter:description" content="# 将字典转换为元素为(key, val)的列表 In [1]: def dict_to_sequnce(d):              if hasattr(d, &amp;apos;items&amp;apos;):                  d = d.items()              return d In [2]: d = {&amp;apos;a&amp;apos;: 1, &amp;apos;b&amp;apos">
+<meta name="twitter:description" content="# 将字典转换为元素为(key, val)的列表 In [1]: def dict_to_sequnce(d):              if hasattr(d, &amp;#39;items&amp;#39;):                  d = d.items()              return d In [2]: d = {&amp;#39;a&amp;#39;: 1, &amp;#39;b&amp;#39;: 2}">
 
 
 
@@ -478,34 +478,34 @@
       
         <pre><code># 将字典转换为元素为(key, val)的列表
 In [1]: def dict_to_sequnce(d):
-             if hasattr(d, &apos;items&apos;):
+             if hasattr(d, &#39;items&#39;):
                  d = d.items()
              return d
-In [2]: d = {&apos;a&apos;: 1, &apos;b&apos;: 2}
+In [2]: d = {&#39;a&#39;: 1, &#39;b&#39;: 2}
 
 In [3]: dict_to_sequnce(d)
-Out[3]: dict_items([(&apos;a&apos;, 1), (&apos;b&apos;, 2)])
+Out[3]: dict_items([(&#39;a&#39;, 1), (&#39;b&#39;, 2)])
 
 
 # 获取各种对象的长度，如str,BytesIO,文件
-# 通过hasattr(o, &apos;getvalue&apos;)判断对象是是否是BytesIO,StringIO
-# 通过hasattr(o, &apos;fileno&apos;)判断是否是文件对象
+# 通过hasattr(o, &#39;getvalue&#39;)判断对象是是否是BytesIO,StringIO
+# 通过hasattr(o, &#39;fileno&#39;)判断是否是文件对象
 # 文件和标准输入都有tell方法，而标准输入调用tell()方法则会产生异常，当遇到类似情况会把对象长度置为0,交给请求来获取它的长度。
 def super_len(o):
     total_length = 0
     current_position = 0
 
-    if hasattr(o, &apos;__len__&apos;):
+    if hasattr(o, &#39;__len__&#39;):
         total_length = len(o)
 
-    elif hasattr(o, &apos;len&apos;):
+    elif hasattr(o, &#39;len&#39;):
         total_length = o.len
 
-    elif hasattr(o, &apos;getvalue&apos;):
+    elif hasattr(o, &#39;getvalue&#39;):
         # e.g. BytesIO, cStringIO.StringIO
         total_length = len(o.getvalue())
 
-    elif hasattr(o, &apos;fileno&apos;):
+    elif hasattr(o, &#39;fileno&#39;):
         try:
             fileno = o.fileno()
         except io.UnsupportedOperation:
@@ -515,24 +515,24 @@ def super_len(o):
 
             # Having used fstat to determine the file length, we need to
             # confirm that this file was opened up in binary mode.
-            if &apos;b&apos; not in o.mode:
+            if &#39;b&#39; not in o.mode:
                 warnings.warn((
                     &quot;Requests has determined the content-length for this &quot;
                     &quot;request using the binary size of the file: however, the &quot;
-                    &quot;file has been opened in text mode (i.e. without the &apos;b&apos; &quot;
+                    &quot;file has been opened in text mode (i.e. without the &#39;b&#39; &quot;
                     &quot;flag in the mode). This may lead to an incorrect &quot;
                     &quot;content-length. In Requests 3.0, support will be removed &quot;
                     &quot;for files in text mode.&quot;),
                     FileModeWarning
                 )
 
-    if hasattr(o, &apos;tell&apos;):
+    if hasattr(o, &#39;tell&#39;):
         try:
             current_position = o.tell()
         except (OSError, IOError):
             # This can happen in some weird situations, such as when the file
             # is actually a special file descriptor like stdin. In this
-            # instance, we don&apos;t know what the length is, so set it to zero and
+            # instance, we don&#39;t know what the length is, so set it to zero and
             # let requests chunk it instead.
             current_position = total_length
 
@@ -555,13 +555,13 @@ def urldefragauth(url):
 
     if not netloc:
         netloc, path = path, netloc
-    netloc = netloc.rsplit(&apos;@&apos;, 1)[-1]
+    netloc = netloc.rsplit(&#39;@&#39;, 1)[-1]
 
-    return urlunparse((scheme, netloc, path, params, query, &apos;&apos;))
+    return urlunparse((scheme, netloc, path, params, query, &#39;&#39;))
 
 
-_CLEAN_HEADER_REGEX_BYTE = re.compile(b&apos;^\\S[^\\r\\n]*$|^$&apos;) #\S匹配任意非空格字符,--
-_CLEAN_HEADER_REGEX_STR = re.compile(r&apos;^\S[^\r\n]*$|^$&apos;) # 匹配以非空开头，非\r\n结尾或者空白字符串
+_CLEAN_HEADER_REGEX_BYTE = re.compile(b&#39;^\\S[^\\r\\n]*$|^$&#39;) #\S匹配任意非空格字符,--
+_CLEAN_HEADER_REGEX_STR = re.compile(r&#39;^\S[^\r\n]*$|^$&#39;) # 匹配以非空开头，非\r\n结尾或者空白字符串
 # 检验头的有效性防止header injection
 def check_header_validity(header):
     name, value = header
@@ -584,7 +584,7 @@ def get_auth_from_url(url):
     try:
         auth = (unquote(parsed.username), unquote(parsed.password))
     except (AttributeError, TypeError):
-        auth = (&apos;&apos;, &apos;&apos;)
+        auth = (&#39;&#39;, &#39;&#39;)
 
     return auth      
 
@@ -600,9 +600,9 @@ def is_valid_cidr(string_network):
     &quot;&quot;&quot;
     判断是否是类似192.168.2.1/16的地址
     &quot;&quot;&quot;
-    if string_network.count(&apos;/&apos;) == 1:
+    if string_network.count(&#39;/&#39;) == 1:
         try:
-            mask = int(string_network.split(&apos;/&apos;)[1])
+            mask = int(string_network.split(&#39;/&#39;)[1])
         except ValueError:
             return False
 
@@ -610,7 +610,7 @@ def is_valid_cidr(string_network):
             return False
 
         try:
-            socket.inet_aton(string_network.split(&apos;/&apos;)[0])
+            socket.inet_aton(string_network.split(&#39;/&#39;)[0])
         except socket.error:
             return False
     else:
@@ -620,7 +620,7 @@ def is_valid_cidr(string_network):
 
 # native string 指类型为str的字符串，python2与python3中str是不一样的(http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/)
 # Http请求/响应头和元数据要求数据为str类型。
-def to_native_string(string, encoding=&apos;ascii&apos;):
+def to_native_string(string, encoding=&#39;ascii&#39;):
     if isinstance(string, builtin_str):
         out = string
     else:
@@ -639,7 +639,7 @@ def from_key_val_list(value):
         return None
 
     if isinstance(value, (str, bytes, bool, int)):
-        raise ValueError(&apos;cannot encode objects that are not 2-tuples&apos;)
+        raise ValueError(&#39;cannot encode objects that are not 2-tuples&#39;)
 
     return OrderedDict(value)
 
@@ -650,12 +650,13 @@ def to_key_val_list(value):
         return None
 
     if isinstance(value, (str, bytes, bool, int)):
-        raise ValueError(&apos;cannot encode objects that are not 2-tuples&apos;)
+        raise ValueError(&#39;cannot encode objects that are not 2-tuples&#39;)
 
     if isinstance(value, collections.Mapping):
         value = value.items()
 
-    return list(value)</code></pre><hr>
+    return list(value)
+</code></pre><hr>
 <p>参考： 1.<a href="https://www.gracefulsecurity.com/http-header-injection/" target="_blank" rel="noopener">header injection</a> 2.<a href="https://github.com/requests/requests/blob/v2.11.0/requests/utils.py" target="_blank" rel="noopener">requests/utils.py</a></p>
 
       

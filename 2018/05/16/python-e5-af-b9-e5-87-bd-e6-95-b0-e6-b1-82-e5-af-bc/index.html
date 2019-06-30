@@ -485,17 +485,19 @@ print(y)         # 3*x**2 + 2*x
 
 
 dy = y.deriv()
-dy(1)                         # 5</code></pre><p>2.通过sympy对函数求导,通过命令pip3 install sympy安装</p>
+dy(1)                         # 5
+</code></pre><p>2.通过sympy对函数求导,通过命令pip3 install sympy安装</p>
 <pre><code>from sympy import symbols
 from sympy import diff as diff
 from npmath import diff as diff2
 
-x = symbols(&apos;x&apos;)
+x = symbols(&#39;x&#39;)
 f = x**3 + 2*x
 f1 = diff(f)
 print(f1)              # 3*x**2 + 2
 
-diff2(lambda x: x**3+2*x,1)         # 5</code></pre><hr>
+diff2(lambda x: x**3+2*x,1)         # 5
+</code></pre><hr>
 <p>参考： 1.<a href="http://docs.sympy.org/latest/tutorial/calculus.html" target="_blank" rel="noopener">sympy文档</a> 2.<a href="http://mpmath.org/doc/1.0.0/calculus/differentiation.html?highlight=diff#mpmath.diff" target="_blank" rel="noopener">mpmath文档</a></p>
 
       

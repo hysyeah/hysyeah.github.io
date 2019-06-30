@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="mysqldump是mysql提供的用于数据备份的工具，通过再次执行SQL语句以达到恢复数据的目的（生产环境慎用)。mysqldump的优势在于方便和在恢复之前可以查看dump文件甚至修改文件内容。通常用于开发测试，及数据量比较小的情况下，当数据量大的情况下可能dump所花费的时间的时间是可以接受的，但恢复的时候会消耗大量的磁盘I/O。 1.mysqldump所需的权限 mysqldump所需要的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
+<meta property="og:updated_time" content="2019-06-30T15:15:29.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysqldump">
 <meta name="twitter:description" content="mysqldump是mysql提供的用于数据备份的工具，通过再次执行SQL语句以达到恢复数据的目的（生产环境慎用)。mysqldump的优势在于方便和在恢复之前可以查看dump文件甚至修改文件内容。通常用于开发测试，及数据量比较小的情况下，当数据量大的情况下可能dump所花费的时间的时间是可以接受的，但恢复的时候会消耗大量的磁盘I/O。 1.mysqldump所需的权限 mysqldump所需要的">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+                <time title="修改时间：2019-06-30 23:15:29" itemprop="dateModified" datetime="2019-06-30T23:15:29+08:00">2019-06-30</time>
               </span>
             
           
@@ -478,40 +478,78 @@
 
       
         <p><code>mysqldump</code>是<code>mysql</code>提供的用于数据备份的工具，通过再次执行<code>SQL</code>语句以达到恢复数据的目的（生产环境慎用)。<code>mysqldump</code>的优势在于方便和在恢复之前可以查看dump文件甚至修改文件内容。通常用于开发测试，及数据量比较小的情况下，当数据量大的情况下可能dump所花费的时间的时间是可以接受的，但恢复的时候会消耗大量的磁盘I/O。 1.<code>mysqldump</code>所需的权限 <code>mysqldump</code>所需要的权限跟其所dump的对象有关，若备份表则需要<code>SELECT</code>权限，若备份视图，则需要<code>SHOW VIEW</code>权限，若备份触发器，则需要<code>TRIGGER</code>权限。 2.锁表问题 <code>mysqldump</code>默认会锁住需要dump的表 3.<code>mysqldump</code>常用参数</p>
-<pre><code>mysqldump [options] &gt; dump.sql</code></pre><h4 id="–options"><a href="#–options" class="headerlink" title="–options"></a>–options</h4><p>Format</p>
-<p>描述</p>
-<p>–all-databases</p>
-<p>备份所有数据库</p>
-<p>–databases</p>
-<p>指定所需备份的数据库</p>
-<p>–no-data</p>
-<p>不备份数据</p>
-<p>–user</p>
-<p>用户名</p>
-<p>–host</p>
-<p>IP或主机名</p>
-<p>–port</p>
-<p>端口</p>
-<p>–lock-all-table</p>
-<p>锁住需要dump数据库的所有表，会使选项–lock-tables和–single-transaction关闭</p>
-<p>–lock-tables</p>
-<p>会锁住每个数据库中需要dump的表</p>
-<p>–password</p>
-<p>密码</p>
-<p>–single-transaction</p>
-<p>只适用于InnoDB引擎，当执行dump命令时，客户端会发一条START TRANSACTION的语句给server,会dump事务开始时的数据库状态，不会锁表，所以不会对应用造成影响</p>
-<p>–quick</p>
-<p>一行一行进行dump，不会将数据缓存在内存中，每次都需要写文件，速度会变慢</p>
-<p>–skip-quick</p>
-<p>先将数据缓存在内存中，再一次写到文件中，速度较快，但不适用的大表</p>
-<p>–tables</p>
-<p>指定表,会覆盖–databases选项</p>
-<p>详细参数<a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html" target="_blank" rel="noopener">请参考</a> 4.示例</p>
+<pre><code>mysqldump [options] &gt; dump.sql
+</code></pre><h4 id="—options"><a href="#—options" class="headerlink" title="—options"></a>—options</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—all-databases</td>
+<td>备份所有数据库</td>
+</tr>
+<tr>
+<td>—databases</td>
+<td>指定所需备份的数据库</td>
+</tr>
+<tr>
+<td>—no-data</td>
+<td>不备份数据</td>
+</tr>
+<tr>
+<td>—user</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>—host</td>
+<td>IP或主机名</td>
+</tr>
+<tr>
+<td>—port</td>
+<td>端口</td>
+</tr>
+<tr>
+<td>—lock-all-table</td>
+<td>锁住需要dump数据库的所有表，会使选项—lock-tables和—single-transaction关闭</td>
+</tr>
+<tr>
+<td>—lock-tables</td>
+<td>会锁住每个数据库中需要dump的表</td>
+</tr>
+<tr>
+<td>—password</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>—single-transaction</td>
+<td>只适用于InnoDB引擎，当执行dump命令时，客户端会发一条START TRANSACTION的语句给server,会dump事务开始时的数据库状态，不会锁表，所以不会对应用造成影响</td>
+</tr>
+<tr>
+<td>—quick</td>
+<td>一行一行进行dump，不会将数据缓存在内存中，每次都需要写文件，速度会变慢</td>
+</tr>
+<tr>
+<td>—skip-quick</td>
+<td>先将数据缓存在内存中，再一次写到文件中，速度较快，但不适用的大表</td>
+</tr>
+<tr>
+<td>—tables</td>
+<td>指定表,会覆盖—databases选项</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>详细参数<a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html" target="_blank" rel="noopener">请参考</a><br>4.示例</p>
 <pre><code># dump
 mysqldump -hlocalhost -uroot -pxxxx --databases  test --tables table_a table_b &gt; test.sql
 
 # restore
-mysql -uroot -pxxxx test &lt; test.sql</code></pre>
+mysql -uroot -pxxxx test &lt; test.sql
+</code></pre>
       
     </div>
 
@@ -775,7 +813,7 @@ mysql -uroot -pxxxx test &lt; test.sql</code></pre>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#–options"><span class="nav-number">1.</span> <span class="nav-text">–options</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#—options"><span class="nav-number">1.</span> <span class="nav-text">—options</span></a></li></ol></div>
             
 
           </div>

@@ -94,19 +94,19 @@
 
 
 
-  <meta name="description" content="class property([fget[, fset[, fdel[, doc]]]]) # fget是用于获取属性值的函数 # fset是用于设置属性值的函数 # fdel是用于删除属性值的函数 # doc是文档字符串下面是官方文档上的一个例子： In [2]: class C:         def __init__(self):             print(&amp;quot;invok">
+  <meta name="description" content="class property([fget[, fset[, fdel[, doc]]]]) # fget是用于获取属性值的函数 # fset是用于设置属性值的函数 # fdel是用于删除属性值的函数 # doc是文档字符串 下面是官方文档上的一个例子： In [2]: class C:         def __init__(self):             print(&amp;quot;invo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python property">
 <meta property="og:url" content="https://hysyeah.github.io/2018/08/05/python-property/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="class property([fget[, fset[, fdel[, doc]]]]) # fget是用于获取属性值的函数 # fset是用于设置属性值的函数 # fdel是用于删除属性值的函数 # doc是文档字符串下面是官方文档上的一个例子： In [2]: class C:         def __init__(self):             print(&amp;quot;invok">
+<meta property="og:description" content="class property([fget[, fset[, fdel[, doc]]]]) # fget是用于获取属性值的函数 # fset是用于设置属性值的函数 # fdel是用于删除属性值的函数 # doc是文档字符串 下面是官方文档上的一个例子： In [2]: class C:         def __init__(self):             print(&amp;quot;invo">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/08/property.png">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/08/property1.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python property">
-<meta name="twitter:description" content="class property([fget[, fset[, fdel[, doc]]]]) # fget是用于获取属性值的函数 # fset是用于设置属性值的函数 # fdel是用于删除属性值的函数 # doc是文档字符串下面是官方文档上的一个例子： In [2]: class C:         def __init__(self):             print(&amp;quot;invok">
+<meta name="twitter:description" content="class property([fget[, fset[, fdel[, doc]]]]) # fget是用于获取属性值的函数 # fset是用于设置属性值的函数 # fdel是用于删除属性值的函数 # doc是文档字符串 下面是官方文档上的一个例子： In [2]: class C:         def __init__(self):             print(&amp;quot;invo">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/08/property.png">
 
 
@@ -483,7 +483,8 @@
 # fget是用于获取属性值的函数
 # fset是用于设置属性值的函数
 # fdel是用于删除属性值的函数
-# doc是文档字符串</code></pre><p>下面是官方文档上的一个例子：</p>
+# doc是文档字符串
+</code></pre><p>下面是官方文档上的一个例子：</p>
 <pre><code>In [2]: class C:
         def __init__(self):
             print(&quot;invoke __init__&quot;)
@@ -501,7 +502,8 @@
             print(&quot;invoke delx&quot;)
             del self._x
 
-        x = property(getx, setx, delx, &quot;I&apos;m the &apos;x&apos; property.&quot;)</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/property.png" alt> 当访问c.x时会调用getx方法，当为c.x设置值时会调用setx方法，删除c.x时会调用delx方法。</p>
+        x = property(getx, setx, delx, &quot;I&#39;m the &#39;x&#39; property.&quot;)
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/property.png" alt> 当访问c.x时会调用getx方法，当为c.x设置值时会调用setx方法，删除c.x时会调用delx方法。</p>
 <hr>
 <p>在对实例属性的获取和设定上，我们希望增加一些额外的处理过程(比如类型检查或者验证)。要自定义对属性的访问，一种简单的方式是将其定义为property。比如下面的代码定义了一个property，增加了对属性的类型检查。</p>
 <pre><code>In [9]: class Person:
@@ -520,7 +522,8 @@
             self._first_name = value
         @first_name.deleter
         def first_name(self):
-            raise AttributeError(&quot;Can&apos;t delete attribute&quot;)</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/property1.png" alt> 你可能会问为什么在<strong>init</strong>方法中设定的是self.first_name而 不是self._first_name?在这个例子中，property的全部意义就在于我们设置属性时可以执行类型检查。因此，你也想让这种类型检查在初始化的时候也可以进行。所以，在<strong>init</strong>中设置self.first_name,实际上会调用到setter方法(因此就会跳过self.first_name而去访问self._first_name)。 property使用场景： 只有当确定需要在访问属性必完成一些额外的处理任务时，才应该使用property.</p>
+            raise AttributeError(&quot;Can&#39;t delete attribute&quot;)
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/property1.png" alt> 你可能会问为什么在<strong>init</strong>方法中设定的是self.first_name而 不是self._first_name?在这个例子中，property的全部意义就在于我们设置属性时可以执行类型检查。因此，你也想让这种类型检查在初始化的时候也可以进行。所以，在<strong>init</strong>中设置self.first_name,实际上会调用到setter方法(因此就会跳过self.first_name而去访问self._first_name)。 property使用场景： 只有当确定需要在访问属性必完成一些额外的处理任务时，才应该使用property.</p>
 <hr>
 <p>参考： 1.<a href="https://docs.python.org/3/library/functions.html#property" target="_blank" rel="noopener">官方文档</a> 2.python cookbook</p>
 

@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="有多个mysql的数据文件在文件夹在tmp文件夹下 ls /root/tmp network.dump igw.dump vpn.dump vpc.dump编写shell恢复数据 #!/root/tmp for elt in $(ls *.dump) do   echo &amp;quot;restore database $elt&amp;quot;   mysql -uroot -pxxxxx ${elt%%">
+  <meta name="description" content="有多个mysql的数据文件在文件夹在tmp文件夹下 ls /root/tmp network.dump igw.dump vpn.dump vpc.dump 编写shell恢复数据 #!/root/tmp for elt in $(ls *.dump) do   echo &amp;quot;restore database $elt&amp;quot;   mysql -uroot -pxxxxx ${elt%">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql shell 批量恢复">
 <meta property="og:url" content="https://hysyeah.github.io/2019/03/20/mysql-shell-e6-89-b9-e9-87-8f-e6-81-a2-e5-a4-8d/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="有多个mysql的数据文件在文件夹在tmp文件夹下 ls /root/tmp network.dump igw.dump vpn.dump vpc.dump编写shell恢复数据 #!/root/tmp for elt in $(ls *.dump) do   echo &amp;quot;restore database $elt&amp;quot;   mysql -uroot -pxxxxx ${elt%%">
+<meta property="og:description" content="有多个mysql的数据文件在文件夹在tmp文件夹下 ls /root/tmp network.dump igw.dump vpn.dump vpc.dump 编写shell恢复数据 #!/root/tmp for elt in $(ls *.dump) do   echo &amp;quot;restore database $elt&amp;quot;   mysql -uroot -pxxxxx ${elt%">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql shell 批量恢复">
-<meta name="twitter:description" content="有多个mysql的数据文件在文件夹在tmp文件夹下 ls /root/tmp network.dump igw.dump vpn.dump vpc.dump编写shell恢复数据 #!/root/tmp for elt in $(ls *.dump) do   echo &amp;quot;restore database $elt&amp;quot;   mysql -uroot -pxxxxx ${elt%%">
+<meta name="twitter:description" content="有多个mysql的数据文件在文件夹在tmp文件夹下 ls /root/tmp network.dump igw.dump vpn.dump vpc.dump 编写shell恢复数据 #!/root/tmp for elt in $(ls *.dump) do   echo &amp;quot;restore database $elt&amp;quot;   mysql -uroot -pxxxxx ${elt%">
 
 
 
@@ -478,13 +478,15 @@
       
         <p>有多个mysql的数据文件在文件夹在tmp文件夹下</p>
 <pre><code>ls /root/tmp
-network.dump igw.dump vpn.dump vpc.dump</code></pre><p>编写shell恢复数据</p>
+network.dump igw.dump vpn.dump vpc.dump
+</code></pre><p>编写shell恢复数据</p>
 <pre><code>#!/root/tmp
 for elt in $(ls *.dump)
 do
   echo &quot;restore database $elt&quot;
   mysql -uroot -pxxxxx ${elt%%.*} &lt; $elt
-done</code></pre>
+done
+</code></pre>
       
     </div>
 

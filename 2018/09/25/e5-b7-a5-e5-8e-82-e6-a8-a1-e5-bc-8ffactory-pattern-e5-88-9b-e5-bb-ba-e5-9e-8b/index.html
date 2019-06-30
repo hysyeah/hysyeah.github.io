@@ -499,11 +499,12 @@ class ForestFactory:
     def make_sound(self, obj_type):
         return eval(obj_type)().do_say() #根据类型直接调用不同的方法
 
-if __name__ == &apos;__main__&apos;:
+if __name__ == &#39;__main__&#39;:
     ff = ForestFactory()
-    ff.make_sound(&apos;Cat&apos;)
+    ff.make_sound(&#39;Cat&#39;)
 
-[out]:Meow Meos!!                   # 根据不同的参数返回不同的对象，打印不同的信息</code></pre><hr>
+[out]:Meow Meos!!                   # 根据不同的参数返回不同的对象，打印不同的信息
+</code></pre><hr>
 <h4 id="工厂设计模式"><a href="#工厂设计模式" class="headerlink" title="工厂设计模式"></a>工厂设计模式</h4><p>提供接口创建对象，但是推迟对子类决定使用哪个类产生对象。定义了一个创建对象的接口，但不是工厂负责创建对象，而是将责任推迟到决定要实例化的类的子类。 <img src="http://hysyeah.top/wp-content/uploads/2018/08/factory-method-pattern.png" alt></p>
 <pre><code>from abc import ABCMeta, abstractmethod
 class Section(metaclass=ABCMeta):
@@ -558,11 +559,12 @@ class facebook(Profile):
         self.addSections(AlbumSection())
 
 
-if __name__ == &apos;__main__&apos;:
-    profile_type = &apos;linkedin&apos;
+if __name__ == &#39;__main__&#39;:
+    profile_type = &#39;linkedin&#39;
     profile = eval(profile_type)()
     print(&quot;Creating profile..&quot;, type(profile).__name__)
-    print(&quot;Profile has sections --&quot;, profile.getSections())</code></pre><hr>
+    print(&quot;Profile has sections --&quot;, profile.getSections())
+</code></pre><hr>
 <h4 id="抽象工厂设计模式"><a href="#抽象工厂设计模式" class="headerlink" title="抽象工厂设计模式"></a>抽象工厂设计模式</h4><p>抽象工厂是创建相关对象而不指定/公开其类的接口。该模式提供另一个工厂的对象，该工厂在内部创建其他对象。抽象工厂模式的主要目标是提供一个接口来创建相关对象的族，而无需指定具体类。 <img src="http://hysyeah.top/wp-content/uploads/2018/08/abstract-factory-pattern.png" alt></p>
 <pre><code>from abc import ABCMeta, abstractmethod
 
@@ -636,7 +638,8 @@ class PizzaStore:
 
 
 pizza = PizzaStore()
-pizza.makePizzas()</code></pre><hr>
+pizza.makePizzas()
+</code></pre><hr>
 <p>工厂方法和抽象工厂方法的区别 在面象对象编程中，工厂意味着负责创建其它类型对象的类 工厂方法模式：这允许接口创建对象，但是推迟对子类决定使用哪个类产生对象 抽象工厂模式：抽象工厂是创建相关对象而不指定/公开其类的接口。该模式提供另一个工厂的对象，该工厂在内部创建其他对象 工厂模式的优点： 1.松散耦合，其中对象创建可以独立于类实现 2.客户端不必知道具体实现，只需要知道接口，方法和传递参数就可以了 3.可以轻松地将另一个类添加到工厂以创建另一种类型的对象,客户端不用修改代码 4.可以重用已存在的对象</p>
 
       

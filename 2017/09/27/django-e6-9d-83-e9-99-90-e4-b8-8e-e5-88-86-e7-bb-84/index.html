@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="from django.contrib.auth.models import Group, Permission from django.contrib.contenttypes.models import ContentType   g = Group(name=&amp;apos;group_test&amp;apos;) #创建一个组 g.save()  g = Group.objects.get(name">
+  <meta name="description" content="from django.contrib.auth.models import Group, Permission from django.contrib.contenttypes.models import ContentType   g = Group(name=&amp;#39;group_test&amp;#39;) #创建一个组 g.save()  g = Group.objects.get(name=&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django权限与分组">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/27/django-e6-9d-83-e9-99-90-e4-b8-8e-e5-88-86-e7-bb-84/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="from django.contrib.auth.models import Group, Permission from django.contrib.contenttypes.models import ContentType   g = Group(name=&amp;apos;group_test&amp;apos;) #创建一个组 g.save()  g = Group.objects.get(name">
+<meta property="og:description" content="from django.contrib.auth.models import Group, Permission from django.contrib.contenttypes.models import ContentType   g = Group(name=&amp;#39;group_test&amp;#39;) #创建一个组 g.save()  g = Group.objects.get(name=&amp;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django权限与分组">
-<meta name="twitter:description" content="from django.contrib.auth.models import Group, Permission from django.contrib.contenttypes.models import ContentType   g = Group(name=&amp;apos;group_test&amp;apos;) #创建一个组 g.save()  g = Group.objects.get(name">
+<meta name="twitter:description" content="from django.contrib.auth.models import Group, Permission from django.contrib.contenttypes.models import ContentType   g = Group(name=&amp;#39;group_test&amp;#39;) #创建一个组 g.save()  g = Group.objects.get(name=&amp;">
 
 
 
@@ -480,27 +480,28 @@
 from django.contrib.contenttypes.models import ContentType
 
 
-g = Group(name=&apos;group_test&apos;) #创建一个组
+g = Group(name=&#39;group_test&#39;) #创建一个组
 g.save()
 
-g = Group.objects.get(name=&apos;group_test&apos;) #获取存在的组
+g = Group.objects.get(name=&#39;group_test&#39;) #获取存在的组
 
 content_type = ContentType.objects.get_for_model(ViewPermission) # ViewPermission为models.py中的一个类
 class ViewPermission(models.Model):
     class Meta:
         permissions = (
-            (&apos;ych_order&apos;, &apos;xxx&apos;),
+            (&#39;ych_order&#39;, &#39;xxx&#39;),
         )
 
-p = Permission.objects.create(codename=&apos;view_ych&apos;, name=&apos;Can see ych&apos;, content_type=content_type) #创建权限
+p = Permission.objects.create(codename=&#39;view_ych&#39;, name=&#39;Can see ych&#39;, content_type=content_type) #创建权限
 
-p = Permission.objects.get(codename=&apos;view_ych&apos;) #获取已存在的权限
+p = Permission.objects.get(codename=&#39;view_ych&#39;) #获取已存在的权限
 
 g.permissions.add(p) #为组g添加权限p
 
 user.groups.add(g) #将用户user添加到组g
 
-user.has_perm(&apos;report.view_ych&apos;) #判断权限</code></pre>
+user.has_perm(&#39;report.view_ych&#39;) #判断权限
+</code></pre>
       
     </div>
 

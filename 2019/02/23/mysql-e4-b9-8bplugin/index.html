@@ -485,22 +485,19 @@
 <li>mysql包括两种native认证方式<code>mysql_native_password, mysql_old_password</code>都是通过系统表<code>mysql.user</code>和密码hash算法实现的。</li>
 </ul>
 <p><img src="http://hysyeah.top/wp-content/uploads/2019/02/mysql_native_password.png" alt> 认证的插件都在存在于客户端和服务端的，服务端的是内置于mysql服务器中。客户端的则在于libmysqlclient中。 - SHA-256 Pluggable Authentication 这种认证方法是比mysql_native_password认证方法安全性更高，采用SHA-256哈希算法对明文进行加密。 <img src="http://hysyeah.top/wp-content/uploads/2019/02/sha256-pulgin.png" alt> 创建SHA-256认证的用户</p>
-<pre><code>CREATE USER &apos;sha256user&apos;@&apos;localhost&apos;
-IDENTIFIED WITH sha256_password BY &apos;password&apos;;</code></pre><ul>
+<pre><code>CREATE USER &#39;sha256user&#39;@&#39;localhost&#39;
+IDENTIFIED WITH sha256_password BY &#39;password&#39;;
+</code></pre><ul>
 <li><p>Client-Side Cleartext Pluggable Authentication，存储明文 <img src="http://hysyeah.top/wp-content/uploads/2019/02/cleartext.png" alt></p>
 </li>
 <li><p>PAM认证 外部认证方式，使mysql服务器通过PAM服务来进行用户认证</p>
 </li>
 <li><p>Windows认证 外部认证方式，使mysql服务器通过原生Windows服务授权客户端连接，当用户登录了 Windows也可以连接mysql服务器(通过环境信息确认用户，不用额外的密码)</p>
 </li>
-<li><p>LDAP认证 外部认证方式，Lightweight Directory Access Protocol</p>
-</li>
-<li><p>No-Login 认证 阻止任何使用此plugin的用户连接mysql服务。此种方式不允许直接登录可以使用代理 方式登录</p>
-</li>
-<li><p>Socket Peer-Credential认证 本地用户通过连接Unix socket文件进行认证。</p>
-</li>
-<li><p>Test Pluggable Authentication 测试插件用于测试用户认证是否成功，而且会把是否成功的日志打印到server error log。这个插件的目的是用于测试和开发，也可以作为一个如何写认证插件的例子。</p>
-</li>
+<li>LDAP认证 外部认证方式，Lightweight Directory Access Protocol</li>
+<li>No-Login 认证 阻止任何使用此plugin的用户连接mysql服务。此种方式不允许直接登录可以使用代理 方式登录</li>
+<li>Socket Peer-Credential认证 本地用户通过连接Unix socket文件进行认证。</li>
+<li>Test Pluggable Authentication 测试插件用于测试用户认证是否成功，而且会把是否成功的日志打印到server error log。这个插件的目的是用于测试和开发，也可以作为一个如何写认证插件的例子。</li>
 </ul>
 <hr>
 <p>参考： 1.<a href="https://dev.mysql.com/doc/refman/5.7/en/pam-pluggable-authentication.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/pam-pluggable-authentication.html</a></p>

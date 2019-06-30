@@ -483,7 +483,8 @@
 <pre><code>docker pull dgraph/dgraph:v0.7.7
 
 mkdir -p ~/dgraph
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -v ~/dgraph:/dgraph --name dgraph dgraph/dgraph dgraph --bindall=true</code></pre><p>3.访问<code>http://127.0.0.1:8080/</code> 4.在输入框中，分别输入如下数据，点击run</p>
+docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -v ~/dgraph:/dgraph --name dgraph dgraph/dgraph dgraph --bindall=true
+</code></pre><p>3.访问<code>http://127.0.0.1:8080/</code> 4.在输入框中，分别输入如下数据，点击run</p>
 <pre><code>mutation {
   set {
    _:luke &lt;name&gt; &quot;Luke Skywalker&quot; .
@@ -535,7 +536,8 @@ mutation {
     revenue: float .
     running_time: int .
   }
-}</code></pre><p>5.查询数据,</p>
+}
+</code></pre><p>5.查询数据,</p>
 <pre><code>{
   me(func:allofterms(name, &quot;Star Wars&quot;)) @filter(ge(release_date, &quot;1980&quot;)) {
     name
@@ -550,7 +552,8 @@ mutation {
     }
   }
 }
-点击RUN</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/05/dgraph_pic.png" alt></p>
+点击RUN
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2019/05/dgraph_pic.png" alt></p>
 <hr>
 <p>总结：刚开始是安装的<code>dgraph/dgraph:v1.0.12</code>,但是启动后访问浏览器显示<code>disconneted</code>，为了快速看到浏览器中节点和关系的效果所以安装了<code>dgraph/dgraph:v0.7.7</code>。后续继续了解。</p>
 <hr>

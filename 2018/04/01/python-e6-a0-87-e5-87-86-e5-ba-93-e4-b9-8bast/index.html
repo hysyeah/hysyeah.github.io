@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="ast-Abstract Syntax Trees用于帮助python应用处理抽象语法树#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None In [33]: s = &amp;apos;[1, 2, 3]">
+  <meta name="description" content="ast-Abstract Syntax Trees用于帮助python应用处理抽象语法树#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None In [33]: s = &amp;#39;[1, 2, 3]&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python标准库之ast">
 <meta property="og:url" content="https://hysyeah.github.io/2018/04/01/python-e6-a0-87-e5-87-86-e5-ba-93-e4-b9-8bast/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="ast-Abstract Syntax Trees用于帮助python应用处理抽象语法树#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None In [33]: s = &amp;apos;[1, 2, 3]">
+<meta property="og:description" content="ast-Abstract Syntax Trees用于帮助python应用处理抽象语法树#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None In [33]: s = &amp;#39;[1, 2, 3]&amp;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python标准库之ast">
-<meta name="twitter:description" content="ast-Abstract Syntax Trees用于帮助python应用处理抽象语法树#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None In [33]: s = &amp;apos;[1, 2, 3]">
+<meta name="twitter:description" content="ast-Abstract Syntax Trees用于帮助python应用处理抽象语法树#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None In [33]: s = &amp;#39;[1, 2, 3]&amp;">
 
 
 
@@ -477,20 +477,21 @@
 
       
         <h5 id="ast-Abstract-Syntax-Trees"><a href="#ast-Abstract-Syntax-Trees" class="headerlink" title="ast-Abstract Syntax Trees"></a>ast-Abstract Syntax Trees</h5><h5 id="用于帮助python应用处理抽象语法树"><a href="#用于帮助python应用处理抽象语法树" class="headerlink" title="用于帮助python应用处理抽象语法树"></a>用于帮助python应用处理抽象语法树</h5><pre><code>#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None
-In [33]: s = &apos;[1, 2, 3]&apos;
+In [33]: s = &#39;[1, 2, 3]&#39;
 
 In [34]: lst = ast.literal_eval(s)
 
 In [35]: lst
 Out[35]: [1, 2, 3]
 
-In [39]: s2 = &quot;{&apos;a&apos;: 1, &apos;b&apos;: 2}&quot;
+In [39]: s2 = &quot;{&#39;a&#39;: 1, &#39;b&#39;: 2}&quot;
 
 In [40]: s2
-Out[40]: &quot;{&apos;a&apos;: 1, &apos;b&apos;: 2}&quot;
+Out[40]: &quot;{&#39;a&#39;: 1, &#39;b&#39;: 2}&quot;
 
 In [41]: ast.literal_eval(s2)
-Out[41]: {&apos;a&apos;: 1, &apos;b&apos;: 2}</code></pre>
+Out[41]: {&#39;a&#39;: 1, &#39;b&#39;: 2}
+</code></pre>
       
     </div>
 

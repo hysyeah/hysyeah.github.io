@@ -485,7 +485,7 @@ class LookupDict(dict):
         super(LookupDict, self).__init__()
 
     def __repr__(self):
-        return &apos;&lt;lookup \&apos;%s\&apos;&gt;&apos; % (self.name)
+        return &#39;&lt;lookup \&#39;%s\&#39;&gt;&#39; % (self.name)
 
     def __getitem__(self, key):
         # We allow fall-through here, so values default to None
@@ -499,24 +499,24 @@ class LookupDict(dict):
 In [2]: _codes = {
    ...: 
    ...:     # Informational.
-   ...:     100: (&apos;continue&apos;,),
-   ...:     101: (&apos;switching_protocols&apos;,),
-   ...:     102: (&apos;processing&apos;,),
-   ...:     103: (&apos;checkpoint&apos;,),
-   ...:     122: (&apos;uri_too_long&apos;, &apos;request_uri_too_long&apos;)
+   ...:     100: (&#39;continue&#39;,),
+   ...:     101: (&#39;switching_protocols&#39;,),
+   ...:     102: (&#39;processing&#39;,),
+   ...:     103: (&#39;checkpoint&#39;,),
+   ...:     122: (&#39;uri_too_long&#39;, &#39;request_uri_too_long&#39;)
    ...: }
 
-In [3]: codes = LookupDict(name=&apos;status_codes&apos;)
+In [3]: codes = LookupDict(name=&#39;status_codes&#39;)
 
 In [4]: for code, titles in _codes.items():
    ...:     for title in titles:
    ...:         setattr(codes, title, code)
-   ...:         if not title.startswith(&apos;\\&apos;):
+   ...:         if not title.startswith(&#39;\\&#39;):
    ...:             setattr(codes, title.upper(), code)
    ...:             
 
 In [5]: codes
-Out[5]: &lt;lookup &apos;status_codes&apos;&gt;
+Out[5]: &lt;lookup &#39;status_codes&#39;&gt;
 
 In [6]: codes.processing
 Out[6]: 102
@@ -527,26 +527,27 @@ Out[7]: 103
 # codes的__dict__如下
 In [8]: codes.__dict__
 Out[8]: 
-{&apos;CHECKPOINT&apos;: 103,
- &apos;CONTINUE&apos;: 100,
- &apos;PROCESSING&apos;: 102,
- &apos;REQUEST_URI_TOO_LONG&apos;: 122,
- &apos;SWITCHING_PROTOCOLS&apos;: 101,
- &apos;URI_TOO_LONG&apos;: 122,
- &apos;checkpoint&apos;: 103,
- &apos;continue&apos;: 100,
- &apos;name&apos;: &apos;status_codes&apos;,
- &apos;processing&apos;: 102,
- &apos;request_uri_too_long&apos;: 122,
- &apos;switching_protocols&apos;: 101,
- &apos;uri_too_long&apos;: 122}</code></pre><hr>
+{&#39;CHECKPOINT&#39;: 103,
+ &#39;CONTINUE&#39;: 100,
+ &#39;PROCESSING&#39;: 102,
+ &#39;REQUEST_URI_TOO_LONG&#39;: 122,
+ &#39;SWITCHING_PROTOCOLS&#39;: 101,
+ &#39;URI_TOO_LONG&#39;: 122,
+ &#39;checkpoint&#39;: 103,
+ &#39;continue&#39;: 100,
+ &#39;name&#39;: &#39;status_codes&#39;,
+ &#39;processing&#39;: 102,
+ &#39;request_uri_too_long&#39;: 122,
+ &#39;switching_protocols&#39;: 101,
+ &#39;uri_too_long&#39;: 122}
+</code></pre><hr>
 <pre><code># CaseInsensitiveDict定义了大小不敏感的字典
 class CaseInsensitiveDict(collections.MutableMapping):
     &quot;&quot;&quot;
         cid = CaseInsensitiveDict()
-        cid[&apos;Accept&apos;] = &apos;application/json&apos;
-        cid[&apos;aCCEPT&apos;] == &apos;application/json&apos;  # True
-        list(cid) == [&apos;Accept&apos;]  # True&quot;&quot;&quot;
+        cid[&#39;Accept&#39;] = &#39;application/json&#39;
+        cid[&#39;aCCEPT&#39;] == &#39;application/json&#39;  # True
+        list(cid) == [&#39;Accept&#39;]  # True&quot;&quot;&quot;
 
     def __init__(self, data=None, **kwargs):
         self._store = OrderedDict()
@@ -602,16 +603,17 @@ lower_items()返回小写的key,和原始的value。
 In [13]: cid = CaseInsensitiveDict()
 
 In [16]: cid
-Out[16]: {&apos;Accept&apos;: &apos;application/json&apos;}
+Out[16]: {&#39;Accept&#39;: &#39;application/json&#39;}
 
 In [19]: cid.__dict__
-Out[19]: {&apos;_store&apos;: OrderedDict([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;))])}
+Out[19]: {&#39;_store&#39;: OrderedDict([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/json&#39;))])}
 
 In [30]: list(cid.lower_items())
-Out[30]: [(&apos;accept&apos;, &apos;application/json&apos;), (&apos;ab&apos;, &apos;Cd&apos;)]
+Out[30]: [(&#39;accept&#39;, &#39;application/json&#39;), (&#39;ab&#39;, &#39;Cd&#39;)]
 
 In [31]: cid._store.items()
-Out[31]: odict_items([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;)), (&apos;ab&apos;, (&apos;Ab&apos;, &apos;Cd&apos;))])</code></pre>
+Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/json&#39;)), (&#39;ab&#39;, (&#39;Ab&#39;, &#39;Cd&#39;))])
+</code></pre>
       
     </div>
 

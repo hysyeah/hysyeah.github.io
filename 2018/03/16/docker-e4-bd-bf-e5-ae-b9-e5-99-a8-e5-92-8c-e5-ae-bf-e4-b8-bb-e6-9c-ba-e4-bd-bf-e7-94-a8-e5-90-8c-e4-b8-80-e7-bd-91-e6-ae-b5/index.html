@@ -486,7 +486,8 @@
 --subnet 10.68.2.0/24 --gateway 10.68.2.1 \
 -o parent=eno1 -o macvlan_mode=bridge macnet
 # parent指定物理网卡名称,
-# 创建的网络名称为macnet</code></pre><h5 id="4-创建docker-compose-yml文件"><a href="#4-创建docker-compose-yml文件" class="headerlink" title="4.创建docker-compose.yml文件"></a>4.创建docker-compose.yml文件</h5><pre><code>version: &quot;2&quot;
+# 创建的网络名称为macnet
+</code></pre><h5 id="4-创建docker-compose-yml文件"><a href="#4-创建docker-compose-yml文件" class="headerlink" title="4.创建docker-compose.yml文件"></a>4.创建docker-compose.yml文件</h5><pre><code>version: &quot;2&quot;
 services:
   ubuntu-master:
     image: ubuntu:16.04
@@ -499,7 +500,8 @@ services:
 networks:
   default:
     external:
-      name: macnet</code></pre><h5 id="5-启动容器，查看IP"><a href="#5-启动容器，查看IP" class="headerlink" title="5.启动容器，查看IP"></a>5.启动容器，查看IP</h5><p><img src="http://hysyeah.top/wp-content/uploads/2018/03/maclvan_ip.png" alt="image"></p>
+      name: macnet
+</code></pre><h5 id="5-启动容器，查看IP"><a href="#5-启动容器，查看IP" class="headerlink" title="5.启动容器，查看IP"></a>5.启动容器，查看IP</h5><p><img src="http://hysyeah.top/wp-content/uploads/2018/03/maclvan_ip.png" alt="image"></p>
 
       
     </div>

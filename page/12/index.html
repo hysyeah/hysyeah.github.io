@@ -747,15 +747,20 @@ np.linalg.norm(a, 2) #2-范数
 
 x = np.array([1, 2])
 y = np.array([1, 4])
-dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离</code></pre><p>[latex]C_{5}^2[/latex]</p>
+dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离
+</code></pre><p>[latex]C_{5}^2[/latex]</p>
 <pre><code>from scipy.special import comb
-comb(5, 2) # output: 10</code></pre><p>[latex]A_{5}^2[/latex]</p>
+comb(5, 2) # output: 10
+</code></pre><p>[latex]A_{5}^2[/latex]</p>
 <pre><code>from scipy.special import perm
-perm(5, 2) # output: 20</code></pre><p>中位数</p>
+perm(5, 2) # output: 20
+</code></pre><p>中位数</p>
 <pre><code>x = np.array([1, 2, 5, 4, 9, 0, 6])
-np.median(x)  # 4</code></pre><p>阶乘[latex]k![/latex]</p>
+np.median(x)  # 4
+</code></pre><p>阶乘[latex]k![/latex]</p>
 <pre><code>from scipy.special import factorial
-factorial(6) # out :array(720.0)</code></pre>
+factorial(6) # out :array(720.0)
+</code></pre>
           
         
       
@@ -931,12 +936,12 @@ factorial(6) # out :array(720.0)</code></pre>
 <hr>
 <p>根据输入、输出变量的不同类型，对预测任务给予不同的名称：输入变量与输出变量均为连续变量的预测问题称为回归问题；输出变量为有限个离散变量的预测问题称为分类问题；输入变量与输出变量均为变量序列的预测问题称为标注问题。 在监督学习过程中，模型就是所要学习的条件概率分布或决策函数。 假设空间用[latex]\mathcal{F}[/latex]表示。假设空间可以定义为决策函数的集合 [latex]\mathcal{F}= \{ {\mathcal{f}|Y = f(X)}\}[/latex] 其中，X和Y是定义在输入空间[latex]\chi[/latex]和输出空间[latex]\mathcal{Y}[/latex]上的变量。这时[latex]\mathcal{F}[/latex]通常是由一个参数向量决定的函数族：<br>[latex]\mathcal{F} = \{ {f|Y=f_{\theta}}(X),\theta\in R^{n}\}[/latex] 参数向量[latex]\theta[/latex]取值于n维欧式空间[latex]R^{n}[/latex],称为参数空间。 假设空间也可以定义为条件概率的集合[latex]\mathcal{F}=\{ {P|P(Y|X)}\}[/latex] 策略： 统计学习的目标在于从假设空间中选取最优模型。<br>损失函数度量模型一次预测的好坏，风险函数度量平均意义下模型预测的好坏。 统计学习常用损失函数：<br>(1) 0-1损失函数<br>[latex]L(Y,f(X))= \begin{cases} 0,&amp; {Y\neq f(X)}\\ 1,&amp; {Y\neq f(X)} \end{cases} [/latex]<br>(2) 平方损失函数<br>[latex]L(Y, f(X)) = (Y - f(X))^2[/latex] (3) 绝对损失函数<br>[latex]L(Y, f(X)) = |(Y - f(X))|[/latex] (4) 对数损失函数<br>[latex]L(Y, P(Y|X)) = -log P(Y|X)[/latex]</p>
 <hr>
-<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： [latex]min_{f\in\mathcal{F}} \frac{1}{N}\sum_{i=1}^NL(y_{(i)}, f(x_{i})) + \lambda J(f) [/latex] 其中，第一项是经验风险，第二项是正则化项，[latex]\lambda \geq 0[/latex]为调整两者之间关系的系数。</p>
+<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： [latex]min<em>{f\in\mathcal{F}} \frac{1}{N}\sum</em>{i=1}^NL(y<em>{(i)}, f(x</em>{i})) + \lambda J(f) [/latex] 其中，第一项是经验风险，第二项是正则化项，[latex]\lambda \geq 0[/latex]为调整两者之间关系的系数。</p>
 <h4 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h4><p>1.简单交叉验证 简单交叉验证方法是：首先随机地将已给数据分为两部分，一部分作为训练，另一部分作为测试集。 2.S折交叉验证 首先随机地将已给数据切分为S个互不相交的大小相同的子集；然后利用S-1个子集的数据训练模型，利用余下的子集测试模型；将这一过程可能的S种选择重复进行；最后选出S次评测中平均测试误差最小的模型。 3.留一交叉验证 S折交叉验证的特殊情形是S=N，称为留一交叉验证，往往在数据缺乏的情况下使用，N是给定的数据集容量。</p>
-<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 [latex]A = \frac{TP+TN}{TP+FN+FP+TN}[/latex] 精确率 [latex]P = \frac{TP}{TP+FP}[/latex] 召回率 [latex]R = \frac{TP}{TP+FN}[/latex] [latex]F_{1}[/latex]值 [latex]\frac{2}{F_{1}}= \frac{1}{P}+\frac{1}{R}[/latex] [latex]F_{1} = \frac{2TP}{2TP+FP+FN}[/latex]</p>
-<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是[latex]\hat f[/latex],那么利用这个模型 对未知数据预测的误差就是泛化误差<br>[latex]R_{exp}(\hat f) = E[L(Y, \hat f(X))] = \int_{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy[/latex] 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合[latex]\mathcal{F}={f_{1},f_{2},\cdot \cdot \cdot, f_{d}}[/latex]时，对于任意一个函数[latex]f \in \mathcal{F}[/latex],至少以概率[latex]1-\delta[/latex],以下不等式成立<br>[latex]R(f) \leq \hat R(f) + \varepsilon(d, N, \delta)[/latex],其中[latex]\varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)} [/latex]<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项[latex]\varepsilon(d, N, \delta)[/latex]是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
+<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 [latex]A = \frac{TP+TN}{TP+FN+FP+TN}[/latex] 精确率 [latex]P = \frac{TP}{TP+FP}[/latex] 召回率 [latex]R = \frac{TP}{TP+FN}[/latex] [latex]F<em>{1}[/latex]值 [latex]\frac{2}{F</em>{1}}= \frac{1}{P}+\frac{1}{R}[/latex] [latex]F_{1} = \frac{2TP}{2TP+FP+FN}[/latex]</p>
+<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是[latex]\hat f[/latex],那么利用这个模型 对未知数据预测的误差就是泛化误差<br>[latex]R<em>{exp}(\hat f) = E[L(Y, \hat f(X))] = \int</em>{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy[/latex] 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合[latex]\mathcal{F}={f<em>{1},f</em>{2},\cdot \cdot \cdot, f_{d}}[/latex]时，对于任意一个函数[latex]f \in \mathcal{F}[/latex],至少以概率[latex]1-\delta[/latex],以下不等式成立<br>[latex]R(f) \leq \hat R(f) + \varepsilon(d, N, \delta)[/latex],其中[latex]\varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)} [/latex]<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项[latex]\varepsilon(d, N, \delta)[/latex]是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
 <hr>
-<p><img src="http://hysyeah.top/wp-content/uploads/2018/05/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0.png" alt="image"></p>
+<p><img src="http://hysyeah.top/wp-content/uploads/2018/05/向量范数.png" alt="image"></p>
 
           
         
@@ -1107,7 +1112,7 @@ factorial(6) # out :array(720.0)</code></pre>
       
         
           
-            <p>1.梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。–来源于百度百科 2.给定初始值和步长，通过当前值与上一值的比较，不断进行迭代，直到符合设定的条件后停止。 3.下面是对f(x) = x * x，通过梯度下降法求最小值</p>
+            <p>1.梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。—来源于百度百科 2.给定初始值和步长，通过当前值与上一值的比较，不断进行迭代，直到符合设定的条件后停止。 3.下面是对f(x) = x * x，通过梯度下降法求最小值</p>
 <pre><code>import matplotlib.pyplot as plt
 
 f = lambda x: x*x
@@ -1125,8 +1130,9 @@ def gradient_x(step,init_val):
         plt.plot(x,f(x), &quot;*-&quot;)
     print(&quot;after%diteration func found min value %d,x value is %d&quot;,count,f(x),x) 
     plt.show() 
-if __name__ == &apos;__main__&apos;:
-    gradient_x(0.1, 2)</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/gradient.png" alt="image"></p>
+if __name__ == &#39;__main__&#39;:
+    gradient_x(0.1, 2)
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/gradient.png" alt="image"></p>
 
           
         
@@ -1302,18 +1308,20 @@ if __name__ == &apos;__main__&apos;:
 x = [1, 2, 3, 4]
 y = [6, 5, 7, 10]
 r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
-f = np.poly1d(r) #f为拟合函数</code></pre><p>求出的拟合直线为y = r[0]_x+r[1],y = 1.4_x+3.5 3.画出拟合直线和数据点</p>
+f = np.poly1d(r) #f为拟合函数
+</code></pre><p>求出的拟合直线为y = r[0]_x+r[1],y = 1.4_x+3.5 3.画出拟合直线和数据点</p>
 <pre><code>import matplotlib.pyplot as plt
 fig = plt.subplots()
-plt.plot(1,6,&apos;*-&apos;)
-plt.plot(2,5,&apos;*-&apos;)
-plt.plot(3,7,&apos;*-&apos;)
-plt.plot(4,10,&apos;*-&apos;)
+plt.plot(1,6,&#39;*-&#39;)
+plt.plot(2,5,&#39;*-&#39;)
+plt.plot(3,7,&#39;*-&#39;)
+plt.plot(4,10,&#39;*-&#39;)
 f = lambda x: 1.4*x + 3.5
 x = [1, 2, 3, 4]
 y = [f(e) for e in x]
 plt.plot(x,y)
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
 <hr>
 <h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
 
@@ -1325,7 +1333,7 @@ from sklearn.linear_model import LinearRegression
 x = np.array([ 6,  8, 10, 14, 18])
 y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
 
-plt.plot(x, y, &apos;k.&apos;)
+plt.plot(x, y, &#39;k.&#39;)
 plt.axis([0, 25, 0, 25])
 
 
@@ -1338,15 +1346,16 @@ e = [item[0] for item in model.predict(x.reshape(-1,1))]
 X = list(zip(x,x))
 Y = list(zip(y,e))
 for i in range(len(X)):
-    plt.plot(X[i],Y[i],&apos;r&apos;)
+    plt.plot(X[i],Y[i],&#39;r&#39;)
 
 plt.title(&quot;Linear regression use least square method&quot;)
-plt.xlabel(r&apos;$x$&apos;, horizontalalignment=&apos;right&apos;, x=1.0)
-plt.ylabel(r&apos;$y$&apos;, horizontalalignment=&apos;right&apos;, y=1.0, rotation=0)
+plt.xlabel(r&#39;$x$&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
+plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
 
 plt.plot(x, e)
 plt.grid(True)
-plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
+plt.show()
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
 <hr>
 <p>选择最小二乘的原因： 1.平方能将正残差与负残差都变成正数 2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响 3.在残差服从均值为0，方差为[latex]\sigma ^2[/latex] (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。 4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
 <hr>
@@ -1521,57 +1530,58 @@ plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/mast
       
         
           
-            <h5 id="OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"><a href="#OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。" class="headerlink" title="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"></a>OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。</h5><pre><code>In [5]: d = OrderedDict({&apos;banana&apos;: 3, &apos;apple&apos;: 4, &apos;pear&apos;: 1, &apos;orange&apos;: 2})
+            <h5 id="OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"><a href="#OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。" class="headerlink" title="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"></a>OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。</h5><pre><code>In [5]: d = OrderedDict({&#39;banana&#39;: 3, &#39;apple&#39;: 4, &#39;pear&#39;: 1, &#39;orange&#39;: 2})
 
 In [6]: d
-Out[6]: OrderedDict([(&apos;pear&apos;, 1), (&apos;banana&apos;, 3), (&apos;apple&apos;, 4), (&apos;orange&apos;, 2)])
+Out[6]: OrderedDict([(&#39;pear&#39;, 1), (&#39;banana&#39;, 3), (&#39;apple&#39;, 4), (&#39;orange&#39;, 2)])
 
-In [7]: d.update({&apos;d&apos;:1})
+In [7]: d.update({&#39;d&#39;:1})
 
 In [8]: d
 Out[8]: 
-OrderedDict([(&apos;pear&apos;, 1),
-             (&apos;banana&apos;, 3),
-             (&apos;apple&apos;, 4),
-             (&apos;orange&apos;, 2),
-             (&apos;d&apos;, 1)])
+OrderedDict([(&#39;pear&#39;, 1),
+             (&#39;banana&#39;, 3),
+             (&#39;apple&#39;, 4),
+             (&#39;orange&#39;, 2),
+             (&#39;d&#39;, 1)])
 
 In [12]: d.update({&quot;pear&quot;:99})
 
 # 顺序没有改变
 In [13]: d
 Out[13]: 
-OrderedDict([(&apos;pear&apos;, 99),
-             (&apos;banana&apos;, 3),
-             (&apos;apple&apos;, 4),
-             (&apos;orange&apos;, 2),
-             (&apos;d&apos;, 1)])
+OrderedDict([(&#39;pear&#39;, 99),
+             (&#39;banana&#39;, 3),
+             (&#39;apple&#39;, 4),
+             (&#39;orange&#39;, 2),
+             (&#39;d&#39;, 1)])
 
-In [15]: del d[&apos;pear&apos;]
+In [15]: del d[&#39;pear&#39;]
 
 In [16]: d
-Out[16]: OrderedDict([(&apos;banana&apos;, 3), (&apos;apple&apos;, 4), (&apos;orange&apos;, 2), (&apos;d&apos;, 1)])
+Out[16]: OrderedDict([(&#39;banana&#39;, 3), (&#39;apple&#39;, 4), (&#39;orange&#39;, 2), (&#39;d&#39;, 1)])
 
-In [17]: d.update({&apos;pear&apos;: 99})
+In [17]: d.update({&#39;pear&#39;: 99})
 
 # 移动到右边
 In [18]: d
 Out[18]: 
-OrderedDict([(&apos;banana&apos;, 3),
-             (&apos;apple&apos;, 4),
-             (&apos;orange&apos;, 2),
-             (&apos;d&apos;, 1),
-             (&apos;pear&apos;, 99)])
+OrderedDict([(&#39;banana&#39;, 3),
+             (&#39;apple&#39;, 4),
+             (&#39;orange&#39;, 2),
+             (&#39;d&#39;, 1),
+             (&#39;pear&#39;, 99)])
 
-In [22]: d.move_to_end(&apos;apple&apos;)
+In [22]: d.move_to_end(&#39;apple&#39;)
 In [22]: &quot; &quot;.join(d.keys())
-Out[22]: &apos;banana orange d pear apple&apos;
+Out[22]: &#39;banana orange d pear apple&#39;
 
 # 当last=False时，将移动到最左边
-In [23]: d.move_to_end(&apos;apple&apos;, last=False)
+In [23]: d.move_to_end(&#39;apple&#39;, last=False)
 
 In [24]: &quot; &quot;.join(d.keys())
-Out[24]: &apos;apple banana orange d pear&apos;</code></pre>
+Out[24]: &#39;apple banana orange d pear&#39;
+</code></pre>
           
         
       
@@ -1745,7 +1755,8 @@ Out[24]: &apos;apple banana orange d pear&apos;</code></pre>
 export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl:$GOPATH&quot;
 
 改为
-export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl&quot;</code></pre>
+export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl&quot;
+</code></pre>
           
         
       
@@ -1916,20 +1927,21 @@ export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl&quot;</code></p
         
           
             <h5 id="ast-Abstract-Syntax-Trees"><a href="#ast-Abstract-Syntax-Trees" class="headerlink" title="ast-Abstract Syntax Trees"></a>ast-Abstract Syntax Trees</h5><h5 id="用于帮助python应用处理抽象语法树"><a href="#用于帮助python应用处理抽象语法树" class="headerlink" title="用于帮助python应用处理抽象语法树"></a>用于帮助python应用处理抽象语法树</h5><pre><code>#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None
-In [33]: s = &apos;[1, 2, 3]&apos;
+In [33]: s = &#39;[1, 2, 3]&#39;
 
 In [34]: lst = ast.literal_eval(s)
 
 In [35]: lst
 Out[35]: [1, 2, 3]
 
-In [39]: s2 = &quot;{&apos;a&apos;: 1, &apos;b&apos;: 2}&quot;
+In [39]: s2 = &quot;{&#39;a&#39;: 1, &#39;b&#39;: 2}&quot;
 
 In [40]: s2
-Out[40]: &quot;{&apos;a&apos;: 1, &apos;b&apos;: 2}&quot;
+Out[40]: &quot;{&#39;a&#39;: 1, &#39;b&#39;: 2}&quot;
 
 In [41]: ast.literal_eval(s2)
-Out[41]: {&apos;a&apos;: 1, &apos;b&apos;: 2}</code></pre>
+Out[41]: {&#39;a&#39;: 1, &#39;b&#39;: 2}
+</code></pre>
           
         
       
@@ -2108,7 +2120,7 @@ class LookupDict(dict):
         super(LookupDict, self).__init__()
 
     def __repr__(self):
-        return &apos;&lt;lookup \&apos;%s\&apos;&gt;&apos; % (self.name)
+        return &#39;&lt;lookup \&#39;%s\&#39;&gt;&#39; % (self.name)
 
     def __getitem__(self, key):
         # We allow fall-through here, so values default to None
@@ -2122,24 +2134,24 @@ class LookupDict(dict):
 In [2]: _codes = {
    ...: 
    ...:     # Informational.
-   ...:     100: (&apos;continue&apos;,),
-   ...:     101: (&apos;switching_protocols&apos;,),
-   ...:     102: (&apos;processing&apos;,),
-   ...:     103: (&apos;checkpoint&apos;,),
-   ...:     122: (&apos;uri_too_long&apos;, &apos;request_uri_too_long&apos;)
+   ...:     100: (&#39;continue&#39;,),
+   ...:     101: (&#39;switching_protocols&#39;,),
+   ...:     102: (&#39;processing&#39;,),
+   ...:     103: (&#39;checkpoint&#39;,),
+   ...:     122: (&#39;uri_too_long&#39;, &#39;request_uri_too_long&#39;)
    ...: }
 
-In [3]: codes = LookupDict(name=&apos;status_codes&apos;)
+In [3]: codes = LookupDict(name=&#39;status_codes&#39;)
 
 In [4]: for code, titles in _codes.items():
    ...:     for title in titles:
    ...:         setattr(codes, title, code)
-   ...:         if not title.startswith(&apos;\\&apos;):
+   ...:         if not title.startswith(&#39;\\&#39;):
    ...:             setattr(codes, title.upper(), code)
    ...:             
 
 In [5]: codes
-Out[5]: &lt;lookup &apos;status_codes&apos;&gt;
+Out[5]: &lt;lookup &#39;status_codes&#39;&gt;
 
 In [6]: codes.processing
 Out[6]: 102
@@ -2150,26 +2162,27 @@ Out[7]: 103
 # codes的__dict__如下
 In [8]: codes.__dict__
 Out[8]: 
-{&apos;CHECKPOINT&apos;: 103,
- &apos;CONTINUE&apos;: 100,
- &apos;PROCESSING&apos;: 102,
- &apos;REQUEST_URI_TOO_LONG&apos;: 122,
- &apos;SWITCHING_PROTOCOLS&apos;: 101,
- &apos;URI_TOO_LONG&apos;: 122,
- &apos;checkpoint&apos;: 103,
- &apos;continue&apos;: 100,
- &apos;name&apos;: &apos;status_codes&apos;,
- &apos;processing&apos;: 102,
- &apos;request_uri_too_long&apos;: 122,
- &apos;switching_protocols&apos;: 101,
- &apos;uri_too_long&apos;: 122}</code></pre><hr>
+{&#39;CHECKPOINT&#39;: 103,
+ &#39;CONTINUE&#39;: 100,
+ &#39;PROCESSING&#39;: 102,
+ &#39;REQUEST_URI_TOO_LONG&#39;: 122,
+ &#39;SWITCHING_PROTOCOLS&#39;: 101,
+ &#39;URI_TOO_LONG&#39;: 122,
+ &#39;checkpoint&#39;: 103,
+ &#39;continue&#39;: 100,
+ &#39;name&#39;: &#39;status_codes&#39;,
+ &#39;processing&#39;: 102,
+ &#39;request_uri_too_long&#39;: 122,
+ &#39;switching_protocols&#39;: 101,
+ &#39;uri_too_long&#39;: 122}
+</code></pre><hr>
 <pre><code># CaseInsensitiveDict定义了大小不敏感的字典
 class CaseInsensitiveDict(collections.MutableMapping):
     &quot;&quot;&quot;
         cid = CaseInsensitiveDict()
-        cid[&apos;Accept&apos;] = &apos;application/json&apos;
-        cid[&apos;aCCEPT&apos;] == &apos;application/json&apos;  # True
-        list(cid) == [&apos;Accept&apos;]  # True&quot;&quot;&quot;
+        cid[&#39;Accept&#39;] = &#39;application/json&#39;
+        cid[&#39;aCCEPT&#39;] == &#39;application/json&#39;  # True
+        list(cid) == [&#39;Accept&#39;]  # True&quot;&quot;&quot;
 
     def __init__(self, data=None, **kwargs):
         self._store = OrderedDict()
@@ -2225,16 +2238,17 @@ lower_items()返回小写的key,和原始的value。
 In [13]: cid = CaseInsensitiveDict()
 
 In [16]: cid
-Out[16]: {&apos;Accept&apos;: &apos;application/json&apos;}
+Out[16]: {&#39;Accept&#39;: &#39;application/json&#39;}
 
 In [19]: cid.__dict__
-Out[19]: {&apos;_store&apos;: OrderedDict([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;))])}
+Out[19]: {&#39;_store&#39;: OrderedDict([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/json&#39;))])}
 
 In [30]: list(cid.lower_items())
-Out[30]: [(&apos;accept&apos;, &apos;application/json&apos;), (&apos;ab&apos;, &apos;Cd&apos;)]
+Out[30]: [(&#39;accept&#39;, &#39;application/json&#39;), (&#39;ab&#39;, &#39;Cd&#39;)]
 
 In [31]: cid._store.items()
-Out[31]: odict_items([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;)), (&apos;ab&apos;, (&apos;Ab&apos;, &apos;Cd&apos;))])</code></pre>
+Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/json&#39;)), (&#39;ab&#39;, (&#39;Ab&#39;, &#39;Cd&#39;))])
+</code></pre>
           
         
       
@@ -2405,7 +2419,7 @@ Out[31]: odict_items([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;applicatio
         
           
             <pre><code># 将给定的字符串对象转换为native string
-def to_native_string(string, encoding=&apos;ascii&apos;):
+def to_native_string(string, encoding=&#39;ascii&#39;):
     if isinstance(string, builtin_str):
         out = string
     else:
@@ -2414,7 +2428,8 @@ def to_native_string(string, encoding=&apos;ascii&apos;):
         else:
             out = string.decode(encoding)
 
-    return out</code></pre><hr>
+    return out
+</code></pre><hr>
 <p>1.”Native” strings(指那些类型名为str的字符串类型)，用于请求/响应头和元数据。 2.”Bytestring”(在python3中类型名为bytes,python2中为str),用于请求/响应中的body。</p>
 <hr>
 <p>参考： 1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a> 2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a> 3.<a href="http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>

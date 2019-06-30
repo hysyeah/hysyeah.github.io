@@ -94,19 +94,19 @@
 
 
 
-  <meta name="description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:]">
+  <meta name="description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928 浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python之copy,deepcopy">
 <meta property="og:url" content="https://hysyeah.github.io/2018/09/11/python-e4-b9-8bcopydeepcopy/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:]">
+<meta property="og:description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928 浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/09/copy.jpg">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/09/deepcopy.jpg">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python之copy,deepcopy">
-<meta name="twitter:description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:]">
+<meta name="twitter:description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928 浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/09/copy.jpg">
 
 
@@ -489,7 +489,8 @@ In [76]: id(c)
 Out[76]: 140506513737928
 
 In [77]: id(a)
-Out[77]: 140506513737928</code></pre><h4 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h4><pre><code># 只拷贝对象的引用
+Out[77]: 140506513737928
+</code></pre><h4 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h4><pre><code># 只拷贝对象的引用
 In [71]: a = [0, [1, 2], 3]
 
 In [72]: b = a[:]
@@ -506,7 +507,8 @@ In [79]: b
 Out[79]: [0, [1, 2, 3], 3]
 
 In [80]: a
-Out[80]: [0, [1, 2, 3], 3]</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/09/copy.jpg" alt>图片来源于网络</p>
+Out[80]: [0, [1, 2, 3], 3]
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/09/copy.jpg" alt>图片来源于网络</p>
 <h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><pre><code># 复制真实的对象
 In [81]: import copy
 
@@ -529,7 +531,8 @@ In [88]: b
 Out[88]: [0, [1, 2, 3], 3]
 
 In [89]: a
-Out[89]: [0, [1, 2], 3]</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/09/deepcopy.jpg" alt>图片来源于网络</p>
+Out[89]: [0, [1, 2], 3]
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/09/deepcopy.jpg" alt>图片来源于网络</p>
 <hr>
 <p>浅拷贝和深拷贝的不同之处是对于可变对象来说的，因为对于不可变对象复制对象的引用和复制对象是一样的(因为当要改变值时，会重新创建个对象)。当使用浅拷贝时，对于嵌套的列表只会拷贝其引用，而深拷贝则会复制真实的对象。切片也属于浅拷贝。</p>
 <hr>

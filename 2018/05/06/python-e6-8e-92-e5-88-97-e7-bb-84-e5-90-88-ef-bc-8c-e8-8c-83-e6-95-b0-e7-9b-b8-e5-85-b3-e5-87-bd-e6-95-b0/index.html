@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="import numpy as np a = np.array([1, 2, 3]) np.linalg.norm(a, 1) #1-范数 np.linalg.norm(a, 2) #2-范数  x = np.array([1, 2]) y = np.array([1, 4]) dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离[latex]C_{5}^2[/">
+  <meta name="description" content="import numpy as np a = np.array([1, 2, 3]) np.linalg.norm(a, 1) #1-范数 np.linalg.norm(a, 2) #2-范数  x = np.array([1, 2]) y = np.array([1, 4]) dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离 [latex]C_{5}^2[">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python排列组合，范数, 中位数相关函数">
 <meta property="og:url" content="https://hysyeah.github.io/2018/05/06/python-e6-8e-92-e5-88-97-e7-bb-84-e5-90-88-ef-bc-8c-e8-8c-83-e6-95-b0-e7-9b-b8-e5-85-b3-e5-87-bd-e6-95-b0/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="import numpy as np a = np.array([1, 2, 3]) np.linalg.norm(a, 1) #1-范数 np.linalg.norm(a, 2) #2-范数  x = np.array([1, 2]) y = np.array([1, 4]) dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离[latex]C_{5}^2[/">
+<meta property="og:description" content="import numpy as np a = np.array([1, 2, 3]) np.linalg.norm(a, 1) #1-范数 np.linalg.norm(a, 2) #2-范数  x = np.array([1, 2]) y = np.array([1, 4]) dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离 [latex]C_{5}^2[">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python排列组合，范数, 中位数相关函数">
-<meta name="twitter:description" content="import numpy as np a = np.array([1, 2, 3]) np.linalg.norm(a, 1) #1-范数 np.linalg.norm(a, 2) #2-范数  x = np.array([1, 2]) y = np.array([1, 4]) dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离[latex]C_{5}^2[/">
+<meta name="twitter:description" content="import numpy as np a = np.array([1, 2, 3]) np.linalg.norm(a, 1) #1-范数 np.linalg.norm(a, 2) #2-范数  x = np.array([1, 2]) y = np.array([1, 4]) dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离 [latex]C_{5}^2[">
 
 
 
@@ -483,15 +483,20 @@ np.linalg.norm(a, 2) #2-范数
 
 x = np.array([1, 2])
 y = np.array([1, 4])
-dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离</code></pre><p>[latex]C_{5}^2[/latex]</p>
+dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离
+</code></pre><p>[latex]C_{5}^2[/latex]</p>
 <pre><code>from scipy.special import comb
-comb(5, 2) # output: 10</code></pre><p>[latex]A_{5}^2[/latex]</p>
+comb(5, 2) # output: 10
+</code></pre><p>[latex]A_{5}^2[/latex]</p>
 <pre><code>from scipy.special import perm
-perm(5, 2) # output: 20</code></pre><p>中位数</p>
+perm(5, 2) # output: 20
+</code></pre><p>中位数</p>
 <pre><code>x = np.array([1, 2, 5, 4, 9, 0, 6])
-np.median(x)  # 4</code></pre><p>阶乘[latex]k![/latex]</p>
+np.median(x)  # 4
+</code></pre><p>阶乘[latex]k![/latex]</p>
 <pre><code>from scipy.special import factorial
-factorial(6) # out :array(720.0)</code></pre>
+factorial(6) # out :array(720.0)
+</code></pre>
       
     </div>
 

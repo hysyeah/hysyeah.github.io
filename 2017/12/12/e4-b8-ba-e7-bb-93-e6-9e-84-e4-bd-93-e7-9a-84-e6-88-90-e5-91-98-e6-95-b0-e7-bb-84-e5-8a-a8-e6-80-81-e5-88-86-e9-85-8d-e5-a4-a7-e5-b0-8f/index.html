@@ -490,7 +490,8 @@ p = (PyLongObject*)malloc(sizeof(PyLongObject)+sizeof(digit)*abs(ob_size))
 for(int i = 0; i &lt; ob_size; i++){
     p-&gt;ob_digit[i] = 1;
 }
-这就是PyLongObject对象的内存分配，只不过python源码由内存管理模块进行内存的分配，不那么好理解。</code></pre><hr>
+这就是PyLongObject对象的内存分配，只不过python源码由内存管理模块进行内存的分配，不那么好理解。
+</code></pre><hr>
 <h4 id="example"><a href="#example" class="headerlink" title="example"></a>example</h4><pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -513,7 +514,8 @@ int main(int argc, char *argv[]){
 }
 输出：
 8,4,0
-hello</code></pre><hr>
+hello
+</code></pre><hr>
 <p>参考：<a href="https://wiki.sei.cmu.edu/confluence/display/c/MEM33-C.++Allocate+and+copy+structures+containing+a+flexible+array+member+dynamically" target="_blank" rel="noopener">https://wiki.sei.cmu.edu/confluence/display/c/MEM33-C.++Allocate+and+copy+structures+containing+a+flexible+array+member+dynamically</a></p>
 
       

@@ -483,7 +483,8 @@ In [4]: sys.getsizeof(1)                       In [4]: sys.getsizeof(1)
 Out[4]: 28                                     Out[4]: 24
 
 In [6]: sys.getsizeof(0)                       In [6]: sys.getsizeof(0)
-Out[6]: 24                                     Out[6]: 24</code></pre><p>在python2 int对象为24个字节,</p>
+Out[6]: 24                                     Out[6]: 24
+</code></pre><p>在python2 int对象为24个字节,</p>
 <pre><code>#define PyObject_HEAD                   \
     Py_ssize_t ob_refcnt;               \
     struct _typeobject *ob_type;
@@ -491,15 +492,18 @@ Out[6]: 24                                     Out[6]: 24</code></pre><p>在pyth
 typedef struct {
     PyObject_HEAD
     long ob_ival;
-} PyIntObject;</code></pre><hr>
+} PyIntObject;
+</code></pre><hr>
 <p>python3中已不区分int,long对象，而是将python2中的long对象改名为int对象</p>
 <pre><code>typedef unsigned short digit;
 struct _longobject {
     PyObject_VAR_HEAD
     digit ob_digit[1];
-};</code></pre><p>python3中sys.getsizeof(0) == 24</p>
-<pre><code>/*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
-ob_digit[1],所以大小为24Bytes.*/</code></pre><hr>
+};
+</code></pre><p>python3中sys.getsizeof(0) == 24</p>
+<pre><code> /*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
+ ob_digit[1],所以大小为24Bytes.*/
+</code></pre><hr>
 <p>参考：python源码</p>
 
       

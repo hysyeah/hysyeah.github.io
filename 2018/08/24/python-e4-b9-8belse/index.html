@@ -489,7 +489,8 @@ In [2]: print_prime(10)
 2 is a prime number
 3 is a prime number
 5 is a prime number
-7 is a prime number</code></pre><p>当循环自然结束时(循环条件为假)时else从句会被执行一次，而当循环是由<code>break</code>语句中断时，<code>else</code>子句不会被执行。与<code>for</code>语句相似，<code>while</code>语句中的<code>else</code>子句的语意是一样的：<code>else</code>块在循环正常结束和循环条件不成立时被执行。</p>
+7 is a prime number
+</code></pre><p>当循环自然结束时(循环条件为假)时else从句会被执行一次，而当循环是由<code>break</code>语句中断时，<code>else</code>子句不会被执行。与<code>for</code>语句相似，<code>while</code>语句中的<code>else</code>子句的语意是一样的：<code>else</code>块在循环正常结束和循环条件不成立时被执行。</p>
 <hr>
 <p>异常处理中的<code>else</code><br><code>try</code>块没有抛出任何异常时，执行<code>else</code>块</p>
 <pre><code>def save(db, obj):
@@ -498,7 +499,8 @@ In [2]: print_prime(10)
     except DBErrror:
         db.rollback()
     else:
-        db.commit()    # 未发生异常时执行</code></pre><hr>
+        db.commit()    # 未发生异常时执行
+</code></pre><hr>
 <p>参考： 1.编写高质量代码-改善Python程序的91个建议</p>
 
       

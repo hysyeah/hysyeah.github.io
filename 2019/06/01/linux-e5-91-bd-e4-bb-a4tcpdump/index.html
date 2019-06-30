@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开常用选项： -c count                  # 捕获count个packet后退出 tcp zero windowTCP Wind">
+  <meta name="description" content="example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开 常用选项： -c count                  # 捕获count个packet后退出  tcp zero windowTCP Wi">
 <meta name="keywords" content="tcp&#x2F;ip,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux命令tcpdump与tcp zero window">
 <meta property="og:url" content="https://hysyeah.github.io/2019/06/01/linux-e5-91-bd-e4-bb-a4tcpdump/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开常用选项： -c count                  # 捕获count个packet后退出 tcp zero windowTCP Wind">
+<meta property="og:description" content="example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开 常用选项： -c count                  # 捕获count个packet后退出  tcp zero windowTCP Wi">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux命令tcpdump与tcp zero window">
-<meta name="twitter:description" content="example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开常用选项： -c count                  # 捕获count个packet后退出 tcp zero windowTCP Wind">
+<meta name="twitter:description" content="example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开 常用选项： -c count                  # 捕获count个packet后退出  tcp zero windowTCP Wi">
 
 
 
@@ -481,8 +481,10 @@
 tcpdump -i ens250 port 34495 -w t.pcap
 # -i: 指定监听网卡
 # port: 指定监听端口
-# -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开</code></pre><p>常用选项：</p>
-<pre><code>-c count                  # 捕获count个packet后退出</code></pre><hr>
+# -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开
+</code></pre><p>常用选项：</p>
+<pre><code>-c count                  # 捕获count个packet后退出
+</code></pre><hr>
 <h5 id="tcp-zero-window"><a href="#tcp-zero-window" class="headerlink" title="tcp zero window"></a>tcp zero window</h5><p><code>TCP Window size</code>是指机器在一个<code>TCP</code>session中可以接收多大的数据量。类似于<code>TCP</code>中的接收缓冲，当客户端和服务端建立连接时，客户端会通过<code>Window Size</code>告诉服务端可以接收多少数据。 当建立TCP连接后，服务端开始向客户端发送数据，客户端会减少<code>Window Size</code>当接收的数据存在于缓冲中时，同时客户端会在缓冲中处理数据，清空缓冲以便接收更多的数据。通过<code>TCP ACK frames</code>客户端会告诉服务端还可以接收多大的数据。当<code>TCP Window Size</code>等于0时，我们称为零窗口，此时客户端不能再接收数据，直到缓冲中的数据被清空。</p>
 <hr>
 <p>参考： 1.<a href="https://wiki.wireshark.org/TCP%20ZeroWindow" target="_blank" rel="noopener">https://wiki.wireshark.org/TCP%20ZeroWindow</a></p>

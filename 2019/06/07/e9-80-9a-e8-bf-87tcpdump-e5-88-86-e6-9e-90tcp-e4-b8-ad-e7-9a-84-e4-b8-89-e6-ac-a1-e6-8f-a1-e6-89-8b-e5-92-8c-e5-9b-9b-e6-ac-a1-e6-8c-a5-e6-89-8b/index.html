@@ -512,8 +512,9 @@ port = 8080
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((host, port))
-client.close()</code></pre><p>2.在linux终端中执行命令<code>tcpdump -i lo port 8080 -w tcphandshake.pcap</code> 3.在两个窗口分别执行<code>python server.py</code>,<code>python client.py</code> 4.将抓包的在wireshake中打开。 <img src="http://hysyeah.top/wp-content/uploads/2019/06/wireshake-tpc-handshake.png" alt></p>
-<h5 id="可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。"><a href="#可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。" class="headerlink" title="可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。"></a>可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。</h5><p>5.查看分节中的详细信息。 - tcp三次握手中客户端发送的SYN分节。 <img src="http://hysyeah.top/wp-content/uploads/2019/06/handshake1.png" alt><img src="http://hysyeah.top/wp-content/uploads/2019/06/handshake1-1.png" alt> 客户端会告诉对端它的最大分节大小(maximum segment size–MSS),就是在这个连接中每个TCP分节可以接受的最大数据量。 告诉对端它的窗口大小是多少。 - tcp四次挥手，步骤2和步骤3发送的分节（合并成了一个分节），图如下。<img src="http://hysyeah.top/wp-content/uploads/2019/06/huishou1.png" alt></p>
+client.close()
+</code></pre><p>2.在linux终端中执行命令<code>tcpdump -i lo port 8080 -w tcphandshake.pcap</code> 3.在两个窗口分别执行<code>python server.py</code>,<code>python client.py</code> 4.将抓包的在wireshake中打开。 <img src="http://hysyeah.top/wp-content/uploads/2019/06/wireshake-tpc-handshake.png" alt></p>
+<h5 id="可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。"><a href="#可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。" class="headerlink" title="可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。"></a>可以看到和上面描述的过程是一致的，四次挥手步骤2和步骤3合并成了一个分节。</h5><p>5.查看分节中的详细信息。 - tcp三次握手中客户端发送的SYN分节。 <img src="http://hysyeah.top/wp-content/uploads/2019/06/handshake1.png" alt><img src="http://hysyeah.top/wp-content/uploads/2019/06/handshake1-1.png" alt> 客户端会告诉对端它的最大分节大小(maximum segment size—MSS),就是在这个连接中每个TCP分节可以接受的最大数据量。 告诉对端它的窗口大小是多少。 - tcp四次挥手，步骤2和步骤3发送的分节（合并成了一个分节），图如下。<img src="http://hysyeah.top/wp-content/uploads/2019/06/huishou1.png" alt></p>
 <hr>
 <p>总结： 看十遍，不如实际动手操作一遍！！！</p>
 <hr>

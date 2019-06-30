@@ -94,19 +94,19 @@
 
 
 
-  <meta name="description" content="Redis链表的实现代码在src/[adlist.h, adlist.c] typedef struct listNode {     // 指向前节点的指针     struct listNode *prev;      // 指向后节点的指针     struct listNode *next;      // 节点的值     void *value;  } listNode; typede">
+  <meta name="description" content="Redis链表的实现代码在src/[adlist.h, adlist.c] typedef struct listNode {     // 指向前节点的指针     struct listNode *prev;      // 指向后节点的指针     struct listNode *next;      // 节点的值     void *value;  } listNode;  typed">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis之链表实现">
 <meta property="og:url" content="https://hysyeah.github.io/2018/08/11/redis-e4-b9-8b-e9-93-be-e8-a1-a8-e5-ae-9e-e7-8e-b0/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Redis链表的实现代码在src/[adlist.h, adlist.c] typedef struct listNode {     // 指向前节点的指针     struct listNode *prev;      // 指向后节点的指针     struct listNode *next;      // 节点的值     void *value;  } listNode; typede">
+<meta property="og:description" content="Redis链表的实现代码在src/[adlist.h, adlist.c] typedef struct listNode {     // 指向前节点的指针     struct listNode *prev;      // 指向后节点的指针     struct listNode *next;      // 节点的值     void *value;  } listNode;  typed">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/08/dualist.png">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/08/adlist.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis之链表实现">
-<meta name="twitter:description" content="Redis链表的实现代码在src/[adlist.h, adlist.c] typedef struct listNode {     // 指向前节点的指针     struct listNode *prev;      // 指向后节点的指针     struct listNode *next;      // 节点的值     void *value;  } listNode; typede">
+<meta name="twitter:description" content="Redis链表的实现代码在src/[adlist.h, adlist.c] typedef struct listNode {     // 指向前节点的指针     struct listNode *prev;      // 指向后节点的指针     struct listNode *next;      // 节点的值     void *value;  } listNode;  typed">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/08/dualist.png">
 
 
@@ -490,7 +490,8 @@
     // 节点的值
     void *value;
 
-} listNode;</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/dualist.png" alt></p>
+} listNode;
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/dualist.png" alt></p>
 <pre><code>typedef struct list {
 
     // 表头节点
@@ -511,7 +512,8 @@
     // 链表所包含的节点数量
     unsigned long len;
 
-} list;</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/adlist.png" alt></p>
+} list;
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/adlist.png" alt></p>
 <pre><code>// 返回给定链表所包含的节点数量
 // T = O(1)
 #define listLength(l) ((l)-&gt;len)
@@ -857,7 +859,8 @@ listNode *listSearchKey(list *list, void *key)
 
     // 未找到
     return NULL;
-}</code></pre><p><a href="https://github.com/hys20151008/datastructures/blob/master/adlist.c" target="_blank" rel="noopener">测试代码</a></p>
+}
+</code></pre><p><a href="https://github.com/hys20151008/datastructures/blob/master/adlist.c" target="_blank" rel="noopener">测试代码</a></p>
 <hr>
 <p>参考： 1.Redis设计与实现 2.Redis源码</p>
 

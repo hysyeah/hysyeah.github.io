@@ -102,7 +102,7 @@
 <meta property="og:description" content="matplotlib.pyplot.pie(x, explode=None, labels=None, colors=None, autopct=None, pctdistance=0.6, shadow=False, labeldistance=1.1, startangle=None, radius=None, counterclock=True, wedgeprops=None, textp">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/11/QQ%E5%9B%BE%E7%89%8720171127185444.png">
+<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyplot.pie">
@@ -491,16 +491,17 @@
 <pre><code>import matplotlib.pyplot as plt
 
 # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-labels = &apos;Frogs&apos;, &apos;Hogs&apos;, &apos;Dogs&apos;, &apos;Logs&apos;
+labels = &#39;Frogs&#39;, &#39;Hogs&#39;, &#39;Dogs&#39;, &#39;Logs&#39;
 sizes = [15, 30, 45, 10]
-explode = (0, 0.1, 0, 0)  # only &quot;explode&quot; the 2nd slice (i.e. &apos;Hogs&apos;)
+explode = (0, 0.1, 0, 0)  # only &quot;explode&quot; the 2nd slice (i.e. &#39;Hogs&#39;)
 
 fig1, ax1 = plt.subplots()
-ax1.pie(sizes, explode=explode, labels=labels, autopct=&apos;%1.1f%%&apos;,
+ax1.pie(sizes, explode=explode, labels=labels, autopct=&#39;%1.1f%%&#39;,
         shadow=True, startangle=90) #autopct 扇形区域显示的文字格式
 ax1.axis(&quot;equal&quot;)  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-plt.show()</code></pre><p><img src="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png" alt="image"></p>
 <hr>
 <pre><code>#通过两个饼图绘制双层饼图
 import matplotlib.pyplot as plt
@@ -511,14 +512,15 @@ vals3 = [1]
 vals4 = [1]
 
 fig, ax = plt.subplots()
-labels = &apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;
+labels = &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;
 
 ax.pie(vals1, radius=1.2)
 ax.pie(vals2, radius=1.0,startangle=90)
 ax.pie(vals3, radius=0.8)
 ax.pie(vals4, radius=0.4)
 ax.set(aspect=&quot;equal&quot;)
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ%E5%9B%BE%E7%89%8720171127185444.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png" alt="image"></p>
 <hr>
 <p>参考： 1.<a href="https://zhuanlan.zhihu.com/p/27442584" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27442584</a> 2.<a href="http://matplotlib.org/api/pyplot_api.html" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html</a></p>
 

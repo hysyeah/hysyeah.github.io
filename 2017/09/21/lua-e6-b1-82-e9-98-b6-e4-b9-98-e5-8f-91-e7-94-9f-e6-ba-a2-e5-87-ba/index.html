@@ -94,19 +94,19 @@
 
 
 
-  <meta name="description" content="function fact(n)   if n == 0 then     return 1   end   return n * fact(n-1) end  for i=1, 100, 1 do   print(i,fact(i)) --发生溢出 end 通过使用lua的’bn’库可以解决这问题，从lbn下载lbn.tar.gz， tar -xzvf lbn.tar.gzcd bn    修改">
+  <meta name="description" content="function fact(n)   if n == 0 then     return 1   end   return n * fact(n-1) end  for i=1, 100, 1 do   print(i,fact(i)) --发生溢出 end  通过使用lua的’bn’库可以解决这问题，从lbn下载lbn.tar.gz， tar -xzvf lbn.tar.gzcd bn    修">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lua求阶乘发生溢出">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/21/lua-e6-b1-82-e9-98-b6-e4-b9-98-e5-8f-91-e7-94-9f-e6-ba-a2-e5-87-ba/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="function fact(n)   if n == 0 then     return 1   end   return n * fact(n-1) end  for i=1, 100, 1 do   print(i,fact(i)) --发生溢出 end 通过使用lua的’bn’库可以解决这问题，从lbn下载lbn.tar.gz， tar -xzvf lbn.tar.gzcd bn    修改">
+<meta property="og:description" content="function fact(n)   if n == 0 then     return 1   end   return n * fact(n-1) end  for i=1, 100, 1 do   print(i,fact(i)) --发生溢出 end  通过使用lua的’bn’库可以解决这问题，从lbn下载lbn.tar.gz， tar -xzvf lbn.tar.gzcd bn    修">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C-1.png">
+<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2017/09/和-1.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lua求阶乘发生溢出">
-<meta name="twitter:description" content="function fact(n)   if n == 0 then     return 1   end   return n * fact(n-1) end  for i=1, 100, 1 do   print(i,fact(i)) --发生溢出 end 通过使用lua的’bn’库可以解决这问题，从lbn下载lbn.tar.gz， tar -xzvf lbn.tar.gzcd bn    修改">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C-1.png">
+<meta name="twitter:description" content="function fact(n)   if n == 0 then     return 1   end   return n * fact(n-1) end  for i=1, 100, 1 do   print(i,fact(i)) --发生溢出 end  通过使用lua的’bn’库可以解决这问题，从lbn下载lbn.tar.gz， tar -xzvf lbn.tar.gzcd bn    修">
+<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2017/09/和-1.png">
 
 
 
@@ -487,7 +487,8 @@ end
 
 for i=1, 100, 1 do
   print(i,fact(i)) --发生溢出
-end</code></pre><ul>
+end
+</code></pre><ul>
 <li><p>通过使用lua的’bn’库可以解决这问题，从<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/#lbn" target="_blank" rel="noopener">lbn</a>下载lbn.tar.gz，</p>
 <p>tar -xzvf lbn.tar.gz<br>cd bn</p>
 </li>
@@ -495,14 +496,16 @@ end</code></pre><ul>
 <ul>
 <li>修改Makefile如下</li>
 </ul>
-<p><img src="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C-1.png" alt="image"></p>
-<pre><code>make</code></pre><ul>
+<p><img src="http://hysyeah.top/wp-content/uploads/2017/09/和-1.png" alt="image"></p>
+<pre><code>make
+</code></pre><ul>
 <li><p>在当前目录下会生成一个bn.so文件，将bn.so拷贝到代码文件所在目录，或者通过LUA_CPATH指定require搜索路径</p>
 <p>local bn = require “bn”</p>
 <p>function bn_fact(bn.number(n))<br>  if n:tonumber() == 0 then return 1 end<br>  return n * bn_fact(n-1)<br>end</p>
 <p>function fact(n)<br>  return bn_fact(bn.number(n))<br>end</p>
 <p>for i=1,100,1 do</p>
-<pre><code>print(i,fact(i)) -- 未发生溢出</code></pre><p>end</p>
+<pre><code>print(i,fact(i)) -- 未发生溢出
+</code></pre><p>end</p>
 </li>
 </ul>
 <p>参考： 1.<a href="https://stackoverflow.com/questions/46317930/why-lua-and-python-factorial-output-was-different" target="_blank" rel="noopener">stackoverflow</a> 2.<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html" target="_blank" rel="noopener">http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html</a></p>

@@ -487,7 +487,7 @@
 <pre><code># 构建数据集
 def loadDataSet2():
     dataMat = []; labelMat = []
-    fr = open(&apos;./dataset/testSet5.txt&apos;)
+    fr = open(&#39;./dataset/testSet5.txt&#39;)
     for line in fr.readlines():
         lineArr = line.strip().split()
         dataMat.append([1.0, float(lineArr[0]), float(lineArr[1])])
@@ -547,11 +547,11 @@ def classifyVec(inX, weights):
 
 # 训练，测试
 def colicTest():
-    frTrain = open(&apos;dataset/horseColicTraining.txt&apos;)
-    frTest = open(&apos;dataset/horseColicTest.txt&apos;)
+    frTrain = open(&#39;dataset/horseColicTraining.txt&#39;)
+    frTest = open(&#39;dataset/horseColicTest.txt&#39;)
     trainingSet, trainingLabels = [], []
     for line in frTrain.readlines():
-        currLine = line.strip().split(&apos;\t&apos;)
+        currLine = line.strip().split(&#39;\t&#39;)
         lineArr = []
         for i in range(21):
             lineArr.append(float(currLine[i]))
@@ -561,14 +561,15 @@ def colicTest():
     errorCount, numTestVec = 0, 0
     for line in frTest.readlines():
         numTestVec += 1
-        currLine = line.strip().split(&apos;\t&apos;)
+        currLine = line.strip().split(&#39;\t&#39;)
         lineArr = []
         for i in range(21):
             lineArr.append(float(currLine[i]))
         if int(classifyVec(np.array(lineArr), trainWeights))!=int(currLine[21]):
             errorCount += 1
     errorRate = (float(errorCount)/numTestVec)
-    print(&quot;the error rate of this test is: %f&quot; % errorRate)</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/logRegres.py" target="_blank" rel="noopener">完整代码</a></p>
+    print(&quot;the error rate of this test is: %f&quot; % errorRate)
+</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/logRegres.py" target="_blank" rel="noopener">完整代码</a></p>
 <hr>
 <p>参考： 1.统计学习方法 2.机器学习实战</p>
 

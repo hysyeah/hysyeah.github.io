@@ -491,18 +491,19 @@ import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
 
-ax.spines[&apos;right&apos;].set_color(&apos;none&apos;)
-ax.spines[&apos;top&apos;].set_color(&apos;none&apos;)
-ax.spines[&apos;left&apos;].set_position((&apos;axes&apos;, 0.5))
-ax.spines[&apos;bottom&apos;].set_position((&apos;axes&apos;, 0.5))
+ax.spines[&#39;right&#39;].set_color(&#39;none&#39;)
+ax.spines[&#39;top&#39;].set_color(&#39;none&#39;)
+ax.spines[&#39;left&#39;].set_position((&#39;axes&#39;, 0.5))
+ax.spines[&#39;bottom&#39;].set_position((&#39;axes&#39;, 0.5))
 
 x = np.linspace(-5, 5, 1000)
 
 ax.plot(x, x)
-ax.text(-4, 4, &apos;y=x&apos;, color=&apos;r&apos;)
-ax.set_xlabel(&apos;x&apos;, horizontalalignment=&apos;right&apos;, x=1.0)
-ax.set_ylabel(&apos;y&apos;, horizontalalignment=&apos;right&apos;, y=1.0, rotation=0)
-plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/fx.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/06/fx.png" alt></p>
+ax.text(-4, 4, &#39;y=x&#39;, color=&#39;r&#39;)
+ax.set_xlabel(&#39;x&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
+ax.set_ylabel(&#39;y&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
+plt.show()
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/fx.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/06/fx.png" alt></p>
 <hr>
 <p>参考： 1.<a href="https://matplotlib.org/api/spines_api.html#matplotlib.spines.Spine.set_position" target="_blank" rel="noopener">matplotlib文档</a></p>
 

@@ -504,11 +504,12 @@
 create database ptldwh template template0; #To make an empty database without any local additions
 
 
-pg_dump -Fc -v -n &apos;public&apos; --host=127.0.0.1 -p5433 --no-owner --no-privileges --username=ptldwhdata ptldwh -t host &gt;ptldwh.dump
+pg_dump -Fc -v -n &#39;public&#39; --host=127.0.0.1 -p5433 --no-owner --no-privileges --username=ptldwhdata ptldwh -t host &gt;ptldwh.dump
 
--t &apos;t_*&apos; #指定要同步的表名
+-t &#39;t_*&#39; #指定要同步的表名
 
-pg_restore -n &apos;public&apos; -Uroot --no-owner --no-privileges --disable-triggers -d ptldwh -t host ptldwh.dump</code></pre><hr>
+pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-triggers -d ptldwh -t host ptldwh.dump
+</code></pre><hr>
 <p>参考： 1.<a href="https://www.postgresql.org/docs/10/app-pgdump.html" target="_blank" rel="noopener">pg_dump</a> 2.<a href="https://www.postgresql.org/docs/10/app-pgrestore.html" target="_blank" rel="noopener">pg_restore</a></p>
 
       

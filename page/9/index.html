@@ -479,30 +479,32 @@
           
             <h4 id="创建一个list-并赋值给变量lst"><a href="#创建一个list-并赋值给变量lst" class="headerlink" title="创建一个list,并赋值给变量lst"></a>创建一个list,并赋值给变量lst</h4><pre><code>&gt; (define lst (list 1 2 3 4))
 &gt; lst
-&apos;(1 2 3 4)</code></pre><h4 id="list内置方法"><a href="#list内置方法" class="headerlink" title="list内置方法"></a>list内置方法</h4><pre><code>&gt; (length lst)                      ;列表长度
+&#39;(1 2 3 4)
+</code></pre><h4 id="list内置方法"><a href="#list内置方法" class="headerlink" title="list内置方法"></a>list内置方法</h4><pre><code>&gt; (length lst)                      ;列表长度
 4
 &gt; (list-ref lst 0)                  ;根据下标取值
 1
 &gt; (append lst (list 5 6 7))         ;连接两个列表
-&apos;(1 2 3 4 5 6 7)
+&#39;(1 2 3 4 5 6 7)
 &gt; (reverse lst)                     ;反转列表
-&apos;(4 3 2 1)
+&#39;(4 3 2 1)
 &gt; (member 5 (list 1 2 3))           ;判断元素是否存在于列表中
 #f
 &gt; (map sqrt (list 1 4 9 16))        ;依次对列表中的每个元素求算术平方根
-&apos;(1 2 3 4)
+&#39;(1 2 3 4)
 
 &gt; (andmap string? (list &quot;a&quot; &quot;b&quot; 6)) ;判断列表中元素是否全部为string,
 #f
 &gt; (ormap number? (list &quot;a&quot; &quot;b&quot; 6))  ;判断列表中元素是否存在number
 
 &gt; (filter string? (list &quot;a&quot; &quot;b&quot; 6)) ;对列表元素进行过滤
-&apos;(&quot;a&quot; &quot;b&quot;)
+&#39;(&quot;a&quot; &quot;b&quot;)
 
 &gt; (first (list 1 2 3))              ;返回列表中的第一个元素
 1
 &gt; (rest (list 1 2 3))               ;返回除第一个元素的剩余元素
-&apos;(2 3)</code></pre><hr>
+&#39;(2 3)
+</code></pre><hr>
 <p>参考： 1.<a href="https://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html" target="_blank" rel="noopener">官方文档</a></p>
 
           
@@ -676,7 +678,8 @@
           
             <h4 id="if-‹expr›-‹expr›-‹expr›"><a href="#if-‹expr›-‹expr›-‹expr›" class="headerlink" title="( if ‹expr› ‹expr› ‹expr› )"></a>( if ‹expr› ‹expr› ‹expr› )</h4><h4 id="if语句，若2-gt-3输出”bigger”-否则输出”smaller”"><a href="#if语句，若2-gt-3输出”bigger”-否则输出”smaller”" class="headerlink" title="if语句，若2&gt;3输出”bigger”,否则输出”smaller”"></a>if语句，若2&gt;3输出”bigger”,否则输出”smaller”</h4><pre><code>&gt; (if (&gt; 2 3)
       &quot;bigger&quot;
-      &quot;smaller&quot;)</code></pre><h4 id="cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default"><a href="#cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default" class="headerlink" title="( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)"></a>( cond {[ ‹expr› ‹expr›* ]}* )(相当于C中的switch,else相当于c中的default)</h4><pre><code>&gt; (define (reply-more s)
+      &quot;smaller&quot;)
+</code></pre><h4 id="cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default"><a href="#cond-‹expr›-‹expr›-相当于C中的switch-else相当于c中的default" class="headerlink" title="( cond {[ ‹expr› ‹expr› ]} )(相当于C中的switch,else相当于c中的default)"></a>( cond {[ ‹expr› ‹expr›<em> ]}</em> )(相当于C中的switch,else相当于c中的default)</h4><pre><code>&gt; (define (reply-more s)
     (cond
       [(equal? &quot;hello&quot; (substring s 0 5))
        (string-append &quot;this is &quot; s)]
@@ -687,15 +690,18 @@
 &gt; (reply-more &quot;hello&quot;)
 &quot;this is hello&quot;
 &gt; (reply-more &quot;dfdfllfd&quot;)
-&quot;hehe&quot;</code></pre><h4 id="and-‹expr›-当所有表达式为真时，返回真"><a href="#and-‹expr›-当所有表达式为真时，返回真" class="headerlink" title="( and ‹expr›* )(当所有表达式为真时，返回真)"></a>( and ‹expr›* )(当所有表达式为真时，返回真)</h4><pre><code>&gt; (define (is-digit v)
+&quot;hehe&quot;
+</code></pre><h4 id="and-‹expr›-当所有表达式为真时，返回真"><a href="#and-‹expr›-当所有表达式为真时，返回真" class="headerlink" title="( and ‹expr›* )(当所有表达式为真时，返回真)"></a>( and ‹expr›* )(当所有表达式为真时，返回真)</h4><pre><code>&gt; (define (is-digit v)
     (if (and (number? v) (&gt; v 0) (&lt; v 10))
         &quot;v is a number and value is between 1-9&quot;
         &quot;v is not a number&quot;))
 &gt; (is-digit 5)
-&quot;v is a number and value is between 1-9&quot;</code></pre><h4 id="or-‹expr›-当任一表达式为真时，返回真"><a href="#or-‹expr›-当任一表达式为真时，返回真" class="headerlink" title="( or ‹expr›* )(当任一表达式为真时，返回真)"></a>( or ‹expr›* )(当任一表达式为真时，返回真)</h4><pre><code>&gt; (define (str-num v)
+&quot;v is a number and value is between 1-9&quot;
+</code></pre><h4 id="or-‹expr›-当任一表达式为真时，返回真"><a href="#or-‹expr›-当任一表达式为真时，返回真" class="headerlink" title="( or ‹expr›* )(当任一表达式为真时，返回真)"></a>( or ‹expr›* )(当任一表达式为真时，返回真)</h4><pre><code>&gt; (define (str-num v)
     (if (or (string? v) (number? v))
         &quot;v is string or number&quot;
-        &quot;v is not string or number&quot;))</code></pre><hr>
+        &quot;v is not string or number&quot;))
+</code></pre><hr>
 <p>参考： 1.<a href="https://docs.racket-lang.org/guide/syntax-overview.html" target="_blank" rel="noopener">官方文档</a></p>
 
           
@@ -882,7 +888,8 @@ def twoSum(self, nums, target):
     :type nums: List[int]
     :type target: int
     :rtype: List[int]
-    &quot;&quot;&quot;</code></pre>
+    &quot;&quot;&quot;
+</code></pre>
           
         
       
@@ -1054,34 +1061,34 @@ def twoSum(self, nums, target):
           
             <pre><code># 将字典转换为元素为(key, val)的列表
 In [1]: def dict_to_sequnce(d):
-             if hasattr(d, &apos;items&apos;):
+             if hasattr(d, &#39;items&#39;):
                  d = d.items()
              return d
-In [2]: d = {&apos;a&apos;: 1, &apos;b&apos;: 2}
+In [2]: d = {&#39;a&#39;: 1, &#39;b&#39;: 2}
 
 In [3]: dict_to_sequnce(d)
-Out[3]: dict_items([(&apos;a&apos;, 1), (&apos;b&apos;, 2)])
+Out[3]: dict_items([(&#39;a&#39;, 1), (&#39;b&#39;, 2)])
 
 
 # 获取各种对象的长度，如str,BytesIO,文件
-# 通过hasattr(o, &apos;getvalue&apos;)判断对象是是否是BytesIO,StringIO
-# 通过hasattr(o, &apos;fileno&apos;)判断是否是文件对象
+# 通过hasattr(o, &#39;getvalue&#39;)判断对象是是否是BytesIO,StringIO
+# 通过hasattr(o, &#39;fileno&#39;)判断是否是文件对象
 # 文件和标准输入都有tell方法，而标准输入调用tell()方法则会产生异常，当遇到类似情况会把对象长度置为0,交给请求来获取它的长度。
 def super_len(o):
     total_length = 0
     current_position = 0
 
-    if hasattr(o, &apos;__len__&apos;):
+    if hasattr(o, &#39;__len__&#39;):
         total_length = len(o)
 
-    elif hasattr(o, &apos;len&apos;):
+    elif hasattr(o, &#39;len&#39;):
         total_length = o.len
 
-    elif hasattr(o, &apos;getvalue&apos;):
+    elif hasattr(o, &#39;getvalue&#39;):
         # e.g. BytesIO, cStringIO.StringIO
         total_length = len(o.getvalue())
 
-    elif hasattr(o, &apos;fileno&apos;):
+    elif hasattr(o, &#39;fileno&#39;):
         try:
             fileno = o.fileno()
         except io.UnsupportedOperation:
@@ -1091,24 +1098,24 @@ def super_len(o):
 
             # Having used fstat to determine the file length, we need to
             # confirm that this file was opened up in binary mode.
-            if &apos;b&apos; not in o.mode:
+            if &#39;b&#39; not in o.mode:
                 warnings.warn((
                     &quot;Requests has determined the content-length for this &quot;
                     &quot;request using the binary size of the file: however, the &quot;
-                    &quot;file has been opened in text mode (i.e. without the &apos;b&apos; &quot;
+                    &quot;file has been opened in text mode (i.e. without the &#39;b&#39; &quot;
                     &quot;flag in the mode). This may lead to an incorrect &quot;
                     &quot;content-length. In Requests 3.0, support will be removed &quot;
                     &quot;for files in text mode.&quot;),
                     FileModeWarning
                 )
 
-    if hasattr(o, &apos;tell&apos;):
+    if hasattr(o, &#39;tell&#39;):
         try:
             current_position = o.tell()
         except (OSError, IOError):
             # This can happen in some weird situations, such as when the file
             # is actually a special file descriptor like stdin. In this
-            # instance, we don&apos;t know what the length is, so set it to zero and
+            # instance, we don&#39;t know what the length is, so set it to zero and
             # let requests chunk it instead.
             current_position = total_length
 
@@ -1131,13 +1138,13 @@ def urldefragauth(url):
 
     if not netloc:
         netloc, path = path, netloc
-    netloc = netloc.rsplit(&apos;@&apos;, 1)[-1]
+    netloc = netloc.rsplit(&#39;@&#39;, 1)[-1]
 
-    return urlunparse((scheme, netloc, path, params, query, &apos;&apos;))
+    return urlunparse((scheme, netloc, path, params, query, &#39;&#39;))
 
 
-_CLEAN_HEADER_REGEX_BYTE = re.compile(b&apos;^\\S[^\\r\\n]*$|^$&apos;) #\S匹配任意非空格字符,--
-_CLEAN_HEADER_REGEX_STR = re.compile(r&apos;^\S[^\r\n]*$|^$&apos;) # 匹配以非空开头，非\r\n结尾或者空白字符串
+_CLEAN_HEADER_REGEX_BYTE = re.compile(b&#39;^\\S[^\\r\\n]*$|^$&#39;) #\S匹配任意非空格字符,--
+_CLEAN_HEADER_REGEX_STR = re.compile(r&#39;^\S[^\r\n]*$|^$&#39;) # 匹配以非空开头，非\r\n结尾或者空白字符串
 # 检验头的有效性防止header injection
 def check_header_validity(header):
     name, value = header
@@ -1160,7 +1167,7 @@ def get_auth_from_url(url):
     try:
         auth = (unquote(parsed.username), unquote(parsed.password))
     except (AttributeError, TypeError):
-        auth = (&apos;&apos;, &apos;&apos;)
+        auth = (&#39;&#39;, &#39;&#39;)
 
     return auth      
 
@@ -1176,9 +1183,9 @@ def is_valid_cidr(string_network):
     &quot;&quot;&quot;
     判断是否是类似192.168.2.1/16的地址
     &quot;&quot;&quot;
-    if string_network.count(&apos;/&apos;) == 1:
+    if string_network.count(&#39;/&#39;) == 1:
         try:
-            mask = int(string_network.split(&apos;/&apos;)[1])
+            mask = int(string_network.split(&#39;/&#39;)[1])
         except ValueError:
             return False
 
@@ -1186,7 +1193,7 @@ def is_valid_cidr(string_network):
             return False
 
         try:
-            socket.inet_aton(string_network.split(&apos;/&apos;)[0])
+            socket.inet_aton(string_network.split(&#39;/&#39;)[0])
         except socket.error:
             return False
     else:
@@ -1196,7 +1203,7 @@ def is_valid_cidr(string_network):
 
 # native string 指类型为str的字符串，python2与python3中str是不一样的(http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/)
 # Http请求/响应头和元数据要求数据为str类型。
-def to_native_string(string, encoding=&apos;ascii&apos;):
+def to_native_string(string, encoding=&#39;ascii&#39;):
     if isinstance(string, builtin_str):
         out = string
     else:
@@ -1215,7 +1222,7 @@ def from_key_val_list(value):
         return None
 
     if isinstance(value, (str, bytes, bool, int)):
-        raise ValueError(&apos;cannot encode objects that are not 2-tuples&apos;)
+        raise ValueError(&#39;cannot encode objects that are not 2-tuples&#39;)
 
     return OrderedDict(value)
 
@@ -1226,12 +1233,13 @@ def to_key_val_list(value):
         return None
 
     if isinstance(value, (str, bytes, bool, int)):
-        raise ValueError(&apos;cannot encode objects that are not 2-tuples&apos;)
+        raise ValueError(&#39;cannot encode objects that are not 2-tuples&#39;)
 
     if isinstance(value, collections.Mapping):
         value = value.items()
 
-    return list(value)</code></pre><hr>
+    return list(value)
+</code></pre><hr>
 <p>参考： 1.<a href="https://www.gracefulsecurity.com/http-header-injection/" target="_blank" rel="noopener">header injection</a> 2.<a href="https://github.com/requests/requests/blob/v2.11.0/requests/utils.py" target="_blank" rel="noopener">requests/utils.py</a></p>
 
           
@@ -1415,18 +1423,19 @@ import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
 
-ax.spines[&apos;right&apos;].set_color(&apos;none&apos;)
-ax.spines[&apos;top&apos;].set_color(&apos;none&apos;)
-ax.spines[&apos;left&apos;].set_position((&apos;axes&apos;, 0.5))
-ax.spines[&apos;bottom&apos;].set_position((&apos;axes&apos;, 0.5))
+ax.spines[&#39;right&#39;].set_color(&#39;none&#39;)
+ax.spines[&#39;top&#39;].set_color(&#39;none&#39;)
+ax.spines[&#39;left&#39;].set_position((&#39;axes&#39;, 0.5))
+ax.spines[&#39;bottom&#39;].set_position((&#39;axes&#39;, 0.5))
 
 x = np.linspace(-5, 5, 1000)
 
 ax.plot(x, x)
-ax.text(-4, 4, &apos;y=x&apos;, color=&apos;r&apos;)
-ax.set_xlabel(&apos;x&apos;, horizontalalignment=&apos;right&apos;, x=1.0)
-ax.set_ylabel(&apos;y&apos;, horizontalalignment=&apos;right&apos;, y=1.0, rotation=0)
-plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/fx.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/06/fx.png" alt></p>
+ax.text(-4, 4, &#39;y=x&#39;, color=&#39;r&#39;)
+ax.set_xlabel(&#39;x&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
+ax.set_ylabel(&#39;y&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
+plt.show()
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/fx.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/06/fx.png" alt></p>
 <hr>
 <p>参考： 1.<a href="https://matplotlib.org/api/spines_api.html#matplotlib.spines.Spine.set_position" target="_blank" rel="noopener">matplotlib文档</a></p>
 
@@ -1607,7 +1616,7 @@ plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/mast
 <pre><code># 构建数据集
 def loadDataSet2():
     dataMat = []; labelMat = []
-    fr = open(&apos;./dataset/testSet5.txt&apos;)
+    fr = open(&#39;./dataset/testSet5.txt&#39;)
     for line in fr.readlines():
         lineArr = line.strip().split()
         dataMat.append([1.0, float(lineArr[0]), float(lineArr[1])])
@@ -1667,11 +1676,11 @@ def classifyVec(inX, weights):
 
 # 训练，测试
 def colicTest():
-    frTrain = open(&apos;dataset/horseColicTraining.txt&apos;)
-    frTest = open(&apos;dataset/horseColicTest.txt&apos;)
+    frTrain = open(&#39;dataset/horseColicTraining.txt&#39;)
+    frTest = open(&#39;dataset/horseColicTest.txt&#39;)
     trainingSet, trainingLabels = [], []
     for line in frTrain.readlines():
-        currLine = line.strip().split(&apos;\t&apos;)
+        currLine = line.strip().split(&#39;\t&#39;)
         lineArr = []
         for i in range(21):
             lineArr.append(float(currLine[i]))
@@ -1681,14 +1690,15 @@ def colicTest():
     errorCount, numTestVec = 0, 0
     for line in frTest.readlines():
         numTestVec += 1
-        currLine = line.strip().split(&apos;\t&apos;)
+        currLine = line.strip().split(&#39;\t&#39;)
         lineArr = []
         for i in range(21):
             lineArr.append(float(currLine[i]))
         if int(classifyVec(np.array(lineArr), trainWeights))!=int(currLine[21]):
             errorCount += 1
     errorRate = (float(errorCount)/numTestVec)
-    print(&quot;the error rate of this test is: %f&quot; % errorRate)</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/logRegres.py" target="_blank" rel="noopener">完整代码</a></p>
+    print(&quot;the error rate of this test is: %f&quot; % errorRate)
+</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/logRegres.py" target="_blank" rel="noopener">完整代码</a></p>
 <hr>
 <p>参考： 1.统计学习方法 2.机器学习实战</p>
 
@@ -2045,21 +2055,22 @@ def move_sympyplot_to_axes(p, ax):
     backend = p.backend(p)
     backend.ax = ax
     backend.process_series()
-    backend.ax.spines[&apos;right&apos;].set_color(&apos;none&apos;)
-    backend.ax.spines[&apos;bottom&apos;].set_position(&apos;zero&apos;)
-    backend.ax.spines[&apos;top&apos;].set_color(&apos;none&apos;)
+    backend.ax.spines[&#39;right&#39;].set_color(&#39;none&#39;)
+    backend.ax.spines[&#39;bottom&#39;].set_position(&#39;zero&#39;)
+    backend.ax.spines[&#39;top&#39;].set_color(&#39;none&#39;)
     plt.close(backend.fig)
 
-x = symbols(&apos;x&apos;)
+x = symbols(&#39;x&#39;)
 p1 = plot((x**2,(x,-2,2)),(x,(x,-4,4)),legend=True, show=False)
-p1[1].line_color = &apos;r&apos;
+p1[1].line_color = &#39;r&#39;
 p2 = plot((1/x,(x,-4,4)),ylim=(-2,2),legend=True, show=False)
 
 
 fig,(ax,ax2) = plt.subplots(ncols=2)
 move_sympyplot_to_axes(p1,ax)
 move_sympyplot_to_axes(p2, ax2)
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/some_graf.png" alt></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/some_graf.png" alt></p>
 
           
         
@@ -2230,11 +2241,11 @@ plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/0
       
         
           
-            <p>若总体X属于离散型，其分布律[latex]P\{X=x\} = p(x;\theta),\theta \in \Theta[/latex]的形式为已知，[latex]\theta[/latex]为待估参数，[latex]\Theta[/latex]为[latex]\theta[/latex]可能取值的范围。设[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]是来自X的样本，则[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]的联合分布律为<br>[latex]\prod_{i=1}^n p(x_{i};\theta)[/latex] 又设[latex]x_{1},x_{2},\cdot \cdot \cdot, x_{n}[/latex]是相应于样本[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]的一个样本值。易知样本[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]取到观察值[latex]x_{1},x_{2},\cdot \cdot \cdot, x_{n}[/latex]的概率，亦即事件[latex]\{ X_{1} = x_{1}, X_{2}=x_{2},\cdot \cdot \cdot, X_{n}=x_{n}\}[/latex]发生的概率为<br>[latex]L(\theta)=L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta) = \prod_{i=1}^np(x_{i};\theta), \theta \in \Theta[/latex]<br>这一概率随[latex]\theta[/latex]的取值而变化，它是[latex]\theta[/latex]的函数，[latex]L(\theta)[/latex]称为样本的似然函数。<br>最大似然估计法就是固定样本观察值[latex]x_{1},x_{2},\cdot \cdot \cdot, x_{n}[/latex],在[latex]\theta[/latex]的取值范围[latex]\Theta[/latex]内挑选使似然函数[latex]L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\hat \theta)=\max_{\theta \in \Theta}L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta)[/latex] 这样得到的[latex]\hat \theta[/latex]与样本值[latex]x_{1},x_{2},\cdot \cdot \cdot, x_{n}[/latex]有关，常记为[latex]\hat \theta (x_{1},x_{2},\cdot \cdot \cdot, x_{n})[/latex],称为参数[latex]\theta[/latex]的最大似然估计值，而相应的统计量[latex]\hat \theta (X_{1},X_{2},\cdot \cdot \cdot, X_{n})[/latex]称为参数[latex]\theta[/latex]的最大似然估计量。</p>
+            <p>若总体X属于离散型，其分布律[latex]P\{X=x\} = p(x;\theta),\theta \in \Theta[/latex]的形式为已知，[latex]\theta[/latex]为待估参数，[latex]\Theta[/latex]为[latex]\theta[/latex]可能取值的范围。设[latex]X<em>{1},X</em>{2},\cdot \cdot \cdot, X<em>{n}[/latex]是来自X的样本，则[latex]X</em>{1},X<em>{2},\cdot \cdot \cdot, X</em>{n}[/latex]的联合分布律为<br>[latex]\prod<em>{i=1}^n p(x</em>{i};\theta)[/latex] 又设[latex]x<em>{1},x</em>{2},\cdot \cdot \cdot, x<em>{n}[/latex]是相应于样本[latex]X</em>{1},X<em>{2},\cdot \cdot \cdot, X</em>{n}[/latex]的一个样本值。易知样本[latex]X<em>{1},X</em>{2},\cdot \cdot \cdot, X<em>{n}[/latex]取到观察值[latex]x</em>{1},x<em>{2},\cdot \cdot \cdot, x</em>{n}[/latex]的概率，亦即事件[latex]\{ X<em>{1} = x</em>{1}, X<em>{2}=x</em>{2},\cdot \cdot \cdot, X<em>{n}=x</em>{n}\}[/latex]发生的概率为<br>[latex]L(\theta)=L(x<em>{1},x</em>{2},\cdot \cdot \cdot,x<em>{n};\theta) = \prod</em>{i=1}^np(x<em>{i};\theta), \theta \in \Theta[/latex]<br>这一概率随[latex]\theta[/latex]的取值而变化，它是[latex]\theta[/latex]的函数，[latex]L(\theta)[/latex]称为样本的似然函数。<br>最大似然估计法就是固定样本观察值[latex]x</em>{1},x<em>{2},\cdot \cdot \cdot, x</em>{n}[/latex],在[latex]\theta[/latex]的取值范围[latex]\Theta[/latex]内挑选使似然函数[latex]L(x<em>{1},x</em>{2},\cdot \cdot \cdot,x<em>{n};\hat \theta)=\max</em>{\theta \in \Theta}L(x<em>{1},x</em>{2},\cdot \cdot \cdot,x<em>{n};\theta)[/latex] 这样得到的[latex]\hat \theta[/latex]与样本值[latex]x</em>{1},x<em>{2},\cdot \cdot \cdot, x</em>{n}[/latex]有关，常记为[latex]\hat \theta (x<em>{1},x</em>{2},\cdot \cdot \cdot, x<em>{n})[/latex],称为参数[latex]\theta[/latex]的最大似然估计值，而相应的统计量[latex]\hat \theta (X</em>{1},X<em>{2},\cdot \cdot \cdot, X</em>{n})[/latex]称为参数[latex]\theta[/latex]的最大似然估计量。</p>
 <hr>
-<p>若总体X属于连续型，其概率密度[latex]f(x;\theta),\theta \in \Theta[/latex]的形式为已知，[latex]\theta[/latex]为待估参数，[latex]\Theta[/latex]为[latex]\theta[/latex]可能取值的范围。设[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]是来自X的样本，则[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]的联合密度为<br>[latex]\prod_{i=1}^n f(x_{i};\theta)[/latex] 又设[latex]x_{1},x_{2},\cdot \cdot \cdot, x_{n}[/latex]是相应于样本[latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex]的一个样本值，则随机点([latex]X_{1},X_{2},\cdot \cdot \cdot, X_{n}[/latex])落在点[latex]x_{1},x_{2},\cdot \cdot \cdot, x_{n}[/latex]的邻域(边长分别为[latex]dx_{1},dx_{2},\cdot \cdot \cdot, dx_{n}[/latex]的n维立方体)内的概率近似的为<br>[latex]\prod_{i=1}^n f(x_{i};\theta)dx_{i}[/latex]<br>其值随[latex]\theta[/latex]的取值而变化，与离散型的情况一样，我们取[latex] \theta[/latex]估计值[latex]\hat \theta[/latex]使概率取到最大值，但因子[latex]\prod_{i=1}^{n}dx_{i}[/latex]不随[latex]\theta[/latex]而变，故只需考虑函数<br>[latex]L(\theta)=L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta) = \prod_{i=1}^nf(x_{i};\theta)[/latex]的最大值。<br>若[latex]L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\hat \theta)=\max_{\theta \in \Theta}L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta)[/latex]，则称[latex]\hat \theta (x_{1},x_{2},\cdot \cdot \cdot, x_{n})[/latex]为[latex]\theta[/latex]的最大似然估计值，称[latex]\hat \theta (X_{1},X_{2},\cdot \cdot \cdot, X_{n})[/latex]称为参数[latex]\theta[/latex]的最大似然估计量</p>
+<p>若总体X属于连续型，其概率密度[latex]f(x;\theta),\theta \in \Theta[/latex]的形式为已知，[latex]\theta[/latex]为待估参数，[latex]\Theta[/latex]为[latex]\theta[/latex]可能取值的范围。设[latex]X<em>{1},X</em>{2},\cdot \cdot \cdot, X<em>{n}[/latex]是来自X的样本，则[latex]X</em>{1},X<em>{2},\cdot \cdot \cdot, X</em>{n}[/latex]的联合密度为<br>[latex]\prod<em>{i=1}^n f(x</em>{i};\theta)[/latex] 又设[latex]x<em>{1},x</em>{2},\cdot \cdot \cdot, x<em>{n}[/latex]是相应于样本[latex]X</em>{1},X<em>{2},\cdot \cdot \cdot, X</em>{n}[/latex]的一个样本值，则随机点([latex]X<em>{1},X</em>{2},\cdot \cdot \cdot, X<em>{n}[/latex])落在点[latex]x</em>{1},x<em>{2},\cdot \cdot \cdot, x</em>{n}[/latex]的邻域(边长分别为[latex]dx<em>{1},dx</em>{2},\cdot \cdot \cdot, dx<em>{n}[/latex]的n维立方体)内的概率近似的为<br>[latex]\prod</em>{i=1}^n f(x<em>{i};\theta)dx</em>{i}[/latex]<br>其值随[latex]\theta[/latex]的取值而变化，与离散型的情况一样，我们取[latex] \theta[/latex]估计值[latex]\hat \theta[/latex]使概率取到最大值，但因子[latex]\prod<em>{i=1}^{n}dx</em>{i}[/latex]不随[latex]\theta[/latex]而变，故只需考虑函数<br>[latex]L(\theta)=L(x<em>{1},x</em>{2},\cdot \cdot \cdot,x<em>{n};\theta) = \prod</em>{i=1}^nf(x<em>{i};\theta)[/latex]的最大值。<br>若[latex]L(x</em>{1},x<em>{2},\cdot \cdot \cdot,x</em>{n};\hat \theta)=\max<em>{\theta \in \Theta}L(x</em>{1},x<em>{2},\cdot \cdot \cdot,x</em>{n};\theta)[/latex]，则称[latex]\hat \theta (x<em>{1},x</em>{2},\cdot \cdot \cdot, x<em>{n})[/latex]为[latex]\theta[/latex]的最大似然估计值，称[latex]\hat \theta (X</em>{1},X<em>{2},\cdot \cdot \cdot, X</em>{n})[/latex]称为参数[latex]\theta[/latex]的最大似然估计量</p>
 <hr>
-<p>例：设[latex]X \sim b(1,p). X_{1},X_{2},\cdot \cdot \cdot,X_{n}[/latex]是来自X的一个样本，试求参数p的最大似然估计值。<br><img src="http://hysyeah.top/wp-content/uploads/2018/06/max_likehood_example.jpg" alt></p>
+<p>例：设[latex]X \sim b(1,p). X<em>{1},X</em>{2},\cdot \cdot \cdot,X_{n}[/latex]是来自X的一个样本，试求参数p的最大似然估计值。<br><img src="http://hysyeah.top/wp-content/uploads/2018/06/max_likehood_example.jpg" alt></p>
 <hr>
 <p>最大似然估计就是通过已知的样本点来求得求似然函数取值最大的参数[latex]\theta[/latex],通常采用牛顿法和梯度下降法求解。 参考： 1.概率论与数理统计</p>
 
@@ -2410,7 +2421,8 @@ plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/0
             <pre><code>scipy.special.expit                    # expit(x) = 1/(1+exp(-x))
 scipy.misc.derivative
 import scipy.integrate as integrate
-r = integrate.quad(lambda x: 2*x, 0,2) #函数f(x) = 2*x在区间[0,2]内的积分</code></pre>
+r = integrate.quad(lambda x: 2*x, 0,2) #函数f(x) = 2*x在区间[0,2]内的积分
+</code></pre>
           
         
       

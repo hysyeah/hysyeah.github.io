@@ -481,9 +481,10 @@
     int len;
     // buf 中剩余可用空间的长度
     int free;
-    // 数据空间，char类型的数组，以空字符&apos;\0&apos;结尾，空字符不计算在SDS中的len属性里
+    // 数据空间，char类型的数组，以空字符&#39;\0&#39;结尾，空字符不计算在SDS中的len属性里
     char buf[];
-};</code></pre><p>SDS与C字符串的区别: 1.SDS中len属性记录了SDS的长度，所以获取一个SDS长度的复杂度仅为O(1)，而为了获取C字符串的长度必须对C字符串进行遍历，直到遇到代表字符串结尾的空字符串为止，复杂度为O(N)。 2.SDS的空间分配策略完全杜绝了发生缓冲溢出的可能性：当SDS API需要对SDS进行修改时，API会首先检查SDS的空间是否满足修改所需要的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作，所以使用SDS既不需要手动修改SDS的空间大小，也不会出现缓冲区溢出问题。 3.减少修改字符串带来的内存重分配次数 3.1空间预分配 - 如果对SDS进行修改之后，SDS的长度将小于1MB，那么将程序分配两倍所需长度的空间。 - 如果对SDS进行修改之后，SDS的长度将大于等于1MB，那么程序会分配所需长度加上SDS_MAX_PREALLOC(默认为1M)。 通过空间预分配策略，Redis可以减少连续执行字符串增长操作所需的内存重分配次数。<br>3.2 惰性空间释放 - 惰性空间释放用于优化SDS的字符串缩短操作：当SDS的API需要缩短SDS保存的字符串时，程序并不会立即使用内存分配来回收缩短后多出来的字节，而是使用free属性将这些字节的数量记录起来，并等待将来使用。 4.<a href="https://en.wikipedia.org/wiki/Binary-safe" target="_blank" rel="noopener">二进制安全</a> C字符串中的字符必须符合某种编码(如ASCII),并且除了字符串的末的尾之外，字符串里不能包含空字符，否则会被认为是字符串结尾，这些限制使得C字符串只能保存文本数据，而不能保存像图片、音频、视频、压缩文件这样的二进制数据。SDS的API都是二进制安全的，所有SDS API都会以处理二进制的方式处理SDS存放在buf数组里的数据，程序不会对其中的数据做任何限制、过滤、或者假设，数据在写入的时候是什么样的，它被读取时就是什么样的。 C字符串与SDS之间的区别</p>
+};
+</code></pre><p>SDS与C字符串的区别: 1.SDS中len属性记录了SDS的长度，所以获取一个SDS长度的复杂度仅为O(1)，而为了获取C字符串的长度必须对C字符串进行遍历，直到遇到代表字符串结尾的空字符串为止，复杂度为O(N)。 2.SDS的空间分配策略完全杜绝了发生缓冲溢出的可能性：当SDS API需要对SDS进行修改时，API会首先检查SDS的空间是否满足修改所需要的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作，所以使用SDS既不需要手动修改SDS的空间大小，也不会出现缓冲区溢出问题。 3.减少修改字符串带来的内存重分配次数 3.1空间预分配 - 如果对SDS进行修改之后，SDS的长度将小于1MB，那么将程序分配两倍所需长度的空间。 - 如果对SDS进行修改之后，SDS的长度将大于等于1MB，那么程序会分配所需长度加上SDS_MAX_PREALLOC(默认为1M)。 通过空间预分配策略，Redis可以减少连续执行字符串增长操作所需的内存重分配次数。<br>3.2 惰性空间释放 - 惰性空间释放用于优化SDS的字符串缩短操作：当SDS的API需要缩短SDS保存的字符串时，程序并不会立即使用内存分配来回收缩短后多出来的字节，而是使用free属性将这些字节的数量记录起来，并等待将来使用。 4.<a href="https://en.wikipedia.org/wiki/Binary-safe" target="_blank" rel="noopener">二进制安全</a> C字符串中的字符必须符合某种编码(如ASCII),并且除了字符串的末的尾之外，字符串里不能包含空字符，否则会被认为是字符串结尾，这些限制使得C字符串只能保存文本数据，而不能保存像图片、音频、视频、压缩文件这样的二进制数据。SDS的API都是二进制安全的，所有SDS API都会以处理二进制的方式处理SDS存放在buf数组里的数据，程序不会对其中的数据做任何限制、过滤、或者假设，数据在写入的时候是什么样的，它被读取时就是什么样的。 C字符串与SDS之间的区别</p>
 <p>C字符串</p>
 <p>SDS</p>
 <p>获取字符串长度的复杂度为O(N)</p>
@@ -494,8 +495,8 @@
 <p>修改字符串长度N次最多需要执行N次内存分配</p>
 <p>只能保存文本</p>
 <p>可以保存文本或者二进制数据</p>
-<p>可以使用所有&lt;string.h&gt;库中的函数</p>
-<p>可以使用部分&lt;string.h&gt;中的函数</p>
+<p>可以使用所有<string.h>库中的函数</string.h></p>
+<p>可以使用部分<string.h>中的函数</string.h></p>
 <hr>
 <pre><code>// 创建一个包含给定C字符串的SDS
 sds sdsnewlen(const void *init, size_t initlen) {
@@ -524,7 +525,7 @@ sds sdsnewlen(const void *init, size_t initlen) {
     if (initlen &amp;&amp; init)
         memcpy(sh-&gt;buf, init, initlen);
     // 以 \0 结尾
-    sh-&gt;buf[initlen] = &apos;\0&apos;;
+    sh-&gt;buf[initlen] = &#39;\0&#39;;
 
     // 返回 buf 部分，而不是整个 sdshdr
     return (char*)sh-&gt;buf;
@@ -592,7 +593,7 @@ void sdsclear(sds s) {
     sh-&gt;len = 0;
 
     // 将结束符放到最前面（相当于惰性地删除 buf 中的内容）
-    sh-&gt;buf[0] = &apos;\0&apos;;
+    sh-&gt;buf[0] = &#39;\0&#39;;
 }
 
 
@@ -681,7 +682,7 @@ void sdsIncrLen(sds s, int incr) {
     assert(sh-&gt;free &gt;= 0);
 
     // 放置新的结尾符号
-    s[sh-&gt;len] = &apos;\0&apos;;
+    s[sh-&gt;len] = &#39;\0&#39;;
 }
 
 
@@ -710,7 +711,7 @@ sds sdscatlen(sds s, const void *t, size_t len) {
     sh-&gt;free = sh-&gt;free-len;
 
     // 添加新结尾符号
-    s[curlen+len] = &apos;\0&apos;;
+    s[curlen+len] = &#39;\0&#39;;
 
     // 返回新 sds
     return s;
@@ -737,15 +738,18 @@ sds sdsjoin(char **argv, int argc, char *sep) {
         if (j != argc-1) join = sdscat(join,sep);
     }
     return join;
-}</code></pre><hr>
+}
+</code></pre><hr>
 <pre><code>typedef int int_t; // declares int_t to be an alias for the type int
 typedef char char_t, *char_p, (*fp)(void); // declares char_t to be an alias for char
                                            // char_p to be an alias for char*
-                                           // fp to be an alias for char(*)(void)</code></pre><p>在计算机科学中，内联函数（有时称作在线函数或编译时期展开函数）是一种编程语言结构，用来建议编译器对一些特殊函数进行内联扩展（有时称作在线扩展）；也就是说建议编译器将指定的函数体插入并取代每一处调用该函数的地方（上下文），从而节省了每次调用函数带来的额外时间开支。但在选择使用内联函数时，必须在程序占用空间和程序执行效率之间进行权衡，因为过多的比较复杂的函数进行内联扩展将带来很大的存储资源开支。另外还需要特别注意的是对递归函数的内联扩展可能引起部分编译器的无穷编译。<a href="https://zh.wikipedia.org/wiki/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">内联函数</a> static inline,使用static修饰符，函数仅在文件内部可见，不会污染命名空间</p>
+                                           // fp to be an alias for char(*)(void)
+</code></pre><p>在计算机科学中，内联函数（有时称作在线函数或编译时期展开函数）是一种编程语言结构，用来建议编译器对一些特殊函数进行内联扩展（有时称作在线扩展）；也就是说建议编译器将指定的函数体插入并取代每一处调用该函数的地方（上下文），从而节省了每次调用函数带来的额外时间开支。但在选择使用内联函数时，必须在程序占用空间和程序执行效率之间进行权衡，因为过多的比较复杂的函数进行内联扩展将带来很大的存储资源开支。另外还需要特别注意的是对递归函数的内联扩展可能引起部分编译器的无穷编译。<a href="https://zh.wikipedia.org/wiki/%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">内联函数</a> static inline,使用static修饰符，函数仅在文件内部可见，不会污染命名空间</p>
 <pre><code>void *memset( void *dest, int ch, size_t count );
 
 Copies the value ch (after conversion to unsigned char as if by (unsigned char)ch) into each of the first count characters of the object pointed to by dest.
- The behavior is undefined if access occurs beyond the end of the dest array. The behavior is undefined if dest is a null pointer</code></pre><hr>
+ The behavior is undefined if access occurs beyond the end of the dest array. The behavior is undefined if dest is a null pointer
+</code></pre><hr>
 <p>参考： 1.Redis设计与实现 2.Redis源码</p>
 
       

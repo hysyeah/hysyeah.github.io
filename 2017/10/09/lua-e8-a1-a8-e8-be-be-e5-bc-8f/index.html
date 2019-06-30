@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="1.关系运算符 &amp;lt;  &amp;gt;  &amp;lt;=  &amp;gt;= ==  ~=  这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。 &amp;gt; a = {x=1,y=0} &amp;gt; b = {x=1,y=0} &amp;gt; c">
+  <meta name="description" content="1.关系运算符 &amp;lt;  &amp;gt;  &amp;lt;=  &amp;gt;= ==  ~=   这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。  &amp;gt; a = {x=1,y=0}  &amp;gt; b = {x=1,y=0}  &amp;gt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lua表达式">
 <meta property="og:url" content="https://hysyeah.github.io/2017/10/09/lua-e8-a1-a8-e8-be-be-e5-bc-8f/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.关系运算符 &amp;lt;  &amp;gt;  &amp;lt;=  &amp;gt;= ==  ~=  这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。 &amp;gt; a = {x=1,y=0} &amp;gt; b = {x=1,y=0} &amp;gt; c">
+<meta property="og:description" content="1.关系运算符 &amp;lt;  &amp;gt;  &amp;lt;=  &amp;gt;= ==  ~=   这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。  &amp;gt; a = {x=1,y=0}  &amp;gt; b = {x=1,y=0}  &amp;gt">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lua表达式">
-<meta name="twitter:description" content="1.关系运算符 &amp;lt;  &amp;gt;  &amp;lt;=  &amp;gt;= ==  ~=  这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。 &amp;gt; a = {x=1,y=0} &amp;gt; b = {x=1,y=0} &amp;gt; c">
+<meta name="twitter:description" content="1.关系运算符 &amp;lt;  &amp;gt;  &amp;lt;=  &amp;gt;= ==  ~=   这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。  &amp;gt; a = {x=1,y=0}  &amp;gt; b = {x=1,y=0}  &amp;gt">
 
 
 
@@ -477,23 +477,27 @@
 
       
         <p>1.关系运算符</p>
-<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  </code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
-<pre><code>&gt; a = {x=1,y=0}
-&gt; b = {x=1,y=0}
-&gt; c == a
-false
-&gt; c = a
-&gt; a == c
-true
-&gt; a == b
-false</code></pre><p>数字、字符串的比较</p>
+<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  
+</code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
+<pre><code> &gt; a = {x=1,y=0}
+ &gt; b = {x=1,y=0}
+ &gt; c == a
+ false
+ &gt; c = a
+ &gt; a == c
+ true
+ &gt; a == b
+ false
+</code></pre><p>数字、字符串的比较</p>
 <pre><code>&gt; 0 == &quot;0&quot;
 false
 &gt; 2 &lt; 15
 true
 &gt; &quot;2&quot; &lt; &quot;15&quot;  --按字母顺序进行比较
-false</code></pre><p>2.逻辑运算符</p>
-<pre><code>and  or not</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
+false
+</code></pre><p>2.逻辑运算符</p>
+<pre><code>and  or not
+</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
 <pre><code>a and b -- 如果a为false,则返回a,否则返回b
 a or b  --如果a为true,则返回a,否则返回b
 &gt; print(1 and 2)
@@ -503,20 +507,28 @@ nil
 &gt; print(1 or 2)
 1
 &gt; print(false or 1)
-1</code></pre><p>例：</p>
-<pre><code>x = x or v</code></pre><p>等价于：</p>
+1
+</code></pre><p>例：</p>
+<pre><code>x = x or v
+</code></pre><p>等价于：</p>
 <pre><code>if not x then
    x = v
-end</code></pre><p>C语言中的三元运算符</p>
-<pre><code>a ? b:c</code></pre><p>在Lua中可以这样实现:</p>
-<pre><code>(a and b) or c</code></pre><p>not 结果只返回false或者true</p>
+end
+</code></pre><p>C语言中的三元运算符</p>
+<pre><code>a ? b:c
+</code></pre><p>在Lua中可以这样实现:</p>
+<pre><code>(a and b) or c
+</code></pre><p>not 结果只返回false或者true</p>
 <pre><code>&gt; print(not 0)
-false</code></pre><p>3.连接运算符</p>
-<pre><code>.. --两个点</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
+false
+</code></pre><p>3.连接运算符</p>
+<pre><code>.. --两个点
+</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
 <pre><code>&gt; print(&quot;Hello &quot; .. &quot;World&quot;)
 Hello World
 &gt; print(0 .. 1)
-01</code></pre>
+01
+</code></pre>
       
     </div>
 

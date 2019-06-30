@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。 1.sudo pip install docker-compose  2.docker pull mysql  3.mkidr mysql   vim docker-compose.ymldocker-compose.yml(包括version,services,networks三大部分)version">
+  <meta name="description" content="Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。 1.sudo pip install docker-compose  2.docker pull mysql  3.mkidr mysql   vim docker-compose.yml docker-compose.yml(包括version,services,networks三大部分)versio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker Compose管理mysql容器">
 <meta property="og:url" content="https://hysyeah.github.io/2018/01/22/docker-compose-e7-ae-a1-e7-90-86mysql-e5-ae-b9-e5-99-a8/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。 1.sudo pip install docker-compose  2.docker pull mysql  3.mkidr mysql   vim docker-compose.ymldocker-compose.yml(包括version,services,networks三大部分)version">
+<meta property="og:description" content="Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。 1.sudo pip install docker-compose  2.docker pull mysql  3.mkidr mysql   vim docker-compose.yml docker-compose.yml(包括version,services,networks三大部分)versio">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker Compose管理mysql容器">
-<meta name="twitter:description" content="Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。 1.sudo pip install docker-compose  2.docker pull mysql  3.mkidr mysql   vim docker-compose.ymldocker-compose.yml(包括version,services,networks三大部分)version">
+<meta name="twitter:description" content="Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。 1.sudo pip install docker-compose  2.docker pull mysql  3.mkidr mysql   vim docker-compose.yml docker-compose.yml(包括version,services,networks三大部分)versio">
 
 
 
@@ -482,7 +482,8 @@
 2.docker pull mysql
 
 3.mkidr mysql
-  vim docker-compose.yml</code></pre><h4 id="docker-compose-yml-包括version-services-networks三大部分"><a href="#docker-compose-yml-包括version-services-networks三大部分" class="headerlink" title="docker-compose.yml(包括version,services,networks三大部分)"></a>docker-compose.yml(包括version,services,networks三大部分)</h4><pre><code>version: &apos;2&apos;
+  vim docker-compose.yml
+</code></pre><h4 id="docker-compose-yml-包括version-services-networks三大部分"><a href="#docker-compose-yml-包括version-services-networks三大部分" class="headerlink" title="docker-compose.yml(包括version,services,networks三大部分)"></a>docker-compose.yml(包括version,services,networks三大部分)</h4><pre><code>version: &#39;2&#39;
 services:
   mysql:
     image: mysql   #指定镜像为mysql
@@ -510,7 +511,8 @@ networks:
       - subnet: xxx.xxx.xxx.0/26
 
 
-docker-compose up -d #启动后，可访问mysql服务</code></pre>
+docker-compose up -d #启动后，可访问mysql服务
+</code></pre>
       
     </div>
 

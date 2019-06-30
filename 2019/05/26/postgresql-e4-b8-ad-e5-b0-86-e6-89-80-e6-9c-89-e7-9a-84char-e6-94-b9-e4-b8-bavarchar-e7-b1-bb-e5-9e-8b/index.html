@@ -479,7 +479,9 @@
       
         <p>在将<code>Postgresql</code>数据转换为<code>Neo4j</code>的过程中，<code>char</code>类型的字段的在转换成<code>Neo4j</code>的属性后会带有空格。比如<code>char(10)</code>字段的数据为<code>hello</code>在<code>Neo4j</code>属性中则会带有空格，虽然可以在查询的时候加上trim函数，但这样对于原来的查询代码改动太大。所以决定从源头将这个问题解决。 假如有一个字段为<code>char(10)</code>如果插入的数据长度未达到10,关系型数据库默认在后面添加空格，所以将<code>char</code>类型改为<code>varchar</code>可以解决这个问题。 在<code>char</code>类型改为<code>varchar</code>的过程中，会默认把<code>char</code>类型中的空格给去掉。 在<code>postgresql</code>中有一个表<code>information_schema.columns</code>记录了所有字段的信息，所以可以从这个表中提取信息进行<code>char</code>到<code>varchar</code>的转换。</p>
 <pre><code># 这个语句会生成将char改为varchar的sql语句
-SELECT CONCAT(&apos;alter table &apos;, table_schema, &apos;.&apos;, table_name, &apos; alter column &apos;, column_name, &apos; type &apos;, &apos;varchar &apos;, &apos;(&apos;,character_maxinum_length,&apos;);&apos;) from information_schema.columns where table_catalog=&apos;ptl&apos; and date_type=&apos;character&apos;;</code></pre><p><code>information_schema.columns</code>中的常用字段。</p>
+SELECT CONCAT(&#39;alter table &#39;, table_schema, &#39;.&#39;, table_name, &#39; alter column &#39;, column_name, &#39; type &#39;, &#39;varchar &#39;, &#39;(&#39;,character_maxinum_length,&#39;);&#39;) from information_schema.columns where table_catalog=&#39;ptl&#39; and date_type=&#39;character&#39;;
+</code></pre><p><code>information_schema.columns</code>中的常用字段。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -487,7 +489,8 @@ SELECT CONCAT(&apos;alter table &apos;, table_schema, &apos;.&apos;, table_name,
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>table_catalog</td>
 <td>数据库名</td>
 </tr>
@@ -511,7 +514,9 @@ SELECT CONCAT(&apos;alter table &apos;, table_schema, &apos;.&apos;, table_name,
 <td>character_maximum_length</td>
 <td>如果类型为character或bit string type,则为可存储最大字符数</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <hr>
 <p>参考： 1.<a href="https://www.postgresql.org/docs/10/infoschema-columns.html" target="_blank" rel="noopener">information_schema.columns</a></p>
 

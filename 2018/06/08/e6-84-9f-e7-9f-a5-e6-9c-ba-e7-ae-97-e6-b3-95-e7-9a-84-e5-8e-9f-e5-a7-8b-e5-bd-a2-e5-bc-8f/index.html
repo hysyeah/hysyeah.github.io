@@ -502,7 +502,8 @@
         if res &lt;=0:
             flag = True
 
-        return flag</code></pre><p>例2.1的迭代过程为 <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original2.png" alt> 程序输出迭代过程为： <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original3.png" alt></p>
+        return flag
+</code></pre><p>例2.1的迭代过程为 <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original2.png" alt> 程序输出迭代过程为： <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original3.png" alt></p>
 <hr>
 <p><a href="https://github.com/hys20151008/ml_python/blob/master/perception.py" target="_blank" rel="noopener">完整代码</a></p>
 <hr>
@@ -514,7 +515,8 @@ perceptron = Perceptron(max_iter=1000, eta0=1)
 # coef_init设置w初始向量，intercept_init设置初始参数b
 p_fit = perceptron.fit(x, y, coef_init=np.array([[0.0, 0.0]]).reshape(-1,1),intercept_init=np.array([0]),sample_weight=np.array([1,1,1]))
 # 对未知数据进行预测
-p_fit.predict(np.array([4,4]).reshape(1,-1))</code></pre><p>参考： 1.统计学习方法-李航 2.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.fit" target="_blank" rel="noopener">scikit-learn官方文档</a></p>
+p_fit.predict(np.array([4,4]).reshape(1,-1))
+</code></pre><p>参考： 1.统计学习方法-李航 2.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.fit" target="_blank" rel="noopener">scikit-learn官方文档</a></p>
 
       
     </div>

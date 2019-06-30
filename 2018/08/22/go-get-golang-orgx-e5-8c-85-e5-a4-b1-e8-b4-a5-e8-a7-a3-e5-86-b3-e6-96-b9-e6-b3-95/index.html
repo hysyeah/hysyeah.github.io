@@ -478,10 +478,12 @@
       
         <p>由于网络问题不能访问<code>golang.org</code>,通过go get安装golang官方包会失败，如</p>
 <pre><code>go get lint
-package golang.org/x/lint: unrecognized import path &quot;golang.org/x/lint&quot; (https fetch: Get https://golang.org/x/lint?go-get=1: dial tcp 216.239.37.1:443: i/o timeout)</code></pre><p>不翻墙的情况下怎么解决这个问题？其实 golang 在 github 上建立了一个镜像库，如 <a href="https://github.com/golang/lint" target="_blank" rel="noopener">https://github.com/golang/lint</a> 即是 <a href="https://golang.org/x/lint" target="_blank" rel="noopener">https://golang.org/x/lint</a> 的镜像库 解决方法</p>
+package golang.org/x/lint: unrecognized import path &quot;golang.org/x/lint&quot; (https fetch: Get https://golang.org/x/lint?go-get=1: dial tcp 216.239.37.1:443: i/o timeout)
+</code></pre><p>不翻墙的情况下怎么解决这个问题？其实 golang 在 github 上建立了一个镜像库，如 <a href="https://github.com/golang/lint" target="_blank" rel="noopener">https://github.com/golang/lint</a> 即是 <a href="https://golang.org/x/lint" target="_blank" rel="noopener">https://golang.org/x/lint</a> 的镜像库 解决方法</p>
 <pre><code>mkdir -p $GOPATH/src/golang.org/x
 cd $GOPATH/src/golang.org/x
-git clone https://github.com/golang/lint.git</code></pre><hr>
+git clone https://github.com/golang/lint.git
+</code></pre><hr>
 <p>参考： 1.<a href="https://blog.csdn.net/alexwoo0501/article/details/73409917" target="_blank" rel="noopener">https://blog.csdn.net/alexwoo0501/article/details/73409917</a></p>
 
       

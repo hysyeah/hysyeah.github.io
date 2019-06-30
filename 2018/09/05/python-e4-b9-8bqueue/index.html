@@ -483,7 +483,8 @@ class queue.Queue(maxsize=0)
 # 定义一个后进先出的队列
 class queue.LifoQueue(maxsize=0) 
 # 定义一个优先级队列，元素通常为(priority_number,data),值越小优先级越高
-class queue.PriorityQueue(maxsize=0) </code></pre><p>队列对象方法</p>
+class queue.PriorityQueue(maxsize=0) 
+</code></pre><p>队列对象方法</p>
 <pre><code>Queue.qsize()
 qsize（）&gt; 0不保证后续的get（）不会阻塞，qsize（）&lt;maxsize也不保证put（）不会阻塞??
 
@@ -528,7 +529,7 @@ def use_queue():
         t = threading.Thread(target=print_url,args=(queue,))
         t.setDaemon(True)
         t.start()
-    for url in [&apos;baidu.com&apos;,&apos;xina.com&apos;,&apos;weibo.com&apos;,&apos;qq.com&apos;,&apos;hysky.com&apos;,&apos;hehe.com&apos;]:
+    for url in [&#39;baidu.com&#39;,&#39;xina.com&#39;,&#39;weibo.com&#39;,&#39;qq.com&#39;,&#39;hysky.com&#39;,&#39;hehe.com&#39;]:
         queue.put(url)
 
     queue.join()
@@ -544,7 +545,8 @@ baidu.com
 xina.com
 qq.com
 hysky.com
-hehe.com</code></pre>
+hehe.com
+</code></pre>
       
     </div>
 

@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="启动hadoop发生失败，查看日志文件 docker hadoop Does not contain a valid host:port authority   从google得知，网络信息不能带下划线解决方法1.docker network ls发现docker网络中NAME:dockerpro_sparknet中含有下划线 NETWORK ID          NAME">
+  <meta name="description" content="启动hadoop发生失败，查看日志文件 docker hadoop Does not contain a valid host:port authority   从google得知，网络信息不能带下划线 解决方法1.docker network ls发现docker网络中NAME:dockerpro_sparknet中含有下划线 NETWORK ID          NAME">
 <meta property="og:type" content="article">
 <meta property="og:title" content="启动docker hadoop集群失败">
 <meta property="og:url" content="https://hysyeah.github.io/2018/02/01/e5-90-af-e5-8a-a8docker-hadoop-e9-9b-86-e7-be-a4-e5-a4-b1-e8-b4-a5/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="启动hadoop发生失败，查看日志文件 docker hadoop Does not contain a valid host:port authority   从google得知，网络信息不能带下划线解决方法1.docker network ls发现docker网络中NAME:dockerpro_sparknet中含有下划线 NETWORK ID          NAME">
+<meta property="og:description" content="启动hadoop发生失败，查看日志文件 docker hadoop Does not contain a valid host:port authority   从google得知，网络信息不能带下划线 解决方法1.docker network ls发现docker网络中NAME:dockerpro_sparknet中含有下划线 NETWORK ID          NAME">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="启动docker hadoop集群失败">
-<meta name="twitter:description" content="启动hadoop发生失败，查看日志文件 docker hadoop Does not contain a valid host:port authority   从google得知，网络信息不能带下划线解决方法1.docker network ls发现docker网络中NAME:dockerpro_sparknet中含有下划线 NETWORK ID          NAME">
+<meta name="twitter:description" content="启动hadoop发生失败，查看日志文件 docker hadoop Does not contain a valid host:port authority   从google得知，网络信息不能带下划线 解决方法1.docker network ls发现docker网络中NAME:dockerpro_sparknet中含有下划线 NETWORK ID          NAME">
 <meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png">
 
 
@@ -481,23 +481,26 @@
         <pre><code>启动hadoop发生失败，查看日志文件
 docker hadoop Does not contain a valid host:port authority 
 
-从google得知，网络信息不能带下划线</code></pre><h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><h5 id="1-docker-network-ls"><a href="#1-docker-network-ls" class="headerlink" title="1.docker network ls"></a>1.docker network ls</h5><pre><code>发现docker网络中NAME:dockerpro_sparknet中含有下划线
+从google得知，网络信息不能带下划线
+</code></pre><h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><h5 id="1-docker-network-ls"><a href="#1-docker-network-ls" class="headerlink" title="1.docker network ls"></a>1.docker network ls</h5><pre><code>发现docker网络中NAME:dockerpro_sparknet中含有下划线
 NETWORK ID          NAME                 DRIVER              SCOPE
 321147ce790d        bridge               bridge              local
 0fd542a85347        dockerpro_hsnet      bridge              local
-fa6a55dd5ed3        dockerpro_sparknet   bridge              local</code></pre><h5 id="2-docker-network-create-d-bridge-–subnet-192-168-2-0-24-sparknet"><a href="#2-docker-network-create-d-bridge-–subnet-192-168-2-0-24-sparknet" class="headerlink" title="2.docker network create -d bridge –subnet 192.168.2.0/24 sparknet"></a>2.docker network create -d bridge –subnet 192.168.2.0/24 sparknet</h5><h5 id="3-在docker-compose-yml中引用已创建的网络"><a href="#3-在docker-compose-yml中引用已创建的网络" class="headerlink" title="3.在docker-compose.yml中引用已创建的网络"></a>3.在docker-compose.yml中引用已创建的网络</h5><pre><code>networks:
+fa6a55dd5ed3        dockerpro_sparknet   bridge              local
+</code></pre><h5 id="2-docker-network-create-d-bridge-—subnet-192-168-2-0-24-sparknet"><a href="#2-docker-network-create-d-bridge-—subnet-192-168-2-0-24-sparknet" class="headerlink" title="2.docker network create -d bridge —subnet 192.168.2.0/24 sparknet"></a>2.docker network create -d bridge —subnet 192.168.2.0/24 sparknet</h5><h5 id="3-在docker-compose-yml中引用已创建的网络"><a href="#3-在docker-compose-yml中引用已创建的网络" class="headerlink" title="3.在docker-compose.yml中引用已创建的网络"></a>3.在docker-compose.yml中引用已创建的网络</h5><pre><code>networks:
   default:
     external:
       name: sparknet
 
 
-version: &apos;2&apos;
+version: &#39;2&#39;
 services:
   master:
     image: hyspark
     networks:
       default:
-        ipv4_address: 192.168.2.10</code></pre><h5 id="4-重新启动hadoop集群"><a href="#4-重新启动hadoop集群" class="headerlink" title="4.重新启动hadoop集群"></a>4.重新启动hadoop集群</h5><p><img src="http://hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png" alt="image"></p>
+        ipv4_address: 192.168.2.10
+</code></pre><h5 id="4-重新启动hadoop集群"><a href="#4-重新启动hadoop集群" class="headerlink" title="4.重新启动hadoop集群"></a>4.重新启动hadoop集群</h5><p><img src="http://hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png" alt="image"></p>
 <hr>
 <p>这问题够坑的。。</p>
 
@@ -755,7 +758,7 @@ services:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#解决方法"><span class="nav-number">1.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-docker-network-ls"><span class="nav-number">2.</span> <span class="nav-text">1.docker network ls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-docker-network-create-d-bridge-–subnet-192-168-2-0-24-sparknet"><span class="nav-number">3.</span> <span class="nav-text">2.docker network create -d bridge –subnet 192.168.2.0/24 sparknet</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-在docker-compose-yml中引用已创建的网络"><span class="nav-number">4.</span> <span class="nav-text">3.在docker-compose.yml中引用已创建的网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-重新启动hadoop集群"><span class="nav-number">5.</span> <span class="nav-text">4.重新启动hadoop集群</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#解决方法"><span class="nav-number">1.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-docker-network-ls"><span class="nav-number">2.</span> <span class="nav-text">1.docker network ls</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-docker-network-create-d-bridge-—subnet-192-168-2-0-24-sparknet"><span class="nav-number">3.</span> <span class="nav-text">2.docker network create -d bridge —subnet 192.168.2.0/24 sparknet</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-在docker-compose-yml中引用已创建的网络"><span class="nav-number">4.</span> <span class="nav-text">3.在docker-compose.yml中引用已创建的网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-重新启动hadoop集群"><span class="nav-number">5.</span> <span class="nav-text">4.重新启动hadoop集群</span></a></li></ol></div>
             
 
           </div>

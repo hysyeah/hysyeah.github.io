@@ -483,9 +483,9 @@ usage: gofmt [flags] [path ...]
         write cpu profile to this file
   -d    display diffs instead of rewriting files
   -e    report all errors (not just the first 10 on different lines)
-  -l    list files whose formatting differs from gofmt&apos;s
+  -l    list files whose formatting differs from gofmt&#39;s
   -r string
-        rewrite rule (e.g., &apos;a[b:len(a)] -&gt; a[b:]&apos;)
+        rewrite rule (e.g., &#39;a[b:len(a)] -&gt; a[b:]&#39;)
   -s    simplify code
   -w    write result to (source) file instead of stdout
 
@@ -524,7 +524,7 @@ input.Text() //获取输入内容
 %t          布尔：true或false
 %c          字符（rune） (Unicode码点)
 %s          字符串
-%q          带双引号的字符串&quot;abc&quot;或带单引号的字符&apos;c&apos;
+%q          带双引号的字符串&quot;abc&quot;或带单引号的字符&#39;c&#39;
 %v          变量的自然形式（natural format）
 %T          变量的类型
 %%          字面上的百分号标志（无操作数）
@@ -559,7 +559,8 @@ func (m *Mutex) Unlock()
 
 
 //io
-func Copy(dst Writer, src Reader) (written int64, err error) //copy src to dst, ioutil.Discard相当于/dev/null</code></pre><p><a href="https://github.com/hys20151008/gopl/tree/master/src/ch1" target="_blank" rel="noopener">相关代码</a></p>
+func Copy(dst Writer, src Reader) (written int64, err error) //copy src to dst, ioutil.Discard相当于/dev/null
+</code></pre><p><a href="https://github.com/hys20151008/gopl/tree/master/src/ch1" target="_blank" rel="noopener">相关代码</a></p>
 <hr>
 <p>参考： 1.The Go Programming Language</p>
 

@@ -501,7 +501,8 @@
 struct spwd *getspnam(const char *name);//通过用户名获取指向struct spwd结构体的指针
 struct spwd *getspent(void);//获取/etc/shadow文件中的信息，返回struct spwd结构体指针
 void setspent(void);//初始化输入流
-void endspent(void);//释放资源</code></pre><p>例：</p>
+void endspent(void);//释放资源
+</code></pre><p>例：</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;shadow.h&gt;
 #include &lt;unistd.h&gt;
@@ -526,7 +527,8 @@ while((ptr = getspent())!=NULL){
 }
 endspent();
 return 0;
-}</code></pre><p>参考： 1.<a href="http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html" target="_blank" rel="noopener">http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html</a> 2.<a href="https://linux.die.net/man/3/getspnam" target="_blank" rel="noopener">https://linux.die.net/man/3/getspnam</a></p>
+}
+</code></pre><p>参考： 1.<a href="http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html" target="_blank" rel="noopener">http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html</a> 2.<a href="https://linux.die.net/man/3/getspnam" target="_blank" rel="noopener">https://linux.die.net/man/3/getspnam</a></p>
 
       
     </div>

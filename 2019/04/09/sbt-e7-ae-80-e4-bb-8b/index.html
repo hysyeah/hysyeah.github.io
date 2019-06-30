@@ -484,13 +484,15 @@
 <pre><code>echo &quot;deb https://dl.bintray.com/sbt/debian /&quot; | sudo tee -a /etc/apt/sources.list.d/sbt.list
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
 sudo apt-get update
-sudo apt-get install sbt</code></pre><p>2.启动sbt,第一次启动需要下载一些包速度会比较慢,更换源请参考<a href="http://hysyeah.top/2019/04/09/sbt%e8%ae%be%e7%bd%ae%e5%9b%bd%e5%86%85%e6%ba%90/" target="_blank" rel="noopener">更换国内源</a> 3.新建一个简单的项目，结构如下,<a href="http://hysyeah.top/2019/04/09/shell%e5%88%9b%e5%bb%ba%e7%9b%ae%e5%bd%95/" target="_blank" rel="noopener">创建目录脚本</a> <img src="http://hysyeah.top/wp-content/uploads/2019/04/tree_right.png" alt> ４.在目录<code>src/main/scala</code>下，新建一个文件<code>hello.scala</code></p>
+sudo apt-get install sbt
+</code></pre><p>2.启动sbt,第一次启动需要下载一些包速度会比较慢,更换源请参考<a href="http://hysyeah.top/2019/04/09/sbt%e8%ae%be%e7%bd%ae%e5%9b%bd%e5%86%85%e6%ba%90/" target="_blank" rel="noopener">更换国内源</a> 3.新建一个简单的项目，结构如下,<a href="http://hysyeah.top/2019/04/09/shell%e5%88%9b%e5%bb%ba%e7%9b%ae%e5%bd%95/" target="_blank" rel="noopener">创建目录脚本</a> <img src="http://hysyeah.top/wp-content/uploads/2019/04/tree_right.png" alt> ４.在目录<code>src/main/scala</code>下，新建一个文件<code>hello.scala</code></p>
 <pre><code>hys@hys:~/code/scala/helloscala/src/main/scala$ cat hello.scala 
 package foo.bar.baz
 
 object Main extends App {
   println(&quot;Hello, Scala&quot;)
-}</code></pre><p>5.编译，运行 <img src="http://hysyeah.top/wp-content/uploads/2019/04/sbt_hello.png" alt> 6.sbt命令</p>
+}
+</code></pre><p>5.编译，运行 <img src="http://hysyeah.top/wp-content/uploads/2019/04/sbt_hello.png" alt> 6.sbt命令</p>
 <h2 id><a href="#" class="headerlink" title></a><img src="http://hysyeah.top/wp-content/uploads/2019/04/sbt_command.jpg" alt></h2><p>参考： １.<a href="https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html" target="_blank" rel="noopener">https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html</a> 2.scala编程实战</p>
 
       

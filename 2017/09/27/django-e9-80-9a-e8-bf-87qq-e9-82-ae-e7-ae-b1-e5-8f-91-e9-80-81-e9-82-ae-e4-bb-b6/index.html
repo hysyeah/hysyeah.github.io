@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下 EMAIL_USE_TLS = True EMAIL_HOST = &amp;apos;smtp.qq.com&amp;apos;  #若是企业邮箱要改为：&amp;apos;smtp.exmail.qq.co">
+  <meta name="description" content="通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下 EMAIL_USE_TLS = True EMAIL_HOST = &amp;#39;smtp.qq.com&amp;#39;  #若是企业邮箱要改为：&amp;#39;smtp.exmail.qq.com&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django通过qq邮箱发送邮件">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/27/django-e9-80-9a-e8-bf-87qq-e9-82-ae-e7-ae-b1-e5-8f-91-e9-80-81-e9-82-ae-e4-bb-b6/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下 EMAIL_USE_TLS = True EMAIL_HOST = &amp;apos;smtp.qq.com&amp;apos;  #若是企业邮箱要改为：&amp;apos;smtp.exmail.qq.co">
+<meta property="og:description" content="通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下 EMAIL_USE_TLS = True EMAIL_HOST = &amp;#39;smtp.qq.com&amp;#39;  #若是企业邮箱要改为：&amp;#39;smtp.exmail.qq.com&amp;#">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django通过qq邮箱发送邮件">
-<meta name="twitter:description" content="通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下 EMAIL_USE_TLS = True EMAIL_HOST = &amp;apos;smtp.qq.com&amp;apos;  #若是企业邮箱要改为：&amp;apos;smtp.exmail.qq.co">
+<meta name="twitter:description" content="通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下 EMAIL_USE_TLS = True EMAIL_HOST = &amp;#39;smtp.qq.com&amp;#39;  #若是企业邮箱要改为：&amp;#39;smtp.exmail.qq.com&amp;#">
 
 
 
@@ -478,11 +478,12 @@
       
         <p>通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下</p>
 <pre><code>EMAIL_USE_TLS = True
-EMAIL_HOST = &apos;smtp.qq.com&apos;  #若是企业邮箱要改为：&apos;smtp.exmail.qq.com&apos;
+EMAIL_HOST = &#39;smtp.qq.com&#39;  #若是企业邮箱要改为：&#39;smtp.exmail.qq.com&#39;
 EMAIL_PORT = 587
-EMAIL_HOST_USER = &apos;12345678@qq.com&apos;
-EMAIL_HOST_PASSWORD = &apos;xxxxxxxxxxxxxxxx&apos;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
-DEFAULT_FROM_EMAIL = &apos;12345678@qq.com&apos;</code></pre>
+EMAIL_HOST_USER = &#39;12345678@qq.com&#39;
+EMAIL_HOST_PASSWORD = &#39;xxxxxxxxxxxxxxxx&#39;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
+DEFAULT_FROM_EMAIL = &#39;12345678@qq.com&#39;
+</code></pre>
       
     </div>
 

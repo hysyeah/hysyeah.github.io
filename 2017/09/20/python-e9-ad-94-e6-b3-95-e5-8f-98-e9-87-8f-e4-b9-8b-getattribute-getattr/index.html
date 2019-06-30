@@ -478,7 +478,7 @@
       
         <p>object.<strong>getattribute</strong>(self, name) 无条件调用，通过实例访问。如果类同时定义了<strong>getattr</strong>()，不会调用<strong>getattr</strong>()除非显式调用或产生了AttributeError。 object.<strong>getattr(self, name) 当未查找到访问的属性时，将会调用__getattr</strong>()方法</p>
 <pre><code>In [49]: class T(object):
-    ...:     a = &apos;hello&apos;
+    ...:     a = &#39;hello&#39;
     ...:     def __getattribute__(self, *args, **kwargs):
     ...:         print(&quot;called __getattribute__&quot;)
     ...:         return object.__getattribute__(self, *args, **kwargs)
@@ -491,12 +491,13 @@ In [50]: t = T()
 
 In [51]: t.a
 called __getattribute__
-Out[51]: &apos;hello&apos;
+Out[51]: &#39;hello&#39;
 
 In [52]: t.b
 called __getattribute__
 called __getattr__
-Out[52]: &apos;b&apos;</code></pre><p>参考： 1.<a href="https://docs.python.org/3/reference/datamodel.html?highlight=__getattr__#object.__getattr__" target="_blank" rel="noopener">官方文档</a></p>
+Out[52]: &#39;b&#39;
+</code></pre><p>参考： 1.<a href="https://docs.python.org/3/reference/datamodel.html?highlight=__getattr__#object.__getattr__" target="_blank" rel="noopener">官方文档</a></p>
 
       
     </div>

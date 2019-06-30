@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="1.hive安装(依赖于hadoop) - 下载hive - 解压到/opt目录下 - 添加环境变量到~/.bashrc export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH 2.hive-env.sh添加 HADOOP_HOME=/opt/hadoop-2.7.43.hive-site.xml添加">
+  <meta name="description" content="1.hive安装(依赖于hadoop) - 下载hive - 解压到/opt目录下 - 添加环境变量到~/.bashrc export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH 2.hive-env.sh添加 HADOOP_HOME=/opt/hadoop-2.7.4 3.hive-site.xml添">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark-shell使用mysql存储元数据">
 <meta property="og:url" content="https://hysyeah.github.io/2018/02/07/spark-shell-e4-bd-bf-e7-94-a8mysql-e5-ad-98-e5-82-a8-e5-85-83-e6-95-b0-e6-8d-ae/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.hive安装(依赖于hadoop) - 下载hive - 解压到/opt目录下 - 添加环境变量到~/.bashrc export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH 2.hive-env.sh添加 HADOOP_HOME=/opt/hadoop-2.7.43.hive-site.xml添加">
+<meta property="og:description" content="1.hive安装(依赖于hadoop) - 下载hive - 解压到/opt目录下 - 添加环境变量到~/.bashrc export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH 2.hive-env.sh添加 HADOOP_HOME=/opt/hadoop-2.7.4 3.hive-site.xml添">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark-shell使用mysql存储元数据">
-<meta name="twitter:description" content="1.hive安装(依赖于hadoop) - 下载hive - 解压到/opt目录下 - 添加环境变量到~/.bashrc export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH 2.hive-env.sh添加 HADOOP_HOME=/opt/hadoop-2.7.43.hive-site.xml添加">
+<meta name="twitter:description" content="1.hive安装(依赖于hadoop) - 下载hive - 解压到/opt目录下 - 添加环境变量到~/.bashrc export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH 2.hive-env.sh添加 HADOOP_HOME=/opt/hadoop-2.7.4 3.hive-site.xml添">
 
 
 
@@ -477,7 +477,8 @@
 
       
         <p>1.hive安装(依赖于hadoop) - 下载<a href="http://hive.apache.org/downloads.html" target="_blank" rel="noopener">hive</a> - 解压到/opt目录下 - 添加环境变量到~/.bashrc <code>export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH</code> 2.hive-env.sh添加</p>
-<pre><code>HADOOP_HOME=/opt/hadoop-2.7.4</code></pre><p>3.hive-site.xml添加[server端，hive目录下]</p>
+<pre><code>HADOOP_HOME=/opt/hadoop-2.7.4
+</code></pre><p>3.hive-site.xml添加[server端，hive目录下]</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
 &lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
 &lt;configuration&gt;
@@ -514,7 +515,8 @@
     &lt;value&gt;hdfs://10.68.2.55:9000/user/hive/warehouse&lt;/value&gt;
     &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
   &lt;/property&gt;
-&lt;/configuration&gt;</code></pre><p>4.hive-site.xml[client端，spark目录下]</p>
+&lt;/configuration&gt;
+</code></pre><p>4.hive-site.xml[client端，spark目录下]</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
 &lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
 &lt;configuration&gt;
@@ -527,10 +529,12 @@
   &lt;name&gt;spark.sql.warehouse.dir&lt;/name&gt;
   &lt;value&gt;/user/hive/warehouse&lt;/value&gt; #hdfs dfs -mkdir -p /usr/hive/warehouse
 &lt;/property&gt;
-&lt;/configuration&gt;</code></pre><p>5.下载mysql-connector-java-5.1.44-bin.jar，放到/opt/apache-hive-2.2.0-bin/lib目录下 6.</p>
+&lt;/configuration&gt;
+</code></pre><p>5.下载mysql-connector-java-5.1.44-bin.jar，放到/opt/apache-hive-2.2.0-bin/lib目录下 6.</p>
 <pre><code>schematool -dbType mysql -initSchema #初始化
 hive --service metastore -p &lt;port&gt;  #启动服务
-启动spark-shell将会将元数据存储到mysql</code></pre>
+启动spark-shell将会将元数据存储到mysql
+</code></pre>
       
     </div>
 

@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="lua -e &amp;quot;print(&amp;quot;hello&amp;quot;)&amp;quot; --ouput nil  lua -e &amp;quot;print(&amp;quot;1&amp;quot;)&amp;quot; -- output 1为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e">
+  <meta name="description" content="lua -e &amp;quot;print(&amp;quot;hello&amp;quot;)&amp;quot; --ouput nil  lua -e &amp;quot;print(&amp;quot;1&amp;quot;)&amp;quot; -- output 1 为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lua -e">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/22/lua-e/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="lua -e &amp;quot;print(&amp;quot;hello&amp;quot;)&amp;quot; --ouput nil  lua -e &amp;quot;print(&amp;quot;1&amp;quot;)&amp;quot; -- output 1为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e">
+<meta property="og:description" content="lua -e &amp;quot;print(&amp;quot;hello&amp;quot;)&amp;quot; --ouput nil  lua -e &amp;quot;print(&amp;quot;1&amp;quot;)&amp;quot; -- output 1 为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="lua -e">
-<meta name="twitter:description" content="lua -e &amp;quot;print(&amp;quot;hello&amp;quot;)&amp;quot; --ouput nil  lua -e &amp;quot;print(&amp;quot;1&amp;quot;)&amp;quot; -- output 1为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e">
+<meta name="twitter:description" content="lua -e &amp;quot;print(&amp;quot;hello&amp;quot;)&amp;quot; --ouput nil  lua -e &amp;quot;print(&amp;quot;1&amp;quot;)&amp;quot; -- output 1 为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e">
 
 
 
@@ -478,9 +478,11 @@
       
         <pre><code>lua -e &quot;print(&quot;hello&quot;)&quot; --ouput nil
 
-lua -e &quot;print(&quot;1&quot;)&quot; -- output 1</code></pre><p>为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e “print(hello)”(“print” + hello + “)”)，而hello未定义所以输出nil。 可以通过单引号禁止shell解析，或者使用转义符，</p>
-<pre><code>lua -e &apos;print(&quot;hello&quot;)&apos; -- output: hello
-lua -e &quot;print(\&quot;hello\&quot;)&quot; -- output: hello</code></pre>
+lua -e &quot;print(&quot;1&quot;)&quot; -- output 1
+</code></pre><p>为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e “print(hello)”(“print” + hello + “)”)，而hello未定义所以输出nil。 可以通过单引号禁止shell解析，或者使用转义符，</p>
+<pre><code>lua -e &#39;print(&quot;hello&quot;)&#39; -- output: hello
+lua -e &quot;print(\&quot;hello\&quot;)&quot; -- output: hello
+</code></pre>
       
     </div>
 

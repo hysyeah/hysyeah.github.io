@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。In [5]: d = OrderedDict({&amp;apos;banana&amp;apos;: 3, &amp;apos;apple&amp;apos;: 4, &amp;apos;pear&amp;apos;: 1, &amp;apos;orange&amp;apos;: 2})  In [6]:">
+  <meta name="description" content="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。In [5]: d = OrderedDict({&amp;#39;banana&amp;#39;: 3, &amp;#39;apple&amp;#39;: 4, &amp;#39;pear&amp;#39;: 1, &amp;#39;orange&amp;#39;: 2})  In [6]: d Out[6]">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python标准库之OrderedDict">
 <meta property="og:url" content="https://hysyeah.github.io/2018/04/02/python-e6-a0-87-e5-87-86-e5-ba-93-e4-b9-8bordereddict/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。In [5]: d = OrderedDict({&amp;apos;banana&amp;apos;: 3, &amp;apos;apple&amp;apos;: 4, &amp;apos;pear&amp;apos;: 1, &amp;apos;orange&amp;apos;: 2})  In [6]:">
+<meta property="og:description" content="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。In [5]: d = OrderedDict({&amp;#39;banana&amp;#39;: 3, &amp;#39;apple&amp;#39;: 4, &amp;#39;pear&amp;#39;: 1, &amp;#39;orange&amp;#39;: 2})  In [6]: d Out[6]">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python标准库之OrderedDict">
-<meta name="twitter:description" content="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。In [5]: d = OrderedDict({&amp;apos;banana&amp;apos;: 3, &amp;apos;apple&amp;apos;: 4, &amp;apos;pear&amp;apos;: 1, &amp;apos;orange&amp;apos;: 2})  In [6]:">
+<meta name="twitter:description" content="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。In [5]: d = OrderedDict({&amp;#39;banana&amp;#39;: 3, &amp;#39;apple&amp;#39;: 4, &amp;#39;pear&amp;#39;: 1, &amp;#39;orange&amp;#39;: 2})  In [6]: d Out[6]">
 
 
 
@@ -476,57 +476,58 @@
       
 
       
-        <h5 id="OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"><a href="#OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。" class="headerlink" title="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"></a>OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。</h5><pre><code>In [5]: d = OrderedDict({&apos;banana&apos;: 3, &apos;apple&apos;: 4, &apos;pear&apos;: 1, &apos;orange&apos;: 2})
+        <h5 id="OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"><a href="#OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。" class="headerlink" title="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"></a>OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。</h5><pre><code>In [5]: d = OrderedDict({&#39;banana&#39;: 3, &#39;apple&#39;: 4, &#39;pear&#39;: 1, &#39;orange&#39;: 2})
 
 In [6]: d
-Out[6]: OrderedDict([(&apos;pear&apos;, 1), (&apos;banana&apos;, 3), (&apos;apple&apos;, 4), (&apos;orange&apos;, 2)])
+Out[6]: OrderedDict([(&#39;pear&#39;, 1), (&#39;banana&#39;, 3), (&#39;apple&#39;, 4), (&#39;orange&#39;, 2)])
 
-In [7]: d.update({&apos;d&apos;:1})
+In [7]: d.update({&#39;d&#39;:1})
 
 In [8]: d
 Out[8]: 
-OrderedDict([(&apos;pear&apos;, 1),
-             (&apos;banana&apos;, 3),
-             (&apos;apple&apos;, 4),
-             (&apos;orange&apos;, 2),
-             (&apos;d&apos;, 1)])
+OrderedDict([(&#39;pear&#39;, 1),
+             (&#39;banana&#39;, 3),
+             (&#39;apple&#39;, 4),
+             (&#39;orange&#39;, 2),
+             (&#39;d&#39;, 1)])
 
 In [12]: d.update({&quot;pear&quot;:99})
 
 # 顺序没有改变
 In [13]: d
 Out[13]: 
-OrderedDict([(&apos;pear&apos;, 99),
-             (&apos;banana&apos;, 3),
-             (&apos;apple&apos;, 4),
-             (&apos;orange&apos;, 2),
-             (&apos;d&apos;, 1)])
+OrderedDict([(&#39;pear&#39;, 99),
+             (&#39;banana&#39;, 3),
+             (&#39;apple&#39;, 4),
+             (&#39;orange&#39;, 2),
+             (&#39;d&#39;, 1)])
 
-In [15]: del d[&apos;pear&apos;]
+In [15]: del d[&#39;pear&#39;]
 
 In [16]: d
-Out[16]: OrderedDict([(&apos;banana&apos;, 3), (&apos;apple&apos;, 4), (&apos;orange&apos;, 2), (&apos;d&apos;, 1)])
+Out[16]: OrderedDict([(&#39;banana&#39;, 3), (&#39;apple&#39;, 4), (&#39;orange&#39;, 2), (&#39;d&#39;, 1)])
 
-In [17]: d.update({&apos;pear&apos;: 99})
+In [17]: d.update({&#39;pear&#39;: 99})
 
 # 移动到右边
 In [18]: d
 Out[18]: 
-OrderedDict([(&apos;banana&apos;, 3),
-             (&apos;apple&apos;, 4),
-             (&apos;orange&apos;, 2),
-             (&apos;d&apos;, 1),
-             (&apos;pear&apos;, 99)])
+OrderedDict([(&#39;banana&#39;, 3),
+             (&#39;apple&#39;, 4),
+             (&#39;orange&#39;, 2),
+             (&#39;d&#39;, 1),
+             (&#39;pear&#39;, 99)])
 
-In [22]: d.move_to_end(&apos;apple&apos;)
+In [22]: d.move_to_end(&#39;apple&#39;)
 In [22]: &quot; &quot;.join(d.keys())
-Out[22]: &apos;banana orange d pear apple&apos;
+Out[22]: &#39;banana orange d pear apple&#39;
 
 # 当last=False时，将移动到最左边
-In [23]: d.move_to_end(&apos;apple&apos;, last=False)
+In [23]: d.move_to_end(&#39;apple&#39;, last=False)
 
 In [24]: &quot; &quot;.join(d.keys())
-Out[24]: &apos;apple banana orange d pear&apos;</code></pre>
+Out[24]: &#39;apple banana orange d pear&#39;
+</code></pre>
       
     </div>
 

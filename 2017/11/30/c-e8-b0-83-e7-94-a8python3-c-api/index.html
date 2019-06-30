@@ -520,7 +520,8 @@ PyObject* PyList_GetItem(PyObject *list, Py_ssize_t index)
 long PyLong_AsLong(PyObject *obj)
 
 /*释放资源*/
-void Py_Finalize()</code></pre><hr>
+void Py_Finalize()
+</code></pre><hr>
 <pre><code>/*编译运行,ubuntu 16.04,gcc5.4.0,python3.5*/
 /*-L 指定库的路径，-l 指定需连接的库名
 如果文件为libpython3.5.so,刚库名为python3.5*/
@@ -528,7 +529,8 @@ gcc hello.c -L/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu -lpython3.5
 out:
 1
 2
-3</code></pre><hr>
+3
+</code></pre><hr>
 <p>若/usr/include/python3.5m下无Python.h文件，请参考<a href="http://hysyeah.top/2017/11/30/ubuntu%E6%9C%AA%E5%8F%91%E7%8E%B0python-h%E6%96%87%E4%BB%B6/" target="_blank" rel="noopener">Python.h</a></p>
 <hr>
 <p>参考： 1.<a href="https://docs.python.org/3/c-api/" target="_blank" rel="noopener">官方文档</a></p>

@@ -490,7 +490,8 @@ typedef struct _object {
 typedef struct _object {
     Py_ssize_t ob_refcnt;
     struct _typeobject *ob_type;
-} PyObject;</code></pre><hr>
+} PyObject;
+</code></pre><hr>
 <pre><code>#include &lt;stdio.h&gt;
 
 #define T int b;int c;
@@ -505,7 +506,8 @@ int main(int argc, char *argv[]){
 }
 输出：
 1
-2</code></pre><hr>
+2
+</code></pre><hr>
 
       
     </div>

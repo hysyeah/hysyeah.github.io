@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段 update mysql.user set password=password(&amp;apos;hello&amp;apos;) where user=&amp;apos;t&amp;apos; flush privileges;2.使用create user,grant或set password create user t">
+  <meta name="description" content="mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段 update mysql.user set password=password(&amp;#39;hello&amp;#39;) where user=&amp;#39;t&amp;#39; flush privileges; 2.使用create user,grant或set password create user t ide">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql之修改用户密码">
 <meta property="og:url" content="https://hysyeah.github.io/2019/02/18/mysql-e4-b9-8b-e4-bf-ae-e6-94-b9-e7-94-a8-e6-88-b7-e5-af-86-e7-a0-81/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段 update mysql.user set password=password(&amp;apos;hello&amp;apos;) where user=&amp;apos;t&amp;apos; flush privileges;2.使用create user,grant或set password create user t">
+<meta property="og:description" content="mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段 update mysql.user set password=password(&amp;#39;hello&amp;#39;) where user=&amp;#39;t&amp;#39; flush privileges; 2.使用create user,grant或set password create user t ide">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之修改用户密码">
-<meta name="twitter:description" content="mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段 update mysql.user set password=password(&amp;apos;hello&amp;apos;) where user=&amp;apos;t&amp;apos; flush privileges;2.使用create user,grant或set password create user t">
+<meta name="twitter:description" content="mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段 update mysql.user set password=password(&amp;#39;hello&amp;#39;) where user=&amp;#39;t&amp;#39; flush privileges; 2.使用create user,grant或set password create user t ide">
 
 
 
@@ -477,15 +477,17 @@
 
       
         <p>mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段</p>
-<pre><code>update mysql.user set password=password(&apos;hello&apos;) where user=&apos;t&apos;
-flush privileges;</code></pre><p>2.使用<code>create user</code>,<code>grant</code>或<code>set password</code></p>
-<pre><code>create user t identified by &apos;password&apos;;
+<pre><code>update mysql.user set password=password(&#39;hello&#39;) where user=&#39;t&#39;
+flush privileges;
+</code></pre><p>2.使用<code>create user</code>,<code>grant</code>或<code>set password</code></p>
+<pre><code>create user t identified by &#39;password&#39;;
 
-grant select on cloud.* to &apos;root&apos;@&apos;10.68.6.66&apos; identified by &apos;password&apos;
+grant select on cloud.* to &#39;root&#39;@&#39;10.68.6.66&#39; identified by &#39;password&#39;
 
-set password for &apos;root&apos;@&apos;localhost&apos; =&apos;auth_string&apos;; 在5.5.60中执行报错
+set password for &#39;root&#39;@&#39;localhost&#39; =&#39;auth_string&#39;; 在5.5.60中执行报错
 
-set password for &apos;root&apos;@&apos;localhost&apos; = password(&apos;auth_string&apos;);  在5.7.6中已废弃这种语法，将来会移除</code></pre>
+set password for &#39;root&#39;@&#39;localhost&#39; = password(&#39;auth_string&#39;);  在5.7.6中已废弃这种语法，将来会移除
+</code></pre>
       
     </div>
 

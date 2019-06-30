@@ -481,9 +481,11 @@
 Creating network &quot;master_sparknet&quot; with driver &quot;bridge&quot;
 ERROR: cannot create network ddc16ca081602776df238912eeb042380f5cb15b88c108799b66d074742c704a (br-ddc16ca08160): conflicts with network fa6a55dd5ed30ce92342c4d3218558139293fd1800f5893c83b9f6a75aeaf277 (br-fa6a55dd5ed3): networks have overlapping IPv4
 
-提示不能创建网络，两个网络发生冲突</code></pre><h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><pre><code>1.docker network ls  #展示docker容器网络
+提示不能创建网络，两个网络发生冲突
+</code></pre><h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><pre><code>1.docker network ls  #展示docker容器网络
 2.找到冲突的网络 docker network rm fa6a55dd5ed3
-3.docker-compose up -d #重新启动服务</code></pre>
+3.docker-compose up -d #重新启动服务
+</code></pre>
       
     </div>
 

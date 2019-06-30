@@ -484,18 +484,20 @@
 x = [1, 2, 3, 4]
 y = [6, 5, 7, 10]
 r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
-f = np.poly1d(r) #f为拟合函数</code></pre><p>求出的拟合直线为y = r[0]_x+r[1],y = 1.4_x+3.5 3.画出拟合直线和数据点</p>
+f = np.poly1d(r) #f为拟合函数
+</code></pre><p>求出的拟合直线为y = r[0]_x+r[1],y = 1.4_x+3.5 3.画出拟合直线和数据点</p>
 <pre><code>import matplotlib.pyplot as plt
 fig = plt.subplots()
-plt.plot(1,6,&apos;*-&apos;)
-plt.plot(2,5,&apos;*-&apos;)
-plt.plot(3,7,&apos;*-&apos;)
-plt.plot(4,10,&apos;*-&apos;)
+plt.plot(1,6,&#39;*-&#39;)
+plt.plot(2,5,&#39;*-&#39;)
+plt.plot(3,7,&#39;*-&#39;)
+plt.plot(4,10,&#39;*-&#39;)
 f = lambda x: 1.4*x + 3.5
 x = [1, 2, 3, 4]
 y = [f(e) for e in x]
 plt.plot(x,y)
-plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
+plt.show()
+</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
 <hr>
 <h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
 
@@ -507,7 +509,7 @@ from sklearn.linear_model import LinearRegression
 x = np.array([ 6,  8, 10, 14, 18])
 y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
 
-plt.plot(x, y, &apos;k.&apos;)
+plt.plot(x, y, &#39;k.&#39;)
 plt.axis([0, 25, 0, 25])
 
 
@@ -520,15 +522,16 @@ e = [item[0] for item in model.predict(x.reshape(-1,1))]
 X = list(zip(x,x))
 Y = list(zip(y,e))
 for i in range(len(X)):
-    plt.plot(X[i],Y[i],&apos;r&apos;)
+    plt.plot(X[i],Y[i],&#39;r&#39;)
 
 plt.title(&quot;Linear regression use least square method&quot;)
-plt.xlabel(r&apos;$x$&apos;, horizontalalignment=&apos;right&apos;, x=1.0)
-plt.ylabel(r&apos;$y$&apos;, horizontalalignment=&apos;right&apos;, y=1.0, rotation=0)
+plt.xlabel(r&#39;$x$&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
+plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
 
 plt.plot(x, e)
 plt.grid(True)
-plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
+plt.show()
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
 <hr>
 <p>选择最小二乘的原因： 1.平方能将正残差与负残差都变成正数 2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响 3.在残差服从均值为0，方差为[latex]\sigma ^2[/latex] (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。 4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
 <hr>

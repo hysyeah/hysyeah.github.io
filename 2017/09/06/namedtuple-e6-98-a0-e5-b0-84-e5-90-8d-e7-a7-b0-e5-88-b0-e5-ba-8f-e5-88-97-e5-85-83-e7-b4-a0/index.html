@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="In [1]: from collections import namedtuple  In [2]: dt = namedtuple(&amp;apos;s&amp;apos;, [&amp;apos;name&amp;apos;, &amp;apos;job&amp;apos;])  In [3]: ret = dt(&amp;apos;hys&amp;apos;, &amp;apos;coder&amp;apos;)  In [4]: ret.name Out[4]:">
+  <meta name="description" content="In [1]: from collections import namedtuple  In [2]: dt = namedtuple(&amp;#39;s&amp;#39;, [&amp;#39;name&amp;#39;, &amp;#39;job&amp;#39;])  In [3]: ret = dt(&amp;#39;hys&amp;#39;, &amp;#39;coder&amp;#39;)  In [4]: ret.name Out[4]: &amp;#39;hys&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="namedtuple映射名称到序列元素">
 <meta property="og:url" content="https://hysyeah.github.io/2017/09/06/namedtuple-e6-98-a0-e5-b0-84-e5-90-8d-e7-a7-b0-e5-88-b0-e5-ba-8f-e5-88-97-e5-85-83-e7-b4-a0/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="In [1]: from collections import namedtuple  In [2]: dt = namedtuple(&amp;apos;s&amp;apos;, [&amp;apos;name&amp;apos;, &amp;apos;job&amp;apos;])  In [3]: ret = dt(&amp;apos;hys&amp;apos;, &amp;apos;coder&amp;apos;)  In [4]: ret.name Out[4]:">
+<meta property="og:description" content="In [1]: from collections import namedtuple  In [2]: dt = namedtuple(&amp;#39;s&amp;#39;, [&amp;#39;name&amp;#39;, &amp;#39;job&amp;#39;])  In [3]: ret = dt(&amp;#39;hys&amp;#39;, &amp;#39;coder&amp;#39;)  In [4]: ret.name Out[4]: &amp;#39;hys&amp;#">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-30T14:14:24.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="namedtuple映射名称到序列元素">
-<meta name="twitter:description" content="In [1]: from collections import namedtuple  In [2]: dt = namedtuple(&amp;apos;s&amp;apos;, [&amp;apos;name&amp;apos;, &amp;apos;job&amp;apos;])  In [3]: ret = dt(&amp;apos;hys&amp;apos;, &amp;apos;coder&amp;apos;)  In [4]: ret.name Out[4]:">
+<meta name="twitter:description" content="In [1]: from collections import namedtuple  In [2]: dt = namedtuple(&amp;#39;s&amp;#39;, [&amp;#39;name&amp;#39;, &amp;#39;job&amp;#39;])  In [3]: ret = dt(&amp;#39;hys&amp;#39;, &amp;#39;coder&amp;#39;)  In [4]: ret.name Out[4]: &amp;#39;hys&amp;#">
 
 
 
@@ -478,20 +478,21 @@
       
         <pre><code>In [1]: from collections import namedtuple
 
-In [2]: dt = namedtuple(&apos;s&apos;, [&apos;name&apos;, &apos;job&apos;])
+In [2]: dt = namedtuple(&#39;s&#39;, [&#39;name&#39;, &#39;job&#39;])
 
-In [3]: ret = dt(&apos;hys&apos;, &apos;coder&apos;)
+In [3]: ret = dt(&#39;hys&#39;, &#39;coder&#39;)
 
 In [4]: ret.name
-Out[4]: &apos;hys&apos;
+Out[4]: &#39;hys&#39;
 
 In [5]: ret.job
-Out[5]: &apos;coder&apos;</code></pre><p>将cursor.fetchall()返回的元组转换成可以通过名称来访问的元组</p>
+Out[5]: &#39;coder&#39;
+</code></pre><p>将cursor.fetchall()返回的元组转换成可以通过名称来访问的元组</p>
 <pre><code>In [1]: from collections import namedtuple
 ...:
 ...: def tuple_to_namedtuple(t, name_list):
 ...:     ret_list = []
-...:     s_namedtuple = namedtuple(&apos;s_namedtuple&apos;,name_list)
+...:     s_namedtuple = namedtuple(&#39;s_namedtuple&#39;,name_list)
 ...:     for item in t:
 ...:         ret_list.append(s_namedtuple._make(item))
 ...:         return ret_list
@@ -499,26 +500,27 @@ Out[5]: &apos;coder&apos;</code></pre><p>将cursor.fetchall()返回的元组转�
 
 In [2]: import sqlite3
 
-In [3]: conn = sqlite3.connect(&apos;tst.sqlite3&apos;)
+In [3]: conn = sqlite3.connect(&#39;tst.sqlite3&#39;)
 
 In [4]: cursor = conn.cursor()
 
-In [5]: cursor.execute(&apos;select * from t&apos;)
+In [5]: cursor.execute(&#39;select * from t&#39;)
 Out[5]: &lt;sqlite3.Cursor at 0x7f48b8079500&gt;
 
-In [6]: r = tuple_to_namedtuple(cursor.fetchall(),[&apos;id&apos;, &apos;name&apos;, &apos;value&apos;])
+In [6]: r = tuple_to_namedtuple(cursor.fetchall(),[&#39;id&#39;, &#39;name&#39;, &#39;value&#39;])
 
 In [7]: r
 Out[7]:
-[s_namedtuple(id=1, name=&apos;hys&apos;, value=&apos;a&apos;),
-s_namedtuple(id=2, name=&apos;huang&apos;, value=&apos;b&apos;)]</code></pre><hr>
+[s_namedtuple(id=1, name=&#39;hys&#39;, value=&#39;a&#39;),
+s_namedtuple(id=2, name=&#39;huang&#39;, value=&#39;b&#39;)]
+</code></pre><hr>
 <p>通过map实现,简洁许多</p>
 <pre><code>In [10]: def tuple_to_dict(seq, name_list):
-...:         s_namedtuple = namedtuple(&apos;s_namedtuple&apos;,name_list)
+...:         s_namedtuple = namedtuple(&#39;s_namedtuple&#39;,name_list)
 ...:         return map(s_namedtuple._make, seq)
 ...:
 
-In [12]: ret = tuple_to_dict(cursor.fetchall(),[&apos;id&apos;,&apos;name&apos;,&apos;value&apos;])
+In [12]: ret = tuple_to_dict(cursor.fetchall(),[&#39;id&#39;,&#39;name&#39;,&#39;value&#39;])
 
 In [13]: ret
 Out[13]: &lt;map at 0x7f48b2fa2a90&gt;
@@ -526,8 +528,9 @@ Out[13]: &lt;map at 0x7f48b2fa2a90&gt;
 In [14]: for elt in ret:
 ...:         print(elt)
 ...:
-s_namedtuple(id=1, name=&apos;hys&apos;, value=&apos;a&apos;)
-s_namedtuple(id=2, name=&apos;huang&apos;, value=&apos;b&apos;)</code></pre>
+s_namedtuple(id=1, name=&#39;hys&#39;, value=&#39;a&#39;)
+s_namedtuple(id=2, name=&#39;huang&#39;, value=&#39;b&#39;)
+</code></pre>
       
     </div>
 

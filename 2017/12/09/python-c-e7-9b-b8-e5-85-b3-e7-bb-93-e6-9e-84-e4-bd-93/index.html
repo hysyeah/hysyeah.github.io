@@ -506,7 +506,7 @@ typedef struct {
     /* Vector of pointers to list elements.  list[0] is ob_item[0], etc. */
     PyObject **ob_item;
 
-    /* ob_item contains space for &apos;allocated&apos; elements.  The number
+    /* ob_item contains space for &#39;allocated&#39; elements.  The number
      * currently in use is ob_size.
      * Invariants:
      *     0 &lt;= ob_size &lt;= allocated
@@ -534,7 +534,7 @@ typedef struct {
 typedef struct {
     PyObject_HEAD
     PyObject *func_code;  /* A code object */
-    PyObject *func_globals; /* A dictionary (other mappings won&apos;t do) */
+    PyObject *func_globals; /* A dictionary (other mappings won&#39;t do) */
     PyObject *func_defaults;  /* NULL or a tuple */
     PyObject *func_closure; /* NULL or a tuple of cell objects */
     PyObject *func_doc;   /* The __doc__ attribute, can be anything */
@@ -579,7 +579,7 @@ typedef struct {
     PyObject *f_name;
     PyObject *f_mode;
     int (*f_close)(FILE *);
-    int f_softspace;            /* Flag used by &apos;print&apos; command */
+    int f_softspace;            /* Flag used by &#39;print&#39; command */
     int f_binary;               /* Flag which indicates whether the file is
                                open in binary (1) or text (0) mode */
     char* f_buf;                /* Allocated readahead buffer */
@@ -631,10 +631,10 @@ typedef struct _frame {
 
     /* If an exception is raised in this frame, the next three are used to
      * record the exception info (if any) originally in the thread state.  See
-     * comments before set_exc_info() -- it&apos;s not obvious.
+     * comments before set_exc_info() -- it&#39;s not obvious.
      * Invariant:  if _type is NULL, then so are _value and _traceback.
      * Desired invariant:  all three are NULL, or all three are non-NULL.  That
-     * one isn&apos;t currently true, but &quot;should be&quot;.
+     * one isn&#39;t currently true, but &quot;should be&quot;.
      */
     PyObject *f_exc_type, *f_exc_value, *f_exc_traceback;
 
@@ -697,14 +697,14 @@ struct _dictobject {
     Py_ssize_t ma_fill;  /* # Active + # Dummy */
     Py_ssize_t ma_used;  /* # Active */
 
-    /* The table contains ma_mask + 1 slots, and that&apos;s a power of 2.
+    /* The table contains ma_mask + 1 slots, and that&#39;s a power of 2.
      * We store the mask instead of the size because the mask is more
      * frequently needed.
      */
     Py_ssize_t ma_mask;
 
     /* ma_table points to ma_smalltable for small tables, else to
-     * additional malloc&apos;ed memory.  ma_table is never NULL!  This rule
+     * additional malloc&#39;ed memory.  ma_table is never NULL!  This rule
      * saves repeated runtime null-tests in the workhorse getitem and
      * setitem calls.
      */
@@ -720,7 +720,7 @@ struct _dictobject {
 typedef struct {
     PyObject_HEAD
     PyMethodDef *m_ml; /* Description of the C function to call */
-    PyObject    *m_self; /* Passed as &apos;self&apos; arg to the C func, can be NULL */
+    PyObject    *m_self; /* Passed as &#39;self&#39; arg to the C func, can be NULL */
     PyObject    *m_module; /* The __module__ attribute, can be anything */
 } PyCFunctionObject;
 
@@ -739,7 +739,7 @@ typedef struct {
     PyObject *co_varnames;  /* tuple of strings (local variable names) */
     PyObject *co_freevars;  /* tuple of strings (free variable names) */
     PyObject *co_cellvars;      /* tuple of strings (cell variable names) */
-    /* The rest doesn&apos;t count for hash/cmp */
+    /* The rest doesn&#39;t count for hash/cmp */
     PyObject *co_filename;  /* string (where it was loaded from) */
     PyObject *co_name;    /* string (name, for reference) */
     int co_firstlineno;   /* first source line number */
@@ -855,14 +855,15 @@ typedef struct _typeobject {
    so that ob_digit[0] ... ob_digit[abs(ob_size)-1] are actually available.
 
    CAUTION:  Generic code manipulating subtypes of PyVarObject has to
-   aware that longs abuse  ob_size&apos;s sign bit.
+   aware that longs abuse  ob_size&#39;s sign bit.
 */
 
 struct _longobject {
   PyObject_VAR_HEAD
   digit ob_digit[1];
 };
-typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */</code></pre>
+typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
+</code></pre>
       
     </div>
 
