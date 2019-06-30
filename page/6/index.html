@@ -363,868 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/08/python-e4-b9-8b-e9-b8-ad-e5-ad-90-e7-b1-bb-e5-9e-8bduck-typing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/08/python-e4-b9-8b-e9-b8-ad-e5-ad-90-e7-b1-bb-e5-9e-8bduck-typing/" class="post-title-link" itemprop="url">python之鸭子类型(Duck typing)</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-08 16:48:32" itemprop="dateCreated datePublished" datetime="2018-09-08T16:48:32+08:00">2018-09-08</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>“如果它像鸭子一样走路，它像鸭子一样呱呱叫，那它一定是鸭子” - 以确定一个物体是否可以用于特定目的。 在duck typing中，对象的适用性取决于某些方法和属性的存在，而不是对象本身的类型。我们并不关心对象是什么类型，到底是不是鸭子，只关心行为。</p>
-<pre><code>class Duck:
-    def fly(self):
-        print(&quot;Duck flying&quot;)
-
-class Airplane:
-    def fly(self):
-        print(&quot;Airplane flying&quot;)
-
-class Whale:
-    def swim(self):
-        print(&quot;Whale swimming&quot;)
-
-def lift_off(entity):
-    entity.fly()
-
-duck = Duck()
-airplane = Airplane()
-whale = Whale()
-
-lift_off(duck) # prints `Duck flying`
-lift_off(airplane) # prints `Airplane flying`
-lift_off(whale) # Throws the error `&apos;Whale&apos; object has no attribute &apos;fly&apos;
-
-# 在lift_off函数中我们并不关心传入的参数是什么类型，只关心这个对象拥有什么方法。</code></pre><p>比如在python中，有很多file-like的东西，比如StringIO,GzipFile,socket。它们有很多相同的方法，我们把它们当作文件使用。 再如只要一个类实现了<code>__iter__</code>方法，我们就说这个对象是可迭代的。</p>
-<pre><code>In [1]: class A:
-   ...:     def __iter__(self):
-   ...:         pass
-   ...:
-
-In [2]: a = A()
-
-In [3]: from collections import Iterable
-
-In [4]: isinstance(a, Iterable)
-Out[4]: True</code></pre><hr>
-<p>参考： 1.<a href="https://en.wikipedia.org/wiki/Duck_typing" target="_blank" rel="noopener">wikipedia</a> 2.<a href="https://blog.csdn.net/handsomekang/article/details/40270009" target="_blank" rel="noopener">csdn</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/05/python-e4-b9-8bqueue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/05/python-e4-b9-8bqueue/" class="post-title-link" itemprop="url">python之Queue</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-05 15:42:34" itemprop="dateCreated datePublished" datetime="2018-09-05T15:42:34+08:00">2018-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>当必须在多个线程之间安全地交换信息时，它在线程编程中特别有用。此模块中的Queue类实现了所有必需的锁定原语。 如果数据共享时可能被修改，就需要加锁来保护它，以确保同一时刻只能有一个线程访问这个数据。线程模块提供了许多同步原语，包括锁(Lock)、信号量(Semaphore)、条件变量(Condition)和事件(Event)。但最好的做法是使用Queue模块。Queue是线程安全的，使用它可以降低程序的复杂度，代码清晰，可读性更强。</p>
-<pre><code># queue定义了三种类型的队列,maxsize为队列元素最大值，默认为无限大
-# 定义一个先进先出的队列
-class queue.Queue(maxsize=0)
-# 定义一个后进先出的队列
-class queue.LifoQueue(maxsize=0) 
-# 定义一个优先级队列，元素通常为(priority_number,data),值越小优先级越高
-class queue.PriorityQueue(maxsize=0) </code></pre><p>队列对象方法</p>
-<pre><code>Queue.qsize()
-qsize（）&gt; 0不保证后续的get（）不会阻塞，qsize（）&lt;maxsize也不保证put（）不会阻塞??
-
-Queue.empty() 
-如果队列为空,返回True,否则返回False。
-
-Queue.full()
-如果队列已满，返回True,否则返回False，如果返回True不保证get()不会阻塞，如果返回False也不保证put()不会阻塞。
-
-Queue.put(item, block=True, timeout=None)
-将元素插入到队列中。如果block=True和timeout等于None,将会发生阻塞直到有空闲的空间。如果timeout大于0,将会阻塞timeout秒，如果还是没有多余空间将会触发Full异常。如果block=False,如果队列不是满的直接放入队列，否则触发Full异常(timeout会被忽略)
-
-Queue.put_nowait(item)
-等于put(item, False).
-
-Queue.get(block=True, timeout=None) 
-移除和返回队列中的元素。如果block=True和timeout等于None,将会发生阻塞直到队列不为空。如果timeout大于0,将会阻塞timeout秒，如果队列还是为空将会触发Empty异常。如果block=False,如果队列不为空返回元素，否则触发Empty异常(timeout会被忽略)
-
-Queue.get_nowait() 
-等于get(False)
-
-Queue.task_done() 
-表时以前排队的任务已经完成。用于队列消费者线程。对于用于获取任务的每个get()，对task_done()的后续调用会告知队列任务的处理已完成。
-
-Queue.join() 
-阻塞直到队列中所有元素都被处理了。
-
-
-
-import Queue
-import threading
-
-def print_url(queue):
-    while True:
-        url = queue.get()
-        print(url)
-        queue.task_done()
-
-def use_queue():
-    queue = Queue.Queue()
-    for i in range(5):
-        t = threading.Thread(target=print_url,args=(queue,))
-        t.setDaemon(True)
-        t.start()
-    for url in [&apos;baidu.com&apos;,&apos;xina.com&apos;,&apos;weibo.com&apos;,&apos;qq.com&apos;,&apos;hysky.com&apos;,&apos;hehe.com&apos;]:
-        queue.put(url)
-
-    queue.join()
-
-
-if __name__ == &quot;__main__&quot;:
-    use_queue()
-
-
-# 输出：
-baidu.com
- weibo.com
-xina.com
-qq.com
-hysky.com
-hehe.com</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/05/python-e4-b9-8b-e5-9c-a8-e5-8c-bf-e5-90-8d-e5-87-bd-e6-95-b0-e4-b8-ad-e7-bb-91-e5-ae-9a-e5-8f-98-e9-87-8f-e7-9a-84-e5-80-bc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/05/python-e4-b9-8b-e5-9c-a8-e5-8c-bf-e5-90-8d-e5-87-bd-e6-95-b0-e4-b8-ad-e7-bb-91-e5-ae-9a-e5-8f-98-e9-87-8f-e7-9a-84-e5-80-bc/" class="post-title-link" itemprop="url">python之在匿名函数中绑定变量的值</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-05 14:14:39" itemprop="dateCreated datePublished" datetime="2018-09-05T14:14:39+08:00">2018-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>In [17]: [x(2) for x in mu()]
-Out[17]: [0, 2, 4, 6]
-
-In [18]: x = 10
-
-In [19]: a = lambda y: x + y
-
-In [20]: x = 20
-
-In [21]: b = lambda y: x + y
-
-In [22]: a(10)
-Out[22]: 30
-
-In [23]: b(10)
-Out[23]: 30
-
-# lambda表达式中用到的x是一个自由变量，在运行进才进行绑定而不是定义的时候进行绑定。因此，lambda表达式中的x是在执行的时候确定的。</code></pre><p>再来看这么一个例子：</p>
-<pre><code>In [27]: def multipliers():
-    ...:     return [lambda x: i*x for i in range(4)]
-In [28 print([m(2) for m in multipliers()])
-[6, 6, 6, 6]
-
-# 因为i值是在运行的时候确定的，当调用lambda函数时，for循环已经结束，所以i都是3
-
-
-# 可以把添加一个默认参数绑定变量，默认值只会函数定义的时候初始化一次
-In [33]: def multipliers():
-    ...:     return [lambda x, i=i: i*x for i in range(4)]
-    ...:
-    ...:
-
-In [34]: print([m(2) for m in multipliers()])
-[0, 2, 4, 6]
-
-# 或者可以通过如下方式实现
-In [16]: from functools import partial
-In [17]: from operator import mul
-In [35]: def multipliers():
-    ...:     return [partial(mul, i) for i in range(4)]
-    ...:
-    ...:
-
-In [36]: print([m(2) for m in multipliers()])
-[0, 2, 4, 6]</code></pre><hr>
-<p>参考： 1.python cookbook</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/05/e6-89-be-e5-87-ba-e8-b7-9d-e7-a6-bb-e8-87-aa-e5-b7-b1-e6-9c-80-e8-bf-91-e7-9a-84-e6-8c-87-e5-ae-9a-e5-85-83-e7-b4-a0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/05/e6-89-be-e5-87-ba-e8-b7-9d-e7-a6-bb-e8-87-aa-e5-b7-b1-e6-9c-80-e8-bf-91-e7-9a-84-e6-8c-87-e5-ae-9a-e5-85-83-e7-b4-a0/" class="post-title-link" itemprop="url">找出距离自己最近的指定元素</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-05 13:30:07" itemprop="dateCreated datePublished" datetime="2018-09-05T13:30:07+08:00">2018-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 找出距离H最近的G
-# input lst = [&apos;H&apos;, &apos;H&apos;, &apos;G&apos;, &apos;H&apos;, &apos;G&apos;, &apos;H&apos;, &apos;H&apos;, &apos;G&apos;, &apos;H&apos;]
-# output [2, 1, 0, 1, 0, 1, 1, 0, 1]  # 第一个&quot;H&quot;最近的&quot;G&quot;相差距离为2
-
-
-lst = [&apos;H&apos;, &apos;H&apos;, &apos;G&apos;, &apos;H&apos;, &apos;G&apos;, &apos;H&apos;, &apos;H&apos;, &apos;G&apos;, &apos;H&apos;]
-
-
-def find_min_distance(lst):
-    lst = &apos;&apos;.join(lst)
-    ret = []
-    n = len(lst)
-    for i in range(n):
-        if lst[i] == &apos;G&apos;:
-            ret.append(0)
-            continue
-        else:
-            index1 = lst.find(&apos;G&apos;, i)
-            index2 = lst[::-1].find(&apos;G&apos;, n-i)
-
-            if index1 and index2:
-                if abs(index1 - i) &lt; abs(index2-n+i+1):
-                    ret.append(abs(index1-i))
-                else:
-                    ret.append(abs(index2-n+i+1))
-            elif index1:
-                ret.append(abs(index1-i))
-            elif index2:
-                ret.append(abs(index2-n+i))
-    return ret
-
-print(find_min_distance(lst))</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/03/python-e4-b9-8b-e5-b1-9e-e6-80-a7-e7-bb-a7-e6-89-bf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2354,11 +1492,846 @@ git clone https://github.com/golang/lint.git</code></pre><hr>
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/21/python-e9-9d-a2-e8-af-95-e4-b9-8b-e5-90-8d-e7-a7-b0-e4-bf-ae-e9-a5-b0name-mangling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/21/python-e9-9d-a2-e8-af-95-e4-b9-8b-e5-90-8d-e7-a7-b0-e4-bf-ae-e9-a5-b0name-mangling/" class="post-title-link" itemprop="url">python面试之名称修饰(name-mangling)</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-21 00:06:03" itemprop="dateCreated datePublished" datetime="2018-08-21T00:06:03+08:00">2018-08-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>&gt;&gt;&gt; class MyClass():
+... def __init__(self):
+... self.__superprivate = &quot;Hello&quot;
+... self._semiprivate = &quot;, world!&quot;
+...
+&gt;&gt;&gt; mc = MyClass()
+&gt;&gt;&gt; print mc.__superprivate
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+AttributeError: myClass instance has no attribute &apos;__superprivate&apos;
+&gt;&gt;&gt; print mc._semiprivate
+, world!
+&gt;&gt;&gt; print mc.__dict__
+{&apos;_MyClass__superprivate&apos;: &apos;Hello&apos;, &apos;_semiprivate&apos;: &apos;, world!&apos;}</code></pre><p><strong>foo</strong> :一种约定,Python内部的名字,用来区别其他用户自定义的命名,以防冲突. _foo :一种约定,用来指定变量私有.程序员用来指定私有变量的一种方式. __foo :这个有真正的意义:解析器用 _classname__foo 来代替这个名字,以区别和其他类相同的命名.</p>
+<hr>
+<pre><code>In [1]: class A:
+   ...:     __p = 1
+   ...:
+
+In [2]: A.__p
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+&lt;ipython-input-2-f532f70a0839&gt; in &lt;module&gt;()
+----&gt; 1 A.__p
+
+AttributeError: type object &apos;A&apos; has no attribute &apos;__p&apos;
+
+In [6]: A._A__p
+Out[6]: 1
+
+
+In [7]: print(A.__dict__)
+{&apos;__module__&apos;: &apos;__main__&apos;, &apos;_A__p&apos;: 1, &apos;__dict__&apos;: &lt;attribute &apos;__dict__&apos; of &apos;A&apos; objects&gt;, &apos;__weakref__&apos;: &lt;attribute &apos;__weakref__&apos; of &apos;A&apos; objects&gt;, &apos;__doc__&apos;: None}
+
+
+# 在python中名称修饰用于私有成员，当一个成员名称以双下划线开头和不超过一个下划线结尾，  
+# 它会在运行时被解释器重命名，以避免与任何子类中的方法产生命名冲突。重命名规则为&quot;_类名+变量&quot;,如_A__p。</code></pre><hr>
+<p>参考： 1.<a href="https://en.wikipedia.org/wiki/Name_mangling#Python" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Name_mangling#Python</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/20/python-e9-9d-a2-e8-af-95-e4-b9-8b-e7-b1-bb-e5-8f-98-e9-87-8f-e8-ae-bf-e9-97-ae-e9-a1-ba-e5-ba-8f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/20/python-e9-9d-a2-e8-af-95-e4-b9-8b-e7-b1-bb-e5-8f-98-e9-87-8f-e8-ae-bf-e9-97-ae-e9-a1-ba-e5-ba-8f/" class="post-title-link" itemprop="url">python面试之类变量访问顺序</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-20 23:45:48" itemprop="dateCreated datePublished" datetime="2018-08-20T23:45:48+08:00">2018-08-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>class A:
+    a = 1
+
+a, b, c = A(), A(),A()
+
+print(a.a, b.a, c.a)
+
+a.a = 2
+A.a = 3
+print(a.a, A.a, c.a)
+
+print(a.__dict__, A.__dict__, c.__dict__)
+
+# 输出
+(1, 1, 1)           #实例对象字典为空，从类的字典寻找变量，所以输出都为1
+(2, 3, 3)           #实例a有了自己的字典，c没有自己的字典，从类的字典寻找变量，所以为3
+({&apos;a&apos;: 2}, {&apos;a&apos;: 3, &apos;__module__&apos;: &apos;__main__&apos;, &apos;__doc__&apos;: None}, {})</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/20/python-e9-9d-a2-e8-af-95-e4-b9-8b-e8-a3-85-e9-a5-b0-e5-99-a8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/20/python-e9-9d-a2-e8-af-95-e4-b9-8b-e8-a3-85-e9-a5-b0-e5-99-a8/" class="post-title-link" itemprop="url">python面试之装饰器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-20 23:31:08" itemprop="dateCreated datePublished" datetime="2018-08-20T23:31:08+08:00">2018-08-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>import functools
+
+def a(f):
+    print(&apos;a&apos;)
+
+    @functools.wraps(f)
+    def wraps(*args, **kwargs):
+        print(&apos;wraps&apos;)
+        return f(*args, **kwargs)
+    return wraps
+
+@a
+def b():
+    print(&apos;b&apos;)
+
+b()
+b()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/08/doc.png" alt> 第二次调用b()函数，并没有输出’a’,其实调用b(),b()相当于</p>
+<pre><code>import functools
+
+def a(f):
+    print(&apos;a&apos;)
+
+    @functools.wraps(f)
+    def wraps(*args, **kwargs):
+        print(&apos;wraps&apos;)
+        return f(*args, **kwargs)
+    return wraps
+
+def b():
+    print(&apos;b&apos;)
+
+
+b = a(b)                 //此时打印&apos;a&apos;
+b()
+b()
+
+
+
+# 当导入b的时候装饰器已经运行，而不是自己原以为的调用b时装饰器才运行
+In [1]: from t1 import b
+a</code></pre><hr>
+<p>update_wrapper是wraps的主要功能提供者，它负责考贝原函数的属性，默认是：’<strong>module</strong>‘, ‘<strong>name</strong>‘, ‘<strong>doc</strong>‘， ‘<strong>dict</strong>‘</p>
+<pre><code>functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES) 
+
+
+# 通过wraps和update_wrapper实现结果是一致的
+In [28]: from functools import wraps, update_wrapper
+
+In [29]: def time1(func):
+    ...:     @wraps(func)
+    ...:     def wrapper(*args, **kwargs):
+    ...:         start = time.time()
+    ...:         func(*args, **kwargs)
+    ...:         end = time.time()
+    ...:         print(func.__name__, end-start)
+    ...:     return wrapper
+    ...: 
+
+In [30]: def time2(func):
+    ...:     
+    ...:     def wrapper(*args, **kwargs):
+    ...:         start = time.time()
+    ...:         func(*args, **kwargs)
+    ...:         end = time.time()
+    ...:         print(func.__name__, end-start)
+    ...:     return update_wrapper(wrapper,func)
+    ...: 
+    ...: 
+
+In [31]: @time1
+    ...: def fori():
+    ...:     for i in range(1000):
+    ...:         pass
+    ...:     
+
+In [32]: fori()</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/20/python-e4-b9-8btuple-e4-b8-8d-e5-8f-af-e5-8f-98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/20/python-e4-b9-8btuple-e4-b8-8d-e5-8f-af-e5-8f-98/" class="post-title-link" itemprop="url">python面试之tuple不可变</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-20 22:39:08" itemprop="dateCreated datePublished" datetime="2018-08-20T22:39:08+08:00">2018-08-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近遇到个有关tuple的面试题，挺有意思的。</p>
+<pre><code># 下面会输出什么？为什么
+In [18]: tu = (1, [1, 2])
+In [19]: tu[1].append(3)
+In [20]: print(tu)
+(1, [1, 2, 3])</code></pre><p>tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。</p>
+<pre><code>In [22]: tu[1] = [1,2,3]
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+&lt;ipython-input-22-1e2059dd0201&gt; in &lt;module&gt;()
+----&gt; 1 tu[1] = [1,2,3]
+
+TypeError: &apos;tuple&apos; object does not support item assignment
+
+
+
+In [24]: class A:
+    ...:     a = 1
+    ...:
+
+In [25]: a = A()
+In [28]: t = (1, a)
+
+In [29]: t[1].a = 2
+
+In [31]: print(t[1].a)
+2</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2400,7 +2373,7 @@ git clone https://github.com/golang/lint.git</code></pre><hr>
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

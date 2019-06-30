@@ -9,22 +9,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[11111]]></title>
-    <url>%2F2019%2F06%2F13%2Ftrashed-5%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>未分类</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[fd]]></title>
-    <url>%2F2019%2F06%2F13%2Ftrashed-4%2F</url>
-    <content type="text"><![CDATA[fdfdsfsdfdsfdf]]></content>
-      <categories>
-        <category>未分类</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[幻读]]></title>
     <url>%2F2019%2F06%2F13%2Fe5-b9-bb-e8-af-bb-trashed%2F</url>
     <content type="text"><![CDATA[一、ACID：事务的4个特性 原子性(atomicity):在一个事务中，操作要么成功，要么失败。如果事务中有一个命令失败，必须回滚操作，回到事务执行之前的状态。 一致性(consistency):事务在完成时，必须使所有的数据都保持一致状态。 隔离性(isolation):事务在查看数据时数据所处的状态，要么是另一并发事务修改它之前的状态，要么是另一事务修改它之后的状态，事务是不会查看中间状态的。 持久性(durability):事务完成之后，它对于系统的影响是永久性的。 二、隔离级别(ACID中的I)InnoDB提供四种隔离级别 READ UNCOMMITTED: 读未提交 READ COMMITTED: 读已提交 REPEATABLE READ: 重复读 SERIALIZABLE: 串行化 不一致情况： 脏读：一个事务读取了另一个未提交事务写入的数据。 不可重复读：指一个事务重新读取前面读取过的数据时，发现该数据已经被另一个已提交事务修改了。 幻读：一个事务开始后，需要根据数据库中现有的数据做一些更新，于是重新执行一个查询，返回一套符合查询条件的行，这是发现这些行因为其他最近提交的事务而发生了改变，导致现有的事务如果再进行下去就可能会在逻辑上出现一些错误。（幻读，并不是说两次读取获取的结果集不同，幻读侧重的方面是某一次的 select 操作得到的结果所表征的数据状态无法支撑后续的业务操作。更为具体一些：select 某记录是否存在，不存在，准备插入此记录，但执行 insert 时发现此记录已存在，无法插入，此时就发生了幻读。） 事务隔离级别的行为隔离级别 脏读 不可重复读 幻读 读未提交 可能 可能 可能 读已提交 不可能 可能 可能 重复读 不可能 不可能 可能 可串行化 不可能 不可能 不可能 模拟发生幻读： 事务1 事务2 事务1：检查表中是否有id=10的记录，没有则插入，这是正常逻辑。 事务2: 干拢了事务1的正常执行。 用户可以通过SET TRANSACTION命令改变隔离级别，或通过--transaction-isolation配置server级别的隔离性。 MySQL通过使用不同的锁策略实现不同的隔离级别，默认隔离级别是REPEATABLE READ，以提供更高级别的一致性。你也可以指定隔离级别为READ COMMITTED甚至READ UNCOMMITTED一致性要求没那么高的场景(减少锁以提高性能)。SERIALIZABLE提供比REPEATABLE更严格的 规则，一般会用于一些特殊的场景，比如XA事务和用于调试并发或死锁问题。 REPEATABLE READ这是MySQL的默认隔离级别。在同一事务中的读取的数据是一致的，在第一次读时会建立一个快照，同一事务中读取到的都是第一个快照中的值。也就是说在同一个事务中，SELECT(noblocking)所获取到的数据都是一致的。对于REPEATABLE READ隔离级别总是读取事务开始时的行数据。 READ COMMITTED 读已提交每一次读都会建立一个新的快照并从中读取数据,它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 对于READ COMMITTED只支持 row-based的binlog。 其它影响： - 对于UPDATE,DELETE操作，InnoDB只会锁住需要需要更新或删除的行。对于不匹配的行，在执行完WHERE语句后锁会释放。这极大的降低了死锁的概率，但还是有可能发生。 - 对于UPDATE操作，如果行已经被加锁，InnoDB``表现为semi-consistent读，将返回最近提交的版本，MySQL再决定是否符合WHERE条件。如果匹配，MySQL```会重新读取这行，然后获取锁或者等待锁。 READ UNCOMMITTEDSELECT表现为nonlocking fashion,但是可能会读取到旧版本的数据，所以这种隔离级别不保持一致性读，也称为脏读。 SERIALIZABLESERIALIZABLE和REPEATABLE READ隔离级别类似，当autocommit=false情况下，所有SELECT语句会被转换为SELECT ... LOCK IN SHARE MODE。 示例： MySQL默认隔离级别为： 在REPEATABLE READ隔离级别情况下，开启两个session,先左边的窗口开启一个事务读取表a中的数据，然后右边的窗口再开启个事务对表a数据进行修改，右边的事务提交后，在左边的事务再次查看表a中的数据。发现两次得到的数据是一致性的，因为对于REPEATABLE READ隔离级别总是读取事务开始时的行数据。 在READ COMMITTED隔离级别重复上述的操作,发现在右边的事务提交后再查看表a的数据，此时表a的数据已更新。因为在这个隔离级别下，它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 参考： 1.innodb-transaction-isolation-levels]]></content>
@@ -238,14 +222,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[shell mkdir]]></title>
-    <url>%2F2019%2F04%2F08%2Ftrashed%2F</url>
-    <content type="text"><![CDATA[#!/bin/sh mkdir -p src/{main,test}/{java,resources,scala} mkdir lib project target echo ‘name := “myproject” version := “1.0” scalaVersion := “2.12.0”‘ &gt; build.sbt]]></content>
-      <categories>
-        <category>未分类</category>
-      </categories>
-  </entry>
-  <entry>
     <title><![CDATA[linux命令strace]]></title>
     <url>%2F2019%2F03%2F30%2Flinux-e5-91-bd-e4-bb-a4strace%2F</url>
     <content type="text"><![CDATA[strace是Linux/Unix下的一款可以追踪系统调用的工具。 1.安装strace apt-get install strace # ubuntu yum install strace # centos2.使用示例 3.strace -pstrace -p pid # 根据进程id,追踪此进程系统调用 查看nginx: worker process进程的系统调用 4.strace -c统计时间，调用数，错误 5.strace -e type=exprexpr = set, file, process, network, signal,ipc, desc,memory 指定追踪系统调用类型 6.strace -o out.txt将输出重定向一 个文件 7.strace -i输出系统调用的指针地址 8.详细参数可通过下面命令查看man strace]]></content>
@@ -361,14 +337,6 @@
     <title><![CDATA[记一次粗心的错误]]></title>
     <url>%2F2018%2F11%2F07%2Fe8-ae-b0-e4-b8-80-e6-ac-a1-e7-b2-97-e5-bf-83-e7-9a-84-e9-94-99-e8-af-af%2F</url>
     <content type="text"><![CDATA[最近在学习使用alembic,有一个地方是要填写数据库的url如下： sqlalchemy.url = &apos;mysql://root:123456@10.10.20.11/test&apos;不小心将mysql写成了msyql,结果报错提示msyql模块未安装。然后自己以为是mysql驱动没安装好，然后就是各种安装，结果还是一样。 一小时后，重新将url写一遍却正确了，于是查看日志才发现是mysql写错了。]]></content>
-      <categories>
-        <category>未分类</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[py2neo]]></title>
-    <url>%2F2018%2F10%2F21%2Ftrashed-3%2F</url>
-    <content type="text"></content>
       <categories>
         <category>未分类</category>
       </categories>
@@ -1407,14 +1375,6 @@
     <content type="text"><![CDATA[centos安装 mysqlclient失败，需先安装 yum install mysql-devel pip install mysqlclient ubuntu apt-get install libmysqlclient-dev python3-dev]]></content>
       <categories>
         <category>Python Web</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[lua实现单向链表]]></title>
-    <url>%2F2017%2F10%2F09%2Ftrashed-2%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>LUA</category>
       </categories>
   </entry>
   <entry>

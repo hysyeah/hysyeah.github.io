@@ -363,733 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/e5-9c-a8-e5-ae-a2-e6-88-b7-e6-9c-ba-e6-b7-bb-e5-8a-a0-e8-b7-af-e7-94-b1-e8-ae-bf-e9-97-aedocker-e9-9b-86-e7-be-a4-e6-9c-8d-e5-8a-a1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/17/e5-9c-a8-e5-ae-a2-e6-88-b7-e6-9c-ba-e6-b7-bb-e5-8a-a0-e8-b7-af-e7-94-b1-e8-ae-bf-e9-97-aedocker-e9-9b-86-e7-be-a4-e6-9c-8d-e5-8a-a1/" class="post-title-link" itemprop="url">在客户机添加路由访问docker集群服务</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-17 16:29:54" itemprop="dateCreated datePublished" datetime="2018-05-17T16:29:54+08:00">2018-05-17</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在局域网(网段为10.68.2.0/24)中通过docker搭建了spark服务，docker容器的网段为192.168.2.0/24。 在相同网段的客户机中要访问docker容器中的服务，可以在客户机添加路由</p>
-<pre><code># linux环境下 10.68.2.xx:为网关，也就是搭建服务电脑的ip
-sudo route add -net 192.168.2.0 netmask 255.255.255.0 gw 10.68.2.xx
-
-# windows环境下
-route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/numpy-e4-b8-ad-e7-9f-a9-e9-98-b5-e5-85-83-e7-b4-a0-e4-bd-bf-e7-94-a8-e5-88-86-e6-95-b0-e8-a1-a8-e7-a4-ba/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/17/numpy-e4-b8-ad-e7-9f-a9-e9-98-b5-e5-85-83-e7-b4-a0-e4-bd-bf-e7-94-a8-e5-88-86-e6-95-b0-e8-a1-a8-e7-a4-ba/" class="post-title-link" itemprop="url">numpy中矩阵元素使用分数表示</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-17 15:44:31" itemprop="dateCreated datePublished" datetime="2018-05-17T15:44:31+08:00">2018-05-17</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>In [1]: from sympy import Rational
-
-In [2]: a = Rational(&apos;1/3&apos;)
-
-In [3]: p = np.array([[0,1,0,0,0],[a,a,a,0,0],[0,a,a,a,0],[0,0,a,a,a],[0,0,0,1,0]])
-
-In [4]: p
-Out[4]:
-array([[0, 1, 0, 0, 0],
-       [1/3, 1/3, 1/3, 0, 0],
-       [0, 1/3, 1/3, 1/3, 0],
-       [0, 0, 1/3, 1/3, 1/3],
-       [0, 0, 0, 1, 0]], dtype=object)
-
-
-# n个矩阵进行点乘
-In [70]: def matric_dots(a,n):
-             i = 1
-             c = a
-             while i&lt;n:
-                 i += 1
-                 c = c.dot(a)
-             return c
-
-In [75]: matric_dots(p,3) == p.dot(p).dot(p)
-Out[75]:
-array([[ True,  True,  True,  True,  True],
-       [ True,  True,  True,  True,  True],
-       [ True,  True,  True,  True,  True],
-       [ True,  True,  True,  True,  True],
-       [ True,  True,  True,  True,  True]])</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/matplotlib-subplot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/16/matplotlib-subplot/" class="post-title-link" itemprop="url">matplotlib subplot</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-16 23:13:30" itemprop="dateCreated datePublished" datetime="2018-05-16T23:13:30+08:00">2018-05-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://hysyeah.top/wp-content/uploads/2018/05/subplot.png" alt="image"></p>
-<h4 id="这两种方式是等价的"><a href="#这两种方式是等价的" class="headerlink" title="这两种方式是等价的"></a>这两种方式是等价的</h4>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python-e6-b1-82-e6-98-8e-e6-b0-8f-e8-b7-9d-e7-a6-bb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/16/python-e6-b1-82-e6-98-8e-e6-b0-8f-e8-b7-9d-e7-a6-bb/" class="post-title-link" itemprop="url">python求明氏距离</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-16 14:25:02" itemprop="dateCreated datePublished" datetime="2018-05-16T14:25:02+08:00">2018-05-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>[latex]P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n[/latex] [latex]D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}[/latex] 假设P = [(0,4)],Q=[(3,0)],求P,Q两点的明氏距离。</p>
-<pre><code>import numpy as np
-from scipy.spatial import minkowski_distance
-a = np.array([[0,4]])
-a = np.array([[3,0]])
-dist = minkowski_distance(a,b,1) #array([7])
-dist = minkowski_distance(a,b,2) #array([5.])
-dist = minkowski_distance(a,b,3) #array([4.49794145])</code></pre><p>[latex]\lim_{p \to \infty} \bigg( \sum_{i=1}^n |x_{i}-y_{i}|^p\bigg)^{1/p} = \max_{i=1}^n |x_{i}-y_{i}|[/latex] 当p–&gt;oo时，P,Q两点的距离等于4</p>
-<pre><code>from sympy import symbols, limit
-p = symbols(&apos;p&apos;)
-f = (3**p + 4**p)**(1/p) 
-limit(f,p,oo)           # 4</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python-e5-af-b9-e5-87-bd-e6-95-b0-e6-b1-82-e5-af-bc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2281,11 +1554,813 @@ if __name__ == &apos;__main__&apos;:
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/23/python-e4-bd-bf-e7-94-a8-e6-9c-80-e5-b0-8f-e4-ba-8c-e4-b9-98-e6-b3-95-e6-b1-82-e6-8b-9f-e5-90-88-e6-9b-b2-e7-ba-bf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/23/python-e4-bd-bf-e7-94-a8-e6-9c-80-e5-b0-8f-e4-ba-8c-e4-b9-98-e6-b3-95-e6-b1-82-e6-8b-9f-e5-90-88-e6-9b-b2-e7-ba-bf/" class="post-title-link" itemprop="url">python使用最小二乘法求拟合曲线</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-23 22:36:53" itemprop="dateCreated datePublished" datetime="2018-04-23T22:36:53+08:00">2018-04-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.<a href="https://blog.csdn.net/yauphy1/article/details/43735763" target="_blank" rel="noopener">最小二乘法</a> 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。</p>
+<pre><code>import numpy as np
+x = [1, 2, 3, 4]
+y = [6, 5, 7, 10]
+r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
+f = np.poly1d(r) #f为拟合函数</code></pre><p>求出的拟合直线为y = r[0]_x+r[1],y = 1.4_x+3.5 3.画出拟合直线和数据点</p>
+<pre><code>import matplotlib.pyplot as plt
+fig = plt.subplots()
+plt.plot(1,6,&apos;*-&apos;)
+plt.plot(2,5,&apos;*-&apos;)
+plt.plot(3,7,&apos;*-&apos;)
+plt.plot(4,10,&apos;*-&apos;)
+f = lambda x: 1.4*x + 3.5
+x = [1, 2, 3, 4]
+y = [f(e) for e in x]
+plt.plot(x,y)
+plt.show()</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
+<hr>
+<h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+
+x = np.array([ 6,  8, 10, 14, 18])
+y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
+
+plt.plot(x, y, &apos;k.&apos;)
+plt.axis([0, 25, 0, 25])
+
+
+model = LinearRegression()
+model.fit(x.reshape(-1,1),y.reshape(-1,1))
+
+e = [item[0] for item in model.predict(x.reshape(-1,1))]
+
+
+X = list(zip(x,x))
+Y = list(zip(y,e))
+for i in range(len(X)):
+    plt.plot(X[i],Y[i],&apos;r&apos;)
+
+plt.title(&quot;Linear regression use least square method&quot;)
+plt.xlabel(r&apos;$x$&apos;, horizontalalignment=&apos;right&apos;, x=1.0)
+plt.ylabel(r&apos;$y$&apos;, horizontalalignment=&apos;right&apos;, y=1.0, rotation=0)
+
+plt.plot(x, e)
+plt.grid(True)
+plt.show()</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
+<hr>
+<p>选择最小二乘的原因： 1.平方能将正残差与负残差都变成正数 2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响 3.在残差服从均值为0，方差为[latex]\sigma ^2[/latex] (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。 4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
+<hr>
+<p>参考： 1.<a href="http://greenteapress.com/thinkstats/" target="_blank" rel="noopener">Think Stats Probability and Statistics for Programmers</a> 2.<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html" target="_blank" rel="noopener">numpy</a> 3.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank" rel="noopener">scikit-learn</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/02/python-e6-a0-87-e5-87-86-e5-ba-93-e4-b9-8bordereddict/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/02/python-e6-a0-87-e5-87-86-e5-ba-93-e4-b9-8bordereddict/" class="post-title-link" itemprop="url">python标准库之OrderedDict</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-02 19:25:41" itemprop="dateCreated datePublished" datetime="2018-04-02T19:25:41+08:00">2018-04-02</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python标准库/" itemprop="url" rel="index"><span itemprop="name">python标准库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"><a href="#OrderedDict继承于dict-当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。" class="headerlink" title="OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。"></a>OrderedDict继承于dict,当插入key时顺序就已经确定了。如插入一个key存在的项，key的顺序不会改变。如果先删除再插入，则会移动到右边。</h5><pre><code>In [5]: d = OrderedDict({&apos;banana&apos;: 3, &apos;apple&apos;: 4, &apos;pear&apos;: 1, &apos;orange&apos;: 2})
+
+In [6]: d
+Out[6]: OrderedDict([(&apos;pear&apos;, 1), (&apos;banana&apos;, 3), (&apos;apple&apos;, 4), (&apos;orange&apos;, 2)])
+
+In [7]: d.update({&apos;d&apos;:1})
+
+In [8]: d
+Out[8]: 
+OrderedDict([(&apos;pear&apos;, 1),
+             (&apos;banana&apos;, 3),
+             (&apos;apple&apos;, 4),
+             (&apos;orange&apos;, 2),
+             (&apos;d&apos;, 1)])
+
+In [12]: d.update({&quot;pear&quot;:99})
+
+# 顺序没有改变
+In [13]: d
+Out[13]: 
+OrderedDict([(&apos;pear&apos;, 99),
+             (&apos;banana&apos;, 3),
+             (&apos;apple&apos;, 4),
+             (&apos;orange&apos;, 2),
+             (&apos;d&apos;, 1)])
+
+In [15]: del d[&apos;pear&apos;]
+
+In [16]: d
+Out[16]: OrderedDict([(&apos;banana&apos;, 3), (&apos;apple&apos;, 4), (&apos;orange&apos;, 2), (&apos;d&apos;, 1)])
+
+In [17]: d.update({&apos;pear&apos;: 99})
+
+# 移动到右边
+In [18]: d
+Out[18]: 
+OrderedDict([(&apos;banana&apos;, 3),
+             (&apos;apple&apos;, 4),
+             (&apos;orange&apos;, 2),
+             (&apos;d&apos;, 1),
+             (&apos;pear&apos;, 99)])
+
+In [22]: d.move_to_end(&apos;apple&apos;)
+In [22]: &quot; &quot;.join(d.keys())
+Out[22]: &apos;banana orange d pear apple&apos;
+
+# 当last=False时，将移动到最左边
+In [23]: d.move_to_end(&apos;apple&apos;, last=False)
+
+In [24]: &quot; &quot;.join(d.keys())
+Out[24]: &apos;apple banana orange d pear&apos;</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/01/e6-89-a7-e8-a1-8cgo-get-e5-87-ba-e7-8e-b0-go-gopath-entry-is-relative-e9-94-99-e8-af-af/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/01/e6-89-a7-e8-a1-8cgo-get-e5-87-ba-e7-8e-b0-go-gopath-entry-is-relative-e9-94-99-e8-af-af/" class="post-title-link" itemprop="url">执行go get出现 go: GOPATH entry is relative错误</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-01 21:12:39" itemprop="dateCreated datePublished" datetime="2018-04-01T21:12:39+08:00">2018-04-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>将~/.zshrc文件中 
+export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl:$GOPATH&quot;
+
+改为
+export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl&quot;</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/01/python-e6-a0-87-e5-87-86-e5-ba-93-e4-b9-8bast/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/01/python-e6-a0-87-e5-87-86-e5-ba-93-e4-b9-8bast/" class="post-title-link" itemprop="url">python标准库之ast</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-01 12:04:30" itemprop="dateCreated datePublished" datetime="2018-04-01T12:04:30+08:00">2018-04-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python标准库/" itemprop="url" rel="index"><span itemprop="name">python标准库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="ast-Abstract-Syntax-Trees"><a href="#ast-Abstract-Syntax-Trees" class="headerlink" title="ast-Abstract Syntax Trees"></a>ast-Abstract Syntax Trees</h5><h5 id="用于帮助python应用处理抽象语法树"><a href="#用于帮助python应用处理抽象语法树" class="headerlink" title="用于帮助python应用处理抽象语法树"></a>用于帮助python应用处理抽象语法树</h5><pre><code>#　ast.literal_eval()将包含在字符串中的python结构转换为python结构，这些结构包含：strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None
+In [33]: s = &apos;[1, 2, 3]&apos;
+
+In [34]: lst = ast.literal_eval(s)
+
+In [35]: lst
+Out[35]: [1, 2, 3]
+
+In [39]: s2 = &quot;{&apos;a&apos;: 1, &apos;b&apos;: 2}&quot;
+
+In [40]: s2
+Out[40]: &quot;{&apos;a&apos;: 1, &apos;b&apos;: 2}&quot;
+
+In [41]: ast.literal_eval(s2)
+Out[41]: {&apos;a&apos;: 1, &apos;b&apos;: 2}</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2327,7 +2402,7 @@ if __name__ == &apos;__main__&apos;:
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

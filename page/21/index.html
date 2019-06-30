@@ -363,969 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/05/flatten/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/05/flatten/" class="post-title-link" itemprop="url">flatten</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-05 23:35:25" itemprop="dateCreated datePublished" datetime="2017-09-05T23:35:25+08:00">2017-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python标准库/" itemprop="url" rel="index"><span itemprop="name">python标准库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>In [1]: from compiler.ast import flatten
-
-In [2]: flatten([1, [2], [3, [[4,]]]])
-Out[2]: [1, 2, 3, 4]</code></pre><p>源代码：</p>
-<pre><code>def flatten(seq):
-    l = []
-    for elt in seq:
-        t = type(elt)
-        if t is tuple or t is list:
-            for elt2 in flatten(elt):
-                l.append(elt2)
-        else:
-            l.append(elt)
-    return l</code></pre><p>上面方法在python3已经被移除 生成器方法实现：</p>
-<pre><code>In [36]: def f(seq):
-             for elt in seq:
-                 if isinstance(elt, Iterable):
-                     for elt2 in f(elt):
-                         yield elt2
-                 else:
-                     yield elt
-
-In [37]:
-
-In [37]: a = f([1,2,[3,4]])
-
-In [38]: l = [x for x in a]
-
-In [39]: l
-Out[39]: [1, 2, 3, 4]
-
-In [40]: a
-Out[40]: &lt;generator object f at 0x7fead3fca0f8&gt;</code></pre><p>扩展求任意嵌套字典<code>{&#39;a&#39;: 1,&#39;b&#39;:{&#39;c&#39;:1,&#39;d&#39;:{&#39;e&#39;:2,&#39;d&#39;:3}}}</code>所有值的和，如<code>1+1+2+3</code>的和为7</p>
-<pre><code>def f(d):
-    for elt in d.values():
-        if isinstance(elt, collections.Iterable):
-            for elt2 in f(elt):
-                yield elt2
-        else:
-            yield elt
-
-
-a = f(d)
-l = sum(x for x in a)
-print(l)              # 7</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/05/numpy-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8b-e5-9f-ba-e6-9c-ac-e6-93-8d-e4-bd-9c/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/05/numpy-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8b-e5-9f-ba-e6-9c-ac-e6-93-8d-e4-bd-9c/" class="post-title-link" itemprop="url">numpy数据类型基本操作</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-05 22:57:53" itemprop="dateCreated datePublished" datetime="2017-09-05T22:57:53+08:00">2017-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.导入numpy包，调用array()函数创建一维数组</p>
-<pre><code>In [3]: import numpy as np
-
-In [4]: a = np.array(range(6))
-
-In [5]: a
-Out[5]: array([0, 1, 2, 3, 4, 5])
-
-In [6]: print(a)
-[0 1 2 3 4 5]</code></pre><p>2.array的shape属性</p>
-<pre><code>In [7]: a.shape
-Out[7]: (6,)
-
-In [8]: a.shape = 2, 3
-
-In [9]: a
-Out[9]:
-array([[0, 1, 2],
-[3, 4, 5]])</code></pre><p>3.通过reshape()函数在a的基础上创建一个新的二维结构的数组a1,a的shape属性值不会变</p>
-<pre><code>In [17]: a1 = a.reshape(3,2)
-
-In [18]: print(a1)
-[[0 1]
-[2 3]
-[4 5]]
-
-In [19]: a1.shape
-Out[19]: (3, 2)
-
-In [20]: a.shape
-Out[20]: (2, 3)</code></pre><p>数组a和a1共用内存中的数据存储值，若更改其中任意一个数组中的元素值，则另一个相对应的元素也会改变。</p>
-<pre><code>In [23]: print(a1)
-[[0 1]
-[2 3]
-[4 5]]
-
-In [24]: a[1, 2] = 88
-
-In [25]: print(a1)
-[[ 0 1]
-[ 2 3]
-[ 4 88]]</code></pre><p>4.利用arange([start,] stop[, step,], dtype=None)函数生成数组</p>
-<pre><code>In [2]: a = np.arange(13, 1, -1)
-
-In [3]: print(a)
-[13 12 11 10 9 8 7 6 5 4 3 2]</code></pre><p>5.利用linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)函数生成数组</p>
-<pre><code>In [9]: a = np.linspace(1, 12, 12)
-
-In [10]: print(a)
-[ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12.]
-
-In [11]: a.dtype
-Out[11]: dtype(&apos;float64&apos;)</code></pre><p>6.常用函数</p>
-<pre><code>zeros(shape, dtype=float, order=&apos;C&apos;)生成元素全部为0的数组
-
-ones(shape, dtype=None, order=&apos;C&apos;)生成元素全部为1的数组
-
-empty(shape, dtype=float, order=&apos;C&apos;)生成给定维度无初始值的数组</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/04/zeppelin-e5-88-9b-e5-bb-bamysql-e8-a7-a3-e6-9e-90-e5-99-a8-e8-bf-9e-e6-8e-a5mysql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/04/zeppelin-e5-88-9b-e5-bb-bamysql-e8-a7-a3-e6-9e-90-e5-99-a8-e8-bf-9e-e6-8e-a5mysql/" class="post-title-link" itemprop="url">zeppelin创建mysql解析器,连接mysql</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-04 23:19:39" itemprop="dateCreated datePublished" datetime="2017-09-04T23:19:39+08:00">2017-09-04</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://hysyeah.top/2017/09/04/sparkzeppelin%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener">zeppelin环境的配置</a> 1.创建mysql解析器 <img src="http://hysyeah.top/wp-content/uploads/2017/09/2.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2017/09/3.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2017/09/4.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2017/09/5.png" alt="image"> 2.根据上图填写配置 3.创建Note <img src="http://hysyeah.top/wp-content/uploads/2017/09/6.png" alt="image"> 4.编写sql语句，执行后生成下图 <img src="http://hysyeah.top/wp-content/uploads/2017/09/9.png" alt="image"></p>
-<hr>
-<p>参考： 1.<a href="https://zeppelin.apache.org/docs/0.7.0/interpreter/jdbc.html" target="_blank" rel="noopener">https://zeppelin.apache.org/docs/0.7.0/interpreter/jdbc.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/04/e4-bf-ae-e6-94-b9-zshrc-e6-96-87-e4-bb-b6-e6-8a-a5badassiment-e9-94-99-e8-af-af/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/04/e4-bf-ae-e6-94-b9-zshrc-e6-96-87-e4-bb-b6-e6-8a-a5badassiment-e9-94-99-e8-af-af/" class="post-title-link" itemprop="url">修改.zshrc文件报badassiment错误</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-04 22:14:00" itemprop="dateCreated datePublished" datetime="2017-09-04T22:14:00+08:00">2017-09-04</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>修改~/.zshrc文件添加下如下</p>
-<pre><code>export PATH=&quot;/usr/local/bin:$PATH&quot;</code></pre><p>source ~/.zshrc报badassiment错误 原因：=号之间不能有空格</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/04/wordpress-e9-9a-90-e8-97-8f-e7-99-bb-e5-bd-95-e5-85-a5-e5-8f-a3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/04/wordpress-e9-9a-90-e8-97-8f-e7-99-bb-e5-bd-95-e5-85-a5-e5-8f-a3/" class="post-title-link" itemprop="url">wordpress隐藏登录入口</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-04 21:59:13" itemprop="dateCreated datePublished" datetime="2017-09-04T21:59:13+08:00">2017-09-04</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在wordpress根目录下打开wp-login.php文件，在</p>
-<pre><code>require( dirname(__FILE__) . &apos;/wp-load.php&apos; );</code></pre><p>后面加上下面</p>
-<pre><code>if($_GET[&apos;hehe&apos;] != &apos;haha&apos;){
-header(&apos;Location: http://www.taobao.com/&apos;);
-}</code></pre><p>当别人访问hysyeah.top/wp-login.php时会被重定向到<a href="http://www.taobao.com/,只有hysyeah.top/wp-login.php?hehe=haha才能正常打开后台登录界面。" target="_blank" rel="noopener">http://www.taobao.com/,只有hysyeah.top/wp-login.php?hehe=haha才能正常打开后台登录界面。</a></p>
-<hr>
-<p>参考 1.<a href="http://www.luoxiao123.cn/5434.html" target="_blank" rel="noopener">http://www.luoxiao123.cn/5434.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/04/sparkzeppelin-e7-8e-af-e5-a2-83-e7-9a-84-e9-85-8d-e7-bd-ae/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2493,11 +1530,434 @@ from sound.effects import *</code></pre><p>当执行from … import语句时，e
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/27/numpy-e4-b8-ad-e7-9a-84-e9-87-91-e8-9e-8d-e5-87-bd-e6-95-b0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/27/numpy-e4-b8-ad-e7-9a-84-e9-87-91-e8-9e-8d-e5-87-bd-e6-95-b0/" class="post-title-link" itemprop="url">numpy中的金融函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-27 08:38:36" itemprop="dateCreated datePublished" datetime="2017-08-27T08:38:36+08:00">2017-08-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>fv: Futrue Value          终值
+
+pv:Present Value          现值
+
+npv:Net Present Value 净现值,净现值是指投资方案所产生的【现金净流量】（流入-流出）以资金成本为贴现率折现之后与原始投资额现值的差额
+
+pmt:Payment               每次所要还的本金加利息
+
+ppmt:Principal Payment    每期所还的本金
+
+ipmt:Interst Payment      每期所还的利息
+
+irr:Internal Rate of Return 内部收益率，内部收益率
+
+mirr:Modified Internal Rate of Return 修正内部收益率
+
+nper:Number of periodic payments 付款期数
+
+rate: 利率
+
+
+numpy.fv(rate, nper, pmt, pv, when=&apos;end&apos;)   #计算未来的值
+
+#例子：年利率为5%,每年定期存款14000，40年为累积财富为1691196.84
+
+In [4]: np.fv(0.05, 40-1, -14000, -14000)
+Out[4]: 1691196.839394904
+
+
+numpy.pv(rate, nper, pmt,fv=0.0, when=&apos;end&apos;) #计算现值
+
+#例子：年利率5%，每月投入100，需要投入多少本金才可以在10年后的15682.93
+
+In [8]: np.pv(0.05/12, 10*12, -100, 15692.93)
+Out[8]: -100.00067131625819
+
+
+numpy.pmt(rate, nper, pv, fv=0, when=&quot;end&quot;)#计算每期应还的本金加利息
+
+
+#例子：贷款434000，利率4.66%,240期
+
+In [9]: np.pmt(0.0466/12, 20*12, 434000)
+Out[9]: -2783.3228668907836
+
+
+numpy.ppmt(rate, per, nper, pv, fv=0.0, when=&quot;end&quot;)#计算应还本金
+
+per:表示第几个还款日
+
+#例子：贷款434000，利率4.66%,240期
+
+In [3]: np.ppmt(0.0466/12, 1, 240, 434000)
+Out[3]: -1097.9562002241169
+
+
+numpy.ipmt(rate, per, nper, pv, fv=0.0, when=&quot;end&quot;)#每期应还利息
+
+#例子：贷款434000，利率4.66%,240期
+
+
+In [5]: np.ipmt(0.0466/12, 1, 240, 434000)
+Out[5]: array(-1685.3666666666668)
+
+
+numpy.nper(rate, pmt, pv, fv=0, when=&quot;end&quot;)#计算付款次数
+
+#例子：贷款434000，利率4.66%,每月还款2782
+
+
+In [9]: np.nper(0.0466/12, -2782.14, 434000)
+Out[9]: 240.1684400099434
+
+
+numpy.npv(rate, values)
+
+In [3]: np.npv(0.281,[-100, 39, 59, 55, 20])
+Out[3]: -0.0084785916384513271
+
+
+
+numpy.irr(values) #返回内部收益率
+
+In [5]: np.irr([-100, 39, 59, 55, 20])
+Out[5]: 0.28094842115996066
+
+
+
+numpy.mirr(values, finance_rate, reinvest_rate) #返回修正内部收益率
+
+values：现金流，一个列表，正数代表&apos;收入&apos;或&apos;取款&apos;，负数代表&apos;投资&apos;或&apos;存款&apos;
+
+In [6]: np.mirr([-1000, -4000, 5000, 2000], 0.1, 0.12)
+Out[6]: 0.17908568603489283</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2017/08/mirr.png" alt="image"></p>
+<hr>
+<p>参考文章： 1.<a href="http://www.jianshu.com/p/9ad131856078" target="_blank" rel="noopener">http://www.jianshu.com/p/9ad131856078</a> 2.<a href="https://en.wikipedia.org/wiki/Modified_internal_rate_of_return#Calculation_of_the_MIRR" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Modified_internal_rate_of_return#Calculation_of_the_MIRR</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/25/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/25/hello-world/" class="post-title-link" itemprop="url">hello-world</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-25 00:44:10" itemprop="dateCreated datePublished" datetime="2017-08-25T00:44:10+08:00">2017-08-25</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 21:54:23" itemprop="dateModified" datetime="2019-06-30T21:54:23+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;hello world&quot;)</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span>
   </nav>
 
 
@@ -2539,7 +1999,7 @@ from sound.effects import *</code></pre><p>当执行from … import语句时，e
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

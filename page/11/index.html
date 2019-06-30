@@ -363,838 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/10/k-e8-bf-91-e9-82-bb-e6-b3-95-k-nearest-neighbors/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/10/k-e8-bf-91-e9-82-bb-e6-b3-95-k-nearest-neighbors/" class="post-title-link" itemprop="url">k近邻法-k_Nearest Neighbors</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-10 15:47:05" itemprop="dateCreated datePublished" datetime="2018-06-10T15:47:05+08:00">2018-06-10</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>k近邻法(knn)就一种基本分类与回归方法。 <img src="http://hysyeah.top/wp-content/uploads/2018/06/knn.png" alt="image"></p>
-<pre><code>from scipy.spatial import minkowski_distance
-def classify0(inX, dataSet, labels, k):
-  #    dataSetSize = dataSet.shape[0]
-  #    diffMat = np.tile(inX, (dataSetSize, 1)) - dataSet
-  #    sqDiffMat = diffMat **2
-  #    sqDistances = sqDiffMat.sum(axis=1)
-  #    distances = sqDistances**0.5
-  #    print(&apos;distances&apos;, distances)
-    distances = minkowski_distance(inX, dataSet) #计算inX与与dataSet各个点的距离，返回个array
-    sortedDistIndicies = distances.argsort()     #返回排序后的元素下标
-    classCount = {}
-
-    for i in range(k):
-        voteIlabel = labels[sortedDistIndicies[i]] #获得对应的label
-        classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
-        # 对classCount根据键值进行排序
-        sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
-    return sortedClassCount[0][0]
-
-# 将txt转换为矩阵
-def file2matrix2(filename):
-    data = np.genfromtxt(filename, dtype=&apos;|U8&apos;)
-    returnMat = data[:, 0:-1].astype(&apos;float64&apos;)
-    return returnMat, data[:,-1]
-
-# 数据进行规格化处理
-def autoNorm(dataSet):
-    minVals = dataSet.min(0)
-    maxVals = dataSet.max(0)
-    ranges = maxVals - minVals
-    normDataSet = np.zeros(dataSet.shape)
-    m = dataSet.shape[0]
-    normDataSet = dataSet - np.tile(minVals, (m, 1))
-    normDataSet = normDataSet/np.tile(ranges, (m,1))
-    return normDataSet, ranges, minVals
-
- # 这里使用了scikit-learn中的API,结果与autoNorm是一样的
-def autoNorm2(dataSet):
-    from sklearn.preprocessing import normalize
-    minVals = dataSet.min(0)
-    maxVals = dataSet.max(0)
-    normDataSet = normalize(dataSet, norm=&apos;max&apos;,axis=0)
-    return normDataSet, maxVals-minVals, minVals
-
-# 将txt文件转换为向量
- def img2vec(filename):
-     rVec = np.zeros((1,1024))
-     f = open(filename)
-     for i in range(32):
-         line = f.readline()
-         for j in range(32):
-             rVec[0, 32*i+j] = int(line[j])
-    return rVec
-
-# 对手写数字进行测试
-def handwritingClassTest():
-     hwLabels = []
-     trainFileList = os.listdir(&apos;digits/trainingDigits/&apos;)
-     m = len(trainFileList)
-     trainingMat = np.zeros((m, 1024))
-     for i in range(m):
-         filename = trainFileList[i]
-         className = int(filename.split(&apos;_&apos;)[0])
-         hwLabels.append(className)
-         trainingMat[i,:] = img2vec(&apos;digits/trainingDigits/%s&apos; % filename)
-     testFileList = os.listdir(&apos;digits/testDigits&apos;)
-     accuracyCount = 0.0
-     mTest = len(testFileList)
-     for i in range(mTest):
-         filename = testFileList[i]
-         className = int(filename.split(&apos;_&apos;)[0])
-         vecTest = img2vec(&apos;digits/testDigits/%s&apos; % filename)
-         classifierResult = classify0(vecTest, trainingMat, hwLabels, 1)
-         if classifierResult == className:
-             accuracyCount += 1
-     print(&quot;the total accuracy rate is: %f&quot; % (accuracyCount/mTest))</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/knn.py" target="_blank" rel="noopener">完整代码</a></p>
-<hr>
-<p>在正式进行数据挖掘之前，尤其是使用基于对象距离的 挖掘算法时，如：神经网络、最近邻分类等，必须 进行数据规格化。也就是将其缩至特定的范围之内，如如：[0,10]。如：对于一 个顾客信息数据库中的年龄属性或工资属性，由于工资属性的取值比年龄属性的 取值要大许多，如果不进行规格化处理，基于工资属性的距离计算值显然将远超 过基于年龄属性的距离计算值，这就意味着工资属性的作用在整个数据对象的距 离计算中被错误地放大了。 规格化就是将一个属性取值范围投射到一个特定范围之内，以消除数值型属 性因大小不一而造成挖掘结果的偏差。规划化处理常常用于神经网络、基于距离 计算的最近邻分类和聚类挖掘的数据预处理。 。对于神经网络，采用规格化后的数据不仅有助于确保学习结果的正确性，而且也会帮助提高学习的速度。对于基于距离计算的挖掘，规格化方法可以帮助消除因属性取值范围不同而影响挖掘结果 的公正性。 三种规格化方法： 1.最大最小规格化方法 该方法对初始数据进行一种线性转换。设[latex]min_{A}[/latex]和[latex]max_{A}[/latex]为属性A的最小和最大值。最大最小规格化方法将属性A的一个值映射为[latex]v^{‘}[/latex]且有[latex]v^{‘} \in [new\_min_{A},new\_max_{A}][/latex],具体映射公式如下： [latex]v^{‘} = \frac{v-min_{A}}{max_{A}-min_{A}} (new\_max_{A}-new\_min_{A})+new\_min_{A}[/latex] 2.零均值规格化方法。该方法是根据属性A的均值和偏差来对A进行规格化。属性A的v值可以通过以下计算公式获得其映射值[latex]v^{‘}[/latex] [latex]v^{‘} = \frac{v-\bar A}{\sigma_{A}}[/latex]<br>其中的[latex]\bar A[/latex]和[latex]\sigma_{A}[/latex]分别为属性A的均值和方差。这种规格化方法常用于属性A最大值与最小值未知，或使用最大最小规格化方法时会出现异常数据的情况。 3.十基数变换规格化方法。 该方法通过移动属性A值的小数位置来达到规格化的目的。把移动的小数位取决于属性a绝对值的最大值。属性A的v值可以通过以下计算公式获得其映射值[latex]v^{‘}[/latex]。 [latex]v^{‘} = \frac{v}{10^{j}}[/latex] 其中j为使[latex]\max(|v^{‘}|) \lt 1[/latex]成立的最小值。</p>
-<hr>
-<p>参考： 1.统计学习方法-李航 2.数据挖掘导论 3.机器学习实战</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/08/e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-97-e6-b3-95-e7-9a-84-e5-af-b9-e5-81-b6-e5-bd-a2-e5-bc-8f/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/08/e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-97-e6-b3-95-e7-9a-84-e5-af-b9-e5-81-b6-e5-bd-a2-e5-bc-8f/" class="post-title-link" itemprop="url">感知机算法的对偶形式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-08 18:05:19" itemprop="dateCreated datePublished" datetime="2018-06-08T18:05:19+08:00">2018-06-08</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual1.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual2.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual3.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual4.png" alt="image"></p>
-<hr>
-<pre><code>class PerceptionPair:
-       #初始化一些参数学习率，gram矩阵等等
- 7     def __init__(self, dataSet, target, learningrate=1):
- 8         self.lr = learningrate
- 9         self.a = np.zeros(len(dataSet), np.float)
-10         self.b = 0.0
-11         self.gram = np.matmul(np.array(dataSet), np.array(dataSet).T)
-12         self.target = target
-
-13     #计算判断是否误分类的值
-14     def calc(self,i):
-15         res = np.dot(self.a*self.target, self.gram[i])
-16         res = (res+self.b)*target[i]
-17         return res
-18
-19     def train(self, inputs, target):
-20         flag = False
-21         m = len(inputs)
-22         res = 0.0
-23         for i in range(m):
-               # 进行权值更新
-24             if self.calc(i) &lt;= 0:
-25                 self.a[i] += self.lr
-26                 self.b += target[i]
-27                 print(self.a, self.b)</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_dual5.png" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2018/06/perceptron_pair.png" alt="image"></p>
-<hr>
-<p><a href="https://github.com/hys20151008/ml_python/blob/master/perceptron_pair.py" target="_blank" rel="noopener">完整代码</a> 参考： 1.统计学习方法-李航</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/08/e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-97-e6-b3-95-e7-9a-84-e5-8e-9f-e5-a7-8b-e5-bd-a2-e5-bc-8f/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/08/e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-97-e6-b3-95-e7-9a-84-e5-8e-9f-e5-a7-8b-e5-bd-a2-e5-bc-8f/" class="post-title-link" itemprop="url">感知机算法的原始形式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-08 00:23:09" itemprop="dateCreated datePublished" datetime="2018-06-08T00:23:09+08:00">2018-06-08</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original.png" alt> 使用例2.1的数据点作为输入。</p>
-<pre><code>class Perception:
-    def __init__(self, learningrate):
-        self.lr = learningrate         # 学习率
-        self.wh = np.array([0.0, 0.0]) #初始化wh = [0.0, 0.0]
-        self.b = 0
-
-    def train(self,inputs, target):
-        inputs = np.asarray(inputs)
-        if self.check(inputs,target):        # 如果被误分类，则更新wh,b
-            self.wh += self.lr * np.dot(inputs, target)
-            self.b += target * self.lr
-            print(self.wh, self.b)
-
-    #判断是否被正确分类
-    def check(self, inputs, target):
-        flag = False
-        res = 0.0
-        res += (np.dot(inputs, self.wh)+self.b)*target
-        if res &lt;=0:
-            flag = True
-
-        return flag</code></pre><p>例2.1的迭代过程为 <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original2.png" alt> 程序输出迭代过程为： <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_original3.png" alt></p>
-<hr>
-<p><a href="https://github.com/hys20151008/ml_python/blob/master/perception.py" target="_blank" rel="noopener">完整代码</a></p>
-<hr>
-<h5 id="scikit-learn实现"><a href="#scikit-learn实现" class="headerlink" title="scikit-learn实现"></a>scikit-learn实现</h5><pre><code>from sklearn.linear_model import Perceptron
-
-# max_iter为最大迭代次数，eta0为学习率
-perceptron = Perceptron(max_iter=1000, eta0=1)
-
-# coef_init设置w初始向量，intercept_init设置初始参数b
-p_fit = perceptron.fit(x, y, coef_init=np.array([[0.0, 0.0]]).reshape(-1,1),intercept_init=np.array([0]),sample_weight=np.array([1,1,1]))
-# 对未知数据进行预测
-p_fit.predict(np.array([4,4]).reshape(1,-1))</code></pre><p>参考： 1.统计学习方法-李航 2.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.fit" target="_blank" rel="noopener">scikit-learn官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/08/e7-ac-ac-e4-ba-8c-e7-ab-a0-e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-80-e4-bb-8b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/08/e7-ac-ac-e4-ba-8c-e7-ab-a0-e6-84-9f-e7-9f-a5-e6-9c-ba-e7-ae-80-e4-bb-8b/" class="post-title-link" itemprop="url">感知机-简介</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-08 00:01:58" itemprop="dateCreated datePublished" datetime="2018-06-08T00:01:58+08:00">2018-06-08</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>定义(感知机) 假设输入空间(特征空间)是[latex]\chi \in \mathbf {R}^{n}[/latex],输出空间是[latex]\mathcal{Y} =\{+1,-1\}[/latex].输入[latex]x \in \chi[/latex]表示实例的特征向量，对应于输入空间的点，输出[latex]y \in \mathcal{Y}[/latex]表示实例的类别.由输入空间到输出空间的如下函数 [latex]f(x) = sign(w\cdot x + b) [/latex] 称为感知机.其中，w和b为感知机模型参数，[latex]w \in \mathbf {R}^{n}[/latex]叫作权值或权值向量，[latex]b \in \mathbf{R}[/latex]叫作偏置，[latex]w \cdot x[/latex]表示w和x的内积。sign是符号函数，即 [latex]sign(x)= \begin{cases} +1,&amp; {x \geq 0}\\ -1,&amp; {x \le 0} \end{cases} [/latex] 感知机是一种线性分类模型，属于判别模型。感知机模型的假设空间是定义在特征空间中的所有线性分类模型或线性分类器，即函数集合[latex]\{f|f(x)=w \cdot x + b\}[/latex]</p>
-<hr>
-<p>感知机学习策略 定义(数据集的线性可分性) 给定一个数据集 [latex]T = \{(x_{1},y_{1}),(x_{2},y_{2}),\cdot \cdot \cdot,(x_{N},y_{N})\}[/latex],其中，[latex]x_{i} \in \chi=\mathcal R^{n}[/latex],[latex]y_{i} \in \chi =\{+1,-1\} i=1,2,\cdot \cdot \cdot,N[/latex],如果存在某个超平面S [latex]w \cdot x +b = 0[/latex] 能够将数据集的正实例点和负实例点完全正确的划分到超平面的 两侧，即对所有[latex]y_{i}=+1[/latex]的实例i,有[latex]w \cdot x_{i} &gt; 0[/latex],对所有[latex]y_{i}=-1[/latex]的实例i，有[latex]w \cdot x_{i} \lt 0[/latex],则称数据集T为线性可分数据集；否则，称数据集T线性不可分。</p>
-<hr>
-<p>假设训练数据集是线性可分的，感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全正确分开的分离超平面。感知机采用误分类点到超平面S的总距离作为损失函数。 输入空间中任一点到超平面S的距离： <img src="http://hysyeah.top/wp-content/uploads/2018/06/plans_dist.png" alt> ||w||是w的L2范数。 <img src="http://hysyeah.top/wp-content/uploads/2018/06/perception_loss_fun.png" alt></p>
-<hr>
-<p>1.统计学习方法-李航</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/31/zipfile-e4-b9-b1-e7-a0-81-e9-97-ae-e9-a2-98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2441,11 +1609,738 @@ stats.pearsonr(a,b)
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/e5-9c-a8-e5-ae-a2-e6-88-b7-e6-9c-ba-e6-b7-bb-e5-8a-a0-e8-b7-af-e7-94-b1-e8-ae-bf-e9-97-aedocker-e9-9b-86-e7-be-a4-e6-9c-8d-e5-8a-a1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/17/e5-9c-a8-e5-ae-a2-e6-88-b7-e6-9c-ba-e6-b7-bb-e5-8a-a0-e8-b7-af-e7-94-b1-e8-ae-bf-e9-97-aedocker-e9-9b-86-e7-be-a4-e6-9c-8d-e5-8a-a1/" class="post-title-link" itemprop="url">在客户机添加路由访问docker集群服务</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-17 16:29:54" itemprop="dateCreated datePublished" datetime="2018-05-17T16:29:54+08:00">2018-05-17</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在局域网(网段为10.68.2.0/24)中通过docker搭建了spark服务，docker容器的网段为192.168.2.0/24。 在相同网段的客户机中要访问docker容器中的服务，可以在客户机添加路由</p>
+<pre><code># linux环境下 10.68.2.xx:为网关，也就是搭建服务电脑的ip
+sudo route add -net 192.168.2.0 netmask 255.255.255.0 gw 10.68.2.xx
+
+# windows环境下
+route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/numpy-e4-b8-ad-e7-9f-a9-e9-98-b5-e5-85-83-e7-b4-a0-e4-bd-bf-e7-94-a8-e5-88-86-e6-95-b0-e8-a1-a8-e7-a4-ba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/17/numpy-e4-b8-ad-e7-9f-a9-e9-98-b5-e5-85-83-e7-b4-a0-e4-bd-bf-e7-94-a8-e5-88-86-e6-95-b0-e8-a1-a8-e7-a4-ba/" class="post-title-link" itemprop="url">numpy中矩阵元素使用分数表示</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-17 15:44:31" itemprop="dateCreated datePublished" datetime="2018-05-17T15:44:31+08:00">2018-05-17</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>In [1]: from sympy import Rational
+
+In [2]: a = Rational(&apos;1/3&apos;)
+
+In [3]: p = np.array([[0,1,0,0,0],[a,a,a,0,0],[0,a,a,a,0],[0,0,a,a,a],[0,0,0,1,0]])
+
+In [4]: p
+Out[4]:
+array([[0, 1, 0, 0, 0],
+       [1/3, 1/3, 1/3, 0, 0],
+       [0, 1/3, 1/3, 1/3, 0],
+       [0, 0, 1/3, 1/3, 1/3],
+       [0, 0, 0, 1, 0]], dtype=object)
+
+
+# n个矩阵进行点乘
+In [70]: def matric_dots(a,n):
+             i = 1
+             c = a
+             while i&lt;n:
+                 i += 1
+                 c = c.dot(a)
+             return c
+
+In [75]: matric_dots(p,3) == p.dot(p).dot(p)
+Out[75]:
+array([[ True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True]])</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/matplotlib-subplot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/16/matplotlib-subplot/" class="post-title-link" itemprop="url">matplotlib subplot</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-16 23:13:30" itemprop="dateCreated datePublished" datetime="2018-05-16T23:13:30+08:00">2018-05-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://hysyeah.top/wp-content/uploads/2018/05/subplot.png" alt="image"></p>
+<h4 id="这两种方式是等价的"><a href="#这两种方式是等价的" class="headerlink" title="这两种方式是等价的"></a>这两种方式是等价的</h4>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python-e6-b1-82-e6-98-8e-e6-b0-8f-e8-b7-9d-e7-a6-bb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/16/python-e6-b1-82-e6-98-8e-e6-b0-8f-e8-b7-9d-e7-a6-bb/" class="post-title-link" itemprop="url">python求明氏距离</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-16 14:25:02" itemprop="dateCreated datePublished" datetime="2018-05-16T14:25:02+08:00">2018-05-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>[latex]P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n[/latex] [latex]D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}[/latex] 假设P = [(0,4)],Q=[(3,0)],求P,Q两点的明氏距离。</p>
+<pre><code>import numpy as np
+from scipy.spatial import minkowski_distance
+a = np.array([[0,4]])
+a = np.array([[3,0]])
+dist = minkowski_distance(a,b,1) #array([7])
+dist = minkowski_distance(a,b,2) #array([5.])
+dist = minkowski_distance(a,b,3) #array([4.49794145])</code></pre><p>[latex]\lim_{p \to \infty} \bigg( \sum_{i=1}^n |x_{i}-y_{i}|^p\bigg)^{1/p} = \max_{i=1}^n |x_{i}-y_{i}|[/latex] 当p–&gt;oo时，P,Q两点的距离等于4</p>
+<pre><code>from sympy import symbols, limit
+p = symbols(&apos;p&apos;)
+f = (3**p + 4**p)**(1/p) 
+limit(f,p,oo)           # 4</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2487,7 +2382,7 @@ stats.pearsonr(a,b)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

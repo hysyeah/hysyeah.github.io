@@ -363,934 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/09/lua-e8-a1-a8-e8-be-be-e5-bc-8f/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/09/lua-e8-a1-a8-e8-be-be-e5-bc-8f/" class="post-title-link" itemprop="url">lua表达式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-09 22:28:15" itemprop="dateCreated datePublished" datetime="2017-10-09T22:28:15+08:00">2017-10-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.关系运算符</p>
-<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  </code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
-<pre><code>&gt; a = {x=1,y=0}
-&gt; b = {x=1,y=0}
-&gt; c == a
-false
-&gt; c = a
-&gt; a == c
-true
-&gt; a == b
-false</code></pre><p>数字、字符串的比较</p>
-<pre><code>&gt; 0 == &quot;0&quot;
-false
-&gt; 2 &lt; 15
-true
-&gt; &quot;2&quot; &lt; &quot;15&quot;  --按字母顺序进行比较
-false</code></pre><p>2.逻辑运算符</p>
-<pre><code>and  or not</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
-<pre><code>a and b -- 如果a为false,则返回a,否则返回b
-a or b  --如果a为true,则返回a,否则返回b
-&gt; print(1 and 2)
-2
-&gt; print(nil and 1)
-nil
-&gt; print(1 or 2)
-1
-&gt; print(false or 1)
-1</code></pre><p>例：</p>
-<pre><code>x = x or v</code></pre><p>等价于：</p>
-<pre><code>if not x then
-   x = v
-end</code></pre><p>C语言中的三元运算符</p>
-<pre><code>a ? b:c</code></pre><p>在Lua中可以这样实现:</p>
-<pre><code>(a and b) or c</code></pre><p>not 结果只返回false或者true</p>
-<pre><code>&gt; print(not 0)
-false</code></pre><p>3.连接运算符</p>
-<pre><code>.. --两个点</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
-<pre><code>&gt; print(&quot;Hello &quot; .. &quot;World&quot;)
-Hello World
-&gt; print(0 .. 1)
-01</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/superentityself-init/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/superentityself-init/" class="post-title-link" itemprop="url">super(Entity,self).__init__()</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 15:17:30" itemprop="dateCreated datePublished" datetime="2017-10-02T15:17:30+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>super(Entity,self).__init__()</code></pre><p>这是对继承自父类的属性进行初始化。而且是用父类的初始化方法来初始化继承的属性。 也就是说，子类继承了父类的所有属性和方法，父类属性自然会用父类方法来进行初始化。当然，如果初始化的逻辑与父类的不同，不使用父类的方法，自己重新初始化也是可以的 和php中的parent::__construct()的作用应该是一样的。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/python-e5-bc-82-e5-b8-b8-e5-a4-84-e7-90-86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/python-e5-bc-82-e5-b8-b8-e5-a4-84-e7-90-86/" class="post-title-link" itemprop="url">python异常处理</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 13:42:35" itemprop="dateCreated datePublished" datetime="2017-10-02T13:42:35+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="python提供了一个异常类，来处理代码中可能出现的异常"><a href="#python提供了一个异常类，来处理代码中可能出现的异常" class="headerlink" title="python提供了一个异常类，来处理代码中可能出现的异常"></a>python提供了一个异常类，来处理代码中可能出现的异常</h4><p>class BaseException BaseException是所有内建异常都继承于这个类。但用户自定义的异常类用不继承这个类，而是继承自Exception。 class Exception Exception <strong>traceback</strong> 当异常发生时python会自动创建traceback对象，并关联到<strong>traceback</strong>属性中，你可以使用with_traceback()创建异常和设置你自己的traceback。(Python3) raise python2到python3</p>
-<pre><code>raise E, V 改为raise E(V),raise E, V, T 改为raise E(V).with_traceback(T)</code></pre><p>兼容python2和python3的写法</p>
-<pre><code>peewee
-PY3:
-def reraise(tp, value, tb=None):#type,value,traceback
-    if value.__traceback__ is not tb:
-        raise value.with_traceback(tb)
-    raise value
-PY2:
-exec(&apos;def reraise(tp, value, tb=None): raise tp, value, tb&apos;) #在python3下会报语法错误，通过exec绕过检查
-
-bottle
-PY3:
-def _raise(*a):
-    raise a[0](a[1]).with_traceback(a[2])
-PY2:
-exec(compile(&apos;def _raise(*a): raise a[0], a[1], a[2]&apos;, &apos;&lt;py3fix&gt;&apos;, &apos;exec&apos;))</code></pre><p>参考： 1.<a href="https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html" target="_blank" rel="noopener">https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/python-e9-ad-94-e6-b3-95-e5-8f-98-e9-87-8f-e4-b9-8b-init-del/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/python-e9-ad-94-e6-b3-95-e5-8f-98-e9-87-8f-e4-b9-8b-init-del/" class="post-title-link" itemprop="url">python魔法变量之__init__,__del__</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 13:15:46" itemprop="dateCreated datePublished" datetime="2017-10-02T13:15:46+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>init</strong>相当于构造函数，<strong>del</strong>相当于析构函数,而事实上<strong>new</strong>才是构造函数，<strong>new</strong>返回一个实例，而<strong>init</strong>则进行一些初始化工作。</p>
-<pre><code>In [3]: class A(object):
-...:        def __init__(self):
-...:            print(&quot;init&quot;)
-...:        def __del__(self):
-...:            print(&quot;del&quot;)
-...:
-
-In [4]: a = A()
-init
-
-In [5]: del a
-del</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/python-e7-bc-96-e7-a0-81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/python-e7-bc-96-e7-a0-81/" class="post-title-link" itemprop="url">python编码</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 13:02:16" itemprop="dateCreated datePublished" datetime="2017-10-02T13:02:16+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="python2中的默认编码为ASCII-在python3改为了unicode。"><a href="#python2中的默认编码为ASCII-在python3改为了unicode。" class="headerlink" title="python2中的默认编码为ASCII,在python3改为了unicode。"></a>python2中的默认编码为ASCII,在python3改为了unicode。</h4><p><img src="http://hysyeah.top/wp-content/uploads/2017/10/u.jpg" alt="image"> <img src="http://hysyeah.top/wp-content/uploads/2017/10/u-1.jpg" alt="image"></p>
-<h4 id="python2中-python3中已经没有-unicode-basestring"><a href="#python2中-python3中已经没有-unicode-basestring" class="headerlink" title="python2中,python3中已经没有(unicode,basestring)"></a>python2中,python3中已经没有(unicode,basestring)</h4><pre><code>unicode_type = unicode
-
-string_type = basestring</code></pre><p>python3中</p>
-<pre><code>unicode_type = str
-
-string_type = bytes</code></pre><hr>
-<p>参考： 1.<a href="http://www.jianshu.com/p/2bb8a1300bfd" target="_blank" rel="noopener">http://www.jianshu.com/p/2bb8a1300bfd</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/django-e5-86-85-e7-bd-ae-e7-9a-84-e5-af-86-e7-a0-81-e7-ae-a1-e7-90-86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2201,11 +1273,1041 @@ false</code></pre><p>5.Functions(函数) 函数是第一类值（和其他变量
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/numpypandas-e5-ae-89-e8-a3-85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/27/numpypandas-e5-ae-89-e8-a3-85/" class="post-title-link" itemprop="url">numpy,pandas安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-27 06:49:46" itemprop="dateCreated datePublished" datetime="2017-09-27T06:49:46+08:00">2017-09-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>sudo apt-get install python3-tk
+pip3 install numpy
+pip3 install pandas
+pip3 intall matplotlib
+pip3 install scipy</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/25/racket-e5-ae-89-e8-a3-85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/25/racket-e5-ae-89-e8-a3-85/" class="post-title-link" itemprop="url">racket安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-25 23:11:40" itemprop="dateCreated datePublished" datetime="2017-09-25T23:11:40+08:00">2017-09-25</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>系统ubuntu16.04，64位 1.<a href="https://download.racket-lang.org/" target="_blank" rel="noopener">从官网根据系统下载安装包</a> 2.安装，如下图 <img src="http://hysyeah.top/wp-content/uploads/2017/09/1.png" alt="image"> 3.添加环境变量 在~/.bashrc添加</p>
+<pre><code>export PATH=&amp;quot;/usr/local/racket/bin:$PATH&amp;quot;
+
+source ~/.bashrc</code></pre><p>4.racket,进入REPL环境</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/25/apt-get-e9-80-89-e9-a1-b9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/25/apt-get-e9-80-89-e9-a1-b9/" class="post-title-link" itemprop="url">apt-get选项</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-25 22:40:51" itemprop="dateCreated datePublished" datetime="2017-09-25T22:40:51+08:00">2017-09-25</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="通过man-apt-get查看"><a href="#通过man-apt-get查看" class="headerlink" title="通过man apt-get查看"></a>通过man apt-get查看</h3><pre><code>--选项
+
+-d #只下载安装包
+
+-f #尝试修正系统依赖损坏处
+
+-m #忽略未找到的包
+
+-q #输出到日志 - 无进展指示
+
+-y #假定对所有的询问选是，不提示</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/25/docker-e5-b8-b8-e7-94-a8-e5-91-bd-e4-bb-a4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/25/docker-e5-b8-b8-e7-94-a8-e5-91-bd-e4-bb-a4/" class="post-title-link" itemprop="url">docker常用命令</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-25 22:26:03" itemprop="dateCreated datePublished" datetime="2017-09-25T22:26:03+08:00">2017-09-25</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>-docker安装[通过脚本安装]</p>
+<pre><code>curl -sSL https://get.daocloud.io/docker | sh</code></pre><p>-常用命令</p>
+<pre><code>sudo apt-get update
+
+sudo systemctl enable docker
+
+sudo systemctl start docker #启动docker
+
+sudo docker push | pull  # 推|拉镜像
+
+sudo docker images #列出本地镜像
+
+sudo docker run -t -i ubuntu:16.04 /bin/bash #-t:让Docker分配一个伪终端，-i:让容器的的标准输入保持打开，-d:后台运行，启动后会返回一个唯一的id
+
+sudo docker tag   #修改镜像的标签
+
+sudo docker save  #保存镜像到本地文件
+
+sudo docker load #从导出的本地文件再加载本地镜像库[sudo docker load --input ubuntu.rar OR sudo docker load &lt; ubuntu.rar]
+
+sudo docker rmi #移除镜像
+
+sudo docker rm  #移除容器
+
+在删除镜像之前要先用docker rm删掉依赖于这个镜像的所有容器。
+
+
+docker run所涉及的操作
+
+- 检查本地是否存在指定的镜像，不存在就从公有仓库下载
+- 利用镜像创建并启动一个容器
+- 分配一个文件系统，并在只读的镜像层外面挂载一层可读写层
+- 从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去
+- 从地址池配置一个ip地址给容器
+- 执行用户指定的应用程序
+- 执行完毕后容器被终止
+
+sudo  docker ps #查看容器信息，-a:所有容器
+
+docker logs [container ID or NAMES]获取容器的输出信息
+
+docker stop|start|restart [container ID or NAMES] 终止容器|启动容器|重启容器
+sudo docker export #导出本地某个容器，导出容器快照到本地文件 
+sudo docker import #从容器快照文件中再导入为镜像，如cat ubuntu.tar | sudo docker import - test/ubuntu:v1.0
+
+用户既可以使用 docker load 来导入镜像存储文件到本地镜像库，也可以
+使用 docker import 来导入一个容器快照到本地镜像库。这两者的区别在于容
+器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状
+态），而镜像存储文件将保存完整记录，体积也要大。此外，从容器快照文件导入
+时可以重新指定标签等元数据信息。
+
+sudo docker rm 用来删除一个处于终止状态的容器
+用 docker ps -a 命令可以查看所有已经创建的包括终止状态的容器，如果数量
+太多要一个个删除可能会很麻烦，用 docker rm $(docker ps -a -q) 可以全
+部清理掉。
+*注意：这个命令其实会试图删除所有的包括还在运行中的容器，不过就像上面提过
+的 docker rm 默认并不会删除运行中的容器。
+
+#-m：指定提交说明信息，-a:指定更新的用户信息， 用于创建镜像的容器的ID,最后指定目标镜像的仓库名和tag信息
+sudo docker commit -m &quot;add python3&quot; -a &quot;hys&quot; 425fffab3201 hys/test:v1.0</code></pre><p>-进入通过参数-d启动的容器 docker attach | nsenter</p>
+<pre><code>- sudo docker attach [container ID or NAMES]
+但是使用 attach 命令有时候并不方便。当多个窗口同时 attach 到同一个容器的
+时候，所有窗口都会同步显示。当某个窗口因命令阻塞时,其他窗口也无法执行操作
+
+
+
+- nsenter安装
+. sudo wget https://www.kernel.org/pub/linux/utils/util-linux/v2.24/util-linux-2.24.tar.gz
+. tar -xzvf util-linux-2.24.tar.gz
+. cd util-linux-2.24
+. ./configure --without-ncurses
+. make
+. sudo cp nsenter /usr/local/bin
+
+sudo docker inspect --format &quot;{ {.State.Pid }}&quot; [container ID]
+sudo nsenter --target 40621 --mount --uts --ipc --net --pid
+执行出错：nsenter: failed to execute /bin/zsh: No such file or directory
+
+sudo env SHELL=&quot;/bin/bash&quot; nsenter --target 40907 --mount --uts --ipc --net --pid
+ok</code></pre><p>-另一种方法，<a href="https://raw.githubusercontent.com/yeasy/docker_practice/master/_local/.bashrc_docker" target="_blank" rel="noopener">.bashrc_docker</a>将里面的内容放到~/.bashrc文件中，</p>
+<pre><code>.bashrc_docker
+
+# Some useful commands to use docker.
+# Author: yeasy@github
+# Created:2014-09-25
+
+alias docker-pid=&quot;sudo docker inspect --format &apos;{ {.State.Pid}}&apos;&quot;
+alias docker-ip=&quot;sudo docker inspect --format &apos;{ { .NetworkSettings.IPAddress }}&apos;&quot;
+
+#the implementation refs from https://github.com/jpetazzo/nsenter/blob/master/docker-enter
+function docker-enter() {
+#if [ -e $(dirname &quot;$0&quot;)/nsenter ]; then
+#Change for centos bash running
+if [ -e $(dirname &apos;$0&apos;)/nsenter ]; then
+# with boot2docker, nsenter is not in the PATH but it is in the same folder
+NSENTER=$(dirname &quot;$0&quot;)/nsenter
+else
+# if nsenter has already been installed with path notified, here will be clarified
+NSENTER=$(which nsenter)
+#NSENTER=nsenter
+fi
+[ -z &quot;$NSENTER&quot; ]  echo &quot;WARN Cannot find nsenter&quot;  return
+
+if [ -z &quot;$1&quot; ]; then
+echo &quot;Usage: `basename &quot;$0&quot;` CONTAINER [COMMAND [ARG]...]&quot;
+echo &quot;&quot;
+echo &quot;Enters the Docker CONTAINER and executes the specified COMMAND.&quot;
+echo &quot;If COMMAND is not specified, runs an interactive shell in CONTAINER.&quot;
+else
+PID=$(sudo docker inspect --format &quot;{ {.State.Pid}}&quot; &quot;$1&quot;)
+if [ -z &quot;$PID&quot; ]; then
+echo &quot;WARN Cannot find the given container&quot;
+return
+fi
+shift
+
+OPTS=&quot;--target $PID --mount --uts --ipc --net --pid&quot;
+
+if [ -z &quot;$1&quot; ]; then
+# No command given.
+# Use su to clear all host environment variables except for TERM,
+# initialize the environment variables HOME, SHELL, USER, LOGNAME, PATH,
+# and start a login shell.
+#sudo $NSENTER &quot;$OPTS&quot; su - root
+sudo $NSENTER --target $PID --mount --uts --ipc --net --pid su - root
+else
+# Use env to clear all host environment variables.
+sudo $NSENTER --target $PID --mount --uts --ipc --net --pid env -i $@
+fi
+fi
+}
+
+
+
+通过docker-pid可以获取某个容器的PID；而docker_enter可以进入容器 或直接在容器内执行命令
+
+echo $(docker-pid &lt;container&gt;)
+
+docker-enter &lt;container&gt;</code></pre><p>-Dockerfile</p>
+<pre><code>FROM 指令告诉Docker使用哪个镜像作为基础
+MAINTAINER 维护者的信息
+RUN apt-get install
+ADD 复制本地文件到镜像
+EXPOSE 用来向外部开放端口
+
+docker build -t=&quot;hys/test:v2.0&quot; . #-t 添加tag,指定新的镜像用户信息。&apos;.&apos;表示Dockerfile所在的路径(当前目录),当然也可以指定具体路径。
+
+sudo apt-get install -y xxx #直接安装</code></pre><p>如：构建django开发环境的镜像</p>
+<pre><code>FROM ubuntu:16.04
+
+MAINTAINER hys &lt;hysyeah.top&gt;
+
+RUN apt-get upadate
+
+RUN apt-get install -y python3-pip
+
+RUN pip3 install django</code></pre><hr>
+<p>参考：Dockers-从入门到实践</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/22/ubuntu-e5-ae-89-e8-a3-85-e4-ba-94-e7-ac-94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/22/ubuntu-e5-ae-89-e8-a3-85-e4-ba-94-e7-ac-94/" class="post-title-link" itemprop="url">ubuntu安装五笔</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-22 17:52:36" itemprop="dateCreated datePublished" datetime="2017-09-22T17:52:36+08:00">2017-09-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.sudo apt-get install ibus-table-wubi
+
+2.reboot
+
+3.Text Entry添加输入法</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2247,7 +2349,7 @@ false</code></pre><p>5.Functions(函数) 函数是第一类值（和其他变量
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
