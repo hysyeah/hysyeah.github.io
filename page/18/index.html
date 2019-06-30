@@ -363,364 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/django-e5-86-85-e7-bd-ae-e7-9a-84-e5-af-86-e7-a0-81-e7-ae-a1-e7-90-86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/django-e5-86-85-e7-bd-ae-e7-9a-84-e5-af-86-e7-a0-81-e7-ae-a1-e7-90-86/" class="post-title-link" itemprop="url">Django内置的密码管理</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 10:46:04" itemprop="dateCreated datePublished" datetime="2017-10-02T10:46:04+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Django/" itemprop="url" rel="index"><span itemprop="name">Django</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Django提供了内在的登录，登出以及密码管理。 在此记录密码管理功能的使用 1.在urls.py添加如下：</p>
-<pre><code>url(&apos;^&apos;, include(&apos;django.contrib.auth.urls&apos;))</code></pre><p>相当于</p>
-<pre><code>^login/$ [name=&apos;login&apos;]
-^logout/$ [name=&apos;logout&apos;]
-^password_change/$ [name=&apos;password_change&apos;]
-^password_change/done/$ [name=&apos;password_change_done&apos;]
-^password_reset/$ [name=&apos;password_reset&apos;]
-^password_reset/done/$ [name=&apos;password_reset_done&apos;]
-^reset/(?P&lt;uidb64&gt;[0-9A-Za-z_\-]+)/(?P&lt;token&gt;[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$ [name=&apos;password_reset_confirm&apos;]
-^reset/done/$ [name=&apos;password_reset_complete&apos;]</code></pre><p>2.<a href="http://hysyeah.top/2017/09/27/django%E9%80%9A%E8%BF%87qq%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">配置好发送邮件配置</a> 3.在前端配置好url就可实现密码修改，重置功能。</p>
-<hr>
-<p>参考： 1.<a href="https://docs.djangoproject.com/en/1.11/topics/auth/default/#all-authentication-views" target="_blank" rel="noopener">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/django-e9-80-9a-e8-bf-87qq-e9-82-ae-e7-ae-b1-e5-8f-91-e9-80-81-e9-82-ae-e4-bb-b6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/27/django-e9-80-9a-e8-bf-87qq-e9-82-ae-e7-ae-b1-e5-8f-91-e9-80-81-e9-82-ae-e4-bb-b6/" class="post-title-link" itemprop="url">Django通过qq邮箱发送邮件</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-27 12:43:42" itemprop="dateCreated datePublished" datetime="2017-09-27T12:43:42+08:00">2017-09-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Django/" itemprop="url" rel="index"><span itemprop="name">Django</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下</p>
-<pre><code>EMAIL_USE_TLS = True
-EMAIL_HOST = &apos;smtp.qq.com&apos;  #若是企业邮箱要改为：&apos;smtp.exmail.qq.com&apos;
-EMAIL_PORT = 587
-EMAIL_HOST_USER = &apos;12345678@qq.com&apos;
-EMAIL_HOST_PASSWORD = &apos;xxxxxxxxxxxxxxxx&apos;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
-DEFAULT_FROM_EMAIL = &apos;12345678@qq.com&apos;</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/django-e6-9d-83-e9-99-90-e4-b8-8e-e5-88-86-e7-bb-84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2303,6 +1945,378 @@ RUN pip3 install django</code></pre><hr>
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/22/lua-e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/22/lua-e/" class="post-title-link" itemprop="url">lua -e</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-22 17:45:06" itemprop="dateCreated datePublished" datetime="2017-09-22T17:45:06+08:00">2017-09-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>lua -e &quot;print(&quot;hello&quot;)&quot; --ouput nil
+
+lua -e &quot;print(&quot;1&quot;)&quot; -- output 1</code></pre><p>为什么lua -e “print(“hello”)”输出来nil, 而不是hello,这与shell的解析机制有关。 lua -e “print(“hello”)”相当于lua -e “print(hello)”(“print” + hello + “)”)，而hello未定义所以输出nil。 可以通过单引号禁止shell解析，或者使用转义符，</p>
+<pre><code>lua -e &apos;print(&quot;hello&quot;)&apos; -- output: hello
+lua -e &quot;print(\&quot;hello\&quot;)&quot; -- output: hello</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/21/lua-e6-b1-82-e9-98-b6-e4-b9-98-e5-8f-91-e7-94-9f-e6-ba-a2-e5-87-ba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/21/lua-e6-b1-82-e9-98-b6-e4-b9-98-e5-8f-91-e7-94-9f-e6-ba-a2-e5-87-ba/" class="post-title-link" itemprop="url">lua求阶乘发生溢出</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-21 18:11:57" itemprop="dateCreated datePublished" datetime="2017-09-21T18:11:57+08:00">2017-09-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>function fact(n)
+  if n == 0 then
+    return 1
+  end
+  return n * fact(n-1)
+end
+
+for i=1, 100, 1 do
+  print(i,fact(i)) --发生溢出
+end</code></pre><ul>
+<li><p>通过使用lua的’bn’库可以解决这问题，从<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/#lbn" target="_blank" rel="noopener">lbn</a>下载lbn.tar.gz，</p>
+<p>tar -xzvf lbn.tar.gz<br>cd bn</p>
+</li>
+</ul>
+<ul>
+<li>修改Makefile如下</li>
+</ul>
+<p><img src="http://hysyeah.top/wp-content/uploads/2017/09/%E5%92%8C-1.png" alt="image"></p>
+<pre><code>make</code></pre><ul>
+<li><p>在当前目录下会生成一个bn.so文件，将bn.so拷贝到代码文件所在目录，或者通过LUA_CPATH指定require搜索路径</p>
+<p>local bn = require “bn”</p>
+<p>function bn_fact(bn.number(n))<br>  if n:tonumber() == 0 then return 1 end<br>  return n * bn_fact(n-1)<br>end</p>
+<p>function fact(n)<br>  return bn_fact(bn.number(n))<br>end</p>
+<p>for i=1,100,1 do</p>
+<pre><code>print(i,fact(i)) -- 未发生溢出</code></pre><p>end</p>
+</li>
+</ul>
+<p>参考： 1.<a href="https://stackoverflow.com/questions/46317930/why-lua-and-python-factorial-output-was-different" target="_blank" rel="noopener">stackoverflow</a> 2.<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html" target="_blank" rel="noopener">http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2349,7 +2363,7 @@ RUN pip3 install django</code></pre><hr>
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">207</span>
+                    <span class="site-state-item-count">205</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

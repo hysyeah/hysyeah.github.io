@@ -363,197 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python-e5-af-b9-e5-87-bd-e6-95-b0-e6-b1-82-e5-af-bc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/16/python-e5-af-b9-e5-87-bd-e6-95-b0-e6-b1-82-e5-af-bc/" class="post-title-link" itemprop="url">python对函数求导</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-16 11:16:24" itemprop="dateCreated datePublished" datetime="2018-05-16T11:16:24+08:00">2018-05-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>假设函数[latex]f(x) = x^3+2x[/latex],求[latex]f’(x)[/latex]在x=1的值. 1.通过numpy多项式求导</p>
-<pre><code>import numpy as np
-y = np.poly1d([1,0,2,0])
-
-
-print(y)         # 3*x**2 + 2*x       
-
-
-dy = y.deriv()
-dy(1)                         # 5</code></pre><p>2.通过sympy对函数求导,通过命令pip3 install sympy安装</p>
-<pre><code>from sympy import symbols
-from sympy import diff as diff
-from npmath import diff as diff2
-
-x = symbols(&apos;x&apos;)
-f = x**3 + 2*x
-f1 = diff(f)
-print(f1)              # 3*x**2 + 2
-
-diff2(lambda x: x**3+2*x,1)         # 5</code></pre><hr>
-<p>参考： 1.<a href="http://docs.sympy.org/latest/tutorial/calculus.html" target="_blank" rel="noopener">sympy文档</a> 2.<a href="http://mpmath.org/doc/1.0.0/calculus/differentiation.html?highlight=diff#mpmath.diff" target="_blank" rel="noopener">mpmath文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/11/latex-e5-85-ac-e5-bc-8f/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1128,201 +937,6 @@ factorial(6) # out :array(720.0)</code></pre>
 <h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是[latex]\hat f[/latex],那么利用这个模型 对未知数据预测的误差就是泛化误差<br>[latex]R_{exp}(\hat f) = E[L(Y, \hat f(X))] = \int_{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy[/latex] 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合[latex]\mathcal{F}={f_{1},f_{2},\cdot \cdot \cdot, f_{d}}[/latex]时，对于任意一个函数[latex]f \in \mathcal{F}[/latex],至少以概率[latex]1-\delta[/latex],以下不等式成立<br>[latex]R(f) \leq \hat R(f) + \varepsilon(d, N, \delta)[/latex],其中[latex]\varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)} [/latex]<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项[latex]\varepsilon(d, N, \delta)[/latex]是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
 <hr>
 <p><img src="http://hysyeah.top/wp-content/uploads/2018/05/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0.png" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/02/e7-a7-91-e5-ad-a6-e4-b8-8a-e7-bd-91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/02/e7-a7-91-e5-ad-a6-e4-b8-8a-e7-bd-91/" class="post-title-link" itemprop="url">科学上网</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-02 20:44:37" itemprop="dateCreated datePublished" datetime="2018-05-02T20:44:37+08:00">2018-05-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>服务器为阿里云ubuntu</p>
-<pre><code>1.sudo apt-get install git python-m2crypto libsodium18
-2.sudo git clone https://github.com/shadowsocksrr/shadowsocksr.git
-3.cd shadowsocksr
-  sudo bash initcfg.sh
-4.cd shadowsocks
-sudo python server.py -s 170.28.38.111 -p 443 -k F3SAATBMG9JHJUI09D09JPQBVJJ5GZD -m aes-256-cfb -O auth_aes128_md5 -o tls1.2_ticket_auth_compatible -d start
-
-# -s 服务器ip,这里填的是内网ip
-  -p 端口
-  -k 密码
-  -m 加密方式
-  -O 协议
-  -o 混淆方式
-5.下载shadowsocksr客户端，填写好相关信息就可以科学上网。</code></pre><p><a href="http://hysyeah.top/wp-content/uploads/2018/05/ShadowsocksR.png" target="_blank" rel="noopener">shadowsocksr-client</a> <img src="http://hysyeah.top/wp-content/uploads/2018/05/ShadowsocksR.png" alt="image"> <a href="http://hysyeah.top/wp-content/uploads/2018/05/ShadowsocksR.png" target="_blank" rel="noopener">shadowsocksr-server</a></p>
-<pre><code>问题：1.undefined symbol: EVP_CIPHER_CTX_cleanup错误
-用vim打开文件：vim /usr/local/lib/python2.7/dist-packages/shadowsocks/crypto/openssl.py (该路径请根据自己的系统情况自行修改，如果不知道该文件在哪里的话，可以使用find命令查找文件位置)
-跳转到52行（shadowsocks2.8.2版本，其他版本搜索一下cleanup）
-进入编辑模式
-将第52行libcrypto.EVP_CIPHER_CTX_cleanup.argtypes = (c_void_p,) 
-改为libcrypto.EVP_CIPHER_CTX_reset.argtypes = (c_void_p,)
-再次搜索cleanup（全文件共2处，此处位于111行），将libcrypto.EVP_CIPHER_CTX_cleanup(self._ctx) 
-改为libcrypto.EVP_CIPHER_CTX_reset(self._ctx)
-保存并退出</code></pre><hr>
-<p>参考：1.<a href="https://dcamero.azurewebsites.net/shadowsocksr.html#server" target="_blank" rel="noopener">https://dcamero.azurewebsites.net/shadowsocksr.html#server</a> 2.<a href="https://blog.csdn.net/blackfrog_unique/article/details/60320737" target="_blank" rel="noopener">https://blog.csdn.net/blackfrog_unique/article/details/60320737</a></p>
 
           
         
@@ -2356,6 +1970,495 @@ Out[41]: {&apos;a&apos;: 1, &apos;b&apos;: 2}</code></pre>
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/01/request-e4-b8-ad-e4-b9-8b-e8-87-aa-e5-ae-9a-e4-b9-89-e7-9a-84-e7-bb-93-e6-9e-84-e4-bd-93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/01/request-e4-b8-ad-e4-b9-8b-e8-87-aa-e5-ae-9a-e4-b9-89-e7-9a-84-e7-bb-93-e6-9e-84-e4-bd-93/" class="post-title-link" itemprop="url">request中之自定义的结构体</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-01 10:11:34" itemprop="dateCreated datePublished" datetime="2018-04-01T10:11:34+08:00">2018-04-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code># 通过LookupDict构建个可以根据多个value查找key的字典
+class LookupDict(dict):
+    &quot;&quot;&quot;Dictionary lookup object.&quot;&quot;&quot;
+
+    def __init__(self, name=None):
+        self.name = name
+        super(LookupDict, self).__init__()
+
+    def __repr__(self):
+        return &apos;&lt;lookup \&apos;%s\&apos;&gt;&apos; % (self.name)
+
+    def __getitem__(self, key):
+        # We allow fall-through here, so values default to None
+
+        return self.__dict__.get(key, None)
+
+    def get(self, key, default=None):
+        return self.__dict__.get(key, default)
+
+
+In [2]: _codes = {
+   ...: 
+   ...:     # Informational.
+   ...:     100: (&apos;continue&apos;,),
+   ...:     101: (&apos;switching_protocols&apos;,),
+   ...:     102: (&apos;processing&apos;,),
+   ...:     103: (&apos;checkpoint&apos;,),
+   ...:     122: (&apos;uri_too_long&apos;, &apos;request_uri_too_long&apos;)
+   ...: }
+
+In [3]: codes = LookupDict(name=&apos;status_codes&apos;)
+
+In [4]: for code, titles in _codes.items():
+   ...:     for title in titles:
+   ...:         setattr(codes, title, code)
+   ...:         if not title.startswith(&apos;\\&apos;):
+   ...:             setattr(codes, title.upper(), code)
+   ...:             
+
+In [5]: codes
+Out[5]: &lt;lookup &apos;status_codes&apos;&gt;
+
+In [6]: codes.processing
+Out[6]: 102
+
+In [7]: codes.checkpoint
+Out[7]: 103
+
+# codes的__dict__如下
+In [8]: codes.__dict__
+Out[8]: 
+{&apos;CHECKPOINT&apos;: 103,
+ &apos;CONTINUE&apos;: 100,
+ &apos;PROCESSING&apos;: 102,
+ &apos;REQUEST_URI_TOO_LONG&apos;: 122,
+ &apos;SWITCHING_PROTOCOLS&apos;: 101,
+ &apos;URI_TOO_LONG&apos;: 122,
+ &apos;checkpoint&apos;: 103,
+ &apos;continue&apos;: 100,
+ &apos;name&apos;: &apos;status_codes&apos;,
+ &apos;processing&apos;: 102,
+ &apos;request_uri_too_long&apos;: 122,
+ &apos;switching_protocols&apos;: 101,
+ &apos;uri_too_long&apos;: 122}</code></pre><hr>
+<pre><code># CaseInsensitiveDict定义了大小不敏感的字典
+class CaseInsensitiveDict(collections.MutableMapping):
+    &quot;&quot;&quot;
+        cid = CaseInsensitiveDict()
+        cid[&apos;Accept&apos;] = &apos;application/json&apos;
+        cid[&apos;aCCEPT&apos;] == &apos;application/json&apos;  # True
+        list(cid) == [&apos;Accept&apos;]  # True&quot;&quot;&quot;
+
+    def __init__(self, data=None, **kwargs):
+        self._store = OrderedDict()
+        if data is None:
+            data = {}
+        self.update(data, **kwargs)
+
+    def __setitem__(self, key, value):
+        # Use the lowercased key for lookups, but store the actual
+        # key alongside the value.
+        self._store[key.lower()] = (key, value)
+
+    def __getitem__(self, key):
+        return self._store[key.lower()][1]
+
+    def __delitem__(self, key):
+        del self._store[key.lower()]
+
+    def __iter__(self):
+        return (casedkey for casedkey, mappedvalue in self._store.values())
+
+    def __len__(self):
+        return len(self._store)
+
+    def lower_items(self):
+        &quot;&quot;&quot;Like iteritems(), but with all lowercase keys.&quot;&quot;&quot;
+        return (
+            (lowerkey, keyval[1])
+            for (lowerkey, keyval)
+            in self._store.items()
+        )
+
+    def __eq__(self, other):
+        if isinstance(other, collections.Mapping):
+            other = CaseInsensitiveDict(other)
+        else:
+            return NotImplemented
+        # Compare insensitively
+        return dict(self.lower_items()) == dict(other.lower_items())
+
+    # Copy is required
+    def copy(self):
+        return CaseInsensitiveDict(self._store.values())
+
+    def __repr__(self):
+        return str(dict(self.items()))
+
+
+MutableMapping的定义是实现__getitem__,__setitem__,__delitem__,__iter__,__len__方法的对象。
+CaseInsensitiveDict通过将key转换为小写进行查找，在字典值中以元组的形式存储了原始键和值。
+lower_items()返回小写的key,和原始的value。
+
+In [13]: cid = CaseInsensitiveDict()
+
+In [16]: cid
+Out[16]: {&apos;Accept&apos;: &apos;application/json&apos;}
+
+In [19]: cid.__dict__
+Out[19]: {&apos;_store&apos;: OrderedDict([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;))])}
+
+In [30]: list(cid.lower_items())
+Out[30]: [(&apos;accept&apos;, &apos;application/json&apos;), (&apos;ab&apos;, &apos;Cd&apos;)]
+
+In [31]: cid._store.items()
+Out[31]: odict_items([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;)), (&apos;ab&apos;, (&apos;Ab&apos;, &apos;Cd&apos;))])</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/26/python-e4-b8-ad-e7-9a-84native-string/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/26/python-e4-b8-ad-e7-9a-84native-string/" class="post-title-link" itemprop="url">python中的native string</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-26 22:37:29" itemprop="dateCreated datePublished" datetime="2018-03-26T22:37:29+08:00">2018-03-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code># 将给定的字符串对象转换为native string
+def to_native_string(string, encoding=&apos;ascii&apos;):
+    if isinstance(string, builtin_str):
+        out = string
+    else:
+        if is_py2:
+            out = string.encode(encoding)
+        else:
+            out = string.decode(encoding)
+
+    return out</code></pre><hr>
+<p>1.”Native” strings(指那些类型名为str的字符串类型)，用于请求/响应头和元数据。 2.”Bytestring”(在python3中类型名为bytes,python2中为str),用于请求/响应中的body。</p>
+<hr>
+<p>参考： 1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a> 2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a> 3.<a href="http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2402,7 +2505,7 @@ Out[41]: {&apos;a&apos;: 1, &apos;b&apos;: 2}</code></pre>
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">207</span>
+                    <span class="site-state-item-count">205</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

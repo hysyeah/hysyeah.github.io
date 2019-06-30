@@ -363,495 +363,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/01/request-e4-b8-ad-e4-b9-8b-e8-87-aa-e5-ae-9a-e4-b9-89-e7-9a-84-e7-bb-93-e6-9e-84-e4-bd-93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/01/request-e4-b8-ad-e4-b9-8b-e8-87-aa-e5-ae-9a-e4-b9-89-e7-9a-84-e7-bb-93-e6-9e-84-e4-bd-93/" class="post-title-link" itemprop="url">request中之自定义的结构体</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-01 10:11:34" itemprop="dateCreated datePublished" datetime="2018-04-01T10:11:34+08:00">2018-04-01</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 通过LookupDict构建个可以根据多个value查找key的字典
-class LookupDict(dict):
-    &quot;&quot;&quot;Dictionary lookup object.&quot;&quot;&quot;
-
-    def __init__(self, name=None):
-        self.name = name
-        super(LookupDict, self).__init__()
-
-    def __repr__(self):
-        return &apos;&lt;lookup \&apos;%s\&apos;&gt;&apos; % (self.name)
-
-    def __getitem__(self, key):
-        # We allow fall-through here, so values default to None
-
-        return self.__dict__.get(key, None)
-
-    def get(self, key, default=None):
-        return self.__dict__.get(key, default)
-
-
-In [2]: _codes = {
-   ...: 
-   ...:     # Informational.
-   ...:     100: (&apos;continue&apos;,),
-   ...:     101: (&apos;switching_protocols&apos;,),
-   ...:     102: (&apos;processing&apos;,),
-   ...:     103: (&apos;checkpoint&apos;,),
-   ...:     122: (&apos;uri_too_long&apos;, &apos;request_uri_too_long&apos;)
-   ...: }
-
-In [3]: codes = LookupDict(name=&apos;status_codes&apos;)
-
-In [4]: for code, titles in _codes.items():
-   ...:     for title in titles:
-   ...:         setattr(codes, title, code)
-   ...:         if not title.startswith(&apos;\\&apos;):
-   ...:             setattr(codes, title.upper(), code)
-   ...:             
-
-In [5]: codes
-Out[5]: &lt;lookup &apos;status_codes&apos;&gt;
-
-In [6]: codes.processing
-Out[6]: 102
-
-In [7]: codes.checkpoint
-Out[7]: 103
-
-# codes的__dict__如下
-In [8]: codes.__dict__
-Out[8]: 
-{&apos;CHECKPOINT&apos;: 103,
- &apos;CONTINUE&apos;: 100,
- &apos;PROCESSING&apos;: 102,
- &apos;REQUEST_URI_TOO_LONG&apos;: 122,
- &apos;SWITCHING_PROTOCOLS&apos;: 101,
- &apos;URI_TOO_LONG&apos;: 122,
- &apos;checkpoint&apos;: 103,
- &apos;continue&apos;: 100,
- &apos;name&apos;: &apos;status_codes&apos;,
- &apos;processing&apos;: 102,
- &apos;request_uri_too_long&apos;: 122,
- &apos;switching_protocols&apos;: 101,
- &apos;uri_too_long&apos;: 122}</code></pre><hr>
-<pre><code># CaseInsensitiveDict定义了大小不敏感的字典
-class CaseInsensitiveDict(collections.MutableMapping):
-    &quot;&quot;&quot;
-        cid = CaseInsensitiveDict()
-        cid[&apos;Accept&apos;] = &apos;application/json&apos;
-        cid[&apos;aCCEPT&apos;] == &apos;application/json&apos;  # True
-        list(cid) == [&apos;Accept&apos;]  # True&quot;&quot;&quot;
-
-    def __init__(self, data=None, **kwargs):
-        self._store = OrderedDict()
-        if data is None:
-            data = {}
-        self.update(data, **kwargs)
-
-    def __setitem__(self, key, value):
-        # Use the lowercased key for lookups, but store the actual
-        # key alongside the value.
-        self._store[key.lower()] = (key, value)
-
-    def __getitem__(self, key):
-        return self._store[key.lower()][1]
-
-    def __delitem__(self, key):
-        del self._store[key.lower()]
-
-    def __iter__(self):
-        return (casedkey for casedkey, mappedvalue in self._store.values())
-
-    def __len__(self):
-        return len(self._store)
-
-    def lower_items(self):
-        &quot;&quot;&quot;Like iteritems(), but with all lowercase keys.&quot;&quot;&quot;
-        return (
-            (lowerkey, keyval[1])
-            for (lowerkey, keyval)
-            in self._store.items()
-        )
-
-    def __eq__(self, other):
-        if isinstance(other, collections.Mapping):
-            other = CaseInsensitiveDict(other)
-        else:
-            return NotImplemented
-        # Compare insensitively
-        return dict(self.lower_items()) == dict(other.lower_items())
-
-    # Copy is required
-    def copy(self):
-        return CaseInsensitiveDict(self._store.values())
-
-    def __repr__(self):
-        return str(dict(self.items()))
-
-
-MutableMapping的定义是实现__getitem__,__setitem__,__delitem__,__iter__,__len__方法的对象。
-CaseInsensitiveDict通过将key转换为小写进行查找，在字典值中以元组的形式存储了原始键和值。
-lower_items()返回小写的key,和原始的value。
-
-In [13]: cid = CaseInsensitiveDict()
-
-In [16]: cid
-Out[16]: {&apos;Accept&apos;: &apos;application/json&apos;}
-
-In [19]: cid.__dict__
-Out[19]: {&apos;_store&apos;: OrderedDict([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;))])}
-
-In [30]: list(cid.lower_items())
-Out[30]: [(&apos;accept&apos;, &apos;application/json&apos;), (&apos;ab&apos;, &apos;Cd&apos;)]
-
-In [31]: cid._store.items()
-Out[31]: odict_items([(&apos;accept&apos;, (&apos;aCCEPT&apos;, &apos;application/json&apos;)), (&apos;ab&apos;, (&apos;Ab&apos;, &apos;Cd&apos;))])</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/26/python-e4-b8-ad-e7-9a-84native-string/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/26/python-e4-b8-ad-e7-9a-84native-string/" class="post-title-link" itemprop="url">python中的native string</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-26 22:37:29" itemprop="dateCreated datePublished" datetime="2018-03-26T22:37:29+08:00">2018-03-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 将给定的字符串对象转换为native string
-def to_native_string(string, encoding=&apos;ascii&apos;):
-    if isinstance(string, builtin_str):
-        out = string
-    else:
-        if is_py2:
-            out = string.encode(encoding)
-        else:
-            out = string.decode(encoding)
-
-    return out</code></pre><hr>
-<p>1.”Native” strings(指那些类型名为str的字符串类型)，用于请求/响应头和元数据。 2.”Bytestring”(在python3中类型名为bytes,python2中为str),用于请求/响应中的body。</p>
-<hr>
-<p>参考： 1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a> 2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a> 3.<a href="http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/21/ubuntu-e4-b8-8a-e6-90-ad-e5-bb-bagit-e4-bb-93-e5-ba-93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2387,6 +1898,373 @@ services:
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/01/docker-compose-up-d-e5-90-af-e5-8a-a8-e5-a4-b1-e8-b4-a5-e4-b8-8d-e8-83-bd-e5-88-9b-e5-bb-ba-e7-bd-91-e7-bb-9c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/01/docker-compose-up-d-e5-90-af-e5-8a-a8-e5-a4-b1-e8-b4-a5-e4-b8-8d-e8-83-bd-e5-88-9b-e5-bb-ba-e7-bd-91-e7-bb-9c/" class="post-title-link" itemprop="url">docker-compose up -d启动失败不能创建网络</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-01 11:29:59" itemprop="dateCreated datePublished" datetime="2018-02-01T11:29:59+08:00">2018-02-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>当修改docker-compose.yml文件后台，使用命令docker-coompose up -d 启动服务
+出现如下错误
+Creating network &quot;master_sparknet&quot; with driver &quot;bridge&quot;
+ERROR: cannot create network ddc16ca081602776df238912eeb042380f5cb15b88c108799b66d074742c704a (br-ddc16ca08160): conflicts with network fa6a55dd5ed30ce92342c4d3218558139293fd1800f5893c83b9f6a75aeaf277 (br-fa6a55dd5ed3): networks have overlapping IPv4
+
+提示不能创建网络，两个网络发生冲突</code></pre><h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><pre><code>1.docker network ls  #展示docker容器网络
+2.找到冲突的网络 docker network rm fa6a55dd5ed3
+3.docker-compose up -d #重新启动服务</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/23/e6-90-ad-e5-bb-ba-e5-ae-89-e5-85-a8docker-registry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/23/e6-90-ad-e5-bb-ba-e5-ae-89-e5-85-a8docker-registry/" class="post-title-link" itemprop="url">搭建安全Docker Registry</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-23 10:48:10" itemprop="dateCreated datePublished" datetime="2018-01-23T10:48:10+08:00">2018-01-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.安装registry
+docker pull registry
+
+2.制作证书
+openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/ca.png" alt="image"></p>
+<pre><code>3.docker run -d -p 5000:5000 --restart=always --name registry \
+  -v /data/registry:/var/lib/registry \
+  -v /certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+
+.4.在客户端安装证书
+sudo mkdir -p /etc/docker/certs.d/d.hysyeah.top:5000
+sudo cp domain.crt /etc/docker/certs.d/d.hysyeah.top:5000/ca.crt
+sudo service docker restart
+
+5.docker pull busybox
+
+6.docker tag busybox d.hysyeah.top:5000/busybox 
+
+7.docker push d.hysyeah.top:5000/busybox</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2433,7 +2311,7 @@ services:
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">207</span>
+                    <span class="site-state-item-count">205</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
