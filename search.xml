@@ -1,3 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
+  <entry>
+    <title><![CDATA[执行go get出现 go GOPATH entry is relative错误]]></title>
+    <url>%2F2018%2F04%2F01%2F2018-04-01-%25e6%2589%25a7%25e8%25a1%258cgo-get%25e5%2587%25ba%25e7%258e%25b0-go-gopath-entry-is-relative%25e9%2594%2599%25e8%25af%25af%2F</url>
+    <content type="text"><![CDATA[12# 将~/.zshrc文件中 export GOPATH="/home/hys/mycode/go:/home/hys/mycode/go/gopl:$GOPATH" 改为 1export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl&quot;]]></content>
+      <categories>
+        <category>GO</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[hello-world]]></title>
+    <url>%2F2017%2F08%2F25%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[1print(&quot;hello world&quot;)]]></content>
+  </entry>
 </search>

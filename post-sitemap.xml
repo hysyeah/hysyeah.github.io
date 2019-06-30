@@ -9,7 +9,15 @@
 
     <url>
         <loc>https://hysyeah.github.io/2017/08/25/hello-world/</loc>
-        <lastmod>2019-06-30T13:04:37.832Z</lastmod>
+        <lastmod>2019-06-30T13:54:23.911Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/2018/04/01/2018-04-01-%25e6%2589%25a7%25e8%25a1%258cgo-get%25e5%2587%25ba%25e7%258e%25b0-go-gopath-entry-is-relative%25e9%2594%2599%25e8%25af%25af/</loc>
+        <lastmod>2019-06-30T13:54:17.111Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

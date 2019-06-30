@@ -3,13 +3,18 @@
 
 
     <sitemap>
+        <loc>https://hysyeah.github.io/post-sitemap.xml</loc>
+        <lastmod>2019-06-30T13:54:23.911Z</lastmod>
+    </sitemap>
+
+    <sitemap>
         <loc>https://hysyeah.github.io/page-sitemap.xml</loc>
         <lastmod>2019-06-30T12:37:48.658Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>https://hysyeah.github.io/category-sitemap.xml</loc>
-        
+        <lastmod>2019-06-30T13:54:17.111Z</lastmod>
     </sitemap>
 
 </sitemapindex>
