@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2019/05/26/postgresql-e4-b8-ad-e5-b0-86-e6-89-80-e6-9c-89-e7-9a-84char-e6-94-b9-e4-b8-bavarchar-e7-b1-bb-e5-9e-8b/</loc>
+        <lastmod>2019-06-30T15:02:59.768Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2019/05/19/docker-e5-88-87-e6-8d-a2-e6-88-90-e9-98-bf-e9-87-8c-e7-9a-84-e6-ba-90/</loc>
         <lastmod>2019-06-30T14:14:24.275Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -185,14 +193,6 @@
 
     <url>
         <loc>https://hysyeah.github.io/2019/06/01/postgreql-e5-b8-b8-e7-94-a8sql/</loc>
-        <lastmod>2019-06-30T14:14:24.275Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/2019/05/26/postgresql-e4-b8-ad-e5-b0-86-e6-89-80-e6-9c-89-e7-9a-84char-e6-94-b9-e4-b8-bavarchar-e7-b1-bb-e5-9e-8b/</loc>
         <lastmod>2019-06-30T14:14:24.275Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
