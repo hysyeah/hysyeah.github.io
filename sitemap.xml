@@ -4,17 +4,22 @@
 
     <sitemap>
         <loc>https://hysyeah.github.io/post-sitemap.xml</loc>
-        <lastmod>2019-06-30T13:54:23.911Z</lastmod>
+        <lastmod>2019-06-30T14:14:24.275Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>https://hysyeah.github.io/page-sitemap.xml</loc>
-        <lastmod>2019-06-30T12:37:48.658Z</lastmod>
+        <lastmod>2019-06-30T14:14:24.287Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>https://hysyeah.github.io/category-sitemap.xml</loc>
-        <lastmod>2019-06-30T13:54:17.111Z</lastmod>
+        <lastmod>2019-06-30T14:14:24.275Z</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>https://hysyeah.github.io/tag-sitemap.xml</loc>
+        <lastmod>2019-06-30T14:14:24.275Z</lastmod>
     </sitemap>
 
 </sitemapindex>
