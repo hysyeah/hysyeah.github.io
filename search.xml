@@ -680,7 +680,7 @@
   <entry>
     <title><![CDATA[凸函数]]></title>
     <url>%2F2018%2F07%2F12%2Fe5-87-b8-e5-87-bd-e6-95-b0%2F</url>
-    <content type="text"><![CDATA[定义：函数f: \\mathcal R^{n} \\to \\mathcal R是凸的，如果[latex]dom f[/latex]是凸集，且对于任意[latex]x, y \in dom f[/latex]和任意[latex]0 \le \theta \le 1[/latex]，有[latex]f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)[/latex] 图象代码 当[latex]\theta = 0[/latex]时，f(y) = f(y)成立，当[latex]\theta = 1[/latex]时，f(x) = f(x)成立, 当[latex]\theta = \frac{1}{2}[/latex]时，[latex]f(\frac{x+y}{2}) \le \frac{f(x)+f(y)}{2}[/latex] 从几何意义上看，上述不等式意味着点(x, f(x))和(y, f(y))之间的线段，即从x到y的弦，在函数f的图像上方(如上图)。 参考： 1.Convex Optimization (Stephen Boyd) 2.支持向量机：理论，算法与拓展(田英杰)]]></content>
+    <content type="text"><![CDATA[定义：函数f: \mathcal R^{n} \to \mathcal R是凸的，如果[latex]dom f[/latex]是凸集，且对于任意[latex]x, y \in dom f[/latex]和任意[latex]0 \le \theta \le 1[/latex]，有[latex]f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)[/latex] 图象代码 当[latex]\theta = 0[/latex]时，f(y) = f(y)成立，当[latex]\theta = 1[/latex]时，f(x) = f(x)成立, 当[latex]\theta = \frac{1}{2}[/latex]时，[latex]f(\frac{x+y}{2}) \le \frac{f(x)+f(y)}{2}[/latex] 从几何意义上看，上述不等式意味着点(x, f(x))和(y, f(y))之间的线段，即从x到y的弦，在函数f的图像上方(如上图)。 参考： 1.Convex Optimization (Stephen Boyd) 2.支持向量机：理论，算法与拓展(田英杰)]]></content>
       <categories>
         <category>机器学习</category>
       </categories>
