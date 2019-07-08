@@ -8,6 +8,13 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2019-07-08T14:37:24.809Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/categories/C%E8%AF%AD%E8%A8%80/Linux/</loc>
         <lastmod>2019-07-08T14:16:08.026Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -93,13 +100,6 @@
 
     <url>
         <loc>https://hysyeah.github.io/categories/python/python%E6%A0%87%E5%87%86%E5%BA%93/</loc>
-        <lastmod>2019-07-08T13:44:23.123Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2019-07-08T13:44:23.123Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

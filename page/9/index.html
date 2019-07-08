@@ -1554,7 +1554,7 @@ plt.show()
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-08 22:37:24" itemprop="dateModified" datetime="2019-07-08T22:37:24+08:00">2019-07-08</time>
               </span>
             
           
@@ -1608,9 +1608,11 @@ plt.show()
       
         
           
-            <h3 id="logistic分布"><a href="#logistic分布" class="headerlink" title="logistic分布"></a>logistic分布</h3><p>设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数：<br>[latex]F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}[/latex]<br>[latex]f(x) = F’(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2}[/latex]<br>式中，[latex]\mu[/latex]为位置参数，[latex]\gamma \gt 0[/latex]为形状参数。<br><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/logistic_plot.png" alt><br>当[latex]\mu[/latex]不等于0时，相当于图像向左或向右移动[latex]\mu[/latex]个单位，[latex]\gamma[/latex]越大，图像越平坦。 <a href="https://github.com/hys20151008/7788/blob/master/logistic_plot.py" target="_blank" rel="noopener">图像代码</a></p>
+            <h3 id="logistic分布"><a href="#logistic分布" class="headerlink" title="logistic分布"></a>logistic分布</h3><p>设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数：</p>
+<script type="math/tex; mode=display">F(x)=P(X \\le x) = \\frac{1}{1+e^{-(x - \\mu)/\\gamma}}\</script><script type="math/tex; mode=display">f(x) = F'(x) = \\frac{e^{-(x-\\mu)/\\gamma}}{\\gamma(1+e^{-(x-\\mu)/\\gamma})^2}\</script><p>式中，<script type="math/tex">\\mu\</script>为位置参数，<script type="math/tex">\\gamma \\gt 0\</script>为形状参数。<br><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/logistic_plot.png" alt><br>当<script type="math/tex">\\mu\</script>不等于0时，相当于图像向左或向右移动<script type="math/tex">\\mu\</script>个单位，<script type="math/tex">\\gamma\</script>越大，图像越<br>平坦。 <a href="https://github.com/hys20151008/7788/blob/master/logistic_plot.py" target="_blank" rel="noopener">图像代码</a></p>
 <hr>
-<h3 id="logistic回归模型"><a href="#logistic回归模型" class="headerlink" title="logistic回归模型"></a>logistic回归模型</h3><p>二项logistic回归模型是如下的条件概率分布:<br>[latex]P(Y=1|x) = \frac{\exp(w \cdot x + b)}{1+\exp(w \cdot x + b)}[/latex]<br>[latex]P(Y=0|x) = \frac{1}{1+\exp(w \cdot x + b)}[/latex]<br>这里，[latex]x\in \mathcal R^n[/latex]是输入，[latex]Y \in\{0,1\}[/latex]是输出，[latex]w\in \mathcal R^n[/latex]和[latex]b\in \mathcal R[/latex]是参数，w称为权值向量，b称为偏置，[latex]w \cdot x[/latex]为w和x的内积。 逻辑回归其实就是<strong>回归</strong>加上<strong>阶梯函数</strong>，将输出值映射到一定的范围内。</p>
+<h3 id="logistic回归模型"><a href="#logistic回归模型" class="headerlink" title="logistic回归模型"></a>logistic回归模型</h3><p>二项logistic回归模型是如下的条件概率分布:</p>
+<script type="math/tex; mode=display">P(Y=1|x) = \\frac{\\exp(w \\cdot x + b)}{1+\\exp(w \\cdot x + b)}\</script><script type="math/tex; mode=display">P(Y=0|x) = \\frac{1}{1+\\exp(w \\cdot x + b)}\</script><p>这里，<script type="math/tex">x\\in \\mathcal R^n\</script>是输入，<script type="math/tex">Y \\in\\{0,1\\}\</script>是输出，<script type="math/tex">w\\in \\mathcal R^n\</script>和<script type="math/tex">b\\in \\mathcal R\</script>是参数，w称为权值向量，b称为偏置，<script type="math/tex">w \\cdot x\</script>为w和x的内积。 逻辑回归其<br>实就是<strong>回归</strong>加上<strong>阶梯函数</strong>，将输出值映射到一定的范围内。</p>
 <h3 id="模型参数估计"><a href="#模型参数估计" class="headerlink" title="模型参数估计"></a>模型参数估计</h3><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png" alt></p>
 <hr>
 <pre><code># 构建数据集
@@ -1700,7 +1702,7 @@ def colicTest():
     print(&quot;the error rate of this test is: %f&quot; % errorRate)
 </code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/logRegres.py" target="_blank" rel="noopener">完整代码</a></p>
 <hr>
-<p>参考： 1.统计学习方法 2.机器学习实战</p>
+<p>参考：<br>1.统计学习方法<br>2.机器学习实战</p>
 
           
         
