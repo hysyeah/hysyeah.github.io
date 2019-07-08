@@ -94,19 +94,17 @@
 
 
 
-  <meta name="description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$">
+  <meta name="description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑回归">
 <meta property="og:url" content="https://hysyeah.github.io/2018/06/28/e9-80-bb-e8-be-91-e5-9b-9e-e5-bd-92/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$">
+<meta property="og:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png">
-<meta property="og:updated_time" content="2019-07-08T16:22:26.732Z">
+<meta property="og:updated_time" content="2019-07-08T16:25:59.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑回归">
-<meta name="twitter:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$">
-<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png">
+<meta name="twitter:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}">
 
 
 
@@ -426,7 +424,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-09 00:22:26" itemprop="dateModified" datetime="2019-07-09T00:22:26+08:00">2019-07-09</time>
+                <time title="修改时间：2019-07-09 00:25:59" itemprop="dateModified" datetime="2019-07-09T00:25:59+08:00">2019-07-09</time>
               </span>
             
           
@@ -479,108 +477,7 @@
 
       
         <h3 id="logistic分布"><a href="#logistic分布" class="headerlink" title="logistic分布"></a>logistic分布</h3><p>设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数：</p>
-<script type="math/tex; mode=display">F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}</script><script type="math/tex; mode=display">f(x) = F'(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$$ \gamma \gt 0 $$ 为形状参数。
-![](http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/logistic_plot.png)
-当$$ \mu $$不等于0时，相当于图像向左或向右移动$$ \mu $$个单位，$$ \gamma $$越大，图像越
-平坦。 [图像代码](https://github.com/hys20151008/7788/blob/master/logistic_plot.py)
-
-* * *
-
-### logistic回归模型
-
-二项logistic回归模型是如下的条件概率分布:
-$$ P(Y=1|x) = \frac{\exp(w \cdot x + b)}{1+\exp(w \cdot x + b)}</script><script type="math/tex; mode=display">P(Y=0|x) = \frac{1}{1+\exp(w \cdot x + b)}</script><p>这里，<script type="math/tex">x\in \mathcal R^n</script>是输入，<script type="math/tex">Y \in{0,1}</script>是输出，<script type="math/tex">w\in \mathcal R^n</script>和<script type="math/tex">b\in \mathcal R</script>是参数，w称为权值向量，b称为偏置，<script type="math/tex">w \cdot x</script>为w和x的内积。 逻辑回归其<br>实就是<strong>回归</strong>加上<strong>阶梯函数</strong>，将输出值映射到一定的范围内。</p>
-<h3 id="模型参数估计"><a href="#模型参数估计" class="headerlink" title="模型参数估计"></a>模型参数估计</h3><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png" alt></p>
-<hr>
-<pre><code># 构建数据集
-def loadDataSet2():
-    dataMat = []; labelMat = []
-    fr = open(&#39;./dataset/testSet5.txt&#39;)
-    for line in fr.readlines():
-        lineArr = line.strip().split()
-        dataMat.append([1.0, float(lineArr[0]), float(lineArr[1])])
-        labelMat.append(int(lineArr[2]))
-    return dataMat,labelMat
-
-
-# 梯度下降(每次都要对所有训练数据进行计算，不适合数据量大的场景)
-def gradAscent(dataMatIn, classLabels):
-    dataMatrix = np.mat(dataMatIn)
-    labelMat = np.mat(classLabels).transpose()
-    m, n = dataMatrix.shape
-
-    alpha = 0.001
-    max_iter = 500
-    weights = np.ones((n, 1))
-    for k in range(max_iter):
-        h = sigmoid(dataMatrix*weights)
-        error = (labelMat -h)
-        weights = weights + alpha * dataMatrix.transpose() * error
-    return weights
-
-
-# 随机梯度下降每次迭代只使用一条训练数据进行计算，减少计了计算量
-def stocGradAscent0(dataMatrix, classLabels):
-    m,n = np.shape(dataMatrix)
-    alpha = 0.01
-    weights = np.ones(n)
-    for i in range(m):
-        h = sigmoid(sum(dataMatrix[i]*weights))
-        error = classLabels[i] - h
-        weights = weights + alpha * error * dataMatrix[i]
-    return weights
-
-
-# 改良版随机梯度下降，
-def stocGradAscent1(dataMatrix, classLabels, numIter=150):
-    m, n = dataMatrix.shape
-    weights = np.ones(n)
-    dataIndex = range(m)
-    for j in range(numIter):
-        for i in range(m):
-            alpha = 4/(1.0+j+i)+0.01
-            randIndex = int(np.random.uniform(0, len(dataIndex)))
-            h = sigmoid(sum(dataMatrix[randIndex]*weights))
-            error = classLabels[randIndex] - h
-            weights = weights + alpha*error*dataMatrix[randIndex]
-    return weights
-
-
-# 分类
-def classifyVec(inX, weights):
-    prob = sigmoid(sum(inX*weights))
-    if prob &gt; 0.5:
-        return 1
-    return 0
-
-# 训练，测试
-def colicTest():
-    frTrain = open(&#39;dataset/horseColicTraining.txt&#39;)
-    frTest = open(&#39;dataset/horseColicTest.txt&#39;)
-    trainingSet, trainingLabels = [], []
-    for line in frTrain.readlines():
-        currLine = line.strip().split(&#39;\t&#39;)
-        lineArr = []
-        for i in range(21):
-            lineArr.append(float(currLine[i]))
-        trainingSet.append(lineArr)
-        trainingLabels.append(float(currLine[21]))
-    trainWeights = stocGradAscent1(np.array(trainingSet), trainingLabels, 500)
-    errorCount, numTestVec = 0, 0
-    for line in frTest.readlines():
-        numTestVec += 1
-        currLine = line.strip().split(&#39;\t&#39;)
-        lineArr = []
-        for i in range(21):
-            lineArr.append(float(currLine[i]))
-        if int(classifyVec(np.array(lineArr), trainWeights))!=int(currLine[21]):
-            errorCount += 1
-    errorRate = (float(errorCount)/numTestVec)
-    print(&quot;the error rate of this test is: %f&quot; % errorRate)
-</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/logRegres.py" target="_blank" rel="noopener">完整代码</a></p>
-<hr>
-<p>参考：<br>1.统计学习方法<br>2.机器学习实战</p>
-
+<script type="math/tex; mode=display">F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}</script>
       
     </div>
 
@@ -835,7 +732,7 @@ def colicTest():
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#logistic分布"><span class="nav-number">1.</span> <span class="nav-text">logistic分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型参数估计"><span class="nav-number">2.</span> <span class="nav-text">模型参数估计</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#logistic分布"><span class="nav-number">1.</span> <span class="nav-text">logistic分布</span></a></li></ol></div>
             
 
           </div>
