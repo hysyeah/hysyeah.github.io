@@ -533,7 +533,7 @@ plt.grid(True)
 plt.show()
 </code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/least_square.png" alt></p>
 <hr>
-<p>选择最小二乘的原因： 1.平方能将正残差与负残差都变成正数 2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响 3.在残差服从均值为0，方差为[latex]\\sigma ^2[/latex] (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。 4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
+<p>选择最小二乘的原因： 1.平方能将正残差与负残差都变成正数 2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响 3.在残差服从均值为0，方差为[latex]\sigma ^2[/latex] (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。 4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
 <hr>
 <p>参考： 1.<a href="http://greenteapress.com/thinkstats/" target="_blank" rel="noopener">Think Stats Probability and Statistics for Programmers</a> 2.<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html" target="_blank" rel="noopener">numpy</a> 3.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank" rel="noopener">scikit-learn</a></p>
 
