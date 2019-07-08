@@ -101,12 +101,12 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 [latex]P(B|A) = \frac{P(AB)}{P(A)}[/latex]为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，[latex]B{1},B{2}, \cdot \cdot \cdot,B{n}[/latex]为S的一个划分，且[latex]P(B{i})&amp;gt">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/06/bayes_al.png">
-<meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png">
+<meta property="og:updated_time" content="2019-07-08T13:44:23.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="朴素贝叶斯法">
 <meta name="twitter:description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 [latex]P(B|A) = \frac{P(AB)}{P(A)}[/latex]为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，[latex]B{1},B{2}, \cdot \cdot \cdot,B{n}[/latex]为S的一个划分，且[latex]P(B{i})&amp;gt">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/06/bayes_al.png">
+<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png">
 
 
 
@@ -426,7 +426,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
               </span>
             
           
@@ -484,7 +484,7 @@
 <hr>
 <h3 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h3><p>输入：训练数据[latex]T = \{(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})\}[/latex],其中[latex]x<em>{i} = (x</em>{i}^{(1)},x<em>{i}^{(2)},\cdot \cdot \cdot, x</em>{i}^{(n)})^T[/latex],[latex]x<em>{i}^{(j)}[/latex]是第i个样本的第j个特征，[latex]x</em>{i}^{(j)} \in \{a<em>{j1},a</em>{j2},\cdot \cdot \cdot,a<em>{js_j}\}[/latex],[latex]a\</em>{jl}[/latex]是第j个特征可能取的第l个值，[latex]j = 1,2,\cdot \cdot \cdot,n, l= 1, 2,\cdot \cdot \cdot, S_j, y_{i} \in \{c<em>{1},c</em>{2}, \cdot \cdot \cdot ,c<em>{k}\}[/latex];实例x;<br>输出：实例x的分类。<br>（1）计算先验概率及条件概率<br>[latex]P(Y=c</em>{k})=\frac{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}{N}, k=1,2,\cdot \cdot \cdot,K[/latex] [latex]P(X^{(j)}=a</em>{jl}|Y=c<em>{k})=\frac{\sum</em>{i=1}^{n}I(x<em>{i}^{(j)}=a</em>{jl},y<em>{i}=c</em>{k})}{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}[/latex] [latex]j=1,2,\cdot \cdot,\cdot,n;l=1,2,\cdot \cdot \cdot,S</em>{j};k=1,2,\cdot \cdot \cdot, K[/latex] (2)对于给定的实例[latex]x=(x^{(1)},x^{(2)},\cdot \cdot \cdot,x^{(n)})^T[/latex],计算<br>[latex]P(Y=c<em>{k})\prod</em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c<em>{k}),k=1,2,\cdot \cdot \cdot, K[/latex] (3)确定实例x的类<br>[latex]y = arg \max</em>{c<em>{k}}P(Y=c</em>{k})\prod<em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c</em>{k})[/latex]</p>
 <hr>
-<p><img src="http://hysyeah.top/wp-content/uploads/2018/06/bayes_al.png" alt> <a href="https://github.com/hys20151008/ml_python/blob/master/naivebayes.py" target="_blank" rel="noopener">实现代码</a></p>
+<p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png" alt> <a href="https://github.com/hys20151008/ml_python/blob/master/naivebayes.py" target="_blank" rel="noopener">实现代码</a></p>
 <pre><code># 对数据集进行去重
 def createVecabList(dataSet):
     vocabSet = set([])

@@ -102,16 +102,16 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="一、ACID：事务的4个特性 原子性(atomicity):在一个事务中，操作要么成功，要么失败。如果事务中有一个命令失败，必须回滚操作，回到事务执行之前的状态。 一致性(consistency):事务在完成时，必须使所有的数据都保持一致状态。 隔离性(isolation):事务在查看数据时数据所处的状态，要么是另一并发事务修改它之前的状态，要么是另一事务修改它之后的状态，事务是不会查看中间状态的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB2.png">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/iso_repeatable_read.png">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/example_repeatable_read.png">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2019/04/committed_read.png">
-<meta property="og:updated_time" content="2019-06-30T15:13:37.211Z">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB2.png">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/iso_repeatable_read.png">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/example_repeatable_read.png">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/committed_read.png">
+<meta property="og:updated_time" content="2019-07-08T13:44:23.115Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之隔离级别(isolation level)">
 <meta name="twitter:description" content="一、ACID：事务的4个特性 原子性(atomicity):在一个事务中，操作要么成功，要么失败。如果事务中有一个命令失败，必须回滚操作，回到事务执行之前的状态。 一致性(consistency):事务在完成时，必须使所有的数据都保持一致状态。 隔离性(isolation):事务在查看数据时数据所处的状态，要么是另一并发事务修改它之前的状态，要么是另一事务修改它之后的状态，事务是不会查看中间状态的">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png">
+<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png">
 
 
 
@@ -431,7 +431,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-30 23:13:37" itemprop="dateModified" datetime="2019-06-30T23:13:37+08:00">2019-06-30</time>
+                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
               </span>
             
           
@@ -535,8 +535,8 @@
 </table>
 </div>
 <p>模拟发生幻读：</p>
-<h5 id="事务1"><a href="#事务1" class="headerlink" title="事务1"></a>事务1</h5><p><img src="http://hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png" alt></p>
-<h5 id="事务2"><a href="#事务2" class="headerlink" title="事务2"></a>事务2</h5><p><img src="http://hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB2.png" alt> 事务1：检查表中是否有<code>id=10</code>的记录，没有则插入，这是正常逻辑。 事务2: 干拢了事务1的正常执行。</p>
+<h5 id="事务1"><a href="#事务1" class="headerlink" title="事务1"></a>事务1</h5><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png" alt></p>
+<h5 id="事务2"><a href="#事务2" class="headerlink" title="事务2"></a>事务2</h5><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB2.png" alt> 事务1：检查表中是否有<code>id=10</code>的记录，没有则插入，这是正常逻辑。 事务2: 干拢了事务1的正常执行。</p>
 <hr>
 <p>用户可以通过<code>SET TRANSACTION</code>命令改变隔离级别，或通过<code>--transaction-isolation</code>配置server级别的隔离性。 <code>MySQL</code>通过使用不同的锁策略实现不同的隔离级别，默认隔离级别是<code>REPEATABLE READ</code>，以提供更高级别的一致性。你也可以指定隔离级别为<code>READ COMMITTED</code>甚至<code>READ UNCOMMITTED</code>一致性要求没那么高的场景(减少锁以提高性能)。<code>SERIALIZABLE</code>提供比<code>REPEATABLE</code>更严格的 规则，一般会用于一些特殊的场景，比如XA事务和用于调试并发或死锁问题。</p>
 <hr>
@@ -548,7 +548,7 @@
 <hr>
 <h5 id="SERIALIZABLE"><a href="#SERIALIZABLE" class="headerlink" title="SERIALIZABLE"></a>SERIALIZABLE</h5><p><code>SERIALIZABLE</code>和<code>REPEATABLE READ</code>隔离级别类似，当<code>autocommit=false</code>情况下，所有<code>SELECT</code>语句会被转换为<code>SELECT ... LOCK IN SHARE MODE</code>。</p>
 <hr>
-<p>示例： <code>MySQL</code>默认隔离级别为： <img src="http://hysyeah.top/wp-content/uploads/2019/04/iso_repeatable_read.png" alt> 在<code>REPEATABLE READ</code>隔离级别情况下，开启两个session,先左边的窗口开启一个事务读取表a中的数据，然后右边的窗口再开启个事务对表a数据进行修改，右边的事务提交后，在左边的事务再次查看表a中的数据。发现两次得到的数据是一致性的，因为对于<code>REPEATABLE READ</code>隔离级别总是读取事务开始时的行数据。 <img src="http://hysyeah.top/wp-content/uploads/2019/04/example_repeatable_read.png" alt> 在<code>READ COMMITTED</code>隔离级别重复上述的操作,发现在右边的事务提交后再查看表a的数据，此时表a的数据已更新。因为在这个隔离级别下，它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 <img src="http://hysyeah.top/wp-content/uploads/2019/04/committed_read.png" alt></p>
+<p>示例： <code>MySQL</code>默认隔离级别为： <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/iso_repeatable_read.png" alt> 在<code>REPEATABLE READ</code>隔离级别情况下，开启两个session,先左边的窗口开启一个事务读取表a中的数据，然后右边的窗口再开启个事务对表a数据进行修改，右边的事务提交后，在左边的事务再次查看表a中的数据。发现两次得到的数据是一致性的，因为对于<code>REPEATABLE READ</code>隔离级别总是读取事务开始时的行数据。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/example_repeatable_read.png" alt> 在<code>READ COMMITTED</code>隔离级别重复上述的操作,发现在右边的事务提交后再查看表a的数据，此时表a的数据已更新。因为在这个隔离级别下，它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/committed_read.png" alt></p>
 <hr>
 <p>参考： 1.<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html" target="_blank" rel="noopener">innodb-transaction-isolation-levels</a></p>
 

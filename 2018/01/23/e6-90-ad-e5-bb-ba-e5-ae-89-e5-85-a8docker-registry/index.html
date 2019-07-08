@@ -101,12 +101,12 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt  3.docker run -d -p 5000:5000 --restart=always --na">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/01/ca.png">
-<meta property="og:updated_time" content="2019-06-30T14:14:24.267Z">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/01/ca.png">
+<meta property="og:updated_time" content="2019-07-08T13:44:23.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建安全Docker Registry">
 <meta name="twitter:description" content="1.安装registry docker pull registry  2.制作证书 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt  3.docker run -d -p 5000:5000 --restart=always --na">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/01/ca.png">
+<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/01/ca.png">
 
 
 
@@ -426,7 +426,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
               </span>
             
           
@@ -483,7 +483,7 @@ docker pull registry
 
 2.制作证书
 openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days 365 -out certs/domain.crt
-</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/01/ca.png" alt="image"></p>
+</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/01/ca.png" alt="image"></p>
 <pre><code>3.docker run -d -p 5000:5000 --restart=always --name registry \
   -v /data/registry:/var/lib/registry \
   -v /certs:/certs \
@@ -491,15 +491,15 @@ openssl req -newkey rsa:2048 -nodes -sha256 -keyout certs/domain.key -x509 -days
   -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
 
 .4.在客户端安装证书
-sudo mkdir -p /etc/docker/certs.d/d.hysyeah.top:5000
-sudo cp domain.crt /etc/docker/certs.d/d.hysyeah.top:5000/ca.crt
+sudo mkdir -p /etc/docker/certs.d/d.pu4dflhia.bkt.clouddn.com:5000
+sudo cp domain.crt /etc/docker/certs.d/d.pu4dflhia.bkt.clouddn.com:5000/ca.crt
 sudo service docker restart
 
 5.docker pull busybox
 
-6.docker tag busybox d.hysyeah.top:5000/busybox 
+6.docker tag busybox d.pu4dflhia.bkt.clouddn.com:5000/busybox 
 
-7.docker push d.hysyeah.top:5000/busybox
+7.docker push d.pu4dflhia.bkt.clouddn.com:5000/busybox
 </code></pre>
       
     </div>

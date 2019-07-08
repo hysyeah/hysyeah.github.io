@@ -101,13 +101,13 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="1.最小二乘法 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。 import numpy as np x = [1, 2, 3, 4] y = [6, 5, 7, 10] r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg] f = np.poly1">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/04/fit.png">
-<meta property="og:image" content="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png">
-<meta property="og:updated_time" content="2019-06-30T14:14:24.271Z">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/fit.png">
+<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/least_square.png">
+<meta property="og:updated_time" content="2019-07-08T13:44:23.123Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python使用最小二乘法求拟合曲线">
 <meta name="twitter:description" content="1.最小二乘法 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。 import numpy as np x = [1, 2, 3, 4] y = [6, 5, 7, 10] r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg] f = np.poly1">
-<meta name="twitter:image" content="http://hysyeah.top/wp-content/uploads/2018/04/fit.png">
+<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/fit.png">
 
 
 
@@ -427,7 +427,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-30 22:14:24" itemprop="dateModified" datetime="2019-06-30T22:14:24+08:00">2019-06-30</time>
+                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
               </span>
             
           
@@ -497,7 +497,7 @@ x = [1, 2, 3, 4]
 y = [f(e) for e in x]
 plt.plot(x,y)
 plt.show()
-</code></pre><p><img src="http://hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
+</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/fit.png" alt="image"></p>
 <hr>
 <h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
 
@@ -531,7 +531,7 @@ plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=
 plt.plot(x, e)
 plt.grid(True)
 plt.show()
-</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/least_square.png" alt></p>
 <hr>
 <p>选择最小二乘的原因： 1.平方能将正残差与负残差都变成正数 2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响 3.在残差服从均值为0，方差为[latex]\sigma ^2[/latex] (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。 4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
 <hr>
