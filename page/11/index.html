@@ -649,7 +649,7 @@
       
         
           
-            <p>熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x<em>{i}) = p</em>{i}, i=1,2,\cdot \cdot \cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\sum<em>{i=1}^n p</em>{i}\log {p_{i}}[/latex] 对数以2或e为底</p>
+            <p>熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x_{i}) = p_{i}, i=1,2,\\cdot \\cdot \\cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\\sum_{i=1}^n p_{i}\\log {p_{i}}[/latex] 对数以2或e为底</p>
 <pre><code>scipy.stats.entropy(pk, qk=None,base=None)
 计算给定概率值的分布的熵
 
@@ -1377,7 +1377,7 @@ array([[1, 2],
       
         
           
-            <p>皮尔逊相关系数 两个变量之间的皮尔逊相关系数定义为两个变量之间的协方差和标准差的商<br>上式定义了总体相关系数，常用希腊小写字母 作为代表符号。估算样本的协方差和标准差，可得到皮尔逊相关系数，常用英文小写字母 代表 [latex]\rho<em>{X,Y}=\frac{cov(X,Y)}{\sigma</em>{X}\sigma<em>{Y}}=\frac{E[(X-\mu</em>{x})(Y - \mu<em>{Y})]}{\sigma</em>{X}\sigma<em>{Y}}[/latex] [latex]r = \frac{\sum</em>{i=1}^n(X<em>{i}-\overline X)(Y</em>{i}-\overline Y)}{\sqrt{\sum<em>{i=1}^n(X</em>{i}-\overline X)^2}\sqrt{\sum<em>{i=1}^n(Y</em>{i}-\overline Y)^2}}[/latex]</p>
+            <p>皮尔逊相关系数 两个变量之间的皮尔逊相关系数定义为两个变量之间的协方差和标准差的商<br>上式定义了总体相关系数，常用希腊小写字母 作为代表符号。估算样本的协方差和标准差，可得到皮尔逊相关系数，常用英文小写字母 代表 [latex]\\rho_{X,Y}=\\frac{cov(X,Y)}{\\sigma_{X}\\sigma_{Y}}=\\frac{E[(X-\\mu_{x})(Y - \\mu_{Y})]}{\\sigma_{X}\\sigma_{Y}}[/latex] [latex]r = \\frac{\\sum_{i=1}^n(X_{i}-\\overline X)(Y_{i}-\\overline Y)}{\\sqrt{\\sum_{i=1}^n(X_{i}-\\overline X)^2}\\sqrt{\\sum_{i=1}^n(Y_{i}-\\overline Y)^2}}[/latex]</p>
 <hr>
 <pre><code>from scipy import stats
 import numpy  as np
@@ -2103,7 +2103,7 @@ array([[ True,  True,  True,  True,  True],
       
         
           
-            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>[latex]P = (x<em>{1},x</em>{2},\cdot \cdot \cdot,x<em>{n}) and Q=(y</em>{1},y<em>{2},\cdot \cdot \cdot,y</em>{n}) \in R^n[/latex] [latex]D(X,Y) = \bigg( \sum<em>{i=1}^n |x</em>{i} - y_{i}|^p\bigg)^{1/p}[/latex] 假设P = [(0,4)],Q=[(3,0)],求P,Q两点的明氏距离。</p>
+            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>[latex]P = (x_{1},x_{2},\\cdot \\cdot \\cdot,x_{n}) and Q=(y_{1},y_{2},\\cdot \\cdot \\cdot,y_{n}) \\in R^n[/latex] [latex]D(X,Y) = \\bigg( \\sum_{i=1}^n |x_{i} - y_{i}|^p\\bigg)^{1/p}[/latex] 假设P = [(0,4)],Q=[(3,0)],求P,Q两点的明氏距离。</p>
 <pre><code>import numpy as np
 from scipy.spatial import minkowski_distance
 a = np.array([[0,4]])
@@ -2111,7 +2111,7 @@ a = np.array([[3,0]])
 dist = minkowski_distance(a,b,1) #array([7])
 dist = minkowski_distance(a,b,2) #array([5.])
 dist = minkowski_distance(a,b,3) #array([4.49794145])
-</code></pre><p>[latex]\lim<em>{p \to \infty} \bigg( \sum</em>{i=1}^n |x<em>{i}-y</em>{i}|^p\bigg)^{1/p} = \max<em>{i=1}^n |x</em>{i}-y_{i}|[/latex] 当p—&gt;oo时，P,Q两点的距离等于4</p>
+</code></pre><p>[latex]\\lim_{p \\to \\infty} \\bigg( \\sum_{i=1}^n |x_{i}-y_{i}|^p\\bigg)^{1/p} = \\max_{i=1}^n |x_{i}-y_{i}|[/latex] 当p—&gt;oo时，P,Q两点的距离等于4</p>
 <pre><code>from sympy import symbols, limit
 p = symbols(&#39;p&#39;)
 f = (3**p + 4**p)**(1/p) 
