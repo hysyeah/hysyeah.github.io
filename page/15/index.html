@@ -1809,7 +1809,7 @@ pid_t waitpid(pid_t pid, int *stat_loc, int options);
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-08 22:15:20" itemprop="dateModified" datetime="2019-07-08T22:15:20+08:00">2019-07-08</time>
               </span>
             
           
@@ -1869,20 +1869,32 @@ pid_t waitpid(pid_t pid, int *stat_loc, int options);
 <p>2.用户登录</p>
 <h6 id="当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。"><a href="#当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。" class="headerlink" title="当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。"></a>当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,<a href="http://pu4dflhia.bkt.clouddn.com/2017/11/13/etcshadow%E5%8F%8A%E7%9B%B8%E5%85%B3c%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener">/etc/shadow介绍</a>。</h6><pre><code># /etc/passwd
 hys:x:1000:1000:hys,,,:/home/hys:/bin/zsh
-</code></pre><p>用户名</p>
-<p>加密后密码</p>
-<p>用户ID</p>
-<p>组ID</p>
-<p>注释字段</p>
-<p>home 目录</p>
-<p>shell</p>
-<p>hys</p>
-<p>x</p>
-<p>1000</p>
-<p>1000</p>
-<p>hys,,,</p>
-<p>/home/hys/</p>
-<p>/bin/zsh</p>
+</code></pre><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用户名</th>
+<th>加密后密码</th>
+<th>用户ID</th>
+<th>组ID</th>
+<th>注释字段</th>
+<th>home目录</th>
+<th>shell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hys</td>
+<td>x</td>
+<td>1000</td>
+<td>1000</td>
+<td>hys,,,</td>
+<td>/home/hys/</td>
+<td>/bin/zsh</td>
+</tr>
+</tbody>
+</table>
+</div>
 <pre><code># 打印出系统中的所有用户
 cat /etc/passwd | awk -F : &#39;{print $1}&#39;
 </code></pre><hr>
@@ -1896,31 +1908,63 @@ cat /etc/passwd | awk -F : &#39;{print $1}&#39;
 <p>6.用户标识</p>
 <h6 id="User-ID非负数，系统用于标识用户"><a href="#User-ID非负数，系统用于标识用户" class="headerlink" title="User ID非负数，系统用于标识用户"></a>User ID非负数，系统用于标识用户</h6><h6 id="Group-ID，组ID，用于用户分组"><a href="#Group-ID，组ID，用于用户分组" class="headerlink" title="Group ID，组ID，用于用户分组"></a>Group ID，组ID，用于用户分组</h6><pre><code># /etc/group
 adm:x:4:syslog,hys
-</code></pre><p>组名</p>
-<p>口令</p>
-<p>组ID</p>
-<p>所属组用户(用,隔开)</p>
-<p>adm</p>
-<p>x</p>
-<p>4</p>
-<p>syslog,hys</p>
+</code></pre><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>组名</th>
+<th>口令</th>
+<th>组ID</th>
+<th>所属组用户(用,隔开)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>adm</td>
+<td>x</td>
+<td>4</td>
+<td>syslog,hys</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 <p>7.信号</p>
 <h6 id="信号的三种处理方式：1-忽略，2-默认动作，3-提供自定义动作"><a href="#信号的三种处理方式：1-忽略，2-默认动作，3-提供自定义动作" class="headerlink" title="信号的三种处理方式：1.忽略，2.默认动作，3.提供自定义动作"></a>信号的三种处理方式：1.忽略，2.默认动作，3.提供自定义动作</h6><p>8.时间值</p>
 <h6 id="Clock-time，程序运行所消耗的时间"><a href="#Clock-time，程序运行所消耗的时间" class="headerlink" title="Clock time，程序运行所消耗的时间"></a>Clock time，程序运行所消耗的时间</h6><h6 id="User-CPU-time-进程获得CPU资源后，在用户态的执行时间"><a href="#User-CPU-time-进程获得CPU资源后，在用户态的执行时间" class="headerlink" title="User CPU time,进程获得CPU资源后，在用户态的执行时间"></a>User CPU time,进程获得CPU资源后，在用户态的执行时间</h6><h6 id="System-CPU-time-进程获得CPU资源后，在内核态的执行时间"><a href="#System-CPU-time-进程获得CPU资源后，在内核态的执行时间" class="headerlink" title="System CPU time,进程获得CPU资源后，在内核态的执行时间"></a>System CPU time,进程获得CPU资源后，在内核态的执行时间</h6><hr>
 <p>9.系统调用与库函数</p>
-<p>系统调用</p>
-<p>库函数</p>
-<p>数量有限</p>
-<p>数量较多</p>
-<p>直接调用内核服务</p>
-<p>不能直接调用内核服务</p>
-<p>精简高效，只提供最底层服务</p>
-<p>对用户友好，属于用户层函数</p>
-<p>c函数</p>
-<p>c函数</p>
-<p>不可替换</p>
-<p>库函数可替换，而系统调用不可</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>系统调用</th>
+<th>库函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数量有限</td>
+<td>数量较多</td>
+</tr>
+<tr>
+<td>直接调用内核服务</td>
+<td>不能直接调用内核服务</td>
+</tr>
+<tr>
+<td>精简高效，只提供最底层服务</td>
+<td>对用户友好，属于用户层函数</td>
+</tr>
+<tr>
+<td>c函数</td>
+<td>c函数</td>
+</tr>
+<tr>
+<td>不可替换</td>
+<td>库函数可替换，而系统调用不可</td>
+</tr>
+</tbody>
+</table>
+</div>
 <p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2017/12/c-library.png" alt="image"></p>
 
           
