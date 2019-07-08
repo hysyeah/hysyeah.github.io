@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$式中，$$ \mu $$为位置参数，$$">
+  <meta name="description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑回归">
 <meta property="og:url" content="https://hysyeah.github.io/2018/06/28/e9-80-bb-e8-be-91-e5-9b-9e-e5-bd-92/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$式中，$$ \mu $$为位置参数，$$">
+<meta property="og:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png">
-<meta property="og:updated_time" content="2019-07-08T16:07:49.674Z">
+<meta property="og:updated_time" content="2019-07-08T16:22:26.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑回归">
-<meta name="twitter:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$式中，$$ \mu $$为位置参数，$$">
+<meta name="twitter:description" content="logistic分布设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}f(x) = F&apos;(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$">
 <meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png">
 
 
@@ -426,7 +426,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-09 00:07:49" itemprop="dateModified" datetime="2019-07-09T00:07:49+08:00">2019-07-09</time>
+                <time title="修改时间：2019-07-09 00:22:26" itemprop="dateModified" datetime="2019-07-09T00:22:26+08:00">2019-07-09</time>
               </span>
             
           
@@ -479,7 +479,7 @@
 
       
         <h3 id="logistic分布"><a href="#logistic分布" class="headerlink" title="logistic分布"></a>logistic分布</h3><p>设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数：</p>
-<script type="math/tex; mode=display">F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}</script><script type="math/tex; mode=display">f(x) = F'(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$式中，$$ \mu $$为位置参数，$$ \gamma \gt 0 $$为形状参数。
+<script type="math/tex; mode=display">F(x)=P(X \le x) = \frac{1}{1+e^{-(x - \mu)/\gamma}}</script><script type="math/tex; mode=display">f(x) = F'(x) = \frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2} $$ 式中，$$ \mu $$ 为位置参数，$$ \gamma \gt 0 $$ 为形状参数。
 ![](http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/logistic_plot.png)
 当$$ \mu $$不等于0时，相当于图像向左或向右移动$$ \mu $$个单位，$$ \gamma $$越大，图像越
 平坦。 [图像代码](https://github.com/hys20151008/7788/blob/master/logistic_plot.py)
@@ -489,7 +489,7 @@
 ### logistic回归模型
 
 二项logistic回归模型是如下的条件概率分布:
-$$ P(Y=1|x) = \frac{\exp(w \cdot x + b)}{1+\exp(w \cdot x + b)}</script><script type="math/tex; mode=display">P(Y=0|x) = \frac{1}{1+\exp(w \cdot x + b)}\</script><p>这里，<script type="math/tex">x\in \mathcal R^n</script>是输入，<script type="math/tex">Y \in{0,1}</script>是输出，<script type="math/tex">w\in \mathcal R^n</script>和<script type="math/tex">b\in \mathcal R</script>是参数，w称为权值向量，b称为偏置，<script type="math/tex">w \cdot x</script>为w和x的内积。 逻辑回归其<br>实就是<strong>回归</strong>加上<strong>阶梯函数</strong>，将输出值映射到一定的范围内。</p>
+$$ P(Y=1|x) = \frac{\exp(w \cdot x + b)}{1+\exp(w \cdot x + b)}</script><script type="math/tex; mode=display">P(Y=0|x) = \frac{1}{1+\exp(w \cdot x + b)}</script><p>这里，<script type="math/tex">x\in \mathcal R^n</script>是输入，<script type="math/tex">Y \in{0,1}</script>是输出，<script type="math/tex">w\in \mathcal R^n</script>和<script type="math/tex">b\in \mathcal R</script>是参数，w称为权值向量，b称为偏置，<script type="math/tex">w \cdot x</script>为w和x的内积。 逻辑回归其<br>实就是<strong>回归</strong>加上<strong>阶梯函数</strong>，将输出值映射到一定的范围内。</p>
 <h3 id="模型参数估计"><a href="#模型参数估计" class="headerlink" title="模型参数估计"></a>模型参数估计</h3><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/logistic_maxl.png" alt></p>
 <hr>
 <pre><code># 构建数据集
