@@ -728,7 +728,7 @@
   <entry>
     <title><![CDATA[逻辑回归]]></title>
     <url>%2F2018%2F06%2F28%2Fe9-80-bb-e8-be-91-e5-9b-9e-e5-bd-92%2F</url>
-    <content type="text"><![CDATA[设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： f(\frac{x+y}{2}) \le \frac{f(x)+f(y)}{2}]]></content>
+    <content type="text"><![CDATA[设X是连续随机变量，X服从logistic分布是指X具有下列分布函数和密度函数： f: \mathcal R^{n} \to \mathcal R]]></content>
       <categories>
         <category>机器学习</category>
       </categories>
