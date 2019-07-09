@@ -736,7 +736,7 @@
   <entry>
     <title><![CDATA[牛顿法]]></title>
     <url>%2F2018%2F06%2F28%2Fe7-89-9b-e9-a1-bf-e6-b3-95%2F</url>
-    <content type="text"><![CDATA[图片来源 曲线函数为f(x)=(x-1)**2-2,起始点为x=4,进行4次迭代后x值为2.4142137800471977，接近真实值$ 1+ \sqrt{2} $ 实现代码 参考：1.普林斯顿微积分读本2.https://www.cnblogs.com/shixiangwan/p/7532830.html]]></content>
+    <content type="text"><![CDATA[图片来源 曲线函数为$ f(x)=(x-1)**2-2 $,起始点为x=4,进行4次迭代后x值为2.4142137800471977，接近真实值$ 1+ \sqrt{2} $ 实现代码 参考：1.普林斯顿微积分读本2.https://www.cnblogs.com/shixiangwan/p/7532830.html]]></content>
       <categories>
         <category>机器学习</category>
       </categories>
