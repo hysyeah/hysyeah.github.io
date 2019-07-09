@@ -24,6 +24,13 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/tags/mysql/</loc>
+        <lastmod>2019-07-08T13:44:23.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/linux/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -39,13 +46,6 @@
 
     <url>
         <loc>https://hysyeah.github.io/tags/docker/</loc>
-        <lastmod>2019-07-08T13:44:23.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/mysql/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
