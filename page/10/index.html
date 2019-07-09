@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 22:56:52" itemprop="dateModified" datetime="2019-07-09T22:56:52+08:00">2019-07-09</time>
               </span>
             
           
@@ -496,23 +496,23 @@
           
             <p>支持向量机(support vector machines, SVM)是一种二类分类模型。它的基本模型是定义在特征空间上的间隔最大的线性分类器，间隔最大使它有别于感知机；支持向量机包括核技巧，这使它成为实质上的非线性分类器。支持向量机的学习策略就是间隔最大化，可形式化为一个求解凸二次规划的问题，也等价于正则化的合页损失函数的最小化问题，支持向量机的学习算法是求解凸二次规划的最优化算法。</p>
 <hr>
-<p>支持向量机学习方法包含由构建由简至繁的模型：线性可分支持向量机，线性支持向量机及非线性支持向量机。 给定线性可分线性训练数据集，通过间隔最大化或等价的求解相应的凸二次规划问题学习得到的分离超平面为 [latex]w^{<em>} \cdot x + b^{</em>} = 0[/latex] 以及相应的分类决策函数[latex]f(x) = sign(w^{<em>} \cdot x + b^{</em>})[/latex]称为线性可分支持向量机。</p>
+<p>支持向量机学习方法包含由构建由简至繁的模型：线性可分支持向量机，线性支持向量机及非线性支持向量机。 给定线性可分线性训练数据集，通过间隔最大化或等价的求解相应的凸二次规划问题学习得到的分离超平面为 $ w^{<em>} \cdot x + b^{</em>} = 0 $ 以及相应的分类决策函数$ f(x) = sign(w^{<em>} \cdot x + b^{</em>}) $称为线性可分支持向量机。</p>
 <hr>
-<p>(函数间隔) 对于给定的训练数据集T和超平面(w,b),定义超平面(w,b)关于样本点[latex](x<em>{i},y</em>{i})[/latex]的函数间隔为 [latex]\hat{\gamma}<em>{i} = y</em>{i}(w \cdot x<em>{i} + b)[/latex] 定义超平面(w, b)关于训练数据集T的函数间隔为超平面(w,b)关于T中所有样本点[latex](x</em>{i},y<em>{i})[/latex]的函数间隔之最小值，即 [latex]\hat{\gamma} = \min</em>{i=1,\cdot \cdot \cdot,N} \hat{\gamma}_{i}[/latex]</p>
+<p>(函数间隔) 对于给定的训练数据集T和超平面(w,b),定义超平面(w,b)关于样本点$ (x<em>{i},y</em>{i}) $的函数间隔为 $ \hat{\gamma}<em>{i} = y</em>{i}(w \cdot x<em>{i} + b) $ 定义超平面(w, b)关于训练数据集T的函数间隔为超平面(w,b)关于T中所有样本点$ (x</em>{i},y<em>{i}) $的函数间隔之最小值，即 $ \hat{\gamma} = \min</em>{i=1,\cdot \cdot \cdot,N} \hat{\gamma}_{i} $</p>
 <hr>
-<p>(几何间隔) 对于给定的训练数据集T和超平面(w,b),定义超平面(w,b)关于样本点[latex](x<em>{i},y</em>{i})[/latex]的几何间隔为 [latex]\gamma<em>{i} = y</em>{i}\bigg(\frac{w}{||w||} \cdot x<em>{i} + \frac{b}{||w||}\bigg)[/latex] 定义超平面(w, b)关于训练数据集T的函数间隔为超平面(w,b)关于T中所有样本点[latex](x</em>{i},y<em>{i})[/latex]的几何间隔之最小值，即 [latex]\gamma = \min</em>{i=1,\cdot \cdot \cdot,N} \gamma_{i}[/latex]</p>
+<p>(几何间隔) 对于给定的训练数据集T和超平面(w,b),定义超平面(w,b)关于样本点$ (x<em>{i},y</em>{i}) $的几何间隔为 $ \gamma<em>{i} = y</em>{i}\bigg(\frac{w}{||w||} \cdot x<em>{i} + \frac{b}{||w||}\bigg) $ 定义超平面(w, b)关于训练数据集T的函数间隔为超平面(w,b)关于T中所有样本点$ (x</em>{i},y<em>{i}) $的几何间隔之最小值，即 $ \gamma = \min</em>{i=1,\cdot \cdot \cdot,N} \gamma_{i} $</p>
 <hr>
-<p>函数间隔和几何间隔有如下关系： [latex]\gamma<em>{i} = \frac{\hat{\gamma}</em>{i}}{||w||}[/latex]<br>[latex]\gamma = \frac{\hat{\gamma}}{||w||}[/latex]</p>
+<p>函数间隔和几何间隔有如下关系： $ \gamma<em>{i} = \frac{\hat{\gamma}</em>{i}}{||w||} $<br>$ \gamma = \frac{\hat{\gamma}}{||w||} $</p>
 <hr>
 <p>间隔最大化 支持向量机的基本思想是求解能够正确划分训练数据集并且几何间隔最在的分离超平面. 对线性可分的训练数据集而言，线性可分分离超平面有无穷多个(等价于感知机),但是几何 间隔最大化的分离超平面是唯一的。这里的间隔最大化又称为硬间隔最大化(与训练数据集近似线性可分时的软间隔最大化相对应)</p>
 <hr>
-<p>凸优化问题是指约束最优化问题： [latex]\min<em>{w} f(w)[/latex] s.t. [latex]g</em>{i}(w) \le 0, i=1,2,\cdot \cdot \cdot,k[/latex]<br>[latex]h<em>{i}(w) = 0, i=1,2,\cdot \cdot \cdot,l[/latex] 其中，目标函数f(w)和约束函数[latex]g</em>{i}(w)[/latex]都是[latex]R^{n}[/latex]上的连续可微的凸函数，约束函数[latex]h<em>{i}(w)[/latex]是[latex]R^{n}[/latex]上的仿射函数。<br>当目标函数f(w)是二次函数且约束函数[latex]g</em>{i}(w)[/latex]是仿射函数时，上述凸最优化问题成为凸二次规划问题。</p>
+<p>凸优化问题是指约束最优化问题： $ \min<em>{w} f(w) $ s.t. $ g</em>{i}(w) \le 0, i=1,2,\cdot \cdot \cdot,k $<br>$ h<em>{i}(w) = 0, i=1,2,\cdot \cdot \cdot,l $ 其中，目标函数f(w)和约束函数$ g</em>{i}(w) $都是$ R^{n} $上的连续可微的凸函数，约束函数$ h<em>{i}(w) $是$ R^{n} $上的仿射函数。<br>当目标函数f(w)是二次函数且约束函数$ g</em>{i}(w) $是仿射函数时，上述凸最优化问题成为凸二次规划问题。</p>
 <hr>
-<h4 id="线性可分支持向量机学习算法—-最大间隔法"><a href="#线性可分支持向量机学习算法—-最大间隔法" class="headerlink" title="线性可分支持向量机学习算法—-最大间隔法"></a>线性可分支持向量机学习算法—-最大间隔法</h4><p>输入：线性可分训练数据集[latex]T = \{(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot, (x<em>{N},y</em>{N})\}[/latex],其中，[latex]x<em>{i} \in \mathcal=R^{n},y</em>{i}=\{-1,+1\}, i=1,2,\cdot \cdot \cdot,N[/latex];<br>输出：最大间隔分离超平面和分类决策函数<br>(1)构造并求解约束最优化问题：<br>[latex]\min<em>{w,b}^{} \frac{||w||^2}{2}[/latex]<br>s.t.<br>[latex]y</em>{i}(w \cdot x_{i}+b)-1 \ge 0, i=1,2,\cdot \cdot \cdot,N[/latex] 求得最优解[latex]w^<em>,b^</em>[/latex]<br>(2)由此得到的分离超平面：<br>[latex]w^<em> \cdot x + b^</em> = 0[/latex]<br>分类决策函数：<br>[latex]f(x) = sign(w^<em> \cdot x + b^</em>)[/latex]</p>
+<h4 id="线性可分支持向量机学习算法—-最大间隔法"><a href="#线性可分支持向量机学习算法—-最大间隔法" class="headerlink" title="线性可分支持向量机学习算法—-最大间隔法"></a>线性可分支持向量机学习算法—-最大间隔法</h4><p>输入：线性可分训练数据集$ T = {(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot, (x<em>{N},y</em>{N})} $,其中，$ x<em>{i} \in \mathcal=R^{n},y</em>{i}={-1,+1}, i=1,2,\cdot \cdot \cdot,N $;<br>输出：最大间隔分离超平面和分类决策函数<br>(1)构造并求解约束最优化问题：<br>$ \min<em>{w,b}^{} \frac{||w||^2}{2} $<br>s.t.<br>$ y</em>{i}(w \cdot x_{i}+b)-1 \ge 0, i=1,2,\cdot \cdot \cdot,N $ 求得最优解$ w^<em>,b^</em> $<br>(2)由此得到的分离超平面：<br>$ w^<em> \cdot x + b^</em> = 0 $<br>分类决策函数：<br>$ f(x) = sign(w^<em> \cdot x + b^</em>) $</p>
 <hr>
 <p>(定理) (最大间隔分离超平面的存在唯一性)若训练数据集T线性可分，则可将训练数据集中的样本点完全正确分开的最大间隔分离超平面存在且唯一。</p>
 <hr>
-<p>例：已知一个如下图所示的训练数据集，其正例点是[latex]x<em>{1}=(3,3)^T,x</em>{2}=(4,3)^T[/latex],负实例点是[latex]x<em>{3}=(1, 1)^T[/latex],试求最大间隔分离超平面。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/7.1figure.png" alt="image"> <a href="https://github.com/hys20151008/7788/blob/master/7.1.py" target="_blank" rel="noopener">图片代码</a> 按照最大间隔法，根据训练数据集构造约束最优化问题：<br>[latex]\min</em>{w,b} \frac{1}{2}(w<em>{1}^2+w</em>{2}^2)[/latex]<br>s.t.<br>[latex]3w<em>{1} + 3w</em>{2}+b \ge 1[/latex] [latex]4w<em>{1} + 3w</em>{2}+b \ge 1[/latex]<br>[latex]-w<em>{1} - w</em>{2}-b \ge 1[/latex]</p>
+<p>例：已知一个如下图所示的训练数据集，其正例点是$ x<em>{1}=(3,3)^T,x</em>{2}=(4,3)^T $,负实例点是$ x<em>{3}=(1, 1)^T $,试求最大间隔分离超平面。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/7.1figure.png" alt="image"> <a href="https://github.com/hys20151008/7788/blob/master/7.1.py" target="_blank" rel="noopener">图片代码</a> 按照最大间隔法，根据训练数据集构造约束最优化问题：<br>$ \min</em>{w,b} \frac{1}{2}(w<em>{1}^2+w</em>{2}^2) $<br>s.t.<br>$ 3w<em>{1} + 3w</em>{2}+b \ge 1 $ $ 4w<em>{1} + 3w</em>{2}+b \ge 1 $<br>$ -w<em>{1} - w</em>{2}-b \ge 1 $</p>
 <hr>
 <pre><code>import cvxpy as cvx
 
@@ -533,9 +533,10 @@ prob.solve()
 print(&quot;w1=&quot;,w1.value)
 print(&quot;w2=&quot;,w2.value)
 print(&quot;b=&quot;,b.value)
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/dualprograming.png" alt> 求解得最优化解为[latex]w<em>{1}=w</em>{2}=\frac{1}{2}, b=-2[/latex],最大间隔分离超平面为[latex]\frac{1}{2}x^{(1)} +\frac{1}{2}x^{(1)}-1=0[/latex]，其中 [latex]x<em>{1}=(3,3)^T,x</em>{3}=(1,1)^T[/latex]为支持向量。</p>
+</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/dualprograming.png" alt> 求解得最优化解为$ w<em>{1}=w</em>{2}=\frac{1}{2}, b=-2 $,最大间隔分离超平面为$ \frac{1}{2}x^{(1)} +\frac{1}{2}x^{(1)}-1=0 $，其中 $ x<em>{1}=(3,3)^T,x</em>{3}=(1,1)^T $为支持向量。</p>
 <hr>
-<h3 id="学习的对偶算法"><a href="#学习的对偶算法" class="headerlink" title="学习的对偶算法"></a>学习的对偶算法</h3><hr>
+<h3 id="学习的对偶算法"><a href="#学习的对偶算法" class="headerlink" title="学习的对偶算法"></a>学习的对偶算法</h3><p>未完待续</p>
+<hr>
 <p>参考： 1.统计学习方法 2.cvxpy</p>
 
           
@@ -653,7 +654,7 @@ print(&quot;b=&quot;,b.value)
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 22:58:59" itemprop="dateModified" datetime="2019-07-09T22:58:59+08:00">2019-07-09</time>
               </span>
             
           
@@ -707,11 +708,11 @@ print(&quot;b=&quot;,b.value)
       
         
           
-            <p>1.条件概率(定义): 设A，B两 个事件，且P(A)&gt;0,称 [latex]P(B|A) = \frac{P(AB)}{P(A)}[/latex]为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，[latex]B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n}[/latex]为S的一个划分，且[latex]P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n)[/latex],则 [latex]P(A) = P(A|B<em>{1})P(B</em>{1})+P(A|B<em>{2})P(B</em>{2})+\cdot \cdot \cdot + P(A|B<em>{n})P(B</em>{n})[/latex]，称为全概率公式。 3.贝叶斯公式：设试验E的样本空间为S。A为E的事件，[latex]B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n}[/latex]为S的一个划分,且[latex]P(A)&gt;0,P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n)[/latex],则 [latex]P(B<em>{i}|A) = \frac{P(A|B</em>{i})P(B<em>{i})}{\sum</em>{j=1}^nP(A|B<em>{j})P(B</em>{j})},i=1,2, \cdot \cdot \cdot, n.[/latex]称为贝叶斯公式。</p>
+            <p>1.条件概率(定义): 设A，B两 个事件，且P(A)&gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n} $为S的一个划分，且$ P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n) $,则 $ P(A) = P(A|B<em>{1})P(B</em>{1})+P(A|B<em>{2})P(B</em>{2})+\cdot \cdot \cdot + P(A|B<em>{n})P(B</em>{n}) $，称为全概率公式。 3.贝叶斯公式：设试验E的样本空间为S。A为E的事件，$ B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n} $为S的一个划分,且$ P(A)&gt;0,P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n) $,则 $ P(B<em>{i}|A) = \frac{P(A|B</em>{i})P(B<em>{i})}{\sum</em>{j=1}^nP(A|B<em>{j})P(B</em>{j})},i=1,2, \cdot \cdot \cdot, n. $称为贝叶斯公式。</p>
 <hr>
 <p>朴素贝叶斯法是基于贝叶斯定理与特征条件独立假设的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入x,利用贝叶斯定理求出后验概率大的输出y。朴素贝叶斯法实现简单，学习与预测的效率都很高，是种常用的方法。</p>
 <hr>
-<h3 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h3><p>输入：训练数据[latex]T = \{(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})\}[/latex],其中[latex]x<em>{i} = (x</em>{i}^{(1)},x<em>{i}^{(2)},\cdot \cdot \cdot, x</em>{i}^{(n)})^T[/latex],[latex]x<em>{i}^{(j)}[/latex]是第i个样本的第j个特征，[latex]x</em>{i}^{(j)} \in \{a<em>{j1},a</em>{j2},\cdot \cdot \cdot,a<em>{js_j}\}[/latex],[latex]a\</em>{jl}[/latex]是第j个特征可能取的第l个值，[latex]j = 1,2,\cdot \cdot \cdot,n, l= 1, 2,\cdot \cdot \cdot, S_j, y_{i} \in \{c<em>{1},c</em>{2}, \cdot \cdot \cdot ,c<em>{k}\}[/latex];实例x;<br>输出：实例x的分类。<br>（1）计算先验概率及条件概率<br>[latex]P(Y=c</em>{k})=\frac{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}{N}, k=1,2,\cdot \cdot \cdot,K[/latex] [latex]P(X^{(j)}=a</em>{jl}|Y=c<em>{k})=\frac{\sum</em>{i=1}^{n}I(x<em>{i}^{(j)}=a</em>{jl},y<em>{i}=c</em>{k})}{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}[/latex] [latex]j=1,2,\cdot \cdot,\cdot,n;l=1,2,\cdot \cdot \cdot,S</em>{j};k=1,2,\cdot \cdot \cdot, K[/latex] (2)对于给定的实例[latex]x=(x^{(1)},x^{(2)},\cdot \cdot \cdot,x^{(n)})^T[/latex],计算<br>[latex]P(Y=c<em>{k})\prod</em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c<em>{k}),k=1,2,\cdot \cdot \cdot, K[/latex] (3)确定实例x的类<br>[latex]y = arg \max</em>{c<em>{k}}P(Y=c</em>{k})\prod<em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c</em>{k})[/latex]</p>
+<h3 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h3><p>输入：训练数据$ T = {(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})} $,其中$ x<em>{i} = (x</em>{i}^{(1)},x<em>{i}^{(2)},\cdot \cdot \cdot, x</em>{i}^{(n)})^T $,$ x<em>{i}^{(j)} $是第i个样本的第j个特征，$ x</em>{i}^{(j)} \in {a<em>{j1},a</em>{j2},\cdot \cdot \cdot,a<em>{js_j}} $,$ a\</em>{jl} $是第j个特征可能取的第l个值，$ j = 1,2,\cdot \cdot \cdot,n, l= 1, 2,\cdot \cdot \cdot, S_j, y_{i} \in {c<em>{1},c</em>{2}, \cdot \cdot \cdot ,c<em>{k}} $;实例x;<br>输出：实例x的分类。<br>（1）计算先验概率及条件概率<br>$ P(Y=c</em>{k})=\frac{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}{N}, k=1,2,\cdot \cdot \cdot,K $ $ P(X^{(j)}=a</em>{jl}|Y=c<em>{k})=\frac{\sum</em>{i=1}^{n}I(x<em>{i}^{(j)}=a</em>{jl},y<em>{i}=c</em>{k})}{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})} $ $ j=1,2,\cdot \cdot,\cdot,n;l=1,2,\cdot \cdot \cdot,S</em>{j};k=1,2,\cdot \cdot \cdot, K $ (2)对于给定的实例$ x=(x^{(1)},x^{(2)},\cdot \cdot \cdot,x^{(n)})^T $,计算<br>$ P(Y=c<em>{k})\prod</em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c<em>{k}),k=1,2,\cdot \cdot \cdot, K $ (3)确定实例x的类<br>$ y = arg \max</em>{c<em>{k}}P(Y=c</em>{k})\prod<em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c</em>{k}) $</p>
 <hr>
 <p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png" alt> <a href="https://github.com/hys20151008/ml_python/blob/master/naivebayes.py" target="_blank" rel="noopener">实现代码</a></p>
 <pre><code># 对数据集进行去重
@@ -780,7 +781,9 @@ def testingNB():
     testEntry = [&#39;stupid&#39;, &#39;garbage&#39;]
     thisDoc = np.array(setOfWords2Vec(myVocabList, testEntry))
     print(testEntry,&#39;classified as: &#39;,classifyNB(thisDoc,p0V,p1V,pAb))
-</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/bayes.py" target="_blank" rel="noopener">完整代码</a> 参考： 1.机器学习实战 2.统计学习方法</p>
+</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/bayes.py" target="_blank" rel="noopener">完整代码</a> </p>
+<hr>
+<p>参考：<br>1.机器学习实战<br>2.统计学习方法</p>
 
           
         
@@ -897,7 +900,7 @@ def testingNB():
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 23:00:10" itemprop="dateModified" datetime="2019-07-09T23:00:10+08:00">2019-07-09</time>
               </span>
             
           
@@ -953,7 +956,7 @@ def testingNB():
           
             <h3 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h3><p>分类决策树模型是一 种描述对实例进行分类的树形结构。决策树由结点和有向边组成。结点有两种类型：内部结点和叶结点。内部结点表示一个特征或属性，叶结点表示一个类。<br>用决策树分类，从根结点开始，对实例的某一特征进行测试，根据测试结果，将实例分配到其子结点；这时，每一个结点对应着该特征的一个取值。如此递归地对实例进行测试并分配，直至达到叶结点。最后将实例分到叶结点的类中。<img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/decision_tree.png" alt> 决策树学习常用的算法有ID3,C4.5,CART。</p>
 <h3 id="特征选择"><a href="#特征选择" class="headerlink" title="特征选择"></a>特征选择</h3><p>特征选择在于选取对训练数据具有分类能力的特征。这样可以提高决策树学习的效率。</p>
-<h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><p>在信息论与概率统计中，熵(entropy)表示随机变量不确定性的度量。设X是一个取有限个值的离散随机变量，其概率分布为：<br>[latex]P(X=x<em>{i}) = p</em>{i}, i=1,2, \cdot \cdot \cdot, n[/latex]则随机变量X的熵定义为<br>[latex]H(X)=-\sum<em>{i=1}^{n}p</em>{i} \log p_{i}[/latex],通常式中的对数以2为底或以e为底。<br>熵越大，随机变量的不确定性就越大。 (信息增益：定义) 特征A对训练数据集D的信息增益g(D,A),定义为集合D的经验熵H(D)与特征A给定条件下D的经验条件熵H(D|A)之差，即<br>[latex]g(D,A)= H(D)-H(D|A)[/latex]<br>熵H(Y)与条件熵H(Y|X)之差称为互信息。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/sample.png" alt> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/hd.png" alt><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/id3.png" alt></p>
+<h3 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h3><p>在信息论与概率统计中，熵(entropy)表示随机变量不确定性的度量。设X是一个取有限个值的离散随机变量，其概率分布为：<br>$ P(X=x<em>{i}) = p</em>{i}, i=1,2, \cdot \cdot \cdot, n $ 则随机变量X的熵定义为<br>$ H(X)=-\sum<em>{i=1}^{n}p</em>{i} \log p_{i} $ ,通常式中的对数以2为底或以e为底。<br>熵越大，随机变量的不确定性就越大。 (信息增益：定义) 特征A对训练数据集D的信息增益g(D,A),定义为集合D的经验熵H(D)与特征A给定条件下D的经验条件熵H(D|A)之差，即<br>$ g(D,A)= H(D)-H(D|A) $<br>熵H(Y)与条件熵H(Y|X)之差称为互信息。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/sample.png" alt> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/hd.png" alt><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/id3.png" alt></p>
 <pre><code> from scipy.stats import entropy
  from collections import Counter
  # 计算熵
@@ -1069,7 +1072,7 @@ def classify(inputTree, featLabels, testVec):
                 classLabel = secondDict[k]
     return classLabel
 </code></pre><hr>
-<p>参考： 1.机器学习实战 2.统计学习方法—李航</p>
+<p>参考：<br>1.机器学习实战<br>2.统计学习方法—李航</p>
 
           
         
@@ -1186,7 +1189,7 @@ def classify(inputTree, featLabels, testVec):
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 23:01:41" itemprop="dateModified" datetime="2019-07-09T23:01:41+08:00">2019-07-09</time>
               </span>
             
           
@@ -1242,30 +1245,30 @@ def classify(inputTree, featLabels, testVec):
           
             <h3 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h3><p>在矩阵的乘法中，有一种矩阵起着特殊的作用，如同数的乘法中的1，这种矩阵被称为单位矩阵。它是个方阵，从左上角到右下角的对角线（称为主对角线）上的元素均为1。除此以外全都为0。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/identity_matrix.jpg" alt></p>
 <hr>
-<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><p>一个n阶 <strong>方阵</strong> A称为可逆的，或非奇异的，如果存在一个n阶方阵B，使得 AB = BA = E 并称B是A的一个逆矩阵。E为单位矩阵。A的逆矩阵记作[latex]A^{-1}[/latex]。当|A|=0时，A称为奇异矩阵，否则称为非奇异矩阵。 可逆矩阵又称满秩矩阵，不可逆矩阵(奇异矩阵)又称降秩矩阵。</p>
+<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><p>一个n阶 <strong>方阵</strong> A称为可逆的，或非奇异的，如果存在一个n阶方阵B，使得 AB = BA = E 并称B是A的一个逆矩阵。E为单位矩阵。A的逆矩阵记作$ A^{-1} $ 。当|A|=0时，A称为奇异矩阵，否则称为非奇异矩阵。 可逆矩阵又称满秩矩阵，不可逆矩阵(奇异矩阵)又称降秩矩阵。</p>
 <pre><code>np.linalg.inv(A)  #求A的逆矩阵，若矩阵A可逆，则|A|!=0
 </code></pre><hr>
 <h3 id="正定矩阵"><a href="#正定矩阵" class="headerlink" title="正定矩阵"></a>正定矩阵</h3><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/positive-definite-matrix.png" alt="image"> 对称阵A为正定矩阵充分必要条件是，A的特征值全部&gt;0。 对称阵A为半正定矩阵充分必要条件是，A的特征值全部&gt;=0。</p>
 <hr>
-<h3 id="矩阵的转置"><a href="#矩阵的转置" class="headerlink" title="矩阵的转置"></a>矩阵的转置</h3><p>把矩阵A的行换成同序数的列得到一个新矩阵，叫做A的转置矩阵，记住[latex]A^T[/latex]。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/matrix_T.png" alt> 矩阵的转置也是一种运算。 [latex](A^{T})^{T} = A[/latex]<br>[latex](A+B)^{T} = A^{T} + B^{T}[/latex]<br>[latex](\lambda A)^{T} = \lambda A^{T}[/latex]<br>[latex](AB)^{T} = B^T A^T[/latex]</p>
+<h3 id="矩阵的转置"><a href="#矩阵的转置" class="headerlink" title="矩阵的转置"></a>矩阵的转置</h3><p>把矩阵A的行换成同序数的列得到一个新矩阵，叫做A的转置矩阵，记住$ A^T $ 。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/matrix_T.png" alt> 矩阵的转置也是一种运算。 $ (A^{T})^{T} = A $<br>$ (A+B)^{T} = A^{T} + B^{T} $<br>$ (\lambda A)^{T} = \lambda A^{T} $<br>$ (AB)^{T} = B^T A^T $ </p>
 <hr>
-<h3 id="对称矩阵"><a href="#对称矩阵" class="headerlink" title="对称矩阵"></a>对称矩阵</h3><p>设A为n阶方阵，如果满足[latex]A^T = A[/latex],那么A称为对称矩阵，简称对称阵。</p>
+<h3 id="对称矩阵"><a href="#对称矩阵" class="headerlink" title="对称矩阵"></a>对称矩阵</h3><p>设A为n阶方阵，如果满足$ A^T = A $ ,那么A称为对称矩阵，简称对称阵。</p>
 <hr>
-<h3 id="共轭矩阵"><a href="#共轭矩阵" class="headerlink" title="共轭矩阵"></a>共轭矩阵</h3><p>当[latex]A = (a<em>{ij})[/latex]为复矩阵时，用[latex]\bar {a</em>{ij}}[/latex]表示[latex]a<em>{ij}[/latex]的共轭复数，记<br>[latex]\bar A = (\bar {a</em>{ij}})[/latex],<br>[latex]\bar A[/latex]称为[latex]A[/latex]的共轭矩阵。 共轭矩阵满足下述运算规律(设A，B为复矩阵，[latex]\lambda[/latex]为复数，且运算都是可行的)；<br>[latex]\bar {A+B} = \bar A + \bar B[/latex]<br>[latex]\bar {\lambda A} = \bar \lambda \bar A[/latex]<br>[latex]\bar {AB} = \bar A \bar B[/latex] <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/gonge_H.png" alt> a.H为矩阵a的共轭转置(先求矩阵a的共轭矩阵，然后再进行转置)</p>
+<h3 id="共轭矩阵"><a href="#共轭矩阵" class="headerlink" title="共轭矩阵"></a>共轭矩阵</h3><p>当$ A = (a<em>{ij}) $ 为复矩阵时，用$ \bar {a</em>{ij}} $ 表示$ a<em>{ij} $ 的共轭复数，记<br>$ \bar A = (\bar {a</em>{ij}}) $ ,<br>$ \bar A $ 称为$ A $ 的共轭矩阵。 共轭矩阵满足下述运算规律(设A，B为复矩阵，$ \lambda $ 为复数，且运算都是可行的)；<br>$ \bar {A+B} = \bar A + \bar B $<br>$ \bar {\lambda A} = \bar \lambda \bar A $<br>$ \bar {AB} = \bar A \bar B $  <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/gonge_H.png" alt> a.H为矩阵a的共轭转置(先求矩阵a的共轭矩阵，然后再进行转置)</p>
 <hr>
 <h3 id="方阵行列式"><a href="#方阵行列式" class="headerlink" title="方阵行列式"></a>方阵行列式</h3><p>由n阶方阵A的元素所构成的行列式(各元素的位置不变),称为方阵A的行列式，记作|A|或det A。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/det.png" alt></p>
 <hr>
-<h3 id="正交矩阵"><a href="#正交矩阵" class="headerlink" title="正交矩阵"></a>正交矩阵</h3><p>如果n阶矩阵A满足[latex]A^T A = E[/latex]即[latex]A^{-1} = A^T[/latex],那么称A为正交矩阵，简称正交阵.</p>
-<h2 id><a href="#" class="headerlink" title></a><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/%E6%AD%A3%E4%BA%A4.png" alt></h2><h3 id="特征向量"><a href="#特征向量" class="headerlink" title="特征向量"></a>特征向量</h3><p>设A是n阶矩阵，如果数[latex]\lambda[/latex]和n维非零列向量x使关系式[latex]Ax=\lambda x[/latex]成立，那么，这样的数[latex]\lambda[/latex]称为矩阵A的特征值，非零向量x称为A的对应于特征值[latex]\lambda[/latex]的特征向量。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/eig.png" alt="image"> 4和2是特征值，后面是特征值所对应的特征向量。</p>
+<h3 id="正交矩阵"><a href="#正交矩阵" class="headerlink" title="正交矩阵"></a>正交矩阵</h3><p>如果n阶矩阵A满足$ A^T A = E $ 即$ A^{-1} = A^T $ ,那么称A为正交矩阵，简称正交阵.</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/%E6%AD%A3%E4%BA%A4.png" alt></h2><h3 id="特征向量"><a href="#特征向量" class="headerlink" title="特征向量"></a>特征向量</h3><p>设A是n阶矩阵，如果数$ \lambda $ 和n维非零列向量x使关系式$ Ax=\lambda x $ 成立，那么，这样的数$ \lambda $ 称为矩阵A的特征值，非零向量x称为A的对应于特征值$ \lambda $ 的特征向量。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/eig.png" alt="image"> 4和2是特征值，后面是特征值所对应的特征向量。</p>
 <hr>
 <h3 id="矩阵的迹"><a href="#矩阵的迹" class="headerlink" title="矩阵的迹"></a>矩阵的迹</h3><p>矩阵的迹为矩阵对角线各元素之和。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/matrix_trace.png" alt></p>
 <hr>
 <h3 id="克拉默法则"><a href="#克拉默法则" class="headerlink" title="克拉默法则"></a>克拉默法则</h3><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/kelamo.png" alt></p>
 <hr>
 <h4 id="两个矩阵行数和列数相同，则称为同型矩阵。"><a href="#两个矩阵行数和列数相同，则称为同型矩阵。" class="headerlink" title="两个矩阵行数和列数相同，则称为同型矩阵。"></a>两个矩阵行数和列数相同，则称为同型矩阵。</h4><h4 id="元素都为零的矩阵称为零矩阵"><a href="#元素都为零的矩阵称为零矩阵" class="headerlink" title="元素都为零的矩阵称为零矩阵"></a>元素都为零的矩阵称为零矩阵</h4><hr>
-<p>若一n行n列的复数矩阵[latex]U[/latex]满足：<br>[latex]U^H U= UU^H = E<em>{n}[/latex]<br>其中，[latex]U^H[/latex]为[latex]U[/latex]的共轭转置，[latex]E</em>{n}[/latex]为n阶单位矩阵，则[latex]U[/latex]称为酉矩阵(幺正矩阵)。 一个简单的充分必要判断准则是：<br>[latex]U^{-1} = U^H[/latex],即酉矩阵的共轭转置和它的逆矩阵相等。</p>
+<p>若一n行n列的复数矩阵$ U $ 满足：<br>$ U^H U= UU^H = E<em>{n} $<br>其中，$ U^H $ 为$ U $ 的共轭转置，$ E</em>{n} $ 为n阶单位矩阵，则$ U $ 称为酉矩阵(幺正矩阵)。 一个简单的充分必要判断准则是：<br>$ U^{-1} = U^H $ ,即酉矩阵的共轭转置和它的逆矩阵相等。</p>
 <hr>
-<h3 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h3><p>假设M是一个[latex]m[/latex]x[latex]n[/latex],如果存在一个分解使得<br>[latex]M=U \sum V^<em>[/latex]<br>其中U是[latex]m[/latex]x[latex]m[/latex]阶酉矩阵；[latex]\sum[/latex]是半正定[latex]m[/latex]x[latex]n[/latex]阶对角矩阵；而[latex]V^</em>[/latex]为共轭转置，是[latex]n[/latex]x[latex]n[/latex]阶酉矩阵。这样的分解就称作M的奇异值分解。[latex]\sum[/latex]的对角线上的元素为M的奇异值。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/svd.png" alt></p>
+<h3 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h3><p>假设M是一个$ m $ x$ n $ ,如果存在一个分解使得<br>$ M=U \sum V^<em> $<br>其中U是$ m $ x$ m $ 阶酉矩阵；$ \sum $ 是半正定$ m $ x$ n $ 阶对角矩阵；而$ V^</em> $ 为共轭转置，是$ n $ x$ n $ 阶酉矩阵。这样的分解就称作M的奇异值分解。$ \sum $ 的对角线上的元素为M的奇异值。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/svd.png" alt></p>
 <hr>
 <h3 id="对角矩阵"><a href="#对角矩阵" class="headerlink" title="对角矩阵"></a>对角矩阵</h3><p>对角矩阵(diagonal matrix)是一个主对角线之外的元素皆为0的矩阵，常写为diag（a1，a2,…,an)</p>
 <hr>
@@ -1601,7 +1604,7 @@ wb.save(&#39;out.xlsx&#39;)
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 23:04:35" itemprop="dateModified" datetime="2019-07-09T23:04:35+08:00">2019-07-09</time>
               </span>
             
           
@@ -1734,9 +1737,12 @@ def handwritingClassTest():
      print(&quot;the total accuracy rate is: %f&quot; % (accuracyCount/mTest))
 </code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/knn.py" target="_blank" rel="noopener">完整代码</a></p>
 <hr>
-<p>在正式进行数据挖掘之前，尤其是使用基于对象距离的 挖掘算法时，如：神经网络、最近邻分类等，必须 进行数据规格化。也就是将其缩至特定的范围之内，如如：[0,10]。如：对于一 个顾客信息数据库中的年龄属性或工资属性，由于工资属性的取值比年龄属性的 取值要大许多，如果不进行规格化处理，基于工资属性的距离计算值显然将远超 过基于年龄属性的距离计算值，这就意味着工资属性的作用在整个数据对象的距 离计算中被错误地放大了。 规格化就是将一个属性取值范围投射到一个特定范围之内，以消除数值型属 性因大小不一而造成挖掘结果的偏差。规划化处理常常用于神经网络、基于距离 计算的最近邻分类和聚类挖掘的数据预处理。 。对于神经网络，采用规格化后的数据不仅有助于确保学习结果的正确性，而且也会帮助提高学习的速度。对于基于距离计算的挖掘，规格化方法可以帮助消除因属性取值范围不同而影响挖掘结果 的公正性。 三种规格化方法： 1.最大最小规格化方法 该方法对初始数据进行一种线性转换。设[latex]min<em>{A}[/latex]和[latex]max</em>{A}[/latex]为属性A的最小和最大值。最大最小规格化方法将属性A的一个值映射为[latex]v^{‘}[/latex]且有[latex]v^{‘} \in [new\_min_{A},new\_max_{A}][/latex],具体映射公式如下： [latex]v^{‘} = \frac{v-min<em>{A}}{max</em>{A}-min<em>{A}} (new\_max\</em>{A}-new\_min_{A})+new\_min_{A}[/latex] 2.零均值规格化方法。该方法是根据属性A的均值和偏差来对A进行规格化。属性A的v值可以通过以下计算公式获得其映射值[latex]v^{‘}[/latex] [latex]v^{‘} = \frac{v-\bar A}{\sigma<em>{A}}[/latex]<br>其中的[latex]\bar A[/latex]和[latex]\sigma</em>{A}[/latex]分别为属性A的均值和方差。这种规格化方法常用于属性A最大值与最小值未知，或使用最大最小规格化方法时会出现异常数据的情况。 3.十基数变换规格化方法。 该方法通过移动属性A值的小数位置来达到规格化的目的。把移动的小数位取决于属性a绝对值的最大值。属性A的v值可以通过以下计算公式获得其映射值[latex]v^{‘}[/latex]。 [latex]v^{‘} = \frac{v}{10^{j}}[/latex] 其中j为使[latex]\max(|v^{‘}|) \lt 1[/latex]成立的最小值。</p>
+<p>在正式进行数据挖掘之前，尤其是使用基于对象距离的 挖掘算法时，如：神经网络、最近邻分类等，必须 进行数据规格化。也就是将其缩至特定的范围之内，如：[0,10]。如：对于一 个顾客信息数据库中的年龄属性或工资属性，由于工资属性的取值比年龄属性的 取值要大许多，如果不进行规格化处理，基于工资属性的距离计算值显然将远超 过基于年龄属性的距离计算值，这就意味着工资属性的作用在整个数据对象的距 离计算中被错误地放大了。 规格化就是将一个属性取值范围投射到一个特定范围之内，以消除数值型属 性因大小不一而造成挖掘结果的偏差。规划化处理常常用于神经网络、基于距离 计算的最近邻分类和聚类挖掘的数据预处理。 。对于神经网络，采用规格化后的数据不仅有助于确保学习结果的正确性，而且也会帮助提高学习的速度。对于基于距离计算的挖掘，规格化方法可以帮助消除因属性取值范围不同而影响挖掘结果 的公正性。<br> 三种规格化方法： </p>
+<p> 1.最大最小规格化方法 该方法对初始数据进行一种线性转换。设$ min<em>{A} $和$ max</em>{A} $为属性A的最小和最大值。最大最小规格化方法将属性A的一个值映射为$ v^{‘} $且有$ v^{‘} \in [new<em>min</em>{A},new<em>max</em>{A}] $,具体映射公式如下： $ v^{‘} = \frac{v-min<em>{A}}{max</em>{A}-min<em>{A}} (new_max</em>{A}-new_min_{A})+new_min_{A} $ </p>
+<p>2.零均值规格化方法。该方法是根据属性A的均值和偏差来对A进行规格化。属性A的v值可以通过以下计算公式获得其映射值$ v^{‘} $ $ v^{‘} = \frac{v-\bar A}{\sigma<em>{A}} $<br>其中的$ \bar A $和$ \sigma</em>{A} $分别为属性A的均值和方差。这种规格化方法常用于属性A最大值与最小值未知，或使用最大最小规格化方法时会出现异常数据的情况。 </p>
+<p>3.十基数变换规格化方法。 该方法通过移动属性A值的小数位置来达到规格化的目的。把移动的小数位取决于属性a绝对值的最大值。属性A的v值可以通过以下计算公式获得其映射值$ v^{‘} $。 $ v^{‘} = \frac{v}{10^{j}} $ 其中j为使$ \max(|v^{‘}|) \lt 1 $成立的最小值。</p>
 <hr>
-<p>参考： 1.统计学习方法-李航 2.数据挖掘导论 3.机器学习实战</p>
+<p>参考：<br>1.统计学习方法-李航<br>2.数据挖掘导论<br>3.机器学习实战</p>
 
           
         
@@ -1853,7 +1859,7 @@ def handwritingClassTest():
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 23:06:06" itemprop="dateModified" datetime="2019-07-09T23:06:06+08:00">2019-07-09</time>
               </span>
             
           
@@ -1936,7 +1942,8 @@ def handwritingClassTest():
  27                 print(self.a, self.b)
 </code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/perceptron_dual5.png" alt="image"> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/perceptron_pair.png" alt="image"></p>
 <hr>
-<p><a href="https://github.com/hys20151008/ml_python/blob/master/perceptron_pair.py" target="_blank" rel="noopener">完整代码</a> 参考： 1.统计学习方法-李航</p>
+<p><a href="https://github.com/hys20151008/ml_python/blob/master/perceptron_pair.py" target="_blank" rel="noopener">完整代码</a> </p>
+<p>参考： 1.统计学习方法-李航</p>
 
           
         
@@ -2053,7 +2060,7 @@ def handwritingClassTest():
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 23:07:08" itemprop="dateModified" datetime="2019-07-09T23:07:08+08:00">2019-07-09</time>
               </span>
             
           
@@ -2143,7 +2150,7 @@ perceptron = Perceptron(max_iter=1000, eta0=1)
 p_fit = perceptron.fit(x, y, coef_init=np.array([[0.0, 0.0]]).reshape(-1,1),intercept_init=np.array([0]),sample_weight=np.array([1,1,1]))
 # 对未知数据进行预测
 p_fit.predict(np.array([4,4]).reshape(1,-1))
-</code></pre><p>参考： 1.统计学习方法-李航 2.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.fit" target="_blank" rel="noopener">scikit-learn官方文档</a></p>
+</code></pre><p>参考：<br>1.统计学习方法-李航<br>2.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.fit" target="_blank" rel="noopener">scikit-learn官方文档</a></p>
 
           
         
@@ -2260,7 +2267,7 @@ p_fit.predict(np.array([4,4]).reshape(1,-1))
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-09 23:08:19" itemprop="dateModified" datetime="2019-07-09T23:08:19+08:00">2019-07-09</time>
               </span>
             
           
@@ -2314,13 +2321,13 @@ p_fit.predict(np.array([4,4]).reshape(1,-1))
       
         
           
-            <p>定义(感知机) 假设输入空间(特征空间)是[latex]\chi \in \mathbf {R}^{n}[/latex],输出空间是[latex]\mathcal{Y} =\{+1,-1\}[/latex].输入[latex]x \in \chi[/latex]表示实例的特征向量，对应于输入空间的点，输出[latex]y \in \mathcal{Y}[/latex]表示实例的类别.由输入空间到输出空间的如下函数 [latex]f(x) = sign(w\cdot x + b) [/latex] 称为感知机.其中，w和b为感知机模型参数，[latex]w \in \mathbf {R}^{n}[/latex]叫作权值或权值向量，[latex]b \in \mathbf{R}[/latex]叫作偏置，[latex]w \cdot x[/latex]表示w和x的内积。sign是符号函数，即 [latex]sign(x)= \begin{cases} +1,&amp; {x \geq 0}\\ -1,&amp; {x \le 0} \end{cases} [/latex] 感知机是一种线性分类模型，属于判别模型。感知机模型的假设空间是定义在特征空间中的所有线性分类模型或线性分类器，即函数集合[latex]\{f|f(x)=w \cdot x + b\}[/latex]</p>
+            <p>定义(感知机) 假设输入空间(特征空间)是$ \chi \in \mathbf {R}^{n} $,输出空间是$ \mathcal{Y} ={+1,-1} $.输入$ x \in \chi $表示实例的特征向量，对应于输入空间的点，输出$ y \in \mathcal{Y} $表示实例的类别.由输入空间到输出空间的如下函数 $ f(x) = sign(w\cdot x + b)  $ 称为感知机.其中，w和b为感知机模型参数，$ w \in \mathbf {R}^{n} $叫作权值或权值向量，$ b \in \mathbf{R} $叫作偏置，$ w \cdot x $表示w和x的内积。sign是符号函数，即 $ sign(x)= \begin{cases} +1,&amp; {x \geq 0}\ -1,&amp; {x \le 0} \end{cases}  $ 感知机是一种线性分类模型，属于判别模型。感知机模型的假设空间是定义在特征空间中的所有线性分类模型或线性分类器，即函数集合$ {f|f(x)=w \cdot x + b} $</p>
 <hr>
-<p>感知机学习策略 定义(数据集的线性可分性) 给定一个数据集 [latex]T = \{(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})\}[/latex],其中，[latex]x<em>{i} \in \chi=\mathcal R^{n}[/latex],[latex]y</em>{i} \in \chi =\{+1,-1\} i=1,2,\cdot \cdot \cdot,N[/latex],如果存在某个超平面S [latex]w \cdot x +b = 0[/latex] 能够将数据集的正实例点和负实例点完全正确的划分到超平面的 两侧，即对所有[latex]y<em>{i}=+1[/latex]的实例i,有[latex]w \cdot x</em>{i} &gt; 0[/latex],对所有[latex]y<em>{i}=-1[/latex]的实例i，有[latex]w \cdot x</em>{i} \lt 0[/latex],则称数据集T为线性可分数据集；否则，称数据集T线性不可分。</p>
+<p>感知机学习策略 定义(数据集的线性可分性) 给定一个数据集 $ T = {(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})} $,其中，$ x<em>{i} \in \chi=\mathcal R^{n} $,$ y</em>{i} \in \chi ={+1,-1} i=1,2,\cdot \cdot \cdot,N $,如果存在某个超平面S $ w \cdot x +b = 0 $ 能够将数据集的正实例点和负实例点完全正确的划分到超平面的 两侧，即对所有$ y<em>{i}=+1 $的实例i,有$ w \cdot x</em>{i} &gt; 0 $,对所有$ y<em>{i}=-1 $的实例i，有$ w \cdot x</em>{i} \lt 0 $,则称数据集T为线性可分数据集；否则，称数据集T线性不可分。</p>
 <hr>
 <p>假设训练数据集是线性可分的，感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全正确分开的分离超平面。感知机采用误分类点到超平面S的总距离作为损失函数。 输入空间中任一点到超平面S的距离： <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/plans_dist.png" alt> ||w||是w的L2范数。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/perception_loss_fun.png" alt></p>
 <hr>
-<p>1.统计学习方法-李航</p>
+<p>参考：<br>1.统计学习方法-李航</p>
 
           
         
@@ -3216,6 +3223,8 @@ if zinfo.flag_bits &amp; 0x800:
   
     
       
+        
+      
     
       
     
@@ -3237,6 +3246,46 @@ if zinfo.flag_bits &amp; 0x800:
     
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
