@@ -109,18 +109,18 @@
 
 
 
-  <meta name="description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B{1},B{2}, \cdot \cdot \cdot,B{n} $为S的一个划分，且$ P(B{i})&amp;gt;0 (i=1,2,\cdot \cdot \cdot">
+  <meta name="description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。  2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B{1},B{2}, \cdot \cdot \cdot,B{n} $为S的一个划分，且$ P(B{i})&amp;gt;0 (i=1,2,\cdot \cdot \cdo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="朴素贝叶斯法">
 <meta property="og:url" content="https://hysyeah.github.io/2018/06/23/e6-9c-b4-e7-b4-a0-e8-b4-9d-e5-8f-b6-e6-96-af-e6-b3-95/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B{1},B{2}, \cdot \cdot \cdot,B{n} $为S的一个划分，且$ P(B{i})&amp;gt;0 (i=1,2,\cdot \cdot \cdot">
+<meta property="og:description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。  2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B{1},B{2}, \cdot \cdot \cdot,B{n} $为S的一个划分，且$ P(B{i})&amp;gt;0 (i=1,2,\cdot \cdot \cdo">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png">
-<meta property="og:updated_time" content="2019-07-09T14:58:59.371Z">
+<meta property="og:updated_time" content="2019-07-09T15:30:39.862Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="朴素贝叶斯法">
-<meta name="twitter:description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B{1},B{2}, \cdot \cdot \cdot,B{n} $为S的一个划分，且$ P(B{i})&amp;gt;0 (i=1,2,\cdot \cdot \cdot">
+<meta name="twitter:description" content="1.条件概率(定义): 设A，B两 个事件，且P(A)&amp;gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。  2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B{1},B{2}, \cdot \cdot \cdot,B{n} $为S的一个划分，且$ P(B{i})&amp;gt;0 (i=1,2,\cdot \cdot \cdo">
 <meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png">
 
 
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-09 22:58:59" itemprop="dateModified" datetime="2019-07-09T22:58:59+08:00">2019-07-09</time>
+                <time title="修改时间：2019-07-09 23:30:39" itemprop="dateModified" datetime="2019-07-09T23:30:39+08:00">2019-07-09</time>
               </span>
             
           
@@ -495,11 +495,13 @@
       
 
       
-        <p>1.条件概率(定义): 设A，B两 个事件，且P(A)&gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。 2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n} $为S的一个划分，且$ P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n) $,则 $ P(A) = P(A|B<em>{1})P(B</em>{1})+P(A|B<em>{2})P(B</em>{2})+\cdot \cdot \cdot + P(A|B<em>{n})P(B</em>{n}) $，称为全概率公式。 3.贝叶斯公式：设试验E的样本空间为S。A为E的事件，$ B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n} $为S的一个划分,且$ P(A)&gt;0,P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n) $,则 $ P(B<em>{i}|A) = \frac{P(A|B</em>{i})P(B<em>{i})}{\sum</em>{j=1}^nP(A|B<em>{j})P(B</em>{j})},i=1,2, \cdot \cdot \cdot, n. $称为贝叶斯公式。</p>
+        <p>1.条件概率(定义): 设A，B两 个事件，且P(A)&gt;0,称 $ P(B|A) = \frac{P(AB)}{P(A)} $为事件A发生的条件下事件B发生的概率。 </p>
+<p>2.全概率公式： 设试验E的样本空间为S， A为E的事件，$ B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n} $为S的一个划分，且$ P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n) $,则 $ P(A) = P(A|B<em>{1})P(B</em>{1})+P(A|B<em>{2})P(B</em>{2})+\cdot \cdot \cdot + P(A|B<em>{n})P(B</em>{n}) $，称为全概率公式。</p>
+<p> 3.贝叶斯公式：设试验E的样本空间为S。A为E的事件，$ B<em>{1},B</em>{2}, \cdot \cdot \cdot,B<em>{n} $为S的一个划分,且$ P(A)&gt;0,P(B</em>{i})&gt;0 (i=1,2,\cdot \cdot \cdot,n) $,则 $ P(B<em>{i}|A) = \frac{P(A|B</em>{i})P(B<em>{i})}{\sum</em>{j=1}^nP(A|B<em>{j})P(B</em>{j})},i=1,2, \cdot \cdot \cdot, n. $称为贝叶斯公式。</p>
 <hr>
 <p>朴素贝叶斯法是基于贝叶斯定理与特征条件独立假设的分类方法。对于给定的训练数据集，首先基于特征条件独立假设学习输入/输出的联合概率分布；然后基于此模型，对给定的输入x,利用贝叶斯定理求出后验概率大的输出y。朴素贝叶斯法实现简单，学习与预测的效率都很高，是种常用的方法。</p>
 <hr>
-<h3 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h3><p>输入：训练数据$ T = {(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})} $,其中$ x<em>{i} = (x</em>{i}^{(1)},x<em>{i}^{(2)},\cdot \cdot \cdot, x</em>{i}^{(n)})^T $,$ x<em>{i}^{(j)} $是第i个样本的第j个特征，$ x</em>{i}^{(j)} \in {a<em>{j1},a</em>{j2},\cdot \cdot \cdot,a<em>{js_j}} $,$ a\</em>{jl} $是第j个特征可能取的第l个值，$ j = 1,2,\cdot \cdot \cdot,n, l= 1, 2,\cdot \cdot \cdot, S_j, y_{i} \in {c<em>{1},c</em>{2}, \cdot \cdot \cdot ,c<em>{k}} $;实例x;<br>输出：实例x的分类。<br>（1）计算先验概率及条件概率<br>$ P(Y=c</em>{k})=\frac{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}{N}, k=1,2,\cdot \cdot \cdot,K $ $ P(X^{(j)}=a</em>{jl}|Y=c<em>{k})=\frac{\sum</em>{i=1}^{n}I(x<em>{i}^{(j)}=a</em>{jl},y<em>{i}=c</em>{k})}{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})} $ $ j=1,2,\cdot \cdot,\cdot,n;l=1,2,\cdot \cdot \cdot,S</em>{j};k=1,2,\cdot \cdot \cdot, K $ (2)对于给定的实例$ x=(x^{(1)},x^{(2)},\cdot \cdot \cdot,x^{(n)})^T $,计算<br>$ P(Y=c<em>{k})\prod</em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c<em>{k}),k=1,2,\cdot \cdot \cdot, K $ (3)确定实例x的类<br>$ y = arg \max</em>{c<em>{k}}P(Y=c</em>{k})\prod<em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c</em>{k}) $</p>
+<h3 id="朴素贝叶斯算法"><a href="#朴素贝叶斯算法" class="headerlink" title="朴素贝叶斯算法"></a>朴素贝叶斯算法</h3><p>输入：训练数据$ T = {(x<em>{1},y</em>{1}),(x<em>{2},y</em>{2}),\cdot \cdot \cdot,(x<em>{N},y</em>{N})} $,其中$ x<em>{i} = (x</em>{i}^{(1)},x<em>{i}^{(2)},\cdot \cdot \cdot, x</em>{i}^{(n)})^T $,$ x<em>{i}^{(j)} $是第i个样本的第j个特征，$ x</em>{i}^{(j)} \in {a<em>{j1},a</em>{j2},\cdot \cdot \cdot,a<em>{js_j}} $,$ a\</em>{jl} $是第j个特征可能取的第l个值，$ j = 1,2,\cdot \cdot \cdot,n, l= 1, 2,\cdot \cdot \cdot, S<em>j, y</em>{i} \in {c<em>{1},c</em>{2}, \cdot \cdot \cdot ,c<em>{k}} $;实例x;<br>输出：实例x的分类。<br>（1）计算先验概率及条件概率<br>$ P(Y=c</em>{k})=\frac{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})}{N}, k=1,2,\cdot \cdot \cdot,K $ $ P(X^{(j)}=a</em>{jl}|Y=c<em>{k})=\frac{\sum</em>{i=1}^{n}I(x<em>{i}^{(j)}=a</em>{jl},y<em>{i}=c</em>{k})}{\sum<em>{i=1}^{N}I(y</em>{i}=c<em>{k})} $ $ j=1,2,\cdot \cdot,\cdot,n;l=1,2,\cdot \cdot \cdot,S</em>{j};k=1,2,\cdot \cdot \cdot, K $ (2)对于给定的实例$ x=(x^{(1)},x^{(2)},\cdot \cdot \cdot,x^{(n)})^T $,计算<br>$ P(Y=c<em>{k})\prod</em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c<em>{k}),k=1,2,\cdot \cdot \cdot, K $ (3)确定实例x的类<br>$ y = arg \max</em>{c<em>{k}}P(Y=c</em>{k})\prod<em>{j=1}^{n}P(X^{(j)}=x^{(j)}|Y=c</em>{k}) $</p>
 <hr>
 <p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/06/bayes_al.png" alt> <a href="https://github.com/hys20151008/ml_python/blob/master/naivebayes.py" target="_blank" rel="noopener">实现代码</a></p>
 <pre><code># 对数据集进行去重
