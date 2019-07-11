@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[通过keepalived实现neo4j主备切换]]></title>
+    <url>%2F2019%2F07%2F11%2F%E9%80%9A%E8%BF%87keepalived%E5%AE%9E%E7%8E%B0neo4j%E4%B8%BB%E5%A4%87%E5%88%87%E6%8D%A2%2F</url>
+    <content type="text"><![CDATA[1.背景：我们使用的是社区版Neo4j不支持集群功能,因此通过对Neo4j进行双写，再通过keepalived实现主备切换 2.环境：Neo4j服务器A(10.23.4.123),Neo4j服务器B(10.23.4.124),VIP(10.23.4.126),服务器均为CentOs 3.安装keepalived1yum install keepalived 4.修改主机10.23.4.123 keepalived的配置文件/etc/keepalived/keepalived.conf123456789101112131415161718192021222324252627282930global_defs &#123; router_id neo4j_master&#125;vrrp_script chk_neo4j &#123; script &quot;netstat -lntp | grep 7687&quot; interval 1&#125;vrrp_instance neo4j &#123; state BACKUP interface ens160 lvs_sync_daemon_interface ens160 virtual_router_id 210 priority 150 nopreempt advert_int 1 authentication &#123; auth_type PASS auth_pass 1111 &#125; virtual_ipaddress &#123; 10.23.4.126 &#125; track_script &#123; chk_neo4j &#125;&#125; 5.修改主机10.23.4.124 keepalived的配置文件/etc/keepalived/keepalived.conf123456789101112131415161718192021222324252627282930global_defs &#123; router_id neo4j_slave&#125;vrrp_script chk_neo4j &#123; script &quot;netstat -lntp | grep 7687&quot; interval 1&#125;vrrp_instance neo4j &#123; state BACKUP interface ens160 lvs_sync_daemon_interface ens160 virtual_router_id 210 priority 150 nopreempt advert_int 1 authentication &#123; auth_type PASS auth_pass 1111 &#125; virtual_ipaddress &#123; 10.23.4.126 &#125; track_script &#123; chk_neo4j &#125;&#125; 6.启动keepalived12systemctl enable keepalived.servicesystemctl start keepalived.service 7.验证 停止Neo4j-A,在Neo4j-B通过命令ip a查看VIP是否飘到Neo4j-B上 停止Neo4j-B,在Neo4j-A通过命令ip a查看VIP是否飘到Neo4j-A上 未完]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[记wordpress一次坑爹的问题]]></title>
     <url>%2F2019%2F06%2F13%2Fe8-ae-b0wordpress-e4-b8-80-e6-ac-a1-e5-9d-91-e7-88-b9-e7-9a-84-e9-97-ae-e9-a2-98%2F</url>
     <content type="text"><![CDATA[今天晚上发再更新文章时总是提醒/wp-admin/post.php,但 查看服务器发现文件存在，最近也没有安装插件。 多方尝试最后将下图红框中的数据删除，点击保存，问题解决。]]></content>
@@ -88,7 +93,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[postgreql元数据相关SQL]]></title>
+    <title><![CDATA[postgresql元数据相关SQL]]></title>
     <url>%2F2019%2F06%2F01%2Fpostgreql-e5-b8-b8-e7-94-a8sql%2F</url>
     <content type="text"><![CDATA[# 查看schemas SELECT schema_name FROM information_schema.schemata; SELECT nspname FROM pg_catalog.pg_namespace; # 查看连接状态 SELECT * FROM pg_stat_activity; # kill 连接数据库ptldwh的所有session SELECT pg_terminate_backend(a.pid) FROM pg_stat_activity a WHERE datname=&#39;ptldwh&#39;;]]></content>
       <categories>

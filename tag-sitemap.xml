@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/postgresql/</loc>
+        <lastmod>2019-07-11T14:15:06.202Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/apue/</loc>
         <lastmod>2019-07-08T14:15:20.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -10,14 +17,14 @@
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/tags/postgresql/</loc>
+        <loc>https://hysyeah.github.io/tags/shell/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/tags/shell/</loc>
+        <loc>https://hysyeah.github.io/tags/mysql/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -39,13 +46,6 @@
 
     <url>
         <loc>https://hysyeah.github.io/tags/docker/</loc>
-        <lastmod>2019-07-08T13:44:23.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/mysql/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

@@ -380,6 +380,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/11/通过keepalived实现neo4j主备切换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/11/通过keepalived实现neo4j主备切换/" class="post-title-link" itemprop="url">通过keepalived实现neo4j主备切换</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-11 22:25:14 / 修改时间：22:50:48" itemprop="dateCreated datePublished" datetime="2019-07-11T22:25:14+08:00">2019-07-11</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.背景：我们使用的是社区版Neo4j不支持集群功能,因此通过对Neo4j进行双写，再通过keepalived实现主备切换</p>
+<p>2.环境：Neo4j服务器A(10.23.4.123),Neo4j服务器B(10.23.4.124),VIP(10.23.4.126),服务器均为CentOs</p>
+<p>3.安装keepalived<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install keepalived</span><br></pre></td></tr></table></figure></p>
+<p>4.修改主机10.23.4.123 keepalived的配置文件/etc/keepalived/keepalived.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id neo4j_master</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_neo4j &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 7687&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance neo4j &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens160</span><br><span class="line">    lvs_sync_daemon_interface ens160</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        10.23.4.126</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_neo4j</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.修改主机10.23.4.124 keepalived的配置文件/etc/keepalived/keepalived.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id neo4j_slave</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_neo4j &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 7687&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance neo4j &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens160</span><br><span class="line">    lvs_sync_daemon_interface ens160</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        10.23.4.126</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_neo4j</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.启动keepalived<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable  keepalived.service</span><br><span class="line">systemctl start  keepalived.service</span><br></pre></td></tr></table></figure></p>
+<p>7.验证</p>
+<ul>
+<li>停止Neo4j-A,在Neo4j-B通过命令ip a查看VIP是否飘到Neo4j-B上</li>
+<li>停止Neo4j-B,在Neo4j-A通过命令ip a查看VIP是否飘到Neo4j-A上</li>
+</ul>
+<h2 id="未完"><a href="#未完" class="headerlink" title="未完"></a>未完</h2>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/13/e8-ae-b0wordpress-e4-b8-80-e6-ac-a1-e5-9d-91-e7-88-b9-e7-9a-84-e9-97-ae-e9-a2-98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2009,7 +2165,7 @@ tcpdump -i ens250 port 34495 -w t.pcap
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/06/01/postgreql-e5-b8-b8-e7-94-a8sql/" class="post-title-link" itemprop="url">postgreql元数据相关SQL</a>
+                <a href="/2019/06/01/postgreql-e5-b8-b8-e7-94-a8sql/" class="post-title-link" itemprop="url">postgresql元数据相关SQL</a>
               
             
           </h1>
@@ -2049,7 +2205,7 @@ tcpdump -i ens250 port 34495 -w t.pcap
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-11 22:15:06" itemprop="dateModified" datetime="2019-07-11T22:15:06+08:00">2019-07-11</time>
               </span>
             
           
@@ -2154,218 +2310,6 @@ SELECT pg_terminate_backend(a.pid) FROM pg_stat_activity a WHERE datname=&#39;pt
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/26/postgresql-e4-b8-ad-e5-b0-86-e6-89-80-e6-9c-89-e7-9a-84char-e6-94-b9-e4-b8-bavarchar-e7-b1-bb-e5-9e-8b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/26/postgresql-e4-b8-ad-e5-b0-86-e6-89-80-e6-9c-89-e7-9a-84char-e6-94-b9-e4-b8-bavarchar-e7-b1-bb-e5-9e-8b/" class="post-title-link" itemprop="url">postgresql中将所有的char改为varchar类型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-26 08:57:05" itemprop="dateCreated datePublished" datetime="2019-05-26T08:57:05+08:00">2019-05-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在将<code>Postgresql</code>数据转换为<code>Neo4j</code>的过程中，<code>char</code>类型的字段的在转换成<code>Neo4j</code>的属性后会带有空格。比如<code>char(10)</code>字段的数据为<code>hello</code>在<code>Neo4j</code>属性中则会带有空格，虽然可以在查询的时候加上trim函数，但这样对于原来的查询代码改动太大。所以决定从源头将这个问题解决。 假如有一个字段为<code>char(10)</code>如果插入的数据长度未达到10,关系型数据库默认在后面添加空格，所以将<code>char</code>类型改为<code>varchar</code>可以解决这个问题。 在<code>char</code>类型改为<code>varchar</code>的过程中，会默认把<code>char</code>类型中的空格给去掉。 在<code>postgresql</code>中有一个表<code>information_schema.columns</code>记录了所有字段的信息，所以可以从这个表中提取信息进行<code>char</code>到<code>varchar</code>的转换。</p>
-<pre><code># 这个语句会生成将char改为varchar的sql语句
-SELECT CONCAT(&#39;alter table &#39;, table_schema, &#39;.&#39;, table_name, &#39; alter column &#39;, column_name, &#39; type &#39;, &#39;varchar &#39;, &#39;(&#39;,character_maxinum_length,&#39;);&#39;) from information_schema.columns where table_catalog=&#39;ptl&#39; and date_type=&#39;character&#39;;
-</code></pre><p><code>information_schema.columns</code>中的常用字段。</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>table_catalog</td>
-<td>数据库名</td>
-</tr>
-<tr>
-<td>table_schema</td>
-<td>数据库的schema</td>
-</tr>
-<tr>
-<td>table_name</td>
-<td>表名</td>
-</tr>
-<tr>
-<td>column_name</td>
-<td>字段名</td>
-</tr>
-<tr>
-<td>data_type</td>
-<td>数据类型</td>
-</tr>
-<tr>
-<td>character_maximum_length</td>
-<td>如果类型为character或bit string type,则为可存储最大字符数</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>参考： 1.<a href="https://www.postgresql.org/docs/10/infoschema-columns.html" target="_blank" rel="noopener">information_schema.columns</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2412,7 +2356,7 @@ SELECT CONCAT(&#39;alter table &#39;, table_schema, &#39;.&#39;, table_name, &#3
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">205</span>
+                    <span class="site-state-item-count">206</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

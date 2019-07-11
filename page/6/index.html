@@ -380,6 +380,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/03/python-e4-b9-8b-e5-b1-9e-e6-80-a7-e7-bb-a7-e6-89-bf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/03/python-e4-b9-8b-e5-b1-9e-e6-80-a7-e7-bb-a7-e6-89-bf/" class="post-title-link" itemprop="url">python之属性继承</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-03 19:15:58" itemprop="dateCreated datePublished" datetime="2018-09-03T19:15:58+08:00">2018-09-03</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>class A:
+    a = 1
+
+a, b, c = A(), A(),A()
+
+print(a.a, b.a, c.a)
+
+a.a = 2
+A.a = 3
+print(a.a, A.a, c.a)   # 未对实例c.a赋值，则会继承类属性a的值
+
+print(a.__dict__, A.__dict__, c.__dict__)
+
+# output:
+
+(1, 1, 1)
+(2, 3, 3)
+({&#39;a&#39;: 2}, {&#39;a&#39;: 3, &#39;__module__&#39;: &#39;__main__&#39;, &#39;__doc__&#39;: None}, {}) # 实例c的__dict__为空
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/03/python-e4-b9-8b-e4-b8-8d-e8-a6-81-e5-9c-a8-e5-87-bd-e6-95-b0-e4-b8-ad-e5-ae-9a-e4-b9-89-e5-8f-af-e5-8f-98-e5-af-b9-e8-b1-a1-e4-bd-9c-e4-b8-ba-e9-bb-98-e8-ae-a4-e5-80-bc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2176,255 +2364,6 @@ In [31]: print(t[1].a)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/18/go-e6-8e-a5-e5-8f-a3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/18/go-e6-8e-a5-e5-8f-a3/" class="post-title-link" itemprop="url">Go接口</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-18 19:44:28" itemprop="dateCreated datePublished" datetime="2018-08-18T19:44:28+08:00">2018-08-18</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>接口类型是对其它类型行为的抽象和概括；因为接口类型不会和特定的实现细节绑定在一起，通过这种抽象的方式我们可以让我们的函数更加灵活和更具有适应能力。 接口类型具体描述了一系列方法的集合，一个实现了这些方法的具体类型是这个接口类型的实例。 一个类型如果拥有一个接口需要的所有方法，那么这个类型就实现了这个接口。</p>
-<pre><code>/* Abs()是interface类型Abser定义的方法，而MyFloat实现了该方法，所以，MyFloat实现了Abser接口
-package main
-
-import (
-    &quot;fmt&quot;
-    &quot;math&quot;
-)
-
-type Abser interface {
-    Abs() float64
-}
-
-type MyFloat float64
-
-func (f MyFloat) Abs() float64 {
-    if f &lt; 0 {
-        return float64(-f)
-    }
-    return float64(f)
-}
-
-func main() {
-    var a Abser
-    f := MyFloat(-math.Sqrt2)
-    a = f  // a MyFloat implements Abser
-    fmt.Println(a.Abs())
-</code></pre><p>interface{}被称为空接口，因为空接口类型对实现它的类型没有要求，所以我们可以将任意一个值赋给空接口类型。</p>
-<pre><code>var any interface{}
-any = true
-any = 12.34
-any = &quot;hello&quot;
-any = map[string]int{&quot;one&quot;: 1}
-any = new(bytes.Buffer)
-</code></pre><p>格式化输出</p>
-<pre><code>// 实现了String方法的类型，称作实现了Stringer接口。Stringer接口为此类型提供了原始的输出格式
-type Stringer interface {
-        String() string
-}
-
-
-package main
-
-import &quot;fmt&quot;
-
-type IPAddr [4]byte
-
-func main() {
-    addrs := map[string]IPAddr{
-        &quot;loopback&quot;:  {127, 0, 0, 1},
-        &quot;googleDNS&quot;: {8, 8, 8, 8},
-    }
-    for n, a := range addrs {
-        fmt.Printf(&quot;%v: %v\n&quot;, n, a)
-    }
-}
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/ip.png" alt> 为类型IPAddr实现Stringer接口</p>
-<pre><code>package main
-
-import &quot;fmt&quot;
-
-type IPAddr [4]byte
-
-func (ip IPAddr) String() string {    
-    return fmt.Sprintf(&quot;%v.%v.%v.%v&quot;, ip[0], ip[1], ip[2], ip[3])
-}
-
-func main() {
-    addrs := map[string]IPAddr{
-        &quot;loopback&quot;:  {127, 0, 0, 1},
-        &quot;googleDNS&quot;: {8, 8, 8, 8},
-    }
-    for n, a := range addrs {
-        fmt.Printf(&quot;%v: %v\n&quot;, n, a)
-    }
-}
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/ip1.png" alt></p>
-<h4 id="是不是和python中的-str-有什么不可描述的联系？？"><a href="#是不是和python中的-str-有什么不可描述的联系？？" class="headerlink" title="是不是和python中的__str__有什么不可描述的联系？？"></a>是不是和python中的<code>__str__</code>有什么不可描述的联系？？</h4><hr>
-<p>参考： 1.The Go Programming Language 2.<a href="https://studygolang.com/articles/2652" target="_blank" rel="noopener">https://studygolang.com/articles/2652</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2471,7 +2410,7 @@ func main() {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">205</span>
+                    <span class="site-state-item-count">206</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
