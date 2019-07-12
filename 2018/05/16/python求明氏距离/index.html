@@ -109,17 +109,17 @@
 
 
 
-  <meta name="description" content="何为明式距离P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n  D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}  假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。 import">
+  <meta name="description" content="何为明式距离$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $$ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $   假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python求明氏距离">
 <meta property="og:url" content="https://hysyeah.github.io/2018/05/16/python求明氏距离/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="何为明式距离P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n  D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}  假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。 import">
+<meta property="og:description" content="何为明式距离$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $$ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $   假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-12T21:57:05.037Z">
+<meta property="og:updated_time" content="2019-07-12T22:06:34.981Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python求明氏距离">
-<meta name="twitter:description" content="何为明式距离P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n  D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}  假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。 import">
+<meta name="twitter:description" content="何为明式距离$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $$ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $   假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。">
 
 
 
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:57:05" itemprop="dateModified" datetime="2019-07-13T05:57:05+08:00">2019-07-13</time>
+                <time title="修改时间：2019-07-13 06:06:34" itemprop="dateModified" datetime="2019-07-13T06:06:34+08:00">2019-07-13</time>
               </span>
             
           
@@ -493,7 +493,8 @@
       
 
       
-        <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p><script type="math/tex">P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n</script>  <script type="math/tex">D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}</script>  假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。</p>
+        <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $<br>$ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $  </p>
+<p>假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。</p>
 <pre><code>import numpy as np
 from scipy.spatial import minkowski_distance
 a = np.array([[0,4]])
