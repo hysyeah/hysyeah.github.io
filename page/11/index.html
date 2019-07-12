@@ -380,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/31/zipfile-e4-b9-b1-e7-a0-81-e9-97-ae-e9-a2-98/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/29/连接docker创建的mysql容器时出错/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -400,196 +400,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/31/zipfile-e4-b9-b1-e7-a0-81-e9-97-ae-e9-a2-98/" class="post-title-link" itemprop="url">zipfile乱码问题</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-31 17:49:53" itemprop="dateCreated datePublished" datetime="2018-05-31T17:49:53+08:00">2018-05-31</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>python3.5使用zipfile.ZipFile(“xx.zip”)读取压缩文件为中文的文件时出现乱码 zipfile检测文件编码，如果是’utf-8’编码则解码为’utf-8’,否则解码为’cp437’,修改zipfile.py将’cp437’改为’gbk’即可。</p>
-<pre><code>import zipfile
-import os
-os.path.dirname(zipfile.__file__)  #查看zipfile.py文件所在路径
-
-if flags &amp; 0x800:
-    # UTF-8 file names extension
-    filename = filename.decode(&#39;utf-8&#39;)
-else:
-    # Historical ZIP filename encoding
-    filename = filename.decode(&#39;cp437&#39;)  #改为filename = filename.decode(&#39;gbk&#39;)
-
-if zinfo.flag_bits &amp; 0x800:
-    # UTF-8 filename
-    fname_str = fname.decode(&quot;utf-8&quot;)
- else:
-    fname_str = fname.decode(&quot;cp437&quot;)   #改为fname_str = fname.decode(&quot;gbk&quot;)
-</code></pre><hr>
-<p>参考 1.<a href="https://blog.csdn.net/tian544556/article/details/78635840" target="_blank" rel="noopener">https://blog.csdn.net/tian544556/article/details/78635840</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/29/e8-bf-9e-e6-8e-a5docker-e5-88-9b-e5-bb-ba-e7-9a-84mysql-e5-ae-b9-e5-99-a8-e6-97-b6-e5-87-ba-e9-94-99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/29/e8-bf-9e-e6-8e-a5docker-e5-88-9b-e5-bb-ba-e7-9a-84mysql-e5-ae-b9-e5-99-a8-e6-97-b6-e5-87-ba-e9-94-99/" class="post-title-link" itemprop="url">连接docker创建的mysql容器时出错</a>
+                <a href="/2018/05/29/连接docker创建的mysql容器时出错/" class="post-title-link" itemprop="url">连接docker创建的mysql容器时出错</a>
               
             
           </h1>
@@ -629,7 +440,7 @@ if zinfo.flag_bits &amp; 0x800:
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-11 23:12:05" itemprop="dateModified" datetime="2019-07-11T23:12:05+08:00">2019-07-11</time>
               </span>
             
           
@@ -741,7 +552,7 @@ if zinfo.flag_bits &amp; 0x800:
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/scipy-entropy-e6-b1-82-e7-86-b5/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/scipy entropy求熵/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -761,7 +572,7 @@ if zinfo.flag_bits &amp; 0x800:
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/23/scipy-entropy-e6-b1-82-e7-86-b5/" class="post-title-link" itemprop="url">scipy entropy求熵</a>
+                <a href="/2018/05/23/scipy entropy求熵/" class="post-title-link" itemprop="url">scipy entropy求熵</a>
               
             
           </h1>
@@ -801,7 +612,7 @@ if zinfo.flag_bits &amp; 0x800:
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-13 05:47:08" itemprop="dateModified" datetime="2019-07-13T05:47:08+08:00">2019-07-13</time>
               </span>
             
           
@@ -922,7 +733,7 @@ Out[215]: 0.9709505944546688
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/pandas-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8bdataframe-e5-8f-8a-e5-9f-ba-e6-9c-ac-e6-93-8d-e4-bd-9c/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/pandas数据类型DataFrame及基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -942,7 +753,7 @@ Out[215]: 0.9709505944546688
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/23/pandas-e6-95-b0-e6-8d-ae-e7-b1-bb-e5-9e-8bdataframe-e5-8f-8a-e5-9f-ba-e6-9c-ac-e6-93-8d-e4-bd-9c/" class="post-title-link" itemprop="url">pandas数据类型DataFrame及基本操作</a>
+                <a href="/2018/05/23/pandas数据类型DataFrame及基本操作/" class="post-title-link" itemprop="url">pandas数据类型DataFrame及基本操作</a>
               
             
           </h1>
@@ -982,7 +793,7 @@ Out[215]: 0.9709505944546688
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-13 05:38:33" itemprop="dateModified" datetime="2019-07-13T05:38:33+08:00">2019-07-13</time>
               </span>
             
           
@@ -1124,7 +935,7 @@ z  3  6
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/21/numpy-e7-9b-b8-e5-85-b3-e5-87-bd-e6-95-b0/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/21/numpy相关函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -1144,7 +955,7 @@ z  3  6
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/21/numpy-e7-9b-b8-e5-85-b3-e5-87-bd-e6-95-b0/" class="post-title-link" itemprop="url">numpy相关函数</a>
+                <a href="/2018/05/21/numpy相关函数/" class="post-title-link" itemprop="url">numpy相关函数</a>
               
             
           </h1>
@@ -1184,7 +995,7 @@ z  3  6
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-13 05:35:46" itemprop="dateModified" datetime="2019-07-13T05:35:46+08:00">2019-07-13</time>
               </span>
             
           
@@ -1469,7 +1280,7 @@ array([[1, 2],
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/20/e7-9a-ae-e5-b0-94-e9-80-8a-e7-9b-b8-e5-85-b3-e7-b3-bb-e6-95-b0/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/20/皮尔逊相关系数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -1489,7 +1300,7 @@ array([[1, 2],
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/20/e7-9a-ae-e5-b0-94-e9-80-8a-e7-9b-b8-e5-85-b3-e7-b3-bb-e6-95-b0/" class="post-title-link" itemprop="url">皮尔逊相关系数</a>
+                <a href="/2018/05/20/皮尔逊相关系数/" class="post-title-link" itemprop="url">皮尔逊相关系数</a>
               
             
           </h1>
@@ -1529,7 +1340,7 @@ array([[1, 2],
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-09 23:09:42" itemprop="dateModified" datetime="2019-07-09T23:09:42+08:00">2019-07-09</time>
+                <time title="修改时间：2019-07-11 23:06:49" itemprop="dateModified" datetime="2019-07-11T23:06:49+08:00">2019-07-11</time>
               </span>
             
           
@@ -1647,7 +1458,7 @@ stats.pearsonr(a,b)
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/e5-9c-a8-e5-ae-a2-e6-88-b7-e6-9c-ba-e6-b7-bb-e5-8a-a0-e8-b7-af-e7-94-b1-e8-ae-bf-e9-97-aedocker-e9-9b-86-e7-be-a4-e6-9c-8d-e5-8a-a1/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/在客户机添加路由访问docker集群服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -1667,7 +1478,7 @@ stats.pearsonr(a,b)
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/17/e5-9c-a8-e5-ae-a2-e6-88-b7-e6-9c-ba-e6-b7-bb-e5-8a-a0-e8-b7-af-e7-94-b1-e8-ae-bf-e9-97-aedocker-e9-9b-86-e7-be-a4-e6-9c-8d-e5-8a-a1/" class="post-title-link" itemprop="url">在客户机添加路由访问docker集群服务</a>
+                <a href="/2018/05/17/在客户机添加路由访问docker集群服务/" class="post-title-link" itemprop="url">在客户机添加路由访问docker集群服务</a>
               
             
           </h1>
@@ -1707,7 +1518,7 @@ stats.pearsonr(a,b)
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-11 23:03:19" itemprop="dateModified" datetime="2019-07-11T23:03:19+08:00">2019-07-11</time>
               </span>
             
           
@@ -1823,7 +1634,7 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/numpy-e4-b8-ad-e7-9f-a9-e9-98-b5-e5-85-83-e7-b4-a0-e4-bd-bf-e7-94-a8-e5-88-86-e6-95-b0-e8-a1-a8-e7-a4-ba/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/numpy中矩阵元素使用分数表示/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -1843,7 +1654,7 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/17/numpy-e4-b8-ad-e7-9f-a9-e9-98-b5-e5-85-83-e7-b4-a0-e4-bd-bf-e7-94-a8-e5-88-86-e6-95-b0-e8-a1-a8-e7-a4-ba/" class="post-title-link" itemprop="url">numpy中矩阵元素使用分数表示</a>
+                <a href="/2018/05/17/numpy中矩阵元素使用分数表示/" class="post-title-link" itemprop="url">numpy中矩阵元素使用分数表示</a>
               
             
           </h1>
@@ -1883,7 +1694,7 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-13 05:35:31" itemprop="dateModified" datetime="2019-07-13T05:35:31+08:00">2019-07-13</time>
               </span>
             
           
@@ -2195,7 +2006,7 @@ array([[ True,  True,  True,  True,  True],
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python-e6-b1-82-e6-98-8e-e6-b0-8f-e8-b7-9d-e7-a6-bb/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python求明氏距离/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -2215,7 +2026,7 @@ array([[ True,  True,  True,  True,  True],
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/16/python-e6-b1-82-e6-98-8e-e6-b0-8f-e8-b7-9d-e7-a6-bb/" class="post-title-link" itemprop="url">python求明氏距离</a>
+                <a href="/2018/05/16/python求明氏距离/" class="post-title-link" itemprop="url">python求明氏距离</a>
               
             
           </h1>
@@ -2255,7 +2066,7 @@ array([[ True,  True,  True,  True,  True],
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-07-13 05:57:05" itemprop="dateModified" datetime="2019-07-13T05:57:05+08:00">2019-07-13</time>
               </span>
             
           
@@ -2309,7 +2120,7 @@ array([[ True,  True,  True,  True,  True],
       
         
           
-            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>[latex]P = (x_{1},x_{2},\\cdot \\cdot \\cdot,x_{n}) and Q=(y_{1},y_{2},\\cdot \\cdot \\cdot,y_{n}) \\in R^n[/latex] [latex]D(X,Y) = \\bigg( \\sum_{i=1}^n |x_{i} - y_{i}|^p\\bigg)^{1/p}[/latex] 假设P = [(0,4)],Q=[(3,0)],求P,Q两点的明氏距离。</p>
+            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p><script type="math/tex">P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n</script>  <script type="math/tex">D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p}</script>  假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。</p>
 <pre><code>import numpy as np
 from scipy.spatial import minkowski_distance
 a = np.array([[0,4]])
@@ -2317,12 +2128,205 @@ a = np.array([[3,0]])
 dist = minkowski_distance(a,b,1) #array([7])
 dist = minkowski_distance(a,b,2) #array([5.])
 dist = minkowski_distance(a,b,3) #array([4.49794145])
-</code></pre><p>[latex]\\lim_{p \\to \\infty} \\bigg( \\sum_{i=1}^n |x_{i}-y_{i}|^p\\bigg)^{1/p} = \\max_{i=1}^n |x_{i}-y_{i}|[/latex] 当p—&gt;oo时，P,Q两点的距离等于4</p>
+</code></pre><p><script type="math/tex">\lim_{p \to \infty} \bigg( \sum_{i=1}^n |x_{i}-y_{i}|^p\bigg)^{1/p} = \max_{i=1}^n |x_{i}-y_{i}|</script>  当p—&gt;oo时，P,Q两点的距离等于4</p>
 <pre><code>from sympy import symbols, limit
 p = symbols(&#39;p&#39;)
 f = (3**p + 4**p)**(1/p) 
 limit(f,p,oo)           # 4
 </code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python对函数求导/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/16/python对函数求导/" class="post-title-link" itemprop="url">python对函数求导</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-16 11:16:24" itemprop="dateCreated datePublished" datetime="2018-05-16T11:16:24+08:00">2018-05-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-13 05:53:28" itemprop="dateModified" datetime="2019-07-13T05:53:28+08:00">2019-07-13</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>假设函数[latex]f(x) = x^3+2x[/latex],求[latex]f’(x)[/latex]在x=1的值. 1.通过numpy多项式求导</p>
+<pre><code>import numpy as np
+y = np.poly1d([1,0,2,0])
+
+
+print(y)         # 3*x**2 + 2*x       
+
+
+dy = y.deriv()
+dy(1)                         # 5
+</code></pre><p>2.通过sympy对函数求导,通过命令pip3 install sympy安装</p>
+<pre><code>from sympy import symbols
+from sympy import diff as diff
+from npmath import diff as diff2
+
+x = symbols(&#39;x&#39;)
+f = x**3 + 2*x
+f1 = diff(f)
+print(f1)              # 3*x**2 + 2
+
+diff2(lambda x: x**3+2*x,1)         # 5
+</code></pre><hr>
+<p>参考： 1.<a href="http://docs.sympy.org/latest/tutorial/calculus.html" target="_blank" rel="noopener">sympy文档</a> 2.<a href="http://mpmath.org/doc/1.0.0/calculus/differentiation.html?highlight=diff#mpmath.diff" target="_blank" rel="noopener">mpmath文档</a></p>
+
           
         
       
@@ -2409,7 +2413,7 @@ limit(f,p,oo)           # 4
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">206</span>
+                    <span class="site-state-item-count">205</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3036,9 +3040,9 @@ limit(f,p,oo)           # 4
       
     
       
-    
-      
         
+      
+    
       
     
       
