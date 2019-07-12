@@ -909,7 +909,7 @@
   <entry>
     <title><![CDATA[python求明氏距离]]></title>
     <url>%2F2018%2F05%2F16%2Fpython%E6%B1%82%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB%2F</url>
-    <content type="text"><![CDATA[何为明式距离$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $ $ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $ 假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。 import numpy as np from scipy.spatial import minkowski_distance a = np.array([[0,4]]) a = np.array([[3,0]]) dist = minkowski_distance(a,b,1) #array([7]) dist = minkowski_distance(a,b,2) #array([5.]) dist = minkowski_distance(a,b,3) #array([4.49794145]) $ \lim_{p \to \infty} \bigg( \sum_{i=1}^n |x_{i}-y_{i}|^p\bigg)^{1/p} = \max_{i=1}^n |x_{i}-y_{i}| $ 当p—&gt;oo时，P,Q两点的距离等于4 from sympy import symbols, limit p = symbols(&#39;p&#39;) f = (3**p + 4**p)**(1/p) limit(f,p,oo) # 4]]></content>
+    <content type="text"><![CDATA[何为明式距离$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $ $ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $ 假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。 import numpy as np from scipy.spatial import minkowski_distance a = np.array([[0,4]]) a = np.array([[3,0]]) dist = minkowski_distance(a,b,1) #array([7]) dist = minkowski_distance(a,b,2) #array([5.]) dist = minkowski_distance(a,b,3) #array([4.49794145]) $ \lim_{p \to \infty} \bigg( \sum_{i=1}^n |x_{i}-y_{i}|^p\bigg)^{1/p} = \max_{i=1}^n |x_{i}-y_{i}| $ ,当p—&gt;oo时，P,Q两点的距离等于4 from sympy import symbols, limit p = symbols(&#39;p&#39;) f = (3**p + 4**p)**(1/p) limit(f,p,oo) # 4]]></content>
       <categories>
         <category>未分类</category>
       </categories>
