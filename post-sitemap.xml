@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2018/05/16/python%E6%B1%82%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB/</loc>
+        <lastmod>2019-07-12T22:12:11.169Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2019/06/11/osi%E6%A8%A1%E5%9E%8B%E4%B8%8Etcp-ip/</loc>
         <lastmod>2019-07-12T22:06:37.009Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -18,14 +26,6 @@
     <url>
         <loc>https://hysyeah.github.io/2019/04/09/scala%20REPL%E5%AE%89%E8%A3%85/</loc>
         <lastmod>2019-07-12T22:06:37.008Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/2018/05/16/python%E6%B1%82%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB/</loc>
-        <lastmod>2019-07-12T22:06:34.981Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -1632,7 +1632,7 @@
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/2017/11/04/supervisor-can-not-find-uwsgi-command/</loc>
+        <loc>https://hysyeah.github.io/2017/10/02/superentityself-init/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -1640,7 +1640,7 @@
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/2017/10/02/superentityself-init/</loc>
+        <loc>https://hysyeah.github.io/2017/11/04/supervisor-can-not-find-uwsgi-command/</loc>
         <lastmod>2019-07-08T13:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
