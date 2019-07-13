@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[hexo常用命令]]></title>
     <url>%2F2019%2F07%2F14%2Fhexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[hexo新建命令hexo new [layout] &quot;title&quot; layout path 描述 post source/_post 新建文章 draft source/_drafts/ 新建草稿 page source 新建一个页面文件 hexo发布草稿中的文章hexo publish &lt;title&gt; hexo clean #清除缓存文件hexo g #生存静态文件hexo d #部署网站 参考:1.官方文档]]></content>
+    <content type="text"><![CDATA[hexo新建命令hexo new [layout] &quot;title&quot; layout path 描述 post source/_post 新建文章 draft source/_drafts/ 新建草稿 page source 新建一个页面文件 hexo发布草稿中的文章hexo publish &lt;title&gt; hexo clean #清除缓存文件hexo g #生成静态文件hexo d #部署网站 参考:1.官方文档]]></content>
   </entry>
   <entry>
     <title><![CDATA[docker容器使用keepalived模拟mysql主备切换]]></title>
