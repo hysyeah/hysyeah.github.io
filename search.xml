@@ -3,12 +3,12 @@
   <entry>
     <title><![CDATA[docker centos镜像安装mysql]]></title>
     <url>%2F2019%2F07%2F13%2Fdocker-centos%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85mysql%2F</url>
-    <content type="text"><![CDATA[1.拉取CentOs基础镜像docker pull centos2.启动容器，要加—privileged,不然使用systemctl会报错docker run -idt --privileged centos init3.进入容器docker exec -it 83c2d9bc6aef /bin/bash 4.安装MySQL 1234567yum -y install wgetwget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpmyum -y install mysql57-community-release-el7-8.noarch.rpmyum -y install mysql-community-server.x86_64 启动MySQL systemctl start mysqld.service systemctl enable mysqld.service cat /var/log/mysqld.log | grep password 5.安装keepalivedyum -y install keepalived 6.登录MySQL,修改密码，授权远程访问。 7.导出容器快照到本地文件docker export 83c2d9bc6aef -o keepalived.tar8.将容器快照导入为镜像,下次就可以直接通过此镜像启动有MySQL和keepalived的容器cat keepalived.tar | docker import - centos/keepalived]]></content>
+    <content type="text"><![CDATA[1.拉取CentOs基础镜像docker pull centos2.启动容器，要加--privileged,不然使用systemctl会报错docker run -idt --privileged centos init3.进入容器docker exec -it 83c2d9bc6aef /bin/bash 4.安装MySQL 1234567yum -y install wgetwget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpmyum -y install mysql57-community-release-el7-8.noarch.rpmyum -y install mysql-community-server.x86_64 启动MySQL systemctl start mysqld.service systemctl enable mysqld.service cat /var/log/mysqld.log | grep password 5.安装keepalivedyum -y install keepalived 6.登录MySQL,修改密码，授权远程访问。 7.导出容器快照到本地文件docker export 83c2d9bc6aef -o keepalived.tar8.将容器快照导入为镜像,下次就可以直接通过此镜像启动有MySQL和keepalived的容器cat keepalived.tar | docker import - centos/keepalived]]></content>
   </entry>
   <entry>
     <title><![CDATA[docker容器apt-get失败]]></title>
     <url>%2F2019%2F07%2F13%2Fdocker%E5%AE%B9%E5%99%A8apt-get%E5%A4%B1%E8%B4%A5%2F</url>
-    <content type="text"><![CDATA[1.进入容器后,执行update```失败123456789101112![image](http://pu4dflhia.bkt.clouddn.com/2019/07/13/docker-apt-get-update.png)原因是容器中的DNS不对。2.查找宿主机的DNS![image](http://pu4dflhia.bkt.clouddn.com/2019/07/13/win10-dns.png)3.修改容器中的DNS```Pythonecho &quot;nameserver 192.168.2.1&quot; | tee /etc/resolv.conf 4.执行apt-get update]]></content>
+    <content type="text"><![CDATA[1.进入容器后,执行apt-get update失败 原因是容器中的DNS不对。 2.查找宿主机的DNS 3.修改容器中的DNS echo &quot;nameserver 192.168.2.1&quot; | tee /etc/resolv.conf 4.执行apt-get update]]></content>
   </entry>
   <entry>
     <title><![CDATA[通过keepalived实现neo4j主备切换]]></title>
