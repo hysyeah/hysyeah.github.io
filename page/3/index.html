@@ -380,6 +380,190 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/09/sbt简介,scala项目hello,world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/09/sbt简介,scala项目hello,world/" class="post-title-link" itemprop="url">sbt简介,scala项目hello,world</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-09 08:24:03" itemprop="dateCreated datePublished" datetime="2019-04-09T08:24:03+08:00">2019-04-09</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-13 05:48:09" itemprop="dateModified" datetime="2019-07-13T05:48:09+08:00">2019-07-13</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>sbt(Simple Build Tool)是官方推荐的Scala项目构建工具,为你的项目提供编译，运行，测试等各种功能。 １.sbt安装 - 依赖jdk8,如没安装，需要先安装jdk8</p>
+<pre><code>echo &quot;deb https://dl.bintray.com/sbt/debian /&quot; | sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+sudo apt-get update
+sudo apt-get install sbt
+</code></pre><p>2.启动sbt,第一次启动需要下载一些包速度会比较慢,更换源请参考<a href="http://pu4dflhia.bkt.clouddn.com/2019/04/09/sbt%e8%ae%be%e7%bd%ae%e5%9b%bd%e5%86%85%e6%ba%90/" target="_blank" rel="noopener">更换国内源</a> 3.新建一个简单的项目，结构如下,<a href="http://pu4dflhia.bkt.clouddn.com/2019/04/09/shell%e5%88%9b%e5%bb%ba%e7%9b%ae%e5%bd%95/" target="_blank" rel="noopener">创建目录脚本</a> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/tree_right.png" alt> ４.在目录<code>src/main/scala</code>下，新建一个文件<code>hello.scala</code></p>
+<pre><code>hys@hys:~/code/scala/helloscala/src/main/scala$ cat hello.scala 
+package foo.bar.baz
+
+object Main extends App {
+  println(&quot;Hello, Scala&quot;)
+}
+</code></pre><p>5.编译，运行 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/sbt_hello.png" alt> 6.sbt命令</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/04/sbt_command.jpg" alt></h2><p>参考： １.<a href="https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html" target="_blank" rel="noopener">https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html</a> 2.scala编程实战</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/09/scala REPL安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1984,189 +2168,6 @@ CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCA
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/09/mysql之binlog-format/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/09/mysql之binlog-format/" class="post-title-link" itemprop="url">mysql之binlog-format</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-09 14:27:08" itemprop="dateCreated datePublished" datetime="2019-03-09T14:27:08+08:00">2019-03-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-11 23:47:31" itemprop="dateModified" datetime="2019-07-11T23:47:31+08:00">2019-07-11</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>mysql</code>支持3种日志记录格式，<code>STATEMENT</code>,<code>ROW</code>,<code>MIXED</code> 可在启动时通过<code>--binlog_format=type</code>指定。</p>
-<ul>
-<li><code>STATEMENT</code>:也被称作logical logging,记录<code>mysql</code>执行的语句</li>
-<li><code>ROW</code>:也被称作physical logging,记录每行数据的变化</li>
-<li><p><code>MIXED</code>:即<code>STATEMENT</code>和<code>ROW</code>的混合形式，<code>mysql</code>会根据场景决定使用哪种日志格式</p>
-<h1 id="查看目前使用的日志格式"><a href="#查看目前使用的日志格式" class="headerlink" title="查看目前使用的日志格式"></a>查看目前使用的日志格式</h1><p>show variables like ‘binlog_format’;</p>
-<h1 id="设置全局binlog-format，重新登录后生效"><a href="#设置全局binlog-format，重新登录后生效" class="headerlink" title="设置全局binlog_format，重新登录后生效"></a>设置全局binlog_format，重新登录后生效</h1><p>SET GLOBAL binlog_format = ‘STATEMENT’;<br>SET GLOBAL binlog_format = ‘ROW’;<br>SET GLOBAL binlog_format = ‘MIXED’;</p>
-<h1 id="设置会话级别的binlog-format"><a href="#设置会话级别的binlog-format" class="headerlink" title="设置会话级别的binlog_format"></a>设置会话级别的binlog_format</h1><p>SET SESSION binlog_format = ‘STATEMENT’;<br>SET SESSION binlog_format = ‘ROW’;<br>SET SESSION binlog_format = ‘MIXED’;</p>
-</li>
-</ul>
-<p>设置会话级别binlog_format的几种情况： - 假如对数据库做了比较小的改动，可能会把binlog_format设置为<code>ROW</code> - 假如一次会话中在一条语句中更新了多行记录，此时使用<code>STATEMENT</code>可能会更高效 - 有些语句可能执行需要的时间比较长，但结果只是几行数据被修改，这种情况也可以将binlog_format改为<code>ROW</code> 但一般不建议在运行时改变binlog_format,下面几种不建议改变binlog_format - 如果使用<code>NDB</code>存储引擎 - 如果当前使用的是row-base replication而且存在临时表 当存在任何临时表时都不应该在运行时改变<code>binlog_format</code>,因为只有在<code>STATEMENT</code>的情况下日志才会记录临时的信息，而在<code>ROW</code>的格式下是不会记录的。在<code>MIXED</code>的模式下临时表通常也会记录。 每个mysql实例都可以设置自己的<code>binlog_format</code>，每个实例会以自己的<code>binlog_format</code>方式去解析日志文件，如果主从复制的架构中，master修改了<code>binlog_format</code>而slave没有修改，则会报错。为会确保改变<code>binlog_format</code>安全，需要停止复制并确保各个实例使用的是同一种日志格式。</p>
-<hr>
-<p>参考： 1.<a href="https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html" target="_blank" rel="noopener">MYSQL Binary Log Format</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2213,7 +2214,7 @@ CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCA
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">207</span>
+                    <span class="site-state-item-count">208</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
