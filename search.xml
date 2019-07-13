@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[docker centos镜像安装mysql]]></title>
     <url>%2F2019%2F07%2F13%2Fdocker-centos%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85mysql%2F</url>
-    <content type="text"><![CDATA[1.拉取CentOs基础镜像123docker pull centos``` 2.启动容器，要加--privileged,不然使用systemctl会报错 docker run -idt —privileged centos init13.进入容器 docker exec -it 83c2d9bc6aef /bin/bash124.安装```MySQL 1234567yum -y install wgetwget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpmyum -y install mysql57-community-release-el7-8.noarch.rpmyum -y install mysql-community-server.x86_64 启动MySQL1234567systemctl start mysqld.servicesystemctl enable mysqld.servicecat /var/log/mysqld.log | grep password``` 5.安装keepalived yum -y install keepalived12346.登录```MySQL```,修改密码，授权远程访问。7.导出容器快照到本地文件 docker export 83c2d9bc6aef -o keepalived.tar18.将容器快照导入为镜像,下次就可以直接通过此镜像启动有MySQL和keepalived的容器 cat keepalived.tar | docker import - centos/keepalived```]]></content>
+    <content type="text"><![CDATA[1.拉取CentOs基础镜像docker pull centos2.启动容器，要加—privileged,不然使用systemctl会报错docker run -idt --privileged centos init3.进入容器docker exec -it 83c2d9bc6aef /bin/bash 4.安装MySQL 1234567yum -y install wgetwget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpmyum -y install mysql57-community-release-el7-8.noarch.rpmyum -y install mysql-community-server.x86_64 启动MySQL systemctl start mysqld.service systemctl enable mysqld.service cat /var/log/mysqld.log | grep password 5.安装keepalivedyum -y install keepalived 6.登录MySQL,修改密码，授权远程访问。 7.导出容器快照到本地文件docker export 83c2d9bc6aef -o keepalived.tar8.将容器快照导入为镜像,下次就可以直接通过此镜像启动有MySQL和keepalived的容器cat keepalived.tar | docker import - centos/keepalived]]></content>
   </entry>
   <entry>
     <title><![CDATA[docker容器apt-get失败]]></title>
