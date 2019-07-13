@@ -425,10 +425,14 @@
                 
               
 
-              <time title="创建时间：2019-07-13 23:26:45" itemprop="dateCreated datePublished" datetime="2019-07-13T23:26:45+08:00">2019-07-13</time>
+              <time title="创建时间：2019-07-13 23:26:45 / 修改时间：23:40:14" itemprop="dateCreated datePublished" datetime="2019-07-13T23:26:45+08:00">2019-07-13</time>
             </span>
           
 
+          
+            
+
+            
           
 
           
@@ -467,9 +471,9 @@
           
             <p>1.拉取CentOs基础镜像<br><figure class="highlight docker"><figcaption><span>pull centos```  </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>.启动容器，要加--privileged,不然使用systemctl会报错</span><br><span class="line">```docker <span class="keyword">run</span> -idt --privileged centos init``` </span><br><span class="line"><span class="number">3</span>.进入容器</span><br><span class="line">```docker exec -it <span class="number">83</span>c2d9bc6aef /bin/bash</span><br></pre></td></tr></table></figure></p>
 <p>4.安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```yum -y install wget</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><figcaption><span>http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">```yum -y install mysql57-community-release-el7-8.noarch.rpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```yum -y install mysql57-community-release-el7-8.noarch.rpm</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><figcaption><span>-y install mysql-community-server.x86_64```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">启动MySQL</span><br><span class="line">```systemctl start mysqld.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><figcaption><span>enable mysqld.service```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```cat /var/log/mysqld.log | grep &apos;password&apos;```  </span><br><span class="line"></span><br><span class="line">5.安装keepalived</span><br><span class="line">```yum -y install keepalived</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>enable mysqld.service```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```cat /var/log/mysqld.log | grep password```  </span><br><span class="line"></span><br><span class="line">5.安装keepalived</span><br><span class="line">```yum -y install keepalived</span><br></pre></td></tr></table></figure>
 <p>6.登录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">7.导出容器快照到本地文件</span><br><span class="line">```docker export 83c2d9bc6aef -o keepalived.tar</span><br></pre></td></tr></table></figure></p>
 <p>8.将容器快照导入为镜像,下次就可以直接通过此镜像启动有MySQL和keepalived的容器<br><code>cat keepalived.tar | docker import - centos/keepalived</code></p>
 
@@ -573,7 +577,7 @@
                 
               
 
-              <time title="创建时间：2019-07-13 18:54:31 / 修改时间：19:09:03" itemprop="dateCreated datePublished" datetime="2019-07-13T18:54:31+08:00">2019-07-13</time>
+              <time title="创建时间：2019-07-13 18:54:31 / 修改时间：23:34:10" itemprop="dateCreated datePublished" datetime="2019-07-13T18:54:31+08:00">2019-07-13</time>
             </span>
           
 
@@ -617,8 +621,8 @@
       
         
           
-            <p>1.进入容器后,执行<figure class="highlight plain"><figcaption><span>update```失败</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">![image](http://pu4dflhia.bkt.clouddn.com/2019/07/13/docker-apt-get-update.png)</span><br><span class="line"></span><br><span class="line">原因是容器中的DNS不对。</span><br><span class="line"></span><br><span class="line">2.查找宿主机的DNS</span><br><span class="line">![image](http://pu4dflhia.bkt.clouddn.com/2019/07/13/win10-dns.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3.修改容器中的DNS</span><br></pre></td></tr></table></figure></p>
-<p>echo “nameserver 192.168.2.1” | tee /etc/resolv.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4.执行```apt-get update</span><br></pre></td></tr></table></figure></p>
+            <p>1.进入容器后,执行<figure class="highlight plain"><figcaption><span>update```失败</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">![image](http://pu4dflhia.bkt.clouddn.com/2019/07/13/docker-apt-get-update.png)</span><br><span class="line"></span><br><span class="line">原因是容器中的DNS不对。</span><br><span class="line"></span><br><span class="line">2.查找宿主机的DNS</span><br><span class="line">![image](http://pu4dflhia.bkt.clouddn.com/2019/07/13/win10-dns.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3.修改容器中的DNS</span><br><span class="line"></span><br><span class="line">```echo &quot;nameserver 192.168.2.1&quot; | tee /etc/resolv.conf</span><br></pre></td></tr></table></figure></p>
+<p>4.执行<code>apt-get update</code></p>
 
           
         
