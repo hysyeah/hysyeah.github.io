@@ -603,10 +603,14 @@
                 
               
 
-              <time title="创建时间：2019-07-14 07:06:13" itemprop="dateCreated datePublished" datetime="2019-07-14T07:06:13+08:00">2019-07-14</time>
+              <time title="创建时间：2019-07-14 07:06:13 / 修改时间：07:56:49" itemprop="dateCreated datePublished" datetime="2019-07-14T07:06:13+08:00">2019-07-14</time>
             </span>
           
 
+          
+            
+
+            
           
 
           
@@ -653,6 +657,9 @@
 <ul>
 <li>停止172.17.0.4中的<code>MySQL</code>服务(systemctl stop mysqld),发现VIP飘到了172.17.0.3上<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/13/keepalived-vip2.png" alt="image"></li>
 </ul>
+<hr>
+<p>所遇问题：<br>1.<code>systemctl status keepalived</code>查看keepalived状态,发现提示Can’t initialize ipvs: Protocol not available<br>解决方法：加载ip_vs模块(在宿主机执行如下命令)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">modprobe ip_vs</span><br><span class="line">modprobe ip_vs_wrr</span><br></pre></td></tr></table></figure></p>
+<p>查看内核是否加载ip_vs<br><code>lsmod | grep ip_vs</code></p>
 
           
         
