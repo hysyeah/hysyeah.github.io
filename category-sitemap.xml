@@ -8,6 +8,13 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/categories/python/</loc>
+        <lastmod>2019-07-16T15:48:34.291Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
         <lastmod>2019-07-13T08:34:42.514Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -17,13 +24,6 @@
     <url>
         <loc>https://hysyeah.github.io/categories/Scala/</loc>
         <lastmod>2019-07-12T22:06:37.008Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/categories/python/</loc>
-        <lastmod>2019-07-12T21:59:30.421Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
