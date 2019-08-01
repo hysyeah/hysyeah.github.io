@@ -425,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2019-08-01 01:33:59 / 修改时间：01:40:35" itemprop="dateCreated datePublished" datetime="2019-08-01T01:33:59+08:00">2019-08-01</time>
+              <time title="创建时间：2019-08-01 01:33:59" itemprop="dateCreated datePublished" datetime="2019-08-01T01:33:59+08:00">2019-08-01</time>
             </span>
           
 
@@ -433,8 +433,33 @@
             
 
             
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-02 00:18:40" itemprop="dateModified" datetime="2019-08-02T00:18:40+08:00">2019-08-02</time>
+              </span>
+            
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/容器/" itemprop="url" rel="index"><span itemprop="name">容器</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,14 +495,67 @@
         
           
             <p>环境：CentOs 7.2</p>
-<p>一、使用k8s搭建hello-world</p>
+<p>一、使用k8s搭建hello-world,安装kubernetes<br>1.关闭CentOS自带的防火墙<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl disable firewalld</span><br><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure></p>
+<p>2.安装etcd和kubernetes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y etcd kubernetes</span><br></pre></td></tr></table></figure></p>
+<p>3.修改配置文件/etc/sysconfig/docker和/etc/kubernetes/apiserver为如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/sysconfig/docker/</span><br><span class="line"></span><br><span class="line">OPTIONS=&apos;--selinux-enabled=false --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 将--admission-control参数中的ServiceAccount删除</span><br><span class="line">/etc/kubernetes/apiserver</span><br><span class="line">KUBE_ADMISSION_CONTROL=&quot;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota&quot;</span><br></pre></td></tr></table></figure>
+<p>4.按如下顺序启动所有的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl start etcd</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl start kube-apiserver</span><br><span class="line">systemctl start kube-controller-manager</span><br><span class="line">systemctl start kube-scheduler</span><br><span class="line">systemctl start kubelet</span><br><span class="line">systemctl start kube-proxy</span><br></pre></td></tr></table></figure></p>
+<p>二、搭建hello-world案例<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/08/01/helloworld-k8s.png" alt="image"><br>1.拉取镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull kubeguide/guestbook-php-frontend  # php web服务</span><br><span class="line">docker pull kubeguide/redis-master</span><br><span class="line">docker pull kubeguide/guestbook-redis-slave</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>创建redis-master Pod和服务</li>
+</ol>
+<ul>
+<li><p>为redis-master服务创建名为redis-master的RC定义文件：redis-master-controller.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ReplicationController</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-master</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-master</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-master</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        name: redis-master</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: master</span><br><span class="line">        image: kubeguide/redis-master</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 6379</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布到集群中<br><code>kubectl create -f redis-master-controller.yaml</code></p>
+</li>
+<li><p>创建与之关联的Service,编辑文件<code>redis-master-service.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-master</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-master</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 6379</span><br><span class="line">    targetPort: 6379</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布Service<br><code>kubectl create -f redis-master-service.yaml</code></p>
+</li>
+</ul>
+<p>3.创建redis-slave Pod和服务</p>
+<ul>
+<li><p>创建Pod<br><code>vim redis-slave-controller.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ReplicationController</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-slave</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-slave</span><br><span class="line">spec:</span><br><span class="line">  replicas: 2</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-slave</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        name: redis-slave</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: slave</span><br><span class="line">        image: kubeguide/guestbook-redis-slave</span><br><span class="line">        env:</span><br><span class="line">        - name: GET_HOSTS_FROM</span><br><span class="line">          value: env</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 6379</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布Pod到集群<br><code>kubectl  create -f redis-slave-controller.yaml</code></p>
+</li>
+<li><p>创建Service<br><code>vim redis-slave-service.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-slave</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-slave</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 6379</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-slave</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布服务<br><code>kubectl create -f redis-slave-service.yaml</code></p>
+</li>
+</ul>
+<p>4.创建frontend Pod和服务</p>
+<ul>
+<li><p>创建Pod<br><code>vim frontend-controller.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ReplicationController</span><br><span class="line">metadata:</span><br><span class="line">  name: frontend</span><br><span class="line">  labels:</span><br><span class="line">    name: frontend</span><br><span class="line">spec:</span><br><span class="line">  replicas: 3</span><br><span class="line">  selector:</span><br><span class="line">    name: frontend</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        name: frontend</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">        - name: frontend</span><br><span class="line">          image: kubeguide/guestbook-php-frontend</span><br><span class="line">          env:</span><br><span class="line">            - name: GET_HOSTS_FROM</span><br><span class="line">              value: env</span><br><span class="line">          ports:</span><br><span class="line">            - containerPort: 80</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布Pod到集群<br><code>kubectl create -f frontend-controller.yaml</code></p>
+</li>
+<li><p>创建服务<br><code>vim frontend-service.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: frontend</span><br><span class="line">  labels:</span><br><span class="line">    name: frontend</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  ports:</span><br><span class="line">    - port: 80</span><br><span class="line">      nodePort: 30001</span><br><span class="line">  selector:</span><br><span class="line">    name: frontend</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布Service<br><code>kubectl create -f frontend-service.yaml</code></p>
+</li>
+</ul>
+<p>5.查看Pod和服务状态<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/08/01/helloworld-status.png" alt="image"></p>
+<p>5.通过浏览器访问网页,输入URL: <a href="http://虚拟机IP:30001" target="_blank" rel="noopener">http://虚拟机IP:30001</a><br><img src="http://pu4dflhia.bkt.clouddn.com/2019/08/01/k8s-guestbook.png" alt="image"></p>
 <hr>
-<p>所遇问题：<br>1.docker启动失败</p>
-<p>2.创建pod一直处于ContainerCreating状态</p>
-<p>3.启动frontend pod时报错, AH00534: apache2: Configuration error: No MPM loaded</p>
-<p>systemctl stop docker              //停掉docker服务<br>rm -rf /var/lib/docker             //注意会清掉docker images的镜像<br>vi /etc/sysconfig/docker-storage   //将文件里的overlay2改成devicemapper即可<br>DOCKER_STORAGE_OPTIONS=”—storage-driver overlay2 “  #修改前<br>DOCKER_STORAGE_OPTIONS=”—storage-driver devicemapper “   #修改后</p>
-<p>7.3、重启docker服务</p>
-<p>systemctl start docker</p>
+<p>在创建过程中可能会用到的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods    #查看pod状态</span><br><span class="line">kubectl get rc      #查看RC</span><br><span class="line">kubectl get service #查看服务</span><br><span class="line"></span><br><span class="line">kubectl logs [pod-name]   # 查看日志</span><br><span class="line">kubectl delete pods [pod-name]  #删除pod</span><br><span class="line">kubectl delete rc [rc-name]          #删除rc</span><br><span class="line">kubectl delete service [service-name]   #删除服务</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>所遇问题：<br>1.docker启动失败,提示Error starting daemon: SELinux is not supported with the overlay2 graph driver on this kernel. Either boot into a newer kernel or disable selinux in docker (—selinux-enabled=false)</p>
+<p><code>vim /etc/sysconfig/docker</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS=&apos;--selinux-enabled --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure></p>
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS=&apos;--selinux-enabled=false --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure>
+<p>2.创建pod一直处于ContainerCreating状态,原因是不能拉取pod的基础镜像,[<a href="https://blog.csdn.net/weixin_34054866/article/details/87525597" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34054866/article/details/87525597</a>]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install -y *rhsm*</span><br><span class="line"> </span><br><span class="line">wget http://mirror.centos.org/centos/7/os/x86_64/Packages/python-rhsm-certificates-1.19.10-1.el7_4.x86_64.rpm</span><br><span class="line"> </span><br><span class="line">rpm2cpio python-rhsm-certificates-1.19.10-1.el7_4.x86_64.rpm | cpio -iv --to-stdout ./etc/rhsm/ca/redhat-uep.pem | tee /etc/rhsm/ca/redhat-uep.pem</span><br></pre></td></tr></table></figure></p>
+<p>3.启动frontend pod时报错, AH00534: apache2: Configuration error: No MPM loaded<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker              //停掉docker服务</span><br><span class="line">rm -rf /var/lib/docker             //注意会清掉docker images的镜像,需重新拉取镜像</span><br><span class="line">vi /etc/sysconfig/docker-storage   //将文件里的overlay2改成devicemapper即可</span><br><span class="line">DOCKER_STORAGE_OPTIONS=&quot;--storage-driver overlay2 &quot;  #修改前</span><br><span class="line">DOCKER_STORAGE_OPTIONS=&quot;--storage-driver devicemapper &quot;   #修改后</span><br></pre></td></tr></table></figure></p>
+<p>重启docker服务<br><code>systemctl start docker</code></p>
+<hr>
+<p>参考：<br>1.kubernetes权威指南<br>2.<a href="https://blog.csdn.net/a1010256340/article/details/80106156" target="_blank" rel="noopener">https://blog.csdn.net/a1010256340/article/details/80106156</a><br>3.<a href="https://blog.csdn.net/weixin_34054866/article/details/87525597" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34054866/article/details/87525597</a><br>4.<a href="https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html" target="_blank" rel="noopener">https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html</a></p>
 
           
         
@@ -2168,7 +2246,9 @@ while True:
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2201,7 +2281,9 @@ while True:
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
