@@ -380,6 +380,233 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/23/python使用最小二乘法求拟合曲线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/23/python使用最小二乘法求拟合曲线/" class="post-title-link" itemprop="url">python使用最小二乘法求拟合曲线</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-23 22:36:53" itemprop="dateCreated datePublished" datetime="2018-04-23T22:36:53+08:00">2018-04-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-13 05:52:42" itemprop="dateModified" datetime="2019-07-13T05:52:42+08:00">2019-07-13</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.<a href="https://blog.csdn.net/yauphy1/article/details/43735763" target="_blank" rel="noopener">最小二乘法</a><br> 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。</p>
+<pre><code>import numpy as np
+x = [1, 2, 3, 4]
+y = [6, 5, 7, 10]
+r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
+f = np.poly1d(r) #f为拟合函数
+</code></pre><p>求出的拟合直线为$ y = r[0]x+r[1] $, $y = 1.4x+3.5 $<br>3.画出拟合直线和数据点</p>
+<pre><code>import matplotlib.pyplot as plt
+fig = plt.subplots()
+plt.plot(1,6,&#39;*-&#39;)
+plt.plot(2,5,&#39;*-&#39;)
+plt.plot(3,7,&#39;*-&#39;)
+plt.plot(4,10,&#39;*-&#39;)
+f = lambda x: 1.4*x + 3.5
+x = [1, 2, 3, 4]
+y = [f(e) for e in x]
+plt.plot(x,y)
+plt.show()
+</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/fit.png" alt="image"></p>
+<hr>
+<h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+
+x = np.array([ 6,  8, 10, 14, 18])
+y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
+
+plt.plot(x, y, &#39;k.&#39;)
+plt.axis([0, 25, 0, 25])
+
+
+model = LinearRegression()
+model.fit(x.reshape(-1,1),y.reshape(-1,1))
+
+e = [item[0] for item in model.predict(x.reshape(-1,1))]
+
+
+X = list(zip(x,x))
+Y = list(zip(y,e))
+for i in range(len(X)):
+    plt.plot(X[i],Y[i],&#39;r&#39;)
+
+plt.title(&quot;Linear regression use least square method&quot;)
+plt.xlabel(r&#39;$x$&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
+plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
+
+plt.plot(x, e)
+plt.grid(True)
+plt.show()
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/04/least_square.png" alt></p>
+<hr>
+<p>选择最小二乘的原因：<br>1.平方能将正残差与负残差都变成正数<br>2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响<br>3.在残差服从均值为0，方差为$ \sigma ^2 $ (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。<br>4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
+<hr>
+<p>参考：<br>1.<a href="http://greenteapress.com/thinkstats/" target="_blank" rel="noopener">Think Stats Probability and Statistics for Programmers</a><br>2.<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html" target="_blank" rel="noopener">numpy</a><br>3.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank" rel="noopener">scikit-learn</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/02/python标准库之OrderedDict/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2200,239 +2427,11 @@ hdfs dfs -text /out/part-r-00000                                      #查看执
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/spark-shell使用mysql存储元数据/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/02/07/spark-shell使用mysql存储元数据/" class="post-title-link" itemprop="url">spark-shell使用mysql存储元数据</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-02-07 18:17:51" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:51+08:00">2018-02-07</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-13 05:46:26" itemprop="dateModified" datetime="2019-07-13T05:46:26+08:00">2019-07-13</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.hive安装(依赖于hadoop) - 下载<a href="http://hive.apache.org/downloads.html" target="_blank" rel="noopener">hive</a> - 解压到/opt目录下 - 添加环境变量到~/.bashrc <code>export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH</code> 2.hive-env.sh添加</p>
-<pre><code>HADOOP_HOME=/opt/hadoop-2.7.4
-</code></pre><p>3.hive-site.xml添加[server端，hive目录下]</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
-&lt;configuration&gt;
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
-    &lt;value&gt;jdbc:mysql://10.68.2.55:3307/hivedb?createDatabaseIfNotExist=true&amp;characterEncoding=utf8&amp;useSSL=false&lt;/value&gt; #mysql连接信息
-    &lt;description&gt;
-      JDBC connect string for a JDBC metastore.
-      To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the connection URL.
-      For example, jdbc:postgresql://myhost/db?ssl=true for postgres database.
-    &lt;/description&gt;
-  &lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
-    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
-    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
-    &lt;value&gt;root&lt;/value&gt;
-    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
-    &lt;value&gt;hello&lt;/value&gt;
-    &lt;description&gt;password to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
-    &lt;value&gt;hdfs://10.68.2.55:9000/user/hive/warehouse&lt;/value&gt;
-    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
-  &lt;/property&gt;
-&lt;/configuration&gt;
-</code></pre><p>4.hive-site.xml[client端，spark目录下]</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
-&lt;configuration&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.metastore.uris&lt;/name&gt;
-    &lt;value&gt;thrift://10.68.2.55:8000&lt;/value&gt;
-    &lt;description&gt;Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.&lt;/description&gt;
-  &lt;/property&gt;
-  &lt;property&gt;
-  &lt;name&gt;spark.sql.warehouse.dir&lt;/name&gt;
-  &lt;value&gt;/user/hive/warehouse&lt;/value&gt; #hdfs dfs -mkdir -p /usr/hive/warehouse
-&lt;/property&gt;
-&lt;/configuration&gt;
-</code></pre><p>5.下载mysql-connector-java-5.1.44-bin.jar，放到/opt/apache-hive-2.2.0-bin/lib目录下 6.</p>
-<pre><code>schematool -dbType mysql -initSchema #初始化
-hive --service metastore -p &lt;port&gt;  #启动服务
-启动spark-shell将会将元数据存储到mysql
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2474,7 +2473,7 @@ hive --service metastore -p &lt;port&gt;  #启动服务
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">210</span>
+                    <span class="site-state-item-count">211</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2547,7 +2546,9 @@ hive --service metastore -p &lt;port&gt;  #启动服务
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -3093,6 +3094,8 @@ hive --service metastore -p &lt;port&gt;  #启动服务
   
     
       
+        
+      
     
       
     
@@ -3114,6 +3117,46 @@ hive --service metastore -p &lt;port&gt;  #启动服务
     
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 

@@ -3,8 +3,15 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/linux/</loc>
+        <lastmod>2019-07-21T08:27:02.624Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/tcp-ip/</loc>
-        <lastmod>2019-07-12T22:06:37.009Z</lastmod>
+        <lastmod>2019-07-21T08:27:02.624Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -33,13 +40,6 @@
     <url>
         <loc>https://hysyeah.github.io/tags/apue/</loc>
         <lastmod>2019-07-11T15:48:18.846Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/linux/</loc>
-        <lastmod>2019-07-11T15:45:41.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

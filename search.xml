@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[k8s之hello-world]]></title>
+    <url>%2F2019%2F08%2F01%2Fk8s%E4%B9%8Bhello-world%2F</url>
+    <content type="text"><![CDATA[环境：CentOs 7.2 一、使用k8s搭建hello-world 所遇问题：1.docker启动失败 2.创建pod一直处于ContainerCreating状态 3.启动frontend pod时报错, AH00534: apache2: Configuration error: No MPM loaded systemctl stop docker //停掉docker服务rm -rf /var/lib/docker //注意会清掉docker images的镜像vi /etc/sysconfig/docker-storage //将文件里的overlay2改成devicemapper即可DOCKER_STORAGE_OPTIONS=”—storage-driver overlay2 “ #修改前DOCKER_STORAGE_OPTIONS=”—storage-driver devicemapper “ #修改后 7.3、重启docker服务 systemctl start docker]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[流式处理图]]></title>
     <url>%2F2019%2F07%2F16%2F%E6%B5%81%E5%BC%8F%E5%A4%84%E7%90%86%E5%9B%BE%2F</url>
     <content type="text"><![CDATA[]]></content>
@@ -101,20 +106,20 @@
         <category>未分类</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>tcp/ip</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[linux命令tcpdump与tcp zero window]]></title>
     <url>%2F2019%2F06%2F01%2Flinux%E5%91%BD%E4%BB%A4tcpdump%E4%B8%8Etcp%20zero%20window%2F</url>
-    <content type="text"><![CDATA[example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开 常用选项： -c count # 捕获count个packet后退出 tcp zero windowTCP Window size是指机器在一个TCPsession中可以接收多大的数据量。类似于TCP中的接收缓冲，当客户端和服务端建立连接时，客户端会通过Window Size告诉服务端可以接收多少数据。 当建立TCP连接后，服务端开始向客户端发送数据，客户端会减少Window Size当接收的数据存在于缓冲中时，同时客户端会在缓冲中处理数据，清空缓冲以便接收更多的数据。通过TCP ACK frames客户端会告诉服务端还可以接收多大的数据。当TCP Window Size等于0时，我们称为零窗口，此时客户端不能再接收数据，直到缓冲中的数据被清空。 参考： 1.https://wiki.wireshark.org/TCP%20ZeroWindow]]></content>
+    <content type="text"><![CDATA[example: tcpdump -i ens250 port 34495 -w t.pcap # -i: 指定监听网卡 # port: 指定监听端口 # -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开 常用选项： -c count # 捕获count个packet后退出 tcp zero windowTCP Window size是指机器在一个TCPsession中可以接收多大的数据量。类似于TCP中的接收缓冲，当客户端和服务端建立连接时，客户端会通过Window Size告诉服务端可以接收多少数据。 当建立TCP连接后，服务端开始向客户端发送数据，客户端会减少Window Size当接收的数据存在于缓冲中时，同时客户端会在缓冲中处理数据，清空缓冲以便接收更多的数据。通过TCP ACK frames客户端会告诉服务端还可以接收多大的数据。当TCP Window Size等于0时，我们称为零窗口，此时客户端不能再接收数据，直到缓冲中的数据被清空。 wireshark提示的[TCP window Full]和[TCP zero windwo]意义不同,前者表示这个包的发送方意识到”在途字节数”已经达到对方所声明的窗口,不能再发了;而后者表示这个包的发送意识到自民 的缓存区已经满了,无法接收更多数据。 参考： 1.https://wiki.wireshark.org/TCP%20ZeroWindow]]></content>
       <categories>
-        <category>未分类</category>
+        <category>网络协议</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>tcp/ip</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>

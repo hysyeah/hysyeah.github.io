@@ -380,6 +380,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/20/mysql shell 批量恢复/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/20/mysql shell 批量恢复/" class="post-title-link" itemprop="url">mysql shell 批量恢复</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-20 19:29:17" itemprop="dateCreated datePublished" datetime="2019-03-20T19:29:17+08:00">2019-03-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-13 05:34:03" itemprop="dateModified" datetime="2019-07-13T05:34:03+08:00">2019-07-13</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>有多个mysql的数据文件在文件夹在tmp文件夹下</p>
+<pre><code>ls /root/tmp
+network.dump igw.dump vpn.dump vpc.dump
+</code></pre><p>编写shell恢复数据</p>
+<pre><code>#!/root/tmp
+for elt in $(ls *.dump)
+do
+  echo &quot;restore database $elt&quot;
+  mysql -uroot -pxxxxx ${elt%%.*} &lt; $elt
+done
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/11/pip3的一个bug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2016,233 +2196,11 @@ optional arguments:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/11/13/pgloader的安装与使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/13/pgloader的安装与使用/" class="post-title-link" itemprop="url">pgloader的安装与使用</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-13 22:32:40" itemprop="dateCreated datePublished" datetime="2018-11-13T22:32:40+08:00">2018-11-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-13 05:42:34" itemprop="dateModified" datetime="2019-07-13T05:42:34+08:00">2019-07-13</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>pgloader是由postgresql的作者用lisp语言编写的一个用于将数据从其它数据库迁移到postgresql数据库中的命令行工具，亦可编写简单的脚本，保存为<code>xxx.load</code>文件。</p>
-<h4 id="在centos下安装pgloader"><a href="#在centos下安装pgloader" class="headerlink" title="在centos下安装pgloader"></a>在centos下安装pgloader</h4><p>1.安装依赖</p>
-<pre><code>sudo yum -y install yum-utils rpmdevtools @&quot;Development Tools&quot; sqlite-devel zlib-devel  
-sudo yum -y install epel-release sbcl  
-sudo yum -y install freetds freetds-devel
-</code></pre><p>2.<a href="https://github.com/dimitri/pgloader/releases/download/v3.5.1/pgloader-bundle-3.5.1.tgz" title="下载源码" target="_blank" rel="noopener">下载源码</a></p>
-<pre><code>tar -xv pgloader-bundle-3.5.1.tgz
-cd pgloader-bundle-3.5.1.tgz
-make pgloader
-</code></pre><p>3.编译成功后bin文件夹下会出现pgloader可执行文件，将路径添加到环境变量。</p>
-<pre><code>vim ~/.bash_profile
-source ~/.bash_profile
-</code></pre><hr>
-<h4 id="pgloader的使用-from-mysql-to-postgresql"><a href="#pgloader的使用-from-mysql-to-postgresql" class="headerlink" title="pgloader的使用 from mysql to postgresql"></a>pgloader的使用 from mysql to postgresql</h4><pre><code>load database
-    from mysql://username:password@localhost/test
-    into postgresql://username:password@110.110.110.110/datahub
-with include drop, create tables,  create indexes,  reset sequences, disable triggers, foreign keys, workers=8, concurrency=1
-   set work_mem to &#39;16MB&#39;, maintenance_work_mem to &#39;512MB&#39;
-
-   INCLUDING ONLY TABLE NAMES MATCHING &#39;base_job_type&#39;
-
-   CAST type timestamp when default &quot;0000-00-00 00:00:00&quot; with extra on update current timestamp to timestamptz drop default drop not nul drop extra using zero-dates-to-null,
-        type smallint when unsigned to integer drop typemod
-
-# FROM: 源数据库信息
-# INTO: 目标数据库信息
-# 迁移默认选项：no truncate, create schema, create tables, include drop, create indexes,reset sequences,foreign keys,downcase identifiers, uniquify index names
-
-# include drop: 丢弃目标库的表并重新创建
-# include no drop: 不做任何drop操作
-# truncate: 在迁移数据之前清空表
-# no truncate: 不做truncate操作
-# disable triggers: 这个选项允许，迁移数据到已经存在的表并忽略外键约束和用户定义的触发器，迁移后可能会出现无效的外键约束
-# create tables: 根据元数据自动创建表结构
-# create no tables: 不创建表结构，当迁移数据时必须保证表存在
-# create indexes: 创建索引
-# create no indexes: 不创建索引
-# drop indexes: 在迁移数据之前drop indexes,当数据迁移完成之后重新创建索引
-# uniquify index names: 因为mysql的索引是表唯一，postgresql的索引是schema唯一，所以当从mysql到postgresql时索引名称可能会出现冲突，pgloader会通过特定规则对索引进行重新命名
-# preserve index names: 保留索引名称，尽管如此 mysql primary key也会被重新命名，以保持唯一性
-# drop schema: 迁移数据行 drop schema，然后重建
-# foreign keys: 创建外键
-# no foreign keys: 不创建外键
-# reset sequences: 当数据迁移完成后，sequences会设置为当前列的最大值
-# reset no sequences: 不设置sequences
-# downcase identifiers: 将表名，索引名，列名改为小写
-# quote identifiers: 保留大小写
-# schema only: 只迁移表结构
-# data only: 只复制数据
-</code></pre><h4 id="pgloader转换规则中的坑"><a href="#pgloader转换规则中的坑" class="headerlink" title="pgloader转换规则中的坑"></a>pgloader转换规则中的坑</h4><p>假设mysql中有一个字段的类型为datetime,默认值为”0000-00-00 00:00:00” 如果转换规则写为<code>type datetime to timestamptz</code>此时pgloader并不会匹配上，因为pgloader必须全部匹配时，才会执行类型转换。可写为<code>cast type datetime when default &quot;0000-00-00 00:00:00&quot; to timestamptz</code>才能匹配,如果还有其它的限制也必须加上，如<code>with extra on update current timestamp</code>。这种情况和代码异常处理是不一样的。</p>
-<hr>
-<p>参考： 1.<a href="https://pgloader.readthedocs.io/en/latest/ref/mysql.html" target="_blank" rel="noopener">https://pgloader.readthedocs.io/en/latest/ref/mysql.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2284,7 +2242,7 @@ with include drop, create tables,  create indexes,  reset sequences, disable tri
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">210</span>
+                    <span class="site-state-item-count">211</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2357,7 +2315,9 @@ with include drop, create tables,  create indexes,  reset sequences, disable tri
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

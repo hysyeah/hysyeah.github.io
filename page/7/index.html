@@ -380,6 +380,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/22/go-get-golang-orgx-e5-8c-85-e5-a4-b1-e8-b4-a5-e8-a7-a3-e5-86-b3-e6-96-b9-e6-b3-95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/22/go-get-golang-orgx-e5-8c-85-e5-a4-b1-e8-b4-a5-e8-a7-a3-e5-86-b3-e6-96-b9-e6-b3-95/" class="post-title-link" itemprop="url">go get golang.org/x 包失败解决方法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-22 20:31:35" itemprop="dateCreated datePublished" datetime="2018-08-22T20:31:35+08:00">2018-08-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>由于网络问题不能访问<code>golang.org</code>,通过go get安装golang官方包会失败，如</p>
+<pre><code>go get lint
+package golang.org/x/lint: unrecognized import path &quot;golang.org/x/lint&quot; (https fetch: Get https://golang.org/x/lint?go-get=1: dial tcp 216.239.37.1:443: i/o timeout)
+</code></pre><p>不翻墙的情况下怎么解决这个问题？其实 golang 在 github 上建立了一个镜像库，如 <a href="https://github.com/golang/lint" target="_blank" rel="noopener">https://github.com/golang/lint</a> 即是 <a href="https://golang.org/x/lint" target="_blank" rel="noopener">https://golang.org/x/lint</a> 的镜像库 解决方法</p>
+<pre><code>mkdir -p $GOPATH/src/golang.org/x
+cd $GOPATH/src/golang.org/x
+git clone https://github.com/golang/lint.git
+</code></pre><hr>
+<p>参考： 1.<a href="https://blog.csdn.net/alexwoo0501/article/details/73409917" target="_blank" rel="noopener">https://blog.csdn.net/alexwoo0501/article/details/73409917</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/21/python面试之名称修饰(name-mangling)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2429,283 +2608,11 @@ fmt.Println(a, b, c, d) //1, 2, 4, 8
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/13/Go程序结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/13/Go程序结构/" class="post-title-link" itemprop="url">Go程序结构</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-13 09:52:48" itemprop="dateCreated datePublished" datetime="2018-08-13T09:52:48+08:00">2018-08-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-11 23:41:45" itemprop="dateModified" datetime="2019-07-11T23:41:45+08:00">2019-07-11</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Go 25个关键字</p>
-<pre><code>break       default          func     interface   select
-case        defer            go       map         struct
-chan        else             goto     package     switch
-const       fallthrough      if       range       type
-continue    for              import   return      var
-</code></pre><p>内置常量，类型，函数</p>
-<pre><code>true        false       iota        nil
-
-
-int     int8    int16   int32   int64
-unit    uint8   unit16  unit32  uint64  unitptr
-float32     float64     complex128      complex64
-bool    byte    rune    string  error
-
-
-make    len     cap     new     append      copy    close   delete
-complex     real    imag
-panic   recover
-</code></pre><p>如果一个名称是以大写字母开头的，表示此名称对于其它的package是可见和可获取的。</p>
-<hr>
-<pre><code>// 常量a是package级别的声明，f是一个局部变量，package级别的实体是整个package可见的，不止在声明它的文件中。
-package main
-
-const a = 123;
-func main() {
-    var f = a
-}
-</code></pre><hr>
-<p>变量</p>
-<pre><code>var name  type = expression
-
-var s string           //定义了一个名为s,类型为string的变量
-var i, j, k int        // int, int, int
-
-i := 100
-i, j: = 0, 1
-i, j = j, i            //交换变量
-</code></pre><hr>
-<p>指针</p>
-<pre><code>指针的&quot;零值&quot;是nil
-x := 1
-p := &amp;x                        //通过&amp;取变量x的地址
-
-函数返回一个局部变量的地址是安全，当函数返回后这个局部依然存在(在C语言中则会发生错误(段错误))
-func f() *int {
-    v := 1
-    return &amp;v
-}
-
-func main() {
-    fmt.Println(*f())    //1
-}
-
-//尽管x是局部变量，当函数返回后x还是可以被指针global访问，所以x必须分配在堆上，这种情况我们称为x逃离了f
-var global *int
-func f() {
-    var x int
-    x = 1
-    global = &amp;x
-}
-</code></pre><p>赋值</p>
-<pre><code>var s string = &quot;hello&quot;
-s := &quot;hello&quot;
-x, y := 0, 1
-
-m := make(map[string]int)
-v, ok = m[key]                  //返回两个值
-
-medals := []string{&quot;hello&quot;, &quot;world&quot;}
-
-//定义一个map并初始化
-m3 := map[string]string{
-    &quot;a&quot;: &quot;aa&quot;,
-    &quot;b&quot;: &quot;bb&quot;,
-}
-</code></pre><p>类型声明</p>
-<pre><code>type name underlying-type
-
-type new_int int                        //给int定义一个别名new_int
-</code></pre><p>作用域</p>
-<pre><code>if f, err := os.Open(fname); err != nil { // compile error: unused: f
-return err
-}
-f.ReadByte() // compile error: undefined f
-f.Close() // compile error: undefined f
-
-//变量f的作用域只有在if语句内，因此后面的语句将无法引入它，这将导致编译错误
-</code></pre><p>包的初始化</p>
-<pre><code>包的初始化首先是解决包级变量的依赖顺序，然后安照包级变量声明出现的顺序依次初始
-化：
-var a = b + c // a 第三个初始化, 为 3
-var b = f() // b 第二个初始化, 为 2, 通过调用 f (依赖c)
-var c = 1 // c 第一个初始化, 为 1
-func f() int { return c + 1 }
-
-
-// init初始化函数除了不能被调用或引用外，其也行为和普通函数类似。在每个文件中的init初始化函数，在程序开始执行时按照它们声明的顺序被自动调用。
-func init() {  }
-</code></pre><p><a href="https://github.com/hys20151008/gopl/tree/master/src/ch2" target="_blank" rel="noopener">相关代码</a></p>
-<hr>
-<p>参考： 1.The Go Programming Language</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2747,7 +2654,7 @@ func init() {  }
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">210</span>
+                    <span class="site-state-item-count">211</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2820,7 +2727,9 @@ func init() {  }
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
