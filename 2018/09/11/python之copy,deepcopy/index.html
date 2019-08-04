@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928 浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/09/copy.jpg">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/09/deepcopy.jpg">
-<meta property="og:updated_time" content="2019-07-12T21:51:16.881Z">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/09/copy.jpg">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/09/deepcopy.jpg">
+<meta property="og:updated_time" content="2019-08-04T08:34:13.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python之copy,deepcopy">
 <meta name="twitter:description" content="赋值# c与a指向同一对象 In [71]: a = [0, [1, 2], 3]   In [75]: c = a  In [76]: id(c) Out[76]: 140506513737928  In [77]: id(a) Out[77]: 140506513737928 浅拷贝# 只拷贝对象的引用 In [71]: a = [0, [1, 2], 3]  In [72]: b = a[:">
-<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/09/copy.jpg">
+<meta name="twitter:image" content="http://img.hysyeah.top/wp-content/uploads/2018/09/copy.jpg">
 
 
 
@@ -444,7 +444,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:51:16" itemprop="dateModified" datetime="2019-07-13T05:51:16+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
@@ -525,7 +525,7 @@ Out[79]: [0, [1, 2, 3], 3]
 
 In [80]: a
 Out[80]: [0, [1, 2, 3], 3]
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/09/copy.jpg" alt>图片来源于网络</p>
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/09/copy.jpg" alt>图片来源于网络</p>
 <h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><pre><code># 复制真实的对象
 In [81]: import copy
 
@@ -549,7 +549,7 @@ Out[88]: [0, [1, 2, 3], 3]
 
 In [89]: a
 Out[89]: [0, [1, 2], 3]
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/09/deepcopy.jpg" alt>图片来源于网络</p>
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/09/deepcopy.jpg" alt>图片来源于网络</p>
 <hr>
 <p>浅拷贝和深拷贝的不同之处是对于可变对象来说的，因为对于不可变对象复制对象的引用和复制对象是一样的(因为当要改变值时，会重新创建个对象)。当使用浅拷贝时，对于嵌套的列表只会拷贝其引用，而深拷贝则会复制真实的对象。切片也属于浅拷贝。</p>
 <hr>

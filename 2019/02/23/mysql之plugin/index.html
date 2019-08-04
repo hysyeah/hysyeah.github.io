@@ -116,14 +116,14 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="mysql支持可插拔式的认证方式。 插拔式认证拥有以下能力： 1.可选择内置(native)的认证方式 2.外部认证方式，如PAM, Windows login IDs, LDAP, Kerberos 3.代理用户  mysql包括两种native认证方式mysql_native_password, mysql_old_password都是通过系统表mysql.user和密码hash算法实现的。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysql_native_password.png">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/sha256-pulgin.png">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/cleartext.png">
-<meta property="og:updated_time" content="2019-07-12T21:32:47.607Z">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/02/mysql_native_password.png">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/02/sha256-pulgin.png">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/02/cleartext.png">
+<meta property="og:updated_time" content="2019-08-04T08:34:12.819Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之plugin">
 <meta name="twitter:description" content="mysql支持可插拔式的认证方式。 插拔式认证拥有以下能力： 1.可选择内置(native)的认证方式 2.外部认证方式，如PAM, Windows login IDs, LDAP, Kerberos 3.代理用户  mysql包括两种native认证方式mysql_native_password, mysql_old_password都是通过系统表mysql.user和密码hash算法实现的。">
-<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysql_native_password.png">
+<meta name="twitter:image" content="http://img.hysyeah.top/wp-content/uploads/2019/02/mysql_native_password.png">
 
 
 
@@ -445,7 +445,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:32:47" itemprop="dateModified" datetime="2019-07-13T05:32:47+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -501,11 +501,11 @@
 <ul>
 <li>mysql包括两种native认证方式<code>mysql_native_password, mysql_old_password</code>都是通过系统表<code>mysql.user</code>和密码hash算法实现的。</li>
 </ul>
-<p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysql_native_password.png" alt> 认证的插件都在存在于客户端和服务端的，服务端的是内置于mysql服务器中。客户端的则在于libmysqlclient中。 - SHA-256 Pluggable Authentication 这种认证方法是比mysql_native_password认证方法安全性更高，采用SHA-256哈希算法对明文进行加密。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/sha256-pulgin.png" alt> 创建SHA-256认证的用户</p>
+<p><img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysql_native_password.png" alt> 认证的插件都在存在于客户端和服务端的，服务端的是内置于mysql服务器中。客户端的则在于libmysqlclient中。 - SHA-256 Pluggable Authentication 这种认证方法是比mysql_native_password认证方法安全性更高，采用SHA-256哈希算法对明文进行加密。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/sha256-pulgin.png" alt> 创建SHA-256认证的用户</p>
 <pre><code>CREATE USER &#39;sha256user&#39;@&#39;localhost&#39;
 IDENTIFIED WITH sha256_password BY &#39;password&#39;;
 </code></pre><ul>
-<li><p>Client-Side Cleartext Pluggable Authentication，存储明文 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/cleartext.png" alt></p>
+<li><p>Client-Side Cleartext Pluggable Authentication，存储明文 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/cleartext.png" alt></p>
 </li>
 <li><p>PAM认证 外部认证方式，使mysql服务器通过PAM服务来进行用户认证</p>
 </li>

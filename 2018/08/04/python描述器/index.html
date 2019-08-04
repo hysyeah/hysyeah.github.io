@@ -116,13 +116,13 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="通常，描述器是具有“绑定行为”的对象属性，其属性访问已被描述器协议中的方法覆盖。这些方法是get __（）， set __（）和__delete __（）。如果为对象定义了任何这些方法，则称其为描述器. descr.__get__(self, obj, type=None) --&amp;gt; value  descr.__set__(self, obj, value) --&amp;gt; None  des">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/descriptor.png">
-<meta property="og:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/lazy.png">
-<meta property="og:updated_time" content="2019-07-12T21:54:03.454Z">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/descriptor.png">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/lazy.png">
+<meta property="og:updated_time" content="2019-08-04T08:34:13.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python描述器">
 <meta name="twitter:description" content="通常，描述器是具有“绑定行为”的对象属性，其属性访问已被描述器协议中的方法覆盖。这些方法是get __（）， set __（）和__delete __（）。如果为对象定义了任何这些方法，则称其为描述器. descr.__get__(self, obj, type=None) --&amp;gt; value  descr.__set__(self, obj, value) --&amp;gt; None  des">
-<meta name="twitter:image" content="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/descriptor.png">
+<meta name="twitter:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/descriptor.png">
 
 
 
@@ -444,7 +444,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:54:03" itemprop="dateModified" datetime="2019-07-13T05:54:03+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
@@ -525,7 +525,7 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-</code></pre><p>当你这样做后，所有对描述器属性(比如x 或y) 的访问会被get () 、set () 和delete () 方法捕获到. <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/descriptor.png" alt> 描述器只能在类 级别被定义，而不能为每个实例单独定义。</p>
+</code></pre><p>当你这样做后，所有对描述器属性(比如x 或y) 的访问会被get () 、set () 和delete () 方法捕获到. <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/descriptor.png" alt> 描述器只能在类 级别被定义，而不能为每个实例单独定义。</p>
 <hr>
 <pre><code># 定义一个带__get__,__set__方法的描述符
 In [5]: class D:
@@ -591,7 +591,7 @@ class Circle:
     def perimeter(self):
         print(&#39;Computing perimeter&#39;)
         return 2 * math.pi * self.radius
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2018/08/lazy.png" alt> 很多时候构建延迟计算属性的主要目的是为了提升性能，只有在真正需要的时候才进行计算。 上例中访问c.area只计算一次，当第一次计算后，c.area的值会存在实例的字典中，而只定义了一个<strong>get</strong>方法的非数据描述器的优先级是小于实例属性的,所以会直接访问实例属性。</p>
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/lazy.png" alt> 很多时候构建延迟计算属性的主要目的是为了提升性能，只有在真正需要的时候才进行计算。 上例中访问c.area只计算一次，当第一次计算后，c.area的值会存在实例的字典中，而只定义了一个<strong>get</strong>方法的非数据描述器的优先级是小于实例属性的,所以会直接访问实例属性。</p>
 <pre><code>vars(...)
     vars([object]) -&gt; dictionary
 

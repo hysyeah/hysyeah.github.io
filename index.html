@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-02 00:18:40" itemprop="dateModified" datetime="2019-08-02T00:18:40+08:00">2019-08-02</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -500,7 +500,7 @@
 <p>3.修改配置文件/etc/sysconfig/docker和/etc/kubernetes/apiserver为如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/sysconfig/docker/</span><br><span class="line"></span><br><span class="line">OPTIONS=&apos;--selinux-enabled=false --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 将--admission-control参数中的ServiceAccount删除</span><br><span class="line">/etc/kubernetes/apiserver</span><br><span class="line">KUBE_ADMISSION_CONTROL=&quot;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota&quot;</span><br></pre></td></tr></table></figure>
 <p>4.按如下顺序启动所有的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl start etcd</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl start kube-apiserver</span><br><span class="line">systemctl start kube-controller-manager</span><br><span class="line">systemctl start kube-scheduler</span><br><span class="line">systemctl start kubelet</span><br><span class="line">systemctl start kube-proxy</span><br></pre></td></tr></table></figure></p>
-<p>二、搭建hello-world案例<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/08/01/helloworld-k8s.png" alt="image"><br>1.拉取镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull kubeguide/guestbook-php-frontend  # php web服务</span><br><span class="line">docker pull kubeguide/redis-master</span><br><span class="line">docker pull kubeguide/guestbook-redis-slave</span><br></pre></td></tr></table></figure></p>
+<p>二、搭建hello-world案例<br><img src="http://img.hysyeah.top/2019/08/01/helloworld-k8s.png" alt="image"><br>1.拉取镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull kubeguide/guestbook-php-frontend  # php web服务</span><br><span class="line">docker pull kubeguide/redis-master</span><br><span class="line">docker pull kubeguide/guestbook-redis-slave</span><br></pre></td></tr></table></figure></p>
 <ol>
 <li>创建redis-master Pod和服务</li>
 </ol>
@@ -542,8 +542,8 @@
 <li><p>发布Service<br><code>kubectl create -f frontend-service.yaml</code></p>
 </li>
 </ul>
-<p>5.查看Pod和服务状态<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/08/01/helloworld-status.png" alt="image"></p>
-<p>5.通过浏览器访问网页,输入URL: <a href="http://虚拟机IP:30001" target="_blank" rel="noopener">http://虚拟机IP:30001</a><br><img src="http://pu4dflhia.bkt.clouddn.com/2019/08/01/k8s-guestbook.png" alt="image"></p>
+<p>5.查看Pod和服务状态<br><img src="http://img.hysyeah.top/2019/08/01/helloworld-status.png" alt="image"></p>
+<p>5.通过浏览器访问网页,输入URL: <a href="http://虚拟机IP:30001" target="_blank" rel="noopener">http://虚拟机IP:30001</a><br><img src="http://img.hysyeah.top/2019/08/01/k8s-guestbook.png" alt="image"></p>
 <hr>
 <p>在创建过程中可能会用到的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods    #查看pod状态</span><br><span class="line">kubectl get rc      #查看RC</span><br><span class="line">kubectl get service #查看服务</span><br><span class="line"></span><br><span class="line">kubectl logs [pod-name]   # 查看日志</span><br><span class="line">kubectl delete pods [pod-name]  #删除pod</span><br><span class="line">kubectl delete rc [rc-name]          #删除rc</span><br><span class="line">kubectl delete service [service-name]   #删除服务</span><br></pre></td></tr></table></figure></p>
 <hr>
@@ -672,7 +672,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-17 00:11:42" itemprop="dateModified" datetime="2019-07-17T00:11:42+08:00">2019-07-17</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
@@ -711,9 +711,9 @@
       
         
           
-            <p><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/17/IMG_0001.JPG" alt="image"></p>
-<p><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/17/IMG_0002.JPG" alt="image"></p>
-<p><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/17/IMG_0003.JPG" alt="image"></p>
+            <p><img src="http://img.hysyeah.top/2019/07/17/IMG_0001.JPG" alt="image"></p>
+<p><img src="http://img.hysyeah.top/2019/07/17/IMG_0002.JPG" alt="image"></p>
+<p><img src="http://img.hysyeah.top/2019/07/17/IMG_0003.JPG" alt="image"></p>
 
           
         
@@ -815,13 +815,23 @@
                 
               
 
-              <time title="创建时间：2019-07-14 07:11:41 / 修改时间：07:34:44" itemprop="dateCreated datePublished" datetime="2019-07-14T07:11:41+08:00">2019-07-14</time>
+              <time title="创建时间：2019-07-14 07:11:41" itemprop="dateCreated datePublished" datetime="2019-07-14T07:11:41+08:00">2019-07-14</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
             
           
 
@@ -993,13 +1003,23 @@
                 
               
 
-              <time title="创建时间：2019-07-14 07:06:13 / 修改时间：07:56:49" itemprop="dateCreated datePublished" datetime="2019-07-14T07:06:13+08:00">2019-07-14</time>
+              <time title="创建时间：2019-07-14 07:06:13" itemprop="dateCreated datePublished" datetime="2019-07-14T07:06:13+08:00">2019-07-14</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
             
           
 
@@ -1042,10 +1062,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id mysql_master</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_mysql &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 3306&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance mysql &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth0             #在容器中执行ifconfig查看</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.17.0.5/16</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_mysql</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <p>IP: 172.17.0.4<br>vim /etc/keepalived/keepalived.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id mysql_slave</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_mysql &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 3306&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance mysql &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth0</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.17.0.5/16</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_mysql</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.启动keepalived<br><code>systemctl start keepalived</code><br><code>systemctl enable keepalived</code><br><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/13/keepalived-vip.png" alt="image"></p>
+<p>3.启动keepalived<br><code>systemctl start keepalived</code><br><code>systemctl enable keepalived</code><br><img src="http://img.hysyeah.top/2019/07/13/keepalived-vip.png" alt="image"></p>
 <p>验证：</p>
 <ul>
-<li>停止172.17.0.4中的<code>MySQL</code>服务(systemctl stop mysqld),发现VIP飘到了172.17.0.3上<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/13/keepalived-vip2.png" alt="image"></li>
+<li>停止172.17.0.4中的<code>MySQL</code>服务(systemctl stop mysqld),发现VIP飘到了172.17.0.3上<br><img src="http://img.hysyeah.top/2019/07/13/keepalived-vip2.png" alt="image"></li>
 </ul>
 <hr>
 <p>所遇问题：<br>1.<code>systemctl status keepalived</code>查看keepalived状态,发现提示Can’t initialize ipvs: Protocol not available<br>解决方法：加载ip_vs模块(在宿主机执行如下命令)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">modprobe ip_vs</span><br><span class="line">modprobe ip_vs_wrr</span><br></pre></td></tr></table></figure></p>
@@ -1166,7 +1186,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-14 06:58:54" itemprop="dateModified" datetime="2019-07-14T06:58:54+08:00">2019-07-14</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1332,7 +1352,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-14 06:59:33" itemprop="dateModified" datetime="2019-07-14T06:59:33+08:00">2019-07-14</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1371,9 +1391,9 @@ cat /var/log/mysqld.log | grep password
       
         
           
-            <p>1.进入容器后,执行<code>apt-get update</code>失败<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/13/docker-apt-get-update.png" alt="image"></p>
+            <p>1.进入容器后,执行<code>apt-get update</code>失败<br><img src="http://img.hysyeah.top/2019/07/13/docker-apt-get-update.png" alt="image"></p>
 <p>原因是容器中的DNS不对。</p>
-<p>2.查找宿主机的DNS<br><img src="http://pu4dflhia.bkt.clouddn.com/2019/07/13/win10-dns.png" alt="image"></p>
+<p>2.查找宿主机的DNS<br><img src="http://img.hysyeah.top/2019/07/13/win10-dns.png" alt="image"></p>
 <p>3.修改容器中的DNS</p>
 <p><code>echo &quot;nameserver 192.168.2.1&quot; | tee /etc/resolv.conf</code></p>
 <p>4.执行<code>apt-get update</code></p>
@@ -1478,13 +1498,23 @@ cat /var/log/mysqld.log | grep password
                 
               
 
-              <time title="创建时间：2019-07-11 22:25:14 / 修改时间：22:50:48" itemprop="dateCreated datePublished" datetime="2019-07-11T22:25:14+08:00">2019-07-11</time>
+              <time title="创建时间：2019-07-11 22:25:14" itemprop="dateCreated datePublished" datetime="2019-07-11T22:25:14+08:00">2019-07-11</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+              </span>
             
           
 
@@ -1649,7 +1679,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-11 23:11:49" itemprop="dateModified" datetime="2019-07-11T23:11:49+08:00">2019-07-11</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
@@ -1703,7 +1733,7 @@ cat /var/log/mysqld.log | grep password
       
         
           
-            <p>今天晚上发再更新文章时总是提醒<code>/wp-admin/post.php</code>,但 查看服务器发现文件存在，最近也没有安装插件。 多方尝试最后将下图红框中的数据删除，点击保存，问题解决。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/15604410141.png" alt></p>
+            <p>今天晚上发再更新文章时总是提醒<code>/wp-admin/post.php</code>,但 查看服务器发现文件存在，最近也没有安装插件。 多方尝试最后将下图红框中的数据删除，点击保存，问题解决。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/15604410141.png" alt></p>
 
           
         
@@ -1820,7 +1850,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:38:04" itemprop="dateModified" datetime="2019-07-13T05:38:04+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
@@ -1999,7 +2029,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:45:59" itemprop="dateModified" datetime="2019-07-13T05:45:59+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
@@ -2079,7 +2109,7 @@ while True:
 
     client_handler = threading.Thread(target=handle_client, args=(client,))
     client_handler.start()
-</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务川口春奈 的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
+</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务川口春奈 的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
 <hr>
 <p>总结: TCP必须通过查看套接字对的所有4个元素才能确定由哪个端点接收某个到达的分节。如一个分节来自127.0.0.1端口52822,目的地为127.0.0.1端口8080，它就会被传递给子进程2进行处理。</p>
 <hr>

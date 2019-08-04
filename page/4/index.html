@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:34:03" itemprop="dateModified" datetime="2019-07-13T05:34:03+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -620,7 +620,7 @@ done
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:43:11" itemprop="dateModified" datetime="2019-07-13T05:43:11+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -674,7 +674,7 @@ done
       
         
           
-            <p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/03/pip3.png" alt></p>
+            <p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/pip3.png" alt></p>
 <pre><code>import sys
 
 from pip import main
@@ -803,7 +803,7 @@ if __name__ == &#39;__main__&#39;:
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-11 23:47:39" itemprop="dateModified" datetime="2019-07-11T23:47:39+08:00">2019-07-11</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -870,7 +870,7 @@ id int not null,
 a_id int not null,
 CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCADE
 );
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/03/cascade.png" alt> 当设置<code>SET GLOBAL FOREIGN_KEY_CHECKS=0;(下次登录生效)</code>时，级联删除并不会生效。 当我们使用语句<code>delete from a</code>时，mysql会将b表中的数据也会删除，那删除b表中的数据这一操作会不会记在binlog中呢？？ 经过验证不管设置何种<code>binlog_format</code>b表中的数据变化并不会记录在日志文件中。级联操作是根据存储引擎通过外键关系来进行操作的，并不会体现在日志文件中。mysql文档中有详细的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-and-mysql-replication.html" target="_blank" rel="noopener">解释</a></p>
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/cascade.png" alt> 当设置<code>SET GLOBAL FOREIGN_KEY_CHECKS=0;(下次登录生效)</code>时，级联删除并不会生效。 当我们使用语句<code>delete from a</code>时，mysql会将b表中的数据也会删除，那删除b表中的数据这一操作会不会记在binlog中呢？？ 经过验证不管设置何种<code>binlog_format</code>b表中的数据变化并不会记录在日志文件中。级联操作是根据存储引擎通过外键关系来进行操作的，并不会体现在日志文件中。mysql文档中有详细的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-and-mysql-replication.html" target="_blank" rel="noopener">解释</a></p>
 
           
         
@@ -987,7 +987,7 @@ CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCA
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-11 23:47:31" itemprop="dateModified" datetime="2019-07-11T23:47:31+08:00">2019-07-11</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1170,7 +1170,7 @@ CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCA
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-11 23:47:23" itemprop="dateModified" datetime="2019-07-11T23:47:23+08:00">2019-07-11</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1229,11 +1229,11 @@ CONSTRAINT `fk_a__id` FOREIGN KEY (`a_id`) REFERENCES `a` (`id`) ON DELETE CASCA
 create user &#39;hys&#39;@&#39;localhost&#39; identified by &#39;wtf&#39;;
 create user &#39;hys&#39;@&#39;127.0.0.1&#39; identified by &#39;666&#39;;
 flush privileges;
-</code></pre><p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysqluser.png" alt> 使用命令进行连接<code>mysql -uhys -phello</code>,报错如下 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysqlacces.png" alt> 使用命令进行连接<code>mysql -uhys -pwtf</code>则可以正常连接。 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code> <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysqlacces.png" alt> 说明mysql在进行连接时把<code>127.0.0.1</code>转换成了<code>localhost</code> 删除掉<code>hys@localhost</code> 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code>可正常连接</p>
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysqluser.png" alt> 使用命令进行连接<code>mysql -uhys -phello</code>,报错如下 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png" alt> 使用命令进行连接<code>mysql -uhys -pwtf</code>则可以正常连接。 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code> <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysqlacces.png" alt> 说明mysql在进行连接时把<code>127.0.0.1</code>转换成了<code>localhost</code> 删除掉<code>hys@localhost</code> 使用命令进行连接<code>mysql -uhys -h127.0.0.1 -p666</code>可正常连接</p>
 <hr>
 <p>结论： 1.通配符不包括<code>localhost</code> 2.当同一用户host同时存在<code>localhost</code>和<code>%</code>时，会优先匹配<code>localhost</code> 3.当同一用户host同时存在<code>localhost</code>和<code>127.0.0.1</code>时,虽然连接时指定了<code>-h127.0.0.1</code>但也会先匹配<code>localhost</code> 4.当存在<code>127.0.0.1</code>而不存在<code>localhost</code>，指定<code>-h127.0.0.1</code>可以进行连接</p>
 <hr>
-<p>参考： <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysql.png" alt> <a href="https://dev.mysql.com/doc/mysql-security-excerpt/8.0/en/problems-connecting.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/mysql-security-excerpt/8.0/en/problems-connecting.html</a></p>
+<p>参考： <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysql.png" alt> <a href="https://dev.mysql.com/doc/mysql-security-excerpt/8.0/en/problems-connecting.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/mysql-security-excerpt/8.0/en/problems-connecting.html</a></p>
 
           
         
@@ -1350,7 +1350,7 @@ flush privileges;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:32:47" itemprop="dateModified" datetime="2019-07-13T05:32:47+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1408,11 +1408,11 @@ flush privileges;
 <ul>
 <li>mysql包括两种native认证方式<code>mysql_native_password, mysql_old_password</code>都是通过系统表<code>mysql.user</code>和密码hash算法实现的。</li>
 </ul>
-<p><img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/mysql_native_password.png" alt> 认证的插件都在存在于客户端和服务端的，服务端的是内置于mysql服务器中。客户端的则在于libmysqlclient中。 - SHA-256 Pluggable Authentication 这种认证方法是比mysql_native_password认证方法安全性更高，采用SHA-256哈希算法对明文进行加密。 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/sha256-pulgin.png" alt> 创建SHA-256认证的用户</p>
+<p><img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysql_native_password.png" alt> 认证的插件都在存在于客户端和服务端的，服务端的是内置于mysql服务器中。客户端的则在于libmysqlclient中。 - SHA-256 Pluggable Authentication 这种认证方法是比mysql_native_password认证方法安全性更高，采用SHA-256哈希算法对明文进行加密。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/sha256-pulgin.png" alt> 创建SHA-256认证的用户</p>
 <pre><code>CREATE USER &#39;sha256user&#39;@&#39;localhost&#39;
 IDENTIFIED WITH sha256_password BY &#39;password&#39;;
 </code></pre><ul>
-<li><p>Client-Side Cleartext Pluggable Authentication，存储明文 <img src="http://pu4dflhia.bkt.clouddn.com/wp-content/uploads/2019/02/cleartext.png" alt></p>
+<li><p>Client-Side Cleartext Pluggable Authentication，存储明文 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/cleartext.png" alt></p>
 </li>
 <li><p>PAM认证 外部认证方式，使mysql服务器通过PAM服务来进行用户认证</p>
 </li>
@@ -1541,7 +1541,7 @@ IDENTIFIED WITH sha256_password BY &#39;password&#39;;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-13 05:33:08" itemprop="dateModified" datetime="2019-07-13T05:33:08+08:00">2019-07-13</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1720,7 +1720,7 @@ flush privileges;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-11 23:48:16" itemprop="dateModified" datetime="2019-07-11T23:48:16+08:00">2019-07-11</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -1901,7 +1901,7 @@ proxies_priv: 代理用户权限
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-11 23:46:57" itemprop="dateModified" datetime="2019-07-11T23:46:57+08:00">2019-07-11</time>
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
               </span>
             
           
@@ -2082,7 +2082,7 @@ set password for &#39;root&#39;@&#39;localhost&#39; = password(&#39;auth_string&
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-08 21:44:23" itemprop="dateModified" datetime="2019-07-08T21:44:23+08:00">2019-07-08</time>
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
               </span>
             
           
