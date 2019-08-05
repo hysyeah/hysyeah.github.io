@@ -380,6 +380,222 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/14/Go基础数据类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/14/Go基础数据类型/" class="post-title-link" itemprop="url">Go基础数据类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-14 17:13:25" itemprop="dateCreated datePublished" datetime="2018-08-14T17:13:25+08:00">2018-08-14</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Go将数据类型分为四类: 基础类型、复合类型、引用类型和接口类型。 基础类型包括：数字、字符串、布尔型。 整型 整型分为有符号和无符号类型的整数。</p>
+<pre><code>int8        int16       int32       int64   //分别对应8、16、32、64位大小的有符号整型数
+
+uint8       uint16      uint32      uint64  //分别对应8、16、32、64位大小的无符号整型数
+</code></pre><p>Unicode字符rune类型是和int32等价的类型，通常用于表示一个Unicode码点。这两个名称可 以互换使用。同样byte也是uint8类型的等价类型，byte类型一般用于强调数值是一个原始的数 据而不是一个小的整数。</p>
+<pre><code>// Go中运算符优先级
+* / % &lt;&lt; &gt;&gt; &amp; &amp;^
++ - | ^
+== != &lt; &lt;= &gt; &gt;=
+&amp;&amp;
+||
+</code></pre><hr>
+<p>浮点数</p>
+<pre><code>float32         float64
+</code></pre><p>复数</p>
+<pre><code>complex64                   //对应float32
+complex128                  //对应float64
+</code></pre><p>布尔型</p>
+<pre><code>true                    false
+</code></pre><p>字符串 原生字符串使用反引号代替双引号。在原生字符串面值中，不会进行转义操作。</p>
+<pre><code>const t = `Go is best language`
+</code></pre><p>一个字符串是包含的只读字节数组，一旦创建，是不可变的。相比之下，一个字节slice的元 素则可以自由地修改。</p>
+<pre><code>// 字符串和字节slice之间可以相互转换
+s := &quot;abc&quot;
+b := []byte(s)
+s2 := string(b)
+</code></pre><p>strconv包提供了布尔型、整型数、浮点数和对应字符串的相互转换，还提供了双引号转义相关的转换。</p>
+<hr>
+<p>常量 常量表达式的值在编译期计算，而不是在运行期。 所有常量的运算都可以在编译期完成，这样可以减少运行时的工作，也方便其他编译优化。 当操作数是常量时，一些运行时的错误也可以在编译时被发现，例如整数除零、字符串索引 越界、任何导致无效浮点数的操作等 注意默认类型是规则的：无类型的整数常量默认转换为int，对应不确定的内存大小，但是浮 点数和复数常量则默认转换为float64和complex128。</p>
+<pre><code>const (
+    a = 1
+    b
+    c = 2
+    d
+)
+fmt.Println(a, b, c, d) //1, 1, 2, 2
+
+const (
+    a uint = 1 &lt;&lt; iota
+    b
+    c
+    d
+)
+fmt.Println(a, b, c, d) //1, 2, 4, 8
+</code></pre><hr>
+<p>参考： 1.The Go Programming Language</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/13/Go程序结构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2990,287 +3206,6 @@ Out[4]: 0.005
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/02/单例模式(Singleton)-创建型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/02/单例模式(Singleton)-创建型/" class="post-title-link" itemprop="url">单例模式(Singleton)-创建型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-02 10:08:57" itemprop="dateCreated datePublished" datetime="2018-08-02T10:08:57+08:00">2018-08-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>单例模式保证类有且只有一个实例，并提供一个访问他的全局访问点。 1.</p>
-<pre><code>class Singleton(object):
-    def __new__(cls):
-        if not hasattr(cls, &#39;instance&#39;):
-            cls.instance = super(Singleton, cls).__new__(cls)
-        return cls.instance
-
-s = Singleton()
-print(&quot;Object created&quot;, s)
-
-s1 = Singleton()
-print(&quot;Object created&quot;, s1)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single.png" alt> 2.</p>
-<pre><code>class Singleton:
-    __instance = None
-    def __init__(self):
-        if not Singleton.__instance:
-            print(&quot; __init__ method called..&quot;)
-        else:
-            print(&quot;Instance already created:&quot;, self.getInstance())
-    @classmethod
-    def getInstance(cls):
-        if not cls.__instance:
-            cls.__instance = Singleton()
-        return cls.__instance
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single1.png" alt> 3. <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single3.png" alt> 4.有时候我们并不关心生成的实例是否具有同一id，而只关心其状态和行为方式。我们可以允许许多个实例被创建，但所有的实例都共享状态和行为方式：</p>
-<pre><code>class Borg:
-    __shared_state = {&quot;1&quot;:&quot;2&quot;}
-    def __init__(self):
-        self.x = 1
-        self.__dict__ = self.__shared_state
-        pass
-b = Borg()
-b1 = Borg()
-b.x = 4
-print(&quot;Borg Object &#39;b&#39;: &quot;, b)
-print(&quot;Borg Object &#39;b1&#39;: &quot;, b1)
-print(&quot;Object State &#39;b&#39;:&quot;, b.__dict__)
-print(&quot;Object State &#39;b1&#39;:&quot;, b1.__dict__)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single4.png" alt> 或者使用<strong>new</strong>方法：</p>
-<pre><code>In [16]: class Borg(object):
-             _shared_state = {}
-             def __new__(cls, *args, **kwargs):
-                 obj = super(Borg, cls).__new__(cls, *args, **kwargs)
-                 obj.__dict__ = cls._shared_state
-                 return obj
-</code></pre><hr>
-<p>4.元类实现</p>
-<pre><code># 当我们调用Logger()初始化Logger时，将会调用类MetaSingleton中的__call__方法
-In [1]: class MetaSingleton(type):
-            _instances = {}
-            def __call__(cls, *args, **kwargs):
-                if cls not in cls._instances:
-                    cls._instances[cls] = super(MetaSingleton, cls).__call__(*args, **kwargs)
-                return cls._instances[cls]
-       class Logger(metaclass=MetaSingleton):
-           pass
-
-
-In [2]: l1 = Logger()
-
-In [3]: l2 = Logger()
-
-In [4]: id(l1)
-Out[4]: 140568820684616
-
-In [5]: id(l2)
-Out[5]: 140568820684616
-</code></pre><hr>
-<p>线程安全的写法：</p>
-<pre><code>In [9]: def synchronized(func):
-   ...:     func.__lock__ = threading.Lock()
-   ...:
-   ...:     def synced_func(*args, **kws):
-   ...:         with func.__lock__:
-   ...:             return func(*args, **kws)
-   ...:
-   ...:     return synced_func
-   ...:
-   ...:
-
-In [10]: def Singleton(cls):
-    ...:     instances = {}
-    ...:
-    ...:     @synchronized
-    ...:     def get_instance(*args, **kw):
-    ...:         if cls not in instances:
-    ...:             instances[cls] = cls(*args, **kw)
-    ...:         return instances[cls]
-    ...:
-    ...:     return get_instance
-    ...:
-    ...:
-
-In [11]: @Singleton
-    ...: class test():
-    ...:     a = 1
-    ...:
-
-In [12]: s = test()
-
-In [13]: s1 = test()
-
-In [14]: id(s)
-Out[14]: 140308601028336
-
-In [15]: id(s1)
-Out[15]: 140308601028336
-</code></pre><p>实用场景： 1.数据库连接 2.应用健康检测 3.许多需要创建一个对象的场景，如线程池，缓存，对话框，等等。</p>
-<hr>
-<p>优点： 通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。 缺点： 全局变量可能会在某一处被修改，一个同一对象存在多个引用，所有依赖于全局变量的类都会紧密耦合，因为一个类对全局数据的更改可能会无意中影响另一个类 参考： 1.<a href="https://www.amazon.com/Learning-Python-Design-Patterns-Second/dp/178588803X/ref=sr_1_1_sspa?ie=UTF8&amp;qid=1533132340&amp;sr=8-1-spons&amp;keywords=Learning+Python+Design+Patterns&amp;psc=1" target="_blank" rel="noopener">Learning Python Design Patterns</a> 2.<a href="https://www.cnblogs.com/baiyb/p/8506438.html" target="_blank" rel="noopener">https://www.cnblogs.com/baiyb/p/8506438.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3317,7 +3252,7 @@ Out[15]: 140308601028336
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">211</span>
+                    <span class="site-state-item-count">212</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

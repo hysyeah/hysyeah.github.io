@@ -8,22 +8,22 @@
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
-        <lastmod>2019-08-05T13:22:38.353Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://hysyeah.github.io/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/</loc>
-        <lastmod>2019-08-05T13:09:38.515Z</lastmod>
+        <lastmod>2019-08-05T15:34:23.240Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://hysyeah.github.io/categories/%E5%AE%B9%E5%99%A8/</loc>
-        <lastmod>2019-08-05T13:09:33.609Z</lastmod>
+        <lastmod>2019-08-05T15:32:52.206Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
+        <lastmod>2019-08-05T13:22:38.353Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

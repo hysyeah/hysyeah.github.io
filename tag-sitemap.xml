@@ -4,7 +4,14 @@
 
     <url>
         <loc>https://hysyeah.github.io/tags/tcp-ip/</loc>
-        <lastmod>2019-08-05T13:22:38.353Z</lastmod>
+        <lastmod>2019-08-05T15:34:23.240Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/tags/k8s/</loc>
+        <lastmod>2019-08-05T15:32:52.206Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -12,13 +19,6 @@
     <url>
         <loc>https://hysyeah.github.io/tags/linux/</loc>
         <lastmod>2019-08-05T13:09:38.515Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/k8s/</loc>
-        <lastmod>2019-08-05T13:09:33.609Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

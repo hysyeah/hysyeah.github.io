@@ -380,6 +380,228 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/09/lua表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/10/09/lua表达式/" class="post-title-link" itemprop="url">lua表达式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-09 22:28:15" itemprop="dateCreated datePublished" datetime="2017-10-09T22:28:15+08:00">2017-10-09</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.关系运算符</p>
+<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  
+</code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
+<pre><code> &gt; a = {x=1,y=0}
+ &gt; b = {x=1,y=0}
+ &gt; c == a
+ false
+ &gt; c = a
+ &gt; a == c
+ true
+ &gt; a == b
+ false
+</code></pre><p>数字、字符串的比较</p>
+<pre><code>&gt; 0 == &quot;0&quot;
+false
+&gt; 2 &lt; 15
+true
+&gt; &quot;2&quot; &lt; &quot;15&quot;  --按字母顺序进行比较
+false
+</code></pre><p>2.逻辑运算符</p>
+<pre><code>and  or not
+</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
+<pre><code>a and b -- 如果a为false,则返回a,否则返回b
+a or b  --如果a为true,则返回a,否则返回b
+&gt; print(1 and 2)
+2
+&gt; print(nil and 1)
+nil
+&gt; print(1 or 2)
+1
+&gt; print(false or 1)
+1
+</code></pre><p>例：</p>
+<pre><code>x = x or v
+</code></pre><p>等价于：</p>
+<pre><code>if not x then
+   x = v
+end
+</code></pre><p>C语言中的三元运算符</p>
+<pre><code>a ? b:c
+</code></pre><p>在Lua中可以这样实现:</p>
+<pre><code>(a and b) or c
+</code></pre><p>not 结果只返回false或者true</p>
+<pre><code>&gt; print(not 0)
+false
+</code></pre><p>3.连接运算符</p>
+<pre><code>.. --两个点
+</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
+<pre><code>&gt; print(&quot;Hello &quot; .. &quot;World&quot;)
+Hello World
+&gt; print(0 .. 1)
+01
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/superentityself-init/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2023,181 +2245,6 @@ false
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/numpy,pandas安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/27/numpy,pandas安装/" class="post-title-link" itemprop="url">numpy,pandas安装</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-27 06:49:46" itemprop="dateCreated datePublished" datetime="2017-09-27T06:49:46+08:00">2017-09-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>sudo apt-get install python3-tk
-pip3 install numpy
-pip3 install pandas
-pip3 intall matplotlib
-pip3 install scipy
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2244,7 +2291,7 @@ pip3 install scipy
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">211</span>
+                    <span class="site-state-item-count">212</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

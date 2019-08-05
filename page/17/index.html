@@ -380,6 +380,230 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/13/etc shadow及相关c函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/13/etc shadow及相关c函数/" class="post-title-link" itemprop="url">/etc/shadow及相关c函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-13 23:18:28" itemprop="dateCreated datePublished" datetime="2017-11-13T23:18:28+08:00">2017-11-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>/etc/shadow包含系统用户的密码信息，普通用户不能查看此文件 每行分为9个片段，通过冒号’:’分隔 hys:$6$q1Jaurz4$8hPn.i0F6k7xPeLNcKDGdKZODMx7uTnHjAXjgvND2dRrz7jk16O.DbI15qe.G9SqSbFO.O0PMsW.yHv1X2/z60:17421:0:99999:7::: 用户名： 加密后的密码(单向散列)： 最后修改密码的时间(为距1970.1.1的天数)： 密码最小存活时间(指用户还有多少天可以修改密码，空或0表示没有密码最小存活时间): 最大密码存活时间(超过这个时间，用户需修改密码，如果这个值小于密码最小存活时间，则用户不能修改密码)： 密码过期前多少天提醒： 密码超过最大存活时间后还能进行登录的时间： 用户过期时间： 保留域</p>
+<pre><code>struct spwd {
+    char *sp_namp; /* Login name */
+    char *sp_pwdp; /* Encrypted password */
+    long sp_lstchg; /* Date of last change(measured in days since 1970-01-01 00:00:00 +0000 (UTC)) */
+    long sp_min; /* Min # of days between changes */
+    long sp_max; /* Max # of days between changes */
+    long sp_warn; /* # of days before password expires to warn user to change it */
+    long sp_inact; /* # of days after password expires
+    until account is disabled */
+    long sp_expire; /* Date when account expires(measured in days since 1970-01-01 00:00:00 +0000 (UTC)) */
+    unsigned long sp_flag; /* Reserved */
+};
+
+
+struct spwd *getspnam(const char *name);//通过用户名获取指向struct spwd结构体的指针
+struct spwd *getspent(void);//获取/etc/shadow文件中的信息，返回struct spwd结构体指针
+void setspent(void);//初始化输入流
+void endspent(void);//释放资源
+</code></pre><p>例：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;shadow.h&gt;
+#include &lt;unistd.h&gt;
+int main(){
+struct spwd *p,*ptr;
+p = getspnam(usbmux);
+if(p == NULL){
+    printf(&quot;error&quot;);
+}
+printf(&quot;%s\n&quot;, p-&gt;sp_namp);
+printf(&quot;%s\n&quot;, p-&gt;sp_pwdp);
+printf(&quot;%ld\n&quot;, p-&gt;sp_lstchg);
+printf(&quot;%ld\n&quot;, p-&gt;sp_min);
+printf(&quot;%ld\n&quot;, p-&gt;sp_max);
+printf(&quot;%ld\n&quot;, p-&gt;sp_warn);
+printf(&quot;%ld\n&quot;, p-&gt;sp_inact);
+printf(&quot;%ld\n&quot;, p-&gt;sp_expire);
+printf(&quot;%lu\n&quot;, p-&gt;sp_flag);
+setspent();
+while((ptr = getspent())!=NULL){
+    printf(&quot;%s\n&quot;, ptr-&gt;sp_namp);
+}
+endspent();
+return 0;
+}
+</code></pre><hr>
+<p>参考：<br>1.<a href="http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html" target="_blank" rel="noopener">http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html</a><br>2.<a href="https://linux.die.net/man/3/getspnam" target="_blank" rel="noopener">https://linux.die.net/man/3/getspnam</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/12/buntu安装zsh,oh-my-zsh,autojump,terminator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2382,228 +2606,6 @@ pip install mysqlclient
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/09/lua表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/09/lua表达式/" class="post-title-link" itemprop="url">lua表达式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-09 22:28:15" itemprop="dateCreated datePublished" datetime="2017-10-09T22:28:15+08:00">2017-10-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.关系运算符</p>
-<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  
-</code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
-<pre><code> &gt; a = {x=1,y=0}
- &gt; b = {x=1,y=0}
- &gt; c == a
- false
- &gt; c = a
- &gt; a == c
- true
- &gt; a == b
- false
-</code></pre><p>数字、字符串的比较</p>
-<pre><code>&gt; 0 == &quot;0&quot;
-false
-&gt; 2 &lt; 15
-true
-&gt; &quot;2&quot; &lt; &quot;15&quot;  --按字母顺序进行比较
-false
-</code></pre><p>2.逻辑运算符</p>
-<pre><code>and  or not
-</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
-<pre><code>a and b -- 如果a为false,则返回a,否则返回b
-a or b  --如果a为true,则返回a,否则返回b
-&gt; print(1 and 2)
-2
-&gt; print(nil and 1)
-nil
-&gt; print(1 or 2)
-1
-&gt; print(false or 1)
-1
-</code></pre><p>例：</p>
-<pre><code>x = x or v
-</code></pre><p>等价于：</p>
-<pre><code>if not x then
-   x = v
-end
-</code></pre><p>C语言中的三元运算符</p>
-<pre><code>a ? b:c
-</code></pre><p>在Lua中可以这样实现:</p>
-<pre><code>(a and b) or c
-</code></pre><p>not 结果只返回false或者true</p>
-<pre><code>&gt; print(not 0)
-false
-</code></pre><p>3.连接运算符</p>
-<pre><code>.. --两个点
-</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
-<pre><code>&gt; print(&quot;Hello &quot; .. &quot;World&quot;)
-Hello World
-&gt; print(0 .. 1)
-01
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2650,7 +2652,7 @@ Hello World
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">211</span>
+                    <span class="site-state-item-count">212</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

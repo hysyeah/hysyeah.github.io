@@ -380,6 +380,351 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/21/numpy相关函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/21/numpy相关函数/" class="post-title-link" itemprop="url">numpy相关函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-21 10:24:58" itemprop="dateCreated datePublished" datetime="2018-05-21T10:24:58+08:00">2018-05-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>import numpy as np
+import scipy as sp
+
+a = np.ones((2, 3),dtype=int)
+a.sum(axis=0)#按列相加
+a.sum(axis=1)#按行相加
+
+a.ravel()#转为一维
+
+b = a.reshape #返回一个新的修改后的数组,若修改b中的值,a中相应的值也会改变，若要真正的拷贝改为b = a.reshape().copy()
+a.resize#直接修改数组本身,返回值为None
+a.ndim #返回矩阵的维度
+a.shape #返回矩阵的大小(行数, 列数)
+
+np.argmax(a) #返回最大值的下标
+np.isnan(a) #返回和a一样大小的矩阵，若为nan则为True,否则为False
+a[~np.isnan(a)] #返回过滤nan元素后的矩阵
+np.nan != np.nan is true
+
+sp.sum(np.isnan(a)) # 返回元素值为nan的个数
+np.linspace(start,stop,num) #返回在区间start--stop中的num个点
+np.logspace(start, stop, num=50, endpoint=True, base=10.0) #返回在区间base**start--base**stop中的num个点
+a[:,0] #取a的第0例
+
+d = a[:,0:-1]    #除去最后一列
+d.min(0)         #取每列的最小值
+d.min(1)         #取每行的最大值
+d[i,:]           #取第i行
+d[100:1000,:]    #取[100,1000)行
+
+
+np.eye            #对角矩阵,只有对角线上有非0元素的矩阵称为对角矩阵
+np.identity       #同上
+np.linalg.inv(a)  #求矩阵a的逆矩阵
+np.trace          #矩阵的迹(即对角线元素之和)
+numpy.matrix.getH #共轭转置
+np.ones           #返回一个矩阵元素全为1
+numpy.linalg.det  #计算矩阵的行列式
+
+np.random.uniform(low=0.0, high=1.0, size=None) #从均匀分布中取样,size为返回array元素的个数
+np.linalg.svd              #奇异值分解
+np.mat             #将输入转换为矩阵对象
+
+np.transpose       #矩阵转置,np.transpose(a)相当于a.T
+np.sign(x)            #T函数返回 -1 if x &lt; 0, 0 if x==0, 1 if x &gt; 0. nan if x is nan.
+np.matmul             # 两个矩阵之间的积
+
+numpy.random.normal       #生成高斯矩阵
+numpy.random.choice       #从序列中随机选取
+numpy.asarray             #将python list转换为numpy array
+
+
+np.unique(a)              #返回去重后的array
+
+rng = np.random.RandomState(0)
+X = rng.rand(10, 2000)
+
+
+In:np.linspace(0,10,9)       #在区间[0,10]中,返回含有9个元素的等差数组
+Out:array([ 0.  ,  1.25,  2.5 ,  3.75,  5.  ,  6.25,  7.5 ,  8.75, 10.  ])
+
+In:np.arange(0,10,9)         #返回在区间[0,10],步长为9的数组
+Out: array([0, 9])
+
+
+In [43]: b = np.array([[1,2,3],[4,5,6]])
+
+In [44]: b.reshape(3,-1)   #-1会被自动识别为2
+Out[44]:
+array([[1, 2],
+       [3, 4],
+       [5, 6]])
+
+In [45]: b.reshape(-1,3) #-1会被自动识别为2
+Out[45]:
+array([[1, 2, 3],
+       [4, 5, 6]])
+
+
+
+np.var                             #方差
+In [126]: a = np.array([[1, 2], [3, 4]])
+
+In [127]: np.var(a)   #求展开后所有数的方差
+Out[127]: 1.25
+
+In [128]: np.var(a, axis=0)    #按列计算方差
+Out[128]: array([1., 1.])
+
+In [129]: np.var(a, axis=1)    #按行计算方差
+Out[129]: array([0.25, 0.25])
+
+
+np.cov                             #协方差
+
+
+np.tile(A, reps) 根据reps重复A生成一个矩阵,reps为(行数,列数),可把A看作一个元素
+In [165]: a = np.array([1,2,3])
+In [166]: d = np.tile(a,(3,2))
+
+In [167]: d
+Out[167]:
+array([[1, 2, 3, 1, 2, 3],
+       [1, 2, 3, 1, 2, 3],
+       [1, 2, 3, 1, 2, 3]])
+
+
+# 求矩阵a的秩
+In [3]: a
+Out[3]:
+array([[ 2, -1,  0,  3, -2],
+       [ 0,  3,  1, -2,  5],
+       [ 0,  0,  0,  4, -3],
+       [ 0,  0,  0,  0,  0]])
+
+In [4]: np.linalg.matrix_rank(a)
+Out[4]: 3
+
+
+
+# nonzero 返回非零元素的下标
+In [1]: a = np.array([0,2,0])
+
+In [2]: np.nonzero(a)
+Out[2]: (array([1]),)
+
+In [3]: a[np.nonzero(a)]        # 取数组a的非零元素
+Out[3]: array([2])
+
+In [4]: x = np.array([[1, 0, 0], [0, 2, 0], [1, 1, 0]]) # 二维数组
+
+In [5]: x
+Out[5]:
+array([[1, 0, 0],
+       [0, 2, 0],
+       [1, 1, 0]])
+
+In [6]: np.nonzero(x)
+Out[6]: (array([0, 1, 2, 2]), array([0, 1, 0, 1]))
+
+
+# np.multiply(x, y) == x * y
+In [120]: x = np.array([1, 2, 3])
+In [121]: y = np.array([4, 5, 6])
+
+In [122]: x *y
+Out[122]: array([ 4, 10, 18])
+
+In [123]: np.multiply(x, y)
+Out[123]: array([ 4, 10, 18])
+
+
+# np.mean 求均值
+&gt;&gt;&gt; a = np.array([[1, 2], [3, 4]])           #求所有数的均值
+&gt;&gt;&gt; np.mean(a)
+2.5
+&gt;&gt;&gt; np.mean(a, axis=0)                      # 对列求均值
+array([ 2.,  3.])
+
+&gt;&gt;&gt; np.mean(a, axis=1)                      # 对行求均值
+array([ 1.5,  3.5])
+
+
+In [132]: a = np.array([[1, 2], [3, 4]])
+In [132]: ma = np.mat(a)
+
+In [133]: ma
+Out[133]:
+matrix([[1, 2],
+        [3, 4]])
+
+In [134]: ma.A                       # 返回array形式
+Out[134]:
+array([[1, 2],
+       [3, 4]])
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/20/皮尔逊相关系数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2185,197 +2530,6 @@ factorial(6) # out :array(720.0)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/24/通过梯度下降法求最小值/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/24/通过梯度下降法求最小值/" class="post-title-link" itemprop="url">通过梯度下降法求最小值</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-24 23:02:08" itemprop="dateCreated datePublished" datetime="2018-04-24T23:02:08+08:00">2018-04-24</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。—来源于百度百科 2.给定初始值和步长，通过当前值与上一值的比较，不断进行迭代，直到符合设定的条件后停止。 3.下面是对f(x) = x * x，通过梯度下降法求最小值</p>
-<pre><code>import matplotlib.pyplot as plt
-
-f = lambda x: x*x
-
-fig, ax = plt.subplots()
-def gradient_x(step,init_val):
-    f_change, f_current = f(init_val), f(init_val)
-    count = 0
-    x = init_val
-    while f_change &gt; 0.0001:
-        x = x - 2 * step * x
-        f_change = f_current - f(x)
-        f_current = f(x)
-        count += 1
-        plt.plot(x,f(x), &quot;*-&quot;)
-    print(&quot;after%diteration func found min value %d,x value is %d&quot;,count,f(x),x) 
-    plt.show() 
-if __name__ == &#39;__main__&#39;:
-    gradient_x(0.1, 2)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/04/gradient.png" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2422,7 +2576,7 @@ if __name__ == &#39;__main__&#39;:
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">211</span>
+                    <span class="site-state-item-count">212</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3047,9 +3201,9 @@ if __name__ == &#39;__main__&#39;:
   
     
       
-        
-      
     
+      
+        
       
     
       
