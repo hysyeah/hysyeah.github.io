@@ -8,6 +8,30 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2019/06/12/tcp-ip%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%9C%AF%E8%AF%AD/</loc>
+        <lastmod>2019-08-06T21:54:55.894Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/2017/10/02/python%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95%E4%B9%8B__init__,__del__/</loc>
+        <lastmod>2019-08-06T21:18:01.888Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/2017/09/20/python%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95%E4%B9%8B__getattribute__,__getattr__/</loc>
+        <lastmod>2019-08-06T21:17:50.561Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/</loc>
         <lastmod>2019-08-05T15:34:23.240Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -424,14 +448,6 @@
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/2019/06/12/tcp-ip%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%9C%AF%E8%AF%AD/</loc>
-        <lastmod>2019-08-04T08:34:13.667Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://hysyeah.github.io/2017/11/04/supervisor-can-not-find-uwsgi-command/</loc>
         <lastmod>2019-08-04T08:34:13.662Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -778,22 +794,6 @@
     <url>
         <loc>https://hysyeah.github.io/2017/09/08/python%E9%AD%94%E6%B3%95%E5%8F%98%E9%87%8F%E4%B9%8B__slots__/</loc>
         <lastmod>2019-08-04T08:34:13.198Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/2017/10/02/python%E9%AD%94%E6%B3%95%E5%8F%98%E9%87%8F%E4%B9%8B__init__,__del__/</loc>
-        <lastmod>2019-08-04T08:34:13.193Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/2017/09/20/python%E9%AD%94%E6%B3%95%E5%8F%98%E9%87%8F%E4%B9%8B__getattribute__,__getattr__/</loc>
-        <lastmod>2019-08-04T08:34:13.188Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

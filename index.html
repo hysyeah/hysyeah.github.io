@@ -2018,7 +2018,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+                <time title="修改时间：2019-08-07 05:54:55" itemprop="dateModified" datetime="2019-08-07T05:54:55+08:00">2019-08-07</time>
               </span>
             
           
@@ -2032,7 +2032,7 @@ cat /var/log/mysqld.log | grep password
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
 
                 
                 
@@ -2072,14 +2072,25 @@ cat /var/log/mysqld.log | grep password
       
         
           
-            <pre><code>最大分节大小--MSS--maximum segment size
-最大传输单元--MTU--maximum transmission unit  # MSS通常被设置为MTU送去IP和TCP首部的固定长度，IPv4和TCP的首部都是20字节
-协议数据单元--PDU--protocol data unit # 网络各层对等实体间交换的单位信息
-最长分节生命期--MSL--maximum segment lifetime
-监听套接字--listening socket
-已连接套接字--connected socket
-局域网--local area networks(LANs)
-广域网--wide area networks(WANs)
+            <pre><code>MSS--maximum segment size       最大分节大小
+MTU--maximum transmission unit  最大传输单元  # MSS通常被设置为MTU送去IP和TCP首部的固定长度，IPv4和TCP的首部都是20字节
+PDU--protocol data unit         协议数据单元 # 网络各层对等实体间交换的单位信息
+MSL--maximum segment lifetime   最长分节生命期
+listening socket                监听套接字
+connected socket                已连接套接字
+local area networks(LANs)       局域网
+wide area networks(WANs)        广域网
+
+SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小
+RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小
+FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节
+
+RECEIVER WINDOW--rwnd                   推荐的接收窗口
+CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。
+INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小
+LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸
+RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。
+FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小。 可参考 [在途字节数](http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/) 
 </code></pre><p>未完</p>
 
           
