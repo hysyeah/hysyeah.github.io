@@ -380,6 +380,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/19/mysql-union-e4-b8-8eunion-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/19/mysql-union-e4-b8-8eunion-all/" class="post-title-link" itemprop="url">mysql-UNION与UNION ALL</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-19 18:21:53" itemprop="dateCreated datePublished" datetime="2017-09-19T18:21:53+08:00">2017-09-19</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>SELECT ...
+UNION [ALL | DISTINCT] SELECT ...
+[UNION [ALL | DISTINCT] SELECT ...]
+</code></pre><p>UNION用于将多个SELECT语句的结果整合并放在一个表中,并消除重复的行，UNION ALL并不会消除重复的行</p>
+<pre><code>mysql&gt;&gt; select 1 union select 2 union select 2;
++---+
+| 1 |
++---+
+| 1 |
+| 2 |
++---+
+2 rows in set (0.01 sec)
+
+mysql&gt;&gt; select 1 union select 2 union all select 2;
++---+
+| 1 |
++---+
+| 1 |
+| 2 |
+| 2 |
++---+
+3 rows in set (0.00 sec)
+</code></pre><p>第一个SELECT语句中的列名将会作为整个结果集的列名。SELECT中对应的列应具有相同的数据类型。 在UNION中使用SELECT有以下的限制 - 只有最后一个SELECT语句才可以使用INTO OUTFILE - 不能使用HIGH_PRIORITY 除非确定需要服务器消除重复的行，否则就一定要使用UNION ALL，如果没有ALL关键字，MYSQL会给临时表加上 DISTINCT选项，这会导致对整个临时表的数据做唯一性检查。即使有ALL关键字，MYSQL仍然会使用临时表存储 结果。MYSQL总是将结果入入临时表，然后再读出，再返回客户端。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/15/wordpress屏蔽更新提示/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2128,230 +2321,6 @@ Out[17]: [[1, 2, 3], [4, 5, 6]]
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/06/namedtuple映射名称到序列元素/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/06/namedtuple映射名称到序列元素/" class="post-title-link" itemprop="url">namedtuple映射名称到序列元素</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-06 23:41:51" itemprop="dateCreated datePublished" datetime="2017-09-06T23:41:51+08:00">2017-09-06</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python标准库/" itemprop="url" rel="index"><span itemprop="name">python标准库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>In [1]: from collections import namedtuple
-
-In [2]: dt = namedtuple(&#39;s&#39;, [&#39;name&#39;, &#39;job&#39;])
-
-In [3]: ret = dt(&#39;hys&#39;, &#39;coder&#39;)
-
-In [4]: ret.name
-Out[4]: &#39;hys&#39;
-
-In [5]: ret.job
-Out[5]: &#39;coder&#39;
-</code></pre><p>将cursor.fetchall()返回的元组转换成可以通过名称来访问的元组</p>
-<pre><code>In [1]: from collections import namedtuple
-...:
-...: def tuple_to_namedtuple(t, name_list):
-...:     ret_list = []
-...:     s_namedtuple = namedtuple(&#39;s_namedtuple&#39;,name_list)
-...:     for item in t:
-...:         ret_list.append(s_namedtuple._make(item))
-...:         return ret_list
-...:
-
-In [2]: import sqlite3
-
-In [3]: conn = sqlite3.connect(&#39;tst.sqlite3&#39;)
-
-In [4]: cursor = conn.cursor()
-
-In [5]: cursor.execute(&#39;select * from t&#39;)
-Out[5]: &lt;sqlite3.Cursor at 0x7f48b8079500&gt;
-
-In [6]: r = tuple_to_namedtuple(cursor.fetchall(),[&#39;id&#39;, &#39;name&#39;, &#39;value&#39;])
-
-In [7]: r
-Out[7]:
-[s_namedtuple(id=1, name=&#39;hys&#39;, value=&#39;a&#39;),
-s_namedtuple(id=2, name=&#39;huang&#39;, value=&#39;b&#39;)]
-</code></pre><hr>
-<p>通过map实现,简洁许多</p>
-<pre><code>In [10]: def tuple_to_dict(seq, name_list):
-...:         s_namedtuple = namedtuple(&#39;s_namedtuple&#39;,name_list)
-...:         return map(s_namedtuple._make, seq)
-...:
-
-In [12]: ret = tuple_to_dict(cursor.fetchall(),[&#39;id&#39;,&#39;name&#39;,&#39;value&#39;])
-
-In [13]: ret
-Out[13]: &lt;map at 0x7f48b2fa2a90&gt;
-
-In [14]: for elt in ret:
-...:         print(elt)
-...:
-s_namedtuple(id=1, name=&#39;hys&#39;, value=&#39;a&#39;)
-s_namedtuple(id=2, name=&#39;huang&#39;, value=&#39;b&#39;)
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2398,7 +2367,7 @@ s_namedtuple(id=2, name=&#39;huang&#39;, value=&#39;b&#39;)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">213</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

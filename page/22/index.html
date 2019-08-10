@@ -380,6 +380,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/python魔法变量之__all__/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/30/python魔法变量之__all__/" class="post-title-link" itemprop="url">python魔法变量之__all__</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-30 07:51:46" itemprop="dateCreated datePublished" datetime="2017-08-30T07:51:46+08:00">2017-08-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如果用户写成</p>
+<pre><code>from sound.effects import *
+</code></pre><p>将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的<strong>init</strong>.py代码定义了一个名为<strong>all</strong>的列表，那么在遇到</p>
+<pre><code>from package import *
+</code></pre><p>语句时，会把列表中的所有模块导入。 例如，文件sound/effects/<strong>init</strong>.py可以包含以下代码：</p>
+<pre><code>__all__ = [&quot;echo&quot;, &quot;surround&quot;, &quot;reverse&quot;]
+</code></pre><p>这意味着</p>
+<pre><code>from sound.effects import *
+</code></pre><p>将导入sound包的三个子模块。 如果<strong>all</strong>没有定义，</p>
+<pre><code>from sound.effects import *
+</code></pre><p>不会从sound.effects包中导入所有的子模块到当前命名空间，它只保证sound.effects包已经被导入(可能会运行<strong>init</strong>.py中任何初始化 的代码)，然后导入包中定义的任何名称。这包括 由<strong>init</strong>.py定义的任何的名称（以及显式加载的子模块）。还包括这个包中已经由前面的import 语句显式加载的子模块。 例：</p>
+<pre><code>import sound.effects.echo
+
+import sound.effects.surround
+
+from sound.effects import *
+</code></pre><p>当执行from … import语句时，echo和surround模块被导入当前命名空间，因为前面已经通过import语句显式加载。 参考：官方文档</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/27/numpy中的金融函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -834,7 +1021,7 @@ Out[6]: 0.17908568603489283
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">213</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1457,6 +1644,8 @@ Out[6]: 0.17908568603489283
 
   
   
+    
+      
     
       
     
