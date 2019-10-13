@@ -3,8 +3,15 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/python/</loc>
+        <lastmod>2019-10-13T03:25:44.478Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/tcp-ip/</loc>
-        <lastmod>2019-08-10T11:02:33.612Z</lastmod>
+        <lastmod>2019-08-13T21:42:40.914Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
