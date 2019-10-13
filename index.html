@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-13 11:25:44" itemprop="dateModified" datetime="2019-10-13T11:25:44+08:00">2019-10-13</time>
+                <time title="修改时间：2019-10-13 11:35:50" itemprop="dateModified" datetime="2019-10-13T11:35:50+08:00">2019-10-13</time>
               </span>
             
           
@@ -512,8 +512,59 @@
 <li>类变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Car:</span><br><span class="line">    seats: ClassVar[int] = 4                         # seats是一个类变量，类型为int</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def f(x: &apos;A&apos;) -&gt; None:  # OK                         # 表示函数f的参数x的类型为A的实例</span><br><span class="line">    ...</span><br><span class="line">class A:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">x: A = A()                                          # 表示x的类型为A的实例，若想表示x的类型为类对象，请看下面</span><br><span class="line">x: Type[A] = A</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>typing模块中的协议类<br>| 协议|方法|<br>|—|—-|<br>|<code>Iterable[T]|</code>def <strong>iter</strong>(self) -&gt; Iterator[T]<code>|
-|</code>Iterator[T]<code>|</code>def <strong>next</strong>(self) -&gt; T<code>`def __iter__(self) -&gt; Iterator[T]</code>|<br>|<code>Sized</code>|<code>def __len__(self) -&gt; int</code>|<br>|<code>Container[T]</code>|<code>def __contains__(self, x: object) -&gt; bool</code>|<br>|<code>Collection[T]</code>|<code>def __len__(self) -&gt; int</code> <code>def __iter__(self) -&gt; Iterator[T]</code> <code>def __contains__(self, x: object) -&gt; bool</code>|<br>|<code>Awaitable[T]</code>|<code>def __await__(self) -&gt; Generator[Any, None, T]</code>|<br>|<code>AsyncIterable[T]</code>|<code>def __aiter__(self) -&gt; AsyncIterator[T]</code>|<br>|<code>AsyncIterator[T]</code>|<code>def __anext__(self) -&gt; Awaitable[T]</code> <code>def __aiter__(self) -&gt; AsyncIterator[T]</code>|<br>|<code>ContextManager[T]</code>|<code>def __enter__(self) -&gt; T</code> <code>def __exit__(self,exc_type: Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Optional[bool]</code>|<br>|<code>AsyncContextManager[T]</code>|<code>def __aenter__(self) -&gt; Awaitable[T]</code> <code>def __aexit__(self,exc_type:Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Awaitable[Optional[bool]]</code>|</p>
+<p>typing模块中的协议类</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>`Iterable[T]</td>
+<td><code>def __iter__(self) -&gt; Iterator[T]</code></td>
+</tr>
+<tr>
+<td><code>Iterator[T]</code></td>
+<td><code>def __next__(self) -&gt; T</code>  <code>def __iter__(self) -&gt; Iterator[T]</code></td>
+</tr>
+<tr>
+<td><code>Sized</code></td>
+<td><code>def __len__(self) -&gt; int</code></td>
+</tr>
+<tr>
+<td><code>Container[T]</code></td>
+<td><code>def __contains__(self, x: object) -&gt; bool</code></td>
+</tr>
+<tr>
+<td><code>Collection[T]</code></td>
+<td><code>def __len__(self) -&gt; int</code> <code>def __iter__(self) -&gt; Iterator[T]</code> <code>def __contains__(self, x: object) -&gt; bool</code></td>
+</tr>
+<tr>
+<td><code>Awaitable[T]</code></td>
+<td><code>def __await__(self) -&gt; Generator[Any, None, T]</code></td>
+</tr>
+<tr>
+<td><code>AsyncIterable[T]</code></td>
+<td><code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
+</tr>
+<tr>
+<td><code>AsyncIterator[T]</code></td>
+<td><code>def __anext__(self) -&gt; Awaitable[T]</code> <code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
+</tr>
+<tr>
+<td><code>ContextManager[T]</code></td>
+<td><code>def __enter__(self) -&gt; T</code> <code>def __exit__(self,exc_type: Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Optional[bool]</code></td>
+</tr>
+<tr>
+<td><code>AsyncContextManager[T]</code></td>
+<td><code>def __aenter__(self) -&gt; Awaitable[T]</code> <code>def __aexit__(self,exc_type:Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Awaitable[Optional[bool]]</code></td>
+</tr>
+</tbody>
+</table>
+</div>
 <ul>
 <li><p>cast 将静态类型值强制转换为子类型,并不是像其它静态语言真正的进行类型转换，在运行时并不生效。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from typing import cast, List</span><br><span class="line"></span><br><span class="line">o: object = [1]</span><br><span class="line">x = cast(List[int], o)  # OK</span><br><span class="line">y = cast(List[str], o)  # OK (cast performs no actual runtime check)</span><br></pre></td></tr></table></figure>
