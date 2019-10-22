@@ -380,6 +380,197 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/10/c语言移位操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/12/10/c语言移位操作/" class="post-title-link" itemprop="url">c语言移位操作</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-10 23:56:03" itemprop="dateCreated datePublished" datetime="2017-12-10T23:56:03+08:00">2017-12-10</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&lt;&lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]<br>也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。</p>
+<hr>
+<p>逻辑右移与算术右移<br>逻辑右移在左端补k个0，得到的结果是[ [latex]0,…,0,x_{w-1},x_{w-2},…,x_k[/latex] ]<br>算术右移是在左端补k个最高有效位的值，得到的结果是[ [latex]x_{w-1},…,x_{w-1},x_{w-1},x_{w-2}…,x_k[/latex] ]</p>
+<hr>
+<p>操作</p>
+<p>值1</p>
+<p>值2</p>
+<p>参数x</p>
+<p>0110 0011</p>
+<p>1001 0101</p>
+<p>x &lt;&lt; 4</p>
+<p>0011 0000</p>
+<p>0101 0000</p>
+<p>x &gt;&gt; 4(逻辑右移)</p>
+<p>0000 0110</p>
+<p>0000 1001</p>
+<p>x &gt;&gt; 4(算术右移)</p>
+<p>0000 0110</p>
+<p>1111 1001</p>
+<hr>
+<p>几乎所有的编译器都对有符号数(负数)使用算术右移，可<a href="https://github.com/hys20151008/cs/blob/master/chapter2/shift.c" target="_blank" rel="noopener">参考</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python c相关结构体/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2647,220 +2838,6 @@ plt.matshow()               #将矩阵以图像的形式展示出来
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/27/pyplot-pie/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/11/27/pyplot-pie/" class="post-title-link" itemprop="url">pyplot.pie</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-27 19:43:09" itemprop="dateCreated datePublished" datetime="2017-11-27T19:43:09+08:00">2017-11-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>matplotlib.pyplot.pie(x, explode=None, labels=None, colors=None, autopct=None, pctdistance=0.6, shadow=False, labeldistance=1.1, startangle=None, radius=None, counterclock=True, wedgeprops=None, textprops=None, center=(0, 0), frame=False, hold=None, data=None) 根据数组x绘制饼图 explode:数组扇形离圆点的距离(爆炸出来的那部分) labels:标题 colors:颜色 autopct:饼图扇区面积所显示的文字 shadow:阴影 startangle: title:图标题</p>
-<hr>
-<pre><code>import matplotlib.pyplot as plt
-
-# Pie chart, where the slices will be ordered and plotted counter-clockwise:
-labels = &#39;Frogs&#39;, &#39;Hogs&#39;, &#39;Dogs&#39;, &#39;Logs&#39;
-sizes = [15, 30, 45, 10]
-explode = (0, 0.1, 0, 0)  # only &quot;explode&quot; the 2nd slice (i.e. &#39;Hogs&#39;)
-
-fig1, ax1 = plt.subplots()
-ax1.pie(sizes, explode=explode, labels=labels, autopct=&#39;%1.1f%%&#39;,
-        shadow=True, startangle=90) #autopct 扇形区域显示的文字格式
-ax1.axis(&quot;equal&quot;)  # Equal aspect ratio ensures that pie is drawn as a circle.
-
-plt.show()
-</code></pre><p><img src="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png" alt="image"></p>
-<hr>
-<pre><code>#通过两个饼图绘制双层饼图
-import matplotlib.pyplot as plt
-
-vals1 = [1]
-vals2 = [1, 1, 2]
-vals3 = [1]
-vals4 = [1]
-
-fig, ax = plt.subplots()
-labels = &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;
-
-ax.pie(vals1, radius=1.2)
-ax.pie(vals2, radius=1.0,startangle=90)
-ax.pie(vals3, radius=0.8)
-ax.pie(vals4, radius=0.4)
-ax.set(aspect=&quot;equal&quot;)
-plt.show()
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png" alt="image"></p>
-<hr>
-<p>参考： 1.<a href="https://zhuanlan.zhihu.com/p/27442584" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27442584</a> 2.<a href="http://matplotlib.org/api/pyplot_api.html" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2907,7 +2884,7 @@ plt.show()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">214</span>
+                    <span class="site-state-item-count">215</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

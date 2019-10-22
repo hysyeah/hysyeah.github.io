@@ -380,6 +380,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/21/buntu上搭建git仓库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/21/buntu上搭建git仓库/" class="post-title-link" itemprop="url">ubuntu上搭建git仓库</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-21 11:41:14" itemprop="dateCreated datePublished" datetime="2018-03-21T11:41:14+08:00">2018-03-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.安装git ,git-core,openssh-server
+2.创建用户git,
+3.客户端生成公钥，ssh-keygen -t rsa -C &quot;xxx@126.com&quot;
+5.将客户端公钥添加到服务端的~/.ssh/authorized_keys文件下
+6.git –bare init /home/git/myRep.git  #在服务端建一个空的仓库
+7.在客户端输入命令拉取代码
+git clone git@gitServerIP:/home/git/myRep.git
+
+
+8.在myRep.git下的hooks 新建post-receive,
+添加git --work-tree=/home/wwwroot/hehe checkout -f
+设置工作目录(代码存放的目录)，每次提交代码后将会触发post-receive下的脚本,
+目标目录必须先创建,注意文件夹git用户写入权限
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/16/docker使容器和宿主机使用同一网段/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2128,212 +2311,6 @@ sudo service docker restart
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/22/Docker Compose管理mysql容器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/22/Docker Compose管理mysql容器/" class="post-title-link" itemprop="url">Docker Compose管理mysql容器</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-22 21:52:39" itemprop="dateCreated datePublished" datetime="2018-01-22T21:52:39+08:00">2018-01-22</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。</p>
-<pre><code>1.sudo pip install docker-compose
-
-2.docker pull mysql
-
-3.mkidr mysql
-  vim docker-compose.yml
-</code></pre><h4 id="docker-compose-yml-包括version-services-networks三大部分"><a href="#docker-compose-yml-包括version-services-networks三大部分" class="headerlink" title="docker-compose.yml(包括version,services,networks三大部分)"></a>docker-compose.yml(包括version,services,networks三大部分)</h4><pre><code>version: &#39;2&#39;
-services:
-  mysql:
-    image: mysql   #指定镜像为mysql
-    networks:
-       mysqlnet:
-          ipv4_address: xxx.xxx.xxx.xxx #设置ip地址
-    volumes:
-    - /etc/mysql/:/etc/mysql        #将宿主机的/etc/mysql/映射到容器中，即容器上使用宿主中的/etc/mysql/
-    restart: always
-    environment:                    #设置环境变量
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test
-      MYSQL_USER: hys
-      MYSQL_PASSWORD: hello
-    expose:
-      - &quot;3307&quot;
-    ports:
-      - &quot;3307:3306&quot;
-networks:
-  mysqlnet:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: xxx.xxx.xxx.0/26
-
-
-docker-compose up -d #启动后，可访问mysql服务
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2380,7 +2357,7 @@ docker-compose up -d #启动后，可访问mysql服务
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">214</span>
+                    <span class="site-state-item-count">215</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
