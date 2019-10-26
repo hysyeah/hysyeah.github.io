@@ -380,6 +380,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/01/docker-compose up -d启动失败不能创建网络/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/01/docker-compose up -d启动失败不能创建网络/" class="post-title-link" itemprop="url">docker-compose up -d启动失败不能创建网络</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-01 11:29:59" itemprop="dateCreated datePublished" datetime="2018-02-01T11:29:59+08:00">2018-02-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>当修改docker-compose.yml文件后台，使用命令docker-coompose up -d 启动服务
+出现如下错误
+Creating network &quot;master_sparknet&quot; with driver &quot;bridge&quot;
+ERROR: cannot create network ddc16ca081602776df238912eeb042380f5cb15b88c108799b66d074742c704a (br-ddc16ca08160): conflicts with network fa6a55dd5ed30ce92342c4d3218558139293fd1800f5893c83b9f6a75aeaf277 (br-fa6a55dd5ed3): networks have overlapping IPv4
+
+提示不能创建网络，两个网络发生冲突
+</code></pre><h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><pre><code>1.docker network ls  #展示docker容器网络
+2.找到冲突的网络 docker network rm fa6a55dd5ed3
+3.docker-compose up -d #重新启动服务
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/23/搭建安全Docker Registry/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2195,189 +2374,6 @@ out:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/12/python c  PyLongObject定义及实现1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/12/python c  PyLongObject定义及实现1/" class="post-title-link" itemprop="url">python c  PyLongObject定义及实现1</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-12 23:32:18" itemprop="dateCreated datePublished" datetime="2017-12-12T23:32:18+08:00">2017-12-12</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>typedef PY_UINT32_T digit;
-#define PyObject_VAR_HEAD               \
-    PyObject_HEAD                       \
-    Py_ssize_t ob_size;
-
-struct _longobject {
-    PyObject_VAR_HEAD
-    digit ob_digit[1];
-};
-typedef struct _longobject PyLongObject;
-</code></pre><p>PyLongObject对象除了引用计数ob_refcnt,*ob_type指针，与PyIntObject不同的是，通过动态改变ob_digit数组的大小，以实现任意精度的长整形。 PyLongObject对象的绝对值表示为</p>
-<pre><code>SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)
-</code></pre><p>当数值为0L时，ob_size = 0，不会为ob_digit数组分配内存。 当数值为负数时，ob_size &lt; 0; 当创建一个PyLongObject时，内存分配函数会为ob_digit数组分配足够的空间，所以ob_digit[0] … ob_digit[abs(ob_size)-1]是有效的。 <a href="http://img.hysyeah.top/2017/12/12/%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%88%90%E5%91%98%E6%95%B0%E7%BB%84%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%A4%A7%E5%B0%8F/" target="_blank" rel="noopener">为结构体的成员数组动态分配大小</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2424,7 +2420,7 @@ typedef struct _longobject PyLongObject;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">216</span>
+                    <span class="site-state-item-count">217</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
