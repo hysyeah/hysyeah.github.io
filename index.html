@@ -380,6 +380,395 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/26/x86-architecture-gcc-calling-convention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/26/x86-architecture-gcc-calling-convention/" class="post-title-link" itemprop="url">x86-architecture gcc calling convention</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-26 19:21:28" itemprop="dateCreated datePublished" datetime="2019-10-26T19:21:28+08:00">2019-10-26</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="x86架构常见寄存器"><a href="#x86架构常见寄存器" class="headerlink" title="x86架构常见寄存器"></a>x86架构常见寄存器</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>register</th>
+<th>8 bit</th>
+<th>16 bit</th>
+<th>32 bit</th>
+<th>64 bit</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accumulator register</td>
+<td>AH:AL</td>
+<td>AX</td>
+<td>EAX</td>
+<td>RAX</td>
+<td></td>
+</tr>
+<tr>
+<td>Base register</td>
+<td>BH:BL</td>
+<td>BX</td>
+<td>EBX</td>
+<td>RBX</td>
+<td></td>
+</tr>
+<tr>
+<td>Counter register</td>
+<td>CH:CL</td>
+<td>CX</td>
+<td>ECX</td>
+<td>RCX</td>
+<td></td>
+</tr>
+<tr>
+<td>Data register</td>
+<td>DH:DL</td>
+<td>DX</td>
+<td>EDX</td>
+<td>RDX</td>
+<td></td>
+</tr>
+<tr>
+<td>Stack Pointer register</td>
+<td></td>
+<td>SP</td>
+<td>ESP</td>
+<td>RSP</td>
+<td>栈顶指针,始终指向栈顶元素</td>
+</tr>
+<tr>
+<td>Stack Base Pointer register</td>
+<td></td>
+<td>BP</td>
+<td>EBP</td>
+<td>RBP</td>
+<td>栈基指针,用于维护一个栈帧,在Intel的术语中叫帧指针,表示一个栈帧的开始地址</td>
+</tr>
+<tr>
+<td>Source Index register</td>
+<td></td>
+<td>SI</td>
+<td>ESI</td>
+<td>RSI</td>
+<td></td>
+</tr>
+<tr>
+<td>Destination Index register</td>
+<td></td>
+<td>DI</td>
+<td>EDI</td>
+<td>RDI</td>
+<td></td>
+</tr>
+<tr>
+<td>Instruction Pointer</td>
+<td>IP</td>
+<td>EIP</td>
+<td>RIP</td>
+<td></td>
+</tr>
+<tr>
+<td>64位新增</td>
+<td></td>
+<td></td>
+<td></td>
+<td>R8-R15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>段寄存器</p>
+<ul>
+<li>Stack Segment(SS)：指向栈的指针</li>
+<li>Code Segment(CS):指向代码的指针</li>
+<li>Data Segment(DS):指向数据的指针</li>
+</ul>
+<p>当我们调用一个函数和一个函数被调用，它们之间的参数和返回值是怎样传递的？gcc是怎样使用x86中的寄存器？</p>
+<h4 id="调用规范"><a href="#调用规范" class="headerlink" title="　调用规范"></a>　调用规范</h4><p>为了允许单独的程序员共享代码并开发供许多程序使用的库，并简化子例程的使用，程序员通常采用通用的调用约定。调用约定其实就是约定函数间如何调用和返回。例如，给定一组调用约定规则，程序员无需检查子例程的定义来确定应如何将参数传递给该子例程。 此外，给定一组调用约定规则，可以使高级语言编译器遵循这些规则，从而允许手动编码的汇编语言例程和高级语言例程相互调用。</p>
+<p>下面我们会描述下C语言的调用约定。C调用约定非常依赖CPU硬件实现的栈结构，基于如下汇编指令push,pop,call,ret。</p>
+<h6 id="调用者约定"><a href="#调用者约定" class="headerlink" title="调用者约定"></a>调用者约定</h6><ul>
+<li>在调用子例程这前,调用者应该保存一些特定寄存器的内容,这些内容称为<code>caller-saved</code>。被调用者<code>callee</code>允许对这些寄存器进行修改,如果调用者<code>caller</code>在子例程返回之后依然要使用这些值，<code>caller</code>必须把这些值push到栈中。</li>
+<li>为了把参数传递给子例程,在调用它们之前需先把参数入栈(现在的CPU设计并不是所有参数都得入栈,x86-64位在参数超过6个的情况下才会将6个之外的参数入栈),参数的入栈顺序为从右到左。</li>
+<li>使用<code>call</code>指令调用子例程。这个指令将返回地址压入栈中(在所参数之上)<br>当子例程返回后,<code>caller</code>可从寄存器<code>EAX</code>中取得子例程的返回值,为了恢复调用前的状态，调用者应该做如下处理：</li>
+<li>移除栈中的参数。</li>
+<li>从栈中恢复<code>caller-saved</code>的寄存器内容。</li>
+</ul>
+<h6 id="被调用者-callee-约定"><a href="#被调用者-callee-约定" class="headerlink" title="被调用者(callee)约定"></a>被调用者(<code>callee</code>)约定</h6><ul>
+<li>将%rbp入栈,并将%rsp 赋值给%rbp<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp             # 将调用者的rbp入栈</span><br><span class="line">movq    %rsp, %rbp       # 初始化一个新的栈帧</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这个初始化操作维护了<code>base pointer</code>,rbp。rbp用于直接在栈中根据偏移量获取参数和局部变量。</p>
+<ul>
+<li>然后,将局部变量入栈,同时修改rsp寄存器的值。</li>
+<li>保存<code>callee-saved</code>的寄存器值,将这些值做入栈操作。<br>当子例程执行完毕进行返回时,必须做如下操作：</li>
+<li>将返回值放在<code>rax</code>寄存器中</li>
+<li>恢复<code>callee-saved</code>寄存器的值</li>
+<li>销毁局部变量,一般通过修改栈指针的值来进行</li>
+<li>恢复调用者的rbp值,从栈中弹出rbp</li>
+<li>最后执行<code>ret</code>指令,这条指令会将<code>return address</code>从栈中移除</li>
+</ul>
+<p>我们先来看一段代码，保存为<code>cdecl.c</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int callee(int a, int b, int c,int d, int d, int f, int g)&#123;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int caller(void)</span><br><span class="line">&#123;</span><br><span class="line">    return callee(1, 2, 3, 4, 5, 6, 7) +5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>将上面这段代码编译为汇编代码，使用命令<code>gcc -S cdecl.c</code>,会生成一个名称为cdecl.s的文件。下面是调用者部分的汇编代码，采用AT&amp;T格式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">callee:</span><br><span class="line">.LFB0:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    movl    %edi, -4(%rbp)</span><br><span class="line">    movl    %esi, -8(%rbp)</span><br><span class="line">    movl    %edx, -12(%rbp)</span><br><span class="line">    movl    %ecx, -16(%rbp)</span><br><span class="line">    movl    %r8d, -20(%rbp)</span><br><span class="line">    movl    %r9d, -24(%rbp)</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    popq    %rbp</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line"></span><br><span class="line">caller:</span><br><span class="line">.LFB1:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    pushq   $7</span><br><span class="line">    movl    $6, %r9d</span><br><span class="line">    movl    $5, %r8d</span><br><span class="line">    movl    $4, %ecx</span><br><span class="line">    movl    $3, %edx</span><br><span class="line">    movl    $2, %esi</span><br><span class="line">    movl    $1, %edi</span><br><span class="line">    call    callee</span><br><span class="line">    addq    $8, %rsp</span><br><span class="line">    addl    $5, %eax</span><br><span class="line">    leave</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure></p>
+<p>由上汇编代码可以看到第一个参数放入到了寄存器edi,第二个参放入到了寄存器esi,第三个参数放入寄存器edx,依此类推。</p>
+<h6 id="gcc对x86寄存器的调用规则"><a href="#gcc对x86寄存器的调用规则" class="headerlink" title="gcc对x86寄存器的调用规则"></a>gcc对x86寄存器的调用规则</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Register</th>
+<th>Purpose    Saved across calls</th>
+<th>Saved across calls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%rax</td>
+<td>temp register; return value</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rbx</td>
+<td>callee-saved</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>%rcx</td>
+<td>used to pass 4th argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rdx</td>
+<td>used to pass 3rd argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rsp</td>
+<td>stack pointer</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>%rbp</td>
+<td>callee-saved; base pointer</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>%rsi</td>
+<td>used to pass 2nd argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rdi</td>
+<td>used to pass 1st argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r8</td>
+<td>used to pass 5th argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r9</td>
+<td>used to pass 6th argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r10-r11</td>
+<td>temporary</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r12-r15</td>
+<td>callee-saved registers</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h6 id="函数调用时栈中的内容"><a href="#函数调用时栈中的内容" class="headerlink" title="函数调用时栈中的内容"></a>函数调用时栈中的内容</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>栈地址</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16(%ebp)</td>
+<td>- third function parameter</td>
+</tr>
+<tr>
+<td>12(%ebp)</td>
+<td>- second function parameter</td>
+</tr>
+<tr>
+<td>8(%ebp)</td>
+<td>- first function parameter</td>
+</tr>
+<tr>
+<td>4(%ebp)</td>
+<td>- old %EIP (the function’s “return address”)</td>
+</tr>
+<tr>
+<td>0(%ebp)</td>
+<td>- old %EBP (previous function’s base pointer)</td>
+</tr>
+<tr>
+<td>-4(%ebp)</td>
+<td>- first local variable</td>
+</tr>
+<tr>
+<td>-8(%ebp)</td>
+<td>- second local variable</td>
+</tr>
+<tr>
+<td>-12(%ebp)</td>
+<td>- third local variable</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="http://img.hysyeah.top/2019/10/26/stackframe-cdecl.gif" alt="image"></p>
+<h4 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h4><p>push ax;将一个寄存器中的数据入栈<br>pop ax; 出栈，用一个寄存器接收出栈的数据.<br>ret指令用栈中数据，修改IP的内容，从而实现近转移。CPU执行ret指令时，进行下面两步操作：<br>(1)(IP) = ((ss)*16+(sp)) (2)(sp) = (sp) + 2   #16位cpu<br>call 标号;将当前的IP压栈后，转到标号处执行指令</p>
+<hr>
+<p>参考：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/13/协程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -440,7 +829,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-22 21:54:22" itemprop="dateModified" datetime="2019-10-22T21:54:22+08:00">2019-10-22</time>
+                <time title="修改时间：2019-10-26 08:59:46" itemprop="dateModified" datetime="2019-10-26T08:59:46+08:00">2019-10-26</time>
               </span>
             
           
@@ -479,7 +868,11 @@
       
         
           
-            <h4 id="普通函数与协程函数"><a href="#普通函数与协程函数" class="headerlink" title="普通函数与协程函数"></a>普通函数与协程函数</h4><p><img src="http://img.hysyeah.top/2019/10/22/fun_and_coroutine.png" alt="image"></p>
+            <h4 id="普通函数与协程函数"><a href="#普通函数与协程函数" class="headerlink" title="普通函数与协程函数"></a>普通函数与协程函数</h4><p>有栈协程<br>无栈协程</p>
+<p>共享栈<br>私有栈</p>
+<p>对称协程<br>非对称协程</p>
+<p>ucontext</p>
+<p><img src="http://img.hysyeah.top/2019/10/22/fun_and_coroutine.png" alt="image"></p>
 
           
         
@@ -2044,167 +2437,6 @@ cat /var/log/mysqld.log | grep password
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/13/docker容器apt-get失败/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/13/docker容器apt-get失败/" class="post-title-link" itemprop="url">docker容器apt-get失败</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-13 18:54:31" itemprop="dateCreated datePublished" datetime="2019-07-13T18:54:31+08:00">2019-07-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.进入容器后,执行<code>apt-get update</code>失败<br><img src="http://img.hysyeah.top/2019/07/13/docker-apt-get-update.png" alt="image"></p>
-<p>原因是容器中的DNS不对。</p>
-<p>2.查找宿主机的DNS<br><img src="http://img.hysyeah.top/2019/07/13/win10-dns.png" alt="image"></p>
-<p>3.修改容器中的DNS</p>
-<p><code>echo &quot;nameserver 192.168.2.1&quot; | tee /etc/resolv.conf</code></p>
-<p>4.执行<code>apt-get update</code></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2251,7 +2483,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">215</span>
+                    <span class="site-state-item-count">216</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

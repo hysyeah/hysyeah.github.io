@@ -380,6 +380,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/12/为结构体的成员数组动态分配大小/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/12/12/为结构体的成员数组动态分配大小/" class="post-title-link" itemprop="url">为结构体的成员数组动态分配大小</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-12 23:28:35" itemprop="dateCreated datePublished" datetime="2017-12-12T23:28:35+08:00">2017-12-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>struct _longobject {
+    Py_ssize_t ob_refcnt;               
+    struct _typeobject *ob_type;
+    Py_ssize_t ob_size;
+    digit ob_digit[1];
+}PyLongObject;
+
+
+PyLongObject *p;
+/*为结构体动态分配内存*/
+p = (PyLongObject*)malloc(sizeof(PyLongObject)+sizeof(digit)*abs(ob_size))
+for(int i = 0; i &lt; ob_size; i++){
+    p-&gt;ob_digit[i] = 1;
+}
+这就是PyLongObject对象的内存分配，只不过python源码由内存管理模块进行内存的分配，不那么好理解。
+</code></pre><hr>
+<h4 id="example"><a href="#example" class="headerlink" title="example"></a>example</h4><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct T
+{
+    int a;
+    int b;
+    char c[0];
+}T;//大小为8字节，在32位操作系统
+
+int main(int argc, char *argv[]){
+    T *t = (T*)malloc(sizeof(T)+sizeof(char)*6);
+    printf(&quot;%lu,%lu,%lu\n&quot;,sizeof(T),sizeof(int),sizeof(t-&gt;c));
+    t-&gt;a = 1;
+    t-&gt;b = 1;
+    strcpy(t-&gt;c, &quot;hello&quot;);
+    printf(&quot;%s\n&quot;,t-&gt;c);
+    return 0;
+}
+输出：
+8,4,0
+hello
+</code></pre><hr>
+<p>参考：<a href="https://wiki.sei.cmu.edu/confluence/display/c/MEM33-C.++Allocate+and+copy+structures+containing+a+flexible+array+member+dynamically" target="_blank" rel="noopener">https://wiki.sei.cmu.edu/confluence/display/c/MEM33-C.++Allocate+and+copy+structures+containing+a+flexible+array+member+dynamically</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/10/c语言移位操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2630,214 +2841,6 @@ out:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/28/matplotlib.pyplot相关函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/11/28/matplotlib.pyplot相关函数/" class="post-title-link" itemprop="url">matplotlib.pyplot相关函数</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-28 16:05:45" itemprop="dateCreated datePublished" datetime="2017-11-28T16:05:45+08:00">2017-11-28</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>import matplotlib.pyplot as plt
-
-plt.title(s, *args, **kwargs) #标题
-
-plt.xlabel(s, *args, **kwargs) #x轴标题
-
-plt.ylabel(s,  *args, **kwargs) #y轴标题
-
-plt.autoscale() #自动适应
-
-plt.xlim(0, 100) #设置x轴坐标 范围
-
-plt.legend() #左上角或右上角上的说明
-plt.grid(True,linestyle=&#39;-&#39;, color=&#39;0.75&#39;) #网格
-plt.xticks(locs, [label]) #Set locations and labels
-plt.axis([xmin, xmax, ymin, ymax]) #设置x,y轴的最小最大坐标值
-
-matplotlib.pyplot.subplot(*args, **kwargs)
-返回一个子图坐标系
-subplot(nrows, ncols, plot_number)
-subplot(211)
-
-subplots(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True, subplot_kw=None, gridspec_kw=None, **fig_kw)
-创建个图表和一系列子图
-return
-fig
-ax:坐标对象
-
-
-plt.imshow(X, cmap=&#39;Greys&#39;) #展示关于X的图像，X可以是矩阵或PIL Image
-plt.matshow()               #将矩阵以图像的形式展示出来
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2884,7 +2887,7 @@ plt.matshow()               #将矩阵以图像的形式展示出来
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">215</span>
+                    <span class="site-state-item-count">216</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
