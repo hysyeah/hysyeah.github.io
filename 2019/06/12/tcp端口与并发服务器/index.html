@@ -123,7 +123,7 @@
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png">
-<meta property="og:updated_time" content="2019-08-04T08:34:13.678Z">
+<meta property="og:updated_time" content="2019-10-29T22:29:34.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tcp端口与并发服务器">
 <meta name="twitter:description" content="一、端口的作用是什么？ 在一台服务器中可能有多个进程同时使用TCP,UDP这两种协议中的一种，端口就是用来区分这些进程的。 二、套接字对 一个TCP连接的套接字对是一个定义该连接的两个端点的四元组:本地IP地址、本地TCP端口号、外地IP地址、外地TCP端口号。套接字对唯一标识一个网络上的每个TCP连接。 三、并发服务器 并发服务器中主服务器循环通过派生一个子进程来处理每个新的链接。 我们通过如下">
@@ -449,7 +449,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+                <time title="修改时间：2019-10-30 06:29:34" itemprop="dateModified" datetime="2019-10-30T06:29:34+08:00">2019-10-30</time>
               </span>
             
           
@@ -463,7 +463,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
 
                 
                 
@@ -527,7 +527,7 @@ while True:
 
     client_handler = threading.Thread(target=handle_client, args=(client,))
     client_handler.start()
-</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务川口春奈 的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
+</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务器的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
 <hr>
 <p>总结: TCP必须通过查看套接字对的所有4个元素才能确定由哪个端点接收某个到达的分节。如一个分节来自127.0.0.1端口52822,目的地为127.0.0.1端口8080，它就会被传递给子进程2进行处理。</p>
 <hr>
@@ -643,7 +643,7 @@ while True:
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">217</span>
+                    <span class="site-state-item-count">218</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -720,7 +720,9 @@ while True:
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -757,7 +759,9 @@ while True:
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

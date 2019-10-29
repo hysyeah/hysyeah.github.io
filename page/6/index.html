@@ -380,6 +380,247 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/10/14/python-rocksdb的基本使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/10/14/python-rocksdb的基本使用/" class="post-title-link" itemprop="url">python-rocksdb的基本使用</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-14 12:38:22" itemprop="dateCreated datePublished" datetime="2018-10-14T12:38:22+08:00">2018-10-14</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.打开一个数据库</p>
+<pre><code>import rocksdb
+db = rocksdb.DB(&quot;test.db&quot;,rocksdb.Options(create_if_missing=True))
+
+# create_if_missing=True 如果不存在则创建名为&#39;test.db&#39;的数据库
+</code></pre><p>2.设置键值对和获取值</p>
+<pre><code># RocksDB中存储的是byte strings。在python2中为str类型，在python3中为bytes类型。
+db.put(b&quot;key&quot;,b&quot;value&quot;) #设置一个键值对，key =&gt; value
+
+db.get(b&quot;key&quot;)          #获取键为key的值，如果不在则返回为空
+b&#39;value&#39;
+
+db.delete(b&quot;key&quot;)       #删除键为key为的键值对
+
+# 将几个操作合并为一个操作
+batch = rocksdb.WriteBatch()
+batch.put(b&quot;key&quot;, b&quot;v1&quot;)
+batch.delete(b&quot;key&quot;)
+batch.put(b&quot;key&quot;, b&quot;v2&quot;)
+batch.put(b&quot;key&quot;, b&quot;v3&quot;)
+
+db.write(batch)
+
+# 一次获取多个键值对
+&gt;&gt;&gt; db.put(b&quot;key1&quot;,b&quot;v1&quot;)
+&gt;&gt;&gt; ret = db.multi_get([b&quot;key&quot;,b&quot;key1&quot;])
+&gt;&gt;&gt; ret
+{b&#39;key&#39;: b&#39;v3&#39;, b&#39;key1&#39;: b&#39;v1&#39;}
+</code></pre><p>3.迭代</p>
+<pre><code>&gt;&gt;&gt; it = db.iterkeys()  # 默认是无效的，先得调用seek方法
+&gt;&gt;&gt; it.seek_to_first()
+&gt;&gt;&gt; print(list(it))
+[b&#39;a&#39;, b&#39;key&#39;, b&#39;key1&#39;]
+
+&gt;&gt;&gt; it.seek_to_last()
+&gt;&gt;&gt; print(list(it))
+[b&#39;key1&#39;]
+
+
+&gt;&gt;&gt; it = db.itervalues()   #对值进行迭代
+&gt;&gt;&gt; it.seek_to_first()
+&gt;&gt;&gt; print(list(it))
+[b&#39;b&#39;, b&#39;v3&#39;, b&#39;v1&#39;]
+
+&gt;&gt;&gt; it = db.iteritems()   #对键值对进行迭代
+&gt;&gt;&gt; it.seek_to_first()
+&gt;&gt;&gt; print(list(it))
+[(b&#39;a&#39;, b&#39;b&#39;), (b&#39;key&#39;, b&#39;v3&#39;), (b&#39;key1&#39;, b&#39;v1&#39;)]
+
+# 反向迭代
+&gt;&gt;&gt; it.seek_to_last()
+&gt;&gt;&gt; print(list(reversed(it)))
+[(b&#39;key1&#39;, b&#39;v1&#39;), (b&#39;key&#39;, b&#39;v3&#39;), (b&#39;a&#39;, b&#39;b&#39;)]
+</code></pre><p>4.快照</p>
+<pre><code>&gt;&gt;&gt; snapshot = db.snapshot()
+&gt;&gt;&gt; it = db.iteritems(snapshot=snapshot)
+&gt;&gt;&gt; it
+&lt;rocksdb._rocksdb.ItemsIterator object at 0x7f77ae179608&gt;
+&gt;&gt;&gt; it.seek_to_first()
+&gt;&gt;&gt; print(dict(it))
+{b&#39;a&#39;: b&#39;b&#39;, b&#39;key&#39;: b&#39;v3&#39;, b&#39;key1&#39;: b&#39;v1&#39;}
+</code></pre><p>5.备份和恢复</p>
+<pre><code># 备份
+backup = rocksdb.BackupEngine(&quot;test.db/backups&quot;)
+backup.create_backup(db, flush_before_backup=True)
+
+# 恢复
+backup = rocksdb.BackupEngine(&quot;test.db/backups&quot;)
+backup.restore_latest_backup(&quot;test.db&quot;, &quot;test.db&quot;)
+</code></pre><hr>
+<p>参考： 1.<a href="https://python-rocksdb.readthedocs.io/en/latest/" target="_blank" rel="noopener">https://python-rocksdb.readthedocs.io/en/latest/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/10/14/rocksdb的编译安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2387,224 +2628,6 @@ hehe.com
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/05/python之在匿名函数中绑定变量的值/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/05/python之在匿名函数中绑定变量的值/" class="post-title-link" itemprop="url">python之在匿名函数中绑定变量的值</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-05 14:14:39" itemprop="dateCreated datePublished" datetime="2018-09-05T14:14:39+08:00">2018-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>In [17]: [x(2) for x in mu()]
-Out[17]: [0, 2, 4, 6]
-
-In [18]: x = 10
-
-In [19]: a = lambda y: x + y
-
-In [20]: x = 20
-
-In [21]: b = lambda y: x + y
-
-In [22]: a(10)
-Out[22]: 30
-
-In [23]: b(10)
-Out[23]: 30
-
-# lambda表达式中用到的x是一个自由变量，在运行进才进行绑定而不是定义的时候进行绑定。因此，lambda表达式中的x是在执行的时候确定的。
-</code></pre><p>再来看这么一个例子：</p>
-<pre><code>In [27]: def multipliers():
-    ...:     return [lambda x: i*x for i in range(4)]
-In [28 print([m(2) for m in multipliers()])
-[6, 6, 6, 6]
-
-# 因为i值是在运行的时候确定的，当调用lambda函数时，for循环已经结束，所以i都是3
-
-
-# 可以把添加一个默认参数绑定变量，默认值只会函数定义的时候初始化一次
-In [33]: def multipliers():
-    ...:     return [lambda x, i=i: i*x for i in range(4)]
-    ...:
-    ...:
-
-In [34]: print([m(2) for m in multipliers()])
-[0, 2, 4, 6]
-
-# 或者可以通过如下方式实现
-In [16]: from functools import partial
-In [17]: from operator import mul
-In [35]: def multipliers():
-    ...:     return [partial(mul, i) for i in range(4)]
-    ...:
-    ...:
-
-In [36]: print([m(2) for m in multipliers()])
-[0, 2, 4, 6]
-</code></pre><hr>
-<p>参考： 1.python cookbook</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2651,7 +2674,7 @@ In [36]: print([m(2) for m in multipliers()])
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">217</span>
+                    <span class="site-state-item-count">218</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2728,7 +2751,9 @@ In [36]: print([m(2) for m in multipliers()])
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2765,7 +2790,9 @@ In [36]: print([m(2) for m in multipliers()])
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

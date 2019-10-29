@@ -380,6 +380,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/08/感知机算法的原始形式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/08/感知机算法的原始形式/" class="post-title-link" itemprop="url">感知机算法的原始形式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-08 00:23:09" itemprop="dateCreated datePublished" datetime="2018-06-08T00:23:09+08:00">2018-06-08</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://img.hysyeah.top/wp-content/uploads/2018/06/perception_original.png" alt> 使用例2.1的数据点作为输入。</p>
+<pre><code>class Perception:
+    def __init__(self, learningrate):
+        self.lr = learningrate         # 学习率
+        self.wh = np.array([0.0, 0.0]) #初始化wh = [0.0, 0.0]
+        self.b = 0
+
+    def train(self,inputs, target):
+        inputs = np.asarray(inputs)
+        if self.check(inputs,target):        # 如果被误分类，则更新wh,b
+            self.wh += self.lr * np.dot(inputs, target)
+            self.b += target * self.lr
+            print(self.wh, self.b)
+
+    #判断是否被正确分类
+    def check(self, inputs, target):
+        flag = False
+        res = 0.0
+        res += (np.dot(inputs, self.wh)+self.b)*target
+        if res &lt;=0:
+            flag = True
+
+        return flag
+</code></pre><p>例2.1的迭代过程为 <img src="http://img.hysyeah.top/wp-content/uploads/2018/06/perception_original2.png" alt> 程序输出迭代过程为： <img src="http://img.hysyeah.top/wp-content/uploads/2018/06/perception_original3.png" alt></p>
+<hr>
+<p><a href="https://github.com/hys20151008/ml_python/blob/master/perception.py" target="_blank" rel="noopener">完整代码</a></p>
+<hr>
+<h5 id="scikit-learn实现"><a href="#scikit-learn实现" class="headerlink" title="scikit-learn实现"></a>scikit-learn实现</h5><pre><code>from sklearn.linear_model import Perceptron
+
+# max_iter为最大迭代次数，eta0为学习率
+perceptron = Perceptron(max_iter=1000, eta0=1)
+
+# coef_init设置w初始向量，intercept_init设置初始参数b
+p_fit = perceptron.fit(x, y, coef_init=np.array([[0.0, 0.0]]).reshape(-1,1),intercept_init=np.array([0]),sample_weight=np.array([1,1,1]))
+# 对未知数据进行预测
+p_fit.predict(np.array([4,4]).reshape(1,-1))
+</code></pre><p>参考：<br>1.统计学习方法-李航<br>2.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Perceptron.html#sklearn.linear_model.Perceptron.fit" target="_blank" rel="noopener">scikit-learn官方文档</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/08/感知机-简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2187,177 +2394,6 @@ array([[ True,  True,  True,  True,  True],
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/matplotlib-subplot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/16/matplotlib-subplot/" class="post-title-link" itemprop="url">matplotlib subplot</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-16 23:13:30" itemprop="dateCreated datePublished" datetime="2018-05-16T23:13:30+08:00">2018-05-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://img.hysyeah.top/wp-content/uploads/2018/05/subplot.png" alt="image"></p>
-<h4 id="这两种方式是等价的"><a href="#这两种方式是等价的" class="headerlink" title="这两种方式是等价的"></a>这两种方式是等价的</h4>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2404,7 +2440,7 @@ array([[ True,  True,  True,  True,  True],
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">217</span>
+                    <span class="site-state-item-count">218</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2481,7 +2517,9 @@ array([[ True,  True,  True,  True,  True],
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2518,7 +2556,9 @@ array([[ True,  True,  True,  True,  True],
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -3031,9 +3071,9 @@ array([[ True,  True,  True,  True,  True],
   
     
       
-        
-      
     
+      
+        
       
     
       
