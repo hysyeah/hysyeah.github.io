@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="Go将数据类型分为四类: 基础类型、复合类型、引用类型和接口类型。 基础类型包括：数字、字符串、布尔型。 整型 整型分为有符号和无符号类型的整数。 int8        int16       int32       int64   //分别对应8、16、32、64位大小的有符号整型数  uint8       uint16      uint32      uint64  //分别对应8、16">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.589Z">
+<meta property="og:updated_time" content="2019-12-22T01:58:01.305Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go基础数据类型">
 <meta name="twitter:description" content="Go将数据类型分为四类: 基础类型、复合类型、引用类型和接口类型。 基础类型包括：数字、字符串、布尔型。 整型 整型分为有符号和无符号类型的整数。 int8        int16       int32       int64   //分别对应8、16、32、64位大小的有符号整型数  uint8       uint16      uint32      uint64  //分别对应8、16">
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2019-12-22 09:58:01" itemprop="dateModified" datetime="2019-12-22T09:58:01+08:00">2019-12-22</time>
               </span>
             
           
@@ -497,7 +497,8 @@
 <pre><code>int8        int16       int32       int64   //分别对应8、16、32、64位大小的有符号整型数
 
 uint8       uint16      uint32      uint64  //分别对应8、16、32、64位大小的无符号整型数
-</code></pre><p>Unicode字符rune类型是和int32等价的类型，通常用于表示一个Unicode码点。这两个名称可 以互换使用。同样byte也是uint8类型的等价类型，byte类型一般用于强调数值是一个原始的数 据而不是一个小的整数。</p>
+</code></pre><p>这些类型的变量不允许互相赋值或操作。如以下代码会产生错误:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int8</span></span><br><span class="line"><span class="keyword">var</span> b <span class="keyword">int32</span></span><br><span class="line">c:a+b</span><br></pre></td></tr></table></figure></p>
+<p>Unicode字符rune类型是和int32等价的类型，通常用于表示一个Unicode码点。这两个名称可 以互换使用。同样byte也是uint8类型的等价类型，byte类型一般用于强调数值是一个原始的数 据而不是一个小的整数。</p>
 <pre><code>// Go中运算符优先级
 * / % &lt;&lt; &gt;&gt; &amp; &amp;^
 + - | ^

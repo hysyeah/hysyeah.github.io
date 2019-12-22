@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2018/08/14/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
+        <lastmod>2019-12-22T01:58:01.305Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2018/08/18/Go%E6%8E%A5%E5%8F%A3/</loc>
         <lastmod>2019-11-03T07:33:06.589Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -1450,14 +1458,6 @@
     <url>
         <loc>https://hysyeah.github.io/2018/02/07/hadoop,spark%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/</loc>
         <lastmod>2019-08-04T08:34:12.605Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/2018/08/14/Go%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
-        <lastmod>2019-08-04T08:34:12.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
