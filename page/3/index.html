@@ -380,6 +380,207 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp端口与并发服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/tcp端口与并发服务器/" class="post-title-link" itemprop="url">tcp端口与并发服务器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 07:43:31" itemprop="dateCreated datePublished" datetime="2019-06-12T07:43:31+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-30 06:29:34" itemprop="dateModified" datetime="2019-10-30T06:29:34+08:00">2019-10-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一、端口的作用是什么？ 在一台服务器中可能有多个进程同时使用TCP,UDP这两种协议中的一种，端口就是用来区分这些进程的。 二、套接字对 一个TCP连接的套接字对是一个定义该连接的两个端点的四元组:本地IP地址、本地TCP端口号、外地IP地址、外地TCP端口号。套接字对唯一标识一个网络上的每个TCP连接。 三、并发服务器 并发服务器中主服务器循环通过派生一个子进程来处理每个新的链接。 我们通过如下代码来理解socket如何处理多个请求。</p>
+<pre><code>import socket
+import threading
+
+bind_ip =&quot;0.0.0.0&quot;
+bind_port = 8080
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((bind_ip, bind_port))
+
+server.listen(3)
+
+
+def handle_client(client_socket):
+    request = client_socket.recv(1024)
+    print(&quot;[*] Received: %s&quot; % request)
+
+    client_socket.close()
+
+
+while True:
+    client, addr = server.accept()
+    print(f&quot;client is {client}, addr is {addr}&quot;)
+
+    client_handler = threading.Thread(target=handle_client, args=(client,))
+    client_handler.start()
+</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务器的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
+<hr>
+<p>总结: TCP必须通过查看套接字对的所有4个元素才能确定由哪个端点接收某个到达的分节。如一个分节来自127.0.0.1端口52822,目的地为127.0.0.1端口8080，它就会被传递给子进程2进行处理。</p>
+<hr>
+<p>参考： 1.《UNIX网络编程》</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/11/osi模型与tcp-ip/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2246,246 +2447,6 @@ sudo systemctl restart docker
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/07/pg_dump和pg_restore的使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/07/pg_dump和pg_restore的使用/" class="post-title-link" itemprop="url">pg_dump和pg_restore的使用</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-07 22:26:24" itemprop="dateCreated datePublished" datetime="2019-05-07T22:26:24+08:00">2019-05-07</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>pg_dump</code>是用于<code>postgresql</code>数据备份的工具。即使数据库在并发的情况下也能保持一致性，并且不阻塞其它用户对数据库进行读和写。</p>
-<pre><code>将表account和host表中数据dump到szd.dump文件中
-pg_dump -n &#39;public&#39;  -Uroot --no-owner --no-privileges --host=100.2.2.1 --port=5432 --disable-triggers -d szd -t account -t host &gt; szd.dump
-
-将数据恢复到指定的数据库中
-pg_restore -n &#39;public&#39; -Uroot --no-owner --host=100.2.2.3 --port=6434 -t account -t host szd.dump
-</code></pre><p>但是发再使用上述命令备份的并不包含索引，查看文档未发现可以恢复索引的选项。经实战发现如下方法可以备份索引，<br>1.通过<code>pg_dump</code>备份表的结构信息，<br>2.通过<code>psql</code>恢复表结构，<br>3.最后通过<code>pg_restore</code>恢复数据。</p>
-<pre><code>1.备份表结构信息
-pg_dump -n &#39;public&#39;  -Uroot --no-owner --schema-only --no-privileges --host=100.2.2.1 --port=5432 --disable-triggers -d szd -t account -t host &gt; szd2.dump
-
-2.恢复表结构信息以及索引
-psql -h100.2.2.3 -p6434 -Uroot szd &lt; szd2.dump
-
-3.恢复数据
-pg_restore -n &#39;public&#39; -Uroot --no-owner --data-only --host=100.2.2.3 --port=6434 -t account -t host szd.dump
-</code></pre><hr>
-<pre><code>create database ptldwh template template0; #To make an empty database without any local additions
-
-
-pg_dump -Fc -v -n &#39;public&#39; --host=127.0.0.1 -p5433 --no-owner --no-privileges --username=ptldwhdata ptldwh -t host &gt;ptldwh.dump
-
--t &#39;t_*&#39; #指定要同步的表名
-
-pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-triggers -d ptldwh -t host ptldwh.dump
-</code></pre><h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-n schema</td>
-<td>指定schema,只备份schema下的数据</td>
-</tr>
-<tr>
-<td>—data-only</td>
-<td>只备份数据</td>
-</tr>
-<tr>
-<td>—format=format</td>
-<td>指定输出格式</td>
-</tr>
-<tr>
-<td>-N schema</td>
-<td>不备份此schema下的数据</td>
-</tr>
-<tr>
-<td>—no-owner</td>
-<td>不输出设置对象ownership的命令</td>
-</tr>
-<tr>
-<td>—schema-only</td>
-<td>只备份表结构信息</td>
-</tr>
-<tr>
-<td>-t table</td>
-<td>指定需要备份的表</td>
-</tr>
-<tr>
-<td>-T table</td>
-<td>不备份此表</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>参考：<br>1.<a href="https://www.postgresql.org/docs/10/app-pgdump.html" target="_blank" rel="noopener">pg_dump</a><br>2.<a href="https://www.postgresql.org/docs/10/app-pgrestore.html" target="_blank" rel="noopener">pg_restore</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2532,7 +2493,7 @@ pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-trigg
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">221</span>
+                    <span class="site-state-item-count">222</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

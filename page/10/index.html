@@ -380,6 +380,287 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/02/单例模式(Singleton)-创建型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/02/单例模式(Singleton)-创建型/" class="post-title-link" itemprop="url">单例模式(Singleton)-创建型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-02 10:08:57" itemprop="dateCreated datePublished" datetime="2018-08-02T10:08:57+08:00">2018-08-02</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>单例模式保证类有且只有一个实例，并提供一个访问他的全局访问点。 1.</p>
+<pre><code>class Singleton(object):
+    def __new__(cls):
+        if not hasattr(cls, &#39;instance&#39;):
+            cls.instance = super(Singleton, cls).__new__(cls)
+        return cls.instance
+
+s = Singleton()
+print(&quot;Object created&quot;, s)
+
+s1 = Singleton()
+print(&quot;Object created&quot;, s1)
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single.png" alt> 2.</p>
+<pre><code>class Singleton:
+    __instance = None
+    def __init__(self):
+        if not Singleton.__instance:
+            print(&quot; __init__ method called..&quot;)
+        else:
+            print(&quot;Instance already created:&quot;, self.getInstance())
+    @classmethod
+    def getInstance(cls):
+        if not cls.__instance:
+            cls.__instance = Singleton()
+        return cls.__instance
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single1.png" alt> 3. <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single3.png" alt> 4.有时候我们并不关心生成的实例是否具有同一id，而只关心其状态和行为方式。我们可以允许许多个实例被创建，但所有的实例都共享状态和行为方式：</p>
+<pre><code>class Borg:
+    __shared_state = {&quot;1&quot;:&quot;2&quot;}
+    def __init__(self):
+        self.x = 1
+        self.__dict__ = self.__shared_state
+        pass
+b = Borg()
+b1 = Borg()
+b.x = 4
+print(&quot;Borg Object &#39;b&#39;: &quot;, b)
+print(&quot;Borg Object &#39;b1&#39;: &quot;, b1)
+print(&quot;Object State &#39;b&#39;:&quot;, b.__dict__)
+print(&quot;Object State &#39;b1&#39;:&quot;, b1.__dict__)
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single4.png" alt> 或者使用<strong>new</strong>方法：</p>
+<pre><code>In [16]: class Borg(object):
+             _shared_state = {}
+             def __new__(cls, *args, **kwargs):
+                 obj = super(Borg, cls).__new__(cls, *args, **kwargs)
+                 obj.__dict__ = cls._shared_state
+                 return obj
+</code></pre><hr>
+<p>4.元类实现</p>
+<pre><code># 当我们调用Logger()初始化Logger时，将会调用类MetaSingleton中的__call__方法
+In [1]: class MetaSingleton(type):
+            _instances = {}
+            def __call__(cls, *args, **kwargs):
+                if cls not in cls._instances:
+                    cls._instances[cls] = super(MetaSingleton, cls).__call__(*args, **kwargs)
+                return cls._instances[cls]
+       class Logger(metaclass=MetaSingleton):
+           pass
+
+
+In [2]: l1 = Logger()
+
+In [3]: l2 = Logger()
+
+In [4]: id(l1)
+Out[4]: 140568820684616
+
+In [5]: id(l2)
+Out[5]: 140568820684616
+</code></pre><hr>
+<p>线程安全的写法：</p>
+<pre><code>In [9]: def synchronized(func):
+   ...:     func.__lock__ = threading.Lock()
+   ...:
+   ...:     def synced_func(*args, **kws):
+   ...:         with func.__lock__:
+   ...:             return func(*args, **kws)
+   ...:
+   ...:     return synced_func
+   ...:
+   ...:
+
+In [10]: def Singleton(cls):
+    ...:     instances = {}
+    ...:
+    ...:     @synchronized
+    ...:     def get_instance(*args, **kw):
+    ...:         if cls not in instances:
+    ...:             instances[cls] = cls(*args, **kw)
+    ...:         return instances[cls]
+    ...:
+    ...:     return get_instance
+    ...:
+    ...:
+
+In [11]: @Singleton
+    ...: class test():
+    ...:     a = 1
+    ...:
+
+In [12]: s = test()
+
+In [13]: s1 = test()
+
+In [14]: id(s)
+Out[14]: 140308601028336
+
+In [15]: id(s1)
+Out[15]: 140308601028336
+</code></pre><p>实用场景： 1.数据库连接 2.应用健康检测 3.许多需要创建一个对象的场景，如线程池，缓存，对话框，等等。</p>
+<hr>
+<p>优点： 通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。 缺点： 全局变量可能会在某一处被修改，一个同一对象存在多个引用，所有依赖于全局变量的类都会紧密耦合，因为一个类对全局数据的更改可能会无意中影响另一个类 参考： 1.<a href="https://www.amazon.com/Learning-Python-Design-Patterns-Second/dp/178588803X/ref=sr_1_1_sspa?ie=UTF8&amp;qid=1533132340&amp;sr=8-1-spons&amp;keywords=Learning+Python+Design+Patterns&amp;psc=1" target="_blank" rel="noopener">Learning Python Design Patterns</a> 2.<a href="https://www.cnblogs.com/baiyb/p/8506438.html" target="_blank" rel="noopener">https://www.cnblogs.com/baiyb/p/8506438.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/31/二叉树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2170,358 +2451,6 @@ Out[7]: &#39;func&#39;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/10/requests中的公共函数utils.py/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/10/requests中的公共函数utils.py/" class="post-title-link" itemprop="url">requests中的公共函数utils.py</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-10 20:21:39" itemprop="dateCreated datePublished" datetime="2018-07-10T20:21:39+08:00">2018-07-10</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 将字典转换为元素为(key, val)的列表
-In [1]: def dict_to_sequnce(d):
-             if hasattr(d, &#39;items&#39;):
-                 d = d.items()
-             return d
-In [2]: d = {&#39;a&#39;: 1, &#39;b&#39;: 2}
-
-In [3]: dict_to_sequnce(d)
-Out[3]: dict_items([(&#39;a&#39;, 1), (&#39;b&#39;, 2)])
-
-
-# 获取各种对象的长度，如str,BytesIO,文件
-# 通过hasattr(o, &#39;getvalue&#39;)判断对象是是否是BytesIO,StringIO
-# 通过hasattr(o, &#39;fileno&#39;)判断是否是文件对象
-# 文件和标准输入都有tell方法，而标准输入调用tell()方法则会产生异常，当遇到类似情况会把对象长度置为0,交给请求来获取它的长度。
-def super_len(o):
-    total_length = 0
-    current_position = 0
-
-    if hasattr(o, &#39;__len__&#39;):
-        total_length = len(o)
-
-    elif hasattr(o, &#39;len&#39;):
-        total_length = o.len
-
-    elif hasattr(o, &#39;getvalue&#39;):
-        # e.g. BytesIO, cStringIO.StringIO
-        total_length = len(o.getvalue())
-
-    elif hasattr(o, &#39;fileno&#39;):
-        try:
-            fileno = o.fileno()
-        except io.UnsupportedOperation:
-            pass
-        else:
-            total_length = os.fstat(fileno).st_size
-
-            # Having used fstat to determine the file length, we need to
-            # confirm that this file was opened up in binary mode.
-            if &#39;b&#39; not in o.mode:
-                warnings.warn((
-                    &quot;Requests has determined the content-length for this &quot;
-                    &quot;request using the binary size of the file: however, the &quot;
-                    &quot;file has been opened in text mode (i.e. without the &#39;b&#39; &quot;
-                    &quot;flag in the mode). This may lead to an incorrect &quot;
-                    &quot;content-length. In Requests 3.0, support will be removed &quot;
-                    &quot;for files in text mode.&quot;),
-                    FileModeWarning
-                )
-
-    if hasattr(o, &#39;tell&#39;):
-        try:
-            current_position = o.tell()
-        except (OSError, IOError):
-            # This can happen in some weird situations, such as when the file
-            # is actually a special file descriptor like stdin. In this
-            # instance, we don&#39;t know what the length is, so set it to zero and
-            # let requests chunk it instead.
-            current_position = total_length
-
-    return max(0, total_length - current_position)
-
-
-# 如果提供的url中没有scheme,则将new_scheme作为url的scheme,如果有则不改变
-def prepend_scheme_if_needed(url, new_scheme):
-    scheme, netloc, path, params, query, fragment = urlparse(url, new_scheme)
-
-    if not netloc:
-        netloc, path = path, netloc #应对netloc为空的特殊情况
-
-    return urlunparse((scheme, netloc, path, params, query, fragment))
-
-# 去掉url中的用户名和密码部分
-# 如http://root:root@www.baidu.com/,返回为http://www.baidu.com/
-def urldefragauth(url):
-    scheme, netloc, path, params, query, fragment = urlparse(url)
-
-    if not netloc:
-        netloc, path = path, netloc
-    netloc = netloc.rsplit(&#39;@&#39;, 1)[-1]
-
-    return urlunparse((scheme, netloc, path, params, query, &#39;&#39;))
-
-
-_CLEAN_HEADER_REGEX_BYTE = re.compile(b&#39;^\\S[^\\r\\n]*$|^$&#39;) #\S匹配任意非空格字符,--
-_CLEAN_HEADER_REGEX_STR = re.compile(r&#39;^\S[^\r\n]*$|^$&#39;) # 匹配以非空开头，非\r\n结尾或者空白字符串
-# 检验头的有效性防止header injection
-def check_header_validity(header):
-    name, value = header
-
-    if isinstance(value, bytes):
-        pat = _CLEAN_HEADER_REGEX_BYTE
-    else:
-        pat = _CLEAN_HEADER_REGEX_STR
-    try:
-        if not pat.match(value):
-            raise InvalidHeader(&quot;Invalid return character or leading space in header: %s&quot; % name)
-    except TypeError:
-        raise InvalidHeader(&quot;Header value %s must be of type str or bytes, &quot;
-                            &quot;not %s&quot; % (value, type(value)))
-
-
-def get_auth_from_url(url):
-    parsed = urlparse(url)
-
-    try:
-        auth = (unquote(parsed.username), unquote(parsed.password))
-    except (AttributeError, TypeError):
-        auth = (&#39;&#39;, &#39;&#39;)
-
-    return auth      
-
-def is_ipv4_address(string_ip):
-    try:
-        socket.inet_aton(string_ip)
-    except socket.error:
-        return False
-    return True 
-
-
-def is_valid_cidr(string_network):
-    &quot;&quot;&quot;
-    判断是否是类似192.168.2.1/16的地址
-    &quot;&quot;&quot;
-    if string_network.count(&#39;/&#39;) == 1:
-        try:
-            mask = int(string_network.split(&#39;/&#39;)[1])
-        except ValueError:
-            return False
-
-        if mask &lt; 1 or mask &gt; 32:
-            return False
-
-        try:
-            socket.inet_aton(string_network.split(&#39;/&#39;)[0])
-        except socket.error:
-            return False
-    else:
-        return False
-    return True
-
-
-# native string 指类型为str的字符串，python2与python3中str是不一样的(http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/)
-# Http请求/响应头和元数据要求数据为str类型。
-def to_native_string(string, encoding=&#39;ascii&#39;):
-    if isinstance(string, builtin_str):
-        out = string
-    else:
-        if is_py2:
-            out = string.encode(encoding)
-        else:
-            out = string.decode(encoding)
-
-    return out
-
-
-
-# 将(key,val)为元素的列表转换为OrderedDict
-def from_key_val_list(value):
-    if value is None:
-        return None
-
-    if isinstance(value, (str, bytes, bool, int)):
-        raise ValueError(&#39;cannot encode objects that are not 2-tuples&#39;)
-
-    return OrderedDict(value)
-
-
-# 将dict转换为list
-def to_key_val_list(value):
-    if value is None:
-        return None
-
-    if isinstance(value, (str, bytes, bool, int)):
-        raise ValueError(&#39;cannot encode objects that are not 2-tuples&#39;)
-
-    if isinstance(value, collections.Mapping):
-        value = value.items()
-
-    return list(value)
-</code></pre><hr>
-<p>参考： 1.<a href="https://www.gracefulsecurity.com/http-header-injection/" target="_blank" rel="noopener">header injection</a> 2.<a href="https://github.com/requests/requests/blob/v2.11.0/requests/utils.py" target="_blank" rel="noopener">requests/utils.py</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2568,7 +2497,7 @@ def to_key_val_list(value):
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">221</span>
+                    <span class="site-state-item-count">222</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3213,9 +3142,9 @@ def to_key_val_list(value):
       
     
       
-        
-      
     
+      
+        
       
     
       

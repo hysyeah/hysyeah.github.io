@@ -110,17 +110,17 @@
 
 
   <meta name="description" content="实验环境：   · ubuntu18.04   · qemu   · nasm 1.安装需软件  qemu安装，请参考  nasm安装 sudo apt-get install nasm   2.编写引导扇区代码a.asm123456789101112131415161718	org	07c00h			; 告诉编译器程序加载到7c00处	mov	ax, cs	mov	ds, ax	mov	es,">
-<meta name="keywords" content="OS">
+<meta name="keywords" content="操作系统">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统：引导扇区实现">
+<meta property="og:title" content="一个操作系统的实现笔记：引导扇区实现">
 <meta property="og:url" content="https://hysyeah.github.io/2020/01/10/操作系统：引导扇区实现/index.html">
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="实验环境：   · ubuntu18.04   · qemu   · nasm 1.安装需软件  qemu安装，请参考  nasm安装 sudo apt-get install nasm   2.编写引导扇区代码a.asm123456789101112131415161718	org	07c00h			; 告诉编译器程序加载到7c00处	mov	ax, cs	mov	ds, ax	mov	es,">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.hysyeah.top/2020/1/10/qemu-boot-hello-os-world.png">
-<meta property="og:updated_time" content="2020-01-11T08:16:47.950Z">
+<meta property="og:updated_time" content="2020-01-20T14:05:33.164Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="操作系统：引导扇区实现">
+<meta name="twitter:title" content="一个操作系统的实现笔记：引导扇区实现">
 <meta name="twitter:description" content="实验环境：   · ubuntu18.04   · qemu   · nasm 1.安装需软件  qemu安装，请参考  nasm安装 sudo apt-get install nasm   2.编写引导扇区代码a.asm123456789101112131415161718	org	07c00h			; 告诉编译器程序加载到7c00处	mov	ax, cs	mov	ds, ax	mov	es,">
 <meta name="twitter:image" content="http://img.hysyeah.top/2020/1/10/qemu-boot-hello-os-world.png">
 
@@ -140,7 +140,7 @@
   };
 </script>
 
-  <title>操作系统：引导扇区实现 | hysyeah</title>
+  <title>一个操作系统的实现笔记：引导扇区实现 | hysyeah</title>
   
 
 
@@ -403,7 +403,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">操作系统：引导扇区实现
+          <h1 class="post-title" itemprop="name headline">一个操作系统的实现笔记：引导扇区实现
 
               
             
@@ -444,7 +444,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-11 16:16:47" itemprop="dateModified" datetime="2020-01-11T16:16:47+08:00">2020-01-11</time>
+                <time title="修改时间：2020-01-20 22:05:33" itemprop="dateModified" datetime="2020-01-20T22:05:33+08:00">2020-01-20</time>
               </span>
             
           
@@ -489,8 +489,9 @@
 <li><p>nasm安装 <code>sudo apt-get install nasm</code></p>
 </li>
 </ul>
-<p>2.编写引导扇区代码<code>a.asm</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	org	07c00h			; 告诉编译器程序加载到7c00处</span><br><span class="line">	mov	ax, cs</span><br><span class="line">	mov	ds, ax</span><br><span class="line">	mov	es, ax</span><br><span class="line">	call	DispStr			; 调用显示字符串例程</span><br><span class="line">	jmp	$			; 无限循环</span><br><span class="line">DispStr:</span><br><span class="line">	mov	ax, BootMessage</span><br><span class="line">	mov	bp, ax			; ES:BP = 串地址</span><br><span class="line">	mov	cx, 16			; CX = 串长度</span><br><span class="line">	mov	ax, 01301h		; AH = 13,  AL = 01h</span><br><span class="line">	mov	bx, 000ch		; 页号为0(BH = 0) 黑底红字(BL = 0Ch,高亮)</span><br><span class="line">	mov	dl, 0</span><br><span class="line">	int	10h			; 10h 号中断</span><br><span class="line">	ret</span><br><span class="line">BootMessage:		db	&quot;Hello, OS world!&quot;</span><br><span class="line">times 	510-($-$$)	db	0	; 填充剩下的空间，使生成的二进制代码恰好为512字节</span><br><span class="line">dw 	0xaa55				; 结束标志</span><br></pre></td></tr></table></figure></p>
-<p>3.生成启动镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nasm a.asm -o a.bin</span><br><span class="line">dd if=boot.bin of=a.img bs=512 count=1 conv=notrunc</span><br></pre></td></tr></table></figure></p>
+<p>2.编写引导扇区代码<code>a.asm</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	org	07c00h			; 告诉编译器程序加载到7c00处</span><br><span class="line">	mov	ax, cs</span><br><span class="line">	mov	ds, ax</span><br><span class="line">	mov	es, ax</span><br><span class="line">	call	DispStr			; 调用显示字符串例程</span><br><span class="line">	jmp	$			; 无限循环</span><br><span class="line">DispStr:</span><br><span class="line">	mov	ax, BootMessage ;将字符串首地址传递给寄存器ax</span><br><span class="line">	mov	bp, ax			; ES:BP = 串地址,指向BootMessage</span><br><span class="line">	mov	cx, 16			; CX = 串长度</span><br><span class="line">	mov	ax, 01301h		; AH = 13,  AL = 01h</span><br><span class="line">	mov	bx, 000ch		; 页号为0(BH = 0) 黑底红字(BL = 0Ch,高亮)</span><br><span class="line">	mov	dl, 0</span><br><span class="line">	int	10h			; 10h 号中断</span><br><span class="line">	ret</span><br><span class="line">BootMessage:		db	&quot;Hello, OS world!&quot;</span><br><span class="line">times 	510-($-$$)	db	0	; 填充剩下的空间，使生成的二进制代码恰好为512字节;表示将这个字节重复510-($-$$)遍。</span><br><span class="line">dw 	0xaa55				; 结束标志</span><br></pre></td></tr></table></figure></p>
+<p>代码分析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$表示当前行被汇编后的地址</span><br><span class="line">$$表示一个节(section)的开始处被汇编后的地址。在这里,我们的程序只有1个节,所以$$实际上就表示程序被编译后的开始地址。</span><br><span class="line"></span><br><span class="line">从第10行开始为调用10hk号中断做准备(10h号中断是由BIOS对显示提供的服务),设置寄存器的值</span><br><span class="line">AH:往屏幕中写入字符串</span><br><span class="line">AL:写模式,bit 0(0位置零):写入字符串后更新光标; bit 1(1位置1):字符串中包括字符和属性;bit 2-7为保留位</span><br><span class="line">BH: 页码</span><br><span class="line">BL:如果字符串只包括characters,BL为字符串的属性</span><br><span class="line">CX:字符串长度</span><br><span class="line">DH,DL: 写字符串的起始列与行</span><br></pre></td></tr></table></figure></p>
+<p>3.生成启动镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nasm a.asm -o a.bin</span><br><span class="line">dd if=a.bin of=a.img bs=512 count=1 conv=notrunc</span><br></pre></td></tr></table></figure></p>
 <p>4.使用<code>QEMU</code>引导软盘映像文件<code>a.img</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img  # 根据自己情况适当修改文件路径</span><br></pre></td></tr></table></figure></p>
 <p>启动后效果如下：<br><img src="http://img.hysyeah.top/2020/1/10/qemu-boot-hello-os-world.png" alt="image"></p>
 <p>至此一个简单的”操作系统”已经完成。</p>
@@ -504,7 +505,7 @@
 </li>
 </ul>
 <p><code>.gdbinit</code>文件内容：设置<code>gdb</code>连接到时<code>QEMU</code>并调试早期启动的16位代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">set $lastcs = -1</span><br><span class="line"></span><br><span class="line">define hook-stop</span><br><span class="line">  # There doesn&apos;t seem to be a good way to detect if we&apos;re in 16- or</span><br><span class="line">  # 32-bit mode, but we always run with CS == 8 in 32-bit mode.</span><br><span class="line">  if $cs == 8 || $cs == 27</span><br><span class="line">    if $lastcs != 8 &amp;&amp; $lastcs != 27</span><br><span class="line">      set architecture i386</span><br><span class="line">    end</span><br><span class="line">    x/i $pc</span><br><span class="line">  else</span><br><span class="line">    if $lastcs == -1 || $lastcs == 8 || $lastcs == 27</span><br><span class="line">      set architecture i8086</span><br><span class="line">    end</span><br><span class="line">    # Translate the segment:offset into a physical address</span><br><span class="line">    printf &quot;[%4x:%4x] &quot;, $cs, $eip</span><br><span class="line">    x/i $cs*16+$eip</span><br><span class="line">  end</span><br><span class="line">  set $lastcs = $cs</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">echo + target remote localhost:26000\n</span><br><span class="line">target remote localhost:26000</span><br><span class="line"># If this fails, it&apos;s probably because your GDB doesn&apos;t support ELF.</span><br><span class="line"># Look at the tools page at</span><br><span class="line">#  http://pdos.csail.mit.edu/6.828/2009/tools.html</span><br><span class="line"># for instructions on building GDB with ELF support.</span><br><span class="line">echo + symbol-file obj/kern/kernel\n</span><br><span class="line">symbol-file obj/kern/kernel</span><br></pre></td></tr></table></figure></p>
-<p>参考：<br>1.<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/</a><br>2.<a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">Orange’S：一个操作系统的实现</a><br>3.<a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/qemu.1" target="_blank" rel="noopener">qemu</a><br>4.<a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb</a><br>5.<a href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm" target="_blank" rel="noopener">Intel 80386 Reference Programmer’s Manual</a><br>7.<a href="https://pdos.csail.mit.edu/6.828/2018/labs/lab1/" target="_blank" rel="noopener">lab1</a></p>
+<p>参考：<br>1.<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/</a><br>2.<a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">Orange’S：一个操作系统的实现</a><br>3.<a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/qemu.1" target="_blank" rel="noopener">qemu</a><br>4.<a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb</a><br>5.<a href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm" target="_blank" rel="noopener">Intel 80386 Reference Programmer’s Manual</a><br>7.<a href="https://pdos.csail.mit.edu/6.828/2018/labs/lab1/" target="_blank" rel="noopener">lab1</a><br>8.<a href="http://www.ctyme.com/intr/rb-0210.htm" target="_blank" rel="noopener">Interrupts</a><br>9.<a href="https://en.wikipedia.org/wiki/INT_10H" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/INT_10H</a></p>
 
       
     </div>
@@ -531,7 +532,7 @@
         
         <div class="post-tags">
           
-            <a href="/tags/OS/" rel="tag"><i class="fa fa-tag">OS</i></a>
+            <a href="/tags/操作系统/" rel="tag"><i class="fa fa-tag">操作系统</i></a>
           
         </div>
       
@@ -553,6 +554,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/13/2020书单/" rel="prev" title="2020书单">
+                2020书单 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -612,7 +617,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">221</span>
+                    <span class="site-state-item-count">222</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
