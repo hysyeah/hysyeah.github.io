@@ -380,6 +380,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/10/tcp之拥塞控制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/10/tcp之拥塞控制/" class="post-title-link" itemprop="url">tcp之拥塞控制</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-10 14:12:36 / 修改时间：19:02:33" itemprop="dateCreated datePublished" datetime="2019-08-10T14:12:36+08:00">2019-08-10</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>要了解拥塞控制可以先了解下<a href="http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/" target="_blank" rel="noopener">在途字节数</a>这一概念。</p>
+<p>关于TCP拥塞控制的一些术语：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小</span><br><span class="line">RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小</span><br><span class="line">FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节</span><br><span class="line"></span><br><span class="line">RECEIVER WINDOW--rwnd                   推荐的接收窗口</span><br><span class="line">CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。</span><br><span class="line">INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小</span><br><span class="line">LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸</span><br><span class="line">RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。</span><br><span class="line">FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小</span><br></pre></td></tr></table></figure></p>
+<p>1.拥塞控制的目的<br>为什么要进行拥塞控制? 假如把网络路径想象成一条河流,发送方是水源,接收方是入海口,那在途字节数就是河里的水量。当水源的流速超过了入海口的流速,河里的水就会越来越多,直到溢出。发生拥塞时的在途字节数就是该时刻的网络拥塞点。发生拥塞时TCP的表现为丢包。当发送方发送数据过慢时,网络等资源就会造成一定的浪费，当发送过快时，就是造成网络拥塞(出现丢包),拥塞控制就是为了找到最合适的发送速度。</p>
+<p>2.拥塞控制算法<br>拥塞控制算法包括4个部分：慢启动,拥塞避免,快速重传,快速恢复。</p>
+<ul>
+<li>慢启动与拥塞避免<br>慢启动与拥塞避免算法用于控制发送方，避免一下发送过多的数据到网络中。为了实现这些算法，对于每个TCP连接加入这两个变量，<code>cwnd rwnd</code>。另一个状态变量，<code>ssthresh</code>用于标识此时应该使用慢启动(cwnd &lt; ssthresh)还是拥塞避免(cwnd &gt; ssthresh)。</li>
+</ul>
+<p>当开始传输数据时，TCP并不知道网络可用的容量，为了避免拥塞，这个阶段TCP会逐渐数据的发送量。慢启动算法为了避免注入过多的数据到网络中会应用于开始传输数据和重传定时器修复丢包之后。</p>
+<p>数据传输开始时，<code>IW</code>的大小设置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">If SMSS &gt; 2190 bytes:</span><br><span class="line">IW = 2 * SMSS bytes and MUST NOT be more than 2 segments</span><br><span class="line">If (SMSS &gt; 1095 bytes) and (SMSS &lt;= 2190 bytes):</span><br><span class="line">IW = 3 * SMSS bytes and MUST NOT be more than 3 segments</span><br><span class="line">if SMSS &lt;= 1095 bytes:</span><br><span class="line">IW = 4 * SMSS bytes and MUST NOT be more than 4 segments</span><br></pre></td></tr></table></figure>
+<p>在慢启动阶段，TCP通过如下规则在每接收一个<code>ACK</code>时增加<code>cwnd</code>,每次都会增加前一个`cwnd```的一倍大小。</p>
+<p>当出现丢包，或者当接收者提示<code>rwnd</code>是受限因素时，或者<code>cwnd &gt; ssthresh</code>时，会进入拥塞避免阶段。</p>
+<p>在拥塞避免阶段，在每一个RTT时间，<code>cwnd</code>增加<code>FULL-SIZED SEGMENT</code>大小。</p>
+<p>当TCP发送者通过重传定时器意识到丢包时，会重新设置<code>ssthresh</code>的大小。<br><code>ssthresh = max (FlightSize / 2, 2*SMSS)</code></p>
+<ul>
+<li>快速重传与快速恢复<br>快速重传是为减少丢包重传等待时间的一种机制。如果发送方接收到3个或3个以上的重复ACK,发送方就会重传丢失的数据报,而无需等待超时定时器溢出。<br>(1)当收到第3个重复的<code>ACK</code>时，将<code>ssthresh</code>设置为当前拥塞窗口<code>cwnd</code>的一半<br>(2)每次收到另一个重复的<code>ACK</code>时，<code>cwnd</code>增加1个报文段大小并发送1个分组（如果新的<br><code>cwnd</code>允许发送）<br>(3)当下一个确认新数据的<code>ACK</code>到达时，设置<code>cwnd</code>为<code>ssthresh</code>（在第1步中设置的值）。这个<code>ACK</code>应该是在进行重传后的一个往返时间内对步骤1中重传的确认。另外，这个<code>ACK</code>也应该是对丢失的分组和收到的第1个重复的<code>ACK</code>之间的所有中间报文段的确认。这一步采用的是拥塞避免，因为当分组丢失时我们将当前的速率减半</li>
+</ul>
+<p><img src="http://img.hysyeah.top/2019/08/10/TCP_Slow-Start_and_Congestion_Avoidance.svg" alt="image"><br>[图片来源网络]</p>
+<hr>
+<p>参考：<br>1.<a href="https://en.wikipedia.org/wiki/TCP_congestion_control" target="_blank" rel="noopener">TCP congestion control</a><br>2.<a href="https://tools.ietf.org/html/rfc2581" target="_blank" rel="noopener">RFC2581</a><br>3.《TCP/IP协议详解1》</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/05/TCP之在途字节数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1957,203 +2137,6 @@ cat /var/log/mysqld.log | grep password
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp-ip中常见的术语/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/12/tcp-ip中常见的术语/" class="post-title-link" itemprop="url">tcp/ip中常见的术语</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-12 21:54:05" itemprop="dateCreated datePublished" datetime="2019-06-12T21:54:05+08:00">2019-06-12</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-11 07:15:24" itemprop="dateModified" datetime="2019-08-11T07:15:24+08:00">2019-08-11</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>MSS--maximum segment size       最大分节大小
-MTU--maximum transmission unit  最大传输单元  # MSS通常被设置为MTU送去IP和TCP首部的固定长度，IPv4和TCP的首部都是20字节
-PDU--protocol data unit         协议数据单元 # 网络各层对等实体间交换的单位信息
-SDU--Service data uni           服务数据单元 # N层的PDU就是N-1层的SDU
-MSL--maximum segment lifetime   最长分节生命期
-listening socket                监听套接字
-connected socket                已连接套接字
-local area networks(LANs)       局域网
-wide area networks(WANs)        广域网
-
-SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小
-RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小
-FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节
-
-RECEIVER WINDOW--rwnd                   推荐的接收窗口
-CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。
-INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小
-LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸
-RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。
-FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小。 可参考 [在途字节数](http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/) 
-
-
-
-RTT--round-trip time                  表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延
-
-RTO-Retransmission Timeout           重传超时
-</code></pre><p>未完</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2200,7 +2183,7 @@ RTO-Retransmission Timeout           重传超时
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">222</span>
+                    <span class="site-state-item-count">223</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

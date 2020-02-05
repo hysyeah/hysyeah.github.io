@@ -380,6 +380,203 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp-ip中常见的术语/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/tcp-ip中常见的术语/" class="post-title-link" itemprop="url">tcp/ip中常见的术语</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 21:54:05" itemprop="dateCreated datePublished" datetime="2019-06-12T21:54:05+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-11 07:15:24" itemprop="dateModified" datetime="2019-08-11T07:15:24+08:00">2019-08-11</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>MSS--maximum segment size       最大分节大小
+MTU--maximum transmission unit  最大传输单元  # MSS通常被设置为MTU送去IP和TCP首部的固定长度，IPv4和TCP的首部都是20字节
+PDU--protocol data unit         协议数据单元 # 网络各层对等实体间交换的单位信息
+SDU--Service data uni           服务数据单元 # N层的PDU就是N-1层的SDU
+MSL--maximum segment lifetime   最长分节生命期
+listening socket                监听套接字
+connected socket                已连接套接字
+local area networks(LANs)       局域网
+wide area networks(WANs)        广域网
+
+SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小
+RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小
+FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节
+
+RECEIVER WINDOW--rwnd                   推荐的接收窗口
+CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。
+INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小
+LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸
+RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。
+FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小。 可参考 [在途字节数](http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/) 
+
+
+
+RTT--round-trip time                  表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延
+
+RTO-Retransmission Timeout           重传超时
+</code></pre><p>未完</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp端口与并发服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2268,185 +2465,6 @@ mutation {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/19/docker切换成阿里的源/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/19/docker切换成阿里的源/" class="post-title-link" itemprop="url">docker切换成阿里的源</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-19 15:04:48" itemprop="dateCreated datePublished" datetime="2019-05-19T15:04:48+08:00">2019-05-19</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>环境：ubuntu18.04 <img src="http://img.hysyeah.top/wp-content/uploads/2019/05/docker_version.png" alt> 1.访问<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">镜像加速</a>,会生成一个镜像加速地址。 2.按如下命令操作即可</p>
-<pre><code>sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
-{
-  &quot;registry-mirrors&quot;: [&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2493,7 +2511,7 @@ sudo systemctl restart docker
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">222</span>
+                    <span class="site-state-item-count">223</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

@@ -380,6 +380,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/20/一个操作系统的实现中使用的命令和工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/20/一个操作系统的实现中使用的命令和工具/" class="post-title-link" itemprop="url">一个操作系统的实现中使用的命令和工具</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-20 22:11:22" itemprop="dateCreated datePublished" datetime="2020-01-20T22:11:22+08:00">2020-01-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-05 19:22:53" itemprop="dateModified" datetime="2020-02-05T19:22:53+08:00">2020-02-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对书中所使用到的工具和命令进行记录,方便查看！</p>
+<p>ndisasmv</p>
+<p>bximage</p>
+<p>dd</p>
+<p>xxd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sudo losetup -f</span><br><span class="line"></span><br><span class="line">mkdir /mnt/floppy</span><br><span class="line"></span><br><span class="line">losetup /dev/loop5 pm.img</span><br><span class="line"></span><br><span class="line">sudo mount /dev/loop5 /mnt/floppy</span><br><span class="line">sudo cp pmtest3.com /mnt/floppy</span><br><span class="line">umount /mnt/floppy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x/4xw 0x7c14</span><br><span class="line"></span><br><span class="line">qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/13/2020书单/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -440,7 +600,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-16 06:06:03" itemprop="dateModified" datetime="2020-01-16T06:06:03+08:00">2020-01-16</time>
+                <time title="修改时间：2020-02-02 20:17:11" itemprop="dateModified" datetime="2020-02-02T20:17:11+08:00">2020-02-02</time>
               </span>
             
           
@@ -495,7 +655,7 @@
 </tr>
 <tr>
 <td>计算机基础</td>
-<td><a href="www.cs.cmu.deu/~213/schedule.html">深入理解计算机基础</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System: Principles and Practice</a><br><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating systems three easy pieces</a></td>
+<td><a href="www.cs.cmu.deu/~213/schedule.html">深入理解计算机基础</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System: Principles and Practice</a><br><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating systems three easy pieces</a><br><a href="https://book.douban.com/subject/1782316/" target="_blank" rel="noopener">Concepts,techniques and models of computer programming</a></td>
 </tr>
 <tr>
 <td>设计模式</td>
@@ -666,7 +826,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-20 22:05:33" itemprop="dateModified" datetime="2020-01-20T22:05:33+08:00">2020-01-20</time>
+                <time title="修改时间：2020-02-05 19:28:16" itemprop="dateModified" datetime="2020-02-05T19:28:16+08:00">2020-02-05</time>
               </span>
             
           
@@ -729,7 +889,8 @@
 </li>
 </ul>
 <p><code>.gdbinit</code>文件内容：设置<code>gdb</code>连接到时<code>QEMU</code>并调试早期启动的16位代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">set $lastcs = -1</span><br><span class="line"></span><br><span class="line">define hook-stop</span><br><span class="line">  # There doesn&apos;t seem to be a good way to detect if we&apos;re in 16- or</span><br><span class="line">  # 32-bit mode, but we always run with CS == 8 in 32-bit mode.</span><br><span class="line">  if $cs == 8 || $cs == 27</span><br><span class="line">    if $lastcs != 8 &amp;&amp; $lastcs != 27</span><br><span class="line">      set architecture i386</span><br><span class="line">    end</span><br><span class="line">    x/i $pc</span><br><span class="line">  else</span><br><span class="line">    if $lastcs == -1 || $lastcs == 8 || $lastcs == 27</span><br><span class="line">      set architecture i8086</span><br><span class="line">    end</span><br><span class="line">    # Translate the segment:offset into a physical address</span><br><span class="line">    printf &quot;[%4x:%4x] &quot;, $cs, $eip</span><br><span class="line">    x/i $cs*16+$eip</span><br><span class="line">  end</span><br><span class="line">  set $lastcs = $cs</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">echo + target remote localhost:26000\n</span><br><span class="line">target remote localhost:26000</span><br><span class="line"># If this fails, it&apos;s probably because your GDB doesn&apos;t support ELF.</span><br><span class="line"># Look at the tools page at</span><br><span class="line">#  http://pdos.csail.mit.edu/6.828/2009/tools.html</span><br><span class="line"># for instructions on building GDB with ELF support.</span><br><span class="line">echo + symbol-file obj/kern/kernel\n</span><br><span class="line">symbol-file obj/kern/kernel</span><br></pre></td></tr></table></figure></p>
-<p>参考：<br>1.<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/</a><br>2.<a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">Orange’S：一个操作系统的实现</a><br>3.<a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/qemu.1" target="_blank" rel="noopener">qemu</a><br>4.<a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb</a><br>5.<a href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm" target="_blank" rel="noopener">Intel 80386 Reference Programmer’s Manual</a><br>7.<a href="https://pdos.csail.mit.edu/6.828/2018/labs/lab1/" target="_blank" rel="noopener">lab1</a><br>8.<a href="http://www.ctyme.com/intr/rb-0210.htm" target="_blank" rel="noopener">Interrupts</a><br>9.<a href="https://en.wikipedia.org/wiki/INT_10H" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/INT_10H</a></p>
+<p>gdb相关命令请查看<a href="http://visualgdb.com/gdbreference/commands/" target="_blank" rel="noopener">http://visualgdb.com/gdbreference/commands/</a></p>
+<p>参考：<br>1.<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/</a><br>2.<a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">Orange’S：一个操作系统的实现</a><br>3.<a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/qemu.1" target="_blank" rel="noopener">qemu</a><br>4.<a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb</a><br>5.<a href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm" target="_blank" rel="noopener">Intel 80386 Reference Programmer’s Manual</a><br>7.<a href="https://pdos.csail.mit.edu/6.828/2018/labs/lab1/" target="_blank" rel="noopener">lab1</a><br>8.<a href="http://www.ctyme.com/intr/rb-0210.htm" target="_blank" rel="noopener">Interrupts</a><br>9.<a href="https://en.wikipedia.org/wiki/INT_10H" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/INT_10H</a><br>10.<a href="http://visualgdb.com/gdbreference/commands/x" target="_blank" rel="noopener">http://visualgdb.com/gdbreference/commands/x</a></p>
 
           
         
@@ -2281,186 +2442,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/10/tcp之拥塞控制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/10/tcp之拥塞控制/" class="post-title-link" itemprop="url">tcp之拥塞控制</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-10 14:12:36 / 修改时间：19:02:33" itemprop="dateCreated datePublished" datetime="2019-08-10T14:12:36+08:00">2019-08-10</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>要了解拥塞控制可以先了解下<a href="http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/" target="_blank" rel="noopener">在途字节数</a>这一概念。</p>
-<p>关于TCP拥塞控制的一些术语：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小</span><br><span class="line">RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小</span><br><span class="line">FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节</span><br><span class="line"></span><br><span class="line">RECEIVER WINDOW--rwnd                   推荐的接收窗口</span><br><span class="line">CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。</span><br><span class="line">INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小</span><br><span class="line">LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸</span><br><span class="line">RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。</span><br><span class="line">FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小</span><br></pre></td></tr></table></figure></p>
-<p>1.拥塞控制的目的<br>为什么要进行拥塞控制? 假如把网络路径想象成一条河流,发送方是水源,接收方是入海口,那在途字节数就是河里的水量。当水源的流速超过了入海口的流速,河里的水就会越来越多,直到溢出。发生拥塞时的在途字节数就是该时刻的网络拥塞点。发生拥塞时TCP的表现为丢包。当发送方发送数据过慢时,网络等资源就会造成一定的浪费，当发送过快时，就是造成网络拥塞(出现丢包),拥塞控制就是为了找到最合适的发送速度。</p>
-<p>2.拥塞控制算法<br>拥塞控制算法包括4个部分：慢启动,拥塞避免,快速重传,快速恢复。</p>
-<ul>
-<li>慢启动与拥塞避免<br>慢启动与拥塞避免算法用于控制发送方，避免一下发送过多的数据到网络中。为了实现这些算法，对于每个TCP连接加入这两个变量，<code>cwnd rwnd</code>。另一个状态变量，<code>ssthresh</code>用于标识此时应该使用慢启动(cwnd &lt; ssthresh)还是拥塞避免(cwnd &gt; ssthresh)。</li>
-</ul>
-<p>当开始传输数据时，TCP并不知道网络可用的容量，为了避免拥塞，这个阶段TCP会逐渐数据的发送量。慢启动算法为了避免注入过多的数据到网络中会应用于开始传输数据和重传定时器修复丢包之后。</p>
-<p>数据传输开始时，<code>IW</code>的大小设置:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">If SMSS &gt; 2190 bytes:</span><br><span class="line">IW = 2 * SMSS bytes and MUST NOT be more than 2 segments</span><br><span class="line">If (SMSS &gt; 1095 bytes) and (SMSS &lt;= 2190 bytes):</span><br><span class="line">IW = 3 * SMSS bytes and MUST NOT be more than 3 segments</span><br><span class="line">if SMSS &lt;= 1095 bytes:</span><br><span class="line">IW = 4 * SMSS bytes and MUST NOT be more than 4 segments</span><br></pre></td></tr></table></figure>
-<p>在慢启动阶段，TCP通过如下规则在每接收一个<code>ACK</code>时增加<code>cwnd</code>,每次都会增加前一个`cwnd```的一倍大小。</p>
-<p>当出现丢包，或者当接收者提示<code>rwnd</code>是受限因素时，或者<code>cwnd &gt; ssthresh</code>时，会进入拥塞避免阶段。</p>
-<p>在拥塞避免阶段，在每一个RTT时间，<code>cwnd</code>增加<code>FULL-SIZED SEGMENT</code>大小。</p>
-<p>当TCP发送者通过重传定时器意识到丢包时，会重新设置<code>ssthresh</code>的大小。<br><code>ssthresh = max (FlightSize / 2, 2*SMSS)</code></p>
-<ul>
-<li>快速重传与快速恢复<br>快速重传是为减少丢包重传等待时间的一种机制。如果发送方接收到3个或3个以上的重复ACK,发送方就会重传丢失的数据报,而无需等待超时定时器溢出。<br>(1)当收到第3个重复的<code>ACK</code>时，将<code>ssthresh</code>设置为当前拥塞窗口<code>cwnd</code>的一半<br>(2)每次收到另一个重复的<code>ACK</code>时，<code>cwnd</code>增加1个报文段大小并发送1个分组（如果新的<br><code>cwnd</code>允许发送）<br>(3)当下一个确认新数据的<code>ACK</code>到达时，设置<code>cwnd</code>为<code>ssthresh</code>（在第1步中设置的值）。这个<code>ACK</code>应该是在进行重传后的一个往返时间内对步骤1中重传的确认。另外，这个<code>ACK</code>也应该是对丢失的分组和收到的第1个重复的<code>ACK</code>之间的所有中间报文段的确认。这一步采用的是拥塞避免，因为当分组丢失时我们将当前的速率减半</li>
-</ul>
-<p><img src="http://img.hysyeah.top/2019/08/10/TCP_Slow-Start_and_Congestion_Avoidance.svg" alt="image"><br>[图片来源网络]</p>
-<hr>
-<p>参考：<br>1.<a href="https://en.wikipedia.org/wiki/TCP_congestion_control" target="_blank" rel="noopener">TCP congestion control</a><br>2.<a href="https://tools.ietf.org/html/rfc2581" target="_blank" rel="noopener">RFC2581</a><br>3.《TCP/IP协议详解1》</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2507,7 +2488,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">222</span>
+                    <span class="site-state-item-count">223</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

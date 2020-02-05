@@ -380,6 +380,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/24/docker容器启动时设置容器内服务自启动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/24/docker容器启动时设置容器内服务自启动/" class="post-title-link" itemprop="url">docker容器启动时设置容器内服务自启动</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-24 14:47:12" itemprop="dateCreated datePublished" datetime="2018-02-24T14:47:12+08:00">2018-02-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.编写shell脚本，auto_start.sh</p>
+<pre><code>#！/bin/sh
+/etc/init.d/ssh start  #启动服务
+/bin/bash              #一定要加上这句，否则容器会自动退出
+</code></pre><p>2.修改docker-compose.yml</p>
+<pre><code>volumes:
+  - ./auto_start.sh:/root/auto_start.sh
+command:[&quot;/root/auto_start.sh&quot;]
+</code></pre><p>3.启动容器，便会自动启动auto_start.sh中的服务。</p>
+<hr>
+<p>可能出现的问题： 1.exec: \\”/root/auto_start.sh\\”: permission denied”: unknown’，提示没有权限 解决方法: 修改宿主机上的auto_start.sh文件权限，chmod a+x auto_start.sh,重新启动服务。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/12/使用docker搭建hadoop,spark集群/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2148,198 +2329,6 @@ font.sans-serif     : DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, 
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/06/x86相关寄存器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/06/x86相关寄存器/" class="post-title-link" itemprop="url">x86相关寄存器</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-06 17:27:29" itemprop="dateCreated datePublished" datetime="2018-01-06T17:27:29+08:00">2018-01-06</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>IP-Instruction Pointer--指令指针寄存器
-CS-Code Segment--段寄存器
-DS-Data Segment--数据段寄存器
-
-%rax-%eax-%ax-%al---返回值
-%rbx-%ebx-%bx-%bl---被调用者保存
-%rcx-%ecx-%cx-%cl---第4个参数
-%rdx-%edx-%dx-%dl---第3个参数
-%rsi-%esi-%si-%sil---第2个参数
-%rdi-%edi-%di-%dil---第1个参数
-%rbp-%ebp-%bp-%bpl---基址寄存器(stack pointer),一般在函数中用来保存进入函数时的sp的栈顶基址(被调用者保存)
-%rsp-%esp-%sp-%spl---栈指针
-%r8-%r8d-%r8w-%r8b---第5个参数
-%r9-%r9d-%r9w-%r9b---第6个参数
-
-%r10-%r10d-%r10w-%r10b---调用者保存
-%r11-%r11d-%r11w-%r11b---调用者保存
-%r12-%r12d-%r12w-%r12b---被调用者保存
-%r13-%r13d-%r13w-%r13b---被调用者保存
-%r14-%r14d-%r14w-%r14b---被调用者保存
-%r15-%r15d-%r15w-%r15b---被调用者保存
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/01/register.jpg" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2386,7 +2375,7 @@ DS-Data Segment--数据段寄存器
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">222</span>
+                    <span class="site-state-item-count">223</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

@@ -380,6 +380,188 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/30/linux命令strace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/30/linux命令strace/" class="post-title-link" itemprop="url">linux命令strace</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-30 22:36:48" itemprop="dateCreated datePublished" datetime="2019-03-30T22:36:48+08:00">2019-03-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>strace</code>是Linux/Unix下的一款可以追踪系统调用的工具。 1.安装<code>strace</code></p>
+<pre><code>apt-get install strace           # ubuntu
+yum install strace               # centos
+</code></pre><h4 id="2-使用示例"><a href="#2-使用示例" class="headerlink" title="2.使用示例"></a>2.使用示例</h4><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace.png" alt></p>
+<h4 id="3-strace-p"><a href="#3-strace-p" class="headerlink" title="3.strace -p"></a>3.strace -p</h4><pre><code>strace -p pid     # 根据进程id,追踪此进程系统调用 
+</code></pre><h5 id="查看nginx-worker-process进程的系统调用"><a href="#查看nginx-worker-process进程的系统调用" class="headerlink" title="查看nginx: worker process进程的系统调用"></a>查看nginx: worker process进程的系统调用</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_p.png" alt></p>
+<h4 id="4-strace-c"><a href="#4-strace-c" class="headerlink" title="4.strace -c"></a>4.strace -c</h4><h5 id="统计时间，调用数，错误"><a href="#统计时间，调用数，错误" class="headerlink" title="统计时间，调用数，错误"></a>统计时间，调用数，错误</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_c.png" alt></p>
+<h4 id="5-strace-e-type-expr"><a href="#5-strace-e-type-expr" class="headerlink" title="5.strace -e type=expr"></a>5.strace -e type=expr</h4><p>expr = set, file, process, network, signal,ipc, desc,memory <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_type.png" alt></p>
+<h5 id="指定追踪系统调用类型"><a href="#指定追踪系统调用类型" class="headerlink" title="指定追踪系统调用类型"></a>指定追踪系统调用类型</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_e.png" alt></p>
+<h4 id="6-strace-o-out-txt"><a href="#6-strace-o-out-txt" class="headerlink" title="6.strace -o out.txt"></a>6.strace -o out.txt</h4><h5 id="将输出重定向一-个文件"><a href="#将输出重定向一-个文件" class="headerlink" title="将输出重定向一 个文件"></a>将输出重定向一 个文件</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_o.png" alt></p>
+<h4 id="7-strace-i"><a href="#7-strace-i" class="headerlink" title="7.strace -i"></a>7.strace -i</h4><h5 id="输出系统调用的指针地址"><a href="#输出系统调用的指针地址" class="headerlink" title="输出系统调用的指针地址"></a>输出系统调用的指针地址</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_i.png" alt></p>
+<h4 id="8-详细参数可通过下面命令查看"><a href="#8-详细参数可通过下面命令查看" class="headerlink" title="8.详细参数可通过下面命令查看"></a>8.详细参数可通过下面命令查看</h4><pre><code>man strace
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/20/zero-copy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2008,187 +2190,6 @@ proxies_priv: 代理用户权限
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/18/mysql之修改用户密码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/02/18/mysql之修改用户密码/" class="post-title-link" itemprop="url">mysql之修改用户密码</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-18 21:54:43" itemprop="dateCreated datePublished" datetime="2019-02-18T21:54:43+08:00">2019-02-18</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段</p>
-<pre><code>update mysql.user set password=password(&#39;hello&#39;) where user=&#39;t&#39;
-flush privileges;
-</code></pre><p>2.使用<code>create user</code>,<code>grant</code>或<code>set password</code></p>
-<pre><code>create user t identified by &#39;password&#39;;
-
-grant select on cloud.* to &#39;root&#39;@&#39;10.68.6.66&#39; identified by &#39;password&#39;
-
-set password for &#39;root&#39;@&#39;localhost&#39; =&#39;auth_string&#39;; 在5.5.60中执行报错
-
-set password for &#39;root&#39;@&#39;localhost&#39; = password(&#39;auth_string&#39;);  在5.7.6中已废弃这种语法，将来会移除
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2235,7 +2236,7 @@ set password for &#39;root&#39;@&#39;localhost&#39; = password(&#39;auth_string&
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">222</span>
+                    <span class="site-state-item-count">223</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

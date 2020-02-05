@@ -380,6 +380,208 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/pandas数据类型DataFrame及基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/23/pandas数据类型DataFrame及基本操作/" class="post-title-link" itemprop="url">pandas数据类型DataFrame及基本操作</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-23 10:54:17" itemprop="dateCreated datePublished" datetime="2018-05-23T10:54:17+08:00">2018-05-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>import pandas as pd
+df = pd.DataFrame()
+df[:n] #取前n行
+
+df.loc[行标签,列标签]
+df.loc[&#39;a&#39;:&#39;b&#39;]#选取ab两行数据,ab为行名
+df.loc[:,&#39;one&#39;]#选取one列的数据
+
+df.iloc(n)    #取第n行
+df.iloc[:,0]  #取第0列
+df.iloc[:,[0,1]] #取第0列和第1列
+
+df2 = df.fillna(pd.NaT)
+df.to_excel(&#39;foo.xlsx&#39;, sheet_name=&#39;Sheet1&#39;) #写入Excel
+
+df.dropna(how=&#39;any&#39;) #当有一项为NaN时，丢弃整行或整列
+df.dropna(how=&#39;all&#39;) #当所有项都为NaN时，丢弃整行或整列
+
+df.describe()        #展示df的相关信息
+
+
+# 创建DataFrame
+In [63]: import pandas as pd
+In [64]: d ={&#39;A&#39;:[1,2,3],&#39;B&#39;:[4,5,6]}
+In [65]: df = pd.DataFrame(df,index=[&#39;x&#39;,&#39;y&#39;,&#39;z&#39;])
+
+In [67]: df
+Out[67]:
+   A  B
+x  1  4
+y  2  5
+z  3  6
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/21/numpy相关函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2347,189 +2549,6 @@ factorial(6) # out :array(720.0)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/06/第1章 统计学习方法概论/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/06/第1章 统计学习方法概论/" class="post-title-link" itemprop="url">第1章 统计学习方法概论</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-06 19:49:00" itemprop="dateCreated datePublished" datetime="2018-05-06T19:49:00+08:00">2018-05-06</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>统计学习(statistical learning)是关于计算机基于数据构建概率统计模型并运用模型对数据进行预测与分析的一门学科。<br>统计学习的主要特点：<br> 1.统计学习以计算机及网络为平台，是建立大计算机及网络之上的<br> 2.统计学习以数据为研究对象，是数据驱动的学科<br> 3.统计学习的目的是对数据进行预测与分析<br> 4.统计学习以方法为中心，统计学习方法构建模型并应用模型进行预测与分析<br> 5.统计学习是概率论、统计学、信息论、计算理论、最优化理论及计算机科学等多个领域的交叉学科、并且在发展中逐步形成独自的理论体系与方法论。 </p>
-<p> 统计学习关于数据的基本假设是同类数据具有一定的统计规律性，这是统计学习的前提。 统计学习的方法是基于数据构建统计模型从而对数据进行预测与分析。统计学习由监督学习(supervised learning)、非监督学习(unsupervised learning)、半监督学习(semi-supervised learning)和强化学习(reinforcement learning)等组成。 统计学习方法的步骤如下： 1.得到一个有限的训练数据集合 2.确定包含所有可能的模型的假设空间，即学习模型的集合 3.确定模型选择的准则，即学习的策略 4.实现求解最优模型的算法，即学习的算法 5.通过学习方法选择最优模型 6.利用学习的最优模型对新数据进行预测或分析</p>
-<hr>
-<p>模型就是使用什么方法对数据进行预测与分析，就是所要学习的条件概率分布或决策函数，比如是线性回归，还是用多项式回归 策略就是你你通过什么方法判断哪个模型是最优的， 算法就是求解策略的最优解的算法，如梯度下降，最小二乘法</p>
-<hr>
-<p>根据输入、输出变量的不同类型，对预测任务给予不同的名称：输入变量与输出变量均为连续变量的预测问题称为回归问题；输出变量为有限个离散变量的预测问题称为分类问题；输入变量与输出变量均为变量序列的预测问题称为标注问题。 在监督学习过程中，模型就是所要学习的条件概率分布或决策函数。 假设空间用$ \mathcal{F} $表示。假设空间可以定义为决策函数的集合 $ \mathcal{F}= \{ {\mathcal{f}|Y = f(X)}\} $ 其中，X和Y是定义在输入空间$ \chi $和输出空间$ \mathcal{Y} $上的变量。这时$ \mathcal{F} $通常是由一个参数向量决定的函数族：<br>$ \mathcal{F} = \{ {f|Y=f_{\theta}}(X),\theta\in R^{n}\} $ 参数向量$ \theta $取值于n维欧式空间$ R^{n} $,称为参数空间。 假设空间也可以定义为条件概率的集合$ \mathcal{F}=\{ {P|P(Y|X)}\} $ 策略： 统计学习的目标在于从假设空间中选取最优模型。<br>损失函数度量模型一次预测的好坏，风险函数度量平均意义下模型预测的好坏。 统计学习常用损失函数：<br>(1) 0-1损失函数<br>$ L(Y,f(X))= \begin{cases} 0,&amp; {Y\neq f(X)}\ 1,&amp; {Y\neq f(X)} \end{cases}  $<br>(2) 平方损失函数<br>$ L(Y, f(X)) = (Y - f(X))^2 $ (3) 绝对损失函数<br>$ L(Y, f(X)) = |(Y - f(X))| $ (4) 对数损失函数<br>$ L(Y, P(Y|X)) = -log P(Y|X) $</p>
-<hr>
-<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： $ min_{f\in\mathcal{F}} \frac{1}{N}\sum_{i=1}^NL(y_{(i)}, f(x_{i})) + \lambda J(f)  $ 其中，第一项是经验风险，第二项是正则化项，$ \lambda \geq 0 $为调整两者之间关系的系数。</p>
-<h4 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h4><p>1.简单交叉验证 简单交叉验证方法是：首先随机地将已给数据分为两部分，一部分作为训练，另一部分作为测试集。 2.S折交叉验证 首先随机地将已给数据切分为S个互不相交的大小相同的子集；然后利用S-1个子集的数据训练模型，利用余下的子集测试模型；将这一过程可能的S种选择重复进行；最后选出S次评测中平均测试误差最小的模型。 3.留一交叉验证 S折交叉验证的特殊情形是S=N，称为留一交叉验证，往往在数据缺乏的情况下使用，N是给定的数据集容量。</p>
-<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 $ A = \frac{TP+TN}{TP+FN+FP+TN} $ 精确率 $ P = \frac{TP}{TP+FP} $ 召回率 $ R = \frac{TP}{TP+FN} $ $ F_{1} $值 $ \frac{2}{F_{1}}= \frac{1}{P}+\frac{1}{R} $ $ F_{1} = \frac{2TP}{2TP+FP+FN} $</p>
-<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是$ \hat f $,那么利用这个模型 对未知数据预测的误差就是泛化误差<br>$ R_{exp}(\hat f) = E[L(Y, \hat f(X))] = \int_{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy $ 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合$ \mathcal{F}={f_{1},f_{2},\cdot \cdot \cdot, f_{d}} $时，对于任意一个函数$ f \in \mathcal{F} $,至少以概率$ 1-\delta $,以下不等式成立<br>$ R(f) \leq \hat R(f) + \varepsilon(d, N, \delta) $,其中$ \varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)}  $<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项$ \varepsilon(d, N, \delta) $是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
-<hr>
-<p><img src="http://img.hysyeah.top/wp-content/uploads/2018/05/向量范数.png" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2576,7 +2595,7 @@ factorial(6) # out :array(720.0)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">222</span>
+                    <span class="site-state-item-count">223</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3213,9 +3232,9 @@ factorial(6) # out :array(720.0)
       
     
       
-        
-      
     
+      
+        
       
     
       
