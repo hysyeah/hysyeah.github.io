@@ -1,0 +1,3209 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="hysyeah">
+<meta property="og:url" content="https://hysyeah.github.io/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hysyeah">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Just for Record</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/20/一个操作系统的实现中使用的命令和工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/20/一个操作系统的实现中使用的命令和工具/" class="post-title-link" itemprop="url">一个操作系统的实现中使用的命令和工具</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-20 22:11:22" itemprop="dateCreated datePublished" datetime="2020-01-20T22:11:22+08:00">2020-01-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-06 12:47:24" itemprop="dateModified" datetime="2020-02-06T12:47:24+08:00">2020-02-06</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对书中所使用到的工具和命令进行记录,方便查看！</p>
+<p>ndisasmv</p>
+<p>bximage</p>
+<p>dd</p>
+<p>xxd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo losetup -f</span><br><span class="line"></span><br><span class="line">mkdir /mnt/floppy</span><br><span class="line"></span><br><span class="line">losetup /dev/loop5 pm.img</span><br><span class="line"></span><br><span class="line">sudo mount /dev/loop5 /mnt/floppy</span><br><span class="line">sudo cp pmtest3.com /mnt/floppy</span><br><span class="line">umount /mnt/floppy</span><br><span class="line"></span><br><span class="line">sudo mount -t msdos -o loop pm.img /mnt/floppy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x/4xw 0x7c14</span><br><span class="line"></span><br><span class="line">qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S</span><br></pre></td></tr></table></figure>
+<hr>
+<p>错误集锦：<br>hys@hys:~/code/6828/src/orange/ch3/b$ sudo mount -t msdos -o loop pm.img /mnt/floppy<br>mount: /mnt/floppy: wrong fs type, bad option, bad superblock on /dev/loop22, missing codepage or helper program, or other error.</p>
+<p>需启动bochs<br>然后进行初始化: format b:<br>然后再执行mount命令</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/13/2020书单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/13/2020书单/" class="post-title-link" itemprop="url">2020书单</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-13 20:44:41" itemprop="dateCreated datePublished" datetime="2020-01-13T20:44:41+08:00">2020-01-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-02 20:17:11" itemprop="dateModified" datetime="2020-02-02T20:17:11+08:00">2020-02-02</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在此先列一个计划</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>书名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编译原理</td>
+<td><a href="https://book.douban.com/subject/11628134/" target="_blank" rel="noopener">Programing Languages:Application and Interpretation</a>(cs3520)  <br><a href="https://book.douban.com/subject/1148282/" target="_blank" rel="noopener">SICP</a><br>python源码剖析(zpoint/cpython-internals)</td>
+</tr>
+<tr>
+<td>计算机基础</td>
+<td><a href="www.cs.cmu.deu/~213/schedule.html">深入理解计算机基础</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System: Principles and Practice</a><br><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating systems three easy pieces</a><br><a href="https://book.douban.com/subject/1782316/" target="_blank" rel="noopener">Concepts,techniques and models of computer programming</a></td>
+</tr>
+<tr>
+<td>设计模式</td>
+<td><a href="https://book.douban.com/subject/26829015/" target="_blank" rel="noopener">Mastering python Design patterns</a><br><a href="https://book.douban.com/subject/25843319/" target="_blank" rel="noopener">设计模式之禅</a></td>
+</tr>
+<tr>
+<td>编程语言</td>
+<td><a href="https://book.douban.com/subject/27013197/" target="_blank" rel="noopener">The Rust Programing Language</a><br><a href="https://book.douban.com/subject/27028517/" target="_blank" rel="noopener">Fluent Python</a></td>
+</tr>
+<tr>
+<td>代码能力</td>
+<td><a href="https://book.douban.com/subject/30218046/" target="_blank" rel="noopener">Aphilosophy of Software</a></td>
+</tr>
+<tr>
+<td>框架类</td>
+<td><a href="https://www.grpc.io/" target="_blank" rel="noopener">grpc</a><br><a href="https://doc.akka.io/docs/akka-http/current/index.html?language=scala" target="_blank" rel="noopener">akka</a></td>
+</tr>
+<tr>
+<td>容器</td>
+<td>k8s, istio, knative</td>
+</tr>
+<tr>
+<td>算法</td>
+<td>算法(第4版),github上的python算法</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>高性能MySQL<br>Redis设计与源码分析<br>Redis设计与实现<br>Redis深度历险<br>Database system:Implementation 2nd(cmu-15-721)</td>
+</tr>
+<tr>
+<td>系统编程</td>
+<td>unix环境高级编程<br>unix网络编程</td>
+</tr>
+<tr>
+<td>系统设计</td>
+<td>Designing Data Intensive Applications<br>Reactive Design Pattern</td>
+</tr>
+<tr>
+<td></td>
+<td>A primer on memory consistency and cache coherence<br>shared-memory synchronization<br>processor micro architecheture: An Implementation perspective<br>static program Analysis<br>Transaction processing on modern hardware</td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td>Operating system:Three easy pieces<br>一个操作系统的实现<br>Operating System Principles and Practice</td>
+</tr>
+<tr>
+<td>协议</td>
+<td>TCP/IP</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>多思考！！！</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/10/操作系统：引导扇区实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/10/操作系统：引导扇区实现/" class="post-title-link" itemprop="url">一个操作系统的实现笔记：引导扇区实现</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-10 22:32:31" itemprop="dateCreated datePublished" datetime="2020-01-10T22:32:31+08:00">2020-01-10</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-05 19:28:16" itemprop="dateModified" datetime="2020-02-05T19:28:16+08:00">2020-02-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>实验环境：<br>   · ubuntu18.04<br>   · qemu<br>   · nasm</p>
+<p>1.安装需软件</p>
+<ul>
+<li><p>qemu安装，请<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li><p>nasm安装 <code>sudo apt-get install nasm</code></p>
+</li>
+</ul>
+<p>2.编写引导扇区代码<code>a.asm</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	org	07c00h			; 告诉编译器程序加载到7c00处</span><br><span class="line">	mov	ax, cs</span><br><span class="line">	mov	ds, ax</span><br><span class="line">	mov	es, ax</span><br><span class="line">	call	DispStr			; 调用显示字符串例程</span><br><span class="line">	jmp	$			; 无限循环</span><br><span class="line">DispStr:</span><br><span class="line">	mov	ax, BootMessage ;将字符串首地址传递给寄存器ax</span><br><span class="line">	mov	bp, ax			; ES:BP = 串地址,指向BootMessage</span><br><span class="line">	mov	cx, 16			; CX = 串长度</span><br><span class="line">	mov	ax, 01301h		; AH = 13,  AL = 01h</span><br><span class="line">	mov	bx, 000ch		; 页号为0(BH = 0) 黑底红字(BL = 0Ch,高亮)</span><br><span class="line">	mov	dl, 0</span><br><span class="line">	int	10h			; 10h 号中断</span><br><span class="line">	ret</span><br><span class="line">BootMessage:		db	&quot;Hello, OS world!&quot;</span><br><span class="line">times 	510-($-$$)	db	0	; 填充剩下的空间，使生成的二进制代码恰好为512字节;表示将这个字节重复510-($-$$)遍。</span><br><span class="line">dw 	0xaa55				; 结束标志</span><br></pre></td></tr></table></figure></p>
+<p>代码分析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$表示当前行被汇编后的地址</span><br><span class="line">$$表示一个节(section)的开始处被汇编后的地址。在这里,我们的程序只有1个节,所以$$实际上就表示程序被编译后的开始地址。</span><br><span class="line"></span><br><span class="line">从第10行开始为调用10hk号中断做准备(10h号中断是由BIOS对显示提供的服务),设置寄存器的值</span><br><span class="line">AH:往屏幕中写入字符串</span><br><span class="line">AL:写模式,bit 0(0位置零):写入字符串后更新光标; bit 1(1位置1):字符串中包括字符和属性;bit 2-7为保留位</span><br><span class="line">BH: 页码</span><br><span class="line">BL:如果字符串只包括characters,BL为字符串的属性</span><br><span class="line">CX:字符串长度</span><br><span class="line">DH,DL: 写字符串的起始列与行</span><br></pre></td></tr></table></figure></p>
+<p>3.生成启动镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nasm a.asm -o a.bin</span><br><span class="line">dd if=a.bin of=a.img bs=512 count=1 conv=notrunc</span><br></pre></td></tr></table></figure></p>
+<p>4.使用<code>QEMU</code>引导软盘映像文件<code>a.img</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img  # 根据自己情况适当修改文件路径</span><br></pre></td></tr></table></figure></p>
+<p>启动后效果如下：<br><img src="http://img.hysyeah.top/2020/1/10/qemu-boot-hello-os-world.png" alt="image"></p>
+<p>至此一个简单的”操作系统”已经完成。</p>
+<hr>
+<p>5.调试我们写的引导扇区代码</p>
+<ul>
+<li><p>启动qemu,等待gdb连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动gdb<code>gdb -n -x .gdbinit</code>,设置断点,观察寄存器的值<br><code>p/x $cs</code>显示寄存器<code>cs</code>的值</p>
+</li>
+</ul>
+<p><code>.gdbinit</code>文件内容：设置<code>gdb</code>连接到时<code>QEMU</code>并调试早期启动的16位代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">set $lastcs = -1</span><br><span class="line"></span><br><span class="line">define hook-stop</span><br><span class="line">  # There doesn&apos;t seem to be a good way to detect if we&apos;re in 16- or</span><br><span class="line">  # 32-bit mode, but we always run with CS == 8 in 32-bit mode.</span><br><span class="line">  if $cs == 8 || $cs == 27</span><br><span class="line">    if $lastcs != 8 &amp;&amp; $lastcs != 27</span><br><span class="line">      set architecture i386</span><br><span class="line">    end</span><br><span class="line">    x/i $pc</span><br><span class="line">  else</span><br><span class="line">    if $lastcs == -1 || $lastcs == 8 || $lastcs == 27</span><br><span class="line">      set architecture i8086</span><br><span class="line">    end</span><br><span class="line">    # Translate the segment:offset into a physical address</span><br><span class="line">    printf &quot;[%4x:%4x] &quot;, $cs, $eip</span><br><span class="line">    x/i $cs*16+$eip</span><br><span class="line">  end</span><br><span class="line">  set $lastcs = $cs</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">echo + target remote localhost:26000\n</span><br><span class="line">target remote localhost:26000</span><br><span class="line"># If this fails, it&apos;s probably because your GDB doesn&apos;t support ELF.</span><br><span class="line"># Look at the tools page at</span><br><span class="line">#  http://pdos.csail.mit.edu/6.828/2009/tools.html</span><br><span class="line"># for instructions on building GDB with ELF support.</span><br><span class="line">echo + symbol-file obj/kern/kernel\n</span><br><span class="line">symbol-file obj/kern/kernel</span><br></pre></td></tr></table></figure></p>
+<p>gdb相关命令请查看<a href="http://visualgdb.com/gdbreference/commands/" target="_blank" rel="noopener">http://visualgdb.com/gdbreference/commands/</a></p>
+<p>参考：<br>1.<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/</a><br>2.<a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">Orange’S：一个操作系统的实现</a><br>3.<a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/qemu.1" target="_blank" rel="noopener">qemu</a><br>4.<a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb</a><br>5.<a href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm" target="_blank" rel="noopener">Intel 80386 Reference Programmer’s Manual</a><br>7.<a href="https://pdos.csail.mit.edu/6.828/2018/labs/lab1/" target="_blank" rel="noopener">lab1</a><br>8.<a href="http://www.ctyme.com/intr/rb-0210.htm" target="_blank" rel="noopener">Interrupts</a><br>9.<a href="https://en.wikipedia.org/wiki/INT_10H" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/INT_10H</a><br>10.<a href="http://visualgdb.com/gdbreference/commands/x" target="_blank" rel="noopener">http://visualgdb.com/gdbreference/commands/x</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/12/22/go-接收者/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/22/go-接收者/" class="post-title-link" itemprop="url">go-接收者</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-22 13:31:56 / 修改时间：14:35:31" itemprop="dateCreated datePublished" datetime="2019-12-22T13:31:56+08:00">2019-12-22</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>定义一个计算长方形面积的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Rectangle struct &#123;</span><br><span class="line">	width, height float64</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func area(r Rectangle) float64 &#123;</span><br><span class="line">	return r.width * r.height</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r1 := Rectangle&#123;12, 2&#125;</span><br><span class="line">	r2 := Rectangle&#123;9, 4&#125;</span><br><span class="line">	fmt.Println(&quot;Area of r1 is: &quot;, area(r1))</span><br><span class="line">	fmt.Println(&quot;Area of r2 is: &quot;, area(r2))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面这种方式定义是一个可以求长方形面积的函数<code>area</code>。这个方法并不是属于<code>Rectangle</code>这个对象。如果要把<code>area</code>当作<code>Rectangle</code>的<code>method</code>,也就是把<code>area</code>当作<code>Rectangle</code>的一个 属性,可以使用接收者。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// 虽然method名称一样,但是如果接收者不一样,那么method就不一样</span><br><span class="line">// method里面可以访问接收者的字段</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;math&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Rectangle struct &#123;</span><br><span class="line">	width, height float64</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Circle struct &#123;</span><br><span class="line">	radius float64</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (r Rectangle) area() float64  &#123;</span><br><span class="line">	return r.width*r.height</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c Circle) area() float64  &#123;</span><br><span class="line">	return c.radius *c.radius *math.Pi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r1 := Rectangle&#123;12, 2&#125;</span><br><span class="line">	r2 := Rectangle&#123;9, 4&#125;</span><br><span class="line">	c1 :=Circle&#123;10&#125;</span><br><span class="line">	c2 :=Circle&#123;25&#125;</span><br><span class="line">	fmt.Println(&quot;Area of r1 is: &quot;, r1.area())</span><br><span class="line">	fmt.Println(&quot;Area of r2 is: &quot;, r2.area())</span><br><span class="line">	fmt.Println(&quot;Area of c1 is: &quot;, c1.area())</span><br><span class="line">	fmt.Println(&quot;Area of c2 is: &quot;, c2.area())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>接收者的值传递OR引用传递</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Rectangle struct &#123;</span><br><span class="line">	width, height float64</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (r Rectangle) area() float64  &#123;</span><br><span class="line">	r.width = 10</span><br><span class="line">	return r.width*r.height</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r1 := Rectangle&#123;12, 2&#125;</span><br><span class="line">	fmt.Println(&quot;r1.width is: &quot;,r1.width )</span><br><span class="line">	r1.area()</span><br><span class="line">	fmt.Println(&quot;r1.width is: &quot;,r1.width )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.hysyeah.top/2019/12/22/go-reciver1.png" alt="image"></p>
+<p>把<code>area</code>method改为如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func (r *Rectangle) area() float64  &#123;</span><br><span class="line">	r.width = 10</span><br><span class="line">	return r.width*r.height</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：<br><img src="http://img.hysyeah.top/2019/12/22/go-reciver2.png" alt="image"></p>
+<p>如果接收者前面没有加<code>*</code>号则表示方法使用的是引用传递,指针作为<code>Receiver</code>会对实例对象的内容发生操作,如果没加星号则是以值传递,只是对实例的副本进行操作。</p>
+<hr>
+<p>参考：<br>1.go web编程</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/12/22/go-import/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/22/go-import/" class="post-title-link" itemprop="url">go-import</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-22 12:34:44 / 修改时间：12:49:24" itemprop="dateCreated datePublished" datetime="2019-12-22T12:34:44+08:00">2019-12-22</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>go使用import 命令来导入包文件</p>
+<p>像下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">fmt.Println(&quot;hello go&quot;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;./model&quot;            //当前文件同一目录的model目录,但不建议这种方式</span><br></pre></td></tr></table></figure>
+<h6 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;shorturl/model&quot;    //加载gopath/src/shorturl/model</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="点操作"><a href="#点操作" class="headerlink" title="点操作"></a>点操作</h6><p>使用点操作可以省略前缀的包名,<code>fmt.Println可以缩写成Println</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	. &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">Println(&quot;hello go&quot;)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h6 id="别名操作"><a href="#别名操作" class="headerlink" title="别名操作"></a>别名操作</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	f &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">f.Println(&quot;hello, go&quot;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="操作"><a href="#操作" class="headerlink" title="_操作"></a>_操作</h6><p>_操作其实是引入该包,不直接使用包里面的函数,而是调用了该包里的<code>init</code>函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	_ &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>参考：<br>1.go web编程</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/30/unp之datetime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/30/unp之datetime/" class="post-title-link" itemprop="url">unp之datetime</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-30 05:42:45" itemprop="dateCreated datePublished" datetime="2019-10-30T05:42:45+08:00">2019-10-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-03 08:48:29" itemprop="dateModified" datetime="2019-11-03T08:48:29+08:00">2019-11-03</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一.配置unp.h<br>1.从<a href="www.unpbook.com">www.unpbook.com</a>下载源码<br>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf unpv13e.tar.gz</span><br><span class="line">cd unpv13e</span><br><span class="line">./configure</span><br><span class="line">cp config.h /usr/include</span><br><span class="line">cp libunp.a /usr/lib</span><br><span class="line">cp key/unp.h /usr/include</span><br></pre></td></tr></table></figure></p>
+<p>将<code>/usr/include/unp.h</code>中的<code>#include &quot;../config.h&quot;</code>改为<code>#include &quot;config.h&quot;</code><br>3.编译如果遇到如下错误,请将<code>unp.h</code>中的<code>struct in_pktinfo</code>定义删除。<br><img src="http://img.hysyeah.top/2019/10/30/unp-error.png" alt="image"></p>
+<hr>
+<h5 id="datetimecli-c"><a href="#datetimecli-c" class="headerlink" title="datetimecli.c"></a>datetimecli.c</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">"unp.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>                 sockfd, n;</span><br><span class="line">    <span class="keyword">char</span>                recvline[MAXLINE + <span class="number">1</span>];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span>  <span class="title">servaddr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc != <span class="number">2</span>)</span><br><span class="line">        err_quit(<span class="string">"usage: a.out &lt;IPaddress&gt;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个字节流套接字,并返回一个描述符</span></span><br><span class="line">    <span class="keyword">if</span> ( (sockfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"socket error"</span>);</span><br><span class="line"></span><br><span class="line">    bzero(&amp;servaddr, <span class="keyword">sizeof</span>(servaddr)); <span class="comment">//对网络套接字结构清零</span></span><br><span class="line">    servaddr.sin_family = AF_INET;</span><br><span class="line">    servaddr.sin_port   = htons(<span class="number">13</span>); <span class="comment">// 端口号必须使用特定格式,所以需要通过htons函数进行转换</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把ASCII命令行参数转换为合适的格式</span></span><br><span class="line">    <span class="keyword">if</span> (inet_pton(AF_INET, argv[<span class="number">1</span>], &amp;servaddr.sin_addr) &lt;= <span class="number">0</span>)</span><br><span class="line">        err_quit(<span class="string">"inet_pton error for %s"</span>, argv[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (connect(sockfd, (SA *) &amp;servaddr, <span class="keyword">sizeof</span>(servaddr)) &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"connect error"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ( (n = read(sockfd, recvline, MAXLINE)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        recvline[n] = <span class="number">0</span>;    <span class="comment">/* null terminate */</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">fputs</span>(recvline, <span class="built_in">stdout</span>) == EOF)</span><br><span class="line">            err_sys(<span class="string">"fputs error"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"read error"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="datetimesrv-c"><a href="#datetimesrv-c" class="headerlink" title="datetimesrv.c"></a>datetimesrv.c</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">"unp.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>                 listenfd, connfd;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span>  <span class="title">servaddr</span>;</span></span><br><span class="line">    <span class="keyword">char</span>                buff[MAXLINE];</span><br><span class="line">    <span class="keyword">time_t</span>              ticks;</span><br><span class="line"></span><br><span class="line">    listenfd = Socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);<span class="comment">// Socket是经过封装的socket函数,增加了错误处理</span></span><br><span class="line"></span><br><span class="line">    bzero(&amp;servaddr, <span class="keyword">sizeof</span>(servaddr));</span><br><span class="line">    servaddr.sin_family      = AF_INET;</span><br><span class="line">    <span class="comment">// 指定IP地址为INADDR_ANY,这样要服务器主机有多信网络接口,服务器进程就可以在任意网络接口上接受客户连接</span></span><br><span class="line">    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">    servaddr.sin_port        = htons(<span class="number">13</span>);   <span class="comment">/* daytime server */</span></span><br><span class="line"></span><br><span class="line">    Bind(listenfd, (SA *) &amp;servaddr, <span class="keyword">sizeof</span>(servaddr));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//把该套接字转换为一个监听套接字,这样来自客户的外来连接就可在该套接字上由内核接受</span></span><br><span class="line">    Listen(listenfd, LISTENQ); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ( ; ; ) &#123;</span><br><span class="line">        <span class="comment">// 服务器进程在accept调用中被投入睡眠,等待某个客户连接的到来并被内核接受。TCP连接所使用的三路握手来建立连接。握手完毕时accept返回,其返回值是一个称为已连接描述符的新描述符。该描述符用于与新连接的那个客户通信。accept为每个连接到本服务器的客户返回一个新的描述符。</span></span><br><span class="line">        connfd = Accept(listenfd, (SA *) <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">        ticks = time(<span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">snprintf</span>(buff, <span class="keyword">sizeof</span>(buff), <span class="string">"%.24s\r\n"</span>, ctime(&amp;ticks));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 往已连接描述符中写入数据</span></span><br><span class="line">        Write(connfd, buff, <span class="built_in">strlen</span>(buff));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 服务器通过调用close关闭与客户端的连接</span></span><br><span class="line">        Close(connfd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc daytimetcpcli.c -o daytimetcpcli -lunp</span><br><span class="line">gcc daytimetcpsrv.c -o daytimetcpsrv -lunp</span><br></pre></td></tr></table></figure></p>
+<p>先运行<code>daytimetcpsrv</code>,再运行<code>daytimetcpcli</code><br><img src="http://img.hysyeah.top/2019/11/03/unp-intro1.png" alt="image"></p>
+<hr>
+<p>参考：<br>1.unix网络编程-volume1</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/27/认识ucontext/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/27/认识ucontext/" class="post-title-link" itemprop="url">认识ucontext函数簇</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-27 01:09:55 / 修改时间：11:38:01" itemprop="dateCreated datePublished" datetime="2019-10-27T01:09:55+08:00">2019-10-27</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ucontext函数簇提供了4个函数用于控制用户态的上下文。利用这几个函数可以实现一个协程。</p>
+<p>ucontext_t结构体<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">ucontext_t</span> *uc_link;    <span class="comment">//当前上下文结束后要恢复到时的上下文,</span></span><br><span class="line">    <span class="keyword">sigset_t</span>    uc_sigmask; <span class="comment">//上下文要阻塞的信号集合</span></span><br><span class="line">    <span class="keyword">stack_t</span>     uc_stack;   <span class="comment">//上下文所使用的栈</span></span><br><span class="line">    <span class="keyword">mcontext_t</span>  uc_mcontext; <span class="comment">//机器特定的保护上下文的表示，包括协程的机器寄存器</span></span><br><span class="line">    ...</span><br><span class="line">&#125; <span class="keyword">ucontext_t</span>;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取当前用户上下文,并初始化指针ucp指向的结构体。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getcontext</span><span class="params">(<span class="keyword">ucontext_t</span> *ucp)</span></span>;</span><br><span class="line"><span class="comment">// 设置当前的上下文为ucp指向的内容</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">setcontext</span><span class="params">(<span class="keyword">const</span> <span class="keyword">ucontext_t</span> *ucp)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造一个上下文,修改通过getcontext初始化的ucp,当切换到ucp指向的上下文时，将会执行func函数。</span></span><br><span class="line"><span class="comment">// 执行makecontext前必须为ucp分配栈和指定ucp-&gt;uc_link</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makecontext</span><span class="params">(<span class="keyword">ucontext_t</span> *ucp, <span class="keyword">void</span> (*func)(),</span></span></span><br><span class="line"><span class="function"><span class="params">       <span class="keyword">int</span> argc, ...)</span></span>;</span><br><span class="line"><span class="comment">// 将当前上下文保存到指针oucp指向的结构,并切换到ucp指向的上下文</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">swapcontext</span><span class="params">(<span class="keyword">ucontext_t</span> *<span class="keyword">restrict</span> oucp,</span></span></span><br><span class="line"><span class="function"><span class="params">       <span class="keyword">const</span> <span class="keyword">ucontext_t</span> *<span class="keyword">restrict</span> ucp)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">ucontext_t</span> context;</span><br><span class="line"></span><br><span class="line">    getcontext(&amp;context);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world\n"</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    setcontext(&amp;context);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每隔一秒打印一行<code>Hello world</code>。</p>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"foo\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">ucontext_t</span> context;</span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">stack</span>[<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line">    getcontext(&amp;context);  <span class="comment">// 初始化context</span></span><br><span class="line">    context.uc_stack.ss_sp = <span class="built_in">stack</span>; <span class="comment">// 设置栈顶指针</span></span><br><span class="line">    context.uc_stack.ss_size = <span class="keyword">sizeof</span>(<span class="built_in">stack</span>); <span class="comment">// 设置栈的大小</span></span><br><span class="line">    context.uc_link = <span class="literal">NULL</span>;    <span class="comment">//下一个要恢复的上下文为NULL, 将结束运行          </span></span><br><span class="line">    makecontext(&amp;context, foo, <span class="number">0</span>); <span class="comment">//构建上下文，执行context上下文时，将执行foo函数</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world\n"</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    setcontext(&amp;context);  <span class="comment">//设置上下文为context,在这里会切换到执行foo函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先打印<code>Hello world</code>,然后打印<code>foo</code>。</p>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">ucontext_t</span> ctx[<span class="number">3</span>];</span><br><span class="line">    </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">f1(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"start f1\n"</span>);</span><br><span class="line">    <span class="comment">// 将当前 context 保存到 ctx[1]，切换到 ctx[2]</span></span><br><span class="line">    swapcontext(&amp;ctx[<span class="number">1</span>], &amp;ctx[<span class="number">2</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"finish f1\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">f2(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"start f2\n"</span>);</span><br><span class="line">    <span class="comment">// 将当前 context 保存到 ctx[2]，切换到 ctx[1]</span></span><br><span class="line">    swapcontext(&amp;ctx[<span class="number">2</span>], &amp;ctx[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"finish f2\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> stack1[<span class="number">8192</span>];</span><br><span class="line">    <span class="keyword">char</span> stack2[<span class="number">8192</span>];</span><br><span class="line">    </span><br><span class="line">    getcontext(&amp;ctx[<span class="number">1</span>]);</span><br><span class="line">    ctx[<span class="number">1</span>].uc_stack.ss_sp = stack1;</span><br><span class="line">    ctx[<span class="number">1</span>].uc_stack.ss_size = <span class="keyword">sizeof</span>(stack1);</span><br><span class="line">    ctx[<span class="number">1</span>].uc_link = &amp;ctx[<span class="number">0</span>]; <span class="comment">// 将执行 return 0</span></span><br><span class="line">    makecontext(&amp;ctx[<span class="number">1</span>], f1, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    getcontext(&amp;ctx[<span class="number">2</span>]);</span><br><span class="line">    ctx[<span class="number">2</span>].uc_stack.ss_sp = stack2;</span><br><span class="line">    ctx[<span class="number">2</span>].uc_stack.ss_size = <span class="keyword">sizeof</span>(stack2);</span><br><span class="line">    ctx[<span class="number">2</span>].uc_link = &amp;ctx[<span class="number">1</span>];</span><br><span class="line">    makecontext(&amp;ctx[<span class="number">2</span>], f2, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将当前 context 保存到 ctx[0]，切换到 ctx[2]</span></span><br><span class="line">    swapcontext(&amp;ctx[<span class="number">0</span>], &amp;ctx[<span class="number">2</span>]);  <span class="comment">// 为什么么ctx[0]不用初始化栈？原因是swapcontext会将当前的上下文设置到ctx中,此时ctx[0]为main函数的上下文</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>swapcontext(&amp;ctx[0], &amp;ctx[2])</code>切换到ctx[2]上下文，此时将执行<code>f2</code>。打印start f2,然后切换上下文到ctx[1];执行f1函数，打印start f1;切换到<code>f2</code>，打印finish f2;<code>f2</code>执行完成后，因为<code>ctx[2].uc_link=&amp;ctx[1]</code>,再次进入ctx[1],打印出finish f1。</p>
+<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start f2</span><br><span class="line">start f1</span><br><span class="line">finish f2</span><br><span class="line">finish f1</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>参考：<br>1.<a href="http://walkerdu.com/2017/01/09/ucontext-theory/" target="_blank" rel="noopener">http://walkerdu.com/2017/01/09/ucontext-theory/</a><br>2.<a href="https://www.gnu.org/software/libc/manual/html_mono/libc.html#System-V-contexts" target="_blank" rel="noopener">Complete Context Control</a><br>3.<a href="https://zhengyinyong.com/post/ucontext-usage-and-coroutine/" target="_blank" rel="noopener">https://zhengyinyong.com/post/ucontext-usage-and-coroutine/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/26/x86-architecture-gcc-calling-convention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/26/x86-architecture-gcc-calling-convention/" class="post-title-link" itemprop="url">x86-architecture gcc calling convention</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-26 19:21:28" itemprop="dateCreated datePublished" datetime="2019-10-26T19:21:28+08:00">2019-10-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-05 20:42:59" itemprop="dateModified" datetime="2020-02-05T20:42:59+08:00">2020-02-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="x86架构常见寄存器"><a href="#x86架构常见寄存器" class="headerlink" title="x86架构常见寄存器"></a>x86架构常见寄存器</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>register</th>
+<th>8 bit</th>
+<th>16 bit</th>
+<th>32 bit</th>
+<th>64 bit</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accumulator register</td>
+<td>AH:AL</td>
+<td>AX</td>
+<td>EAX</td>
+<td>RAX</td>
+<td></td>
+</tr>
+<tr>
+<td>Base register</td>
+<td>BH:BL</td>
+<td>BX</td>
+<td>EBX</td>
+<td>RBX</td>
+<td></td>
+</tr>
+<tr>
+<td>Counter register</td>
+<td>CH:CL</td>
+<td>CX</td>
+<td>ECX</td>
+<td>RCX</td>
+<td></td>
+</tr>
+<tr>
+<td>Data register</td>
+<td>DH:DL</td>
+<td>DX</td>
+<td>EDX</td>
+<td>RDX</td>
+<td></td>
+</tr>
+<tr>
+<td>Stack Pointer register</td>
+<td></td>
+<td>SP</td>
+<td>ESP</td>
+<td>RSP</td>
+<td>栈顶指针,始终指向栈顶元素</td>
+</tr>
+<tr>
+<td>Stack Base Pointer register</td>
+<td></td>
+<td>BP</td>
+<td>EBP</td>
+<td>RBP</td>
+<td>栈基指针,用于维护一个栈帧,在Intel的术语中叫帧指针,表示一个栈帧的开始地址</td>
+</tr>
+<tr>
+<td>Source Index register</td>
+<td></td>
+<td>SI</td>
+<td>ESI</td>
+<td>RSI</td>
+<td></td>
+</tr>
+<tr>
+<td>Destination Index register</td>
+<td></td>
+<td>DI</td>
+<td>EDI</td>
+<td>RDI</td>
+<td></td>
+</tr>
+<tr>
+<td>Instruction Pointer</td>
+<td>IP</td>
+<td>EIP</td>
+<td>RIP</td>
+<td></td>
+</tr>
+<tr>
+<td>64位新增</td>
+<td></td>
+<td></td>
+<td></td>
+<td>R8-R15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>段寄存器</p>
+<ul>
+<li>Stack Segment(SS)：指向栈的指针</li>
+<li>Code Segment(CS):指向代码的指针</li>
+<li>Data Segment(DS):指向数据的指针</li>
+</ul>
+<p>常见组合：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>register</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CS:IP</td>
+<td>(CS is Code Segment, IP is Instruction Pointer) points to the address where the processor will fetch the next byte of code.</td>
+</tr>
+<tr>
+<td>SS:SP</td>
+<td>(SS is Stack Segment, SP is Stack Pointer) points to the address of the top of the stack, i.e. the most recently pushed byte.</td>
+</tr>
+<tr>
+<td>DS:SI</td>
+<td>(DS is Data Segment, SI is Source Index) is often used to point to string data that is about to be copied to ES:DI.</td>
+</tr>
+<tr>
+<td>ES:DI</td>
+<td>(ES is Extra Segment, DI is Destination Index) is typically used to point to the destination for a string copy, as mentioned above.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>当我们调用一个函数和一个函数被调用，它们之间的参数和返回值是怎样传递的？gcc是怎样使用x86中的寄存器？</p>
+<h4 id="调用规范"><a href="#调用规范" class="headerlink" title="　调用规范"></a>　调用规范</h4><p>为了允许单独的程序员共享代码并开发供许多程序使用的库，并简化子例程的使用，程序员通常采用通用的调用约定。调用约定其实就是约定函数间如何调用和返回。例如，给定一组调用约定规则，程序员无需检查子例程的定义来确定应如何将参数传递给该子例程。 此外，给定一组调用约定规则，可以使高级语言编译器遵循这些规则，从而允许手动编码的汇编语言例程和高级语言例程相互调用。</p>
+<p>下面我们会描述下C语言的调用约定。C调用约定非常依赖CPU硬件实现的栈结构，基于如下汇编指令push,pop,call,ret。</p>
+<h6 id="调用者约定"><a href="#调用者约定" class="headerlink" title="调用者约定"></a>调用者约定</h6><ul>
+<li>在调用子例程这前,调用者应该保存一些特定寄存器的内容,这些内容称为<code>caller-saved</code>。被调用者<code>callee</code>允许对这些寄存器进行修改,如果调用者<code>caller</code>在子例程返回之后依然要使用这些值，<code>caller</code>必须把这些值push到栈中。</li>
+<li>为了把参数传递给子例程,在调用它们之前需先把参数入栈(现在的CPU设计并不是所有参数都得入栈,x86-64位在参数超过6个的情况下才会将6个之外的参数入栈),参数的入栈顺序为从右到左。</li>
+<li>使用<code>call</code>指令调用子例程。这个指令将返回地址压入栈中(在所参数之上)<br>当子例程返回后,<code>caller</code>可从寄存器<code>EAX</code>中取得子例程的返回值,为了恢复调用前的状态，调用者应该做如下处理：</li>
+<li>移除栈中的参数。</li>
+<li>从栈中恢复<code>caller-saved</code>的寄存器内容。</li>
+</ul>
+<h6 id="被调用者-callee-约定"><a href="#被调用者-callee-约定" class="headerlink" title="被调用者(callee)约定"></a>被调用者(<code>callee</code>)约定</h6><ul>
+<li>将%rbp入栈,并将%rsp 赋值给%rbp<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp             # 将调用者的rbp入栈</span><br><span class="line">movq    %rsp, %rbp       # 初始化一个新的栈帧</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这个初始化操作维护了<code>base pointer</code>,rbp。rbp用于直接在栈中根据偏移量获取参数和局部变量。</p>
+<ul>
+<li>然后,将局部变量入栈,同时修改rsp寄存器的值。</li>
+<li>保存<code>callee-saved</code>的寄存器值,将这些值做入栈操作。<br>当子例程执行完毕进行返回时,必须做如下操作：</li>
+<li>将返回值放在<code>rax</code>寄存器中</li>
+<li>恢复<code>callee-saved</code>寄存器的值</li>
+<li>销毁局部变量,一般通过修改栈指针的值来进行</li>
+<li>恢复调用者的rbp值,从栈中弹出rbp</li>
+<li>最后执行<code>ret</code>指令,这条指令会将<code>return address</code>从栈中移除</li>
+</ul>
+<p>我们先来看一段代码，保存为<code>cdecl.c</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int callee(int a, int b, int c,int d, int d, int f, int g)&#123;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int caller(void)</span><br><span class="line">&#123;</span><br><span class="line">    return callee(1, 2, 3, 4, 5, 6, 7) +5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>将上面这段代码编译为汇编代码，使用命令<code>gcc -S cdecl.c</code>,会生成一个名称为cdecl.s的文件。下面是调用者部分的汇编代码，采用AT&amp;T格式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">callee:</span><br><span class="line">.LFB0:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    movl    %edi, -4(%rbp)</span><br><span class="line">    movl    %esi, -8(%rbp)</span><br><span class="line">    movl    %edx, -12(%rbp)</span><br><span class="line">    movl    %ecx, -16(%rbp)</span><br><span class="line">    movl    %r8d, -20(%rbp)</span><br><span class="line">    movl    %r9d, -24(%rbp)</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    popq    %rbp</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line"></span><br><span class="line">caller:</span><br><span class="line">.LFB1:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    pushq   $7</span><br><span class="line">    movl    $6, %r9d</span><br><span class="line">    movl    $5, %r8d</span><br><span class="line">    movl    $4, %ecx</span><br><span class="line">    movl    $3, %edx</span><br><span class="line">    movl    $2, %esi</span><br><span class="line">    movl    $1, %edi</span><br><span class="line">    call    callee</span><br><span class="line">    addq    $8, %rsp</span><br><span class="line">    addl    $5, %eax</span><br><span class="line">    leave</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure></p>
+<p>由上汇编代码可以看到第一个参数放入到了寄存器edi,第二个参放入到了寄存器esi,第三个参数放入寄存器edx,依此类推。</p>
+<h6 id="gcc对x86寄存器的调用规则"><a href="#gcc对x86寄存器的调用规则" class="headerlink" title="gcc对x86寄存器的调用规则"></a>gcc对x86寄存器的调用规则</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Register</th>
+<th>Purpose    Saved across calls</th>
+<th>Saved across calls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%rax</td>
+<td>temp register; return value</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rbx</td>
+<td>callee-saved</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>%rcx</td>
+<td>used to pass 4th argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rdx</td>
+<td>used to pass 3rd argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rsp</td>
+<td>stack pointer</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>%rbp</td>
+<td>callee-saved; base pointer</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>%rsi</td>
+<td>used to pass 2nd argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%rdi</td>
+<td>used to pass 1st argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r8</td>
+<td>used to pass 5th argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r9</td>
+<td>used to pass 6th argument to functions</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r10-r11</td>
+<td>temporary</td>
+<td>No</td>
+</tr>
+<tr>
+<td>%r12-r15</td>
+<td>callee-saved registers</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h6 id="函数调用时栈中的内容"><a href="#函数调用时栈中的内容" class="headerlink" title="函数调用时栈中的内容"></a>函数调用时栈中的内容</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>栈地址</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16(%ebp)</td>
+<td>- third function parameter</td>
+</tr>
+<tr>
+<td>12(%ebp)</td>
+<td>- second function parameter</td>
+</tr>
+<tr>
+<td>8(%ebp)</td>
+<td>- first function parameter</td>
+</tr>
+<tr>
+<td>4(%ebp)</td>
+<td>- old %EIP (the function’s “return address”)</td>
+</tr>
+<tr>
+<td>0(%ebp)</td>
+<td>- old %EBP (previous function’s base pointer)</td>
+</tr>
+<tr>
+<td>-4(%ebp)</td>
+<td>- first local variable</td>
+</tr>
+<tr>
+<td>-8(%ebp)</td>
+<td>- second local variable</td>
+</tr>
+<tr>
+<td>-12(%ebp)</td>
+<td>- third local variable</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="http://img.hysyeah.top/2019/10/26/stackframe-cdecl.gif" alt="image"></p>
+<h4 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h4><p>push ax;将一个寄存器中的数据入栈<br>pop ax; 出栈，用一个寄存器接收出栈的数据.<br>ret指令用栈中数据，修改IP的内容，从而实现近转移。CPU执行ret指令时，进行下面两步操作：<br>(1)(IP) = ((ss)*16+(sp)) (2)(sp) = (sp) + 2   #16位cpu<br>call 标号;将当前的IP压栈后，转到标号处执行指令</p>
+<hr>
+<p>参考：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a><br>8.<a href="https://en.wikipedia.org/wiki/X86_assembly_language#Segmented_addressing" target="_blank" rel="noopener">X86_assembly_language</a><br>9.<a href="https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm" target="_blank" rel="noopener">https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/13/协程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/13/协程/" class="post-title-link" itemprop="url">协程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-13 12:25:59" itemprop="dateCreated datePublished" datetime="2019-10-13T12:25:59+08:00">2019-10-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-27 14:45:32" itemprop="dateModified" datetime="2019-10-27T14:45:32+08:00">2019-10-27</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="普通函数与协程函数"><a href="#普通函数与协程函数" class="headerlink" title="普通函数与协程函数"></a>普通函数与协程函数</h4><p>有栈协程<br>无栈协程</p>
+<p>共享栈<br>私有栈</p>
+<p>对称协程<br>非对称协程</p>
+<p><img src="http://img.hysyeah.top/2019/10/22/fun_and_coroutine.png" alt="image"></p>
+<hr>
+<p>参考:<br>1.<a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Coroutine</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/11/python3类型注释/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/11/python3类型注释/" class="post-title-link" itemprop="url">python3类型注释</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-11 07:16:53" itemprop="dateCreated datePublished" datetime="2019-08-11T07:16:53+08:00">2019-08-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-13 12:17:37" itemprop="dateModified" datetime="2019-10-13T12:17:37+08:00">2019-10-13</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>python是一门动态语言,若编码不规范会出现很多运行时错误。为了提高代码可读性，减少运行时bug,python提供了类型注释可以对函数参数，返回值，变量等进行标注。通过静态检查就可以发现一些常见的问题。类型注释的代码在python运行时并不会触发，所以没有性能影响。</p>
+<p>1.类型注释的好处，看如下这个例子。<br><img src="http://img.hysyeah.top/2019/08/11/type-hint-gretting.png" alt="image"></p>
+<p>这两种方法在python3.5之后都是正确的写法，一点问题都没有。但是看左边的代码就会遇到的问题，因为python是动态语言，函数参数<code>name</code>的类型只有在运行时才知道。如果我们这样调用左边的函数<code>gretting([&quot;world&quot;])</code>，这很明显字符串不能和列表相加，这在运行时就会发生异常。<br>如果我们使用右边的写法通过静态检查器就可以提前检查出错误。右边提示了参数<code>name</code>的类型为str,函数的返回值为str。</p>
+<p>通过<code>mypy</code>对代码进行类型检查,可以看到参数传递错误被检查出来了。<br><img src="http://img.hysyeah.top/2019/08/11/type-hint-gretting-err.png" alt="image"></p>
+<p>2.python提供的类型注释<br>python从3.5版本开始将类型注释并入了标准库中。可通过如下方式引用<br><code>from typing import List, Dict</code></p>
+<ul>
+<li><p>对变量进行注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">In [1]: x: int = 1                            # 表示变量x为int类型                                                                                     </span><br><span class="line">In [2]: x: float = 0.1                        # 表示变量x为float类型                                                                                    </span><br><span class="line">In [3]: x: bool = True                        # 表示变量x为bool类型                                                                                    </span><br><span class="line">In [4]: x: str = &quot;test&quot;                       # 表示变量x为str类型                                                                         </span><br><span class="line">In [5]: x: bytes = b&quot;test&quot;                    # 表示变量x为bytes类型</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">In [8]: from typing import List,Dict,Sequence,Tuple,Set</span><br><span class="line">In [9]: x: Dict[str, float] = &#123;&apos;field&apos;: 2.0&#125;            # x是一个字典key为str类型,值为float类型                                                                           </span><br><span class="line">In [10]: x: Tuple[int, str, float] = (3, &quot;yes&quot;, 7.5)    # x是一个元组，元素类型可以为int, str, float                                                                             </span><br><span class="line">In [11]: x: List[int] = [1]                             # x是一个列表，元素类型为int                                                                             </span><br><span class="line">In [12]: x: Set[int] = &#123;6, 7&#125;                           # x是一个集合，元素类型为int</span><br><span class="line"></span><br><span class="line">In [16]: x: Union[int,str] = 1                         # x类型可以为int或者str         </span><br><span class="line"></span><br><span class="line">In [17]: x: Union[int, None] = 1                       # x类型可以为int或者None,等同于Optional[int]          </span><br><span class="line"></span><br><span class="line">In [18]: x: Optional[int] = 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def gretting(name: str) -&gt; str:</span><br><span class="line">    return &quot;Hello &quot; + name</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 对一个可调用的函数进行注释</span><br><span class="line">x: Callable[[int, float], float] = f                  # x是一个可调用的函数，有两个参数，类型分别为int,float,返回值为float类型</span><br></pre></td></tr></table></figure>
+<ul>
+<li>类变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Car:</span><br><span class="line">    seats: ClassVar[int] = 4                         # seats是一个类变量，类型为int</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def f(x: &apos;A&apos;) -&gt; None:  # OK                         # 表示函数f的参数x的类型为A的实例</span><br><span class="line">    ...</span><br><span class="line">class A:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">x: A = A()                                          # 表示x的类型为A的实例，若想表示x的类型为类对象，请看下面</span><br><span class="line">x: Type[A] = A</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>typing模块中的协议类</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Iterable[T]</code></td>
+<td><code>def __iter__(self) -&gt; Iterator[T]</code></td>
+</tr>
+<tr>
+<td><code>Iterator[T]</code></td>
+<td><code>def __next__(self) -&gt; T</code>  <code>def __iter__(self) -&gt; Iterator[T]</code></td>
+</tr>
+<tr>
+<td><code>Sized</code></td>
+<td><code>def __len__(self) -&gt; int</code></td>
+</tr>
+<tr>
+<td><code>Container[T]</code></td>
+<td><code>def __contains__(self, x: object) -&gt; bool</code></td>
+</tr>
+<tr>
+<td><code>Collection[T]</code></td>
+<td><code>def __len__(self) -&gt; int</code> <code>def __iter__(self) -&gt; Iterator[T]</code> <code>def __contains__(self, x: object) -&gt; bool</code></td>
+</tr>
+<tr>
+<td><code>Awaitable[T]</code></td>
+<td><code>def __await__(self) -&gt; Generator[Any, None, T]</code></td>
+</tr>
+<tr>
+<td><code>AsyncIterable[T]</code></td>
+<td><code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
+</tr>
+<tr>
+<td><code>AsyncIterator[T]</code></td>
+<td><code>def __anext__(self) -&gt; Awaitable[T]</code> <code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
+</tr>
+<tr>
+<td><code>ContextManager[T]</code></td>
+<td><code>def __enter__(self) -&gt; T</code> <code>def __exit__(self,exc_type: Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Optional[bool]</code></td>
+</tr>
+<tr>
+<td><code>AsyncContextManager[T]</code></td>
+<td><code>def __aenter__(self) -&gt; Awaitable[T]</code> <code>def __aexit__(self,exc_type:Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Awaitable[Optional[bool]]</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><p>cast 将静态类型值强制转换为子类型,并不是像其它静态语言真正的进行类型转换，在运行时并不生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from typing import cast, List</span><br><span class="line"></span><br><span class="line">o: object = [1]</span><br><span class="line">x = cast(List[int], o)  # OK</span><br><span class="line">y = cast(List[str], o)  # OK (cast performs no actual runtime check)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Generics</p>
+</li>
+</ul>
+<p>python内置的<code>collection classes</code>都是<code>generic classes</code>。Generic types拥有一个或多个类型参数。如<code>Dict[int, str]</code> <code>List[int]</code>。</p>
+<p>自定义一个原生类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from typing import TypeVar, Generic</span><br><span class="line"></span><br><span class="line">T = TypeVar(&apos;T&apos;)</span><br><span class="line"></span><br><span class="line">class Stack(Generic[T]):</span><br><span class="line">    def __init__(self) -&gt; None:</span><br><span class="line">        # Create an empty list with items of type T</span><br><span class="line">        self.items: List[T] = []</span><br><span class="line"></span><br><span class="line">    def push(self, item: T) -&gt; None:</span><br><span class="line">        self.items.append(item)</span><br><span class="line"></span><br><span class="line">    def pop(self) -&gt; T:</span><br><span class="line">        return self.items.pop()</span><br><span class="line"></span><br><span class="line">    def empty(self) -&gt; bool:</span><br><span class="line">        return not self.items</span><br></pre></td></tr></table></figure></p>
+<p>现在<code>Stack</code>类可以用于表示拥有任务类型的<code>stack</code>,如<code>Stack[int],Stack[str],Stack[Tuple[int, str]]</code>等。<br>可以像使用内置容器类型一样使用类<code>Stack</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Construct an empty Stack[int] instance</span><br><span class="line">stack = Stack[int]()</span><br><span class="line">stack.push(2)</span><br><span class="line">stack.pop()</span><br><span class="line">stack.push(&apos;x&apos;)        # Type error</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Variance of generic types<br>关于它们之间的子类型关系，存在三种主要类型的通用类型：<code>invariant</code>(不变的),<code>covariant</code>(协变的),<code>contravariant</code>(逆变的)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Animal:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">class Cat(Animal):</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>如上,<code>Animal</code>有子类型<code>Cat</code>,<code>Cat</code><strong>可能</strong>可以使用<code>Animal</code>中的某些方法，这个<strong>可能</strong>取决于类型是<code>covariant</code>或者<code>contravariant</code>。</p>
+<p>如果<code>Cat</code>可以使用它的超类型<code>Animal</code>中的一些方法，这种情况被称为<code>convariant</code>;如果超类型<code>Animal</code>可以使用子类型<code>Cat</code>中的某些方法，则被称为<code>contravariant</code>。<br>如果<code>convariant</code>和<code>contravariant</code>都不成立，则被称作<code>invariant</code>,即<code>Cat</code>不能使用<code>Animal</code>中的方法，<code>Animal</code> 也不能使用<code>Cat</code>中的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from typing import TypeVar, Generic, Iterable, Iterator</span><br><span class="line"></span><br><span class="line">List_co = TypeVar(&apos;List_co&apos;, contravariant=True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class ImmutableList(Generic[List_co]):</span><br><span class="line">    def __init__(self, items: Iterable[List_co]) -&gt; None:</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">    def __iter__(self) -&gt; Iterator[List_co]:</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Employee:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Manager(Employee):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def list_employees(employees: ImmutableList[Employee]) -&gt; None:</span><br><span class="line">    for employee in employees:</span><br><span class="line">        print(employee)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">managers = ImmutableList([Manager()])</span><br><span class="line">list_employees(managers)</span><br></pre></td></tr></table></figure>
+<p>当<code>contravariant=True</code>时，使用命令<code>mypy co.py</code>,出现如下错误：<br><img src="http://img.hysyeah.top/2019/10/13/convariant.png" alt="image"></p>
+<p>默认情况下<code>mypy</code>认为所有用户自定义的原生类型都是<code>invariant</code>的。</p>
+<p>请试下当<code>convariant=True</code>时又是怎样的结果</p>
+<hr>
+<p>参考：<br>1.<a href="https://www.python.org/dev/peps/pep-0484/" target="_blank" rel="noopener">pep484</a><br>2.<a href="https://www.python.org/dev/peps/pep-0526/" target="_blank" rel="noopener">pep526</a><br>3.<a href="https://mypy.readthedocs.io/en/latest/" target="_blank" rel="noopener">mypy</a><br>4.<a href="https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac" target="_blank" rel="noopener">https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">223</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
