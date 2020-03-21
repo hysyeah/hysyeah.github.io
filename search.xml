@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[记录Rust Hello Word]]></title>
     <url>%2F2020%2F03%2F21%2F%E8%AE%B0%E5%BD%95Rust-Hello-Word%2F</url>
-    <content type="text"><![CDATA[1.安装Rust官网下载直接点击安装即可 2.在Goland上安装Rust插件在rust plugins上下载对应Goland版本的Rust插件。 根据如下步骤安装即可,Install Plugin from Disk指定上一步下载的压缩文件。安装好后重启Goland3.将环境变量%USERPROFILE%\.cargo\bin添加到Path4.使用Goland新建一个Rust项目 5.编译执行Rust代码 过程中遇到的问题：缺少一些库:advapi32.lib,userenv.lib解决方法：直接安装一个visual studio community 2019,问题解决 参考：1.https://github.com/rust-lang/rust/issues/43039]]></content>
+    <content type="text"><![CDATA[1.安装Rust官网下载直接点击安装即可 2.在Goland上安装Rust插件在rust plugins上下载对应Goland版本的Rust插件。笔者的Goland是2019.1。 根据如下步骤安装即可,Install Plugin from Disk指定上一步下载的压缩文件。安装好后重启Goland3.将环境变量%USERPROFILE%\.cargo\bin添加到Path4.使用Goland新建一个Rust项目 5.编译执行Rust代码 过程中遇到的问题：缺少一些库:advapi32.lib,userenv.lib解决方法：直接安装一个visual studio community 2019,问题解决 参考：1.https://github.com/rust-lang/rust/issues/43039]]></content>
   </entry>
   <entry>
     <title><![CDATA[一个操作系统的实现中使用的命令和工具]]></title>
