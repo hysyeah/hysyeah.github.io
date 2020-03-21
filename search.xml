@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[记录Rust Hello Word]]></title>
+    <url>%2F2020%2F03%2F21%2F%E8%AE%B0%E5%BD%95Rust-Hello-Word%2F</url>
+    <content type="text"><![CDATA[1.安装Rust官网下载直接点击安装即可 2.在Goland上安装Rust插件在rust plugins上下载对应Goland版本的Rust插件。 根据如下步骤安装即可,Install Plugin from Disk指定上一步下载的压缩文件。安装好后重启Goland3.将环境变量%USERPROFILE%\.cargo\bin添加到Path4.使用Goland新建一个Rust项目 5.编译执行Rust代码 过程中遇到的问题：缺少一些库:advapi32.lib,userenv.lib解决方法：直接安装一个visual studio community 2019,问题解决 参考：1.https://github.com/rust-lang/rust/issues/43039]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[一个操作系统的实现中使用的命令和工具]]></title>
     <url>%2F2020%2F01%2F20%2F%E4%B8%80%E4%B8%AA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7%2F</url>
     <content type="text"><![CDATA[对书中所使用到的工具和命令进行记录,方便查看！ ndisasmv bximage dd xxd 12345678910111213141516sudo losetup -fmkdir /mnt/floppylosetup /dev/loop5 pm.imgsudo mount /dev/loop5 /mnt/floppysudo cp pmtest3.com /mnt/floppyumount /mnt/floppysudo mount -t msdos -o loop pm.img /mnt/floppyx/4xw 0x7c14qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S 错误集锦：hys@hys:~/code/6828/src/orange/ch3/b$ sudo mount -t msdos -o loop pm.img /mnt/floppymount: /mnt/floppy: wrong fs type, bad option, bad superblock on /dev/loop22, missing codepage or helper program, or other error. 需启动bochs然后进行初始化: format b:然后再执行mount命令]]></content>

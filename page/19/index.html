@@ -380,6 +380,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/28/mysql一些语句/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/10/28/mysql一些语句/" class="post-title-link" itemprop="url">mysql一些语句</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-28 08:14:36" itemprop="dateCreated datePublished" datetime="2017-10-28T08:14:36+08:00">2017-10-28</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="获取一张表的所有字段名"><a href="#获取一张表的所有字段名" class="headerlink" title="获取一张表的所有字段名"></a>获取一张表的所有字段名</h3><pre><code>select COLUMN_NAME from information_schema.columns where table_name=&#39;TableName&#39;
+</code></pre><h3 id="对一个数据库进行赋权"><a href="#对一个数据库进行赋权" class="headerlink" title="对一个数据库进行赋权"></a>对一个数据库进行赋权</h3><pre><code>grant all privileges on database.* to username@ip identified by &#39;passwd&#39;
+flush privileges
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/28/Linux 安装mysqlclient/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2045,207 +2218,6 @@ user.has_perm(&#39;report.view_ych&#39;) #判断权限
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/lua变量类型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/27/lua变量类型/" class="post-title-link" itemprop="url">lua变量类型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-27 07:14:25" itemprop="dateCreated datePublished" datetime="2017-09-27T07:14:25+08:00">2017-09-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>lua是动态语言，变量不需要定义。lua中有8个基本类型：nil, bollean, number, string, userdata, thread和table.</p>
-<pre><code>Lua 5.3.4  Copyright (C) 1994-2017 Lua.org, PUC-Rio
-&gt; print(type(&quot;hello, lua&quot;))
-string
-&gt; print(type(10))
-number
-&gt; print(type(print))
-function
-&gt; print(type(true))
-boolean
-&gt; print(type(nil))
-nil
-</code></pre><p>1.nil nil是lua中的特殊值，它只有一个值;变量未赋值前值为nil,可以通过给变量赋值为nil,删除变量 2.Booleans Booleans类型有两个值：false和true。Lua中所有的值都可以做为判断条件。在控制结构中的条件判断中除了false和nil为假，其它值都为真，也就是说Lua中0和空字符串也是真。 3.Numbers Numbers表示实数，Lua中没有整数。 4.Strings 字符串，Lua中字符串是不可修改的。Lua自动进行内存分配和释放，一个string可以只包含一个字母也可以包含一本书，Lua可以高效的处理长字符串，1M的string在Lua中是很常见的。可以使用单引号或者双引号表示字符串。</p>
-<pre><code>&gt; a = &quot;one string&quot;
-&gt; b = string.gsub(a, &quot;one&quot;, &quot;another&quot;)
-&gt; print(a)
-one string
-&gt; print(b)
-another string
-</code></pre><p>可以使用[[…]]表示字符串，这种 形式的字符串可以包括多行，可以嵌套且不会解释转义序列。 Lua会自动在string和numbers 之间自动进行类型转换，当一个字符串使用算术操作符时，string就会被转成数字。</p>
-<pre><code>&gt; print(&quot;10&quot;+1)
-11.0
-
-&gt; print(&quot;10+1&quot;)
-10+1
-</code></pre><p>当Lua期望一个string而碰到数字时，会将数字转成string。如进行字符拼接时</p>
-<pre><code>&gt; print(10 .. 20)
-1020
-&gt; 10 == &quot;10&quot;
-false
-</code></pre><p>5.Functions(函数) 函数是第一类值（和其他变量相同），意味着函数可以存储在变量中，可以作为函数的参数，也可以作为函数的返回值。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2292,7 +2264,7 @@ false
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">223</span>
+                    <span class="site-state-item-count">224</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
