@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://img.hysyeah.top/2020/3/22/rand.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/3/22/run-rand.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/3/22/cargo-error.png">
-<meta property="og:updated_time" content="2020-03-22T12:58:02.082Z">
+<meta property="og:updated_time" content="2020-03-22T14:41:29.158Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用cargo管理外部依赖">
 <meta name="twitter:description" content="1.使用cargo创建项目,会在当前目录下生成hello_cargo文件夹cargo new hello_cargo --bin 2.使用Goland打开项目hello_cargo,目录如下。其中Cargo.toml中[package]定义的是关于项目的一些信息,[dependencies]中定义的是外部依赖 3.引入外部包rand,rand在Cargo.toml文件[dependencies]下">
@@ -432,7 +432,7 @@
                 
               
 
-              <time title="创建时间：2020-03-22 11:40:49 / 修改时间：20:58:02" itemprop="dateCreated datePublished" datetime="2020-03-22T11:40:49+08:00">2020-03-22</time>
+              <time title="创建时间：2020-03-22 11:40:49 / 修改时间：22:41:29" itemprop="dateCreated datePublished" datetime="2020-03-22T11:40:49+08:00">2020-03-22</time>
             </span>
           
 
@@ -526,7 +526,7 @@
 </table>
 </div>
 <hr>
-<p>使用过程中遇到的问题：<br>Caused by:<br>  error authenticating: failed connecting agent; class=Ssh (23)<br><img src="http://img.hysyeah.top/2020/3/22/cargo-error.png" alt="image"><br>解决方法：将~/.gitconfig中的两行内容,<code>Windows</code>下路径为<code>C:\Users\Administrator\</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[url &quot;git@github.com:&quot;]</span><br><span class="line"> 	insteadOf = https://github.com/</span><br></pre></td></tr></table></figure></p>
+<p>使用过程中遇到的问题：<br>Caused by:<br>  error authenticating: failed connecting agent; class=Ssh (23)<br><img src="http://img.hysyeah.top/2020/3/22/cargo-error.png" alt="image"><br>解决方法：将~/.gitconfig中的两行内容注释,<code>Windows</code>下路径为<code>C:\Users\Administrator\</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#[url &quot;git@github.com:&quot;]</span><br><span class="line"># 	insteadOf = https://github.com/</span><br></pre></td></tr></table></figure></p>
 <hr>
 <p>参考：<br>1.<a href="https://doc.rust-lang.org/book/" target="_blank" rel="noopener">The Rust Programming Language</a><br>2.<a href="https://github.com/rust-lang/cargo/issues/3381" target="_blank" rel="noopener">https://github.com/rust-lang/cargo/issues/3381</a></p>
 
