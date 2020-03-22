@@ -380,6 +380,206 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/22/使用cargo管理外部依赖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/03/22/使用cargo管理外部依赖/" class="post-title-link" itemprop="url">使用cargo管理外部依赖</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-22 11:40:49 / 修改时间：20:50:19" itemprop="dateCreated datePublished" datetime="2020-03-22T11:40:49+08:00">2020-03-22</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.使用<code>cargo</code>创建项目,会在当前目录下生成<code>hello_cargo</code>文件夹<br><code>cargo new hello_cargo --bin</code></p>
+<p>2.使用<code>Goland</code>打开项目<code>hello_cargo</code>,目录如下。其中<code>Cargo.toml</code>中<code>[package]</code>定义的是关于项目的一些信息,<code>[dependencies]</code>中定义的是外部依赖<br><img src="http://img.hysyeah.top/2020/3/22/hello-cargo.png" alt="image"></p>
+<p>3.引入外部包<code>rand</code>,<a href="https://docs.rs/rand/0.3.14/rand/" target="_blank" rel="noopener">rand</a><br>在<code>Cargo.toml</code>文件<code>[dependencies]</code>下加入<code>rand = &quot;0.3.14&quot;</code></p>
+<p>4.<code>cargo build</code>将会从远端下载<code>rand</code>包,包括<code>rand</code>的依赖包<br><img src="http://img.hysyeah.top/2020/3/22/rand.png" alt="image"></p>
+<p>5.使用外部包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">extern crate rand; //表明rand是外部依赖</span><br><span class="line"></span><br><span class="line">use std::io;</span><br><span class="line">use rand::Rng;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;Guess the number!&quot;);</span><br><span class="line"></span><br><span class="line">    let secret_number = rand::thread_rng().gen_range(1, 101);</span><br><span class="line">    println!(&quot;The secret number is:&#123;&#125;&quot;, secret_number);</span><br><span class="line">    println!(&quot;Please input your guess.&quot;);</span><br><span class="line"></span><br><span class="line">    let mut guess = String::new();</span><br><span class="line">    io::stdin().read_line(&amp;mut guess)</span><br><span class="line">        .expect(&quot;Failed to read line&quot;);</span><br><span class="line"></span><br><span class="line">    println!(&quot;You guessed:&#123;&#125;&quot;, guess);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.编译执行<br><img src="http://img.hysyeah.top/2020/3/22/run-rand.png" alt="image"></p>
+<hr>
+<h5 id="cargo相关命令"><a href="#cargo相关命令" class="headerlink" title="cargo相关命令"></a>cargo相关命令</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rustup doc</td>
+<td>打开本地文档</td>
+</tr>
+<tr>
+<td>rustc main.rs</td>
+<td>编译</td>
+</tr>
+<tr>
+<td>rustup update</td>
+<td>更新Rust工具链和rustup</td>
+</tr>
+<tr>
+<td>cargo new <app_name> —bin</app_name></td>
+<td>新建一个可执行应用</td>
+</tr>
+<tr>
+<td>cargo build</td>
+<td>生成可执行文件</td>
+</tr>
+<tr>
+<td>cargo build —release</td>
+<td>生成可发布的执行文件,Rust有做一些优化</td>
+</tr>
+<tr>
+<td>cargo run</td>
+<td>如果存在目标文件,且Rust认为代码没有改变,则直接执行可执行文件;如果源码改变或可执行文件不存在,则编译后再执行</td>
+</tr>
+<tr>
+<td>cargo check</td>
+<td>检查代码是否能正确编译,速度当然比cargo build,因为不产生可执行文件,编码中用于快速检查代码是否有问题</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>使用过程中遇到的问题：<br>Caused by:<br>  error authenticating: failed connecting agent; class=Ssh (23)<br><img src="http://img.hysyeah.top/2020/3/22/cargo-error.png" alt="image"><br>解决方法：将~/.gitconfig中的两行内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[url &quot;git@github.com:&quot;]</span><br><span class="line"> 	insteadOf = https://github.com/</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>参考：<br>1.<a href="https://doc.rust-lang.org/book/" target="_blank" rel="noopener">The Rust Programming Language</a><br>2.<a href="https://github.com/rust-lang/cargo/issues/3381" target="_blank" rel="noopener">https://github.com/rust-lang/cargo/issues/3381</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/21/记录Rust-Hello-Word/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2206,167 +2406,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/13/协程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/13/协程/" class="post-title-link" itemprop="url">协程</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-13 12:25:59" itemprop="dateCreated datePublished" datetime="2019-10-13T12:25:59+08:00">2019-10-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-27 14:45:32" itemprop="dateModified" datetime="2019-10-27T14:45:32+08:00">2019-10-27</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="普通函数与协程函数"><a href="#普通函数与协程函数" class="headerlink" title="普通函数与协程函数"></a>普通函数与协程函数</h4><p>有栈协程<br>无栈协程</p>
-<p>共享栈<br>私有栈</p>
-<p>对称协程<br>非对称协程</p>
-<p><img src="http://img.hysyeah.top/2019/10/22/fun_and_coroutine.png" alt="image"></p>
-<hr>
-<p>参考:<br>1.<a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Coroutine</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2413,7 +2452,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">224</span>
+                    <span class="site-state-item-count">225</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2535,7 +2574,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

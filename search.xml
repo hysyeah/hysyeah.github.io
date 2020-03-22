@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[使用cargo管理外部依赖]]></title>
+    <url>%2F2020%2F03%2F22%2F%E4%BD%BF%E7%94%A8cargo%E7%AE%A1%E7%90%86%E5%A4%96%E9%83%A8%E4%BE%9D%E8%B5%96%2F</url>
+    <content type="text"><![CDATA[1.使用cargo创建项目,会在当前目录下生成hello_cargo文件夹cargo new hello_cargo --bin 2.使用Goland打开项目hello_cargo,目录如下。其中Cargo.toml中[package]定义的是关于项目的一些信息,[dependencies]中定义的是外部依赖 3.引入外部包rand,rand在Cargo.toml文件[dependencies]下加入rand = &quot;0.3.14&quot; 4.cargo build将会从远端下载rand包,包括rand的依赖包 5.使用外部包1234567891011121314151617181920extern crate rand; //表明rand是外部依赖use std::io;use rand::Rng;fn main() &#123; println!(&quot;Guess the number!&quot;); let secret_number = rand::thread_rng().gen_range(1, 101); println!(&quot;The secret number is:&#123;&#125;&quot;, secret_number); println!(&quot;Please input your guess.&quot;); let mut guess = String::new(); io::stdin().read_line(&amp;mut guess) .expect(&quot;Failed to read line&quot;); println!(&quot;You guessed:&#123;&#125;&quot;, guess);&#125; 6.编译执行 cargo相关命令 command desc rustup doc 打开本地文档 rustc main.rs 编译 rustup update 更新Rust工具链和rustup cargo new —bin 新建一个可执行应用 cargo build 生成可执行文件 cargo build —release 生成可发布的执行文件,Rust有做一些优化 cargo run 如果存在目标文件,且Rust认为代码没有改变,则直接执行可执行文件;如果源码改变或可执行文件不存在,则编译后再执行 cargo check 检查代码是否能正确编译,速度当然比cargo build,因为不产生可执行文件,编码中用于快速检查代码是否有问题 使用过程中遇到的问题：Caused by: error authenticating: failed connecting agent; class=Ssh (23)解决方法：将~/.gitconfig中的两行内容12[url &quot;git@github.com:&quot;] insteadOf = https://github.com/ 参考：1.The Rust Programming Language2.https://github.com/rust-lang/cargo/issues/3381]]></content>
+      <tags>
+        <tag>Rust</tag>
+        <tag>Cargo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[记录Rust Hello Word]]></title>
     <url>%2F2020%2F03%2F21%2F%E8%AE%B0%E5%BD%95Rust-Hello-Word%2F</url>
     <content type="text"><![CDATA[1.安装Rust官网下载直接点击安装即可 2.在Goland上安装Rust插件在rust plugins上下载对应Goland版本的Rust插件。笔者的Goland是2019.1。 根据如下步骤安装即可,Install Plugin from Disk指定上一步下载的压缩文件。安装好后重启Goland3.将环境变量%USERPROFILE%\.cargo\bin添加到Path4.使用Goland新建一个Rust项目 5.编译执行Rust代码 过程中遇到的问题：缺少一些库:advapi32.lib,userenv.lib解决方法：直接安装一个visual studio community 2019,问题解决 参考：1.https://github.com/rust-lang/rust/issues/43039]]></content>
