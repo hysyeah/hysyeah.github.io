@@ -8,6 +8,22 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2020/03/23/Golang%E7%AB%9E%E4%BA%89%E6%9D%A1%E4%BB%B6%E4%B8%8E%E9%94%81/</loc>
+        <lastmod>2020-04-06T07:48:27.826Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/2018/08/22/go-get-golang-orgx-e5-8c-85-e5-a4-b1-e8-b4-a5-e8-a7-a3-e5-86-b3-e6-96-b9-e6-b3-95/</loc>
+        <lastmod>2020-03-29T00:54:25.041Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2020/03/22/%E4%BD%BF%E7%94%A8cargo%E7%AE%A1%E7%90%86%E5%A4%96%E9%83%A8%E4%BE%9D%E8%B5%96/</loc>
         <lastmod>2020-03-22T14:41:29.158Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -1554,14 +1570,6 @@
     <url>
         <loc>https://hysyeah.github.io/2018/08/13/Go%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/</loc>
         <lastmod>2019-08-04T08:34:12.567Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/2018/08/22/go-get-golang-orgx-e5-8c-85-e5-a4-b1-e8-b4-a5-e8-a7-a3-e5-86-b3-e6-96-b9-e6-b3-95/</loc>
-        <lastmod>2019-08-04T08:34:12.562Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

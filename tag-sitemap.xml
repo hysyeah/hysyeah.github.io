@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/Golang/</loc>
+        <lastmod>2020-04-06T07:48:27.826Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/Cargo/</loc>
         <lastmod>2020-03-22T14:41:29.158Z</lastmod>
         <changefreq>weekly</changefreq>

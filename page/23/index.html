@@ -380,6 +380,203 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/01/Django开发环境搭建与项目结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/01/Django开发环境搭建与项目结构/" class="post-title-link" itemprop="url">Django开发环境搭建与项目结构</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-01 15:27:58" itemprop="dateCreated datePublished" datetime="2017-09-01T15:27:58+08:00">2017-09-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Django/" itemprop="url" rel="index"><span itemprop="name">Django</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.安装python3 2.安装virtualenv</p>
+<pre><code>sudo apt-get install python3-virtualenv(ubuntu环境下)
+</code></pre><p>或者</p>
+<pre><code>pip3 install virtualenv
+</code></pre><p>3.建立虚拟环境</p>
+<pre><code>virtualenv venv
+</code></pre><p>4.激活虚拟环境</p>
+<pre><code>source venv/bin/activate(Linux环境）
+
+venv\Scripts\activate(Windows）
+</code></pre><p>根据自己文件路径，需适当修改 5.在虚拟环境下通过pip3安装所需软件，如为旧项目，根据项目中的requests.txt文件安装所需依赖。</p>
+<pre><code>pip3 install -r requests.txt
+</code></pre><p>6.建立项目，APP(如新建好，则跳过此步骤)</p>
+<pre><code>django-admin startproject xxxx
+
+django-admin startapp xxxx
+</code></pre><p>7.项目结构 <img src="http://img.hysyeah.top/wp-content/uploads/2017/09/tree.png" alt="image"></p>
+<pre><code>- report/static 一些静态文件，如js,css文件
+- report/templates 项目模版
+- report/urls.py   路由配置文件
+- utils/sql.py     项目中用到的SQL查询语句
+- report/views/views.py 视图函数
+- report/views/xls_export.py xsl文件导出相关
+- xfbank/config    一些项目配置文件,dev_settings.py(测试环境),pro_settings.py(正式环境)
+- xfbank/urls.py   项目主配置urls文件&lt;/pre&gt;
+</code></pre><p>8.运行Django项目</p>
+<pre><code>python manage.py runserver
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/python迭代器与生成器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1664,7 +1861,7 @@ Out[6]: 0.17908568603489283
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">225</span>
+                    <span class="site-state-item-count">226</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1790,7 +1987,9 @@ Out[6]: 0.17908568603489283
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2301,6 +2500,8 @@ Out[6]: 0.17908568603489283
 
   
   
+    
+      
     
       
     

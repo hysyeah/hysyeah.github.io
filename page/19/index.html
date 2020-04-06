@@ -380,6 +380,232 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/04/Racket数据类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/04/Racket数据类型/" class="post-title-link" itemprop="url">Racket数据类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-04 18:19:09" itemprop="dateCreated datePublished" datetime="2017-11-04T18:19:09+08:00">2017-11-04</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.1 Numbers包括小数和虚数</p>
+<pre><code>&gt; 1
+1
+&gt; 1/2
+1/2
+&gt; 1+2i
+1+2i
+&gt; 3.14
+3.14
+</code></pre><p>1.2 Booleans,#t表示真，#f表示假 1.3 Byte,值在0-255的整数</p>
+<pre><code>&gt;(byte? 0)
+#t
+&gt; (byte? 256)
+#f
+</code></pre><p>1.4 Characters,单个字符</p>
+<pre><code>&gt; (integer-&gt;char 65)
+#\A
+&gt; (display #\A)
+A
+</code></pre><p>1.5 Strings,用双引号包围</p>
+<pre><code>&gt; &quot;Hello,World&quot;
+&quot;Hello,World&quot;
+</code></pre><p>1.6 Symbols 就原子值，打印的时候以’开始</p>
+<pre><code>&gt; &#39;a
+&#39;a
+&gt; (symbol? &#39;a)
+#t
+</code></pre><p>1.7 Keyword,和symbol类似，但打印的时候以#:开始</p>
+<pre><code>&gt; (string-&gt;keyword &quot;apple&quot;)
+&#39;#:apple
+</code></pre><p>1.8 Pairs,可以连接两个任意值，cons函数用来构造Pairs</p>
+<pre><code>&gt; (pair? (cons 1 2))
+#t
+</code></pre><p>1.9 Lists 列表</p>
+<pre><code>&gt; (list 1 2 3)
+&#39;(1 2 3)
+</code></pre><p>2.0 Vector,是固定长度可以存放任意值的列表，支持常量 时间获取元素和更新元素</p>
+<pre><code>&gt; (vector-ref #(name (that tune)) 1)
+&#39;(that tune)
+</code></pre><p>2.1 Hash Tables,字典</p>
+<pre><code>&gt;(define ht (make-hash))
+
+&gt;(hash-set! ht &quot;apple&quot; &#39;(red round))
+
+&gt;(hash-ref ht &quot;apple&quot;)
+
+&#39;(red round)
+</code></pre><p>2.2 Boxes,是一个只有一个元素的vertor,打印以#&amp;开始</p>
+<pre><code>&gt; (define b (box &quot;apple&quot;))
+&gt; b
+&#39;#&amp;&quot;apple&quot;
+&gt; (unbox b)
+&quot;apple&quot;
+&gt; (set-box! b &#39;(banana boat))
+&gt; b
+&#39;#&amp;(banana boat)
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/04/supervisor-can-not-find-uwsgi-command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2019,183 +2245,6 @@ string_type = bytes
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/Django通过qq邮箱发送邮件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/27/Django通过qq邮箱发送邮件/" class="post-title-link" itemprop="url">Django通过qq邮箱发送邮件</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-27 12:43:42" itemprop="dateCreated datePublished" datetime="2017-09-27T12:43:42+08:00">2017-09-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Django/" itemprop="url" rel="index"><span itemprop="name">Django</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下</p>
-<pre><code>EMAIL_USE_TLS = True
-EMAIL_HOST = &#39;smtp.qq.com&#39;  #若是企业邮箱要改为：&#39;smtp.exmail.qq.com&#39;
-EMAIL_PORT = 587
-EMAIL_HOST_USER = &#39;12345678@qq.com&#39;
-EMAIL_HOST_PASSWORD = &#39;xxxxxxxxxxxxxxxx&#39;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
-DEFAULT_FROM_EMAIL = &#39;12345678@qq.com&#39;
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2242,7 +2291,7 @@ DEFAULT_FROM_EMAIL = &#39;12345678@qq.com&#39;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">225</span>
+                    <span class="site-state-item-count">226</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2368,7 +2417,9 @@ DEFAULT_FROM_EMAIL = &#39;12345678@qq.com&#39;
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
