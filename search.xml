@@ -661,9 +661,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[python面试之tuple不可变]]></title>
+    <title><![CDATA[你真的了解python tuple不可变吗]]></title>
     <url>%2F2018%2F08%2F20%2Fpython%E9%9D%A2%E8%AF%95%E4%B9%8Btuple%E4%B8%8D%E5%8F%AF%E5%8F%98%2F</url>
-    <content type="text"><![CDATA[最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3]) tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。 In [22]: tu[1] = [1,2,3] --------------------------------------------------------------------------- TypeError Traceback (most recent call last) &lt;ipython-input-22-1e2059dd0201&gt; in &lt;module&gt;() ----&gt; 1 tu[1] = [1,2,3] TypeError: &#39;tuple&#39; object does not support item assignment In [24]: class A: ...: a = 1 ...: In [25]: a = A() In [28]: t = (1, a) In [29]: t[1].a = 2 In [31]: print(t[1].a) 2]]></content>
+    <content type="text"><![CDATA[最近遇到个有关tuple的面试题，挺有意思的。 # 下面会输出什么？为什么 In [18]: tu = (1, [1, 2]) In [19]: tu[1].append(3) In [20]: print(tu) (1, [1, 2, 3]) tupple不可变是指对象不可变，不可以对tuple中的元素进行赋值操作。它所包含的元素的可变性取决于该元素的属性。12345678910111213141516171819202122232425262728293031323334 In [22]: tu[1] = [1,2,3,4] --------------------------------------------------------------------------- TypeError Traceback (most recent call last) &lt;ipython-input-22-1e2059dd0201&gt; in &lt;module&gt;() ----&gt; 1 tu[1] = [1,2,3,4] TypeError: &apos;tuple&apos; object does not support item assignment In [23]: print(tu) #报错，赋值操作未成功 (1, [1, 2, 3]) In [24]: tu[1] += [1,2,3,4] ---------------------------------------------------------------------------TypeError Traceback (most recent call last)&lt;ipython-input-6-e1dc81ae6e45&gt; in &lt;module&gt;----&gt; 1 tu[1] += [1,2,3,4]TypeError: &apos;tuple&apos; object does not support item assignmentIn [25]: tu # 报错,虽然报错,但操作成功了 Out[26]: (1, [1, 2, 3, 1, 2, 3, 4]) In [27]: class A: ...: a = 1 ...: In [28]: a = A() In [29]: t = (1, a) In [30]: t[1].a = 2 In [31]: print(t[1].a) 2]]></content>
       <categories>
         <category>python</category>
       </categories>
