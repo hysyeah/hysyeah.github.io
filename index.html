@@ -425,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2020-05-23 19:41:30 / 修改时间：21:12:36" itemprop="dateCreated datePublished" datetime="2020-05-23T19:41:30+08:00">2020-05-23</time>
+              <time title="创建时间：2020-05-23 19:41:30 / 修改时间：21:15:21" itemprop="dateCreated datePublished" datetime="2020-05-23T19:41:30+08:00">2020-05-23</time>
             </span>
           
 
@@ -472,7 +472,9 @@
             <p>如果你要参与一个开源项目你就必须知道<code>github工作流</code>，<code>github工作流</code>其实就是多人在参与同一个项目的一种协作方式。</p>
 <p>假如你想要参与<code>kubernetes</code>项目，你就得了解<code>github</code>工作流。</p>
 <p>1.首先你需要将<code>kubernetes</code>项目的代码Fork到你的<code>github</code>仓库中</p>
-<p>2.然后将你仓库中的代码克隆到你本地的工作目录。<br><figure class="highlight plain"><figcaption><span>clone</span><a href="https://github.com/$user/kubernetes.git```" target="_blank" rel="noopener">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3.更新本地代码,不建设使用`git pull`因为`git pull`是做一个合并操作，会使commit变的杂乱。或者改变git配置，`git config branch.autoSetupRebase always`。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">git fetch upstream</span><br><span class="line">git checkout master</span><br><span class="line">git rebase upstream/master</span><br></pre></td></tr></table></figure></p>
+<p>2.然后将你仓库中的代码克隆到你本地的工作目录。<br><code>git clone https://github.com/$user/kubernetes.git</code></p>
+<p>3.更新本地代码,不建设使用<code>git pull</code>因为<code>git pull</code>是做一个合并操作，会使commit变的杂乱。或者改变git配置，<code>git config branch.autoSetupRebase always</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br><span class="line">git checkout master</span><br><span class="line">git rebase upstream/master</span><br></pre></td></tr></table></figure>
 <p>4.创建新的分支，并在此分支上进行开发<br><code>git checkout -b mybrach</code></p>
 <p>5.保存更改后的代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add &lt;files&gt;</span><br><span class="line">git commit -m</span><br></pre></td></tr></table></figure></p>
 <p>6.将更新后的代码，推到你Fork的仓库中<br><code>git push -f ${your_remote_name} myfeature</code></p>
