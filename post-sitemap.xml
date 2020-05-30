@@ -9,7 +9,15 @@
 
     <url>
         <loc>https://hysyeah.github.io/2020/05/30/ubuntu20-04%E5%BC%80%E5%8F%91%E5%BC%80%E5%A2%83%E9%85%8D%E7%BD%AE/</loc>
-        <lastmod>2020-05-30T09:08:23.779Z</lastmod>
+        <lastmod>2020-05-30T09:23:13.713Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/2020/05/30/%E4%BD%BF%E7%94%A8kubeadm%E9%83%A8%E7%BD%B2%E5%8D%95%E6%9C%BA%E7%89%88kubernetes%E9%9B%86%E7%BE%A4/</loc>
+        <lastmod>2020-05-30T09:18:48.788Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

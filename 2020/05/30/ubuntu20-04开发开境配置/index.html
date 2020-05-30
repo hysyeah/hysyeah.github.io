@@ -118,7 +118,8 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.hysyeah.top/2020/5/29/20200530161024-flameshot.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/5/29/20200530170251-switch-omega.png">
-<meta property="og:updated_time" content="2020-05-30T09:08:23.779Z">
+<meta property="og:image" content="http://img.hysyeah.top/2020/5/29/20200530172121-image-server.png">
+<meta property="og:updated_time" content="2020-05-30T09:23:13.713Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu20.04开发开境配置">
 <meta name="twitter:description" content="记录下新系统下开发必须安装的工具 1.小飞机安装注意事项:需要安装python21sudo apt install python 2.vscode安装，直接下载deb包进行安装，不要使用snap命令进行安装，否则会出现不能输入中文的问题。3.安装截图工具flameshot,并设置快捷键1sudo apt install flameshot 4.安装chrome,配置插件SwitchyOmega.5">
@@ -429,7 +430,7 @@
                 
               
 
-              <time title="创建时间：2020-05-30 12:09:23 / 修改时间：17:08:23" itemprop="dateCreated datePublished" datetime="2020-05-30T12:09:23+08:00">2020-05-30</time>
+              <time title="创建时间：2020-05-30 12:09:23 / 修改时间：17:23:13" itemprop="dateCreated datePublished" datetime="2020-05-30T12:09:23+08:00">2020-05-30</time>
             </span>
           
 
@@ -481,7 +482,10 @@
 <p>10.安装<code>git</code>,<code>zsh</code>,<code>oh-my-zsh</code>，<code>autojump</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br><span class="line">sudo apt install zsh</span><br><span class="line">sh -c &quot;$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt; ~/.zshrc</span><br><span class="line">. /usr/share/autojump/autojump.sh</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure></p>
 <p>11.安装<code>qshell</code>,用于同步文件到七牛云，下载<a href="https://developer.qiniu.com/kodo/tools/1302/qshell" target="_blank" rel="noopener">qshell</a><br>  设置帐户空间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qshell account [&lt;AccessKey&gt; &lt;SecretKey&gt; &lt;Name&gt;] [flags]</span><br></pre></td></tr></table></figure></p>
 <p>  设置文件上传策略,<code>vim ~/.qshell/upload.conf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;src_dir&quot;: &quot;/media/hys/65F33762C14D581B/hysyeah_qiniu&quot;,</span><br><span class="line">    &quot;bucket&quot;: &quot;hysyeah&quot;,</span><br><span class="line">    &quot;check_exists&quot;: true,</span><br><span class="line">    &quot;check_hash&quot;: true,</span><br><span class="line">    &quot;rescan_local&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>设置快捷上传命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt; ~/.zshrc</span><br><span class="line">alias qsupload=&quot;qs qupload ~/.qshell/upload.conf&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<p>设置快捷上传命令e<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt; ~/.zshrc</span><br><span class="line">alias qsupload=&quot;qs qupload ~/.qshell/upleeeeoad.conf&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>设置镜像源,ubuntu20.04可以在界面上设置<br><img src="http://img.hysyeah.top/2020/5/29/20200530172121-image-server.png" alt="image"></li>
+</ol>
 <hr>
 <p>参考:<br>1.<a href="https://packages.ubuntu.com/xenial/amd64/polipo-dbg/download" target="_blank" rel="noopener">ubuntu package</a></p>
 
@@ -523,6 +527,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/30/使用kubeadm部署单机版kubernetes集群/" rel="prev" title="使用kubeadm部署单机版kubernetes集群">
+                使用kubeadm部署单机版kubernetes集群 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -582,7 +590,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">228</span>
+                    <span class="site-state-item-count">229</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
