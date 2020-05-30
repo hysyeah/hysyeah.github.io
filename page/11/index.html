@@ -380,6 +380,230 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/20/racket Characters类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/20/racket Characters类型/" class="post-title-link" itemprop="url">racket Characters类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 18:19:37" itemprop="dateCreated datePublished" datetime="2018-07-20T18:19:37+08:00">2018-07-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>&gt; (char? #\a)                                            ;判断是否是字符
+#t
+
+&gt; (char-&gt;integer #\λ)                                    ;返回字符的整数
+955
+&gt; (char-&gt;integer #\A)
+65
+
+&gt; (integer-&gt;char 65)                                     ;将整数转换为整数
+#\A
+
+
+&gt; (char=? #\a #\a #\a)                                   ;判断多个字符是否相等
+#t
+
+&gt; (char&lt;? #\A #\a)                                       ;根据(char-&gt;integer v)返回的整数值进行比较
+#t
+&gt; (char&lt;? #\A #\λ)
+#t
+
+&gt; (char&lt;=? #\a #\b #\b)
+#t
+
+&gt; (char&gt;? #\a #\A)
+#t
+
+&gt; (char&gt;=? #\a #\A)
+#t
+
+;生成与Unicode定义的1对1映射一致的字符。如果字符没有大写映射，则char-upcase会生成char
+&gt; (char-upcase #\a)
+#\A
+&gt; (char-upcase #\λ)
+#\Λ
+
+&gt; (char-downcase #\A)
+#\a
+&gt; (char-downcase #\Λ)
+#\λ
+
+;和char-upcase类似，但对对应于Unicode case-folding mapping
+&gt; (char-foldcase #\A)
+#\a
+&gt; (char-foldcase #\Σ)
+#\σ
+
+&gt; (char-ci&lt;? #\A #\a)
+#f
+&gt; (char-ci&lt;? #\a #\b)
+#t
+&gt; (char-ci&lt;? #\a #\b #\c)
+#t
+</code></pre><hr>
+<p>参考： 1.<a href="http://docs.racket-lang.org/reference/characters.html#%28def._%28%28quote._~23~25kernel%29._char-upcase%29%29" target="_blank" rel="noopener">官方文档</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/16/racket number类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2363,203 +2587,6 @@ def colicTest():
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/27/将sympy.plotting转换为matplotlib.pyplot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/27/将sympy.plotting转换为matplotlib.pyplot/" class="post-title-link" itemprop="url">将sympy.plotting转换为matplotlib.pyplot</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-27 17:36:20" itemprop="dateCreated datePublished" datetime="2018-06-27T17:36:20+08:00">2018-06-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># -*- coding: utf-8 -*-
-
-
-from sympy import symbols
-from sympy.plotting import plot, plot_implicit
-import matplotlib.pyplot as plt
-
-def move_sympyplot_to_axes(p, ax):
-    backend = p.backend(p)
-    backend.ax = ax
-    backend.process_series()
-    backend.ax.spines[&#39;right&#39;].set_color(&#39;none&#39;)
-    backend.ax.spines[&#39;bottom&#39;].set_position(&#39;zero&#39;)
-    backend.ax.spines[&#39;top&#39;].set_color(&#39;none&#39;)
-    plt.close(backend.fig)
-
-x = symbols(&#39;x&#39;)
-p1 = plot((x**2,(x,-2,2)),(x,(x,-4,4)),legend=True, show=False)
-p1[1].line_color = &#39;r&#39;
-p2 = plot((1/x,(x,-4,4)),ylim=(-2,2),legend=True, show=False)
-
-
-fig,(ax,ax2) = plt.subplots(ncols=2)
-move_sympyplot_to_axes(p1,ax)
-move_sympyplot_to_axes(p2, ax2)
-plt.show()
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/06/some_graf.png" alt></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2606,7 +2633,7 @@ plt.show()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">227</span>
+                    <span class="site-state-item-count">228</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3249,9 +3276,9 @@ plt.show()
       
     
       
-        
-      
     
+      
+        
       
     
       

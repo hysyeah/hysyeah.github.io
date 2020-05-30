@@ -380,6 +380,270 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/17/python c  PyLongObject定义及实现2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/12/17/python c  PyLongObject定义及实现2/" class="post-title-link" itemprop="url">python c  PyLongObject定义及实现2</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-17 15:59:10" itemprop="dateCreated datePublished" datetime="2017-12-17T15:59:10+08:00">2017-12-17</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>/*根据长整型生成python PyLongObject对象*/
+PyObject* PyLong_FromLong(long v) 
+</code></pre><p>通过这个函数我们来了解python是怎么构造一个PyLongObject对象。 PyLong_FromLong函数源码</p>
+<pre><code>/*在64位系统中PyLong_SHIFT=30,*/
+#define PyLong_BASE    ((digit)1 &lt;&lt; PyLong_SHIFT)
+#define PyLong_MASK    ((digit)(PyLong_BASE - 1))
+PyObject *
+PyLong_FromLong(long ival)
+{
+    PyLongObject *v;
+    unsigned long abs_ival;
+    unsigned long t;  /* unsigned so &gt;&gt; doesn&#39;t propagate sign bit */
+    int ndigits = 0;
+    int negative = 0;
+
+    if (ival &lt; 0) {
+        /* if LONG_MIN == -LONG_MAX-1 (true on most platforms) then
+           ANSI C says that the result of -ival is undefined when ival
+           == LONG_MIN.  Hence the following workaround. */
+        abs_ival = (unsigned long)(-1-ival) + 1;
+        negative = 1;
+    }
+    else {
+        abs_ival = (unsigned long)ival;
+    }
+
+    /* Count the number of Python digits.
+       We used to pick 5 (&quot;big enough for anything&quot;), but that&#39;s a
+       waste of time and space given that 5*15 = 75 bits are rarely
+       needed. */
+    t = abs_ival;
+    while (t) {
+        ++ndigits;
+        t &gt;&gt;= PyLong_SHIFT;
+    }
+    v = _PyLong_New(ndigits);//为PyLongObject对象分配内存
+    if (v != NULL) {
+        digit *p = v-&gt;ob_digit;
+        v-&gt;ob_size = negative ? -ndigits : ndigits;
+        t = abs_ival;
+        while (t) {
+            *p++ = (digit)(t &amp; PyLong_MASK);
+            t &gt;&gt;= PyLong_SHIFT;
+        }
+    }
+    return (PyObject *)v;
+}
+</code></pre><hr>
+<p>转换成可以单独执行的C代码</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+#define base ((unsigned int)1 &lt;&lt;30)
+#define mask ((unsigned int)(base-1))
+
+int main(int argc, char *argv[]){
+    unsigned int abs_ival;
+    unsigned int t;
+    int ndigits = 0;
+    int i;
+    abs_ival = (1&lt;&lt;32) - 1 ;
+    t = abs_ival;
+    while(t){
+        ++ndigits;
+        t &gt;&gt;=30;
+    }
+    unsigned int ob_digit[ndigits];
+    unsigned int *p = ob_digit;
+    t = abs_ival;
+    while(t){
+        *p++ = (unsigned int)(t &amp; mask);
+        t &gt;&gt;= 30;
+    }
+
+    for(i=0;i&lt;ndigits;i++)
+        printf(&quot;%u\t&quot;,ob_digit[i]);
+    printf(&quot;\n&quot;);
+   abs_ival = 0; 
+   //根据数组ob_digit[]中的值，打印出原始值
+   for(i=0;i&lt;ndigits;i++)
+       abs_ival += ob_digit[i] * pow(2,30*i);//or:abs_ival += ob_digit[i]*(1&lt;&lt;(30*i));
+
+   printf(&quot;%u\n&quot;,abs_ival);
+
+   return 0;
+}
+gcc longo.c -lm //不加-lm则会报错
+out:
+1073741823  3   
+4294967295
+</code></pre><hr>
+<p>base = 0x40000000 mask = 0x3fffffff abs_ival = 0xffffffff ob_digit中元素的最大值为(2**30)-1</p>
+<hr>
+<p>？PyLong_SHIFT为什么是30。 参考：python2.7源码</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/12/python c  PyLongObject定义及实现1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2625,234 +2889,6 @@ long PyLong_AsLong(PyObject *pylong)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/30/c调用python3 C API/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/11/30/c调用python3 C API/" class="post-title-link" itemprop="url">c调用python3 C API</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-30 22:40:39" itemprop="dateCreated datePublished" datetime="2017-11-30T22:40:39+08:00">2017-11-30</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>/*创建一个长度为3的列表，并对其进行赋值，并打印*/
-/*hello.c*/
-#include &lt;stdio.h&gt;
-#include &quot;python3.5m/Python.h&quot;
-int main(int argc, char *argv[]) {
-    int i=0;
-    long value;
-    Py_Initialize();
-    PyObject *t, *item;
-    t = PyList_New(3);
-    PyList_SetItem(t, 0, PyLong_FromLong(1L));
-    PyList_SetItem(t, 1, PyLong_FromLong(2L));
-    PyList_SetItem(t, 2, PyLong_FromLong(3L));
-    for(i=0; i&lt;3;i++) {
-        item = PyList_GetItem(t, i);
-        value = PyLong_AsLong(item);
-        printf(&quot;%ld\n&quot;, value);
-    }
-    Py_Finalize();
-    return 0;
-}
-
-
-void Py_Initialize()//初始化python解析器，必须在调用Python/C API之前调用
-
-PyObject* PyList_New(Py_ssize_t len)//创建一个长度为len的列表，Return:List Reference OR NULL(创建失败)
-
-/*设置list索引为index的值为item,Return: 0 OR -1*/
-int PyList_SetItem(PyObject *list, Py_ssize_t index, PyObject *item) 
-
-/*获取list索引为index的值,Return:  Borrowed reference OR NULL and set an IndexError exception.*/
-PyObject* PyList_GetItem(PyObject *list, Py_ssize_t index)
-
-/*返回C类型的变量*/
-long PyLong_AsLong(PyObject *obj)
-
-/*释放资源*/
-void Py_Finalize()
-</code></pre><hr>
-<pre><code>/*编译运行,ubuntu 16.04,gcc5.4.0,python3.5*/
-/*-L 指定库的路径，-l 指定需连接的库名
-如果文件为libpython3.5.so,刚库名为python3.5*/
-gcc hello.c -L/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu -lpython3.5
-out:
-1
-2
-3
-</code></pre><hr>
-<p>若/usr/include/python3.5m下无Python.h文件，请参考<a href="http://img.hysyeah.top/2017/11/30/ubuntu%E6%9C%AA%E5%8F%91%E7%8E%B0python-h%E6%96%87%E4%BB%B6/" target="_blank" rel="noopener">Python.h</a></p>
-<hr>
-<p>参考： 1.<a href="https://docs.python.org/3/c-api/" target="_blank" rel="noopener">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2899,7 +2935,7 @@ out:
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">227</span>
+                    <span class="site-state-item-count">228</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
