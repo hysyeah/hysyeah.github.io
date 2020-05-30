@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="在将Postgresql数据转换为Neo4j的过程中，char类型的字段的在转换成Neo4j的属性后会带有空格。比如char(10)字段的数据为hello在Neo4j属性中则会带有空格，虽然可以在查询的时候加上trim函数，但这样对于原来的查询代码改动太大。所以决定从源头将这个问题解决。 假如有一个字段为char(10)如果插入的数据长度未达到10,关系型数据库默认在后面添加空格，所以将char类">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.986Z">
+<meta property="og:updated_time" content="2019-08-04T08:34:12.985Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="postgresql中将所有的char改为varchar类型">
 <meta name="twitter:description" content="在将Postgresql数据转换为Neo4j的过程中，char类型的字段的在转换成Neo4j的属性后会带有空格。比如char(10)字段的数据为hello在Neo4j属性中则会带有空格，虽然可以在查询的时候加上trim函数，但这样对于原来的查询代码改动太大。所以决定从源头将这个问题解决。 假如有一个字段为char(10)如果插入的数据长度未达到10,关系型数据库默认在后面添加空格，所以将char类">
@@ -647,7 +647,7 @@ SELECT CONCAT(&#39;alter table &#39;, table_schema, &#39;.&#39;, table_name, &#3
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">229</span>
+                    <span class="site-state-item-count">228</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
