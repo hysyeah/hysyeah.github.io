@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[istio bookinfo]]></title>
     <url>%2F2020%2F06%2F13%2Fistio-bookinfo%2F</url>
-    <content type="text"><![CDATA[1.安装istio 2.设置default命名空间自动注入1kubectl label namespace default istio-injection=enabled 3.部署应用1kubectl apply -f bookinfo.yaml 4.查看service和pods是否启动 5.设置Istio Gatewayapply -f bookinfo-gateway```123456786.确认`Ingress`端口和`IP`![image](http://img.hysyeah.top/2020/6/13/20200613174652-gateway.png)```pythonexport INGRESS_HOST=10.101.124.143export INGERSS_PORT=31176export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT 7.在浏览器访问服务, 8.访问kiali,在浏览器中输入对应的IP和端口。 参考：1.https://istio.io/latest/zh/docs/examples/bookinfo/]]></content>
+    <content type="text"><![CDATA[1.安装istio,如未安装k8s集群，可参考gotok8s安装单机版集群 2.设置default命名空间自动注入1kubectl label namespace default istio-injection=enabled 3.部署应用1kubectl apply -f bookinfo.yaml 4.查看service和pods是否启动 5.设置Istio Gatewayapply -f bookinfo-gateway```123456786.确认`Ingress`端口和`IP`![image](http://img.hysyeah.top/2020/6/13/20200613174652-gateway.png)```pythonexport INGRESS_HOST=10.101.124.143export INGERSS_PORT=31176export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT 7.在浏览器访问服务, 8.访问kiali,在浏览器中输入对应的IP和端口。 参考：1.https://istio.io/latest/zh/docs/examples/bookinfo/]]></content>
   </entry>
   <entry>
     <title><![CDATA[ubuntu20.04开发开境配置]]></title>

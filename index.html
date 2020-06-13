@@ -425,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2020-06-13 16:59:57 / 修改时间：17:57:52" itemprop="dateCreated datePublished" datetime="2020-06-13T16:59:57+08:00">2020-06-13</time>
+              <time title="创建时间：2020-06-13 16:59:57 / 修改时间：18:03:25" itemprop="dateCreated datePublished" datetime="2020-06-13T16:59:57+08:00">2020-06-13</time>
             </span>
           
 
@@ -469,7 +469,7 @@
       
         
           
-            <p>1.安装<a href="https://istio.io/latest/zh/docs/setup/getting-started/" target="_blank" rel="noopener">istio</a><br><img src="http://img.hysyeah.top/2020/6/13/20200613170407-istio-system.png" alt="image"></p>
+            <p>1.安装<a href="https://istio.io/latest/zh/docs/setup/getting-started/" target="_blank" rel="noopener">istio</a>,如未安装k8s集群，可参考<a href="https://github.com/gotok8s/gotok8s" target="_blank" rel="noopener">gotok8s</a>安装单机版集群<br><img src="http://img.hysyeah.top/2020/6/13/20200613170407-istio-system.png" alt="image"></p>
 <p>2.设置<code>default</code>命名空间自动注入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl label namespace default istio-injection=enabled</span><br></pre></td></tr></table></figure></p>
 <p>3.部署应用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f bookinfo.yaml</span><br></pre></td></tr></table></figure></p>
 <p>4.查看<code>service</code>和<code>pods</code>是否启动<br><img src="http://img.hysyeah.top/2020/6/13/20200613173811-svc-pod.png" alt="image"></p>
