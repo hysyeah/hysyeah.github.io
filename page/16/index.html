@@ -380,6 +380,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/hadoop,spark踩过的坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/07/hadoop,spark踩过的坑/" class="post-title-link" itemprop="url">hadoop,spark踩过的坑</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-07 17:36:03" itemprop="dateCreated datePublished" datetime="2018-02-07T17:36:03+08:00">2018-02-07</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="1-WARN-yarn-Client-Neither-spark-yarn-jars-nor-spark-yarn-archive-is-set-falling-back-to-uploading-libraries-under-SPARK-HOME"><a href="#1-WARN-yarn-Client-Neither-spark-yarn-jars-nor-spark-yarn-archive-is-set-falling-back-to-uploading-libraries-under-SPARK-HOME" class="headerlink" title="1.WARN yarn.Client: Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOME"></a>1.WARN yarn.Client: Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOME</h5><pre><code>hdfs dfs -mkdir /hadoop/spark_jars
+hdfs dfs -put /opt/spark-2.2.0-bin-hadoop2.7/jars/spark-* /hadoop/spark_jars #将spark-*.jar文件复制到/hadoop/spark_jars
+在spark-defaults.conf中添加
+spark.yarn.jars                   hdfs://192.168.2.10:9000/hadoop/spark_jars/*
+</code></pre><h5 id="2-NodeManager-from-464aa87ad374-doesn’t-satisfy-minimum-allocations-Sending-SHUTDOWN-signal-to-the-NodeManager"><a href="#2-NodeManager-from-464aa87ad374-doesn’t-satisfy-minimum-allocations-Sending-SHUTDOWN-signal-to-the-NodeManager" class="headerlink" title="2. NodeManager from 464aa87ad374 doesn’t satisfy minimum allocations, Sending SHUTDOWN signal to the NodeManager."></a>2. NodeManager from 464aa87ad374 doesn’t satisfy minimum allocations, Sending SHUTDOWN signal to the NodeManager.</h5><pre><code># 在yarn-site.xml添加如下
+&lt;property&gt;
+ &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;
+ &lt;value&gt;3072&lt;/value&gt;
+&lt;/property&gt;
+
+ &lt;property&gt;
+ &lt;name&gt;yarn.nodemanager.resource.cpu-vcores&lt;/name&gt;
+ &lt;value&gt;1&lt;/value&gt;
+&lt;/property&gt;
+</code></pre><h5 id="3-To-adjust-logging-level-use-sc-setLogLevel-newLevel-For-SparkR-use-setLogLevel-newLevel"><a href="#3-To-adjust-logging-level-use-sc-setLogLevel-newLevel-For-SparkR-use-setLogLevel-newLevel" class="headerlink" title="3.To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel)."></a>3.To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).</h5><p>18/02/07 08:10:21 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform… using builtin-java classes where applicable 18/02/07 08:10:57 WARN YarnSchedulerBackend$YarnSchedulerEndpoint: Container marked as failed: container_1517990956375_0001_01_000003 on host: slave2. Exit status: 1. Diagnostics: Exception from container-launch. Container id: container_1517990956375_0001_01_000003 Exit code: 1 Stack trace: ExitCodeException exitCode=1: at org.apache.hadoop.util.Shell.runCommand(Shell.java:585) at org.apache.hadoop.util.Shell.run(Shell.java:482) at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:776) at org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor.launchContainer(DefaultContainerExecutor.java:212) at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainerLaunch.call(ContainerLaunch.java:302) at org.apache.hadoop.yarn.server.nodemanager.containermanager.launcher.ContainerLaunch.call(ContainerLaunch.java:82) at java.util.concurrent.FutureTask.run(FutureTask.java:266) at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) at java.lang.Thread.run(Thread.java:748) Container exited with a non-zero exit code 1</p>
+<pre><code># 修改spark-defaults.conf添加如下，值根据实际情况修改
+spark.executor.memory            2g
+spark.driver.memory               2g
+</code></pre><hr>
+<h5 id="4-Caused-by-java-io-InvalidClassException-org-apache-spark-sql-execution-FileSourceScanExec-local-class-incompatible-stream-classdesc-serialVersionUID-4243567174184146251-local-class-serialVersionUID-7006716103980652543"><a href="#4-Caused-by-java-io-InvalidClassException-org-apache-spark-sql-execution-FileSourceScanExec-local-class-incompatible-stream-classdesc-serialVersionUID-4243567174184146251-local-class-serialVersionUID-7006716103980652543" class="headerlink" title="4.Caused by: java.io.InvalidClassException: org.apache.spark.sql.execution.FileSourceScanExec; local class incompatible: stream classdesc serialVersionUID = 4243567174184146251, local class serialVersionUID = -7006716103980652543"></a>4.Caused by: java.io.InvalidClassException: org.apache.spark.sql.execution.FileSourceScanExec; local class incompatible: stream classdesc serialVersionUID = 4243567174184146251, local class serialVersionUID = -7006716103980652543</h5><pre><code>使用pyspark对进行groupby后DataFrame进行show()操作时出现的错误
+df2 = df.groupby(df.date).agg({&#39;event_type&#39;: &#39;count&#39;})
+df2 = df.show()
+解决方法：将客户端的pyspark版本改成与服务端一致
+</code></pre><hr>
+<h5 id="5-Cannot-run-program-“python”-error-2-No-such-file-or-directory"><a href="#5-Cannot-run-program-“python”-error-2-No-such-file-or-directory" class="headerlink" title="5.Cannot run program “python”: error=2, No such file or directory"></a>5.Cannot run program “python”: error=2, No such file or directory</h5><pre><code>执行spark任务时，出现如上提示
+解决方法：因为用的是python3,可能spark却去找python，找不到所以报错。因时间问题，只能暴力解决，在各个节点执行下面命令
+ln -s /usr/bin/python3 /usr/bin/python
+</code></pre><h5 id="6-standard-init-linux-go-195-exec-user-process-caused-“exec-format-error”"><a href="#6-standard-init-linux-go-195-exec-user-process-caused-“exec-format-error”" class="headerlink" title="6.standard_init_linux.go:195: exec user process caused “exec format error”"></a>6.standard_init_linux.go:195: exec user process caused “exec format error”</h5><pre><code>启动容器时报如上错误，原因不小心将docker-compose.yml中command中执行的脚本文件中第一行写成了#/bin/sh,改为#!/bin/sh后解决。
+</code></pre><p>参考：1.<a href="https://issues.apache.org/jira/browse/SPARK-12759" title="https://issues.apache.org/jira/browse/SPARK-12759" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-12759</a> 2.<a href="http://blog.csdn.net/u013641234/article/details/51123648" title="http://blog.csdn.net/u013641234/article/details/51123648" target="_blank" rel="noopener">http://blog.csdn.net/u013641234/article/details/51123648</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/docker常用命令2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2101,223 +2300,6 @@ gcc -shared -fpic -o lib.so a.c b.c
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/19/ubuntu安装readelf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/19/ubuntu安装readelf/" class="post-title-link" itemprop="url">ubuntu安装readelf</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-19 22:10:00" itemprop="dateCreated datePublished" datetime="2017-12-19T22:10:00+08:00">2017-12-19</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>sudo apt-get install binutils
-
-
-Usage: readelf &lt;option(s)&gt; elf-file(s)
- Display information about the contents of ELF format files
- Options are:
-  -a --all               Equivalent to: -h -l -S -s -r -d -V -A -I
-  -h --file-header       Display the ELF file header
-  -l --program-headers   Display the program headers
-     --segments          An alias for --program-headers
-  -S --section-headers   Display the sections&#39; header
-     --sections          An alias for --section-headers
-  -g --section-groups    Display the section groups
-  -t --section-details   Display the section details
-  -e --headers           Equivalent to: -h -l -S
-  -s --syms              Display the symbol table
-     --symbols           An alias for --syms
-  --dyn-syms             Display the dynamic symbol table
-  -n --notes             Display the core notes (if present)
-  -r --relocs            Display the relocations (if present)
-  -u --unwind            Display the unwind info (if present)
-  -d --dynamic           Display the dynamic section (if present)
-  -V --version-info      Display the version sections (if present)
-  -A --arch-specific     Display architecture specific information (if any)
-  -c --archive-index     Display the symbol/file index in an archive
-  -D --use-dynamic       Use the dynamic section info when displaying symbols
-  -x --hex-dump=&lt;number|name&gt;
-                         Dump the contents of section &lt;number|name&gt; as bytes
-  -p --string-dump=&lt;number|name&gt;
-                         Dump the contents of section &lt;number|name&gt; as strings
-  -R --relocated-dump=&lt;number|name&gt;
-                         Dump the contents of section &lt;number|name&gt; as relocated bytes
-  -z --decompress        Decompress section before dumping it
-  -w[lLiaprmfFsoRt] or
-  --debug-dump[=rawline,=decodedline,=info,=abbrev,=pubnames,=aranges,=macro,=frames,
-               =frames-interp,=str,=loc,=Ranges,=pubtypes,
-               =gdb_index,=trace_info,=trace_abbrev,=trace_aranges,
-               =addr,=cu_index]
-                         Display the contents of DWARF2 debug sections
-  --dwarf-depth=N        Do not display DIEs at depth N or greater
-  --dwarf-start=N        Display DIEs starting with N, at the same depth
-                         or deeper
-  -I --histogram         Display histogram of bucket list lengths
-  -W --wide              Allow output width to exceed 80 characters
-  @&lt;file&gt;                Read options from &lt;file&gt;
-  -H --help              Display this information
-  -v --version           Display the version number of readelf
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2364,7 +2346,7 @@ Usage: readelf &lt;option(s)&gt; elf-file(s)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">229</span>
+                    <span class="site-state-item-count">230</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
