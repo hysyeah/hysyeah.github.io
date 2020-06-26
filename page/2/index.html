@@ -380,6 +380,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/10/操作系统：引导扇区实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/10/操作系统：引导扇区实现/" class="post-title-link" itemprop="url">一个操作系统的实现笔记：引导扇区实现</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-10 22:32:31" itemprop="dateCreated datePublished" datetime="2020-01-10T22:32:31+08:00">2020-01-10</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-05 19:28:16" itemprop="dateModified" datetime="2020-02-05T19:28:16+08:00">2020-02-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>实验环境：<br>   · ubuntu18.04<br>   · qemu<br>   · nasm</p>
+<p>1.安装需软件</p>
+<ul>
+<li><p>qemu安装，请<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li><p>nasm安装 <code>sudo apt-get install nasm</code></p>
+</li>
+</ul>
+<p>2.编写引导扇区代码<code>a.asm</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	org	07c00h			; 告诉编译器程序加载到7c00处</span><br><span class="line">	mov	ax, cs</span><br><span class="line">	mov	ds, ax</span><br><span class="line">	mov	es, ax</span><br><span class="line">	call	DispStr			; 调用显示字符串例程</span><br><span class="line">	jmp	$			; 无限循环</span><br><span class="line">DispStr:</span><br><span class="line">	mov	ax, BootMessage ;将字符串首地址传递给寄存器ax</span><br><span class="line">	mov	bp, ax			; ES:BP = 串地址,指向BootMessage</span><br><span class="line">	mov	cx, 16			; CX = 串长度</span><br><span class="line">	mov	ax, 01301h		; AH = 13,  AL = 01h</span><br><span class="line">	mov	bx, 000ch		; 页号为0(BH = 0) 黑底红字(BL = 0Ch,高亮)</span><br><span class="line">	mov	dl, 0</span><br><span class="line">	int	10h			; 10h 号中断</span><br><span class="line">	ret</span><br><span class="line">BootMessage:		db	&quot;Hello, OS world!&quot;</span><br><span class="line">times 	510-($-$$)	db	0	; 填充剩下的空间，使生成的二进制代码恰好为512字节;表示将这个字节重复510-($-$$)遍。</span><br><span class="line">dw 	0xaa55				; 结束标志</span><br></pre></td></tr></table></figure></p>
+<p>代码分析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$表示当前行被汇编后的地址</span><br><span class="line">$$表示一个节(section)的开始处被汇编后的地址。在这里,我们的程序只有1个节,所以$$实际上就表示程序被编译后的开始地址。</span><br><span class="line"></span><br><span class="line">从第10行开始为调用10hk号中断做准备(10h号中断是由BIOS对显示提供的服务),设置寄存器的值</span><br><span class="line">AH:往屏幕中写入字符串</span><br><span class="line">AL:写模式,bit 0(0位置零):写入字符串后更新光标; bit 1(1位置1):字符串中包括字符和属性;bit 2-7为保留位</span><br><span class="line">BH: 页码</span><br><span class="line">BL:如果字符串只包括characters,BL为字符串的属性</span><br><span class="line">CX:字符串长度</span><br><span class="line">DH,DL: 写字符串的起始列与行</span><br></pre></td></tr></table></figure></p>
+<p>3.生成启动镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nasm a.asm -o a.bin</span><br><span class="line">dd if=a.bin of=a.img bs=512 count=1 conv=notrunc</span><br></pre></td></tr></table></figure></p>
+<p>4.使用<code>QEMU</code>引导软盘映像文件<code>a.img</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img  # 根据自己情况适当修改文件路径</span><br></pre></td></tr></table></figure></p>
+<p>启动后效果如下：<br><img src="http://img.hysyeah.top/2020/1/10/qemu-boot-hello-os-world.png" alt="image"></p>
+<p>至此一个简单的”操作系统”已经完成。</p>
+<hr>
+<p>5.调试我们写的引导扇区代码</p>
+<ul>
+<li><p>启动qemu,等待gdb连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动gdb<code>gdb -n -x .gdbinit</code>,设置断点,观察寄存器的值<br><code>p/x $cs</code>显示寄存器<code>cs</code>的值</p>
+</li>
+</ul>
+<p><code>.gdbinit</code>文件内容：设置<code>gdb</code>连接到时<code>QEMU</code>并调试早期启动的16位代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">set $lastcs = -1</span><br><span class="line"></span><br><span class="line">define hook-stop</span><br><span class="line">  # There doesn&apos;t seem to be a good way to detect if we&apos;re in 16- or</span><br><span class="line">  # 32-bit mode, but we always run with CS == 8 in 32-bit mode.</span><br><span class="line">  if $cs == 8 || $cs == 27</span><br><span class="line">    if $lastcs != 8 &amp;&amp; $lastcs != 27</span><br><span class="line">      set architecture i386</span><br><span class="line">    end</span><br><span class="line">    x/i $pc</span><br><span class="line">  else</span><br><span class="line">    if $lastcs == -1 || $lastcs == 8 || $lastcs == 27</span><br><span class="line">      set architecture i8086</span><br><span class="line">    end</span><br><span class="line">    # Translate the segment:offset into a physical address</span><br><span class="line">    printf &quot;[%4x:%4x] &quot;, $cs, $eip</span><br><span class="line">    x/i $cs*16+$eip</span><br><span class="line">  end</span><br><span class="line">  set $lastcs = $cs</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">echo + target remote localhost:26000\n</span><br><span class="line">target remote localhost:26000</span><br><span class="line"># If this fails, it&apos;s probably because your GDB doesn&apos;t support ELF.</span><br><span class="line"># Look at the tools page at</span><br><span class="line">#  http://pdos.csail.mit.edu/6.828/2009/tools.html</span><br><span class="line"># for instructions on building GDB with ELF support.</span><br><span class="line">echo + symbol-file obj/kern/kernel\n</span><br><span class="line">symbol-file obj/kern/kernel</span><br></pre></td></tr></table></figure></p>
+<p>gdb相关命令请查看<a href="http://visualgdb.com/gdbreference/commands/" target="_blank" rel="noopener">http://visualgdb.com/gdbreference/commands/</a></p>
+<p>参考：<br>1.<a href="https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/" target="_blank" rel="noopener">https://123xzy.github.io/2019/03/08/MIT-6-828-Lab-Guide/</a><br>2.<a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">Orange’S：一个操作系统的实现</a><br>3.<a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/qemu.1" target="_blank" rel="noopener">qemu</a><br>4.<a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb</a><br>5.<a href="https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm" target="_blank" rel="noopener">Intel 80386 Reference Programmer’s Manual</a><br>7.<a href="https://pdos.csail.mit.edu/6.828/2018/labs/lab1/" target="_blank" rel="noopener">lab1</a><br>8.<a href="http://www.ctyme.com/intr/rb-0210.htm" target="_blank" rel="noopener">Interrupts</a><br>9.<a href="https://en.wikipedia.org/wiki/INT_10H" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/INT_10H</a><br>10.<a href="http://visualgdb.com/gdbreference/commands/x" target="_blank" rel="noopener">http://visualgdb.com/gdbreference/commands/x</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/12/22/go-接收者/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2284,244 +2465,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/01/k8s之hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/01/k8s之hello-world/" class="post-title-link" itemprop="url">k8s之hello-world</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-01 01:33:59" itemprop="dateCreated datePublished" datetime="2019-08-01T01:33:59+08:00">2019-08-01</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-05 23:32:52" itemprop="dateModified" datetime="2019-08-05T23:32:52+08:00">2019-08-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/容器/" itemprop="url" rel="index"><span itemprop="name">容器</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>环境：CentOs 7.2</p>
-<p>一、使用k8s搭建hello-world,安装kubernetes<br>1.关闭CentOS自带的防火墙<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl disable firewalld</span><br><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure></p>
-<p>2.安装etcd和kubernetes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y etcd kubernetes</span><br></pre></td></tr></table></figure></p>
-<p>3.修改配置文件/etc/sysconfig/docker和/etc/kubernetes/apiserver为如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/sysconfig/docker/</span><br><span class="line"></span><br><span class="line">OPTIONS=&apos;--selinux-enabled=false --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 将--admission-control参数中的ServiceAccount删除</span><br><span class="line">/etc/kubernetes/apiserver</span><br><span class="line">KUBE_ADMISSION_CONTROL=&quot;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota&quot;</span><br></pre></td></tr></table></figure>
-<p>4.按如下顺序启动所有的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl start etcd</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl start kube-apiserver</span><br><span class="line">systemctl start kube-controller-manager</span><br><span class="line">systemctl start kube-scheduler</span><br><span class="line">systemctl start kubelet</span><br><span class="line">systemctl start kube-proxy</span><br></pre></td></tr></table></figure></p>
-<p>二、搭建hello-world案例<br><img src="http://img.hysyeah.top/2019/08/01/helloworld-k8s.png" alt="image"><br>1.拉取镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull kubeguide/guestbook-php-frontend  # php web服务</span><br><span class="line">docker pull kubeguide/redis-master</span><br><span class="line">docker pull kubeguide/guestbook-redis-slave</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>创建redis-master Pod和服务</li>
-</ol>
-<ul>
-<li><p>为redis-master服务创建名为redis-master的RC定义文件：redis-master-controller.yaml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ReplicationController</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-master</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-master</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-master</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        name: redis-master</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: master</span><br><span class="line">        image: kubeguide/redis-master</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 6379</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布到集群中<br><code>kubectl create -f redis-master-controller.yaml</code></p>
-</li>
-<li><p>创建与之关联的Service,编辑文件<code>redis-master-service.yaml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-master</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-master</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 6379</span><br><span class="line">    targetPort: 6379</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布Service<br><code>kubectl create -f redis-master-service.yaml</code></p>
-</li>
-</ul>
-<p>3.创建redis-slave Pod和服务</p>
-<ul>
-<li><p>创建Pod<br><code>vim redis-slave-controller.yaml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ReplicationController</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-slave</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-slave</span><br><span class="line">spec:</span><br><span class="line">  replicas: 2</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-slave</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        name: redis-slave</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: slave</span><br><span class="line">        image: kubeguide/guestbook-redis-slave</span><br><span class="line">        env:</span><br><span class="line">        - name: GET_HOSTS_FROM</span><br><span class="line">          value: env</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 6379</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布Pod到集群<br><code>kubectl  create -f redis-slave-controller.yaml</code></p>
-</li>
-<li><p>创建Service<br><code>vim redis-slave-service.yaml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-slave</span><br><span class="line">  labels:</span><br><span class="line">    name: redis-slave</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 6379</span><br><span class="line">  selector:</span><br><span class="line">    name: redis-slave</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布服务<br><code>kubectl create -f redis-slave-service.yaml</code></p>
-</li>
-</ul>
-<p>4.创建frontend Pod和服务</p>
-<ul>
-<li><p>创建Pod<br><code>vim frontend-controller.yaml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ReplicationController</span><br><span class="line">metadata:</span><br><span class="line">  name: frontend</span><br><span class="line">  labels:</span><br><span class="line">    name: frontend</span><br><span class="line">spec:</span><br><span class="line">  replicas: 3</span><br><span class="line">  selector:</span><br><span class="line">    name: frontend</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        name: frontend</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">        - name: frontend</span><br><span class="line">          image: kubeguide/guestbook-php-frontend</span><br><span class="line">          env:</span><br><span class="line">            - name: GET_HOSTS_FROM</span><br><span class="line">              value: env</span><br><span class="line">          ports:</span><br><span class="line">            - containerPort: 80</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布Pod到集群<br><code>kubectl create -f frontend-controller.yaml</code></p>
-</li>
-<li><p>创建服务<br><code>vim frontend-service.yaml</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: frontend</span><br><span class="line">  labels:</span><br><span class="line">    name: frontend</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  ports:</span><br><span class="line">    - port: 80</span><br><span class="line">      nodePort: 30001</span><br><span class="line">  selector:</span><br><span class="line">    name: frontend</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布Service<br><code>kubectl create -f frontend-service.yaml</code></p>
-</li>
-</ul>
-<p>5.查看Pod和服务状态<br><img src="http://img.hysyeah.top/2019/08/01/helloworld-status.png" alt="image"></p>
-<p>集群中其它Pod如何访问redis-master中的服务？<br>redis-master服务被分配了一个值为10.254.187.40的虚拟IP,kubernetes集群中的其它Pod就可以通过这个IP访问redis-master服务。由于IP地址是在服务创建后由kebernetes系统自动分配的,其它Pod中无法预先知道某个Service的虚拟IP,为此kuberntes通过使用环境变量来实现服务发现,在每个Pod的容器里都增加了一组Service相关的环境变量,用来记录从服务名到虚拟IP地址的映射关系。<br><img src="http://img.hysyeah.top/2019/08/04/frontend_env.png" alt="image"><br><img src="http://img.hysyeah.top/2019/08/04/redis_slave_env.png" alt="image"></p>
-<p>5.通过浏览器访问网页,输入URL: <a href="http://虚拟机IP:30001" target="_blank" rel="noopener">http://虚拟机IP:30001</a><br><img src="http://img.hysyeah.top/2019/08/01/k8s-guestbook.png" alt="image"></p>
-<hr>
-<p>在创建过程中可能会用到的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods    #查看pod状态</span><br><span class="line">kubectl get rc      #查看RC</span><br><span class="line">kubectl get service #查看服务</span><br><span class="line"></span><br><span class="line">kubectl logs [pod-name]   # 查看日志</span><br><span class="line">kubectl delete pods [pod-name]  #删除pod</span><br><span class="line">kubectl delete rc [rc-name]          #删除rc</span><br><span class="line">kubectl delete service [service-name]   #删除服务</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>所遇问题：<br>1.docker启动失败,提示Error starting daemon: SELinux is not supported with the overlay2 graph driver on this kernel. Either boot into a newer kernel or disable selinux in docker (—selinux-enabled=false)</p>
-<p><code>vim /etc/sysconfig/docker</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS=&apos;--selinux-enabled --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure></p>
-<p>改为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS=&apos;--selinux-enabled=false --log-driver=journald --signature-verification=false&apos;</span><br></pre></td></tr></table></figure>
-<p>2.创建pod一直处于ContainerCreating状态,原因是不能拉取pod的基础镜像,[<a href="https://blog.csdn.net/weixin_34054866/article/details/87525597" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34054866/article/details/87525597</a>]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install -y *rhsm*</span><br><span class="line"> </span><br><span class="line">wget http://mirror.centos.org/centos/7/os/x86_64/Packages/python-rhsm-certificates-1.19.10-1.el7_4.x86_64.rpm</span><br><span class="line"> </span><br><span class="line">rpm2cpio python-rhsm-certificates-1.19.10-1.el7_4.x86_64.rpm | cpio -iv --to-stdout ./etc/rhsm/ca/redhat-uep.pem | tee /etc/rhsm/ca/redhat-uep.pem</span><br></pre></td></tr></table></figure></p>
-<p>3.启动frontend pod时报错, AH00534: apache2: Configuration error: No MPM loaded<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker              //停掉docker服务</span><br><span class="line">rm -rf /var/lib/docker             //注意会清掉docker images的镜像,需重新拉取镜像</span><br><span class="line">vi /etc/sysconfig/docker-storage   //将文件里的overlay2改成devicemapper即可</span><br><span class="line">DOCKER_STORAGE_OPTIONS=&quot;--storage-driver overlay2 &quot;  #修改前</span><br><span class="line">DOCKER_STORAGE_OPTIONS=&quot;--storage-driver devicemapper &quot;   #修改后</span><br></pre></td></tr></table></figure></p>
-<p>重启docker服务<br><code>systemctl start docker</code></p>
-<hr>
-<p>参考：<br>1.kubernetes权威指南<br>2.<a href="https://blog.csdn.net/a1010256340/article/details/80106156" target="_blank" rel="noopener">https://blog.csdn.net/a1010256340/article/details/80106156</a><br>3.<a href="https://blog.csdn.net/weixin_34054866/article/details/87525597" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34054866/article/details/87525597</a><br>4.<a href="https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html" target="_blank" rel="noopener">https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2563,7 +2511,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">230</span>
+                    <span class="site-state-item-count">231</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

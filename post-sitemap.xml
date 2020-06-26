@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2020/06/24/k8s%E4%BB%A3%E7%A0%81%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/</loc>
+        <lastmod>2020-06-26T10:16:34.028Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2020/06/24/Golang-prng/</loc>
         <lastmod>2020-06-24T12:48:11.551Z</lastmod>
         <changefreq>weekly</changefreq>

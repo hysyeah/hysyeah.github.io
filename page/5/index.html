@@ -380,6 +380,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/27/mysql之隔离级别(isolation level)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/27/mysql之隔离级别(isolation level)/" class="post-title-link" itemprop="url">mysql之隔离级别(isolation level)</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-27 07:09:12" itemprop="dateCreated datePublished" datetime="2019-04-27T07:09:12+08:00">2019-04-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、ACID：事务的4个特性"><a href="#一、ACID：事务的4个特性" class="headerlink" title="一、ACID：事务的4个特性"></a>一、ACID：事务的4个特性</h3><ul>
+<li>原子性(atomicity):在一个事务中，操作要么成功，要么失败。如果事务中有一个命令失败，必须回滚操作，回到事务执行之前的状态。</li>
+<li>一致性(consistency):事务在完成时，必须使所有的数据都保持一致状态。</li>
+<li>隔离性(isolation):事务在查看数据时数据所处的状态，要么是另一并发事务修改它之前的状态，要么是另一事务修改它之后的状态，事务是不会查看中间状态的。</li>
+<li>持久性(durability):事务完成之后，它对于系统的影响是永久性的。</li>
+</ul>
+<h3 id="二、隔离级别-ACID中的I"><a href="#二、隔离级别-ACID中的I" class="headerlink" title="二、隔离级别(ACID中的I)"></a>二、隔离级别(ACID中的I)</h3><h6 id="InnoDB提供四种隔离级别"><a href="#InnoDB提供四种隔离级别" class="headerlink" title="InnoDB提供四种隔离级别"></a><code>InnoDB</code>提供四种隔离级别</h6><ul>
+<li>READ UNCOMMITTED: 读未提交</li>
+<li>READ COMMITTED: 读已提交</li>
+<li>REPEATABLE READ: 重复读</li>
+<li>SERIALIZABLE: 串行化</li>
+</ul>
+<p>不一致情况： 脏读：一个事务读取了另一个未提交事务写入的数据。 不可重复读：指一个事务重新读取前面读取过的数据时，发现该数据已经被另一个已提交事务修改了。 幻读：一个事务开始后，需要根据数据库中现有的数据做一些更新，于是重新执行一个查询，返回一套符合查询条件的行，这是发现这些行因为其他最近提交的事务而发生了改变，导致现有的事务如果再进行下去就可能会在逻辑上出现一些错误。（幻读，并不是说两次读取获取的结果集不同，幻读侧重的方面是某一次的 select 操作得到的结果所表征的数据状态无法支撑后续的业务操作。更为具体一些：select 某记录是否存在，不存在，准备插入此记录，但执行 insert 时发现此记录已存在，无法插入，此时就发生了幻读。）</p>
+<h5 id="事务隔离级别的行为"><a href="#事务隔离级别的行为" class="headerlink" title="事务隔离级别的行为"></a>事务隔离级别的行为</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读未提交</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>读已提交</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>重复读</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>可串行化</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>模拟发生幻读：</p>
+<h5 id="事务1"><a href="#事务1" class="headerlink" title="事务1"></a>事务1</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png" alt></p>
+<h5 id="事务2"><a href="#事务2" class="headerlink" title="事务2"></a>事务2</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB2.png" alt> 事务1：检查表中是否有<code>id=10</code>的记录，没有则插入，这是正常逻辑。 事务2: 干拢了事务1的正常执行。</p>
+<hr>
+<p>用户可以通过<code>SET TRANSACTION</code>命令改变隔离级别，或通过<code>--transaction-isolation</code>配置server级别的隔离性。 <code>MySQL</code>通过使用不同的锁策略实现不同的隔离级别，默认隔离级别是<code>REPEATABLE READ</code>，以提供更高级别的一致性。你也可以指定隔离级别为<code>READ COMMITTED</code>甚至<code>READ UNCOMMITTED</code>一致性要求没那么高的场景(减少锁以提高性能)。<code>SERIALIZABLE</code>提供比<code>REPEATABLE</code>更严格的 规则，一般会用于一些特殊的场景，比如XA事务和用于调试并发或死锁问题。</p>
+<hr>
+<h5 id="REPEATABLE-READ"><a href="#REPEATABLE-READ" class="headerlink" title="REPEATABLE READ"></a>REPEATABLE READ</h5><p>这是MySQL的默认隔离级别。在同一事务中的读取的数据是一致的，在第一次读时会建立一个快照，同一事务中读取到的都是第一个快照中的值。也就是说在同一个事务中，SELECT(noblocking)所获取到的数据都是一致的。对于<code>REPEATABLE READ</code>隔离级别总是读取事务开始时的行数据。</p>
+<hr>
+<h5 id="READ-COMMITTED-读已提交"><a href="#READ-COMMITTED-读已提交" class="headerlink" title="READ COMMITTED 读已提交"></a>READ COMMITTED 读已提交</h5><p>每一次读都会建立一个新的快照并从中读取数据,它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 对于<code>READ COMMITTED</code>只支持 row-based的binlog。 其它影响： - 对于<code>UPDATE</code>,<code>DELETE</code>操作，<code>InnoDB</code>只会锁住需要需要更新或删除的行。对于不匹配的行，在执行完<code>WHERE</code>语句后锁会释放。这极大的降低了死锁的概率，但还是有可能发生。 - 对于<code>UPDATE</code>操作，如果行已经被加锁，<code>InnoDB``表现为semi-consistent读，将返回最近提交的版本，</code>MySQL<code>再决定是否符合</code>WHERE<code>条件。如果匹配，</code>MySQL```会重新读取这行，然后获取锁或者等待锁。</p>
+<hr>
+<h5 id="READ-UNCOMMITTED"><a href="#READ-UNCOMMITTED" class="headerlink" title="READ UNCOMMITTED"></a>READ UNCOMMITTED</h5><p><code>SELECT</code>表现为nonlocking fashion,但是可能会读取到旧版本的数据，所以这种隔离级别不保持一致性读，也称为脏读。</p>
+<hr>
+<h5 id="SERIALIZABLE"><a href="#SERIALIZABLE" class="headerlink" title="SERIALIZABLE"></a>SERIALIZABLE</h5><p><code>SERIALIZABLE</code>和<code>REPEATABLE READ</code>隔离级别类似，当<code>autocommit=false</code>情况下，所有<code>SELECT</code>语句会被转换为<code>SELECT ... LOCK IN SHARE MODE</code>。</p>
+<hr>
+<p>示例： <code>MySQL</code>默认隔离级别为： <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/iso_repeatable_read.png" alt> 在<code>REPEATABLE READ</code>隔离级别情况下，开启两个session,先左边的窗口开启一个事务读取表a中的数据，然后右边的窗口再开启个事务对表a数据进行修改，右边的事务提交后，在左边的事务再次查看表a中的数据。发现两次得到的数据是一致性的，因为对于<code>REPEATABLE READ</code>隔离级别总是读取事务开始时的行数据。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/example_repeatable_read.png" alt> 在<code>READ COMMITTED</code>隔离级别重复上述的操作,发现在右边的事务提交后再查看表a的数据，此时表a的数据已更新。因为在这个隔离级别下，它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/committed_read.png" alt></p>
+<hr>
+<p>参考： 1.<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html" target="_blank" rel="noopener">innodb-transaction-isolation-levels</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/12/mysqldump/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2062,191 +2300,11 @@ pip3 install line_profiler
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/20/mysql shell 批量恢复/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/20/mysql shell 批量恢复/" class="post-title-link" itemprop="url">mysql shell 批量恢复</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-20 19:29:17" itemprop="dateCreated datePublished" datetime="2019-03-20T19:29:17+08:00">2019-03-20</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>有多个mysql的数据文件在文件夹在tmp文件夹下</p>
-<pre><code>ls /root/tmp
-network.dump igw.dump vpn.dump vpc.dump
-</code></pre><p>编写shell恢复数据</p>
-<pre><code>#!/root/tmp
-for elt in $(ls *.dump)
-do
-  echo &quot;restore database $elt&quot;
-  mysql -uroot -pxxxxx ${elt%%.*} &lt; $elt
-done
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2288,7 +2346,7 @@ done
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">230</span>
+                    <span class="site-state-item-count">231</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
