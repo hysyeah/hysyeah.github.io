@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="Go 1.11和1.12已经基本上支持Go Modules,Go的新依赖管理系统，更好的管理依赖的版本信息。 新建一个module在$GOPATH/src目录之外新建一个目录hello,并新建一个文件server.go123456789101112131415161718192021➜  gopro mkdir hello➜  gopro cd hello➜  hello vim hello.go">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-27T10:45:43.564Z">
+<meta property="og:updated_time" content="2020-06-27T10:50:03.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="go-module的使用">
 <meta name="twitter:description" content="Go 1.11和1.12已经基本上支持Go Modules,Go的新依赖管理系统，更好的管理依赖的版本信息。 新建一个module在$GOPATH/src目录之外新建一个目录hello,并新建一个文件server.go123456789101112131415161718192021➜  gopro mkdir hello➜  gopro cd hello➜  hello vim hello.go">
@@ -427,7 +427,7 @@
                 
               
 
-              <time title="创建时间：2020-06-27 15:10:39 / 修改时间：18:45:43" itemprop="dateCreated datePublished" datetime="2020-06-27T15:10:39+08:00">2020-06-27</time>
+              <time title="创建时间：2020-06-27 15:10:39 / 修改时间：18:50:03" itemprop="dateCreated datePublished" datetime="2020-06-27T15:10:39+08:00">2020-06-27</time>
             </span>
           
 
@@ -493,7 +493,51 @@
 <p>因为构建单个软件包（例如使用go build或go test）可以轻松判断出什么时候缺少什么东西和需要添加什么东西，但是不能确定什么时候可以安全地删除东西。 仅在检查模块中的所有软件包以及这些软件包的所有可能的构建标记组合之后，才能删除依赖项。 普通的build命令不会加载此信息，因此它不能安全地删除依赖项。</p>
 <p>使用<code>go mod tidy</code>命令清除未使用的依赖。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go mod tidy</span><br><span class="line">➜  hello go list -m all</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
 <hr>
-<p><code>go mod</code>相关命令:<br>|COMMAND|DESC|<br>|—-|——|<br>|download  |  download modules to local cache|<br>|edit     |   edit go.mod from tools or scripts|<br>|graph   |    print module requirement graph|<br>|init   |     initialize new module in current directory|<br>|tidy  |      add missing and remove unused modules|<br>|vendor |     make vendored copy of dependencies|<br>|verify|      verify dependencies have expected content|<br>|why|         explain why packages or modules are needed| </p>
+<p><code>go mod</code>相关命令:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>COMMAND</th>
+<th>DESC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>download</td>
+<td>download modules to local cache</td>
+</tr>
+<tr>
+<td>edit</td>
+<td>edit go.mod from tools or scripts</td>
+</tr>
+<tr>
+<td>graph</td>
+<td>print module requirement graph</td>
+</tr>
+<tr>
+<td>init</td>
+<td>initialize new module in current directory</td>
+</tr>
+<tr>
+<td>tidy</td>
+<td>add missing and remove unused modules</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>make vendored copy of dependencies</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>verify dependencies have expected content</td>
+</tr>
+<tr>
+<td>why</td>
+<td>explain why packages or modules are needed</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 <p>参考：<br>1.<a href="https://blog.golang.org/using-go-modules" target="_blank" rel="noopener">https://blog.golang.org/using-go-modules</a></p>
 
