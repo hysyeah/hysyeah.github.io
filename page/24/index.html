@@ -380,6 +380,1103 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/python迭代器与生成器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/30/python迭代器与生成器/" class="post-title-link" itemprop="url">python迭代器与生成器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-30 22:19:46" itemprop="dateCreated datePublished" datetime="2017-08-30T22:19:46+08:00">2017-08-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Iterable—可迭代 可迭代的序列类型包括，list,str,tuple,非序列类型包括dict,file,任何类只是你定义了<strong>iter</strong>方法就会被看作为可迭代对象。</p>
+<pre><code>In [3]: from collections import Iterable, Iterator
+
+In [4]: class A:
+...:        def __init__(self):
+...:            self.n = 0
+...:        def __iter__(self):
+...:            return self
+...:
+
+In [5]: a = A()
+
+In [6]: isinstance(a, Iterable)
+Out[6]: True
+</code></pre><p>Iterator—迭代器 Iterator必须实现<strong>iter</strong>()和<strong>next</strong>()(python3)或next()(python2)两个方法，组成了迭代器协议。</p>
+<pre><code>In [13]: class yrange:
+...:         def __init__(self, n):
+...:             self.i = 0
+...:             self.n = n
+...:
+...:         def __iter__(self):
+...:             return self
+...:
+...:         def __next__(self):
+...:             if self.i &lt; self.n:
+...:                 i = self.i
+...:                 self.i += 1
+...:                 return i
+...:             else:
+...:                 raise StopIteration()
+...:
+
+In [14]: it = yrange(3)
+
+In [15]: it.__next__()
+Out[15]: 0
+
+In [16]: it.__next__()
+Out[16]: 1
+
+In [17]: it.__next__()
+Out[17]: 2
+
+In [18]: it.__next__()
+---------------------------------------------------------------------------
+StopIteration Traceback (most recent call last)
+&lt;ipython-input-18-a1cc91b7bc73&gt; in &lt;module&gt;()
+----&gt; 1 it.__next__()
+
+&lt;ipython-input-13-55955e9c2cc7&gt; in __next__(self)
+13 return i
+14 else:
+---&gt; 15 raise StopIteration()
+16
+
+StopIteration:
+</code></pre><p>反向迭代一个序列，使用内置的reversed()函数，可以通过在自定义类上实现reversed () 方法来实现反向 迭代。</p>
+<pre><code>In [19]: class yrange:
+...:         def __init__(self, n):
+...:             self.i = 0
+...:             self.n = n
+...:
+...:         def __iter__(self):
+...:             return self
+...:
+...:         def __next__(self):
+...:             if self.i &lt; self.n:
+...:                 i = self.i
+...:                 self.i += 1
+...:                 return i
+...:             else:
+...:                 raise StopIteration()
+...:         def __reversed__(self):
+...:             index = self.n - 1
+...:             while index &gt;= 0:
+...:                 yield index
+...:                 index -= 1
+...:
+
+In [20]: it = reversed(yrange(3))
+
+In [21]: it.__next__()
+Out[21]: 2
+
+In [22]: it.__next__()
+Out[22]: 1
+
+In [23]: it.__next__()
+Out[23]: 0
+</code></pre><p>generator—生成器 生成器是一个返回迭代器对象的函数。它和普通函数看起来一样，除了它包含了yield语句，产生可以通过for循环访问的值，或者可以通过调用<strong>next</strong>方法一次访问一个值。 生成的<strong>iter</strong>()和<strong>next</strong>()方法是自动创建的。。每次next()调用时，生成器再恢复它离开的位置（它记忆语句最 后一次执行的位置和所有的数据值）</p>
+<pre><code>In [25]: def integer():
+...:         i = 1
+...:         while True:
+...:             yield i
+...:             i += 1
+...:
+
+In [26]: i = integer()
+
+In [27]: i
+Out[27]: &lt;generator object integer at 0x7fb940696fc0&gt;
+
+In [29]: i.__next__()
+Out[29]: 1
+</code></pre><p>生成器—send方法,调用send()方法前，必须先调用<strong>next</strong>()方法（pep342)</p>
+<pre><code>In [37]: def double_input():
+...:         while True:
+...:             x = yield
+...:             yield x * 2
+
+In [59]: gen = double_input()
+
+In [60]: gen.__next__()
+
+In [61]: gen.send(4)
+Out[61]: 8
+
+In [62]: gen.send(4)
+
+In [63]: gen.send(4)
+Out[63]: 8
+
+In [64]: gen.__next__()
+
+In [65]: gen.send(5)
+Out[65]: 10
+</code></pre><p>参考： 1.<a href="http://anandology.com/python-practice-book/iterators.html" target="_blank" rel="noopener">http://anandology.com/python-practice-book/iterators.html</a> 2.官方文档</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/pandas数据类型Series及基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/30/pandas数据类型Series及基本操作/" class="post-title-link" itemprop="url">pandas数据类型Series及基本操作</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-30 07:53:24" itemprop="dateCreated datePublished" datetime="2017-08-30T07:53:24+08:00">2017-08-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Series类型的数据由一列数据及与之对应的标签（索引，位于数据的左侧）两部分组成。Series对象本质上 是一个NumPy数组，因此NumPy的数组处理函数同样适用于Series对象。每个Series对象都具有index和values 两大属性。 - index:保存标签信息 - values:保存值 1.创建Series对象</p>
+<pre><code>In [1]: import pandas as pd
+
+In [2]: import numpy as np
+
+In [3]: s1 = pd.Series()
+
+In [4]: s1
+Out[4]: Series([], dtype: float64)
+</code></pre><p>2.Series对象的访问</p>
+<pre><code>In [8]: s2 = pd.Series([1, 3, 5, 7, 9], index=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;])
+
+In [9]: s2
+Out[9]: 
+a    1
+b    3
+c    5
+d    7
+e    9
+dtype: int64
+
+In [10]: s2.values
+Out[10]: array([1, 3, 5, 7, 9])
+
+In [11]: s2.index
+Out[11]: Index([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;], dtype=&#39;object&#39;)
+
+In [12]: s2[&#39;e&#39;]
+Out[12]: 9
+</code></pre><p>3.添加新元素</p>
+<pre><code>In [13]: s2[&#39;f&#39;] = 66
+
+In [14]: s2
+Out[14]: 
+a     1
+b     3
+c     5
+d     7
+e     9
+f    66
+dtype: int64
+</code></pre><p>4.将字典对象转换为Series对象</p>
+<pre><code>In [15]: pd.Series({&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3})
+Out[15]: 
+a    1
+b    2
+c    3
+dtype: int64
+</code></pre><p>5.Series对象的元素提取与切片</p>
+<pre><code>obj.head(n=5) #默认查看对象的前五个数据
+obj.tail(n=5) #默认查看对象最后五个数据
+obj.take()    #通过传入索引值列表来提取元素
+
+In [18]: s2.head()
+Out[18]: 
+a    1
+b    3
+c    5
+d    7
+e    9
+dtype: int64
+
+In [19]: s2.tail()
+Out[19]: 
+c     5
+d     7
+e     9
+f    66
+g    11
+dtype: int64
+
+In [20]: s2.take([2, 4, 0]) #指定索引值
+Out[20]: 
+c    5
+e    9
+a    1
+dtype: int64
+</code></pre><p>6.切片</p>
+<pre><code>In [22]: s2[0:4] #位置切片，不包括结束位置
+Out[22]: 
+a    1
+b    3
+c    5
+d    7
+dtype: int64
+
+In [23]: s2[&#39;a&#39;:&#39;d&#39;] #标签切片，包括结束位置
+Out[23]: 
+a    1
+b    3
+c    5
+d    7
+dtype: int64
+</code></pre><p>7.时间序列 Timestamp对象由Pandas包中的Timestamp()来创建，参数可以为str类型，也可以为datetime类型。</p>
+<pre><code>In [28]: date
+Out[28]: datetime.datetime(2017, 9, 16, 0, 0)
+
+In [29]: date = pd.Timestamp(date)
+
+In [30]: date
+Out[30]: Timestamp(&#39;2017-09-16 00:00:00&#39;)
+</code></pre><p>通过to_datetime()将Series的index属性转换为DatetimeIndex(实际上对于datetime对象，我们可以直接 将其作为index，Pandas会自动将其转换成Timestamp对象</p>
+<pre><code>In [31]: dates = [&#39;2017-01-01&#39;, &#39;2017-01-02&#39;, &#39;2017-01-03&#39;]
+
+In [32]: ts = pd.Series([1, 2, 3], index=pd.to_datetime(dates))
+
+In [33]: ts
+Out[33]: 
+2017-01-01    1
+2017-01-02    2
+2017-01-03    3
+dtype: int64
+
+In [34]: ts.index
+Out[34]: DatetimeIndex([&#39;2017-01-01&#39;, &#39;2017-01-02&#39;, &#39;2017-01-03&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)
+</code></pre><p>8.截取时间段数据</p>
+<pre><code>In [35]: ts[&#39;20170101&#39;]
+Out[35]: 1
+
+In [36]: ts[&#39;2017-01-01&#39;]
+Out[36]: 1
+
+In [37]: ts[&#39;01/01/2017&#39;]
+Out[37]: 1
+
+In [38]: ts[&#39;2017&#39;]
+Out[38]: 
+2017-01-01    1
+2017-01-02    2
+2017-01-03    3
+dtype: int64
+
+In [39]: ts[&#39;2017-01&#39;: &#39;2017-02&#39;]
+Out[39]: 
+2017-01-01    1
+2017-01-02    2
+2017-01-03    3
+dtype: int64
+
+In [41]: ts.truncate(after=&#39;2017-01-02&#39;)
+Out[41]: 
+2017-01-01    1
+2017-01-02    2
+dtype: int64
+</code></pre><p>9.滞后或者超前操作</p>
+<pre><code>In [43]: ts.shift(1) #正数为滞后
+Out[43]: 
+2017-01-01    NaN   #2017-01-01的数据为前一项的数据，但前一项没有数据所以为NaN
+2017-01-02    1.0   # 2017-01-02数据为2017-01-01的数据，所以为1
+2017-01-03    2.0
+dtype: float64
+
+
+In [44]: ts.shift(-1)  #负数为超前
+Out[44]: 
+2017-01-01    2.0
+2017-01-02    3.0
+2017-01-03    NaN
+dtype: float64
+</code></pre><p>10.计算收益率</p>
+<pre><code>In [45]: (ts - ts.shift(1))/ts.shift(1)
+Out[45]: 
+2017-01-01    NaN
+2017-01-02    1.0
+2017-01-03    0.5
+dtype: float64
+
+
+In [124]: a = pd.Series([&#39;a&#39;,&#39;a&#39;,&#39;b&#39;,&#39;c&#39;])
+
+In [125]: a.value_counts()
+Out[125]:
+a    2
+b    1
+c    1
+dtype: int64
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/python魔法变量之__all__/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/30/python魔法变量之__all__/" class="post-title-link" itemprop="url">python魔法变量之__all__</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-30 07:51:46" itemprop="dateCreated datePublished" datetime="2017-08-30T07:51:46+08:00">2017-08-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如果用户写成</p>
+<pre><code>from sound.effects import *
+</code></pre><p>将会发生什么？理想情况下，你是希望到文件系统寻找这个包下的所有的模块，并导入它们。这可能要花费较长的时间，而且可能产生意想不到的副作用，这些作用本应该只有当子模块是显式导入时才会发生。 唯一的解决办法是包的作者为包提供显式的索引。import语句采用以下约定：如果包中的<strong>init</strong>.py代码定义了一个名为<strong>all</strong>的列表，那么在遇到</p>
+<pre><code>from package import *
+</code></pre><p>语句时，会把列表中的所有模块导入。 例如，文件sound/effects/<strong>init</strong>.py可以包含以下代码：</p>
+<pre><code>__all__ = [&quot;echo&quot;, &quot;surround&quot;, &quot;reverse&quot;]
+</code></pre><p>这意味着</p>
+<pre><code>from sound.effects import *
+</code></pre><p>将导入sound包的三个子模块。 如果<strong>all</strong>没有定义，</p>
+<pre><code>from sound.effects import *
+</code></pre><p>不会从sound.effects包中导入所有的子模块到当前命名空间，它只保证sound.effects包已经被导入(可能会运行<strong>init</strong>.py中任何初始化 的代码)，然后导入包中定义的任何名称。这包括 由<strong>init</strong>.py定义的任何的名称（以及显式加载的子模块）。还包括这个包中已经由前面的import 语句显式加载的子模块。 例：</p>
+<pre><code>import sound.effects.echo
+
+import sound.effects.surround
+
+from sound.effects import *
+</code></pre><p>当执行from … import语句时，echo和surround模块被导入当前命名空间，因为前面已经通过import语句显式加载。 参考：官方文档</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/27/numpy中的金融函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/27/numpy中的金融函数/" class="post-title-link" itemprop="url">numpy中的金融函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-27 08:38:36" itemprop="dateCreated datePublished" datetime="2017-08-27T08:38:36+08:00">2017-08-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>fv: Futrue Value          终值
+
+pv:Present Value          现值
+
+npv:Net Present Value 净现值,净现值是指投资方案所产生的【现金净流量】（流入-流出）以资金成本为贴现率折现之后与原始投资额现值的差额
+
+pmt:Payment               每次所要还的本金加利息
+
+ppmt:Principal Payment    每期所还的本金
+
+ipmt:Interst Payment      每期所还的利息
+
+irr:Internal Rate of Return 内部收益率，内部收益率
+
+mirr:Modified Internal Rate of Return 修正内部收益率
+
+nper:Number of periodic payments 付款期数
+
+rate: 利率
+
+
+numpy.fv(rate, nper, pmt, pv, when=&#39;end&#39;)   #计算未来的值
+
+#例子：年利率为5%,每年定期存款14000，40年为累积财富为1691196.84
+
+In [4]: np.fv(0.05, 40-1, -14000, -14000)
+Out[4]: 1691196.839394904
+
+
+numpy.pv(rate, nper, pmt,fv=0.0, when=&#39;end&#39;) #计算现值
+
+#例子：年利率5%，每月投入100，需要投入多少本金才可以在10年后的15682.93
+
+In [8]: np.pv(0.05/12, 10*12, -100, 15692.93)
+Out[8]: -100.00067131625819
+
+
+numpy.pmt(rate, nper, pv, fv=0, when=&quot;end&quot;)#计算每期应还的本金加利息
+
+
+#例子：贷款434000，利率4.66%,240期
+
+In [9]: np.pmt(0.0466/12, 20*12, 434000)
+Out[9]: -2783.3228668907836
+
+
+numpy.ppmt(rate, per, nper, pv, fv=0.0, when=&quot;end&quot;)#计算应还本金
+
+per:表示第几个还款日
+
+#例子：贷款434000，利率4.66%,240期
+
+In [3]: np.ppmt(0.0466/12, 1, 240, 434000)
+Out[3]: -1097.9562002241169
+
+
+numpy.ipmt(rate, per, nper, pv, fv=0.0, when=&quot;end&quot;)#每期应还利息
+
+#例子：贷款434000，利率4.66%,240期
+
+
+In [5]: np.ipmt(0.0466/12, 1, 240, 434000)
+Out[5]: array(-1685.3666666666668)
+
+
+numpy.nper(rate, pmt, pv, fv=0, when=&quot;end&quot;)#计算付款次数
+
+#例子：贷款434000，利率4.66%,每月还款2782
+
+
+In [9]: np.nper(0.0466/12, -2782.14, 434000)
+Out[9]: 240.1684400099434
+
+
+numpy.npv(rate, values)
+
+In [3]: np.npv(0.281,[-100, 39, 59, 55, 20])
+Out[3]: -0.0084785916384513271
+
+
+
+numpy.irr(values) #返回内部收益率
+
+In [5]: np.irr([-100, 39, 59, 55, 20])
+Out[5]: 0.28094842115996066
+
+
+
+numpy.mirr(values, finance_rate, reinvest_rate) #返回修正内部收益率
+
+values：现金流，一个列表，正数代表&#39;收入&#39;或&#39;取款&#39;，负数代表&#39;投资&#39;或&#39;存款&#39;
+
+In [6]: np.mirr([-1000, -4000, 5000, 2000], 0.1, 0.12)
+Out[6]: 0.17908568603489283
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/08/mirr.png" alt="image"></p>
+<hr>
+<p>参考文章： 1.<a href="http://www.jianshu.com/p/9ad131856078" target="_blank" rel="noopener">http://www.jianshu.com/p/9ad131856078</a> 2.<a href="https://en.wikipedia.org/wiki/Modified_internal_rate_of_return#Calculation_of_the_MIRR" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Modified_internal_rate_of_return#Calculation_of_the_MIRR</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/25/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -567,7 +1664,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1206,6 +2303,14 @@
 
   
   
+    
+      
+    
+      
+    
+      
+    
+      
     
       
     

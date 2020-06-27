@@ -380,6 +380,742 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/27/go-module/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/27/go-module/" class="post-title-link" itemprop="url">go-module的使用</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-27 15:10:39 / 修改时间：18:45:43" itemprop="dateCreated datePublished" datetime="2020-06-27T15:10:39+08:00">2020-06-27</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Go 1.11和1.12已经基本上支持<code>Go Modules</code>,<code>Go</code>的新依赖管理系统，更好的管理依赖的版本信息。</p>
+<h4 id="新建一个module"><a href="#新建一个module" class="headerlink" title="新建一个module"></a>新建一个<code>module</code></h4><p>在<code>$GOPATH/src</code>目录之外新建一个目录<code>hello</code>,并新建一个文件<code>server.go</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  gopro mkdir hello</span><br><span class="line">➜  gopro cd hello</span><br><span class="line">➜  hello vim hello.go</span><br><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello, world."</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">➜  hello cat hello_test.go </span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"testing"</span></span><br><span class="line"></span><br><span class="line">func TestHello(t *testing.T) &#123;</span><br><span class="line">    want := <span class="string">"Hello, world."</span></span><br><span class="line">    <span class="keyword">if</span> got := Hello(); got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">"Hello() = %q, want %q"</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到目前为止这个目录包含<code>package</code>,但不是一个<code>module</code>，因为不包含<code>go.mod</code>文件。<br>执行<code>go test</code>,将会提示如下错误(使用的go版本为1.13)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test</span><br><span class="line">go: cannot find main module; see <span class="string">'go help modules'</span></span><br></pre></td></tr></table></figure></p>
+<p>使用<code>go mod init</code>把目录转换成为一个<code>module</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go mod init example.com/hello</span><br><span class="line">go: creating new go.mod: module example.com/hello</span><br><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.002</span>s</span><br><span class="line">➜  hello cat go.mod </span><br><span class="line">module example.com/hello  //定义了 module path,是导入路径的根目录</span><br><span class="line"></span><br><span class="line">go <span class="number">1.13</span></span><br></pre></td></tr></table></figure></p>
+<p><code>go.mod</code>文件一般只出现于<code>module</code>的根目录。如果你在<code>module</code>下面新建了一个子目录(package),｀package<code>会自动被认为是</code>example.com/hello<code>的一部分，导入路径为</code>example.com/hello/world`</p>
+<h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"rsc.io/quote"</span></span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quote.Hello()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行<code>go test</code>命令,该命令会自动下载所需要的包。并将所需的依赖写入到<code>go.mod</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test</span><br><span class="line">go: finding rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">go: downloading rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">go: extracting rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">go: downloading rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">go: extracting rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">go: downloading golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c</span><br><span class="line">go: extracting golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c</span><br><span class="line">go: finding rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">go: finding golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat go.mod </span><br><span class="line">module example.com/hello</span><br><span class="line"></span><br><span class="line">go <span class="number">1.13</span></span><br><span class="line"></span><br><span class="line">require rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br></pre></td></tr></table></figure>
+<p>go命令还维护了一个文件<code>go.sum</code>,里面定义了<code>go.mod</code>包中所需的依赖项。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat go.sum </span><br><span class="line">golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c h1:qgOY6WgZOaTkIIMiVjBQcw93ERBE4m30iBm00nkL0i8=</span><br><span class="line">golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span> h1:w5fcysjrx7yqtD/aO+QwRjYZOKnaM9Uh2b40tElTs3Y=</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span>/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=</span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span> h1:<span class="number">7</span>uVkIFmeBqHfdjD+gZwtXXI+RODJ2Wc4O7MPEh/QiW4=</span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span>/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=</span><br></pre></td></tr></table></figure></p>
+<h4 id="更新依赖"><a href="#更新依赖" class="headerlink" title="更新依赖"></a>更新依赖</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go get golang.org/x/text</span><br><span class="line">go: finding golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">go: downloading golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">go: extracting golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure>
+<p>此时查看依赖项,<code>golang.org/x/text</code>已经被升级到v0.3.3<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m all</span><br><span class="line">go: finding golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">➜  hello cat  go.mod</span><br><span class="line">module example.com/hello</span><br><span class="line"></span><br><span class="line">go <span class="number">1.13</span></span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">	golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span> // indirect</span><br><span class="line">	rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>尝试升级<code>rsc.io/sampler</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go get rsc.io/sampler</span><br><span class="line">go: finding rsc.io/sampler v1<span class="number">.99</span><span class="number">.99</span></span><br><span class="line">go: downloading rsc.io/sampler v1<span class="number">.99</span><span class="number">.99</span></span><br><span class="line">go: extracting rsc.io/sampler v1<span class="number">.99</span><span class="number">.99</span></span><br><span class="line">➜  hello go test</span><br><span class="line">--- FAIL: TestHello (<span class="number">0.00</span>s)</span><br><span class="line">    hello_test.go:<span class="number">8</span>: Hello() = <span class="string">"99 bottles of beer on the wall, 99 bottles of beer, ..."</span>, want <span class="string">"Hello, world."</span></span><br><span class="line">FAIL</span><br><span class="line">exit status <span class="number">1</span></span><br><span class="line">FAIL	example.com/hello	<span class="number">0.002</span>s</span><br></pre></td></tr></table></figure></p>
+<p><code>rsc.io/sampler</code>包是更新成功了，但<code>go test</code>命令执行失败。<br>查看<code>rsc.io/sampler</code>版本信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m -versions rsc.io/sampler</span><br><span class="line">rsc.io/sampler v1<span class="number">.0</span><span class="number">.0</span> v1<span class="number">.2</span><span class="number">.0</span> v1<span class="number">.2</span><span class="number">.1</span> v1<span class="number">.3</span><span class="number">.0</span> v1<span class="number">.3</span><span class="number">.1</span> v1<span class="number">.99</span><span class="number">.99</span></span><br></pre></td></tr></table></figure></p>
+<p>导致出错的原因可能是，<code>rsc.io/sampler@v1.99.99</code>与原来版本的包不兼容所致。我们重新安装<br><code>rsc.io/sampler@v1.3.1</code>然后再进行测试。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go get rsc.io/sampler@v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">go: finding rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">go: downloading rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">go: extracting rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<h4 id="添加对新主版本的依赖"><a href="#添加对新主版本的依赖" class="headerlink" title="添加对新主版本的依赖"></a>添加对新主版本的依赖</h4><p>修改<code>hello.go</code>的内容如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"rsc.io/quote"</span></span><br><span class="line">    quoteV3 <span class="string">"rsc.io/quote/v3"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quote.Hello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Proverb() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quoteV3.Concurrency()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>hello_test.go</code>的内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"testing"</span></span><br><span class="line"></span><br><span class="line">func TestHello(t *testing.T) &#123;</span><br><span class="line">    want := <span class="string">"Hello, world."</span></span><br><span class="line">    <span class="keyword">if</span> got := Hello(); got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">"Hello() = %q, want %q"</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func TestProverb(t *testing.T) &#123;</span><br><span class="line">    want := <span class="string">"Concurrency is not parallelism."</span></span><br><span class="line">    <span class="keyword">if</span> got := Proverb(); got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">"Proverb() = %q, want %q"</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>go test</code>命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test          </span><br><span class="line">go: finding rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">go: downloading rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">go: extracting rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<p>查看<code>rsc.io/quote</code>,发现存在不同版本的两个包。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m rsc.io/q...</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="升级新主版本的依赖"><a href="#升级新主版本的依赖" class="headerlink" title="升级新主版本的依赖"></a>升级新主版本的依赖</h4><p>因为一些原因我们需要将<code>quote</code>升级到<code>V3</code>版本。<br>修改<code>hello.go</code>的内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    quoteV3 <span class="string">"rsc.io/quote/v3"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quoteV3.HelloV3()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Proverb() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quoteV3.Concurrency()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>go test</code>命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<h4 id="移除没有使用的依赖"><a href="#移除没有使用的依赖" class="headerlink" title="移除没有使用的依赖"></a>移除没有使用的依赖</h4><p>在上一步中，我们的代码已经没有使用<code>rsc.io/quote/v1</code>版本，但<code>rsc.io/quote v1.5.2</code>还是存在于依赖中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m all</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
+<p>因为构建单个软件包（例如使用go build或go test）可以轻松判断出什么时候缺少什么东西和需要添加什么东西，但是不能确定什么时候可以安全地删除东西。 仅在检查模块中的所有软件包以及这些软件包的所有可能的构建标记组合之后，才能删除依赖项。 普通的build命令不会加载此信息，因此它不能安全地删除依赖项。</p>
+<p>使用<code>go mod tidy</code>命令清除未使用的依赖。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go mod tidy</span><br><span class="line">➜  hello go list -m all</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><code>go mod</code>相关命令:<br>|COMMAND|DESC|<br>|—-|——|<br>|download  |  download modules to local cache|<br>|edit     |   edit go.mod from tools or scripts|<br>|graph   |    print module requirement graph|<br>|init   |     initialize new module in current directory|<br>|tidy  |      add missing and remove unused modules|<br>|vendor |     make vendored copy of dependencies|<br>|verify|      verify dependencies have expected content|<br>|why|         explain why packages or modules are needed| </p>
+<hr>
+<p>参考：<br>1.<a href="https://blog.golang.org/using-go-modules" target="_blank" rel="noopener">https://blog.golang.org/using-go-modules</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/27/kuberntes-Custom-Resources/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/27/kuberntes-Custom-Resources/" class="post-title-link" itemprop="url">kuberntes Custom Resources</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-27 10:38:05 / 修改时间：11:46:42" itemprop="dateCreated datePublished" datetime="2020-06-27T10:38:05+08:00">2020-06-27</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Custom-resources"><a href="#Custom-resources" class="headerlink" title="Custom resources"></a>Custom resources</h4><p>自定义资源(Custom Resources):是对现有Kubernetes API的一种扩展。当你创建一个<code>CR</code>后，你可以使用<code>kubectl</code>命令，像操作<code>Pod</code>一样操作自定义资源。</p>
+<h4 id="Custom-controllers"><a href="#Custom-controllers" class="headerlink" title="Custom controllers"></a>Custom controllers</h4><p><code>custom resources</code>只是定义了如何存储和查询结构化数据。如果要想<code>CR</code>真正的被使用起来，还需要定义<code>Custom controllers</code>,定义<code>Custom controllers</code>之后才可以真正的提供描述性接口。<br>描述性接口允许你只定义资源所需要达到的理想状态，控制器会为了达到理想状态进行一系列的操作，并维护这个理想状态。｀Operatorr pattern<code>可以使</code>Custom resourcs<code>和</code>Custom controllers`完美结合。</p>
+<h4 id="如何添加custom-resources"><a href="#如何添加custom-resources" class="headerlink" title="如何添加custom resources"></a>如何添加<code>custom resources</code></h4><p>k8s提供了两种方法添加自定义资源到kubernetes集群。</p>
+<p>－ CRD:<a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/" target="_blank" rel="noopener">CustomResourceDefinitions</a>:简单不需要编程</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/" target="_blank" rel="noopener">API Aggregation</a>:功能强大需要编程</li>
+</ul>
+<p>两者使用难度对比：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>CRDs</th>
+<th>Aggregated API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Do not require programming. Users can choose any language for a CRD controller.</td>
+<td>Requires programming in Go and building binary and image.</td>
+</tr>
+<tr>
+<td>No additional service to run; CRDs are handled by API server.</td>
+<td>An additional service to create and that could fail.</td>
+</tr>
+<tr>
+<td>No ongoing support once the CRD is created. Any bug fixes are picked up as part of normal Kubernetes Master upgrades.</td>
+<td>May need to periodically pickup bug fixes from upstream and rebuild and update the Aggregated API server.</td>
+</tr>
+<tr>
+<td>No need to handle multiple versions of your API; for example, when you control the client for this resource, you can upgrade it in sync with the API.</td>
+<td>You need to handle multiple versions of your API; for example, when developing an extension to share with the world.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>参考：<br>1.<a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/" target="_blank" rel="noopener">https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/27/kubernetes-operator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/27/kubernetes-operator/" class="post-title-link" itemprop="url">kubernetes operator</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-27 10:33:45 / 修改时间：10:36:04" itemprop="dateCreated datePublished" datetime="2020-06-27T10:33:45+08:00">2020-06-27</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<p>参考：<br>1.<a href="https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/26/k8s源码结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/26/k8s源码结构/" class="post-title-link" itemprop="url">k8s源码结构</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-26 21:43:34" itemprop="dateCreated datePublished" datetime="2020-06-26T21:43:34+08:00">2020-06-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-27 18:47:09" itemprop="dateModified" datetime="2020-06-27T18:47:09+08:00">2020-06-27</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div class="table-container">
+<table>
+<thead>
+<tr>
+<th>源码目录</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cmd/</td>
+<td>存放可执行文件的入口代码，每个可执行文件都会对应一个main函数</td>
+</tr>
+<tr>
+<td>pkg/</td>
+<td>存放核心库代码，可被项目内部或外部直接引用</td>
+</tr>
+<tr>
+<td>vendor/</td>
+<td>存放项目依赖的库代码，一般为每三方库代码</td>
+</tr>
+<tr>
+<td>api/</td>
+<td>存放OpenAPI/Swagger文件</td>
+</tr>
+<tr>
+<td>build/</td>
+<td>存放构建相关的脚本</td>
+</tr>
+<tr>
+<td>test/</td>
+<td>存放测试工具及测试数据</td>
+</tr>
+<tr>
+<td>docs/</td>
+<td>存放设计或用户使用文档</td>
+</tr>
+<tr>
+<td>hack/</td>
+<td>存放与构建，测试等相关的脚本</td>
+</tr>
+<tr>
+<td>third_party/</td>
+<td>存放第三方工具，代码或其他组件</td>
+</tr>
+<tr>
+<td>plugin/</td>
+<td>存放Kubernetes插件代码目录，例如认证，授权等相关插件</td>
+</tr>
+<tr>
+<td>staging/</td>
+<td>存放部分核心库的暂存目录</td>
+</tr>
+<tr>
+<td>translations/</td>
+<td>存放il8n(国际化)语言包的相关文件，可以在不修改内部代码的情况下支持不同语言及地区</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h6 id="k8s-io-kubernetes-cmd-kubectl-kubectl-go"><a href="#k8s-io-kubernetes-cmd-kubectl-kubectl-go" class="headerlink" title="k8s.io/kubernetes/cmd/kubectl/kubectl.go"></a>k8s.io/kubernetes/cmd/kubectl/kubectl.go</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano()) <span class="comment">//随机数种子</span></span><br><span class="line"></span><br><span class="line">	command := cmd.NewDefaultKubectlCommand()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> once we switch everything over to Cobra commands, we can go back to calling</span></span><br><span class="line">	<span class="comment">// cliflag.InitFlags() (by removing its pflag.Parse() call). For now, we have to set the</span></span><br><span class="line">	<span class="comment">// normalize func and add the go flag set by hand.</span></span><br><span class="line">	pflag.CommandLine.SetNormalizeFunc(cliflag.WordSepNormalizeFunc)</span><br><span class="line">	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)</span><br><span class="line">	<span class="comment">// cliflag.InitFlags()</span></span><br><span class="line">	logs.InitLogs()</span><br><span class="line">	<span class="keyword">defer</span> logs.FlushLogs()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := command.Execute(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>Makefile: 顶层Makefile文件，描述了整个项目所有代码文件的编译顺序，编译规则及编译后的二进制输出等<br>Makefile.generated_files:描述了代码生成的逻辑</p>
+<hr>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install cloc //代码统计工具</span><br></pre></td></tr></table></figure>
+<p>Bazel自动化软件构建和测试工具。</p>
+<p>k8s.io/kubernetes/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/types.go</p>
+<p>结构体，json,protobuf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">type APIResource struct &#123;</span><br><span class="line">	</span><br><span class="line">	Name string `json:<span class="string">"name"</span> protobuf:<span class="string">"bytes,1,opt,name=name"</span>`</span><br><span class="line">	</span><br><span class="line">	SingularName string `json:<span class="string">"singularName"</span> protobuf:<span class="string">"bytes,6,opt,name=singularName"</span>`</span><br><span class="line">	</span><br><span class="line">	Namespaced bool `json:<span class="string">"namespaced"</span> protobuf:<span class="string">"varint,2,opt,name=namespaced"</span>`</span><br><span class="line">	</span><br><span class="line">	Group string `json:<span class="string">"group,omitempty"</span> protobuf:<span class="string">"bytes,8,opt,name=group"</span>`</span><br><span class="line">	</span><br><span class="line">	Version string `json:<span class="string">"version,omitempty"</span> protobuf:<span class="string">"bytes,9,opt,name=version"</span>`</span><br><span class="line">	</span><br><span class="line">	Kind string `json:<span class="string">"kind"</span> protobuf:<span class="string">"bytes,3,opt,name=kind"</span>`</span><br><span class="line">	</span><br><span class="line">	ShortNames []string `json:<span class="string">"shortNames,omitempty"</span> protobuf:<span class="string">"bytes,5,rep,name=shortNames"</span>`</span><br><span class="line"></span><br><span class="line">	Categories []string `json:<span class="string">"categories,omitempty"</span> protobuf:<span class="string">"bytes,7,rep,name=categories"</span>`</span><br><span class="line">	StorageVersionHash string `json:<span class="string">"storageVersionHash,omitempty"</span> protobuf:<span class="string">"bytes,10,opt,name=storageVersionHash"</span>`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 标识一个资源</span><br><span class="line">type GroupVersionResource struct &#123;</span><br><span class="line">	Group    string</span><br><span class="line">	Version  string</span><br><span class="line">	Resource string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type GroupKind struct &#123;</span><br><span class="line">	Group string</span><br><span class="line">	Kind  string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type GroupVersion struct &#123;</span><br><span class="line">	Group   string</span><br><span class="line">	Version string</span><br><span class="line">&#125;</span><br><span class="line">type GroupResource struct &#123;</span><br><span class="line">	Group    string</span><br><span class="line">	Resource string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type GroupVersionKind struct &#123;</span><br><span class="line">	Group   string</span><br><span class="line">	Version string</span><br><span class="line">	Kind    string</span><br><span class="line">&#125;</span><br><span class="line">Kind与Resource有何区别？</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">type TypeMeta struct &#123;</span><br><span class="line">	// Kind <span class="keyword">is</span> a string value representing the REST resource this object represents.</span><br><span class="line">	Kind string `json:<span class="string">"kind,omitempty"</span> protobuf:<span class="string">"bytes,1,opt,name=kind"</span>`</span><br><span class="line"></span><br><span class="line">	APIVersion string `json:<span class="string">"apiVersion,omitempty"</span> protobuf:<span class="string">"bytes,2,opt,name=apiVersion"</span>`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>外部版本的资源定义在<code>vendor/k8s.io/api</code>目录下，完整路径为<code>vendor/k8s.io/api/&lt;group&gt;/&lt;version&gt;/&lt;resource file&gt;</code></p>
+<p><code>kubectl api-versions</code>列出当前支持的资源组和资源版本<br><code>kubectl api-resources</code>列出当前 支持的资源列表</p>
+<h5 id="k8s-io-kubernetes-vendor-k8s-io-apimachinery-pkg-runtime-interfaces-go"><a href="#k8s-io-kubernetes-vendor-k8s-io-apimachinery-pkg-runtime-interfaces-go" class="headerlink" title="k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/interfaces.go"></a>k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/interfaces.go</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// Object interface must be supported by all API types registered <span class="keyword">with</span> Scheme. Since objects <span class="keyword">in</span> a scheme are</span><br><span class="line">// expected to be serialized to the wire, the interface an Object must provide to the Scheme allows</span><br><span class="line">// serializers to set the kind, version, <span class="keyword">and</span> group the object <span class="keyword">is</span> represented <span class="keyword">as</span>. An Object may choose</span><br><span class="line">// to <span class="keyword">return</span> a no-op ObjectKindAccessor <span class="keyword">in</span> cases where it <span class="keyword">is</span> <span class="keyword">not</span> expected to be serialized.</span><br><span class="line">type Object interface &#123;</span><br><span class="line">	GetObjectKind() schema.ObjectKind</span><br><span class="line">	DeepCopyObject() Object</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前Kubernetes系统中的所有资源类型都已注册到Scheme资源注册表中，其是一个内存型的注册表<br>UnversionedType:无版本资源类型<br>KnownType:有版本资源类型</p>
+<p>yamlSerializer使用第三方库gopkg.in/yaml.v2来实现序列化和反序列化操作。</p>
+<p>github.com/json-iteractor/go</p>
+<p>可通过kubectl convert命令进行资源版本转换</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/24/k8s代码编码规范/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1384,752 +2120,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/22/使用cargo管理外部依赖/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/22/使用cargo管理外部依赖/" class="post-title-link" itemprop="url">使用cargo管理外部依赖</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-22 11:40:49 / 修改时间：22:41:29" itemprop="dateCreated datePublished" datetime="2020-03-22T11:40:49+08:00">2020-03-22</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.使用<code>cargo</code>创建项目,会在当前目录下生成<code>hello_cargo</code>文件夹<br><code>cargo new hello_cargo --bin</code></p>
-<p>2.使用<code>Goland</code>打开项目<code>hello_cargo</code>,目录如下。其中<code>Cargo.toml</code>中<code>[package]</code>定义的是关于项目的一些信息,<code>[dependencies]</code>中定义的是外部依赖<br><img src="http://img.hysyeah.top/2020/3/22/hello-cargo.png" alt="image"></p>
-<p>3.引入外部包<code>rand</code>,<a href="https://docs.rs/rand/0.3.14/rand/" target="_blank" rel="noopener">rand</a><br>在<code>Cargo.toml</code>文件<code>[dependencies]</code>下加入<code>rand = &quot;0.3.14&quot;</code></p>
-<p>4.<code>cargo build</code>将会从远端下载<code>rand</code>包,包括<code>rand</code>的依赖包<br><img src="http://img.hysyeah.top/2020/3/22/rand.png" alt="image"></p>
-<p>5.使用外部包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">extern crate rand; //表明rand是外部依赖</span><br><span class="line"></span><br><span class="line">use std::io;</span><br><span class="line">use rand::Rng;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;Guess the number!&quot;);</span><br><span class="line"></span><br><span class="line">    let secret_number = rand::thread_rng().gen_range(1, 101);</span><br><span class="line">    println!(&quot;The secret number is:&#123;&#125;&quot;, secret_number);</span><br><span class="line">    println!(&quot;Please input your guess.&quot;);</span><br><span class="line"></span><br><span class="line">    let mut guess = String::new();</span><br><span class="line">    io::stdin().read_line(&amp;mut guess)</span><br><span class="line">        .expect(&quot;Failed to read line&quot;);</span><br><span class="line"></span><br><span class="line">    println!(&quot;You guessed:&#123;&#125;&quot;, guess);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>6.编译执行<br><img src="http://img.hysyeah.top/2020/3/22/run-rand.png" alt="image"></p>
-<hr>
-<h5 id="cargo相关命令"><a href="#cargo相关命令" class="headerlink" title="cargo相关命令"></a>cargo相关命令</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>command</th>
-<th>desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rustup doc</td>
-<td>打开本地文档</td>
-</tr>
-<tr>
-<td>rustc main.rs</td>
-<td>编译</td>
-</tr>
-<tr>
-<td>rustup update</td>
-<td>更新Rust工具链和rustup</td>
-</tr>
-<tr>
-<td>cargo new <app_name> —bin</app_name></td>
-<td>新建一个可执行应用</td>
-</tr>
-<tr>
-<td>cargo build</td>
-<td>生成可执行文件</td>
-</tr>
-<tr>
-<td>cargo build —release</td>
-<td>生成可发布的执行文件,Rust有做一些优化</td>
-</tr>
-<tr>
-<td>cargo run</td>
-<td>如果存在目标文件,且Rust认为代码没有改变,则直接执行可执行文件;如果源码改变或可执行文件不存在,则编译后再执行</td>
-</tr>
-<tr>
-<td>cargo check</td>
-<td>检查代码是否能正确编译,速度当然比cargo build,因为不产生可执行文件,编码中用于快速检查代码是否有问题</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>使用过程中遇到的问题：<br>Caused by:<br>  error authenticating: failed connecting agent; class=Ssh (23)<br><img src="http://img.hysyeah.top/2020/3/22/cargo-error.png" alt="image"><br>解决方法：将~/.gitconfig中的两行内容注释,<code>Windows</code>下路径为<code>C:\Users\Administrator\</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#[url &quot;git@github.com:&quot;]</span><br><span class="line"># 	insteadOf = https://github.com/</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>参考：<br>1.<a href="https://doc.rust-lang.org/book/" target="_blank" rel="noopener">The Rust Programming Language</a><br>2.<a href="https://github.com/rust-lang/cargo/issues/3381" target="_blank" rel="noopener">https://github.com/rust-lang/cargo/issues/3381</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/21/记录Rust-Hello-Word/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/21/记录Rust-Hello-Word/" class="post-title-link" itemprop="url">记录Rust Hello Word</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-21 07:04:06 / 修改时间：08:57:58" itemprop="dateCreated datePublished" datetime="2020-03-21T07:04:06+08:00">2020-03-21</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.安装<code>Rust</code><br>官网<a href="https://www.rust-lang.org/zh-CN/tools/install" target="_blank" rel="noopener">下载</a>直接点击安装即可</p>
-<p>2.在<code>Goland</code>上安装<code>Rust</code>插件<br>在<a href="https://plugins.jetbrains.com/plugin/8182-rust/versions" target="_blank" rel="noopener">rust plugins</a>上下载对应<code>Goland</code>版本的<code>Rust</code>插件。笔者的<code>Goland</code>是<code>2019.1</code>。<br><img src="http://img.hysyeah.top/2020/3/21/goland-rust-plugin.png" alt="image"></p>
-<p>根据如下步骤安装即可,<code>Install Plugin from Disk</code>指定上一步下载的压缩文件。安装好后重启<code>Goland</code><br><img src="http://img.hysyeah.top/2020/3/21/plugin-install-1.png" alt="image"><br><img src="http://img.hysyeah.top/2020/3/21/plugin-install-2.png" alt="image"><br>3.将环境变量<code>%USERPROFILE%\.cargo\bin</code>添加到<code>Path</code><br>4.使用<code>Goland</code>新建一个<code>Rust</code>项目<br><img src="http://img.hysyeah.top/2020/3/21/rust.png" alt="image"></p>
-<p>5.编译执行<code>Rust</code>代码<br><img src="http://img.hysyeah.top/2020/3/21/rust2.png" alt="image"></p>
-<hr>
-<p>过程中遇到的问题：<br>缺少一些库:advapi32.lib,userenv.lib<br>解决方法：直接安装一个<code>visual studio community 2019</code>,问题解决<br><img src="http://img.hysyeah.top/2020/3/21/link-error.png" alt="image"></p>
-<p>参考：<br>1.<a href="https://github.com/rust-lang/rust/issues/43039" target="_blank" rel="noopener">https://github.com/rust-lang/rust/issues/43039</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/20/一个操作系统的实现中使用的命令和工具/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/01/20/一个操作系统的实现中使用的命令和工具/" class="post-title-link" itemprop="url">一个操作系统的实现中使用的命令和工具</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-20 22:11:22" itemprop="dateCreated datePublished" datetime="2020-01-20T22:11:22+08:00">2020-01-20</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-02-06 12:47:24" itemprop="dateModified" datetime="2020-02-06T12:47:24+08:00">2020-02-06</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>对书中所使用到的工具和命令进行记录,方便查看！</p>
-<p>ndisasmv</p>
-<p>bximage</p>
-<p>dd</p>
-<p>xxd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo losetup -f</span><br><span class="line"></span><br><span class="line">mkdir /mnt/floppy</span><br><span class="line"></span><br><span class="line">losetup /dev/loop5 pm.img</span><br><span class="line"></span><br><span class="line">sudo mount /dev/loop5 /mnt/floppy</span><br><span class="line">sudo cp pmtest3.com /mnt/floppy</span><br><span class="line">umount /mnt/floppy</span><br><span class="line"></span><br><span class="line">sudo mount -t msdos -o loop pm.img /mnt/floppy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x/4xw 0x7c14</span><br><span class="line"></span><br><span class="line">qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S</span><br></pre></td></tr></table></figure>
-<hr>
-<p>错误集锦：<br>hys@hys:~/code/6828/src/orange/ch3/b$ sudo mount -t msdos -o loop pm.img /mnt/floppy<br>mount: /mnt/floppy: wrong fs type, bad option, bad superblock on /dev/loop22, missing codepage or helper program, or other error.</p>
-<p>需启动bochs<br>然后进行初始化: format b:<br>然后再执行mount命令</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/13/2020书单/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/01/13/2020书单/" class="post-title-link" itemprop="url">2020书单</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-13 20:44:41" itemprop="dateCreated datePublished" datetime="2020-01-13T20:44:41+08:00">2020-01-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-02-23 21:45:14" itemprop="dateModified" datetime="2020-02-23T21:45:14+08:00">2020-02-23</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在此先列一个计划</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>类别</th>
-<th>书名</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>编译原理</td>
-<td><a href="https://book.douban.com/subject/11628134/" target="_blank" rel="noopener">Programing Languages:Application and Interpretation</a>(cs3520)  <br><a href="https://book.douban.com/subject/1148282/" target="_blank" rel="noopener">SICP</a><br><a href="https://github.com/zpoint/CPython-Internals" target="_blank" rel="noopener">python源码剖析(zpoint/cpython-internals)</a></td>
-</tr>
-<tr>
-<td>计算机基础</td>
-<td><a href="www.cs.cmu.deu/~213/schedule.html">深入理解计算机基础</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System: Principles and Practice</a><br><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating systems three easy pieces</a><br><a href="https://book.douban.com/subject/1782316/" target="_blank" rel="noopener">Concepts,techniques and models of computer programming</a></td>
-</tr>
-<tr>
-<td>设计模式</td>
-<td><a href="https://book.douban.com/subject/26829015/" target="_blank" rel="noopener">Mastering python Design patterns</a><br><a href="https://book.douban.com/subject/25843319/" target="_blank" rel="noopener">设计模式之禅</a></td>
-</tr>
-<tr>
-<td>编程语言</td>
-<td><a href="https://book.douban.com/subject/27013197/" target="_blank" rel="noopener">The Rust Programing Language</a><br><a href="https://book.douban.com/subject/27028517/" target="_blank" rel="noopener">Fluent Python</a></td>
-</tr>
-<tr>
-<td>代码能力</td>
-<td><a href="https://book.douban.com/subject/30218046/" target="_blank" rel="noopener">Aphilosophy of Software</a></td>
-</tr>
-<tr>
-<td>框架类</td>
-<td><a href="https://www.grpc.io/" target="_blank" rel="noopener">grpc</a><br><a href="https://doc.akka.io/docs/akka-http/current/index.html?language=scala" target="_blank" rel="noopener">akka</a></td>
-</tr>
-<tr>
-<td>容器</td>
-<td>k8s, istio, knative</td>
-</tr>
-<tr>
-<td>算法</td>
-<td><a href="https://book.douban.com/subject/19952400/" target="_blank" rel="noopener">算法(第4版)</a>,github上的python算法,<br><a href="https://github.com/wangzheng0822/algo" target="_blank" rel="noopener">https://github.com/wangzheng0822/algo</a><br><a href="https://github.com/algorithm-visualizer/algorithm-visualizer" target="_blank" rel="noopener">https://github.com/algorithm-visualizer/algorithm-visualizer</a><br><a href="https://github.com/TheAlgorithms/Python" target="_blank" rel="noopener">https://github.com/TheAlgorithms/Python</a></td>
-</tr>
-<tr>
-<td>数据库</td>
-<td><a href="https://book.douban.com/subject/23008813/" target="_blank" rel="noopener">高性能MySQL</a><br><a href="https://book.douban.com/subject/34804798/" target="_blank" rel="noopener">Redis设计与源码分析</a><br><a href="https://book.douban.com/subject/25900156/" target="_blank" rel="noopener">Redis设计与实现</a><br><a href="https://book.douban.com/subject/30386804/" target="_blank" rel="noopener">Redis深度历险</a><br><a href="https://book.douban.com/subject/4838430/" target="_blank" rel="noopener">Database system:Implementation 2nd(cmu-15-721)</a></td>
-</tr>
-<tr>
-<td>系统编程</td>
-<td><a href="https://book.douban.com/subject/1788421/" target="_blank" rel="noopener">unix环境高级编程</a><br><a href="https://book.douban.com/subject/1500149/" target="_blank" rel="noopener">unix网络编程</a><br><a href="https://book.douban.com/subject/6097773/" target="_blank" rel="noopener">LINUX内核设计与实现</a></td>
-</tr>
-<tr>
-<td>系统设计</td>
-<td><a href="https://book.douban.com/subject/26197294/" target="_blank" rel="noopener">Designing Data Intensive Applications</a><br><a href="https://book.douban.com/subject/30417742/" target="_blank" rel="noopener">Reactive Design Pattern</a><br><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener">https://github.com/donnemartin/system-design-primer</a></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="https://book.douban.com/subject/6829746/" target="_blank" rel="noopener">A primer on memory consistency and cache coherence</a><br><a href="https://book.douban.com/subject/25732314/" target="_blank" rel="noopener">shared-memory synchronization</a><br><a href="https://book.douban.com/subject/6080692/" target="_blank" rel="noopener">processor micro architecheture: An Implementation perspective</a><br><a href="https://book.douban.com/subject/15306337/" target="_blank" rel="noopener">static program Analysis</a></td>
-</tr>
-<tr>
-<td>操作系统</td>
-<td><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating system:Three easy pieces</a><br><a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">一个操作系统的实现</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System Principles and Practice</a></td>
-</tr>
-<tr>
-<td>协议</td>
-<td><a href="https://book.douban.com/subject/26825411/" target="_blank" rel="noopener">TCP/IP</a></td>
-</tr>
-<tr>
-<td>面试</td>
-<td><a href="https://github.com/0voice/interview_internal_reference" target="_blank" rel="noopener">https://github.com/0voice/interview_internal_reference</a></td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>多思考！！！</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2176,7 +2166,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

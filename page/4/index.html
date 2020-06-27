@@ -380,6 +380,741 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/11/通过keepalived实现neo4j主备切换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/11/通过keepalived实现neo4j主备切换/" class="post-title-link" itemprop="url">通过keepalived实现neo4j主备切换</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-11 22:25:14" itemprop="dateCreated datePublished" datetime="2019-07-11T22:25:14+08:00">2019-07-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.背景：我们使用的是社区版Neo4j不支持集群功能,因此通过对Neo4j进行双写，再通过keepalived实现主备切换</p>
+<p>2.环境：Neo4j服务器A(10.23.4.123),Neo4j服务器B(10.23.4.124),VIP(10.23.4.126),服务器均为CentOs</p>
+<p>3.安装keepalived<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install keepalived</span><br></pre></td></tr></table></figure></p>
+<p>4.修改主机10.23.4.123 keepalived的配置文件/etc/keepalived/keepalived.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id neo4j_master</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_neo4j &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 7687&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance neo4j &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens160</span><br><span class="line">    lvs_sync_daemon_interface ens160</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        10.23.4.126</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_neo4j</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.修改主机10.23.4.124 keepalived的配置文件/etc/keepalived/keepalived.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id neo4j_slave</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_neo4j &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 7687&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance neo4j &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens160</span><br><span class="line">    lvs_sync_daemon_interface ens160</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        10.23.4.126</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_neo4j</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.启动keepalived<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable  keepalived.service</span><br><span class="line">systemctl start  keepalived.service</span><br></pre></td></tr></table></figure></p>
+<p>7.验证</p>
+<ul>
+<li>停止Neo4j-A,在Neo4j-B通过命令ip a查看VIP是否飘到Neo4j-B上</li>
+<li>停止Neo4j-B,在Neo4j-A通过命令ip a查看VIP是否飘到Neo4j-A上</li>
+</ul>
+<h2 id="未完"><a href="#未完" class="headerlink" title="未完"></a>未完</h2>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/13/记wordpress一次坑爹的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/13/记wordpress一次坑爹的问题/" class="post-title-link" itemprop="url">记wordpress一次坑爹的问题</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-13 23:52:02" itemprop="dateCreated datePublished" datetime="2019-06-13T23:52:02+08:00">2019-06-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天晚上发再更新文章时总是提醒<code>/wp-admin/post.php</code>,但 查看服务器发现文件存在，最近也没有安装插件。 多方尝试最后将下图红框中的数据删除，点击保存，问题解决。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/15604410141.png" alt></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp-ip中常见的术语/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/tcp-ip中常见的术语/" class="post-title-link" itemprop="url">tcp/ip中常见的术语</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 21:54:05" itemprop="dateCreated datePublished" datetime="2019-06-12T21:54:05+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-11 07:15:24" itemprop="dateModified" datetime="2019-08-11T07:15:24+08:00">2019-08-11</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>MSS--maximum segment size       最大分节大小
+MTU--maximum transmission unit  最大传输单元  # MSS通常被设置为MTU送去IP和TCP首部的固定长度，IPv4和TCP的首部都是20字节
+PDU--protocol data unit         协议数据单元 # 网络各层对等实体间交换的单位信息
+SDU--Service data uni           服务数据单元 # N层的PDU就是N-1层的SDU
+MSL--maximum segment lifetime   最长分节生命期
+listening socket                监听套接字
+connected socket                已连接套接字
+local area networks(LANs)       局域网
+wide area networks(WANs)        广域网
+
+SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小
+RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小
+FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节
+
+RECEIVER WINDOW--rwnd                   推荐的接收窗口
+CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。
+INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小
+LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸
+RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。
+FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小。 可参考 [在途字节数](http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/) 
+
+
+
+RTT--round-trip time                  表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延
+
+RTO-Retransmission Timeout           重传超时
+</code></pre><p>未完</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp端口与并发服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/tcp端口与并发服务器/" class="post-title-link" itemprop="url">tcp端口与并发服务器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 07:43:31" itemprop="dateCreated datePublished" datetime="2019-06-12T07:43:31+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-30 06:29:34" itemprop="dateModified" datetime="2019-10-30T06:29:34+08:00">2019-10-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一、端口的作用是什么？ 在一台服务器中可能有多个进程同时使用TCP,UDP这两种协议中的一种，端口就是用来区分这些进程的。 二、套接字对 一个TCP连接的套接字对是一个定义该连接的两个端点的四元组:本地IP地址、本地TCP端口号、外地IP地址、外地TCP端口号。套接字对唯一标识一个网络上的每个TCP连接。 三、并发服务器 并发服务器中主服务器循环通过派生一个子进程来处理每个新的链接。 我们通过如下代码来理解socket如何处理多个请求。</p>
+<pre><code>import socket
+import threading
+
+bind_ip =&quot;0.0.0.0&quot;
+bind_port = 8080
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((bind_ip, bind_port))
+
+server.listen(3)
+
+
+def handle_client(client_socket):
+    request = client_socket.recv(1024)
+    print(&quot;[*] Received: %s&quot; % request)
+
+    client_socket.close()
+
+
+while True:
+    client, addr = server.accept()
+    print(f&quot;client is {client}, addr is {addr}&quot;)
+
+    client_handler = threading.Thread(target=handle_client, args=(client,))
+    client_handler.start()
+</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务器的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
+<hr>
+<p>总结: TCP必须通过查看套接字对的所有4个元素才能确定由哪个端点接收某个到达的分节。如一个分节来自127.0.0.1端口52822,目的地为127.0.0.1端口8080，它就会被传递给子进程2进行处理。</p>
+<hr>
+<p>参考： 1.《UNIX网络编程》</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/11/osi模型与tcp-ip/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1606,886 +2341,6 @@ SELECT pg_terminate_backend(a.pid) FROM pg_stat_activity a WHERE datname=&#39;pt
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/26/postgresql中将所有的char改为varchar类型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/26/postgresql中将所有的char改为varchar类型/" class="post-title-link" itemprop="url">postgresql中将所有的char改为varchar类型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-26 08:57:05" itemprop="dateCreated datePublished" datetime="2019-05-26T08:57:05+08:00">2019-05-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在将<code>Postgresql</code>数据转换为<code>Neo4j</code>的过程中，<code>char</code>类型的字段的在转换成<code>Neo4j</code>的属性后会带有空格。比如<code>char(10)</code>字段的数据为<code>hello</code>在<code>Neo4j</code>属性中则会带有空格，虽然可以在查询的时候加上trim函数，但这样对于原来的查询代码改动太大。所以决定从源头将这个问题解决。 假如有一个字段为<code>char(10)</code>如果插入的数据长度未达到10,关系型数据库默认在后面添加空格，所以将<code>char</code>类型改为<code>varchar</code>可以解决这个问题。 在<code>char</code>类型改为<code>varchar</code>的过程中，会默认把<code>char</code>类型中的空格给去掉。 在<code>postgresql</code>中有一个表<code>information_schema.columns</code>记录了所有字段的信息，所以可以从这个表中提取信息进行<code>char</code>到<code>varchar</code>的转换。</p>
-<pre><code># 这个语句会生成将char改为varchar的sql语句
-SELECT CONCAT(&#39;alter table &#39;, table_schema, &#39;.&#39;, table_name, &#39; alter column &#39;, column_name, &#39; type &#39;, &#39;varchar &#39;, &#39;(&#39;,character_maxinum_length,&#39;);&#39;) from information_schema.columns where table_catalog=&#39;ptl&#39; and date_type=&#39;character&#39;;
-</code></pre><p><code>information_schema.columns</code>中的常用字段。</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>table_catalog</td>
-<td>数据库名</td>
-</tr>
-<tr>
-<td>table_schema</td>
-<td>数据库的schema</td>
-</tr>
-<tr>
-<td>table_name</td>
-<td>表名</td>
-</tr>
-<tr>
-<td>column_name</td>
-<td>字段名</td>
-</tr>
-<tr>
-<td>data_type</td>
-<td>数据类型</td>
-</tr>
-<tr>
-<td>character_maximum_length</td>
-<td>如果类型为character或bit string type,则为可存储最大字符数</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>参考： 1.<a href="https://www.postgresql.org/docs/10/infoschema-columns.html" target="_blank" rel="noopener">information_schema.columns</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/19/初识Dgraph/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/19/初识Dgraph/" class="post-title-link" itemprop="url">初识Dgraph</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-19 15:45:57" itemprop="dateCreated datePublished" datetime="2019-05-19T15:45:57+08:00">2019-05-19</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.Dgraph介绍 　关键字：快速，支持事务，分布式图数据库 <img src="http://img.hysyeah.top/wp-content/uploads/2019/05/Screenshot-from-2019-05-19-15-17-10.png" alt> ２.安装，启动Dgraph</p>
-<pre><code>docker pull dgraph/dgraph:v0.7.7
-
-mkdir -p ~/dgraph
-docker run -it -p 127.0.0.1:8080:8080 -p 127.0.0.1:9080:9080 -v ~/dgraph:/dgraph --name dgraph dgraph/dgraph dgraph --bindall=true
-</code></pre><p>3.访问<code>http://127.0.0.1:8080/</code> 4.在输入框中，分别输入如下数据，点击run</p>
-<pre><code>mutation {
-  set {
-   _:luke &lt;name&gt; &quot;Luke Skywalker&quot; .
-   _:leia &lt;name&gt; &quot;Princess Leia&quot; .
-   _:han &lt;name&gt; &quot;Han Solo&quot; .
-   _:lucas &lt;name&gt; &quot;George Lucas&quot; .
-   _:irvin &lt;name&gt; &quot;Irvin Kernshner&quot; .
-   _:richard &lt;name&gt; &quot;Richard Marquand&quot; .
-
-   _:sw1 &lt;name&gt; &quot;Star Wars: Episode IV - A New Hope&quot; .
-   _:sw1 &lt;release_date&gt; &quot;1977-05-25&quot; .
-   _:sw1 &lt;revenue&gt; &quot;775000000&quot; .
-   _:sw1 &lt;running_time&gt; &quot;121&quot; .
-   _:sw1 &lt;starring&gt; _:luke .
-   _:sw1 &lt;starring&gt; _:leia .
-   _:sw1 &lt;starring&gt; _:han .
-   _:sw1 &lt;director&gt; _:lucas .
-
-   _:sw2 &lt;name&gt; &quot;Star Wars: Episode V - The Empire Strikes Back&quot; .
-   _:sw2 &lt;release_date&gt; &quot;1980-05-21&quot; .
-   _:sw2 &lt;revenue&gt; &quot;534000000&quot; .
-   _:sw2 &lt;running_time&gt; &quot;124&quot; .
-   _:sw2 &lt;starring&gt; _:luke .
-   _:sw2 &lt;starring&gt; _:leia .
-   _:sw2 &lt;starring&gt; _:han .
-   _:sw2 &lt;director&gt; _:irvin .
-
-   _:sw3 &lt;name&gt; &quot;Star Wars: Episode VI - Return of the Jedi&quot; .
-   _:sw3 &lt;release_date&gt; &quot;1983-05-25&quot; .
-   _:sw3 &lt;revenue&gt; &quot;572000000&quot; .
-   _:sw3 &lt;running_time&gt; &quot;131&quot; .
-   _:sw3 &lt;starring&gt; _:luke .
-   _:sw3 &lt;starring&gt; _:leia .
-   _:sw3 &lt;starring&gt; _:han .
-   _:sw3 &lt;director&gt; _:richard .
-
-   _:st1 &lt;name&gt; &quot;Star Trek: The Motion Picture&quot; .
-   _:st1 &lt;release_date&gt; &quot;1979-12-07&quot; .
-   _:st1 &lt;revenue&gt; &quot;139000000&quot; .
-   _:st1 &lt;running_time&gt; &quot;132&quot; .
-  }
-}
-
-
-mutation {
-  schema {
-    name: string @index .
-    release_date: date @index .
-    revenue: float .
-    running_time: int .
-  }
-}
-</code></pre><p>5.查询数据,</p>
-<pre><code>{
-  me(func:allofterms(name, &quot;Star Wars&quot;)) @filter(ge(release_date, &quot;1980&quot;)) {
-    name
-    release_date
-    revenue
-    running_time
-    director {
-     name
-    }
-    starring {
-     name
-    }
-  }
-}
-点击RUN
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/05/dgraph_pic.png" alt></p>
-<hr>
-<p>总结：刚开始是安装的<code>dgraph/dgraph:v1.0.12</code>,但是启动后访问浏览器显示<code>disconneted</code>，为了快速看到浏览器中节点和关系的效果所以安装了<code>dgraph/dgraph:v0.7.7</code>。后续继续了解。</p>
-<hr>
-<p>参考： 1.<a href="https://yq.aliyun.com/articles/237205" target="_blank" rel="noopener">https://yq.aliyun.com/articles/237205</a> 2.<a href="https://yq.aliyun.com/articles/237205" target="_blank" rel="noopener">https://docs.dgraph.io/get-started/#dataset</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/19/docker切换成阿里的源/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/19/docker切换成阿里的源/" class="post-title-link" itemprop="url">docker切换成阿里的源</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-19 15:04:48" itemprop="dateCreated datePublished" datetime="2019-05-19T15:04:48+08:00">2019-05-19</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>环境：ubuntu18.04 <img src="http://img.hysyeah.top/wp-content/uploads/2019/05/docker_version.png" alt> 1.访问<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">镜像加速</a>,会生成一个镜像加速地址。 2.按如下命令操作即可</p>
-<pre><code>sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
-{
-  &quot;registry-mirrors&quot;: [&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/07/pg_dump和pg_restore的使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/07/pg_dump和pg_restore的使用/" class="post-title-link" itemprop="url">pg_dump和pg_restore的使用</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-07 22:26:24" itemprop="dateCreated datePublished" datetime="2019-05-07T22:26:24+08:00">2019-05-07</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>pg_dump</code>是用于<code>postgresql</code>数据备份的工具。即使数据库在并发的情况下也能保持一致性，并且不阻塞其它用户对数据库进行读和写。</p>
-<pre><code>将表account和host表中数据dump到szd.dump文件中
-pg_dump -n &#39;public&#39;  -Uroot --no-owner --no-privileges --host=100.2.2.1 --port=5432 --disable-triggers -d szd -t account -t host &gt; szd.dump
-
-将数据恢复到指定的数据库中
-pg_restore -n &#39;public&#39; -Uroot --no-owner --host=100.2.2.3 --port=6434 -t account -t host szd.dump
-</code></pre><p>但是发再使用上述命令备份的并不包含索引，查看文档未发现可以恢复索引的选项。经实战发现如下方法可以备份索引，<br>1.通过<code>pg_dump</code>备份表的结构信息，<br>2.通过<code>psql</code>恢复表结构，<br>3.最后通过<code>pg_restore</code>恢复数据。</p>
-<pre><code>1.备份表结构信息
-pg_dump -n &#39;public&#39;  -Uroot --no-owner --schema-only --no-privileges --host=100.2.2.1 --port=5432 --disable-triggers -d szd -t account -t host &gt; szd2.dump
-
-2.恢复表结构信息以及索引
-psql -h100.2.2.3 -p6434 -Uroot szd &lt; szd2.dump
-
-3.恢复数据
-pg_restore -n &#39;public&#39; -Uroot --no-owner --data-only --host=100.2.2.3 --port=6434 -t account -t host szd.dump
-</code></pre><hr>
-<pre><code>create database ptldwh template template0; #To make an empty database without any local additions
-
-
-pg_dump -Fc -v -n &#39;public&#39; --host=127.0.0.1 -p5433 --no-owner --no-privileges --username=ptldwhdata ptldwh -t host &gt;ptldwh.dump
-
--t &#39;t_*&#39; #指定要同步的表名
-
-pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-triggers -d ptldwh -t host ptldwh.dump
-</code></pre><h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-n schema</td>
-<td>指定schema,只备份schema下的数据</td>
-</tr>
-<tr>
-<td>—data-only</td>
-<td>只备份数据</td>
-</tr>
-<tr>
-<td>—format=format</td>
-<td>指定输出格式</td>
-</tr>
-<tr>
-<td>-N schema</td>
-<td>不备份此schema下的数据</td>
-</tr>
-<tr>
-<td>—no-owner</td>
-<td>不输出设置对象ownership的命令</td>
-</tr>
-<tr>
-<td>—schema-only</td>
-<td>只备份表结构信息</td>
-</tr>
-<tr>
-<td>-t table</td>
-<td>指定需要备份的表</td>
-</tr>
-<tr>
-<td>-T table</td>
-<td>不备份此表</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>参考：<br>1.<a href="https://www.postgresql.org/docs/10/app-pgdump.html" target="_blank" rel="noopener">pg_dump</a><br>2.<a href="https://www.postgresql.org/docs/10/app-pgrestore.html" target="_blank" rel="noopener">pg_restore</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2532,7 +2387,7 @@ pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-trigg
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

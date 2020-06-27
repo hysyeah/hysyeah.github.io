@@ -380,6 +380,797 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/22/Docker Compose管理mysql容器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/22/Docker Compose管理mysql容器/" class="post-title-link" itemprop="url">Docker Compose管理mysql容器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-22 21:52:39" itemprop="dateCreated datePublished" datetime="2018-01-22T21:52:39+08:00">2018-01-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Dockerfile用于管理一个单独的应用容器，Docker Compose用于管理多个容器。</p>
+<pre><code>1.sudo pip install docker-compose
+
+2.docker pull mysql
+
+3.mkidr mysql
+  vim docker-compose.yml
+</code></pre><h4 id="docker-compose-yml-包括version-services-networks三大部分"><a href="#docker-compose-yml-包括version-services-networks三大部分" class="headerlink" title="docker-compose.yml(包括version,services,networks三大部分)"></a>docker-compose.yml(包括version,services,networks三大部分)</h4><pre><code>version: &#39;2&#39;
+services:
+  mysql:
+    image: mysql   #指定镜像为mysql
+    networks:
+       mysqlnet:
+          ipv4_address: xxx.xxx.xxx.xxx #设置ip地址
+    volumes:
+    - /etc/mysql/:/etc/mysql        #将宿主机的/etc/mysql/映射到容器中，即容器上使用宿主中的/etc/mysql/
+    restart: always
+    environment:                    #设置环境变量
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: hys
+      MYSQL_PASSWORD: hello
+    expose:
+      - &quot;3307&quot;
+    ports:
+      - &quot;3307:3306&quot;
+networks:
+  mysqlnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: xxx.xxx.xxx.0/26
+
+
+docker-compose up -d #启动后，可访问mysql服务
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/14/matplotlib.pyplot添加中文显示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/14/matplotlib.pyplot添加中文显示/" class="post-title-link" itemprop="url">matplotlib.pyplot添加中文显示</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-14 20:56:25" itemprop="dateCreated datePublished" datetime="2018-01-14T20:56:25+08:00">2018-01-14</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.从C:\Windows\Fonts复制微软雅黑字体到/usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/fonts/ttf
+
+然后将名称修改为
+sudo mv MSYHBD.TTF MSYHBD.ttf
+sudo mv MSYH.TTF MSYH.ttf
+
+2.获取配置文件信息，修改文件
+In [1]: import matplotlib
+
+In [2]: matplotlib.matplotlib_fname()
+Out[2]: &#39;/usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc&#39;
+
+font.family         : Microsoft YaHei
+font.sans-serif     : DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif, Microsoft YaHei
+
+3.删除~/.cache/matplotlib下文件fontList.py3k.cache,重启终端。
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/01/matplotlibrc.png" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/06/x86相关寄存器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/06/x86相关寄存器/" class="post-title-link" itemprop="url">x86相关寄存器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-06 17:27:29" itemprop="dateCreated datePublished" datetime="2018-01-06T17:27:29+08:00">2018-01-06</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>IP-Instruction Pointer--指令指针寄存器
+CS-Code Segment--段寄存器
+DS-Data Segment--数据段寄存器
+
+%rax-%eax-%ax-%al---返回值
+%rbx-%ebx-%bx-%bl---被调用者保存
+%rcx-%ecx-%cx-%cl---第4个参数
+%rdx-%edx-%dx-%dl---第3个参数
+%rsi-%esi-%si-%sil---第2个参数
+%rdi-%edi-%di-%dil---第1个参数
+%rbp-%ebp-%bp-%bpl---基址寄存器(stack pointer),一般在函数中用来保存进入函数时的sp的栈顶基址(被调用者保存)
+%rsp-%esp-%sp-%spl---栈指针
+%r8-%r8d-%r8w-%r8b---第5个参数
+%r9-%r9d-%r9w-%r9b---第6个参数
+
+%r10-%r10d-%r10w-%r10b---调用者保存
+%r11-%r11d-%r11w-%r11b---调用者保存
+%r12-%r12d-%r12w-%r12b---被调用者保存
+%r13-%r13d-%r13w-%r13b---被调用者保存
+%r14-%r14d-%r14w-%r14b---被调用者保存
+%r15-%r15d-%r15w-%r15b---被调用者保存
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/01/register.jpg" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/01/elf可重定向目标文件格式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/01/elf可重定向目标文件格式/" class="post-title-link" itemprop="url">elf可重定向目标文件格式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-01 15:40:00" itemprop="dateCreated datePublished" datetime="2018-01-01T15:40:00+08:00">2018-01-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ELF头</p>
+<p>.text</p>
+<p>.rodata</p>
+<p>.data</p>
+<p>.bss</p>
+<p>.symtab</p>
+<p>.rel.text</p>
+<p>.rel.data</p>
+<p>.debug</p>
+<p>.line</p>
+<p>.strtab</p>
+<p>节头部表</p>
+<p><strong>典型的ELF可重定位目标文件</strong></p>
+<pre><code>.text:已编译程序的机器代码
+.rodata:只读数据，一般是程序里面的只读变量（如const修饰的变量）和字符串常量。
+.data:已初始化的全局和静态C变量。局部C变量运行被保存在栈中，既不出现在.data节中，也不出现在.bss中
+
+.COMMON 未初始化的全局变量
+.bss:未初始化的静态C变量，以及所有被初始化为0的全局或静态变量。在目标文件中这个节不占实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为0。
+
+.symtab:一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。
+.rel.text:一个.text节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。
+.rel.data:被模块引用或定义的所有全局变量的重定位作息。一般来说，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。
+.debug:一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的C源文件。只有以-g选项调用编译器驱动程序时，才会得到这张表。
+.line:原始C源程序中的行号和.text节中的机器指令这间的映射。只有以-g选项调用编译器驱动程序时，才会得到这张表。
+.strtab:一个字符串表，其内容包括.symtab和.debug节中的符号表，以及节头部中的节名字。字符串就是以null结尾的字符串的序列。
+.comment:存放的是编译器版本信息。
+.dynamic:动态链接作息
+.hash:符号哈希表
+.note:额外的编译器信息
+
+.plt
+.got:动态链接的跳转表和全局入口表
+
+.init
+.fini:程序初始化与终结代码段
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/24/gcc常用选项/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1606,1155 +2397,6 @@ hello
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/10/c语言移位操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/10/c语言移位操作/" class="post-title-link" itemprop="url">c语言移位操作</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-10 23:56:03" itemprop="dateCreated datePublished" datetime="2017-12-10T23:56:03+08:00">2017-12-10</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>对于一个位表示为[ [latex]x_{w-1},x_{w-2},…,x_1,x_0[/latex] ]的操作数x,C表达式x&lt;&lt; k会生成一个值，其位表示为[ [latex]x_{w-k-1},x_{w-k-2},…,x_1,x_0,0,…,0[/latex] ]<br>也就是说，x向左移动k位，丢弃最高的k位，并在右端补k个0。</p>
-<hr>
-<p>逻辑右移与算术右移<br>逻辑右移在左端补k个0，得到的结果是[ [latex]0,…,0,x_{w-1},x_{w-2},…,x_k[/latex] ]<br>算术右移是在左端补k个最高有效位的值，得到的结果是[ [latex]x_{w-1},…,x_{w-1},x_{w-1},x_{w-2}…,x_k[/latex] ]</p>
-<hr>
-<p>操作</p>
-<p>值1</p>
-<p>值2</p>
-<p>参数x</p>
-<p>0110 0011</p>
-<p>1001 0101</p>
-<p>x &lt;&lt; 4</p>
-<p>0011 0000</p>
-<p>0101 0000</p>
-<p>x &gt;&gt; 4(逻辑右移)</p>
-<p>0000 0110</p>
-<p>0000 1001</p>
-<p>x &gt;&gt; 4(算术右移)</p>
-<p>0000 0110</p>
-<p>1111 1001</p>
-<hr>
-<p>几乎所有的编译器都对有符号数(负数)使用算术右移，可<a href="https://github.com/hys20151008/cs/blob/master/chapter2/shift.c" target="_blank" rel="noopener">参考</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python c相关结构体/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/python c相关结构体/" class="post-title-link" itemprop="url">python c相关结构体</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 22:51:26" itemprop="dateCreated datePublished" datetime="2017-12-09T22:51:26+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>/*object.h*/
-#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct _object {
-    PyObject_HEAD
-} PyObject;
-
-typedef struct {
-    Py_ssize_t ob_refcnt;              
-    struct _typeobject *ob_type;
-    Py_ssize_t ob_size;  //容纳元素的个数
-} PyVarObject;
-
-
-/*intobject.h*/
-typedef struct {
-    PyObject_HEAD
-    long ob_ival;
-} PyIntObject;
-
-
-
-/*listobject.h*/
-typedef struct {
-    PyObject_VAR_HEAD
-    /* Vector of pointers to list elements.  list[0] is ob_item[0], etc. */
-    PyObject **ob_item;
-
-    /* ob_item contains space for &#39;allocated&#39; elements.  The number
-     * currently in use is ob_size.
-     * Invariants:
-     *     0 &lt;= ob_size &lt;= allocated
-     *     len(list) == ob_size
-     *     ob_item == NULL implies ob_size == allocated == 0
-     * list.sort() temporarily sets allocated to -1 to detect mutations.
-     *
-     * Items must normally not be NULL, except during construction when
-     * the list is not yet visible outside the function that builds it.
-     */
-    Py_ssize_t allocated;
-} PyListObject;
-
-
-/*iterobject.c*/
-typedef struct {
-    PyObject_HEAD
-    long      it_index;
-    PyObject *it_seq; /* Set to NULL when iterator is exhausted */
-} seqiterobject;
-
-
-
-/*funcobject.h*/
-typedef struct {
-    PyObject_HEAD
-    PyObject *func_code;  /* A code object */
-    PyObject *func_globals; /* A dictionary (other mappings won&#39;t do) */
-    PyObject *func_defaults;  /* NULL or a tuple */
-    PyObject *func_closure; /* NULL or a tuple of cell objects */
-    PyObject *func_doc;   /* The __doc__ attribute, can be anything */
-    PyObject *func_name;  /* The __name__ attribute, a string object */
-    PyObject *func_dict;  /* The __dict__ attribute, a dict or NULL */
-    PyObject *func_weakreflist; /* List of weak references */
-    PyObject *func_module;  /* The __module__ attribute, can be anything */
-
-    /* Invariant:
-     *     func_closure contains the bindings for func_code-&gt;co_freevars, so
-     *     PyTuple_Size(func_closure) == PyCode_GetNumFree(func_code)
-     *     (func_closure may be NULL if PyCode_GetNumFree(func_code) == 0).
-     */
-} PyFunctionObject;
-
-
-
-/*genobject.h*/
-typedef struct {
-  PyObject_HEAD
-  /* The gi_ prefix is intended to remind of generator-iterator. */
-
-  /* Note: gi_frame can be NULL if the generator is &quot;finished&quot; */
-  struct _frame *gi_frame;
-
-  /* True if generator is being executed. */
-  int gi_running;
-
-  /* The code object backing the generator */
-  PyObject *gi_code;
-
-  /* List of weak reference. */
-  PyObject *gi_weakreflist;
-} PyGenObject;
-
-
-
-/*fileobject.h*/
-typedef struct {
-    PyObject_HEAD
-    FILE *f_fp;
-    PyObject *f_name;
-    PyObject *f_mode;
-    int (*f_close)(FILE *);
-    int f_softspace;            /* Flag used by &#39;print&#39; command */
-    int f_binary;               /* Flag which indicates whether the file is
-                               open in binary (1) or text (0) mode */
-    char* f_buf;                /* Allocated readahead buffer */
-    char* f_bufend;             /* Points after last occupied position */
-    char* f_bufptr;             /* Current buffer position */
-    char *f_setbuf;             /* Buffer for setbuf(3) and setvbuf(3) */
-    int f_univ_newline;         /* Handle any newline convention */
-    int f_newlinetypes;         /* Types of newlines seen */
-    int f_skipnextlf;           /* Skip next \n */
-    PyObject *f_encoding;
-    PyObject *f_errors;
-    PyObject *weakreflist; /* List of weak references */
-    int unlocked_count;         /* Num. currently running sections of code
-                               using f_fp with the GIL released. */
-    int readable;
-    int writable;
-} PyFileObject;
-
-
-
-/*floatobject.h*/
-typedef struct {
-    PyObject_HEAD
-    double ob_fval;
-} PyFloatObject;
-
-
-
-/*frameobject.h*/
-typedef struct {
-    int b_type;     /* what kind of block this is */
-    int b_handler;    /* where to jump to find handler */
-    int b_level;    /* value stack level to pop to */
-} PyTryBlock;
-
-typedef struct _frame {
-    PyObject_VAR_HEAD
-    struct _frame *f_back;  /* previous frame, or NULL */
-    PyCodeObject *f_code; /* code segment */
-    PyObject *f_builtins; /* builtin symbol table (PyDictObject) */
-    PyObject *f_globals;  /* global symbol table (PyDictObject) */
-    PyObject *f_locals;   /* local symbol table (any mapping) */
-    PyObject **f_valuestack;  /* points after the last local */
-    /* Next free slot in f_valuestack.  Frame creation sets to f_valuestack.
-       Frame evaluation usually NULLs it, but a frame that yields sets it
-       to the current stack top. */
-    PyObject **f_stacktop;
-    PyObject *f_trace;    /* Trace function */
-
-    /* If an exception is raised in this frame, the next three are used to
-     * record the exception info (if any) originally in the thread state.  See
-     * comments before set_exc_info() -- it&#39;s not obvious.
-     * Invariant:  if _type is NULL, then so are _value and _traceback.
-     * Desired invariant:  all three are NULL, or all three are non-NULL.  That
-     * one isn&#39;t currently true, but &quot;should be&quot;.
-     */
-    PyObject *f_exc_type, *f_exc_value, *f_exc_traceback;
-
-    PyThreadState *f_tstate;
-    int f_lasti;    /* Last instruction if called */
-    /* Call PyFrame_GetLineNumber() instead of reading this field
-       directly.  As of 2.3 f_lineno is only valid when tracing is
-       active (i.e. when f_trace is set).  At other times we use
-       PyCode_Addr2Line to calculate the line from the current
-       bytecode index. */
-    int f_lineno;   /* Current line number */
-    int f_iblock;   /* index in f_blockstack */
-    PyTryBlock f_blockstack[CO_MAXBLOCKS]; /* for try and loop blocks */
-    PyObject *f_localsplus[1];  /* locals+stack, dynamically sized */
-} PyFrameObject;
-
-
-
-/*classobject.h*/
-typedef struct {
-    PyObject_HEAD
-    PyObject  *cl_bases;  /* A tuple of class objects */
-    PyObject  *cl_dict; /* A dictionary */
-    PyObject  *cl_name; /* A string */
-    /* The following three are functions or NULL */
-    PyObject  *cl_getattr;
-    PyObject  *cl_setattr;
-    PyObject  *cl_delattr;
-    PyObject    *cl_weakreflist; /* List of weak references */
-} PyClassObject;
-typedef struct {
-    PyObject_HEAD
-    PyClassObject *in_class;  /* The class object */
-    PyObject    *in_dict; /* A dictionary */
-    PyObject    *in_weakreflist; /* List of weak references */
-} PyInstanceObject;
-typedef struct {
-    PyObject_HEAD
-    PyObject *im_func;   /* The callable object implementing the method */
-    PyObject *im_self;   /* The instance it is bound to, or NULL */
-    PyObject *im_class;  /* The class that asked for the method */
-    PyObject *im_weakreflist; /* List of weak references */
-} PyMethodObject;
-
-
-
-/*dictobject.h*/
-typedef struct {
-    /* Cached hash code of me_key.  Note that hash codes are C longs.
-     * We have to use Py_ssize_t instead because dict_popitem() abuses
-     * me_hash to hold a search finger.
-     */
-    Py_ssize_t me_hash;
-    PyObject *me_key;
-    PyObject *me_value;
-} PyDictEntry;
-typedef struct _dictobject PyDictObject;
-struct _dictobject {
-    PyObject_HEAD
-    Py_ssize_t ma_fill;  /* # Active + # Dummy */
-    Py_ssize_t ma_used;  /* # Active */
-
-    /* The table contains ma_mask + 1 slots, and that&#39;s a power of 2.
-     * We store the mask instead of the size because the mask is more
-     * frequently needed.
-     */
-    Py_ssize_t ma_mask;
-
-    /* ma_table points to ma_smalltable for small tables, else to
-     * additional malloc&#39;ed memory.  ma_table is never NULL!  This rule
-     * saves repeated runtime null-tests in the workhorse getitem and
-     * setitem calls.
-     */
-    PyDictEntry *ma_table;
-    PyDictEntry *(*ma_lookup)(PyDictObject *mp, PyObject *key, long hash);
-    PyDictEntry ma_smalltable[PyDict_MINSIZE];
-};
-
-
-
-
-/*funcobject.h*/
-typedef struct {
-    PyObject_HEAD
-    PyMethodDef *m_ml; /* Description of the C function to call */
-    PyObject    *m_self; /* Passed as &#39;self&#39; arg to the C func, can be NULL */
-    PyObject    *m_module; /* The __module__ attribute, can be anything */
-} PyCFunctionObject;
-
-
-/*code.h*/
-/* Bytecode object */
-typedef struct {
-    PyObject_HEAD
-    int co_argcount;    /* #arguments, except *args */
-    int co_nlocals;   /* #local variables */
-    int co_stacksize;   /* #entries needed for evaluation stack */
-    int co_flags;   /* CO_..., see below */
-    PyObject *co_code;    /* instruction opcodes */
-    PyObject *co_consts;  /* list (constants used) */
-    PyObject *co_names;   /* list of strings (names used) */
-    PyObject *co_varnames;  /* tuple of strings (local variable names) */
-    PyObject *co_freevars;  /* tuple of strings (free variable names) */
-    PyObject *co_cellvars;      /* tuple of strings (cell variable names) */
-    /* The rest doesn&#39;t count for hash/cmp */
-    PyObject *co_filename;  /* string (where it was loaded from) */
-    PyObject *co_name;    /* string (name, for reference) */
-    int co_firstlineno;   /* first source line number */
-    PyObject *co_lnotab;  /* string (encoding addr&lt;-&gt;lineno mapping) See
-           Objects/lnotab_notes.txt for details. */
-    void *co_zombieframe;     /* for optimization only (see frameobject.c) */
-    PyObject *co_weakreflist;   /* to support weakrefs to code objects */
-} PyCodeObject;
-
-
-/*object.h*/
-typedef struct _typeobject {
-    PyObject_VAR_HEAD
-    const char *tp_name; /* For printing, in format &quot;&lt;module&gt;.&lt;name&gt;&quot; */
-    Py_ssize_t tp_basicsize, tp_itemsize; /* For allocation */
-
-    /* Methods to implement standard operations */
-
-    destructor tp_dealloc;
-    printfunc tp_print;
-    getattrfunc tp_getattr;
-    setattrfunc tp_setattr;
-    cmpfunc tp_compare;
-    reprfunc tp_repr;
-
-    /* Method suites for standard classes */
-
-    PyNumberMethods *tp_as_number;
-    PySequenceMethods *tp_as_sequence;
-    PyMappingMethods *tp_as_mapping;
-
-    /* More standard operations (here for binary compatibility) */
-
-    hashfunc tp_hash;
-    ternaryfunc tp_call;
-    reprfunc tp_str;
-    getattrofunc tp_getattro;
-    setattrofunc tp_setattro;
-
-    /* Functions to access object as input/output buffer */
-    PyBufferProcs *tp_as_buffer;
-
-    /* Flags to define presence of optional/expanded features */
-    long tp_flags;
-
-    const char *tp_doc; /* Documentation string */
-
-    /* Assigned meaning in release 2.0 */
-    /* call function for all accessible objects */
-    traverseproc tp_traverse;
-
-    /* delete references to contained objects */
-    inquiry tp_clear;
-
-    /* Assigned meaning in release 2.1 */
-    /* rich comparisons */
-    richcmpfunc tp_richcompare;
-
-    /* weak reference enabler */
-    Py_ssize_t tp_weaklistoffset;
-
-    /* Added in release 2.2 */
-    /* Iterators */
-    getiterfunc tp_iter;
-    iternextfunc tp_iternext;
-
-    /* Attribute descriptor and subclassing stuff */
-    struct PyMethodDef *tp_methods;
-    struct PyMemberDef *tp_members;
-    struct PyGetSetDef *tp_getset;
-    struct _typeobject *tp_base;
-    PyObject *tp_dict;
-    descrgetfunc tp_descr_get;
-    descrsetfunc tp_descr_set;
-    Py_ssize_t tp_dictoffset;
-    initproc tp_init;
-    allocfunc tp_alloc;
-    newfunc tp_new;
-    freefunc tp_free; /* Low-level free-memory routine */
-    inquiry tp_is_gc; /* For PyObject_IS_GC */
-    PyObject *tp_bases;
-    PyObject *tp_mro; /* method resolution order */
-    PyObject *tp_cache;
-    PyObject *tp_subclasses;
-    PyObject *tp_weaklist;
-    destructor tp_del;
-
-    /* Type attribute cache version tag. Added in version 2.6 */
-    unsigned int tp_version_tag;
-
-#ifdef COUNT_ALLOCS
-    /* these must be last and never explicitly initialized */
-    Py_ssize_t tp_allocs;
-    Py_ssize_t tp_frees;
-    Py_ssize_t tp_maxalloc;
-    struct _typeobject *tp_prev;
-    struct _typeobject *tp_next;
-#endif
-} PyTypeObject;
-
-
-
-/*longintrepr.h*/
-/* Long integer representation.
-   The absolute value of a number is equal to
-    SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)
-   Negative numbers are represented with ob_size &lt; 0;
-   zero is represented by ob_size == 0.
-   In a normalized number, ob_digit[abs(ob_size)-1] (the most significant
-   digit) is never zero.  Also, in all cases, for all valid i,
-    0 &lt;= ob_digit[i] &lt;= MASK.
-   The allocation function takes care of allocating extra memory
-   so that ob_digit[0] ... ob_digit[abs(ob_size)-1] are actually available.
-
-   CAUTION:  Generic code manipulating subtypes of PyVarObject has to
-   aware that longs abuse  ob_size&#39;s sign bit.
-*/
-
-struct _longobject {
-  PyObject_VAR_HEAD
-  digit ob_digit[1];
-};
-typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/c语言typedef/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/c语言typedef/" class="post-title-link" itemprop="url">c语言typedef</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 22:35:37" itemprop="dateCreated datePublished" datetime="2017-12-09T22:35:37+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>/*定义identifier为宏，指令为identifier后的一系列指令（以前认为只能是一句）*/
-#define identifier replacement-list(optional)
-
-#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct _object {
-    PyObject_HEAD
-} PyObject;
-//相当于：
-typedef struct _object {
-    Py_ssize_t ob_refcnt;
-    struct _typeobject *ob_type;
-} PyObject;
-</code></pre><hr>
-<pre><code>#include &lt;stdio.h&gt;
-
-#define T int b;int c;
-typedef struct gg {
-    T
-} gg;
-int main(int argc, char *argv[]){
-    gg g = {1, 2};
-    printf(&quot;%d\n&quot;, g.b);
-    printf(&quot;%d\n&quot;, g.c);
-    return 0;
-}
-输出：
-1
-2
-</code></pre><hr>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python intobject大小/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/python intobject大小/" class="post-title-link" itemprop="url">python intobject大小</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 21:52:23" itemprop="dateCreated datePublished" datetime="2017-12-09T21:52:23+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 64位系统
-#python3                                        python2
-
-In [4]: sys.getsizeof(1)                       In [4]: sys.getsizeof(1)
-Out[4]: 28                                     Out[4]: 24
-
-In [6]: sys.getsizeof(0)                       In [6]: sys.getsizeof(0)
-Out[6]: 24                                     Out[6]: 24
-</code></pre><p>在python2 int对象为24个字节,</p>
-<pre><code>#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct {
-    PyObject_HEAD
-    long ob_ival;
-} PyIntObject;
-</code></pre><hr>
-<p>python3中已不区分int,long对象，而是将python2中的long对象改名为int对象</p>
-<pre><code>typedef unsigned short digit;
-struct _longobject {
-    PyObject_VAR_HEAD
-    digit ob_digit[1];
-};
-</code></pre><p>python3中sys.getsizeof(0) == 24</p>
-<pre><code> /*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
- ob_digit[1],所以大小为24Bytes.*/
-</code></pre><hr>
-<p>参考：python源码</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2801,7 +2443,7 @@ struct _longobject {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

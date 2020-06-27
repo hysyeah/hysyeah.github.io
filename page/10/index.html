@@ -380,6 +380,980 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/18/Go方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/18/Go方法/" class="post-title-link" itemprop="url">Go方法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-18 17:51:22" itemprop="dateCreated datePublished" datetime="2018-08-18T17:51:22+08:00">2018-08-18</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-24 20:33:03" itemprop="dateModified" datetime="2020-06-24T20:33:03+08:00">2020-06-24</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在函数声明时，在其名字之前放上一个变量，即是一个方法。这个附加的参数会将函数附加这种类型上，即相当于这这种类型定义了一个独占的方法。</p>
+<pre><code>/* 这个附加的参数p,叫做方法的接收器(receiver),早期的面向对象语言留下的遗产将调用一个方法称为&quot;向一个对象发送消息&quot;
+在Go语言中，我们并不会像其它语言那样用this或者self作为接收器；我们可以任意的选择接收器的名字。由于接收器的名字经常会被使用到，所以保持其在方法间传递时的一致性和简短性是不错的主意。建议可以使用其类型的第一个字母，比如这里使用了Point的首字母p*/
+type Point struct{ X, Y float64 }
+func (p Point) Distance(q Point) float64 {
+    return math.Hypot(q.X-p.X, q.Y-p.Y)
+}
+</code></pre><p>每种类型都有其方法的命名空间，我们在用Distance这个名字的时候，不同的Distance调用指向了不同类型里的Distance方法。</p>
+<hr>
+<p>基于指针对象的方法 当调用一个函数时，会对其每一个参数值进行拷贝，如果一个函数需要更新一个变量，或者函数的其中一个参数实在太大我们希望能够进行这种默认的拷贝，这种情况我们可以使用指针。</p>
+<pre><code>// 这个方法的名字是(*Point).ScaleBy
+func (p *Point) ScaleBy(factor float64) {
+    p.X *= factor
+    p.Y *= factor
+}
+
+
+p := Point{1, 2}
+pptr := &amp;p
+
+pptr.Distance(q)
+(*pptr).Distance(q)
+// 编译器在这里也会给我们隐式地插入*这个操作符，所以上面这两种写法等价
+</code></pre><ol>
+<li>不管你的method的receiver是指针类型还是非指针类型，都是可以通过指针/非指针类型进行调用的，编译器会帮你做类型转换。</li>
+<li>在声明一个method的receiver该是指针还是非指针类型时，你需要考虑两方面的内部，第一方面是这个对象本身是不是特别大，如果声明为非指针变量时，调用会产生一次拷贝；第二方面是如果你用指针类型作为receiver，那么你一定要注意，这种指针类型指向的始终是一块内存地址，就算你对其进行了拷贝。</li>
+</ol>
+<hr>
+<p>通过嵌入结构体来扩展类型</p>
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;image/color&quot;
+)
+
+
+type Point struct{X, Y float64}
+
+type ColoredPoint struct {
+    Point
+    Color color.RGBA
+}
+
+func (p Point)Distance() float64{
+    return p.X
+}
+
+func main() {
+    red := color.RGBA{255, 0, 0, 255}
+    var p = ColoredPoint{Point{1, 1}, red}
+    fmt.Println(p.Distance())
+}
+/*
+p这里可以直接调用p.Distance()方法。这里可以将Point看作一个基类，ColoredPoint是其子类或继承类。
+*/
+</code></pre><hr>
+<p>封装 一个对象的变量或者方法如果对调用方不可见的话，一般就被定义为”封闭”。封装有时候也被叫信息隐藏，同时也是面向对象编程最关键的一个方面。 Go语言只有一种控制可见性的手段：大写首字母的标识符会从定义它们的包中被导出，小写字母的则不会。这种限制包内成员的方式同样适用于struct或者一个类型的方法。因而如果我们想要封装一个对象，我们必须将其定义为一个struct。</p>
+<hr>
+<p>参考： 1.The Go Programming Language</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/18/Go函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/18/Go函数/" class="post-title-link" itemprop="url">Go函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-18 16:04:50" itemprop="dateCreated datePublished" datetime="2018-08-18T16:04:50+08:00">2018-08-18</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-24 20:32:47" itemprop="dateModified" datetime="2020-06-24T20:32:47+08:00">2020-06-24</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>函数声明包括函数名、形式参数列表、返回值列表(可省略)以及函数体。</p>
+<pre><code>func name(parameter-list) (result-list) {
+    body
+}
+</code></pre><p>实参通过值的方式传递，因此函数的形参是实参的拷贝。对形参进行修改不会影响实参。但是，如果实参包括引用类型，如指针，slice，map，function， channel等类型，实参可能会由于函数的间接引用被修改。</p>
+<hr>
+<p>递归:Go语言使用可变栈，栈的大小按需增加(初始时很小)。这使得我们使用递归时不必考虑溢出和安全问题。 虽然Go的垃圾回收机制会回收不被使用的内存，但不包括操作系统层面的资源，比如打开的文件、网络连接。 log包中的所有函数会为没有换行符的字符串增加换行符。 fmt.Errorf函数使用fmt.Sprintf格式化错误信息并返回。 匿名函数：</p>
+<pre><code>func squares() func() int {
+    var x int
+    return func() int {
+        x++
+        return x * x
+    }
+}
+</code></pre><p>可变参数:</p>
+<pre><code>func sum(vals...int) int {
+    total := 0
+    for _, val := range vals {
+        total += val
+    }
+    return total
+}
+</code></pre><hr>
+<p>defer语句经常用于处理成对的操作，如打开、关闭、连接、断开连接、加锁、释放锁。通过defer机制，不论函数逻辑多复杂，都能保证在执行路径下，资源被释放。释放资源的defer应该直接跟在请求资源的语句后。</p>
+<pre><code>package ioutil
+func ReadFile(filename string) ([]byte, error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return nil, err
+    }
+    defer f.Close()
+    return ReadAll(f)
+}
+
+var mu sync.Mutex
+var m = make(map[string]int)
+func lookup(key string) int {
+    mu.Lock()
+    defer mu.Unlock()
+    return m[key]
+}
+</code></pre><p>Panic异常 Go的类型系统会在编译时捕获很多错误，但有些错误只能在运行时检查，如数组访问越界、 空指针引用等。这些运行时错误会引起painc异常。 一般而言，当panic异常发生时，程序会中断运行，并立即执行在该goroutine（可以先理解成线程)中被延迟的函数（defer 机制）。随后，程序崩溃并输出日志信息。日志信息包括panic value和函数调用的堆栈跟踪信息。panic value通常是某种错误信息。</p>
+<hr>
+<p>Recover捕获异常 如果在deferred函数中调用了内置函数recover，并且定义该defer语句的函数发生了panic异 常，recover会使程序从panic中恢复，并返回panic value。导致panic异常的函数不会继续运 行，但能正常返回。在未发生panic时调用recover，recover会返回nil。</p>
+<pre><code>func Parse(input string) (s *Syntax, err error) {
+    defer func() {
+    if p := recover(); p != nil {
+        err = fmt.Errorf(&quot;internal error: %v&quot;, p)
+    }
+   }()
+// ...parser...
+}
+</code></pre><hr>
+<p>参考： 1.The Go Programming Language</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/15/Go复合数据类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/15/Go复合数据类型/" class="post-title-link" itemprop="url">Go复合数据类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-15 21:30:59" itemprop="dateCreated datePublished" datetime="2018-08-15T21:30:59+08:00">2018-08-15</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-24 20:32:55" itemprop="dateModified" datetime="2020-06-24T20:32:55+08:00">2020-06-24</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Go复合数据类型包括：数组，切片，字典，结构体。 数组：</p>
+<pre><code>var a [3]int
+q := [...]int{1, 2, 3}       //数组长度根据初始化元素数量决定
+
+for i, v := range a {
+    fmt.Printf(&quot;%d %d\n&quot;, i, v) //打印索引、值
+}
+
+//数组的大小也是其类型的一部分，[3]int和[4]int是不同的类型。
+
+r :=[...]int{99:-1} //定义了一个大小为100，最后一个元素初始为-1,其余为0
+
+
+c1 := sha256.Sum256([]byte(&quot;x&quot;))      //
+</code></pre><p>切片</p>
+<pre><code>// 切片共享底层数组数据
+months := [...]string{1: &quot;January&quot;, 2: &quot;February&quot;, 3: &quot;March&quot;, 4: &quot;April&quot;, 5: &quot;June&quot;}
+Q1 := months[0:3]
+Q2 := months[2:3]
+fmt.Println(Q1[2], &amp;Q1[2]) //February 0xc042044080
+fmt.Println(Q2[0], &amp;Q2[0]) //February 0xc042044080
+
+Q2[0] = &quot;Hello&quot;   // 修改Q2[0]后，Q1中的数据也发生改变
+fmt.Println(Q1, Q2)  //[ January Hello] [Hello]
+
+//切片的创建
+var array=[5]int{1, 2, 3, 4, 5}
+slice := array[:4]             //基于底层数组创建
+
+var slice = []int{1, 2, 3, 4, 5} //直接创建
+
+var slice = make([]int 5, 10) //使用make函数创建有5个元素的切片，cap为10
+</code></pre><p>字典：</p>
+<pre><code>ages := map[string]int{
+    &quot;alice&quot;: 31,
+    &quot;joke&quot;: 33,
+}
+
+//或者
+ages := make(map[string]int)
+ages[&quot;alice&quot;] = 31
+ages[&quot;joke&quot;] = 33
+
+
+age, ok := ages[&quot;bob&quot;]
+if !ok {/* &quot;bob&quot; is not in this map&quot;*/}
+//也可以写成如下形式
+if age, ok := ages[&quot;bob&quot;]; !ok {/*...*/}
+//不能对字典元素进行取地址的操作，因为字典元素的地址是会发生变化的，当装载因子超过一定数值后，会对字典进行rehash操作。
+</code></pre><p>结构体</p>
+<pre><code>type Point struct {
+    X, Y int
+}
+
+pp := &amp;Point{1, 2}
+
+pp := new(Point)
+*pp = Point{1, 2}           //等价于上种方式
+
+pp.X              //1
+pp.Y              //2
+</code></pre><p>结构体嵌套</p>
+<pre><code>type Point struct {
+    X, Y int
+}
+
+type Circle struct {
+    Center Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle Circle
+    Spokes int
+}
+
+var w Wheel
+w.Circle.Center.X = 8     //这样访问显得过繁琐
+
+
+//结构体中的匿名字段
+type Circle struct {
+    Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle
+    Spokes int
+}
+// 这样我们就可以省略掉中间的名称直接访问w.X
+
+//两种初始化方法
+var w Wheel = Wheel{Circle{Point{8, 8}, 5}, 20}
+var w Wheel = Wheel {
+    Circle: Circle {
+        Point: Point{X: 8, Y: 8},
+        Radius: 5,
+    },
+    Spokes: 20,
+}
+</code></pre><p>JSON</p>
+<pre><code>// 只有导出的结构体成员才会被编码，这也就是我们为什么选择用大写字
+母开头的成员名称。
+type Movie struct {
+    Title string
+    Year int `json:&quot;released&quot;`    //输出json格式时指定的别名
+    Color bool `json:&quot;color, omitempty&quot;` //omitempty表示结构体成员为空时不生成JSON对象
+    Actors []string
+}
+</code></pre><p>文本和HTML模版</p>
+<pre><code>const templ = `{ {.TotalCount}} issues:
+{ {range .Items}}----------------------------------------
+Number: { {.Number}}
+User: { {.User.Login}}
+Title: { {.Title | printf &quot;%.64s&quot;}}
+Age: { {.CreatedAt | daysAgo}} days
+{ {end}}`
+
+func daysAgo(t time.Time) int {
+    return int(time.Since(t).Hours() / 24)
+}
+
+// 创建一个模版，指定过滤函数，调用Parse函数分析模板
+report, err := template.New(&quot;report&quot;).
+Funcs(template.FuncMap{&quot;daysAgo&quot;: daysAgo}).
+Parse(templ)
+
+//执行模版，result为传入的参数
+report.Execute(os.Stdout, result)
+</code></pre><hr>
+<p>参考： 1.The Go Programming Language</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/14/Go基础数据类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/14/Go基础数据类型/" class="post-title-link" itemprop="url">Go基础数据类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-14 17:13:25" itemprop="dateCreated datePublished" datetime="2018-08-14T17:13:25+08:00">2018-08-14</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-24 20:32:51" itemprop="dateModified" datetime="2020-06-24T20:32:51+08:00">2020-06-24</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Go将数据类型分为四类: 基础类型、复合类型、引用类型和接口类型。 基础类型包括：数字、字符串、布尔型。 整型 整型分为有符号和无符号类型的整数。</p>
+<pre><code>int8        int16       int32       int64   //分别对应8、16、32、64位大小的有符号整型数
+
+uint8       uint16      uint32      uint64  //分别对应8、16、32、64位大小的无符号整型数
+</code></pre><p>这些类型的变量不允许互相赋值或操作。如以下代码会产生错误:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int8</span></span><br><span class="line"><span class="keyword">var</span> b <span class="keyword">int32</span></span><br><span class="line">c := a+b</span><br></pre></td></tr></table></figure></p>
+<p>Unicode字符rune类型是和int32等价的类型，通常用于表示一个Unicode码点。这两个名称可 以互换使用。同样byte也是uint8类型的等价类型，byte类型一般用于强调数值是一个原始的数 据而不是一个小的整数。</p>
+<pre><code>// Go中运算符优先级
+* / % &lt;&lt; &gt;&gt; &amp; &amp;^
++ - | ^
+== != &lt; &lt;= &gt; &gt;=
+&amp;&amp;
+||
+</code></pre><hr>
+<p>浮点数</p>
+<pre><code>float32         float64
+</code></pre><p>复数</p>
+<pre><code>complex64                   //对应float32
+complex128                  //对应float64
+</code></pre><p>布尔型</p>
+<pre><code>true                    false
+</code></pre><p>字符串 原生字符串使用反引号代替双引号。在原生字符串面值中，不会进行转义操作。</p>
+<pre><code>const t = `Go is best language`
+</code></pre><p>一个字符串是包含的只读字节数组，一旦创建，是不可变的。相比之下，一个字节slice的元 素则可以自由地修改。</p>
+<pre><code>// 字符串和字节slice之间可以相互转换
+s := &quot;abc&quot;
+b := []byte(s)
+s2 := string(b)
+</code></pre><p>strconv包提供了布尔型、整型数、浮点数和对应字符串的相互转换，还提供了双引号转义相关的转换。</p>
+<hr>
+<p>常量 常量表达式的值在编译期计算，而不是在运行期。 所有常量的运算都可以在编译期完成，这样可以减少运行时的工作，也方便其他编译优化。 当操作数是常量时，一些运行时的错误也可以在编译时被发现，例如整数除零、字符串索引 越界、任何导致无效浮点数的操作等 注意默认类型是规则的：无类型的整数常量默认转换为int，对应不确定的内存大小，但是浮 点数和复数常量则默认转换为float64和complex128。</p>
+<pre><code>const (
+    a = 1
+    b
+    c = 2
+    d
+)
+fmt.Println(a, b, c, d) //1, 1, 2, 2
+
+const (
+    a uint = 1 &lt;&lt; iota
+    b
+    c
+    d
+)
+fmt.Println(a, b, c, d) //1, 2, 4, 8
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i := 1</span><br><span class="line">在函数中，简洁赋值语句 := 可在类型明确的地方代替 var 声明。</span><br><span class="line">函数外的每个语句都必须以关键字开始（var, func 等等），因此 := 结构不能在函数外使用。</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考： 1.The Go Programming Language</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/13/Go程序结构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2314,963 +3288,6 @@ objectB.b()
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/05/python-property/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/05/python-property/" class="post-title-link" itemprop="url">python property</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-05 10:36:29" itemprop="dateCreated datePublished" datetime="2018-08-05T10:36:29+08:00">2018-08-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>class property([fget[, fset[, fdel[, doc]]]])
-# fget是用于获取属性值的函数
-# fset是用于设置属性值的函数
-# fdel是用于删除属性值的函数
-# doc是文档字符串
-</code></pre><p>下面是官方文档上的一个例子：</p>
-<pre><code>In [2]: class C:
-        def __init__(self):
-            print(&quot;invoke __init__&quot;)
-            self._x = None
-
-        def getx(self):
-            print(&quot;invoke getx&quot;)
-            return self._x
-
-        def setx(self, value):
-            print(&quot;invoke setx&quot;)
-            self._x = value
-
-        def delx(self):
-            print(&quot;invoke delx&quot;)
-            del self._x
-
-        x = property(getx, setx, delx, &quot;I&#39;m the &#39;x&#39; property.&quot;)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/property.png" alt> 当访问c.x时会调用getx方法，当为c.x设置值时会调用setx方法，删除c.x时会调用delx方法。</p>
-<hr>
-<p>在对实例属性的获取和设定上，我们希望增加一些额外的处理过程(比如类型检查或者验证)。要自定义对属性的访问，一种简单的方式是将其定义为property。比如下面的代码定义了一个property，增加了对属性的类型检查。</p>
-<pre><code>In [9]: class Person:
-        def __init__(self, first_name):
-            self.first_name = first_name
-            print(&quot;invoke __init__&quot;)
-        @property
-        def first_name(self):
-            print(&quot;invoke get first_name&quot;)
-            return self._first_name
-        @first_name.setter
-        def first_name(self, value):
-            print(&quot;invoke set first_name&quot;)
-            if not isinstance(value, str):
-                raise TypeError(&quot;Expected a string&quot;)
-            self._first_name = value
-        @first_name.deleter
-        def first_name(self):
-            raise AttributeError(&quot;Can&#39;t delete attribute&quot;)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/property1.png" alt> 你可能会问为什么在<strong>init</strong>方法中设定的是self.first_name而 不是self._first_name?在这个例子中，property的全部意义就在于我们设置属性时可以执行类型检查。因此，你也想让这种类型检查在初始化的时候也可以进行。所以，在<strong>init</strong>中设置self.first_name,实际上会调用到setter方法(因此就会跳过self.first_name而去访问self._first_name)。 property使用场景： 只有当确定需要在访问属性必完成一些额外的处理任务时，才应该使用property.</p>
-<hr>
-<p>参考： 1.<a href="https://docs.python.org/3/library/functions.html#property" target="_blank" rel="noopener">官方文档</a> 2.python cookbook</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/04/python描述器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/04/python描述器/" class="post-title-link" itemprop="url">python描述器</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-04 11:06:17" itemprop="dateCreated datePublished" datetime="2018-08-04T11:06:17+08:00">2018-08-04</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>通常，描述器是具有“绑定行为”的对象属性，其属性访问已被描述器协议中的方法覆盖。这些方法是<strong>get __（），</strong> set __（）和__delete __（）。如果为对象定义了任何这些方法，则称其为描述器.</p>
-<pre><code>descr.__get__(self, obj, type=None) --&gt; value
-
-descr.__set__(self, obj, value) --&gt; None
-
-descr.__delete__(self, obj) --&gt; None
-</code></pre><p>如果你想创建一个全新的实例属性，可以通过一个描述器类的形式来定义它的功 能。下面是一个例子：</p>
-<pre><code>class Integer:
-    def __init__(self, name):
-        self.name = name
-    def __get__(self, instance, cls):
-        if instance is None:
-            return self
-        else:
-            return instance.__dict__[self.name]
-    def __set__(self, instance, value):
-        if not isinstance(value, int):
-            raise TypeError(&#39;Expected an int&#39;)
-        instance.__dict__[self.name] = value
-    def __delete__(self, instance):
-        del instance.__dict__[self.name]
-
-
-class Point:
-    x = Integer(&#39;x&#39;)
-    y = Integer(&#39;y&#39;)
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-</code></pre><p>当你这样做后，所有对描述器属性(比如x 或y) 的访问会被get () 、set () 和delete () 方法捕获到. <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/descriptor.png" alt> 描述器只能在类 级别被定义，而不能为每个实例单独定义。</p>
-<hr>
-<pre><code># 定义一个带__get__,__set__方法的描述符
-In [5]: class D:
-            def __init__(self):
-                pass
-            def __get__(self, instance, cls):
-                print(&quot;D get...&quot;)
-            def __set__(self, instance, val):
-                self.value = val
-
-
-In [6]: class TD:
-            x = D()
-            def __init__(self,x):
-                self.x = x
-
-
-In [11]: t = TD(1)
-In [12]: t.x
-D get...                #这里调用了描述符的__get__方法
-
-
-# 去掉描述中的__set__方法
-In [5]: class D:
-            def __init__(self):
-                pass
-            def __get__(self, instance, cls):
-                print(&quot;D get...&quot;)
-
-
-In [6]: class TD:
-            x = D()
-            def __init__(self,x):
-                self.x = x
-
-
-In [11]: t = TD(1)
-In [12]: t.x             #去掉__set__方法后并没调用描述符中的__get__方法
-1
-</code></pre><p>一个类，如果只定义了 <strong>get</strong>() 方法，而没有定义 <strong>set</strong>(), <strong>delete</strong>() 方法，则认为是非数据描述符； 反之，则成为数据描述符。 而非数据描述符的优先级是低于实例属性的。 python中的属性访问优先级： 1.<strong>getattribute</strong>()方法无条件调用 2.数据描述符（由1触发调用，若改写了<strong>getattribute</strong>(),可能会导致无法调用描述符) 3.实例对象的字典（若与描述符对象同名，会被覆盖) 4.类的字典 5.非数据描述符 6.父类的字典 7.<strong>getattr</strong>()方法</p>
-<hr>
-<p>使用一个描述器类定义一个延迟计算属性</p>
-<pre><code>class lazyproperty:
-    def __init__(self, func):
-        self.func = func
-    def __get__(self, instance, cls):
-        if instance is None:
-            return self
-        else:
-            value = self.func(instance)
-            setattr(instance, self.func.__name__, value)
-            return value
-
-import math
-class Circle:
-    def __init__(self, radius):
-        self.radius = radius
-    @lazyproperty
-    def area(self):
-        print(&#39;Computing area&#39;)
-        return math.pi * self.radius ** 2
-    @lazyproperty
-    def perimeter(self):
-        print(&#39;Computing perimeter&#39;)
-        return 2 * math.pi * self.radius
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/lazy.png" alt> 很多时候构建延迟计算属性的主要目的是为了提升性能，只有在真正需要的时候才进行计算。 上例中访问c.area只计算一次，当第一次计算后，c.area的值会存在实例的字典中，而只定义了一个<strong>get</strong>方法的非数据描述器的优先级是小于实例属性的,所以会直接访问实例属性。</p>
-<pre><code>vars(...)
-    vars([object]) -&gt; dictionary
-
-    Without arguments, equivalent to locals().
-    With an argument, equivalent to object.__dict__.
-</code></pre><hr>
-<p>参考： 1.<a href="https://docs.python.org/3/howto/descriptor.html" target="_blank" rel="noopener">官方文档</a> 2.python cookbook 3.<a href="https://www.cnblogs.com/Jimmy1988/p/6808237.html" target="_blank" rel="noopener">https://www.cnblogs.com/Jimmy1988/p/6808237.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/03/python GIL与线程调度/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/03/python GIL与线程调度/" class="post-title-link" itemprop="url">python GIL与线程调度</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-03 21:50:08" itemprop="dateCreated datePublished" datetime="2018-08-03T21:50:08+08:00">2018-08-03</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>GIL(Global Interpreter Lock)-全局解释锁，python使用GIL来互斥线程对python虚拟机的使用，同一时间只能并且仅有一个线程使用python虚拟机。</p>
-<h4 id="为什么要使用GIL"><a href="#为什么要使用GIL" class="headerlink" title="为什么要使用GIL"></a>为什么要使用GIL</h4><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/threadab.png" alt> 假设有两个线程A、B，在两个线程中，都同时保存着对内存中同一对象obj的引用，也就是说，这时obj-&gt;ob_refcnt的值为2。如果A销毁对obj的引用，显然，A将通过Py_DECREF调整obj的引用计数值。Py_DECREF的整个 动作可以分为两个部分：</p>
-<pre><code>--obj-&gt;ob_refcnt;
-if(obj-&gt;ob_refcnt == 0) destory object and free memory
-</code></pre><p>如果A在执行完第一个动作之后，obj-&gt;ob_refcnt的值变为1。若此时线程A被挂起，而唤醒了B线程。如果B同样也开始销毁对obj的引用。B完成第一动作之后，obj-&gt;ob_refcnt为0，若此时B没有被线程调度打断，而是顺利地完成了接下来的第二个动作，将对象销毁，内存释放。然后A又被重新唤醒，obj-&gt;ob_refcnt已经被B减少到0，而不是当初的1。此时A开始对已经销毁的对象进行对象销毁和内存释放动作。这将会发生意外。。 为了支持多线程机制，一个基本的要求就是需要实现不同线程对共享资源访问的互斥，所以引入了GIL。</p>
-<hr>
-<p>python线程的调度 python会在两个情况下启动线程调度机制 1.线程执行完成，释放全局锁 2.当python执行了N条指令后会立即启动线程调度机制。这个值可以通过sys.getcheckinterval()获取。</p>
-<pre><code>In [3]: sys.getcheckinterval()
-/usr/local/bin/ipython:1: DeprecationWarning: sys.getcheckinterval() and sys.setcheckinterval() are deprecated.  Use sys.getswitchinterval() instead.
-  #!/usr/bin/python3
-Out[3]: 100
-</code></pre><p>从python3.2开始这个函数已经被废弃了，改用sys.getswitchinterval()，调度间隔时间改为了0.005秒。</p>
-<pre><code>In [4]: sys.getswitchinterval()
-Out[4]: 0.005
-</code></pre><hr>
-<p>参考： 1.python源码剖析—深度探索动态语言核心技术 2.<a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval" target="_blank" rel="noopener">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/02/单例模式(Singleton)-创建型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/02/单例模式(Singleton)-创建型/" class="post-title-link" itemprop="url">单例模式(Singleton)-创建型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-02 10:08:57" itemprop="dateCreated datePublished" datetime="2018-08-02T10:08:57+08:00">2018-08-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>单例模式保证类有且只有一个实例，并提供一个访问他的全局访问点。 1.</p>
-<pre><code>class Singleton(object):
-    def __new__(cls):
-        if not hasattr(cls, &#39;instance&#39;):
-            cls.instance = super(Singleton, cls).__new__(cls)
-        return cls.instance
-
-s = Singleton()
-print(&quot;Object created&quot;, s)
-
-s1 = Singleton()
-print(&quot;Object created&quot;, s1)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single.png" alt> 2.</p>
-<pre><code>class Singleton:
-    __instance = None
-    def __init__(self):
-        if not Singleton.__instance:
-            print(&quot; __init__ method called..&quot;)
-        else:
-            print(&quot;Instance already created:&quot;, self.getInstance())
-    @classmethod
-    def getInstance(cls):
-        if not cls.__instance:
-            cls.__instance = Singleton()
-        return cls.__instance
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single1.png" alt> 3. <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single3.png" alt> 4.有时候我们并不关心生成的实例是否具有同一id，而只关心其状态和行为方式。我们可以允许许多个实例被创建，但所有的实例都共享状态和行为方式：</p>
-<pre><code>class Borg:
-    __shared_state = {&quot;1&quot;:&quot;2&quot;}
-    def __init__(self):
-        self.x = 1
-        self.__dict__ = self.__shared_state
-        pass
-b = Borg()
-b1 = Borg()
-b.x = 4
-print(&quot;Borg Object &#39;b&#39;: &quot;, b)
-print(&quot;Borg Object &#39;b1&#39;: &quot;, b1)
-print(&quot;Object State &#39;b&#39;:&quot;, b.__dict__)
-print(&quot;Object State &#39;b1&#39;:&quot;, b1.__dict__)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/single4.png" alt> 或者使用<strong>new</strong>方法：</p>
-<pre><code>In [16]: class Borg(object):
-             _shared_state = {}
-             def __new__(cls, *args, **kwargs):
-                 obj = super(Borg, cls).__new__(cls, *args, **kwargs)
-                 obj.__dict__ = cls._shared_state
-                 return obj
-</code></pre><hr>
-<p>4.元类实现</p>
-<pre><code># 当我们调用Logger()初始化Logger时，将会调用类MetaSingleton中的__call__方法
-In [1]: class MetaSingleton(type):
-            _instances = {}
-            def __call__(cls, *args, **kwargs):
-                if cls not in cls._instances:
-                    cls._instances[cls] = super(MetaSingleton, cls).__call__(*args, **kwargs)
-                return cls._instances[cls]
-       class Logger(metaclass=MetaSingleton):
-           pass
-
-
-In [2]: l1 = Logger()
-
-In [3]: l2 = Logger()
-
-In [4]: id(l1)
-Out[4]: 140568820684616
-
-In [5]: id(l2)
-Out[5]: 140568820684616
-</code></pre><hr>
-<p>线程安全的写法：</p>
-<pre><code>In [9]: def synchronized(func):
-   ...:     func.__lock__ = threading.Lock()
-   ...:
-   ...:     def synced_func(*args, **kws):
-   ...:         with func.__lock__:
-   ...:             return func(*args, **kws)
-   ...:
-   ...:     return synced_func
-   ...:
-   ...:
-
-In [10]: def Singleton(cls):
-    ...:     instances = {}
-    ...:
-    ...:     @synchronized
-    ...:     def get_instance(*args, **kw):
-    ...:         if cls not in instances:
-    ...:             instances[cls] = cls(*args, **kw)
-    ...:         return instances[cls]
-    ...:
-    ...:     return get_instance
-    ...:
-    ...:
-
-In [11]: @Singleton
-    ...: class test():
-    ...:     a = 1
-    ...:
-
-In [12]: s = test()
-
-In [13]: s1 = test()
-
-In [14]: id(s)
-Out[14]: 140308601028336
-
-In [15]: id(s1)
-Out[15]: 140308601028336
-</code></pre><p>实用场景： 1.数据库连接 2.应用健康检测 3.许多需要创建一个对象的场景，如线程池，缓存，对话框，等等。</p>
-<hr>
-<p>优点： 通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。 缺点： 全局变量可能会在某一处被修改，一个同一对象存在多个引用，所有依赖于全局变量的类都会紧密耦合，因为一个类对全局数据的更改可能会无意中影响另一个类 参考： 1.<a href="https://www.amazon.com/Learning-Python-Design-Patterns-Second/dp/178588803X/ref=sr_1_1_sspa?ie=UTF8&amp;qid=1533132340&amp;sr=8-1-spons&amp;keywords=Learning+Python+Design+Patterns&amp;psc=1" target="_blank" rel="noopener">Learning Python Design Patterns</a> 2.<a href="https://www.cnblogs.com/baiyb/p/8506438.html" target="_blank" rel="noopener">https://www.cnblogs.com/baiyb/p/8506438.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3317,7 +3334,7 @@ Out[15]: 140308601028336
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

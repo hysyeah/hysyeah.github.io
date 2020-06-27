@@ -380,6 +380,752 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/22/使用cargo管理外部依赖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/03/22/使用cargo管理外部依赖/" class="post-title-link" itemprop="url">使用cargo管理外部依赖</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-22 11:40:49 / 修改时间：22:41:29" itemprop="dateCreated datePublished" datetime="2020-03-22T11:40:49+08:00">2020-03-22</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.使用<code>cargo</code>创建项目,会在当前目录下生成<code>hello_cargo</code>文件夹<br><code>cargo new hello_cargo --bin</code></p>
+<p>2.使用<code>Goland</code>打开项目<code>hello_cargo</code>,目录如下。其中<code>Cargo.toml</code>中<code>[package]</code>定义的是关于项目的一些信息,<code>[dependencies]</code>中定义的是外部依赖<br><img src="http://img.hysyeah.top/2020/3/22/hello-cargo.png" alt="image"></p>
+<p>3.引入外部包<code>rand</code>,<a href="https://docs.rs/rand/0.3.14/rand/" target="_blank" rel="noopener">rand</a><br>在<code>Cargo.toml</code>文件<code>[dependencies]</code>下加入<code>rand = &quot;0.3.14&quot;</code></p>
+<p>4.<code>cargo build</code>将会从远端下载<code>rand</code>包,包括<code>rand</code>的依赖包<br><img src="http://img.hysyeah.top/2020/3/22/rand.png" alt="image"></p>
+<p>5.使用外部包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">extern crate rand; //表明rand是外部依赖</span><br><span class="line"></span><br><span class="line">use std::io;</span><br><span class="line">use rand::Rng;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;Guess the number!&quot;);</span><br><span class="line"></span><br><span class="line">    let secret_number = rand::thread_rng().gen_range(1, 101);</span><br><span class="line">    println!(&quot;The secret number is:&#123;&#125;&quot;, secret_number);</span><br><span class="line">    println!(&quot;Please input your guess.&quot;);</span><br><span class="line"></span><br><span class="line">    let mut guess = String::new();</span><br><span class="line">    io::stdin().read_line(&amp;mut guess)</span><br><span class="line">        .expect(&quot;Failed to read line&quot;);</span><br><span class="line"></span><br><span class="line">    println!(&quot;You guessed:&#123;&#125;&quot;, guess);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.编译执行<br><img src="http://img.hysyeah.top/2020/3/22/run-rand.png" alt="image"></p>
+<hr>
+<h5 id="cargo相关命令"><a href="#cargo相关命令" class="headerlink" title="cargo相关命令"></a>cargo相关命令</h5><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>command</th>
+<th>desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rustup doc</td>
+<td>打开本地文档</td>
+</tr>
+<tr>
+<td>rustc main.rs</td>
+<td>编译</td>
+</tr>
+<tr>
+<td>rustup update</td>
+<td>更新Rust工具链和rustup</td>
+</tr>
+<tr>
+<td>cargo new <app_name> —bin</app_name></td>
+<td>新建一个可执行应用</td>
+</tr>
+<tr>
+<td>cargo build</td>
+<td>生成可执行文件</td>
+</tr>
+<tr>
+<td>cargo build —release</td>
+<td>生成可发布的执行文件,Rust有做一些优化</td>
+</tr>
+<tr>
+<td>cargo run</td>
+<td>如果存在目标文件,且Rust认为代码没有改变,则直接执行可执行文件;如果源码改变或可执行文件不存在,则编译后再执行</td>
+</tr>
+<tr>
+<td>cargo check</td>
+<td>检查代码是否能正确编译,速度当然比cargo build,因为不产生可执行文件,编码中用于快速检查代码是否有问题</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>使用过程中遇到的问题：<br>Caused by:<br>  error authenticating: failed connecting agent; class=Ssh (23)<br><img src="http://img.hysyeah.top/2020/3/22/cargo-error.png" alt="image"><br>解决方法：将~/.gitconfig中的两行内容注释,<code>Windows</code>下路径为<code>C:\Users\Administrator\</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#[url &quot;git@github.com:&quot;]</span><br><span class="line"># 	insteadOf = https://github.com/</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>参考：<br>1.<a href="https://doc.rust-lang.org/book/" target="_blank" rel="noopener">The Rust Programming Language</a><br>2.<a href="https://github.com/rust-lang/cargo/issues/3381" target="_blank" rel="noopener">https://github.com/rust-lang/cargo/issues/3381</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/21/记录Rust-Hello-Word/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/03/21/记录Rust-Hello-Word/" class="post-title-link" itemprop="url">记录Rust Hello Word</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-21 07:04:06 / 修改时间：08:57:58" itemprop="dateCreated datePublished" datetime="2020-03-21T07:04:06+08:00">2020-03-21</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.安装<code>Rust</code><br>官网<a href="https://www.rust-lang.org/zh-CN/tools/install" target="_blank" rel="noopener">下载</a>直接点击安装即可</p>
+<p>2.在<code>Goland</code>上安装<code>Rust</code>插件<br>在<a href="https://plugins.jetbrains.com/plugin/8182-rust/versions" target="_blank" rel="noopener">rust plugins</a>上下载对应<code>Goland</code>版本的<code>Rust</code>插件。笔者的<code>Goland</code>是<code>2019.1</code>。<br><img src="http://img.hysyeah.top/2020/3/21/goland-rust-plugin.png" alt="image"></p>
+<p>根据如下步骤安装即可,<code>Install Plugin from Disk</code>指定上一步下载的压缩文件。安装好后重启<code>Goland</code><br><img src="http://img.hysyeah.top/2020/3/21/plugin-install-1.png" alt="image"><br><img src="http://img.hysyeah.top/2020/3/21/plugin-install-2.png" alt="image"><br>3.将环境变量<code>%USERPROFILE%\.cargo\bin</code>添加到<code>Path</code><br>4.使用<code>Goland</code>新建一个<code>Rust</code>项目<br><img src="http://img.hysyeah.top/2020/3/21/rust.png" alt="image"></p>
+<p>5.编译执行<code>Rust</code>代码<br><img src="http://img.hysyeah.top/2020/3/21/rust2.png" alt="image"></p>
+<hr>
+<p>过程中遇到的问题：<br>缺少一些库:advapi32.lib,userenv.lib<br>解决方法：直接安装一个<code>visual studio community 2019</code>,问题解决<br><img src="http://img.hysyeah.top/2020/3/21/link-error.png" alt="image"></p>
+<p>参考：<br>1.<a href="https://github.com/rust-lang/rust/issues/43039" target="_blank" rel="noopener">https://github.com/rust-lang/rust/issues/43039</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/20/一个操作系统的实现中使用的命令和工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/20/一个操作系统的实现中使用的命令和工具/" class="post-title-link" itemprop="url">一个操作系统的实现中使用的命令和工具</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-20 22:11:22" itemprop="dateCreated datePublished" datetime="2020-01-20T22:11:22+08:00">2020-01-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-06 12:47:24" itemprop="dateModified" datetime="2020-02-06T12:47:24+08:00">2020-02-06</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对书中所使用到的工具和命令进行记录,方便查看！</p>
+<p>ndisasmv</p>
+<p>bximage</p>
+<p>dd</p>
+<p>xxd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo losetup -f</span><br><span class="line"></span><br><span class="line">mkdir /mnt/floppy</span><br><span class="line"></span><br><span class="line">losetup /dev/loop5 pm.img</span><br><span class="line"></span><br><span class="line">sudo mount /dev/loop5 /mnt/floppy</span><br><span class="line">sudo cp pmtest3.com /mnt/floppy</span><br><span class="line">umount /mnt/floppy</span><br><span class="line"></span><br><span class="line">sudo mount -t msdos -o loop pm.img /mnt/floppy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x/4xw 0x7c14</span><br><span class="line"></span><br><span class="line">qemu-system-i386 -hda /home/hys/code/6828/src/orange/ch1/a.img -gdb tcp::26000 -S</span><br></pre></td></tr></table></figure>
+<hr>
+<p>错误集锦：<br>hys@hys:~/code/6828/src/orange/ch3/b$ sudo mount -t msdos -o loop pm.img /mnt/floppy<br>mount: /mnt/floppy: wrong fs type, bad option, bad superblock on /dev/loop22, missing codepage or helper program, or other error.</p>
+<p>需启动bochs<br>然后进行初始化: format b:<br>然后再执行mount命令</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/13/2020书单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/01/13/2020书单/" class="post-title-link" itemprop="url">2020书单</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-13 20:44:41" itemprop="dateCreated datePublished" datetime="2020-01-13T20:44:41+08:00">2020-01-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-02-23 21:45:14" itemprop="dateModified" datetime="2020-02-23T21:45:14+08:00">2020-02-23</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在此先列一个计划</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>书名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编译原理</td>
+<td><a href="https://book.douban.com/subject/11628134/" target="_blank" rel="noopener">Programing Languages:Application and Interpretation</a>(cs3520)  <br><a href="https://book.douban.com/subject/1148282/" target="_blank" rel="noopener">SICP</a><br><a href="https://github.com/zpoint/CPython-Internals" target="_blank" rel="noopener">python源码剖析(zpoint/cpython-internals)</a></td>
+</tr>
+<tr>
+<td>计算机基础</td>
+<td><a href="www.cs.cmu.deu/~213/schedule.html">深入理解计算机基础</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System: Principles and Practice</a><br><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating systems three easy pieces</a><br><a href="https://book.douban.com/subject/1782316/" target="_blank" rel="noopener">Concepts,techniques and models of computer programming</a></td>
+</tr>
+<tr>
+<td>设计模式</td>
+<td><a href="https://book.douban.com/subject/26829015/" target="_blank" rel="noopener">Mastering python Design patterns</a><br><a href="https://book.douban.com/subject/25843319/" target="_blank" rel="noopener">设计模式之禅</a></td>
+</tr>
+<tr>
+<td>编程语言</td>
+<td><a href="https://book.douban.com/subject/27013197/" target="_blank" rel="noopener">The Rust Programing Language</a><br><a href="https://book.douban.com/subject/27028517/" target="_blank" rel="noopener">Fluent Python</a></td>
+</tr>
+<tr>
+<td>代码能力</td>
+<td><a href="https://book.douban.com/subject/30218046/" target="_blank" rel="noopener">Aphilosophy of Software</a></td>
+</tr>
+<tr>
+<td>框架类</td>
+<td><a href="https://www.grpc.io/" target="_blank" rel="noopener">grpc</a><br><a href="https://doc.akka.io/docs/akka-http/current/index.html?language=scala" target="_blank" rel="noopener">akka</a></td>
+</tr>
+<tr>
+<td>容器</td>
+<td>k8s, istio, knative</td>
+</tr>
+<tr>
+<td>算法</td>
+<td><a href="https://book.douban.com/subject/19952400/" target="_blank" rel="noopener">算法(第4版)</a>,github上的python算法,<br><a href="https://github.com/wangzheng0822/algo" target="_blank" rel="noopener">https://github.com/wangzheng0822/algo</a><br><a href="https://github.com/algorithm-visualizer/algorithm-visualizer" target="_blank" rel="noopener">https://github.com/algorithm-visualizer/algorithm-visualizer</a><br><a href="https://github.com/TheAlgorithms/Python" target="_blank" rel="noopener">https://github.com/TheAlgorithms/Python</a></td>
+</tr>
+<tr>
+<td>数据库</td>
+<td><a href="https://book.douban.com/subject/23008813/" target="_blank" rel="noopener">高性能MySQL</a><br><a href="https://book.douban.com/subject/34804798/" target="_blank" rel="noopener">Redis设计与源码分析</a><br><a href="https://book.douban.com/subject/25900156/" target="_blank" rel="noopener">Redis设计与实现</a><br><a href="https://book.douban.com/subject/30386804/" target="_blank" rel="noopener">Redis深度历险</a><br><a href="https://book.douban.com/subject/4838430/" target="_blank" rel="noopener">Database system:Implementation 2nd(cmu-15-721)</a></td>
+</tr>
+<tr>
+<td>系统编程</td>
+<td><a href="https://book.douban.com/subject/1788421/" target="_blank" rel="noopener">unix环境高级编程</a><br><a href="https://book.douban.com/subject/1500149/" target="_blank" rel="noopener">unix网络编程</a><br><a href="https://book.douban.com/subject/6097773/" target="_blank" rel="noopener">LINUX内核设计与实现</a></td>
+</tr>
+<tr>
+<td>系统设计</td>
+<td><a href="https://book.douban.com/subject/26197294/" target="_blank" rel="noopener">Designing Data Intensive Applications</a><br><a href="https://book.douban.com/subject/30417742/" target="_blank" rel="noopener">Reactive Design Pattern</a><br><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener">https://github.com/donnemartin/system-design-primer</a></td>
+</tr>
+<tr>
+<td></td>
+<td><a href="https://book.douban.com/subject/6829746/" target="_blank" rel="noopener">A primer on memory consistency and cache coherence</a><br><a href="https://book.douban.com/subject/25732314/" target="_blank" rel="noopener">shared-memory synchronization</a><br><a href="https://book.douban.com/subject/6080692/" target="_blank" rel="noopener">processor micro architecheture: An Implementation perspective</a><br><a href="https://book.douban.com/subject/15306337/" target="_blank" rel="noopener">static program Analysis</a></td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating system:Three easy pieces</a><br><a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">一个操作系统的实现</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System Principles and Practice</a></td>
+</tr>
+<tr>
+<td>协议</td>
+<td><a href="https://book.douban.com/subject/26825411/" target="_blank" rel="noopener">TCP/IP</a></td>
+</tr>
+<tr>
+<td>面试</td>
+<td><a href="https://github.com/0voice/interview_internal_reference" target="_blank" rel="noopener">https://github.com/0voice/interview_internal_reference</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>多思考！！！</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/10/操作系统：引导扇区实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1680,791 +2426,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/13/协程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/13/协程/" class="post-title-link" itemprop="url">协程</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-13 12:25:59" itemprop="dateCreated datePublished" datetime="2019-10-13T12:25:59+08:00">2019-10-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-27 14:45:32" itemprop="dateModified" datetime="2019-10-27T14:45:32+08:00">2019-10-27</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="普通函数与协程函数"><a href="#普通函数与协程函数" class="headerlink" title="普通函数与协程函数"></a>普通函数与协程函数</h4><p>有栈协程<br>无栈协程</p>
-<p>共享栈<br>私有栈</p>
-<p>对称协程<br>非对称协程</p>
-<p><img src="http://img.hysyeah.top/2019/10/22/fun_and_coroutine.png" alt="image"></p>
-<hr>
-<p>参考:<br>1.<a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Coroutine</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/11/python3类型注释/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/11/python3类型注释/" class="post-title-link" itemprop="url">python3类型注释</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-11 07:16:53" itemprop="dateCreated datePublished" datetime="2019-08-11T07:16:53+08:00">2019-08-11</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-13 12:17:37" itemprop="dateModified" datetime="2019-10-13T12:17:37+08:00">2019-10-13</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>python是一门动态语言,若编码不规范会出现很多运行时错误。为了提高代码可读性，减少运行时bug,python提供了类型注释可以对函数参数，返回值，变量等进行标注。通过静态检查就可以发现一些常见的问题。类型注释的代码在python运行时并不会触发，所以没有性能影响。</p>
-<p>1.类型注释的好处，看如下这个例子。<br><img src="http://img.hysyeah.top/2019/08/11/type-hint-gretting.png" alt="image"></p>
-<p>这两种方法在python3.5之后都是正确的写法，一点问题都没有。但是看左边的代码就会遇到的问题，因为python是动态语言，函数参数<code>name</code>的类型只有在运行时才知道。如果我们这样调用左边的函数<code>gretting([&quot;world&quot;])</code>，这很明显字符串不能和列表相加，这在运行时就会发生异常。<br>如果我们使用右边的写法通过静态检查器就可以提前检查出错误。右边提示了参数<code>name</code>的类型为str,函数的返回值为str。</p>
-<p>通过<code>mypy</code>对代码进行类型检查,可以看到参数传递错误被检查出来了。<br><img src="http://img.hysyeah.top/2019/08/11/type-hint-gretting-err.png" alt="image"></p>
-<p>2.python提供的类型注释<br>python从3.5版本开始将类型注释并入了标准库中。可通过如下方式引用<br><code>from typing import List, Dict</code></p>
-<ul>
-<li><p>对变量进行注释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">In [1]: x: int = 1                            # 表示变量x为int类型                                                                                     </span><br><span class="line">In [2]: x: float = 0.1                        # 表示变量x为float类型                                                                                    </span><br><span class="line">In [3]: x: bool = True                        # 表示变量x为bool类型                                                                                    </span><br><span class="line">In [4]: x: str = &quot;test&quot;                       # 表示变量x为str类型                                                                         </span><br><span class="line">In [5]: x: bytes = b&quot;test&quot;                    # 表示变量x为bytes类型</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">In [8]: from typing import List,Dict,Sequence,Tuple,Set</span><br><span class="line">In [9]: x: Dict[str, float] = &#123;&apos;field&apos;: 2.0&#125;            # x是一个字典key为str类型,值为float类型                                                                           </span><br><span class="line">In [10]: x: Tuple[int, str, float] = (3, &quot;yes&quot;, 7.5)    # x是一个元组，元素类型可以为int, str, float                                                                             </span><br><span class="line">In [11]: x: List[int] = [1]                             # x是一个列表，元素类型为int                                                                             </span><br><span class="line">In [12]: x: Set[int] = &#123;6, 7&#125;                           # x是一个集合，元素类型为int</span><br><span class="line"></span><br><span class="line">In [16]: x: Union[int,str] = 1                         # x类型可以为int或者str         </span><br><span class="line"></span><br><span class="line">In [17]: x: Union[int, None] = 1                       # x类型可以为int或者None,等同于Optional[int]          </span><br><span class="line"></span><br><span class="line">In [18]: x: Optional[int] = 1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>函数注释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def gretting(name: str) -&gt; str:</span><br><span class="line">    return &quot;Hello &quot; + name</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 对一个可调用的函数进行注释</span><br><span class="line">x: Callable[[int, float], float] = f                  # x是一个可调用的函数，有两个参数，类型分别为int,float,返回值为float类型</span><br></pre></td></tr></table></figure>
-<ul>
-<li>类变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Car:</span><br><span class="line">    seats: ClassVar[int] = 4                         # seats是一个类变量，类型为int</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def f(x: &apos;A&apos;) -&gt; None:  # OK                         # 表示函数f的参数x的类型为A的实例</span><br><span class="line">    ...</span><br><span class="line">class A:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">x: A = A()                                          # 表示x的类型为A的实例，若想表示x的类型为类对象，请看下面</span><br><span class="line">x: Type[A] = A</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>typing模块中的协议类</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>协议</th>
-<th>方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Iterable[T]</code></td>
-<td><code>def __iter__(self) -&gt; Iterator[T]</code></td>
-</tr>
-<tr>
-<td><code>Iterator[T]</code></td>
-<td><code>def __next__(self) -&gt; T</code>  <code>def __iter__(self) -&gt; Iterator[T]</code></td>
-</tr>
-<tr>
-<td><code>Sized</code></td>
-<td><code>def __len__(self) -&gt; int</code></td>
-</tr>
-<tr>
-<td><code>Container[T]</code></td>
-<td><code>def __contains__(self, x: object) -&gt; bool</code></td>
-</tr>
-<tr>
-<td><code>Collection[T]</code></td>
-<td><code>def __len__(self) -&gt; int</code> <code>def __iter__(self) -&gt; Iterator[T]</code> <code>def __contains__(self, x: object) -&gt; bool</code></td>
-</tr>
-<tr>
-<td><code>Awaitable[T]</code></td>
-<td><code>def __await__(self) -&gt; Generator[Any, None, T]</code></td>
-</tr>
-<tr>
-<td><code>AsyncIterable[T]</code></td>
-<td><code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
-</tr>
-<tr>
-<td><code>AsyncIterator[T]</code></td>
-<td><code>def __anext__(self) -&gt; Awaitable[T]</code> <code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
-</tr>
-<tr>
-<td><code>ContextManager[T]</code></td>
-<td><code>def __enter__(self) -&gt; T</code> <code>def __exit__(self,exc_type: Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Optional[bool]</code></td>
-</tr>
-<tr>
-<td><code>AsyncContextManager[T]</code></td>
-<td><code>def __aenter__(self) -&gt; Awaitable[T]</code> <code>def __aexit__(self,exc_type:Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Awaitable[Optional[bool]]</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li><p>cast 将静态类型值强制转换为子类型,并不是像其它静态语言真正的进行类型转换，在运行时并不生效。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from typing import cast, List</span><br><span class="line"></span><br><span class="line">o: object = [1]</span><br><span class="line">x = cast(List[int], o)  # OK</span><br><span class="line">y = cast(List[str], o)  # OK (cast performs no actual runtime check)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Generics</p>
-</li>
-</ul>
-<p>python内置的<code>collection classes</code>都是<code>generic classes</code>。Generic types拥有一个或多个类型参数。如<code>Dict[int, str]</code> <code>List[int]</code>。</p>
-<p>自定义一个原生类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from typing import TypeVar, Generic</span><br><span class="line"></span><br><span class="line">T = TypeVar(&apos;T&apos;)</span><br><span class="line"></span><br><span class="line">class Stack(Generic[T]):</span><br><span class="line">    def __init__(self) -&gt; None:</span><br><span class="line">        # Create an empty list with items of type T</span><br><span class="line">        self.items: List[T] = []</span><br><span class="line"></span><br><span class="line">    def push(self, item: T) -&gt; None:</span><br><span class="line">        self.items.append(item)</span><br><span class="line"></span><br><span class="line">    def pop(self) -&gt; T:</span><br><span class="line">        return self.items.pop()</span><br><span class="line"></span><br><span class="line">    def empty(self) -&gt; bool:</span><br><span class="line">        return not self.items</span><br></pre></td></tr></table></figure></p>
-<p>现在<code>Stack</code>类可以用于表示拥有任务类型的<code>stack</code>,如<code>Stack[int],Stack[str],Stack[Tuple[int, str]]</code>等。<br>可以像使用内置容器类型一样使用类<code>Stack</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Construct an empty Stack[int] instance</span><br><span class="line">stack = Stack[int]()</span><br><span class="line">stack.push(2)</span><br><span class="line">stack.pop()</span><br><span class="line">stack.push(&apos;x&apos;)        # Type error</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>Variance of generic types<br>关于它们之间的子类型关系，存在三种主要类型的通用类型：<code>invariant</code>(不变的),<code>covariant</code>(协变的),<code>contravariant</code>(逆变的)</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Animal:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">class Cat(Animal):</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<p>如上,<code>Animal</code>有子类型<code>Cat</code>,<code>Cat</code><strong>可能</strong>可以使用<code>Animal</code>中的某些方法，这个<strong>可能</strong>取决于类型是<code>covariant</code>或者<code>contravariant</code>。</p>
-<p>如果<code>Cat</code>可以使用它的超类型<code>Animal</code>中的一些方法，这种情况被称为<code>convariant</code>;如果超类型<code>Animal</code>可以使用子类型<code>Cat</code>中的某些方法，则被称为<code>contravariant</code>。<br>如果<code>convariant</code>和<code>contravariant</code>都不成立，则被称作<code>invariant</code>,即<code>Cat</code>不能使用<code>Animal</code>中的方法，<code>Animal</code> 也不能使用<code>Cat</code>中的方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from typing import TypeVar, Generic, Iterable, Iterator</span><br><span class="line"></span><br><span class="line">List_co = TypeVar(&apos;List_co&apos;, contravariant=True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class ImmutableList(Generic[List_co]):</span><br><span class="line">    def __init__(self, items: Iterable[List_co]) -&gt; None:</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">    def __iter__(self) -&gt; Iterator[List_co]:</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Employee:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Manager(Employee):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def list_employees(employees: ImmutableList[Employee]) -&gt; None:</span><br><span class="line">    for employee in employees:</span><br><span class="line">        print(employee)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">managers = ImmutableList([Manager()])</span><br><span class="line">list_employees(managers)</span><br></pre></td></tr></table></figure>
-<p>当<code>contravariant=True</code>时，使用命令<code>mypy co.py</code>,出现如下错误：<br><img src="http://img.hysyeah.top/2019/10/13/convariant.png" alt="image"></p>
-<p>默认情况下<code>mypy</code>认为所有用户自定义的原生类型都是<code>invariant</code>的。</p>
-<p>请试下当<code>convariant=True</code>时又是怎样的结果</p>
-<hr>
-<p>参考：<br>1.<a href="https://www.python.org/dev/peps/pep-0484/" target="_blank" rel="noopener">pep484</a><br>2.<a href="https://www.python.org/dev/peps/pep-0526/" target="_blank" rel="noopener">pep526</a><br>3.<a href="https://mypy.readthedocs.io/en/latest/" target="_blank" rel="noopener">mypy</a><br>4.<a href="https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac" target="_blank" rel="noopener">https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/10/tcp之拥塞控制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/10/tcp之拥塞控制/" class="post-title-link" itemprop="url">tcp之拥塞控制</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-10 14:12:36 / 修改时间：19:02:33" itemprop="dateCreated datePublished" datetime="2019-08-10T14:12:36+08:00">2019-08-10</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>要了解拥塞控制可以先了解下<a href="http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/" target="_blank" rel="noopener">在途字节数</a>这一概念。</p>
-<p>关于TCP拥塞控制的一些术语：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小</span><br><span class="line">RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小</span><br><span class="line">FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节</span><br><span class="line"></span><br><span class="line">RECEIVER WINDOW--rwnd                   推荐的接收窗口</span><br><span class="line">CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。</span><br><span class="line">INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小</span><br><span class="line">LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸</span><br><span class="line">RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。</span><br><span class="line">FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小</span><br></pre></td></tr></table></figure></p>
-<p>1.拥塞控制的目的<br>为什么要进行拥塞控制? 假如把网络路径想象成一条河流,发送方是水源,接收方是入海口,那在途字节数就是河里的水量。当水源的流速超过了入海口的流速,河里的水就会越来越多,直到溢出。发生拥塞时的在途字节数就是该时刻的网络拥塞点。发生拥塞时TCP的表现为丢包。当发送方发送数据过慢时,网络等资源就会造成一定的浪费，当发送过快时，就是造成网络拥塞(出现丢包),拥塞控制就是为了找到最合适的发送速度。</p>
-<p>2.拥塞控制算法<br>拥塞控制算法包括4个部分：慢启动,拥塞避免,快速重传,快速恢复。</p>
-<ul>
-<li>慢启动与拥塞避免<br>慢启动与拥塞避免算法用于控制发送方，避免一下发送过多的数据到网络中。为了实现这些算法，对于每个TCP连接加入这两个变量，<code>cwnd rwnd</code>。另一个状态变量，<code>ssthresh</code>用于标识此时应该使用慢启动(cwnd &lt; ssthresh)还是拥塞避免(cwnd &gt; ssthresh)。</li>
-</ul>
-<p>当开始传输数据时，TCP并不知道网络可用的容量，为了避免拥塞，这个阶段TCP会逐渐数据的发送量。慢启动算法为了避免注入过多的数据到网络中会应用于开始传输数据和重传定时器修复丢包之后。</p>
-<p>数据传输开始时，<code>IW</code>的大小设置:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">If SMSS &gt; 2190 bytes:</span><br><span class="line">IW = 2 * SMSS bytes and MUST NOT be more than 2 segments</span><br><span class="line">If (SMSS &gt; 1095 bytes) and (SMSS &lt;= 2190 bytes):</span><br><span class="line">IW = 3 * SMSS bytes and MUST NOT be more than 3 segments</span><br><span class="line">if SMSS &lt;= 1095 bytes:</span><br><span class="line">IW = 4 * SMSS bytes and MUST NOT be more than 4 segments</span><br></pre></td></tr></table></figure>
-<p>在慢启动阶段，TCP通过如下规则在每接收一个<code>ACK</code>时增加<code>cwnd</code>,每次都会增加前一个`cwnd```的一倍大小。</p>
-<p>当出现丢包，或者当接收者提示<code>rwnd</code>是受限因素时，或者<code>cwnd &gt; ssthresh</code>时，会进入拥塞避免阶段。</p>
-<p>在拥塞避免阶段，在每一个RTT时间，<code>cwnd</code>增加<code>FULL-SIZED SEGMENT</code>大小。</p>
-<p>当TCP发送者通过重传定时器意识到丢包时，会重新设置<code>ssthresh</code>的大小。<br><code>ssthresh = max (FlightSize / 2, 2*SMSS)</code></p>
-<ul>
-<li>快速重传与快速恢复<br>快速重传是为减少丢包重传等待时间的一种机制。如果发送方接收到3个或3个以上的重复ACK,发送方就会重传丢失的数据报,而无需等待超时定时器溢出。<br>(1)当收到第3个重复的<code>ACK</code>时，将<code>ssthresh</code>设置为当前拥塞窗口<code>cwnd</code>的一半<br>(2)每次收到另一个重复的<code>ACK</code>时，<code>cwnd</code>增加1个报文段大小并发送1个分组（如果新的<br><code>cwnd</code>允许发送）<br>(3)当下一个确认新数据的<code>ACK</code>到达时，设置<code>cwnd</code>为<code>ssthresh</code>（在第1步中设置的值）。这个<code>ACK</code>应该是在进行重传后的一个往返时间内对步骤1中重传的确认。另外，这个<code>ACK</code>也应该是对丢失的分组和收到的第1个重复的<code>ACK</code>之间的所有中间报文段的确认。这一步采用的是拥塞避免，因为当分组丢失时我们将当前的速率减半</li>
-</ul>
-<p><img src="http://img.hysyeah.top/2019/08/10/TCP_Slow-Start_and_Congestion_Avoidance.svg" alt="image"><br>[图片来源网络]</p>
-<hr>
-<p>参考：<br>1.<a href="https://en.wikipedia.org/wiki/TCP_congestion_control" target="_blank" rel="noopener">TCP congestion control</a><br>2.<a href="https://tools.ietf.org/html/rfc2581" target="_blank" rel="noopener">RFC2581</a><br>3.《TCP/IP协议详解1》</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/05/TCP之在途字节数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/05/TCP之在途字节数/" class="post-title-link" itemprop="url">TCP之在途字节数</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-05 23:34:23" itemprop="dateCreated datePublished" datetime="2019-08-05T23:34:23+08:00">2019-08-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-30 06:28:08" itemprop="dateModified" datetime="2019-10-30T06:28:08+08:00">2019-10-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在途字节数(bytes in flight):已经发送出去，但尚未被确认的字节数。<br>数据发送方抓到的包才能用来分析在途字节数。</p>
-<p>下图是在客户端抓的包：</p>
-<p><img src="http://img.hysyeah.top/2019/08/04/byte_in_flight.jpg" alt="image"></p>
-<p>假如我们想知道第0.400000秒时的在途字节数，该如何计算?</p>
-<p>在该时间点之前客户端发送的是10号包,即”Seq=265248,Len=180”字节,表示序号在265248+180之前 的字节已经发送出去了。而第0.400000之前的服务器的Ack为3284,表示序号在3284之前的字节已经收到,那么在途字节数就是265248+180-3284=262144字节。</p>
-<p>公式可以表示为: 在途字节数=Seq + Len - Ack(Seq和Len是来自上一个数据发送方的包,而Ack则是来自上一个数据接收方的包)</p>
-<p>再看一个例子：<br><img src="http://img.hysyeah.top/2019/08/04/my_examle_flight.png" alt="image"><br>如果我们要求0.460000秒的在途字节数,套用公式,0.460000秒的上一个数据发送方的包是9号包,上一个数据接收方的包为6包。则在途字节数为1+6-1=6</p>
-<p>我们也可以使用Wireshark提供的功能来查看在途字节数,这样就不用我们手动来计算了。<br>1.使用Wireshark打开所抓的包。<br><img src="http://img.hysyeah.top/2019/08/04/flight1.png" alt="image"><br>2.点击菜单栏【编辑】—&gt; 【首选项】—&gt;【Appearance】—&gt; 【Columns】<br><img src="http://img.hysyeah.top/2019/08/04/flight2.png" alt="image"><br>3.点击+号,添加自定义列。<br><img src="http://img.hysyeah.top/2019/08/04/flight3.png" alt="image"></p>
-<p>4.保存,移动新列【byte in flight】到合适位置。这列显示的数据就是对应时刻的在途字数,单位为字节。 如图可知结果和我们使用上面公式计算的结果是一致的。<br><img src="http://img.hysyeah.top/2019/08/04/flight4.png" alt="image"></p>
-<hr>
-<p>参考：<br>1.《Wireshark网络分析的艺术》<br>2.<a href="https://www.youtube.com/watch?v=sIxv3YO2eYw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=sIxv3YO2eYw</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2511,7 +2472,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

@@ -380,6 +380,858 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/27/pyplot-pie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/27/pyplot-pie/" class="post-title-link" itemprop="url">pyplot.pie</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-27 19:43:09" itemprop="dateCreated datePublished" datetime="2017-11-27T19:43:09+08:00">2017-11-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>matplotlib.pyplot.pie(x, explode=None, labels=None, colors=None, autopct=None, pctdistance=0.6, shadow=False, labeldistance=1.1, startangle=None, radius=None, counterclock=True, wedgeprops=None, textprops=None, center=(0, 0), frame=False, hold=None, data=None) 根据数组x绘制饼图 explode:数组扇形离圆点的距离(爆炸出来的那部分) labels:标题 colors:颜色 autopct:饼图扇区面积所显示的文字 shadow:阴影 startangle: title:图标题</p>
+<hr>
+<pre><code>import matplotlib.pyplot as plt
+
+# Pie chart, where the slices will be ordered and plotted counter-clockwise:
+labels = &#39;Frogs&#39;, &#39;Hogs&#39;, &#39;Dogs&#39;, &#39;Logs&#39;
+sizes = [15, 30, 45, 10]
+explode = (0, 0.1, 0, 0)  # only &quot;explode&quot; the 2nd slice (i.e. &#39;Hogs&#39;)
+
+fig1, ax1 = plt.subplots()
+ax1.pie(sizes, explode=explode, labels=labels, autopct=&#39;%1.1f%%&#39;,
+        shadow=True, startangle=90) #autopct 扇形区域显示的文字格式
+ax1.axis(&quot;equal&quot;)  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+plt.show()
+</code></pre><p><img src="http://matplotlib.org/mpl_examples/pie_and_polar_charts/pie_demo_features.png" alt="image"></p>
+<hr>
+<pre><code>#通过两个饼图绘制双层饼图
+import matplotlib.pyplot as plt
+
+vals1 = [1]
+vals2 = [1, 1, 2]
+vals3 = [1]
+vals4 = [1]
+
+fig, ax = plt.subplots()
+labels = &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;
+
+ax.pie(vals1, radius=1.2)
+ax.pie(vals2, radius=1.0,startangle=90)
+ax.pie(vals3, radius=0.8)
+ax.pie(vals4, radius=0.4)
+ax.set(aspect=&quot;equal&quot;)
+plt.show()
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png" alt="image"></p>
+<hr>
+<p>参考： 1.<a href="https://zhuanlan.zhihu.com/p/27442584" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27442584</a> 2.<a href="http://matplotlib.org/api/pyplot_api.html" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/26/pyplot-xcorracorr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/26/pyplot-xcorracorr/" class="post-title-link" itemprop="url">pyplot.[xcorr,acorr]</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-26 11:57:41" itemprop="dateCreated datePublished" datetime="2017-11-26T11:57:41+08:00">2017-11-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>自相关（英语：Autocorrelation），也叫序列相关[1]，是一个信号于其自身在不同时间点的互相关。非正式地来说，它就是两次观察之间的相似度对它们之间的时间差的函数。它是找出重复模式（如被噪声掩盖的周期信号），或识别隐含在信号谐波频率中消失的基频的数学工具。它常用于信号处理中，用来分析函数或一系列值，如时域信号。 在统计学中，互相关有时用来表示两个随机矢量X和Y之间的协方差cov（X, Y），以与矢量X的“协方差”概念相区分，矢量X的“协方差”是X的各标量成分之间的协方差矩阵。 在信号处理领域中，互相关（有时也称为“互协方差”）是用来表示两个信号之间相似性的一个度量，通常通过与已知信号比较用于寻找未知信号中的特性。它是两个信号之间相对于时间的一个函数，有时也称为滑动点积，在模式识别以及密码分析学领域都有应用。</p>
+<pre><code>matplotlib.pyplot.acorr(x, hold=None, data=None, **kwargs) #x的自相关
+
+matplotlib.pyplot.xcorr(x, y, normed=True, detrend=&lt;function detrend_none&gt;, usevlines=True, maxlags=10, hold=None, data=None, **kwargs) #画出x与y的互相关关系
+
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(0) #用于指定随机数生成时所用算法开始的整数值，如果使用相同的seed( )值，则每次生成的随即数都相同，如果不设置这个值，则系统根据时间来自己选择这个值，此时每次生成的随机数因时间差异而不同
+
+x, y = np.random.randn(2, 100)#返回一个二维，长度为100的数组
+fig = plt.figure() #添加一个画布
+ax1 = fig.add_subplot(211)#添加个子图，两行一列中的第一个图
+ax1.xcorr(x, y, usevlines=True, maxlags=50, normed=True, lw=2)#互相关函数
+ax1.grid(True) #添加网格
+ax1.axhline(0, color=&#39;black&#39;, lw=2)
+
+ax2 = fig.add_subplot(212, sharex=ax1)
+ax2.acorr(x, usevlines=True, normed=True, maxlags=50, lw=2)#自相关函数
+ax2.grid(True)
+ax2.axhline(0, color=&#39;black&#39;, lw=2)
+
+plt.show()
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171118102729.png" alt="image"></p>
+<hr>
+<p>参考： 1.<a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.xcorr" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.xcorr</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/14/sizeof/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/14/sizeof/" class="post-title-link" itemprop="url">sizeof</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-14 20:15:41" itemprop="dateCreated datePublished" datetime="2017-11-14T20:15:41+08:00">2017-11-14</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>sizeof是C语言的关键字，返回数据类型长度</p>
+<pre><code>32位系统中返回值类型为 unsigned int
+
+64位系统中返回值类型为 long unsigned int
+
+
+
+#include&lt;stdio&gt;
+
+int main(void){
+    printf(&quot;char_size=%lu\n&quot;, sizeof(char));//32位系统中需改为%u
+    printf(&quot;unsigned_char=%lu\n&quot;, sizeof(unsigned char));
+    printf(&quot;signed_char=%lu\n&quot;, sizeof(signed char));
+
+    printf(&quot;\n\n&quot;);
+    printf(&quot;int_size=%lu\n&quot;, sizeof(int));
+    printf(&quot;short_int_size=%lu\n&quot;, sizeof(short int));
+    printf(&quot;long_int_size=%lu\n&quot;, sizeof(long int));
+    printf(&quot;unsigned_long_size=%lu\n&quot;, sizeof(unsigned long));
+    printf(&quot;float_size=%lu\n&quot;, sizeof(float));
+    printf(&quot;double_size=%lu\n&quot;, sizeof(double));
+    printf(&quot;long_double_size=%lu\n&quot;, sizeof(long double));
+    return 0;
+}
+</code></pre><p>输出</p>
+<pre><code>//32位                                //64位
+char_size=1                           char_size=1
+unsigned_char=1                       unsigned_char=1
+signed_char=1                         signed_char=1
+
+
+int_size=4                            int_size=4
+unsigned_int_size=4                   unsigned_int_size=4
+short_int_size=2                      short_int_size=2
+long_int_size=4                       long_int_size=8
+unsigned_long_size=4                  unsigned_long_size=8
+float_size=4                          float_size=4
+double_size=8                         double_size=8
+long_double_size=12                   long_double_size=16
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/13/etc shadow及相关c函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/13/etc shadow及相关c函数/" class="post-title-link" itemprop="url">/etc/shadow及相关c函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-13 23:18:28" itemprop="dateCreated datePublished" datetime="2017-11-13T23:18:28+08:00">2017-11-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>/etc/shadow包含系统用户的密码信息，普通用户不能查看此文件 每行分为9个片段，通过冒号’:’分隔 hys:$6$q1Jaurz4$8hPn.i0F6k7xPeLNcKDGdKZODMx7uTnHjAXjgvND2dRrz7jk16O.DbI15qe.G9SqSbFO.O0PMsW.yHv1X2/z60:17421:0:99999:7::: 用户名： 加密后的密码(单向散列)： 最后修改密码的时间(为距1970.1.1的天数)： 密码最小存活时间(指用户还有多少天可以修改密码，空或0表示没有密码最小存活时间): 最大密码存活时间(超过这个时间，用户需修改密码，如果这个值小于密码最小存活时间，则用户不能修改密码)： 密码过期前多少天提醒： 密码超过最大存活时间后还能进行登录的时间： 用户过期时间： 保留域</p>
+<pre><code>struct spwd {
+    char *sp_namp; /* Login name */
+    char *sp_pwdp; /* Encrypted password */
+    long sp_lstchg; /* Date of last change(measured in days since 1970-01-01 00:00:00 +0000 (UTC)) */
+    long sp_min; /* Min # of days between changes */
+    long sp_max; /* Max # of days between changes */
+    long sp_warn; /* # of days before password expires to warn user to change it */
+    long sp_inact; /* # of days after password expires
+    until account is disabled */
+    long sp_expire; /* Date when account expires(measured in days since 1970-01-01 00:00:00 +0000 (UTC)) */
+    unsigned long sp_flag; /* Reserved */
+};
+
+
+struct spwd *getspnam(const char *name);//通过用户名获取指向struct spwd结构体的指针
+struct spwd *getspent(void);//获取/etc/shadow文件中的信息，返回struct spwd结构体指针
+void setspent(void);//初始化输入流
+void endspent(void);//释放资源
+</code></pre><p>例：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;shadow.h&gt;
+#include &lt;unistd.h&gt;
+int main(){
+struct spwd *p,*ptr;
+p = getspnam(usbmux);
+if(p == NULL){
+    printf(&quot;error&quot;);
+}
+printf(&quot;%s\n&quot;, p-&gt;sp_namp);
+printf(&quot;%s\n&quot;, p-&gt;sp_pwdp);
+printf(&quot;%ld\n&quot;, p-&gt;sp_lstchg);
+printf(&quot;%ld\n&quot;, p-&gt;sp_min);
+printf(&quot;%ld\n&quot;, p-&gt;sp_max);
+printf(&quot;%ld\n&quot;, p-&gt;sp_warn);
+printf(&quot;%ld\n&quot;, p-&gt;sp_inact);
+printf(&quot;%ld\n&quot;, p-&gt;sp_expire);
+printf(&quot;%lu\n&quot;, p-&gt;sp_flag);
+setspent();
+while((ptr = getspent())!=NULL){
+    printf(&quot;%s\n&quot;, ptr-&gt;sp_namp);
+}
+endspent();
+return 0;
+}
+</code></pre><hr>
+<p>参考：<br>1.<a href="http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html" target="_blank" rel="noopener">http://manpages.ubuntu.com/manpages/precise/man5/shadow.5.html</a><br>2.<a href="https://linux.die.net/man/3/getspnam" target="_blank" rel="noopener">https://linux.die.net/man/3/getspnam</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/12/buntu安装zsh,oh-my-zsh,autojump,terminator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1858,752 +2710,6 @@ A
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/04/supervisor-can-not-find-uwsgi-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/11/04/supervisor-can-not-find-uwsgi-command/" class="post-title-link" itemprop="url">supervisor can not find 'uwsgi' command</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-04 15:57:56" itemprop="dateCreated datePublished" datetime="2017-11-04T15:57:56+08:00">2017-11-04</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在一次关掉supervisor控制的进程，再进行开启的时候，报supervisor can not find ‘uwsgi’ command错误，而[program:uwsgi]是存在于配置文件中的。此时杀死[program:uwsgi]中command所执行的命令的进程，再将配置文件中的autorestart=True注释掉，reload后重新启动进程即可。</p>
-<hr>
-<p>1.<a href="http://m.blog.csdn.net/lf8289/article/details/45478639" target="_blank" rel="noopener">http://m.blog.csdn.net/lf8289/article/details/45478639</a> 2.<a href="https://www.v2ex.com/t/326059" target="_blank" rel="noopener">https://www.v2ex.com/t/326059</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/28/mysql一些语句/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/28/mysql一些语句/" class="post-title-link" itemprop="url">mysql一些语句</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-28 08:14:36" itemprop="dateCreated datePublished" datetime="2017-10-28T08:14:36+08:00">2017-10-28</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="获取一张表的所有字段名"><a href="#获取一张表的所有字段名" class="headerlink" title="获取一张表的所有字段名"></a>获取一张表的所有字段名</h3><pre><code>select COLUMN_NAME from information_schema.columns where table_name=&#39;TableName&#39;
-</code></pre><h3 id="对一个数据库进行赋权"><a href="#对一个数据库进行赋权" class="headerlink" title="对一个数据库进行赋权"></a>对一个数据库进行赋权</h3><pre><code>grant all privileges on database.* to username@ip identified by &#39;passwd&#39;
-flush privileges
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/28/Linux 安装mysqlclient/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/28/Linux 安装mysqlclient/" class="post-title-link" itemprop="url">Linux 安装mysqlclient</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-28 07:52:05" itemprop="dateCreated datePublished" datetime="2017-10-28T07:52:05+08:00">2017-10-28</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python-Web/" itemprop="url" rel="index"><span itemprop="name">Python Web</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>centos安装 mysqlclient失败，需先安装</p>
-<pre><code>yum install mysql-devel
-
-
-pip install mysqlclient
-</code></pre><hr>
-<p>ubuntu</p>
-<pre><code>apt-get install libmysqlclient-dev python3-dev
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/09/lua表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/09/lua表达式/" class="post-title-link" itemprop="url">lua表达式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-09 22:28:15" itemprop="dateCreated datePublished" datetime="2017-10-09T22:28:15+08:00">2017-10-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.关系运算符</p>
-<pre><code>&lt;  &gt;  &lt;=  &gt;= ==  ~=  
-</code></pre><p>这些操作符返回结果为false或true.==和~=比较两个值，lua是强类型比较，如果两个值类型不同，Lua认为两者不同。 Lua通过引用比较tables、userdata、functions，只有当两者是同一对象时才相等。</p>
-<pre><code> &gt; a = {x=1,y=0}
- &gt; b = {x=1,y=0}
- &gt; c == a
- false
- &gt; c = a
- &gt; a == c
- true
- &gt; a == b
- false
-</code></pre><p>数字、字符串的比较</p>
-<pre><code>&gt; 0 == &quot;0&quot;
-false
-&gt; 2 &lt; 15
-true
-&gt; &quot;2&quot; &lt; &quot;15&quot;  --按字母顺序进行比较
-false
-</code></pre><p>2.逻辑运算符</p>
-<pre><code>and  or not
-</code></pre><p>逻辑运算符认为false和nil是假，其他为真（true),0也是true。</p>
-<pre><code>a and b -- 如果a为false,则返回a,否则返回b
-a or b  --如果a为true,则返回a,否则返回b
-&gt; print(1 and 2)
-2
-&gt; print(nil and 1)
-nil
-&gt; print(1 or 2)
-1
-&gt; print(false or 1)
-1
-</code></pre><p>例：</p>
-<pre><code>x = x or v
-</code></pre><p>等价于：</p>
-<pre><code>if not x then
-   x = v
-end
-</code></pre><p>C语言中的三元运算符</p>
-<pre><code>a ? b:c
-</code></pre><p>在Lua中可以这样实现:</p>
-<pre><code>(a and b) or c
-</code></pre><p>not 结果只返回false或者true</p>
-<pre><code>&gt; print(not 0)
-false
-</code></pre><p>3.连接运算符</p>
-<pre><code>.. --两个点
-</code></pre><p>字符串连接，如果操作数为数字，Lua将数字转成字符串</p>
-<pre><code>&gt; print(&quot;Hello &quot; .. &quot;World&quot;)
-Hello World
-&gt; print(0 .. 1)
-01
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2650,7 +2756,7 @@ Hello World
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
