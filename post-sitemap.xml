@@ -8,8 +8,16 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2020/06/30/Protocol-Buffers-and-GRPC/</loc>
+        <lastmod>2020-07-01T13:25:15.234Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2020/06/24/k8s%E4%BB%A3%E7%A0%81%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/</loc>
-        <lastmod>2020-06-28T14:54:44.547Z</lastmod>
+        <lastmod>2020-06-28T14:57:13.958Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

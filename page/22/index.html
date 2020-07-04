@@ -380,6 +380,207 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/21/lua求阶乘发生溢出/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/21/lua求阶乘发生溢出/" class="post-title-link" itemprop="url">lua求阶乘发生溢出</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-21 18:11:57" itemprop="dateCreated datePublished" datetime="2017-09-21T18:11:57+08:00">2017-09-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>function fact(n)
+  if n == 0 then
+    return 1
+  end
+  return n * fact(n-1)
+end
+
+for i=1, 100, 1 do
+  print(i,fact(i)) --发生溢出
+end
+</code></pre><ul>
+<li><p>通过使用lua的’bn’库可以解决这问题，从<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/#lbn" target="_blank" rel="noopener">lbn</a>下载lbn.tar.gz，</p>
+<p>tar -xzvf lbn.tar.gz<br>cd bn</p>
+</li>
+</ul>
+<ul>
+<li>修改Makefile如下</li>
+</ul>
+<p><img src="http://img.hysyeah.top/wp-content/uploads/2017/09/和-1.png" alt="image"></p>
+<pre><code>make
+</code></pre><ul>
+<li><p>在当前目录下会生成一个bn.so文件，将bn.so拷贝到代码文件所在目录，或者通过LUA_CPATH指定require搜索路径</p>
+<p>local bn = require “bn”</p>
+<p>function bn_fact(bn.number(n))<br>  if n:tonumber() == 0 then return 1 end<br>  return n * bn_fact(n-1)<br>end</p>
+<p>function fact(n)<br>  return bn_fact(bn.number(n))<br>end</p>
+<p>for i=1,100,1 do</p>
+<pre><code>print(i,fact(i)) -- 未发生溢出
+</code></pre><p>end</p>
+</li>
+</ul>
+<p>参考： 1.<a href="https://stackoverflow.com/questions/46317930/why-lua-and-python-factorial-output-was-different" target="_blank" rel="noopener">stackoverflow</a> 2.<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html" target="_blank" rel="noopener">http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/20/python魔术方法之__getattribute__,__getattr__/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2178,225 +2379,6 @@ s = time.mktime(time.strptime(&#39;2016-06-06 10:00:00&#39;,&#39;%Y-%m-%d %H:%M:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/08/python魔法变量之__slots__/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/08/python魔法变量之__slots__/" class="post-title-link" itemprop="url">python魔法变量之__slots__</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-08 22:49:34" itemprop="dateCreated datePublished" datetime="2017-09-08T22:49:34+08:00">2017-09-08</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>slots</strong>变量，用来限制类能添加的属性。由于’score’没有被放到<strong>slots</strong>中，所以不能绑定score属性，所以报错。 使用<strong>slots</strong>要注意，<strong>slots</strong>定义的属性仅对当前类起作用，对继承的子类是不起作用的： 除非在子类中也定义<strong>slots</strong>这样，子类允许定义的属性就是自身的<strong>slots</strong>加上父类的<strong>slots</strong>.</p>
-<pre><code>In [1]: class Fruit(object):
-...:        __slots__ = (&#39;name&#39;, &#39;age&#39;)
-...:
-
-In [2]: f = Fruit()
-
-In [3]: f.name = &#39;hys&#39;
-
-In [4]: f.age = 18
-
-In [5]: f.score = 33
----------------------------------------------------------------------------
-AttributeError Traceback (most recent call last)
-&lt;ipython-input-5-f65d994e4176&gt; in &lt;module&gt;()
-----&gt; 1 f.score = 33
-
-AttributeError: &#39;Fruit&#39; object has no attribute &#39;score&#39;
-
-In [6]: class Apple(Fruit):
-...:        pass
-...:
-
-In [7]: a = Apple()
-
-In [8]: a.name = &#39;hys&#39;
-
-In [9]: a.score = 44
-
-In [10]: class Bnana(Fruit):
-...:         __slots__ = ()
-...:
-
-In [11]: b = Bnana()
-
-In [12]: b.name = &#39;hys&#39;
-
-In [13]: b.age = 33
-
-In [14]: b.socre = 6
----------------------------------------------------------------------------
-AttributeError Traceback (most recent call last)
-&lt;ipython-input-14-140c427ae185&gt; in &lt;module&gt;()
-----&gt; 1 b.socre = 6
-
-AttributeError: &#39;Bnana&#39; object has no attribute &#39;socre&#39;
-</code></pre><p>当定义了<strong>slots</strong>属性，Python会针对实例采用一种更加紧凑的内部表示。不再让每个实例都创建一个<strong>dict</strong>字典，现在的实例是围绕着一个固定长度的小型数组来构建的，这和一个元组或者列表很相似。在<strong>slots</strong>中列出的属性名会在内部映射到这个数组的索引下。使用<strong>slots</strong>节省下来的内存根据创建实例数量以及保存的属性类型而有所不同。 优点：节省内存 缺点：Python中有许多部分都依赖于传统的基于字典的实现。定义了<strong>slots</strong>属性的类不支持某些特定的功能，比如多重继承。就大部分情况而言，我们应该只针对那些在程序中被当做数据结构而频繁使用的类上采用<strong>slots</strong>。</p>
-<hr>
-<p>参考： 1.<a href="https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0013868200605560b1bd3c660bf494282ede59fee17e781000&quot;" target="_blank" rel="noopener">博客</a> 2.python cookbook</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2443,7 +2425,7 @@ AttributeError: &#39;Bnana&#39; object has no attribute &#39;socre&#39;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">235</span>
+                    <span class="site-state-item-count">236</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2571,7 +2553,7 @@ AttributeError: &#39;Bnana&#39; object has no attribute &#39;socre&#39;
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

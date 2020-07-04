@@ -3,15 +3,22 @@
 
 
     <url>
-        <loc>https://hysyeah.github.io/tags/k8s/</loc>
-        <lastmod>2020-06-28T14:54:44.547Z</lastmod>
+        <loc>https://hysyeah.github.io/tags/grpc/</loc>
+        <lastmod>2020-07-01T13:25:15.234Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://hysyeah.github.io/tags/Golang/</loc>
-        <lastmod>2020-06-27T13:49:09.654Z</lastmod>
+        <lastmod>2020-07-01T13:25:15.234Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/tags/k8s/</loc>
+        <lastmod>2020-06-28T14:57:13.958Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

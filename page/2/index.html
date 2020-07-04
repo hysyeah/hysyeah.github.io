@@ -380,6 +380,206 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/23/Golang竞争条件与锁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/03/23/Golang竞争条件与锁/" class="post-title-link" itemprop="url">Golang竞争条件与锁</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-23 21:42:00" itemprop="dateCreated datePublished" datetime="2020-03-23T21:42:00+08:00">2020-03-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 15:48:27" itemprop="dateModified" datetime="2020-04-06T15:48:27+08:00">2020-04-06</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>竞争条件指的是程序在多个线程交叉执行时,引发的不可预知的错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">var data int</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		data++</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	if data==0&#123;</span><br><span class="line">		fmt.Printf(&quot;the value is %v.\n&quot;, data)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码可能会出现如下三种不同情况：</p>
+<ul>
+<li>不打印任何东西;第6行早于第9行执行</li>
+<li>打印<code>the value is 0</code>;第9行和第10行早于第6行执行</li>
+<li>打印<code>the value is 1</code>;执行第9行后，然后执行第6行，再执行第10行</li>
+</ul>
+<p>竞态会导致程序的结果是不可预期的，而且不方便发现和调试。<br>怎么解决这个问题呢？<br>最简单的方法就是对访问到了变量的地方进行加锁操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">import &quot;sync&quot;</span><br><span class="line">var data int</span><br><span class="line">var mu sync.Mutex</span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	go func() &#123;</span><br><span class="line">		mu.Lock()</span><br><span class="line">		data++</span><br><span class="line">		mu.Unlock()</span><br><span class="line">	&#125;()</span><br><span class="line">	mu.Lock()</span><br><span class="line"></span><br><span class="line">	if data==0&#123;</span><br><span class="line">		fmt.Printf(&quot;the value is %v.\n&quot;, data)</span><br><span class="line">	&#125;</span><br><span class="line">	mu.Unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://img.hysyeah.top/2020/3/28/basic_race.png" alt="image"><br>这样的话就不会产生竞态问题，但这样看上去不怎么优雅，而且锁用多了会很影响程序的性能。</p>
+<p>也可以使用<code>golang</code>的<code>channel</code>,使<code>data++</code>操作早于<code>print</code>,所以下面的程序不会输出任何东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">var data int</span><br><span class="line"></span><br><span class="line">var d = make(chan int)</span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	go func() &#123;</span><br><span class="line">		data++</span><br><span class="line">		d &lt;- data</span><br><span class="line"></span><br><span class="line">	&#125;()</span><br><span class="line">	data = &lt;-d  //如果没有数据将一直等待</span><br><span class="line">	if data == 0&#123;</span><br><span class="line">		fmt.Printf(&quot;the value is %v.\n&quot;, data)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>数据竞争发生的条件：</p>
+<ul>
+<li>两个或两个以上的线程同时访问相同的变量</li>
+<li>最少一个为写操作</li>
+<li>没有使用任何同步机制</li>
+</ul>
+<p>一.未使用任何同步机制的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// vim bank.go</span><br><span class="line">package bank</span><br><span class="line"></span><br><span class="line">var balance int</span><br><span class="line"></span><br><span class="line">func Deposit(amount int)  &#123;</span><br><span class="line">	balance = balance + amount</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Balance() int  &#123;</span><br><span class="line">	return balance</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// vim bank_main.go</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;github.com/bank&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    // Alice</span><br><span class="line">	go func() &#123;</span><br><span class="line">		bank.Deposit(200)</span><br><span class="line">		fmt.Println(&quot;=&quot;, bank.Balance())</span><br><span class="line">	&#125;()</span><br><span class="line">    // Bob</span><br><span class="line">	go bank.Deposit(100)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行<code>go run src/bank_main.go</code>,意外的发现没有打印任何信息。这是为什么呢?因为运行<code>Go</code>程序时,至少会启动一个<code>main goroutine</code>,当<code>main goroutine</code>早于其它协程执行之前退出,其它协程还没来得及执行就结束了。<br>执行<code>go run -race src/bank_main.go</code>却打印了<code>= 200</code>。<br><img src="http://img.hysyeah.top/2020/3/23/bank-no-sync-race.png" alt="image"></p>
+<p>当两个<code>goroutine</code>同时访问<code>balance</code>变量时,假如Alice读取了<code>balance</code>并要将数据写入到<code>balance</code>的时候,如果此时切换到Bob,并将数据写入到了<code>balance</code>,然后再切换到Alice,并写入<code>balance</code>,这样就会将Bob的操作进行覆盖,这就是发生了数据竞争。<br>二.使用<code>channel</code>避免多个<code>goroutine</code>访问变量,解决数据竞争问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package bank</span><br><span class="line"></span><br><span class="line">var deposits = make(chan int) // send amount to deposit</span><br><span class="line">var balances = make(chan int) // receive balance</span><br><span class="line"></span><br><span class="line">func Deposit(amount int) &#123; deposits &lt;- amount &#125;</span><br><span class="line">func Balance() int       &#123; return &lt;-balances &#125;</span><br><span class="line"></span><br><span class="line">func teller() &#123;</span><br><span class="line">	var balance int // balance is confined to teller goroutine</span><br><span class="line">	for &#123;</span><br><span class="line">		select &#123;</span><br><span class="line">		case amount := &lt;-deposits:</span><br><span class="line">			balance += amount</span><br><span class="line">		case balances &lt;- balance:</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">	go teller() // start the monitor goroutine</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>go run -race src/bank_main.go</code>未发现竟争条件问题<br><img src="http://img.hysyeah.top/2020/3/23/bank1.png" alt="image"></p>
+<p>三.允许多个<code>goroutine</code>访问变量,但是在同一个时刻最多只有一个<code>goroutine</code>访问。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var (</span><br><span class="line">	sema = make(chan struct&#123;&#125;, 1)</span><br><span class="line">	balance int</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Deposit(amount int)  &#123;</span><br><span class="line">	sema &lt;- struct&#123;&#125;&#123;&#125;</span><br><span class="line">	balance += amount</span><br><span class="line">	fmt.Print(&quot;balance&quot;, balance)</span><br><span class="line">	&lt;-sema</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Balance() int  &#123;</span><br><span class="line">	sema &lt;- struct&#123;&#125;&#123;&#125;</span><br><span class="line">	b := balance</span><br><span class="line">	&lt;-sema</span><br><span class="line">	return b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	go Deposit(10)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import &quot;sync&quot;</span><br><span class="line">var (</span><br><span class="line">mu sync.Mutex // guards balance</span><br><span class="line">balance int</span><br><span class="line">)</span><br><span class="line">func Deposit(amount int) &#123;</span><br><span class="line">mu.Lock()</span><br><span class="line">balance = balance + amount</span><br><span class="line">mu.Unlock()</span><br><span class="line">&#125;</span><br><span class="line">func Balance() int &#123;</span><br><span class="line">mu.Lock()</span><br><span class="line">b := balance</span><br><span class="line">mu.Unlock()</span><br><span class="line">return b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用<code>Lock</code>与<code>channel</code>有什么优缺点？</p>
+<hr>
+<p>Deadlocks, Livelocks, Starvation</p>
+<p>Deadlocks(死锁),在维基百科的解释为:In concurrent computing, a deadlock is a state in which each member of a group is waiting for another member, including itself, to take action, such as sending a message or more commonly releasing a lock.<br><img src="http://img.hysyeah.top/2020/3/28/Process_deadlock.svg.png" alt="image"><br>图片来源：wikipedia</p>
+<p>进程<code>P1</code>持有资源<code>R2</code>,进程<code>P2</code>持有资源<code>R1</code>,当进程<code>P1</code>请求资源<code>R1</code>,进程<code>P2</code>请求资源<code>R2</code>的时候这种情况下就会发生死锁,如果没有外部干预进程会一直卡死。</p>
+<p>死锁发生必须的4个条件,因为这个4个条件来源的于<a href="https://en.wikipedia.org/wiki/Edward_G._Coffman_Jr." target="_blank" rel="noopener">G. Coffman, Jr.</a>的一篇，因此也被称为<code>Coffman conditions</code>。</p>
+<ul>
+<li>互斥：一个资源在同一时间只能被一个进程访问</li>
+<li>等待条件：进程同时占用至少一个资源,而且同时请求对其它的资源</li>
+<li>非抢占：资源只能被占用它的那个进程释放</li>
+<li>循环等待：比如<code>P1</code>等待<code>P2</code>释放资源,<code>P2</code>等待<code>P1</code>释放,形成了环状结构</li>
+</ul>
+<p>使用<code>Golang</code>模拟死锁发生<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;sync&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line">type value struct &#123;</span><br><span class="line">	mu sync.Mutex</span><br><span class="line">	value int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">var printSum = func(v1,v2  *value) &#123;</span><br><span class="line"></span><br><span class="line">	defer wg.Done()</span><br><span class="line"></span><br><span class="line">	v1.mu.Lock()</span><br><span class="line"></span><br><span class="line">	defer v1.mu.Unlock()</span><br><span class="line"></span><br><span class="line">	time.Sleep(2 * time.Second)</span><br><span class="line"></span><br><span class="line">	v2.mu.Lock()</span><br><span class="line"></span><br><span class="line">	defer v2.mu.Unlock()</span><br><span class="line">	fmt.Printf(&quot;sum=%v\n&quot;,v1.value+v2.value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	var a, b value</span><br><span class="line">	wg.Add(2)</span><br><span class="line">	go printSum(&amp;a, &amp;b) //Goroutine p1</span><br><span class="line">	go printSum(&amp;b, &amp;a) // Goroutine p2</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://img.hysyeah.top/2020/3/28/dead_lock_error.png" alt="image"><br><code>Golang</code>居然检测出来发生了死锁，那<code>Golang</code>是如何进行死锁检测的呢？</p>
+<p><img src="http://img.hysyeah.top/2020/3/28/dead_lock.png" alt="image"><br>图片来源：Concurrenecy in Go</p>
+<p>程序运行时,<code>goroutine p1</code>获取<code>a</code>锁,此时<code>p1</code>持有<code>a</code>的锁,休眠,然后<code>goroutine p2</code>开始执行,并持有资源<code>b</code>的锁,然后<code>p1</code>请求资源<code>b</code>,<code>p2</code>请求资源<code>a</code>,发生死锁。</p>
+<p>Livelocks(活锁)<br>活锁就是程序一直在运行，但是一直没有改变进程本身的状态。举个例子，比如你走在一个狭窄的通道，对面迎过来一个人，他看见了你就走到了另一边打算让你通过，而你也走到了另一边，当你们一直重复这两个动作时就发生了活锁。</p>
+<p>Starvation<br>In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work.<br>在计算机科学中，资源匮乏是并发计算中遇到的一个问题，在该问题中，永久拒绝某个进程来处理其工作所需的资源</p>
+<hr>
+<p>参考：<br>1.<a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Race_condition</a><br>2.<a href="https://www.gopl.io/" target="_blank" rel="noopener">The Go programing language</a><br>3.<a href="https://golang.org/ref/mem" target="_blank" rel="noopener">The Go Memory Model</a><br>4.<a href="https://book.douban.com/subject/26994591/" target="_blank" rel="noopener">Concurrency in Go</a><br>5.<a href="https://en.wikipedia.org/wiki/Deadlock" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Deadlock</a><br>6.(<a href="https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src" target="_blank" rel="noopener">https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src</a>)<br>7.<a href="https://en.wikipedia.org/wiki/Starvation_(computer_science" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Starvation_(computer_science)</a>)</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/22/使用cargo管理外部依赖/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1994,438 +2194,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/26/x86-architecture-gcc-calling-convention/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/26/x86-architecture-gcc-calling-convention/" class="post-title-link" itemprop="url">x86-architecture gcc calling convention</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-26 19:21:28" itemprop="dateCreated datePublished" datetime="2019-10-26T19:21:28+08:00">2019-10-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-02-05 20:42:59" itemprop="dateModified" datetime="2020-02-05T20:42:59+08:00">2020-02-05</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="x86架构常见寄存器"><a href="#x86架构常见寄存器" class="headerlink" title="x86架构常见寄存器"></a>x86架构常见寄存器</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>register</th>
-<th>8 bit</th>
-<th>16 bit</th>
-<th>32 bit</th>
-<th>64 bit</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Accumulator register</td>
-<td>AH:AL</td>
-<td>AX</td>
-<td>EAX</td>
-<td>RAX</td>
-<td></td>
-</tr>
-<tr>
-<td>Base register</td>
-<td>BH:BL</td>
-<td>BX</td>
-<td>EBX</td>
-<td>RBX</td>
-<td></td>
-</tr>
-<tr>
-<td>Counter register</td>
-<td>CH:CL</td>
-<td>CX</td>
-<td>ECX</td>
-<td>RCX</td>
-<td></td>
-</tr>
-<tr>
-<td>Data register</td>
-<td>DH:DL</td>
-<td>DX</td>
-<td>EDX</td>
-<td>RDX</td>
-<td></td>
-</tr>
-<tr>
-<td>Stack Pointer register</td>
-<td></td>
-<td>SP</td>
-<td>ESP</td>
-<td>RSP</td>
-<td>栈顶指针,始终指向栈顶元素</td>
-</tr>
-<tr>
-<td>Stack Base Pointer register</td>
-<td></td>
-<td>BP</td>
-<td>EBP</td>
-<td>RBP</td>
-<td>栈基指针,用于维护一个栈帧,在Intel的术语中叫帧指针,表示一个栈帧的开始地址</td>
-</tr>
-<tr>
-<td>Source Index register</td>
-<td></td>
-<td>SI</td>
-<td>ESI</td>
-<td>RSI</td>
-<td></td>
-</tr>
-<tr>
-<td>Destination Index register</td>
-<td></td>
-<td>DI</td>
-<td>EDI</td>
-<td>RDI</td>
-<td></td>
-</tr>
-<tr>
-<td>Instruction Pointer</td>
-<td>IP</td>
-<td>EIP</td>
-<td>RIP</td>
-<td></td>
-</tr>
-<tr>
-<td>64位新增</td>
-<td></td>
-<td></td>
-<td></td>
-<td>R8-R15</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>段寄存器</p>
-<ul>
-<li>Stack Segment(SS)：指向栈的指针</li>
-<li>Code Segment(CS):指向代码的指针</li>
-<li>Data Segment(DS):指向数据的指针</li>
-</ul>
-<p>常见组合：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>register</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CS:IP</td>
-<td>(CS is Code Segment, IP is Instruction Pointer) points to the address where the processor will fetch the next byte of code.</td>
-</tr>
-<tr>
-<td>SS:SP</td>
-<td>(SS is Stack Segment, SP is Stack Pointer) points to the address of the top of the stack, i.e. the most recently pushed byte.</td>
-</tr>
-<tr>
-<td>DS:SI</td>
-<td>(DS is Data Segment, SI is Source Index) is often used to point to string data that is about to be copied to ES:DI.</td>
-</tr>
-<tr>
-<td>ES:DI</td>
-<td>(ES is Extra Segment, DI is Destination Index) is typically used to point to the destination for a string copy, as mentioned above.</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>当我们调用一个函数和一个函数被调用，它们之间的参数和返回值是怎样传递的？gcc是怎样使用x86中的寄存器？</p>
-<h4 id="调用规范"><a href="#调用规范" class="headerlink" title="　调用规范"></a>　调用规范</h4><p>为了允许单独的程序员共享代码并开发供许多程序使用的库，并简化子例程的使用，程序员通常采用通用的调用约定。调用约定其实就是约定函数间如何调用和返回。例如，给定一组调用约定规则，程序员无需检查子例程的定义来确定应如何将参数传递给该子例程。 此外，给定一组调用约定规则，可以使高级语言编译器遵循这些规则，从而允许手动编码的汇编语言例程和高级语言例程相互调用。</p>
-<p>下面我们会描述下C语言的调用约定。C调用约定非常依赖CPU硬件实现的栈结构，基于如下汇编指令push,pop,call,ret。</p>
-<h6 id="调用者约定"><a href="#调用者约定" class="headerlink" title="调用者约定"></a>调用者约定</h6><ul>
-<li>在调用子例程这前,调用者应该保存一些特定寄存器的内容,这些内容称为<code>caller-saved</code>。被调用者<code>callee</code>允许对这些寄存器进行修改,如果调用者<code>caller</code>在子例程返回之后依然要使用这些值，<code>caller</code>必须把这些值push到栈中。</li>
-<li>为了把参数传递给子例程,在调用它们之前需先把参数入栈(现在的CPU设计并不是所有参数都得入栈,x86-64位在参数超过6个的情况下才会将6个之外的参数入栈),参数的入栈顺序为从右到左。</li>
-<li>使用<code>call</code>指令调用子例程。这个指令将返回地址压入栈中(在所参数之上)<br>当子例程返回后,<code>caller</code>可从寄存器<code>EAX</code>中取得子例程的返回值,为了恢复调用前的状态，调用者应该做如下处理：</li>
-<li>移除栈中的参数。</li>
-<li>从栈中恢复<code>caller-saved</code>的寄存器内容。</li>
-</ul>
-<h6 id="被调用者-callee-约定"><a href="#被调用者-callee-约定" class="headerlink" title="被调用者(callee)约定"></a>被调用者(<code>callee</code>)约定</h6><ul>
-<li>将%rbp入栈,并将%rsp 赋值给%rbp<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pushq   %rbp             # 将调用者的rbp入栈</span><br><span class="line">movq    %rsp, %rbp       # 初始化一个新的栈帧</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这个初始化操作维护了<code>base pointer</code>,rbp。rbp用于直接在栈中根据偏移量获取参数和局部变量。</p>
-<ul>
-<li>然后,将局部变量入栈,同时修改rsp寄存器的值。</li>
-<li>保存<code>callee-saved</code>的寄存器值,将这些值做入栈操作。<br>当子例程执行完毕进行返回时,必须做如下操作：</li>
-<li>将返回值放在<code>rax</code>寄存器中</li>
-<li>恢复<code>callee-saved</code>寄存器的值</li>
-<li>销毁局部变量,一般通过修改栈指针的值来进行</li>
-<li>恢复调用者的rbp值,从栈中弹出rbp</li>
-<li>最后执行<code>ret</code>指令,这条指令会将<code>return address</code>从栈中移除</li>
-</ul>
-<p>我们先来看一段代码，保存为<code>cdecl.c</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int callee(int a, int b, int c,int d, int d, int f, int g)&#123;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int caller(void)</span><br><span class="line">&#123;</span><br><span class="line">    return callee(1, 2, 3, 4, 5, 6, 7) +5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>将上面这段代码编译为汇编代码，使用命令<code>gcc -S cdecl.c</code>,会生成一个名称为cdecl.s的文件。下面是调用者部分的汇编代码，采用AT&amp;T格式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">callee:</span><br><span class="line">.LFB0:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    movl    %edi, -4(%rbp)</span><br><span class="line">    movl    %esi, -8(%rbp)</span><br><span class="line">    movl    %edx, -12(%rbp)</span><br><span class="line">    movl    %ecx, -16(%rbp)</span><br><span class="line">    movl    %r8d, -20(%rbp)</span><br><span class="line">    movl    %r9d, -24(%rbp)</span><br><span class="line">    movl    $0, %eax</span><br><span class="line">    popq    %rbp</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line"></span><br><span class="line">caller:</span><br><span class="line">.LFB1:</span><br><span class="line">    .cfi_startproc</span><br><span class="line">    pushq   %rbp</span><br><span class="line">    .cfi_def_cfa_offset 16</span><br><span class="line">    .cfi_offset 6, -16</span><br><span class="line">    movq    %rsp, %rbp</span><br><span class="line">    .cfi_def_cfa_register 6</span><br><span class="line">    pushq   $7</span><br><span class="line">    movl    $6, %r9d</span><br><span class="line">    movl    $5, %r8d</span><br><span class="line">    movl    $4, %ecx</span><br><span class="line">    movl    $3, %edx</span><br><span class="line">    movl    $2, %esi</span><br><span class="line">    movl    $1, %edi</span><br><span class="line">    call    callee</span><br><span class="line">    addq    $8, %rsp</span><br><span class="line">    addl    $5, %eax</span><br><span class="line">    leave</span><br><span class="line">    .cfi_def_cfa 7, 8</span><br><span class="line">    ret</span><br><span class="line">    .cfi_endproc</span><br></pre></td></tr></table></figure></p>
-<p>由上汇编代码可以看到第一个参数放入到了寄存器edi,第二个参放入到了寄存器esi,第三个参数放入寄存器edx,依此类推。</p>
-<h6 id="gcc对x86寄存器的调用规则"><a href="#gcc对x86寄存器的调用规则" class="headerlink" title="gcc对x86寄存器的调用规则"></a>gcc对x86寄存器的调用规则</h6><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Register</th>
-<th>Purpose    Saved across calls</th>
-<th>Saved across calls</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%rax</td>
-<td>temp register; return value</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%rbx</td>
-<td>callee-saved</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>%rcx</td>
-<td>used to pass 4th argument to functions</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%rdx</td>
-<td>used to pass 3rd argument to functions</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%rsp</td>
-<td>stack pointer</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>%rbp</td>
-<td>callee-saved; base pointer</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td>%rsi</td>
-<td>used to pass 2nd argument to functions</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%rdi</td>
-<td>used to pass 1st argument to functions</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%r8</td>
-<td>used to pass 5th argument to functions</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%r9</td>
-<td>used to pass 6th argument to functions</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%r10-r11</td>
-<td>temporary</td>
-<td>No</td>
-</tr>
-<tr>
-<td>%r12-r15</td>
-<td>callee-saved registers</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h6 id="函数调用时栈中的内容"><a href="#函数调用时栈中的内容" class="headerlink" title="函数调用时栈中的内容"></a>函数调用时栈中的内容</h6><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>栈地址</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>16(%ebp)</td>
-<td>- third function parameter</td>
-</tr>
-<tr>
-<td>12(%ebp)</td>
-<td>- second function parameter</td>
-</tr>
-<tr>
-<td>8(%ebp)</td>
-<td>- first function parameter</td>
-</tr>
-<tr>
-<td>4(%ebp)</td>
-<td>- old %EIP (the function’s “return address”)</td>
-</tr>
-<tr>
-<td>0(%ebp)</td>
-<td>- old %EBP (previous function’s base pointer)</td>
-</tr>
-<tr>
-<td>-4(%ebp)</td>
-<td>- first local variable</td>
-</tr>
-<tr>
-<td>-8(%ebp)</td>
-<td>- second local variable</td>
-</tr>
-<tr>
-<td>-12(%ebp)</td>
-<td>- third local variable</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><img src="http://img.hysyeah.top/2019/10/26/stackframe-cdecl.gif" alt="image"></p>
-<h4 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h4><p>push ax;将一个寄存器中的数据入栈<br>pop ax; 出栈，用一个寄存器接收出栈的数据.<br>ret指令用栈中数据，修改IP的内容，从而实现近转移。CPU执行ret指令时，进行下面两步操作：<br>(1)(IP) = ((ss)*16+(sp)) (2)(sp) = (sp) + 2   #16位cpu<br>call 标号;将当前的IP压栈后，转到标号处执行指令</p>
-<hr>
-<p>参考：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a><br>8.<a href="https://en.wikipedia.org/wiki/X86_assembly_language#Segmented_addressing" target="_blank" rel="noopener">X86_assembly_language</a><br>9.<a href="https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm" target="_blank" rel="noopener">https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2472,7 +2240,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">235</span>
+                    <span class="site-state-item-count">236</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2600,7 +2368,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
