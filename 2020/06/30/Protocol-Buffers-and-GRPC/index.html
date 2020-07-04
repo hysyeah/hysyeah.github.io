@@ -109,18 +109,21 @@
 
 
 
-  <meta name="description" content="Go Protobuf type     float32 float   float64 double   uint32 fixed32   uint64 fixed64   []byte bytes         Protobut type Default value     string “”   bytes empty bytes[]   bool false   int,int3">
+  <meta name="description" content="Protocol BuffersProtocol buffers是由Google推出来的用于描述结构化数据的一种数据格式,类似于XML,但更小更快更简单，语言无关，平台无关而且支持可扩展。通过描述性语言定义你所需要的数据结构,可以实现一次定义即可以生成多种语言的相关的代码。目前Protocal buffers基本上已支持大多数的编程语言。 本文将介绍在Go语言中怎么使用Protocol buffe">
 <meta name="keywords" content="Golang,grpc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Protocol Buffers and GRPC">
 <meta property="og:url" content="https://hysyeah.github.io/2020/06/30/Protocol-Buffers-and-GRPC/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Go Protobuf type     float32 float   float64 double   uint32 fixed32   uint64 fixed64   []byte bytes         Protobut type Default value     string “”   bytes empty bytes[]   bool false   int,int3">
+<meta property="og:description" content="Protocol BuffersProtocol buffers是由Google推出来的用于描述结构化数据的一种数据格式,类似于XML,但更小更快更简单，语言无关，平台无关而且支持可扩展。通过描述性语言定义你所需要的数据结构,可以实现一次定义即可以生成多种语言的相关的代码。目前Protocal buffers基本上已支持大多数的编程语言。 本文将介绍在Go语言中怎么使用Protocol buffe">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-01T13:25:15.234Z">
+<meta property="og:image" content="http://img.hysyeah.top/2020/7/4/20200704113839-grpc.png">
+<meta property="og:image" content="http://img.hysyeah.top/2020/7/4/20200704161336.png">
+<meta property="og:updated_time" content="2020-07-04T08:18:40.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Protocol Buffers and GRPC">
-<meta name="twitter:description" content="Go Protobuf type     float32 float   float64 double   uint32 fixed32   uint64 fixed64   []byte bytes         Protobut type Default value     string “”   bytes empty bytes[]   bool false   int,int3">
+<meta name="twitter:description" content="Protocol BuffersProtocol buffers是由Google推出来的用于描述结构化数据的一种数据格式,类似于XML,但更小更快更简单，语言无关，平台无关而且支持可扩展。通过描述性语言定义你所需要的数据结构,可以实现一次定义即可以生成多种语言的相关的代码。目前Protocal buffers基本上已支持大多数的编程语言。 本文将介绍在Go语言中怎么使用Protocol buffe">
+<meta name="twitter:image" content="http://img.hysyeah.top/2020/7/4/20200704113839-grpc.png">
 
 
 
@@ -442,7 +445,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-07-01 21:25:15" itemprop="dateModified" datetime="2020-07-01T21:25:15+08:00">2020-07-01</time>
+                <time title="修改时间：2020-07-04 16:18:40" itemprop="dateModified" datetime="2020-07-04T16:18:40+08:00">2020-07-04</time>
               </span>
             
           
@@ -479,7 +482,16 @@
       
 
       
-        <div class="table-container">
+        <h4 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h4><p><code>Protocol buffers</code>是由Google推出来的用于描述结构化数据的一种数据格式,类似于<code>XML</code>,但更小更快更简单，语言无关，平台无关而且支持可扩展。通过描述性语言定义你所需要的数据结构,可以实现一次定义即可以生成多种语言的相关的代码。目前<code>Protocal buffers</code>基本上已支持大多数的编程语言。</p>
+<p>本文将介绍在<code>Go</code>语言中怎么使用<code>Protocol buffers</code></p>
+<p>1.<code>protoc</code>安装<br><a href="https://github.com/protocolbuffers/protobuf/releases" target="_blank" rel="noopener">下载</a>所需的版本，解压设置环境变量<br>2.<code>protoc-gen-go</code>的安装<br> <code>go install google.golang.org/protobuf/cmd/protoc-gen-go</code></p>
+<p>3.新建一个<code>Go Module</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  gopro mkdir grpc</span><br><span class="line">➜  gopro cd grpc</span><br><span class="line">➜  grpc mkdir src</span><br><span class="line">➜  cd src</span><br><span class="line">➜  src go mod init example.com/grpc</span><br></pre></td></tr></table></figure></p>
+<p>整个目录的结构如下<br><img src="http://img.hysyeah.top/2020/7/4/20200704113839-grpc.png" alt></p>
+<p>4.在<code>protofiles</code>中编辑<code>person.pb.go</code>文件。如下代码用<code>protobuf</code>声明式语言定义了一个数据结构<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">  string name = <span class="number">1</span>;</span><br><span class="line">  int32 id = <span class="number">2</span>;</span><br><span class="line">  string email = <span class="number">3</span>;</span><br><span class="line">  enum PhoneType &#123;</span><br><span class="line">    MOBILE = <span class="number">0</span>;</span><br><span class="line">    HOME = <span class="number">1</span>;</span><br><span class="line">    WORK = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  message PhoneNumber &#123;</span><br><span class="line">    string number = <span class="number">1</span>;</span><br><span class="line">    PhoneType type = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  repeated PhoneNumber phones = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">  repeated Person people = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.通过<code>proto</code>生成<code>Go</code>语言对应的文件<br>  在<code>grpc/src/protofiles</code>执行<code>protoc --go_out=. *.proto</code>会在当前目录下生成<br>文件<code>person.pb.go</code><br>6.编写<code>main.go</code>和<code>main_json.go</code>文件<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	pb <span class="string">"example.com/grpc/protofiles"</span> <span class="comment">//我们可以使用person.pb.go中的结构傅Person</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/golang/protobuf/proto"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">// 对Person进行初始化，并将指针赋值给变量p</span></span><br><span class="line">	p := &amp;pb.Person&#123;</span><br><span class="line">		Id: <span class="number">1234</span>,</span><br><span class="line">		Name: <span class="string">"Roger F"</span>,</span><br><span class="line">		Email: <span class="string">"rf@gmail.com"</span>,</span><br><span class="line">		Phones: []*pb.Person_PhoneNumber&#123;</span><br><span class="line">			&#123;Number: <span class="string">"555-4321"</span>, Type: pb.Person_HOME&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	p1 := &amp;pb.Person&#123;&#125;</span><br><span class="line">	body, _ := proto.Marshal(p)</span><br><span class="line">	_ = proto.Unmarshal(body, p1)</span><br><span class="line">	fmt.Println(<span class="string">"Original struct loadef from proto file:"</span>,p,<span class="string">"\n"</span>)</span><br><span class="line">	fmt.Println(<span class="string">"Marshaled proto data: "</span>, body, <span class="string">"\n"</span>)</span><br><span class="line">	fmt.Println(<span class="string">"Unmarshaled struct: "</span>, p1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main_json.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	pb <span class="string">"example.com/grpc/protofiles"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p := &amp;pb.Person&#123;</span><br><span class="line">		Id: <span class="number">1234</span>,</span><br><span class="line">		Name: <span class="string">"Roger F"</span>,</span><br><span class="line">		Email: <span class="string">"rf@gmail.com"</span>,</span><br><span class="line">		Phones: []*pb.Person_PhoneNumber&#123;</span><br><span class="line">			&#123;Number: <span class="string">"555-4321"</span>, Type: pb.Person_HOME&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	body, _ := json.Marshal(p)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(body))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>7.执行<code>go mod tidy</code>安装依赖。<br>8.分别执行<code>main.go</code>和<code>main_json.go</code><br><img src="http://img.hysyeah.top/2020/7/4/20200704161336.png" alt></p>
+<h6 id="Go类型与对应的Protobuf类型"><a href="#Go类型与对应的Protobuf类型" class="headerlink" title="Go类型与对应的Protobuf类型"></a>Go类型与对应的Protobuf类型</h6><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -543,14 +555,9 @@
 </tbody>
 </table>
 </div>
-<p>protoc安装</p>
-<p><a href="https://github.com/protocolbuffers/protobuf/releases" target="_blank" rel="noopener">下载</a>所需的版本，解压设置环境变量</p>
-<p>定义一个消息结构：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line">package protofiles;</span><br><span class="line"></span><br><span class="line">//message 就可以看作是一个字典，字典里面包含各种类型的元素</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">  string name = <span class="number">1</span>;</span><br><span class="line">  int32 id = <span class="number">2</span>;</span><br><span class="line">  string email = <span class="number">3</span>;</span><br><span class="line">  enum PhoneType &#123;</span><br><span class="line">    MOBILE = <span class="number">0</span>;</span><br><span class="line">    HOME = <span class="number">1</span>;</span><br><span class="line">    WORK = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  message PhoneNumber &#123;</span><br><span class="line">    string number = <span class="number">1</span>;</span><br><span class="line">    PhoneType type = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  repeated PhoneNumber phones = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">  repeated Person people = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>cd src/github.com/hysyeah/protofiles</p>
-<p>protoc —go_out=. *.proto<br>在当前目录下会生成一个文件person.pb.go</p>
-<p> go install google.golang.org/protobuf/cmd/protoc-gen-go</p>
 <hr>
-<p>参考：<br>1.<a href="https://developers.google.com/protocol-buffers/docs/gotutorial" target="_blank" rel="noopener">https://developers.google.com/protocol-buffers/docs/gotutorial</a></p>
+<h4 id="GRPC"><a href="#GRPC" class="headerlink" title="GRPC"></a>GRPC</h4><hr>
+<p>参考：<br>1.<a href="https://developers.google.com/protocol-buffers/docs/gotutorial" target="_blank" rel="noopener">https://developers.google.com/protocol-buffers/docs/gotutorial</a><br>2.<a href="https://book.douban.com/subject/30154905/" target="_blank" rel="noopener">Building RESTful Web services with Go</a></p>
 
       
     </div>
@@ -644,8 +651,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -815,6 +831,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Protocol-Buffers"><span class="nav-number">1.</span> <span class="nav-text">Protocol Buffers</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Go类型与对应的Protobuf类型"><span class="nav-number">1.0.1.</span> <span class="nav-text">Go类型与对应的Protobuf类型</span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#GRPC"><span class="nav-number">2.</span> <span class="nav-text">GRPC</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       

@@ -3,15 +3,15 @@
 
 
     <url>
-        <loc>https://hysyeah.github.io/tags/Golang/</loc>
-        <lastmod>2020-07-04T03:20:56.526Z</lastmod>
+        <loc>https://hysyeah.github.io/tags/grpc/</loc>
+        <lastmod>2020-07-04T08:18:40.030Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/tags/grpc/</loc>
-        <lastmod>2020-07-01T13:25:15.234Z</lastmod>
+        <loc>https://hysyeah.github.io/tags/Golang/</loc>
+        <lastmod>2020-07-04T08:18:40.030Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
