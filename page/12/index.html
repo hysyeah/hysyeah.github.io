@@ -380,6 +380,273 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/16/racket number类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/16/racket number类型/" class="post-title-link" itemprop="url">racket number类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-16 16:13:35" itemprop="dateCreated datePublished" datetime="2018-07-16T16:13:35+08:00">2018-07-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>&gt; (number? 1)                         ;判断是否是number类型
+#t
+
+&gt; (complex? 1+2i)                     ;判断是否是complex类型
+#t
+&gt; (complex? 1)                        ;所有number都是complex类型，1==1+0i
+#t
+
+&gt; (real? 1)                           ;判断是否是实数
+#t
+&gt; (real? 1+i)
+#f
+
+&gt; (rational? 0.3)                     ;判断是否是有理数
+#t
+
+&gt; (integer? 1)                        ;判断是否是整数
+#t
+&gt; (integer? 1.0)
+#t
+&gt; (integer? 2.3)
+#f
+
+&gt; (exact? 1)                           ;判断是否是精确值
+#t
+&gt; (exact? 1.0)
+#f
+
+&gt; (inexact? 1)                         ;判断是否是非精确数
+#f
+&gt; (inexact? 1.0)
+#t
+
+&gt; (exact-integer? 1)                   ;相当于 (and (integer? v) (exact? v))
+#t
+&gt; (exact-integer? 4.0)
+#f
+
+&gt; (negative? -10)                      ;判断是否是负数，返回(&gt; x 0)
+#t
+&gt; (negative? -0.0)
+#f
+
+&gt; (positive? 10)                       ;判断是否是正数，返回(&gt; x 0)
+#t
+&gt; (positive? 0.0)
+#f
+
+&gt; (even? 2)                            ;判断是否是偶数，0属于偶数
+#t
+&gt; (even? 0)
+#t
+
+&gt; (odd? 11)                            ;判断是否是奇数
+#t
+
+&gt; (exact-nonnegative-integer? 0)       ;相当于(and (exact-integer? v) (not (negative? v)))
+#t
+
+&gt; (exact-positive-integer? 1)          ;相关于(and (exact-integer? v) (positive? v))
+#t
+
+&gt; (inexact-real? 1)                    ;相当于(and (real? v) (inexact? v))
+#f
+
+&gt; (flonum? 0)                          ;判断是否是浮点数，等同于(double-flonum? v)
+#f
+&gt; (flonum? 0.0)
+#t
+
+&gt; (single-flonum? 1.0)                  ;判断是否是单精度浮点数
+#f
+
+&gt; (zero? 0)                             ;判断是否等于0
+#t
+&gt; (zero? -0.0)
+#t
+
+&gt; (truncate 2.5)                        ;对数进行截断
+2.0
+&gt; (truncate -2.5)
+-2.0
+
+&gt; (numerator 3)                         ;返回数的分子
+3
+&gt; (numerator 14/3)
+14
+
+&gt; (denominator 5)                       ;返回数的分母
+1
+&gt; (denominator 17/4)
+4
+
+&gt; (expt 2 3)                            ;等于2**3
+8
+</code></pre><hr>
+<p>参考： 1.<a href="https://docs.racket-lang.org/reference/number-types.html" target="_blank" rel="noopener">官方文档</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/12/凸函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2293,184 +2560,6 @@ plt.show()
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/26/最大似然估计/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/26/最大似然估计/" class="post-title-link" itemprop="url">最大似然估计</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-26 10:38:19" itemprop="dateCreated datePublished" datetime="2018-06-26T10:38:19+08:00">2018-06-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>若总体X属于离散型，其分布律$ P\{X=x\} = p(x;\theta),\theta \in \Theta $的形式为已知，$ \theta $为待估参数，$ \Theta $为$ \theta $可能取值的范围。设$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $是来自X的样本，则$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $的联合分布律为<br>$ \prod_{i=1}^n p(x_{i};\theta) $ 又设$ x_{1},x_{2},\cdot \cdot \cdot, x_{n} $是相应于样本$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $的一个样本值。易知样本$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $取到观察值$ x_{1},x_{2},\cdot \cdot \cdot, x_{n} $的概率，亦即事件$ \{ X_{1} = x_{1}, X_{2}=x_{2},\cdot \cdot \cdot, X_{n}=x_{n}\} $发生的概率为<br>$ L(\theta)=L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta) = \prod_{i=1}^np(x_{i};\theta), \theta \in \Theta $<br>这一概率随$ \theta $的取值而变化，它是$ \theta $的函数，$ L(\theta) $称为样本的似然函数。<br>最大似然估计法就是固定样本观察值$ x_{1},x_{2},\cdot \cdot \cdot, x_{n} $,在$ \theta $的取值范围$ \Theta $内挑选使似然函数$ L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\hat \theta)=\max_{\theta \in \Theta}L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta) $ 这样得到的$ \hat \theta $与样本值$ x_{1},x_{2},\cdot \cdot \cdot, x_{n} $有关，常记为$ \hat \theta (x_{1},x_{2},\cdot \cdot \cdot, x_{n}) $,称为参数$ \theta $的最大似然估计值，而相应的统计量$ \hat \theta (X_{1},X_{2},\cdot \cdot \cdot, X_{n}) $称为参数$ \theta $的最大似然估计量。</p>
-<hr>
-<p>若总体X属于连续型，其概率密度$ f(x;\theta),\theta \in \Theta $的形式为已知，$ \theta $为待估参数，$ \Theta $为$ \theta $可能取值的范围。设$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $是来自X的样本，则$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $的联合密度为<br>$ \prod_{i=1}^n f(x_{i};\theta) $ 又设$ x_{1},x_{2},\cdot \cdot \cdot, x_{n} $是相应于样本$ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $的一个样本值，则随机点($ X_{1},X_{2},\cdot \cdot \cdot, X_{n} $)落在点$ x_{1},x_{2},\cdot \cdot \cdot, x_{n} $的邻域(边长分别为$ dx_{1},dx_{2},\cdot \cdot \cdot, dx_{n} $的n维立方体)内的概率近似的为<br>$ \prod_{i=1}^n f(x_{i};\theta)dx_{i} $<br>其值随$ \theta $的取值而变化，与离散型的情况一样，我们取$  \theta $估计值$ \hat \theta $使概率取到最大值，但因子$ \prod_{i=1}^{n}dx_{i} $不随$ \theta $而变，故只需考虑函数<br>$ L(\theta)=L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta) = \prod_{i=1}^nf(x_{i};\theta) $的最大值。<br>若$ L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\hat \theta)=\max_{\theta \in \Theta}L(x_{1},x_{2},\cdot \cdot \cdot,x_{n};\theta) $，则称$ \hat \theta (x_{1},x_{2},\cdot \cdot \cdot, x_{n}) $为$ \theta $的最大似然估计值，称$ \hat \theta (X_{1},X_{2},\cdot \cdot \cdot, X_{n}) $称为参数$ \theta $的最大似然估计量</p>
-<hr>
-<p>例：设$ X \sim b(1,p). X_{1},X_{2},\cdot \cdot \cdot,X_{n} $是来自X的一个样本，试求参数p的最大似然估计值。<br><img src="http://img.hysyeah.top/wp-content/uploads/2018/06/max_likehood_example.jpg" alt></p>
-<hr>
-<p>最大似然估计就是通过已知的样本点来求得求似然函数取值最大的参数$ \theta $,通常采用牛顿法和梯度下降法求解。 </p>
-<p>参考： 1.概率论与数理统计</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2517,7 +2606,7 @@ plt.show()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">236</span>
+                    <span class="site-state-item-count">237</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2645,7 +2734,9 @@ plt.show()
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -3158,9 +3249,9 @@ plt.show()
   
     
       
-        
-      
     
+      
+        
       
     
       

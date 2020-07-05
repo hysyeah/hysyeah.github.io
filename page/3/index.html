@@ -380,6 +380,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/27/认识ucontext/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/27/认识ucontext/" class="post-title-link" itemprop="url">认识ucontext函数簇</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-27 01:09:55 / 修改时间：11:38:01" itemprop="dateCreated datePublished" datetime="2019-10-27T01:09:55+08:00">2019-10-27</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ucontext函数簇提供了4个函数用于控制用户态的上下文。利用这几个函数可以实现一个协程。</p>
+<p>ucontext_t结构体<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">ucontext_t</span> *uc_link;    <span class="comment">//当前上下文结束后要恢复到时的上下文,</span></span><br><span class="line">    <span class="keyword">sigset_t</span>    uc_sigmask; <span class="comment">//上下文要阻塞的信号集合</span></span><br><span class="line">    <span class="keyword">stack_t</span>     uc_stack;   <span class="comment">//上下文所使用的栈</span></span><br><span class="line">    <span class="keyword">mcontext_t</span>  uc_mcontext; <span class="comment">//机器特定的保护上下文的表示，包括协程的机器寄存器</span></span><br><span class="line">    ...</span><br><span class="line">&#125; <span class="keyword">ucontext_t</span>;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取当前用户上下文,并初始化指针ucp指向的结构体。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getcontext</span><span class="params">(<span class="keyword">ucontext_t</span> *ucp)</span></span>;</span><br><span class="line"><span class="comment">// 设置当前的上下文为ucp指向的内容</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">setcontext</span><span class="params">(<span class="keyword">const</span> <span class="keyword">ucontext_t</span> *ucp)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造一个上下文,修改通过getcontext初始化的ucp,当切换到ucp指向的上下文时，将会执行func函数。</span></span><br><span class="line"><span class="comment">// 执行makecontext前必须为ucp分配栈和指定ucp-&gt;uc_link</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makecontext</span><span class="params">(<span class="keyword">ucontext_t</span> *ucp, <span class="keyword">void</span> (*func)(),</span></span></span><br><span class="line"><span class="function"><span class="params">       <span class="keyword">int</span> argc, ...)</span></span>;</span><br><span class="line"><span class="comment">// 将当前上下文保存到指针oucp指向的结构,并切换到ucp指向的上下文</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">swapcontext</span><span class="params">(<span class="keyword">ucontext_t</span> *<span class="keyword">restrict</span> oucp,</span></span></span><br><span class="line"><span class="function"><span class="params">       <span class="keyword">const</span> <span class="keyword">ucontext_t</span> *<span class="keyword">restrict</span> ucp)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">ucontext_t</span> context;</span><br><span class="line"></span><br><span class="line">    getcontext(&amp;context);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world\n"</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    setcontext(&amp;context);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每隔一秒打印一行<code>Hello world</code>。</p>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"foo\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">ucontext_t</span> context;</span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">stack</span>[<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line">    getcontext(&amp;context);  <span class="comment">// 初始化context</span></span><br><span class="line">    context.uc_stack.ss_sp = <span class="built_in">stack</span>; <span class="comment">// 设置栈顶指针</span></span><br><span class="line">    context.uc_stack.ss_size = <span class="keyword">sizeof</span>(<span class="built_in">stack</span>); <span class="comment">// 设置栈的大小</span></span><br><span class="line">    context.uc_link = <span class="literal">NULL</span>;    <span class="comment">//下一个要恢复的上下文为NULL, 将结束运行          </span></span><br><span class="line">    makecontext(&amp;context, foo, <span class="number">0</span>); <span class="comment">//构建上下文，执行context上下文时，将执行foo函数</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world\n"</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    setcontext(&amp;context);  <span class="comment">//设置上下文为context,在这里会切换到执行foo函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先打印<code>Hello world</code>,然后打印<code>foo</code>。</p>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ucontext.h&gt;</span></span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">ucontext_t</span> ctx[<span class="number">3</span>];</span><br><span class="line">    </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">f1(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"start f1\n"</span>);</span><br><span class="line">    <span class="comment">// 将当前 context 保存到 ctx[1]，切换到 ctx[2]</span></span><br><span class="line">    swapcontext(&amp;ctx[<span class="number">1</span>], &amp;ctx[<span class="number">2</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"finish f1\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">f2(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"start f2\n"</span>);</span><br><span class="line">    <span class="comment">// 将当前 context 保存到 ctx[2]，切换到 ctx[1]</span></span><br><span class="line">    swapcontext(&amp;ctx[<span class="number">2</span>], &amp;ctx[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"finish f2\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> stack1[<span class="number">8192</span>];</span><br><span class="line">    <span class="keyword">char</span> stack2[<span class="number">8192</span>];</span><br><span class="line">    </span><br><span class="line">    getcontext(&amp;ctx[<span class="number">1</span>]);</span><br><span class="line">    ctx[<span class="number">1</span>].uc_stack.ss_sp = stack1;</span><br><span class="line">    ctx[<span class="number">1</span>].uc_stack.ss_size = <span class="keyword">sizeof</span>(stack1);</span><br><span class="line">    ctx[<span class="number">1</span>].uc_link = &amp;ctx[<span class="number">0</span>]; <span class="comment">// 将执行 return 0</span></span><br><span class="line">    makecontext(&amp;ctx[<span class="number">1</span>], f1, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    getcontext(&amp;ctx[<span class="number">2</span>]);</span><br><span class="line">    ctx[<span class="number">2</span>].uc_stack.ss_sp = stack2;</span><br><span class="line">    ctx[<span class="number">2</span>].uc_stack.ss_size = <span class="keyword">sizeof</span>(stack2);</span><br><span class="line">    ctx[<span class="number">2</span>].uc_link = &amp;ctx[<span class="number">1</span>];</span><br><span class="line">    makecontext(&amp;ctx[<span class="number">2</span>], f2, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将当前 context 保存到 ctx[0]，切换到 ctx[2]</span></span><br><span class="line">    swapcontext(&amp;ctx[<span class="number">0</span>], &amp;ctx[<span class="number">2</span>]);  <span class="comment">// 为什么么ctx[0]不用初始化栈？原因是swapcontext会将当前的上下文设置到ctx中,此时ctx[0]为main函数的上下文</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>swapcontext(&amp;ctx[0], &amp;ctx[2])</code>切换到ctx[2]上下文，此时将执行<code>f2</code>。打印start f2,然后切换上下文到ctx[1];执行f1函数，打印start f1;切换到<code>f2</code>，打印finish f2;<code>f2</code>执行完成后，因为<code>ctx[2].uc_link=&amp;ctx[1]</code>,再次进入ctx[1],打印出finish f1。</p>
+<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start f2</span><br><span class="line">start f1</span><br><span class="line">finish f2</span><br><span class="line">finish f1</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>参考：<br>1.<a href="http://walkerdu.com/2017/01/09/ucontext-theory/" target="_blank" rel="noopener">http://walkerdu.com/2017/01/09/ucontext-theory/</a><br>2.<a href="https://www.gnu.org/software/libc/manual/html_mono/libc.html#System-V-contexts" target="_blank" rel="noopener">Complete Context Control</a><br>3.<a href="https://zhengyinyong.com/post/ucontext-usage-and-coroutine/" target="_blank" rel="noopener">https://zhengyinyong.com/post/ucontext-usage-and-coroutine/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/26/x86-architecture-gcc-calling-convention/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2329,172 +2488,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/13/docker-centos镜像安装mysql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/13/docker-centos镜像安装mysql/" class="post-title-link" itemprop="url">docker centos镜像安装mysql</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-13 23:26:45" itemprop="dateCreated datePublished" datetime="2019-07-13T23:26:45+08:00">2019-07-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.拉取CentOs基础镜像<br><code>docker pull centos</code><br>2.启动容器，要加<code>--privileged</code>,不然使用systemctl会报错<br><code>docker run -idt --privileged centos init</code><br>3.进入容器<br><code>docker exec -it 83c2d9bc6aef /bin/bash</code></p>
-<p>4.安装<code>MySQL</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br><span class="line"></span><br><span class="line">wget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum -y install mysql57-community-release-el7-8.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum -y install mysql-community-server.x86_64</span><br></pre></td></tr></table></figure>
-<p>启动MySQL</p>
-<pre><code>systemctl start mysqld.service
-systemctl enable mysqld.service
-
-cat /var/log/mysqld.log | grep password
-</code></pre><p>5.安装keepalived<br><code>yum -y install keepalived</code></p>
-<p>6.登录<code>MySQL</code>,修改密码，授权远程访问。</p>
-<p>7.导出容器快照到本地文件<br><code>docker export 83c2d9bc6aef -o keepalived.tar</code><br>8.将容器快照导入为镜像,下次就可以直接通过此镜像启动有MySQL和keepalived的容器<br><code>cat keepalived.tar | docker import - centos/keepalived</code></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2541,7 +2534,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">236</span>
+                    <span class="site-state-item-count">237</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2669,7 +2662,9 @@ cat /var/log/mysqld.log | grep password
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

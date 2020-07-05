@@ -380,6 +380,191 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python求明氏距离/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/16/python求明氏距离/" class="post-title-link" itemprop="url">python求明氏距离</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-16 14:25:02" itemprop="dateCreated datePublished" datetime="2018-05-16T14:25:02+08:00">2018-05-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="何为明式距离"><a href="#何为明式距离" class="headerlink" title="何为明式距离"></a><a href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%B0%8F%E8%B7%9D%E7%A6%BB" target="_blank" rel="noopener">何为明式距离</a></h5><p>$ P = (x_{1},x_{2},\cdot \cdot \cdot,x_{n}) and Q=(y_{1},y_{2},\cdot \cdot \cdot,y_{n}) \in R^n $  </p>
+<p>$ D(X,Y) = \bigg( \sum_{i=1}^n |x_{i} - y_{i}|^p\bigg)^{1/p} $  </p>
+<p>假设P = (0,4),Q=(3,0),求P,Q两点的明氏距离。</p>
+<pre><code>import numpy as np
+from scipy.spatial import minkowski_distance
+a = np.array([[0,4]])
+a = np.array([[3,0]])
+dist = minkowski_distance(a,b,1) #array([7])
+dist = minkowski_distance(a,b,2) #array([5.])
+dist = minkowski_distance(a,b,3) #array([4.49794145])
+</code></pre><p>$ \lim_{p \to \infty} \bigg( \sum_{i=1}^n |x_{i}-y_{i}|^p\bigg)^{1/p} = \max_{i=1}^n |x_{i}-y_{i}| $  ,当p—&gt;oo时，P,Q两点的距离等于4</p>
+<pre><code>from sympy import symbols, limit
+p = symbols(&#39;p&#39;)
+f = (3**p + 4**p)**(1/p) 
+limit(f,p,oo)           # 4
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python对函数求导/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2273,313 +2458,6 @@ Out[41]: {&#39;a&#39;: 1, &#39;b&#39;: 2}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/01/request中之自定义的结构体/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/01/request中之自定义的结构体/" class="post-title-link" itemprop="url">request中之自定义的结构体</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-01 10:11:34" itemprop="dateCreated datePublished" datetime="2018-04-01T10:11:34+08:00">2018-04-01</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 通过LookupDict构建个可以根据多个value查找key的字典
-class LookupDict(dict):
-    &quot;&quot;&quot;Dictionary lookup object.&quot;&quot;&quot;
-
-    def __init__(self, name=None):
-        self.name = name
-        super(LookupDict, self).__init__()
-
-    def __repr__(self):
-        return &#39;&lt;lookup \&#39;%s\&#39;&gt;&#39; % (self.name)
-
-    def __getitem__(self, key):
-        # We allow fall-through here, so values default to None
-
-        return self.__dict__.get(key, None)
-
-    def get(self, key, default=None):
-        return self.__dict__.get(key, default)
-
-
-In [2]: _codes = {
-   ...: 
-   ...:     # Informational.
-   ...:     100: (&#39;continue&#39;,),
-   ...:     101: (&#39;switching_protocols&#39;,),
-   ...:     102: (&#39;processing&#39;,),
-   ...:     103: (&#39;checkpoint&#39;,),
-   ...:     122: (&#39;uri_too_long&#39;, &#39;request_uri_too_long&#39;)
-   ...: }
-
-In [3]: codes = LookupDict(name=&#39;status_codes&#39;)
-
-In [4]: for code, titles in _codes.items():
-   ...:     for title in titles:
-   ...:         setattr(codes, title, code)
-   ...:         if not title.startswith(&#39;\\&#39;):
-   ...:             setattr(codes, title.upper(), code)
-   ...:             
-
-In [5]: codes
-Out[5]: &lt;lookup &#39;status_codes&#39;&gt;
-
-In [6]: codes.processing
-Out[6]: 102
-
-In [7]: codes.checkpoint
-Out[7]: 103
-
-# codes的__dict__如下
-In [8]: codes.__dict__
-Out[8]: 
-{&#39;CHECKPOINT&#39;: 103,
- &#39;CONTINUE&#39;: 100,
- &#39;PROCESSING&#39;: 102,
- &#39;REQUEST_URI_TOO_LONG&#39;: 122,
- &#39;SWITCHING_PROTOCOLS&#39;: 101,
- &#39;URI_TOO_LONG&#39;: 122,
- &#39;checkpoint&#39;: 103,
- &#39;continue&#39;: 100,
- &#39;name&#39;: &#39;status_codes&#39;,
- &#39;processing&#39;: 102,
- &#39;request_uri_too_long&#39;: 122,
- &#39;switching_protocols&#39;: 101,
- &#39;uri_too_long&#39;: 122}
-</code></pre><hr>
-<pre><code># CaseInsensitiveDict定义了大小不敏感的字典
-class CaseInsensitiveDict(collections.MutableMapping):
-    &quot;&quot;&quot;
-        cid = CaseInsensitiveDict()
-        cid[&#39;Accept&#39;] = &#39;application/json&#39;
-        cid[&#39;aCCEPT&#39;] == &#39;application/json&#39;  # True
-        list(cid) == [&#39;Accept&#39;]  # True&quot;&quot;&quot;
-
-    def __init__(self, data=None, **kwargs):
-        self._store = OrderedDict()
-        if data is None:
-            data = {}
-        self.update(data, **kwargs)
-
-    def __setitem__(self, key, value):
-        # Use the lowercased key for lookups, but store the actual
-        # key alongside the value.
-        self._store[key.lower()] = (key, value)
-
-    def __getitem__(self, key):
-        return self._store[key.lower()][1]
-
-    def __delitem__(self, key):
-        del self._store[key.lower()]
-
-    def __iter__(self):
-        return (casedkey for casedkey, mappedvalue in self._store.values())
-
-    def __len__(self):
-        return len(self._store)
-
-    def lower_items(self):
-        &quot;&quot;&quot;Like iteritems(), but with all lowercase keys.&quot;&quot;&quot;
-        return (
-            (lowerkey, keyval[1])
-            for (lowerkey, keyval)
-            in self._store.items()
-        )
-
-    def __eq__(self, other):
-        if isinstance(other, collections.Mapping):
-            other = CaseInsensitiveDict(other)
-        else:
-            return NotImplemented
-        # Compare insensitively
-        return dict(self.lower_items()) == dict(other.lower_items())
-
-    # Copy is required
-    def copy(self):
-        return CaseInsensitiveDict(self._store.values())
-
-    def __repr__(self):
-        return str(dict(self.items()))
-
-
-MutableMapping的定义是实现__getitem__,__setitem__,__delitem__,__iter__,__len__方法的对象。
-CaseInsensitiveDict通过将key转换为小写进行查找，在字典值中以元组的形式存储了原始键和值。
-lower_items()返回小写的key,和原始的value。
-
-In [13]: cid = CaseInsensitiveDict()
-
-In [16]: cid
-Out[16]: {&#39;Accept&#39;: &#39;application/json&#39;}
-
-In [19]: cid.__dict__
-Out[19]: {&#39;_store&#39;: OrderedDict([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/json&#39;))])}
-
-In [30]: list(cid.lower_items())
-Out[30]: [(&#39;accept&#39;, &#39;application/json&#39;), (&#39;ab&#39;, &#39;Cd&#39;)]
-
-In [31]: cid._store.items()
-Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/json&#39;)), (&#39;ab&#39;, (&#39;Ab&#39;, &#39;Cd&#39;))])
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2626,7 +2504,7 @@ Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/jso
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">236</span>
+                    <span class="site-state-item-count">237</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2754,7 +2632,9 @@ Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/jso
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -3267,9 +3147,9 @@ Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/jso
   
     
       
-    
-      
         
+      
+    
       
     
       

@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2020/07/05/Go-Json/</loc>
+        <lastmod>2020-07-05T02:55:09.482Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2020/06/30/Protocol-Buffers-and-GRPC/</loc>
         <lastmod>2020-07-04T14:29:12.460Z</lastmod>
         <changefreq>weekly</changefreq>

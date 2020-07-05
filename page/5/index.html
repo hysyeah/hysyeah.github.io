@@ -380,6 +380,188 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/01/linux命令tcpdump与tcp zero window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/01/linux命令tcpdump与tcp zero window/" class="post-title-link" itemprop="url">linux命令tcpdump与tcp zero window</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-01 15:20:25" itemprop="dateCreated datePublished" datetime="2019-06-01T15:20:25+08:00">2019-06-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-30 05:47:13" itemprop="dateModified" datetime="2019-10-30T05:47:13+08:00">2019-10-30</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>example:
+tcpdump -i ens250 port 34495 -w t.pcap
+# -i: 指定监听网卡
+# port: 指定监听端口
+# -w file: 将数据保存在外部文件中，以.pcap结尾的文件可以通过wireshark打开
+</code></pre><p>常用选项：</p>
+<pre><code>-c count                  # 捕获count个packet后退出
+</code></pre><hr>
+<h5 id="tcp-zero-window"><a href="#tcp-zero-window" class="headerlink" title="tcp zero window"></a>tcp zero window</h5><p><code>TCP Window size</code>是指机器在一个<code>TCP</code>session中可以接收多大的数据量。类似于<code>TCP</code>中的接收缓冲，当客户端和服务端建立连接时，客户端会通过<code>Window Size</code>告诉服务端可以接收多少数据。 当建立TCP连接后，服务端开始向客户端发送数据，客户端会减少<code>Window Size</code>当接收的数据存在于缓冲中时，同时客户端会在缓冲中处理数据，清空缓冲以便接收更多的数据。通过<code>TCP ACK frames</code>客户端会告诉服务端还可以接收多大的数据。当<code>TCP Window Size</code>等于0时，我们称为零窗口，此时客户端不能再接收数据，直到缓冲中的数据被清空。</p>
+<p>wireshark提示的[TCP window Full]和[TCP zero windwo]意义不同,前者表示这个包的发送方意识到”在途字节数”已经达到对方所声明的窗口,不能再发了;而后者表示这个包的发送意识到自民 的缓存区已经满了,无法接收更多数据。</p>
+<hr>
+<p>参考： 1.<a href="https://wiki.wireshark.org/TCP%20ZeroWindow" target="_blank" rel="noopener">https://wiki.wireshark.org/TCP%20ZeroWindow</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/01/postgresql元数据相关SQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2288,177 +2470,6 @@ object Main extends App {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/09/scala REPL安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/09/scala REPL安装/" class="post-title-link" itemprop="url">scala REPL安装</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-09 08:01:00" itemprop="dateCreated datePublished" datetime="2019-04-09T08:01:00+08:00">2019-04-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.直接使用<code>apt-get</code>命令安装 <code>sudo apt-get install scala</code> 安装<code>scala</code>版本为<code>2.11.12</code>，却发现进入REPL后，不能输入。<br>2.直接<a href="https://www.scala-lang.org/download/" target="_blank" rel="noopener">下载</a>最新版本<code>2.12.8</code>二进制文件进行安装,解压，然后设置环境变量。 ３.输入<code>scala</code>,直接进入REPL。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/scala_repl.png" alt></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2505,7 +2516,7 @@ object Main extends App {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">236</span>
+                    <span class="site-state-item-count">237</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2633,7 +2644,9 @@ object Main extends App {
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
