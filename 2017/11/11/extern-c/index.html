@@ -117,7 +117,7 @@
 <meta property="og:description" content="C++为了与C兼容，在符号的管理上，C++提供了一 个用来声明或定义C符号的”extern “C””关键字。C++编译器会将在extern “C”的大括号内部的代码当作C语言处理，C++的名称修饰机制将不起作用。  很多时候我们会碰到有些头文件声明了一些C语言的 函数和全局变量，但是这个头文件可能会被C语言代码或c++代码包含。比 如很常见的，我们的C语言库函数中的string.h中声明了mems">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2017/11/1.png">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.540Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.074Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="extern &quot;C&quot;">
 <meta name="twitter:description" content="C++为了与C兼容，在符号的管理上，C++提供了一 个用来声明或定义C符号的”extern “C””关键字。C++编译器会将在extern “C”的大括号内部的代码当作C语言处理，C++的名称修饰机制将不起作用。  很多时候我们会碰到有些头文件声明了一些C语言的 函数和全局变量，但是这个头文件可能会被C语言代码或c++代码包含。比 如很常见的，我们的C语言库函数中的string.h中声明了mems">
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -511,7 +511,7 @@ void *memset (void *, int,  size_t);
 }
 
 #endif
-</code></pre><p>如果当前编译单元是C++代码，那么memset会在extern “C”里面被声明；如果是C代码，就直接声明。 参考： 1.程序员的自我修养 2.<a href="https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html" target="_blank" rel="noopener">https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html</a></p>
+</code></pre><p>如果当前编译单元是C++代码，那么memset会在extern “C”里面被声明；如果是C代码，就直接声明。 Ref： 1.程序员的自我修养 2.<a href="https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html" target="_blank" rel="noopener">https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html</a></p>
 
       
     </div>

@@ -117,7 +117,7 @@
 <meta property="og:description" content="GIL(Global Interpreter Lock)-全局解释锁，python使用GIL来互斥线程对python虚拟机的使用，同一时间只能并且仅有一个线程使用python虚拟机。 为什么要使用GIL 假设有两个线程A、B，在两个线程中，都同时保存着对内存中同一对象obj的引用，也就是说，这时obj-&amp;gt;ob_refcnt的值为2。如果A销毁对obj的引用，显然，A将通过Py_DECREF调">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/threadab.png">
-<meta property="og:updated_time" content="2019-08-04T08:34:13.058Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python GIL与线程调度">
 <meta name="twitter:description" content="GIL(Global Interpreter Lock)-全局解释锁，python使用GIL来互斥线程对python虚拟机的使用，同一时间只能并且仅有一个线程使用python虚拟机。 为什么要使用GIL 假设有两个线程A、B，在两个线程中，都同时保存着对内存中同一对象obj的引用，也就是说，这时obj-&amp;gt;ob_refcnt的值为2。如果A销毁对obj的引用，显然，A将通过Py_DECREF调">
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -510,7 +510,7 @@ Out[3]: 100
 <pre><code>In [4]: sys.getswitchinterval()
 Out[4]: 0.005
 </code></pre><hr>
-<p>参考： 1.python源码剖析—深度探索动态语言核心技术 2.<a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval" target="_blank" rel="noopener">官方文档</a></p>
+<p>Ref： 1.python源码剖析—深度探索动态语言核心技术 2.<a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval" target="_blank" rel="noopener">官方文档</a></p>
 
       
     </div>

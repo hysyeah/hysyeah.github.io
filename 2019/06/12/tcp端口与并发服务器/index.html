@@ -123,7 +123,7 @@
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png">
-<meta property="og:updated_time" content="2019-10-29T22:29:34.310Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.078Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tcp端口与并发服务器">
 <meta name="twitter:description" content="一、端口的作用是什么？ 在一台服务器中可能有多个进程同时使用TCP,UDP这两种协议中的一种，端口就是用来区分这些进程的。 二、套接字对 一个TCP连接的套接字对是一个定义该连接的两个端点的四元组:本地IP地址、本地TCP端口号、外地IP地址、外地TCP端口号。套接字对唯一标识一个网络上的每个TCP连接。 三、并发服务器 并发服务器中主服务器循环通过派生一个子进程来处理每个新的链接。 我们通过如下">
@@ -449,7 +449,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-30 06:29:34" itemprop="dateModified" datetime="2019-10-30T06:29:34+08:00">2019-10-30</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -531,7 +531,7 @@ while True:
 <hr>
 <p>总结: TCP必须通过查看套接字对的所有4个元素才能确定由哪个端点接收某个到达的分节。如一个分节来自127.0.0.1端口52822,目的地为127.0.0.1端口8080，它就会被传递给子进程2进行处理。</p>
 <hr>
-<p>参考： 1.《UNIX网络编程》</p>
+<p>Ref： 1.《UNIX网络编程》</p>
 
       
     </div>

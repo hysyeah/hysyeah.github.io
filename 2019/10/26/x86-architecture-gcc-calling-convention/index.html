@@ -117,7 +117,7 @@
 <meta property="og:description" content="x86架构常见寄存器    register 8 bit 16 bit 32 bit 64 bit 描述     Accumulator register AH:AL AX EAX RAX    Base register BH:BL BX EBX RBX    Counter register CH:CL CX ECX RCX    Data register DH:DL DX EDX RDX">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.hysyeah.top/2019/10/26/stackframe-cdecl.gif">
-<meta property="og:updated_time" content="2020-02-05T12:42:59.145Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="x86-architecture gcc calling convention">
 <meta name="twitter:description" content="x86架构常见寄存器    register 8 bit 16 bit 32 bit 64 bit 描述     Accumulator register AH:AL AX EAX RAX    Base register BH:BL BX EBX RBX    Counter register CH:CL CX ECX RCX    Data register DH:DL DX EDX RDX">
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-02-05 20:42:59" itemprop="dateModified" datetime="2020-02-05T20:42:59+08:00">2020-02-05</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -756,7 +756,7 @@
 <p><img src="http://img.hysyeah.top/2019/10/26/stackframe-cdecl.gif" alt="image"></p>
 <h4 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h4><p>push ax;将一个寄存器中的数据入栈<br>pop ax; 出栈，用一个寄存器接收出栈的数据.<br>ret指令用栈中数据，修改IP的内容，从而实现近转移。CPU执行ret指令时，进行下面两步操作：<br>(1)(IP) = ((ss)*16+(sp)) (2)(sp) = (sp) + 2   #16位cpu<br>call 标号;将当前的IP压栈后，转到标号处执行指令</p>
 <hr>
-<p>参考：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a><br>8.<a href="https://en.wikipedia.org/wiki/X86_assembly_language#Segmented_addressing" target="_blank" rel="noopener">X86_assembly_language</a><br>9.<a href="https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm" target="_blank" rel="noopener">https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm</a></p>
+<p>Ref：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a><br>8.<a href="https://en.wikipedia.org/wiki/X86_assembly_language#Segmented_addressing" target="_blank" rel="noopener">X86_assembly_language</a><br>9.<a href="https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm" target="_blank" rel="noopener">https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm</a></p>
 
       
     </div>

@@ -123,7 +123,7 @@
 <meta property="og:image" content="http://img.hysyeah.top/2020/3/28/Process_deadlock.svg.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/3/28/dead_lock_error.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/3/28/dead_lock.png">
-<meta property="og:updated_time" content="2020-04-06T07:48:27.826Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang竞争条件与锁">
 <meta name="twitter:description" content="竞争条件指的是程序在多个线程交叉执行时,引发的不可预知的错误。 12345678910111213141516package mainimport &amp;quot;fmt&amp;quot;var data intfunc main() &amp;#123;	go func() &amp;#123;		data++	&amp;#125;()	if data==0&amp;#123;		fmt.Printf(&amp;quot;the value i">
@@ -449,7 +449,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-06 15:48:27" itemprop="dateModified" datetime="2020-04-06T15:48:27+08:00">2020-04-06</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -530,7 +530,7 @@
 <p>Livelocks(活锁)<br>活锁就是程序一直在运行，但是一直没有改变进程本身的状态。举个例子，比如你走在一个狭窄的通道，对面迎过来一个人，他看见了你就走到了另一边打算让你通过，而你也走到了另一边，当你们一直重复这两个动作时就发生了活锁。</p>
 <p>Starvation<br>In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work.<br>在计算机科学中，资源匮乏是并发计算中遇到的一个问题，在该问题中，永久拒绝某个进程来处理其工作所需的资源</p>
 <hr>
-<p>参考：<br>1.<a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Race_condition</a><br>2.<a href="https://www.gopl.io/" target="_blank" rel="noopener">The Go programing language</a><br>3.<a href="https://golang.org/ref/mem" target="_blank" rel="noopener">The Go Memory Model</a><br>4.<a href="https://book.douban.com/subject/26994591/" target="_blank" rel="noopener">Concurrency in Go</a><br>5.<a href="https://en.wikipedia.org/wiki/Deadlock" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Deadlock</a><br>6.(<a href="https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src" target="_blank" rel="noopener">https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src</a>)<br>7.<a href="https://en.wikipedia.org/wiki/Starvation_(computer_science" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Starvation_(computer_science)</a>)</p>
+<p>Ref：<br>1.<a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Race_condition</a><br>2.<a href="https://www.gopl.io/" target="_blank" rel="noopener">The Go programing language</a><br>3.<a href="https://golang.org/ref/mem" target="_blank" rel="noopener">The Go Memory Model</a><br>4.<a href="https://book.douban.com/subject/26994591/" target="_blank" rel="noopener">Concurrency in Go</a><br>5.<a href="https://en.wikipedia.org/wiki/Deadlock" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Deadlock</a><br>6.(<a href="https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src" target="_blank" rel="noopener">https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src</a>)<br>7.<a href="https://en.wikipedia.org/wiki/Starvation_(computer_science" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Starvation_(computer_science)</a>)</p>
 
       
     </div>

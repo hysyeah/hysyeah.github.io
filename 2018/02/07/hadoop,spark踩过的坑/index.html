@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="1.WARN yarn.Client: Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOMEhdfs dfs -mkdir /hadoop/spark_jars hdfs dfs -put /opt/spark-2.2.0-bin-had">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.605Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop,spark踩过的坑">
 <meta name="twitter:description" content="1.WARN yarn.Client: Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOMEhdfs dfs -mkdir /hadoop/spark_jars hdfs dfs -put /opt/spark-2.2.0-bin-had">
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -521,7 +521,7 @@ df2 = df.show()
 解决方法：因为用的是python3,可能spark却去找python，找不到所以报错。因时间问题，只能暴力解决，在各个节点执行下面命令
 ln -s /usr/bin/python3 /usr/bin/python
 </code></pre><h5 id="6-standard-init-linux-go-195-exec-user-process-caused-“exec-format-error”"><a href="#6-standard-init-linux-go-195-exec-user-process-caused-“exec-format-error”" class="headerlink" title="6.standard_init_linux.go:195: exec user process caused “exec format error”"></a>6.standard_init_linux.go:195: exec user process caused “exec format error”</h5><pre><code>启动容器时报如上错误，原因不小心将docker-compose.yml中command中执行的脚本文件中第一行写成了#/bin/sh,改为#!/bin/sh后解决。
-</code></pre><p>参考：1.<a href="https://issues.apache.org/jira/browse/SPARK-12759" title="https://issues.apache.org/jira/browse/SPARK-12759" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-12759</a> 2.<a href="http://blog.csdn.net/u013641234/article/details/51123648" title="http://blog.csdn.net/u013641234/article/details/51123648" target="_blank" rel="noopener">http://blog.csdn.net/u013641234/article/details/51123648</a></p>
+</code></pre><p>Ref：1.<a href="https://issues.apache.org/jira/browse/SPARK-12759" title="https://issues.apache.org/jira/browse/SPARK-12759" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-12759</a> 2.<a href="http://blog.csdn.net/u013641234/article/details/51123648" title="http://blog.csdn.net/u013641234/article/details/51123648" target="_blank" rel="noopener">http://blog.csdn.net/u013641234/article/details/51123648</a></p>
 
       
     </div>

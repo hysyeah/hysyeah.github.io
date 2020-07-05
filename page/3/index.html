@@ -425,13 +425,23 @@
                 
               
 
-              <time title="创建时间：2019-10-27 01:09:55 / 修改时间：11:38:01" itemprop="dateCreated datePublished" datetime="2019-10-27T01:09:55+08:00">2019-10-27</time>
+              <time title="创建时间：2019-10-27 01:09:55" itemprop="dateCreated datePublished" datetime="2019-10-27T01:09:55+08:00">2019-10-27</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
             
           
 
@@ -482,7 +492,7 @@
 <p><code>swapcontext(&amp;ctx[0], &amp;ctx[2])</code>切换到ctx[2]上下文，此时将执行<code>f2</code>。打印start f2,然后切换上下文到ctx[1];执行f1函数，打印start f1;切换到<code>f2</code>，打印finish f2;<code>f2</code>执行完成后，因为<code>ctx[2].uc_link=&amp;ctx[1]</code>,再次进入ctx[1],打印出finish f1。</p>
 <p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start f2</span><br><span class="line">start f1</span><br><span class="line">finish f2</span><br><span class="line">finish f1</span><br></pre></td></tr></table></figure></p>
 <hr>
-<p>参考：<br>1.<a href="http://walkerdu.com/2017/01/09/ucontext-theory/" target="_blank" rel="noopener">http://walkerdu.com/2017/01/09/ucontext-theory/</a><br>2.<a href="https://www.gnu.org/software/libc/manual/html_mono/libc.html#System-V-contexts" target="_blank" rel="noopener">Complete Context Control</a><br>3.<a href="https://zhengyinyong.com/post/ucontext-usage-and-coroutine/" target="_blank" rel="noopener">https://zhengyinyong.com/post/ucontext-usage-and-coroutine/</a></p>
+<p>Ref：<br>1.<a href="http://walkerdu.com/2017/01/09/ucontext-theory/" target="_blank" rel="noopener">http://walkerdu.com/2017/01/09/ucontext-theory/</a><br>2.<a href="https://www.gnu.org/software/libc/manual/html_mono/libc.html#System-V-contexts" target="_blank" rel="noopener">Complete Context Control</a><br>3.<a href="https://zhengyinyong.com/post/ucontext-usage-and-coroutine/" target="_blank" rel="noopener">https://zhengyinyong.com/post/ucontext-usage-and-coroutine/</a></p>
 
           
         
@@ -599,7 +609,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-02-05 20:42:59" itemprop="dateModified" datetime="2020-02-05T20:42:59+08:00">2020-02-05</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -914,7 +924,7 @@
 <p><img src="http://img.hysyeah.top/2019/10/26/stackframe-cdecl.gif" alt="image"></p>
 <h4 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h4><p>push ax;将一个寄存器中的数据入栈<br>pop ax; 出栈，用一个寄存器接收出栈的数据.<br>ret指令用栈中数据，修改IP的内容，从而实现近转移。CPU执行ret指令时，进行下面两步操作：<br>(1)(IP) = ((ss)*16+(sp)) (2)(sp) = (sp) + 2   #16位cpu<br>call 标号;将当前的IP压栈后，转到标号处执行指令</p>
 <hr>
-<p>参考：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a><br>8.<a href="https://en.wikipedia.org/wiki/X86_assembly_language#Segmented_addressing" target="_blank" rel="noopener">X86_assembly_language</a><br>9.<a href="https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm" target="_blank" rel="noopener">https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm</a></p>
+<p>Ref：<br>1.<a href="https://en.wikibooks.org/wiki/X86_Assembly/X86_Architecture" target="_blank" rel="noopener">X86_Assembly-X86_Architecture</a><br>2.<a href="https://en.wikibooks.org/wiki/X86_Assembly/16,_32,_and_64_Bits" target="_blank" rel="noopener">X86 Assembly/16, 32, and 64 Bits</a><br>3.<a href="http://unixwiz.net/techtips/win32-callconv-asm.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv-asm.html</a><br>4.<a href="http://unixwiz.net/techtips/win32-callconv.html" target="_blank" rel="noopener">http://unixwiz.net/techtips/win32-callconv.html</a><br>5.<a href="https://en.wikipedia.org/wiki/X86_calling_conventions" target="_blank" rel="noopener">X86_calling_conventions</a><br>6.<a href="http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling" target="_blank" rel="noopener">http://flint.cs.yale.edu/cs421/papers/x86-asm/asm.html#calling</a><br>7.<a href="http://6.s081.scripts.mit.edu/sp18/x86-64-architecture-guide.html" target="_blank" rel="noopener">X86-64 Architecture Guide</a><br>8.<a href="https://en.wikipedia.org/wiki/X86_assembly_language#Segmented_addressing" target="_blank" rel="noopener">X86_assembly_language</a><br>9.<a href="https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm" target="_blank" rel="noopener">https://pages.hep.wisc.edu/~pinghc/x86AssmTutorial.htm</a></p>
 
           
         
@@ -1031,7 +1041,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-27 14:45:32" itemprop="dateModified" datetime="2019-10-27T14:45:32+08:00">2019-10-27</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -1075,7 +1085,7 @@
 <p>对称协程<br>非对称协程</p>
 <p><img src="http://img.hysyeah.top/2019/10/22/fun_and_coroutine.png" alt="image"></p>
 <hr>
-<p>参考:<br>1.<a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Coroutine</a></p>
+<p>Ref:<br>1.<a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Coroutine</a></p>
 
           
         
@@ -1192,7 +1202,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-13 12:17:37" itemprop="dateModified" datetime="2019-10-13T12:17:37+08:00">2019-10-13</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -1338,7 +1348,7 @@
 <p>默认情况下<code>mypy</code>认为所有用户自定义的原生类型都是<code>invariant</code>的。</p>
 <p>请试下当<code>convariant=True</code>时又是怎样的结果</p>
 <hr>
-<p>参考：<br>1.<a href="https://www.python.org/dev/peps/pep-0484/" target="_blank" rel="noopener">pep484</a><br>2.<a href="https://www.python.org/dev/peps/pep-0526/" target="_blank" rel="noopener">pep526</a><br>3.<a href="https://mypy.readthedocs.io/en/latest/" target="_blank" rel="noopener">mypy</a><br>4.<a href="https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac" target="_blank" rel="noopener">https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac</a></p>
+<p>Ref：<br>1.<a href="https://www.python.org/dev/peps/pep-0484/" target="_blank" rel="noopener">pep484</a><br>2.<a href="https://www.python.org/dev/peps/pep-0526/" target="_blank" rel="noopener">pep526</a><br>3.<a href="https://mypy.readthedocs.io/en/latest/" target="_blank" rel="noopener">mypy</a><br>4.<a href="https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac" target="_blank" rel="noopener">https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac</a></p>
 
           
         
@@ -1440,13 +1450,23 @@
                 
               
 
-              <time title="创建时间：2019-08-10 14:12:36 / 修改时间：19:02:33" itemprop="dateCreated datePublished" datetime="2019-08-10T14:12:36+08:00">2019-08-10</time>
+              <time title="创建时间：2019-08-10 14:12:36" itemprop="dateCreated datePublished" datetime="2019-08-10T14:12:36+08:00">2019-08-10</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
             
           
 
@@ -1518,7 +1538,7 @@
 </ul>
 <p><img src="http://img.hysyeah.top/2019/08/10/TCP_Slow-Start_and_Congestion_Avoidance.svg" alt="image"><br>[图片来源网络]</p>
 <hr>
-<p>参考：<br>1.<a href="https://en.wikipedia.org/wiki/TCP_congestion_control" target="_blank" rel="noopener">TCP congestion control</a><br>2.<a href="https://tools.ietf.org/html/rfc2581" target="_blank" rel="noopener">RFC2581</a><br>3.《TCP/IP协议详解1》</p>
+<p>Ref：<br>1.<a href="https://en.wikipedia.org/wiki/TCP_congestion_control" target="_blank" rel="noopener">TCP congestion control</a><br>2.<a href="https://tools.ietf.org/html/rfc2581" target="_blank" rel="noopener">RFC2581</a><br>3.《TCP/IP协议详解1》</p>
 
           
         
@@ -1635,7 +1655,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-30 06:28:08" itemprop="dateModified" datetime="2019-10-30T06:28:08+08:00">2019-10-30</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -1699,7 +1719,7 @@
 <p>我们也可以使用Wireshark提供的功能来查看在途字节数,这样就不用我们手动来计算了。<br>1.使用Wireshark打开所抓的包。<br><img src="http://img.hysyeah.top/2019/08/04/flight1.png" alt="image"><br>2.点击菜单栏【编辑】—&gt; 【首选项】—&gt;【Appearance】—&gt; 【Columns】<br><img src="http://img.hysyeah.top/2019/08/04/flight2.png" alt="image"><br>3.点击+号,添加自定义列。<br><img src="http://img.hysyeah.top/2019/08/04/flight3.png" alt="image"></p>
 <p>4.保存,移动新列【byte in flight】到合适位置。这列显示的数据就是对应时刻的在途字数,单位为字节。 如图可知结果和我们使用上面公式计算的结果是一致的。<br><img src="http://img.hysyeah.top/2019/08/04/flight4.png" alt="image"></p>
 <hr>
-<p>参考：<br>1.《Wireshark网络分析的艺术》<br>2.<a href="https://www.youtube.com/watch?v=sIxv3YO2eYw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=sIxv3YO2eYw</a></p>
+<p>Ref：<br>1.《Wireshark网络分析的艺术》<br>2.<a href="https://www.youtube.com/watch?v=sIxv3YO2eYw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=sIxv3YO2eYw</a></p>
 
           
         
@@ -1816,7 +1836,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-05 23:32:52" itemprop="dateModified" datetime="2019-08-05T23:32:52+08:00">2019-08-05</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -1932,7 +1952,7 @@
 <p>3.启动frontend pod时报错, AH00534: apache2: Configuration error: No MPM loaded<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker              //停掉docker服务</span><br><span class="line">rm -rf /var/lib/docker             //注意会清掉docker images的镜像,需重新拉取镜像</span><br><span class="line">vi /etc/sysconfig/docker-storage   //将文件里的overlay2改成devicemapper即可</span><br><span class="line">DOCKER_STORAGE_OPTIONS=&quot;--storage-driver overlay2 &quot;  #修改前</span><br><span class="line">DOCKER_STORAGE_OPTIONS=&quot;--storage-driver devicemapper &quot;   #修改后</span><br></pre></td></tr></table></figure></p>
 <p>重启docker服务<br><code>systemctl start docker</code></p>
 <hr>
-<p>参考：<br>1.kubernetes权威指南<br>2.<a href="https://blog.csdn.net/a1010256340/article/details/80106156" target="_blank" rel="noopener">https://blog.csdn.net/a1010256340/article/details/80106156</a><br>3.<a href="https://blog.csdn.net/weixin_34054866/article/details/87525597" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34054866/article/details/87525597</a><br>4.<a href="https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html" target="_blank" rel="noopener">https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html</a></p>
+<p>Ref：<br>1.kubernetes权威指南<br>2.<a href="https://blog.csdn.net/a1010256340/article/details/80106156" target="_blank" rel="noopener">https://blog.csdn.net/a1010256340/article/details/80106156</a><br>3.<a href="https://blog.csdn.net/weixin_34054866/article/details/87525597" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34054866/article/details/87525597</a><br>4.<a href="https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html" target="_blank" rel="noopener">https://www.cnblogs.com/guyeshanrenshiwoshifu/p/9147238.html</a></p>
 
           
         
@@ -2207,7 +2227,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -2278,7 +2298,7 @@
 <p>hexo发布草稿中的文章<br><code>hexo publish &lt;title&gt;</code></p>
 <p><code>hexo clean  #清除缓存文件</code><br><code>hexo g      #生成静态文件</code><br><code>hexo d      #部署网站</code></p>
 <hr>
-<p>参考:<br>1.<a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="noopener">官方文档</a></p>
+<p>Ref:<br>1.<a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="noopener">官方文档</a></p>
 
           
         

@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句 ROW:也被称作physical logging,记录每行数据的变化 MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使用的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.796Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.078Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql之binlog-format">
 <meta name="twitter:description" content="mysql支持3种日志记录格式，STATEMENT,ROW,MIXED 可在启动时通过--binlog_format=type指定。  STATEMENT:也被称作logical logging,记录mysql执行的语句 ROW:也被称作physical logging,记录每行数据的变化 MIXED:即STATEMENT和ROW的混合形式，mysql会根据场景决定使用哪种日志格式 查看目前使用的">
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -505,7 +505,7 @@
 </ul>
 <p>设置会话级别binlog_format的几种情况： - 假如对数据库做了比较小的改动，可能会把binlog_format设置为<code>ROW</code> - 假如一次会话中在一条语句中更新了多行记录，此时使用<code>STATEMENT</code>可能会更高效 - 有些语句可能执行需要的时间比较长，但结果只是几行数据被修改，这种情况也可以将binlog_format改为<code>ROW</code> 但一般不建议在运行时改变binlog_format,下面几种不建议改变binlog_format - 如果使用<code>NDB</code>存储引擎 - 如果当前使用的是row-base replication而且存在临时表 当存在任何临时表时都不应该在运行时改变<code>binlog_format</code>,因为只有在<code>STATEMENT</code>的情况下日志才会记录临时的信息，而在<code>ROW</code>的格式下是不会记录的。在<code>MIXED</code>的模式下临时表通常也会记录。 每个mysql实例都可以设置自己的<code>binlog_format</code>，每个实例会以自己的<code>binlog_format</code>方式去解析日志文件，如果主从复制的架构中，master修改了<code>binlog_format</code>而slave没有修改，则会报错。为会确保改变<code>binlog_format</code>安全，需要停止复制并确保各个实例使用的是同一种日志格式。</p>
 <hr>
-<p>参考： 1.<a href="https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html" target="_blank" rel="noopener">MYSQL Binary Log Format</a></p>
+<p>Ref： 1.<a href="https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html" target="_blank" rel="noopener">MYSQL Binary Log Format</a></p>
 
       
     </div>

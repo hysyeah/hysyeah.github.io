@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain 2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.774Z">
+<meta property="og:updated_time" content="2020-07-05T03:22:46.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql批量导出恢复指定库中的特定表">
 <meta name="twitter:description" content="目的：批量导出和恢复多个库中的特定表 1.先建立一个文件用于存储库名和表名 cat databases.txt # 每行第一个为库名，其余为表名，以英文逗号分隔 portal,if_zone,uc_order,ecs_instance cdn,cdn_domain 2.编写dump脚本 #!/bin/bash  for elt in $(cat databases.txt) do   echo &amp;">
@@ -442,7 +442,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:22:46" itemprop="dateModified" datetime="2020-07-05T11:22:46+08:00">2020-07-05</time>
               </span>
             
           
@@ -521,8 +521,8 @@ do
   mysql -uroot -pxxxx ${elt%%.*} &lt; $elt
   echo &quot;done&quot;
 done
-</code></pre><h4 id="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"><a href="#警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。" class="headerlink" title="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"></a>警示：在运行的系统中执行<code>mysqldump</code>命令，需考虑风险，因为<code>mysqldump</code>会有一些锁表的操作，详情详见下面参考中的链接。</h4><hr>
-<p>参考： 1.<a href="http://img.hysyeah.top/2019/04/11/linux-sed/" target="_blank" rel="noopener">linux sed</a> 2.<a href="http://img.hysyeah.top/2019/04/11/linux-cut/" target="_blank" rel="noopener">linux cut</a> 3.<a href="http://img.hysyeah.top/2019/04/12/mysqldump/" target="_blank" rel="noopener">mysqldump</a></p>
+</code></pre><h4 id="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面Ref中的链接。"><a href="#警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面Ref中的链接。" class="headerlink" title="警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面Ref中的链接。"></a>警示：在运行的系统中执行<code>mysqldump</code>命令，需考虑风险，因为<code>mysqldump</code>会有一些锁表的操作，详情详见下面Ref中的链接。</h4><hr>
+<p>Ref：<br>1.<a href="http://img.hysyeah.top/2019/04/11/linux-sed/" target="_blank" rel="noopener">linux sed</a><br>2.<a href="http://img.hysyeah.top/2019/04/11/linux-cut/" target="_blank" rel="noopener">linux cut</a><br>3.<a href="http://img.hysyeah.top/2019/04/12/mysqldump/" target="_blank" rel="noopener">mysqldump</a></p>
 
       
     </div>
@@ -813,7 +813,7 @@ done
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。"><span class="nav-number">1.</span> <span class="nav-text">警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面参考中的链接。</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面Ref中的链接。"><span class="nav-number">1.</span> <span class="nav-text">警示：在运行的系统中执行mysqldump命令，需考虑风险，因为mysqldump会有一些锁表的操作，详情详见下面Ref中的链接。</span></a></li></ol></div>
             
 
           </div>

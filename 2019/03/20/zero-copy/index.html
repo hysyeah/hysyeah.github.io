@@ -124,7 +124,7 @@
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/03/zero_time.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/03/normal_client.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2019/03/zero_client.png">
-<meta property="og:updated_time" content="2019-08-04T08:34:13.737Z">
+<meta property="og:updated_time" content="2020-07-05T03:20:32.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zero-copy">
 <meta name="twitter:description" content="在许多web应用中需要从磁盘中读取数据然后再将数据发送到socket中，而数据复制这一操作是非常消耗资源的。  当执行content_to_write = content[1024:]时，这个操作是复制从1024字节后的所有数据到变量content_to_write中，这个过程中增加了9.789MB内存。 有没有方法可以在这种操作中不复制数据呢，在实现了buffer protocol的对象中是可以">
@@ -450,7 +450,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:20:32" itemprop="dateModified" datetime="2020-07-05T11:20:32+08:00">2020-07-05</time>
               </span>
             
           
@@ -513,7 +513,7 @@ socket.send(socket, buf, len);
 <pre><code>pip3 install memory_profiler
 pip3 install line_profiler
 </code></pre><hr>
-<p>参考: 1.<a href="https://developer.ibm.com/articles/j-zerocopy/" target="_blank" rel="noopener">Efficient data transfer through zero copy</a><br>2.<a href="https://julien.danjou.info/high-performance-in-python-with-zero-copy-and-the-buffer-protocol/" target="_blank" rel="noopener">high-performance-in-python-with-zero-copy-and-the-buffer-protocol/</a></p>
+<p>Ref:<br>1.<a href="https://developer.ibm.com/articles/j-zerocopy/" target="_blank" rel="noopener">Efficient data transfer through zero copy</a><br>2.<a href="https://julien.danjou.info/high-performance-in-python-with-zero-copy-and-the-buffer-protocol/" target="_blank" rel="noopener">high-performance-in-python-with-zero-copy-and-the-buffer-protocol/</a></p>
 
       
     </div>

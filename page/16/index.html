@@ -747,7 +747,7 @@ Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/jso
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -815,7 +815,7 @@ def to_native_string(string, encoding=&#39;ascii&#39;):
 </code></pre><hr>
 <p>1.”Native” strings(指那些类型名为str的字符串类型)，用于请求/响应头和元数据。 2.”Bytestring”(在python3中类型名为bytes,python2中为str),用于请求/响应中的body。</p>
 <hr>
-<p>参考：<br>1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a><br>2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a><br>3.<a href="http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>
+<p>Ref：<br>1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a><br>2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a><br>3.<a href="http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>
 
           
         
@@ -1488,7 +1488,7 @@ command:[&quot;/root/auto_start.sh&quot;]
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:24:43" itemprop="dateModified" datetime="2020-07-05T11:24:43+08:00">2020-07-05</time>
               </span>
             
           
@@ -1577,7 +1577,7 @@ hadoop jar hadoop-mapreduce-examples-2.7.4.jar wordcount /a.txt /out  #执行cou
 hdfs dfs -text /out/part-r-00000                                      #查看执行结果
 若以上都没有出错，说明集群正常
 </code></pre><hr>
-<p>参考： 1.<a href="http://blog.csdn.net/xu470438000/article/details/50512442" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/50512442</a></p>
+<p>Ref：<br>1.<a href="http://blog.csdn.net/xu470438000/article/details/50512442" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/50512442</a></p>
 
           
         
@@ -1922,7 +1922,7 @@ hive --service metastore -p &lt;port&gt;  #启动服务
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -2004,7 +2004,7 @@ df2 = df.show()
 解决方法：因为用的是python3,可能spark却去找python，找不到所以报错。因时间问题，只能暴力解决，在各个节点执行下面命令
 ln -s /usr/bin/python3 /usr/bin/python
 </code></pre><h5 id="6-standard-init-linux-go-195-exec-user-process-caused-“exec-format-error”"><a href="#6-standard-init-linux-go-195-exec-user-process-caused-“exec-format-error”" class="headerlink" title="6.standard_init_linux.go:195: exec user process caused “exec format error”"></a>6.standard_init_linux.go:195: exec user process caused “exec format error”</h5><pre><code>启动容器时报如上错误，原因不小心将docker-compose.yml中command中执行的脚本文件中第一行写成了#/bin/sh,改为#!/bin/sh后解决。
-</code></pre><p>参考：1.<a href="https://issues.apache.org/jira/browse/SPARK-12759" title="https://issues.apache.org/jira/browse/SPARK-12759" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-12759</a> 2.<a href="http://blog.csdn.net/u013641234/article/details/51123648" title="http://blog.csdn.net/u013641234/article/details/51123648" target="_blank" rel="noopener">http://blog.csdn.net/u013641234/article/details/51123648</a></p>
+</code></pre><p>Ref：1.<a href="https://issues.apache.org/jira/browse/SPARK-12759" title="https://issues.apache.org/jira/browse/SPARK-12759" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/SPARK-12759</a> 2.<a href="http://blog.csdn.net/u013641234/article/details/51123648" title="http://blog.csdn.net/u013641234/article/details/51123648" target="_blank" rel="noopener">http://blog.csdn.net/u013641234/article/details/51123648</a></p>
 
           
         

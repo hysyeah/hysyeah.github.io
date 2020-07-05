@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="1.SELECT * FROM br_apply_check_info LIMIT 20 OFFSET 612000; --0.769s  2.SELECT * FROM br_apply_check_info INNER JOIN (SELECT id from br_apply_check_info LIMIT 20 OFFSET 612000) AS x USING(ID);-- 0.438">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.764Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql的limit,offset分页">
 <meta name="twitter:description" content="1.SELECT * FROM br_apply_check_info LIMIT 20 OFFSET 612000; --0.769s  2.SELECT * FROM br_apply_check_info INNER JOIN (SELECT id from br_apply_check_info LIMIT 20 OFFSET 612000) AS x USING(ID);-- 0.438">
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -498,7 +498,7 @@
 2.SELECT * FROM br_apply_check_info INNER JOIN (SELECT id from br_apply_check_info LIMIT 20 OFFSET 612000) AS x USING(ID);-- 0.438s
 </code></pre><p>当偏移量的增加，MYSQL需要花费大量的时间来扫描需要丢弃的数据。反范式化，预先计算和缓存可能是解决这类查询的仅有策略。 优化这类索引的另一个比较好的策略是使用延迟关联，通过使用覆盖索引查询返回需要的主键，再根据这些主键关联原表获得需要的行。这样可以减少MYSQL扫描那些需要丢弃的行数。 如上：第二方法比第一种方法快一倍(当偏移量足够大的时候)</p>
 <hr>
-<p>参考：&lt;&lt;高性能MYSQL&gt;&gt;</p>
+<p>Ref：&lt;&lt;高性能MYSQL&gt;&gt;</p>
 
       
     </div>

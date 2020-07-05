@@ -120,7 +120,7 @@
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/single1.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/single3.png">
 <meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2018/08/single4.png">
-<meta property="og:updated_time" content="2019-08-04T08:34:13.787Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式(Singleton)-创建型">
 <meta name="twitter:description" content="单例模式保证类有且只有一个实例，并提供一个访问他的全局访问点。 1. class Singleton(object):     def __new__(cls):         if not hasattr(cls, &amp;#39;instance&amp;#39;):             cls.instance = super(Singleton, cls).__new__(cls)">
@@ -446,7 +446,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -608,7 +608,7 @@ In [15]: id(s1)
 Out[15]: 140308601028336
 </code></pre><p>实用场景： 1.数据库连接 2.应用健康检测 3.许多需要创建一个对象的场景，如线程池，缓存，对话框，等等。</p>
 <hr>
-<p>优点： 通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。 缺点： 全局变量可能会在某一处被修改，一个同一对象存在多个引用，所有依赖于全局变量的类都会紧密耦合，因为一个类对全局数据的更改可能会无意中影响另一个类 参考： 1.<a href="https://www.amazon.com/Learning-Python-Design-Patterns-Second/dp/178588803X/ref=sr_1_1_sspa?ie=UTF8&amp;qid=1533132340&amp;sr=8-1-spons&amp;keywords=Learning+Python+Design+Patterns&amp;psc=1" target="_blank" rel="noopener">Learning Python Design Patterns</a> 2.<a href="https://www.cnblogs.com/baiyb/p/8506438.html" target="_blank" rel="noopener">https://www.cnblogs.com/baiyb/p/8506438.html</a></p>
+<p>优点： 通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。 缺点： 全局变量可能会在某一处被修改，一个同一对象存在多个引用，所有依赖于全局变量的类都会紧密耦合，因为一个类对全局数据的更改可能会无意中影响另一个类 Ref： 1.<a href="https://www.amazon.com/Learning-Python-Design-Patterns-Second/dp/178588803X/ref=sr_1_1_sspa?ie=UTF8&amp;qid=1533132340&amp;sr=8-1-spons&amp;keywords=Learning+Python+Design+Patterns&amp;psc=1" target="_blank" rel="noopener">Learning Python Design Patterns</a> 2.<a href="https://www.cnblogs.com/baiyb/p/8506438.html" target="_blank" rel="noopener">https://www.cnblogs.com/baiyb/p/8506438.html</a></p>
 
       
     </div>

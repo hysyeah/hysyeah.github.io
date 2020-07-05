@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:description" content="pgloader是由postgresql的作者用lisp语言编写的一个用于将数据从其它数据库迁移到postgresql数据库中的命令行工具，亦可编写简单的脚本，保存为xxx.load文件。 在centos下安装pgloader1.安装依赖 sudo yum -y install yum-utils rpmdevtools @&amp;quot;Development Tools&amp;quot; sqlite-">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-04T08:34:12.948Z">
+<meta property="og:updated_time" content="2020-07-05T03:19:28.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pgloader的安装与使用">
 <meta name="twitter:description" content="pgloader是由postgresql的作者用lisp语言编写的一个用于将数据从其它数据库迁移到postgresql数据库中的命令行工具，亦可编写简单的脚本，保存为xxx.load文件。 在centos下安装pgloader1.安装依赖 sudo yum -y install yum-utils rpmdevtools @&amp;quot;Development Tools&amp;quot; sqlite-">
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
               </span>
             
           
@@ -544,7 +544,7 @@ with include drop, create tables,  create indexes,  reset sequences, disable tri
 # data only: 只复制数据
 </code></pre><h4 id="pgloader转换规则中的坑"><a href="#pgloader转换规则中的坑" class="headerlink" title="pgloader转换规则中的坑"></a>pgloader转换规则中的坑</h4><p>假设mysql中有一个字段的类型为datetime,默认值为”0000-00-00 00:00:00” 如果转换规则写为<code>type datetime to timestamptz</code>此时pgloader并不会匹配上，因为pgloader必须全部匹配时，才会执行类型转换。可写为<code>cast type datetime when default &quot;0000-00-00 00:00:00&quot; to timestamptz</code>才能匹配,如果还有其它的限制也必须加上，如<code>with extra on update current timestamp</code>。这种情况和代码异常处理是不一样的。</p>
 <hr>
-<p>参考： 1.<a href="https://pgloader.readthedocs.io/en/latest/ref/mysql.html" target="_blank" rel="noopener">https://pgloader.readthedocs.io/en/latest/ref/mysql.html</a></p>
+<p>Ref： 1.<a href="https://pgloader.readthedocs.io/en/latest/ref/mysql.html" target="_blank" rel="noopener">https://pgloader.readthedocs.io/en/latest/ref/mysql.html</a></p>
 
       
     </div>
