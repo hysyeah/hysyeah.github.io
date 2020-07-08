@@ -380,6 +380,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/05/30/ubuntu20-04开发开境配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/05/30/ubuntu20-04开发开境配置/" class="post-title-link" itemprop="url">ubuntu20.04开发开境配置</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-30 12:09:23" itemprop="dateCreated datePublished" datetime="2020-05-30T12:09:23+08:00">2020-05-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>记录下新系统下开发必须安装的工具</p>
+<p>1.小飞机<a href="https://github.com/qingshuisiyuan/electron-ssr-backup/releases" target="_blank" rel="noopener">安装</a><br>注意事项:需要安装python2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python</span><br></pre></td></tr></table></figure></p>
+<p>2.vscode<a href="https://code.visualstudio.com/docs/setup/linux" target="_blank" rel="noopener">安装</a>，直接下载deb包进行安装，不要使用snap命令进行安装，否则会出现不能输入中文的问题。<br>3.安装截图工具flameshot,并设置快捷键<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install flameshot</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://img.hysyeah.top/2020/5/29/20200530161024-flameshot.png" alt="image"><br>4.安装chrome,配置插件<code>SwitchyOmega</code>.<br><img src="http://img.hysyeah.top/2020/5/29/20200530170251-switch-omega.png" alt="image"><br>5.安装polipo,终端使用代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt; /etc/apt/sources.list</span><br><span class="line">deb http://cz.archive.ubuntu.com/ubuntu xenial main universe</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt install polipo</span><br></pre></td></tr></table></figure></p>
+<p>修改配置<code>/etc/polipo/config</code>,加入如下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">proxyAddress = &quot;0.0.0.0&quot;</span><br><span class="line"></span><br><span class="line">socksParentProxy = &quot;127.0.0.1:1080&quot;</span><br><span class="line">socksProxyType = socks5</span><br><span class="line"></span><br><span class="line">chunkHighMark = 50331648</span><br><span class="line">objectHighMark = 16384</span><br><span class="line"></span><br><span class="line">serverMaxSlots = 64</span><br><span class="line">serverSlots = 16</span><br><span class="line">serverSlots1 = 32</span><br></pre></td></tr></table></figure></p>
+<p>重启服务<code>sudo systemctl restart polipo</code><br>配置代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://127.0.0.1:8123</span><br><span class="line">export https_proxy=http://127.0.0.1:8123</span><br></pre></td></tr></table></figure></p>
+<p>6.使用系统自带的五笔输入法<br>7.安装GoLand,PyCharm<br>8.安装<code>golang1.13.6</code><br>9.安装<code>terminator</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install terminator</span><br></pre></td></tr></table></figure></p>
+<p>10.安装<code>git</code>,<code>zsh</code>,<code>oh-my-zsh</code>，<code>autojump</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br><span class="line">sudo apt install zsh</span><br><span class="line">sh -c &quot;$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt; ~/.zshrc</span><br><span class="line">. /usr/share/autojump/autojump.sh</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">source ~/.zshrc</span><br></pre></td></tr></table></figure></p>
+<p>11.安装<code>qshell</code>,用于同步文件到七牛云，下载<a href="https://developer.qiniu.com/kodo/tools/1302/qshell" target="_blank" rel="noopener">qshell</a><br>  设置帐户空间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qshell account [&lt;AccessKey&gt; &lt;SecretKey&gt; &lt;Name&gt;] [flags]</span><br></pre></td></tr></table></figure></p>
+<p>  设置文件上传策略,<code>vim ~/.qshell/upload.conf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;src_dir&quot;: &quot;/media/hys/65F33762C14D581B/hysyeah_qiniu&quot;,</span><br><span class="line">    &quot;bucket&quot;: &quot;hysyeah&quot;,</span><br><span class="line">    &quot;check_exists&quot;: true,</span><br><span class="line">    &quot;check_hash&quot;: true,</span><br><span class="line">    &quot;rescan_local&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>设置快捷上传命令e<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt; ~/.zshrc</span><br><span class="line">alias qsupload=&quot;qs qupload ~/.qshell/upleeeeoad.conf&quot;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>设置镜像源,ubuntu20.04可以在界面上设置<br><img src="http://img.hysyeah.top/2020/5/29/20200530172121-image-server.png" alt="image"></li>
+</ol>
+<p>问题：<br>    解决双系统时间不一致的问题,在ubuntu终端输入如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedatectl set-local-rtc 1 --adjust-system-clock</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>Ref:<br>1.<a href="https://packages.ubuntu.com/xenial/amd64/polipo-dbg/download" target="_blank" rel="noopener">ubuntu package</a><br>2.<a href="https://developer.qiniu.com/kodo/tools/1302/qshell" target="_blank" rel="noopener">qshell</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/05/23/github-工作流/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2046,185 +2218,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/30/unp之datetime/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/10/30/unp之datetime/" class="post-title-link" itemprop="url">unp之datetime</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-30 05:42:45" itemprop="dateCreated datePublished" datetime="2019-10-30T05:42:45+08:00">2019-10-30</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>一.配置unp.h<br>1.从<a href="www.unpbook.com">www.unpbook.com</a>下载源码<br>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf unpv13e.tar.gz</span><br><span class="line">cd unpv13e</span><br><span class="line">./configure</span><br><span class="line">cp config.h /usr/include</span><br><span class="line">cp libunp.a /usr/lib</span><br><span class="line">cp key/unp.h /usr/include</span><br></pre></td></tr></table></figure></p>
-<p>将<code>/usr/include/unp.h</code>中的<code>#include &quot;../config.h&quot;</code>改为<code>#include &quot;config.h&quot;</code><br>3.编译如果遇到如下错误,请将<code>unp.h</code>中的<code>struct in_pktinfo</code>定义删除。<br><img src="http://img.hysyeah.top/2019/10/30/unp-error.png" alt="image"></p>
-<hr>
-<h5 id="datetimecli-c"><a href="#datetimecli-c" class="headerlink" title="datetimecli.c"></a>datetimecli.c</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">"unp.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>                 sockfd, n;</span><br><span class="line">    <span class="keyword">char</span>                recvline[MAXLINE + <span class="number">1</span>];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span>  <span class="title">servaddr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc != <span class="number">2</span>)</span><br><span class="line">        err_quit(<span class="string">"usage: a.out &lt;IPaddress&gt;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个字节流套接字,并返回一个描述符</span></span><br><span class="line">    <span class="keyword">if</span> ( (sockfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"socket error"</span>);</span><br><span class="line"></span><br><span class="line">    bzero(&amp;servaddr, <span class="keyword">sizeof</span>(servaddr)); <span class="comment">//对网络套接字结构清零</span></span><br><span class="line">    servaddr.sin_family = AF_INET;</span><br><span class="line">    servaddr.sin_port   = htons(<span class="number">13</span>); <span class="comment">// 端口号必须使用特定格式,所以需要通过htons函数进行转换</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把ASCII命令行参数转换为合适的格式</span></span><br><span class="line">    <span class="keyword">if</span> (inet_pton(AF_INET, argv[<span class="number">1</span>], &amp;servaddr.sin_addr) &lt;= <span class="number">0</span>)</span><br><span class="line">        err_quit(<span class="string">"inet_pton error for %s"</span>, argv[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (connect(sockfd, (SA *) &amp;servaddr, <span class="keyword">sizeof</span>(servaddr)) &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"connect error"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ( (n = read(sockfd, recvline, MAXLINE)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        recvline[n] = <span class="number">0</span>;    <span class="comment">/* null terminate */</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">fputs</span>(recvline, <span class="built_in">stdout</span>) == EOF)</span><br><span class="line">            err_sys(<span class="string">"fputs error"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"read error"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="datetimesrv-c"><a href="#datetimesrv-c" class="headerlink" title="datetimesrv.c"></a>datetimesrv.c</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">"unp.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>                 listenfd, connfd;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span>  <span class="title">servaddr</span>;</span></span><br><span class="line">    <span class="keyword">char</span>                buff[MAXLINE];</span><br><span class="line">    <span class="keyword">time_t</span>              ticks;</span><br><span class="line"></span><br><span class="line">    listenfd = Socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);<span class="comment">// Socket是经过封装的socket函数,增加了错误处理</span></span><br><span class="line"></span><br><span class="line">    bzero(&amp;servaddr, <span class="keyword">sizeof</span>(servaddr));</span><br><span class="line">    servaddr.sin_family      = AF_INET;</span><br><span class="line">    <span class="comment">// 指定IP地址为INADDR_ANY,这样要服务器主机有多信网络接口,服务器进程就可以在任意网络接口上接受客户连接</span></span><br><span class="line">    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">    servaddr.sin_port        = htons(<span class="number">13</span>);   <span class="comment">/* daytime server */</span></span><br><span class="line"></span><br><span class="line">    Bind(listenfd, (SA *) &amp;servaddr, <span class="keyword">sizeof</span>(servaddr));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//把该套接字转换为一个监听套接字,这样来自客户的外来连接就可在该套接字上由内核接受</span></span><br><span class="line">    Listen(listenfd, LISTENQ); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ( ; ; ) &#123;</span><br><span class="line">        <span class="comment">// 服务器进程在accept调用中被投入睡眠,等待某个客户连接的到来并被内核接受。TCP连接所使用的三路握手来建立连接。握手完毕时accept返回,其返回值是一个称为已连接描述符的新描述符。该描述符用于与新连接的那个客户通信。accept为每个连接到本服务器的客户返回一个新的描述符。</span></span><br><span class="line">        connfd = Accept(listenfd, (SA *) <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">        ticks = time(<span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">snprintf</span>(buff, <span class="keyword">sizeof</span>(buff), <span class="string">"%.24s\r\n"</span>, ctime(&amp;ticks));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 往已连接描述符中写入数据</span></span><br><span class="line">        Write(connfd, buff, <span class="built_in">strlen</span>(buff));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 服务器通过调用close关闭与客户端的连接</span></span><br><span class="line">        Close(connfd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>3.测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc daytimetcpcli.c -o daytimetcpcli -lunp</span><br><span class="line">gcc daytimetcpsrv.c -o daytimetcpsrv -lunp</span><br></pre></td></tr></table></figure></p>
-<p>先运行<code>daytimetcpsrv</code>,再运行<code>daytimetcpcli</code><br><img src="http://img.hysyeah.top/2019/11/03/unp-intro1.png" alt="image"></p>
-<hr>
-<p>Ref：<br>1.unix网络编程-volume1</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2271,7 +2264,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">237</span>
+                    <span class="site-state-item-count">238</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2366,6 +2359,10 @@
                     
                   
                     
+                    
+                      
+                    
+                      
                     
                       
                     

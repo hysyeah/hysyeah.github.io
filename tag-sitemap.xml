@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/GoPackage/</loc>
+        <lastmod>2020-07-08T13:14:03.559Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/tags/Golang/</loc>
+        <lastmod>2020-07-08T13:14:03.559Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/postgresql/</loc>
         <lastmod>2020-07-05T03:23:15.638Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -73,13 +87,6 @@
     </url>
 
     <url>
-        <loc>https://hysyeah.github.io/tags/Golang/</loc>
-        <lastmod>2020-07-05T03:19:28.080Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://hysyeah.github.io/tags/linux/</loc>
         <lastmod>2020-07-05T03:19:28.077Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -89,13 +96,6 @@
     <url>
         <loc>https://hysyeah.github.io/tags/k8s/</loc>
         <lastmod>2020-07-05T03:19:28.076Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/GoLib/</loc>
-        <lastmod>2020-07-05T02:55:09.482Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

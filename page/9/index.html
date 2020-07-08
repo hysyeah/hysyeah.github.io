@@ -380,6 +380,224 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/05/python之在匿名函数中绑定变量的值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/05/python之在匿名函数中绑定变量的值/" class="post-title-link" itemprop="url">python之在匿名函数中绑定变量的值</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-05 14:14:39" itemprop="dateCreated datePublished" datetime="2018-09-05T14:14:39+08:00">2018-09-05</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:23:53" itemprop="dateModified" datetime="2020-07-05T11:23:53+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>In [17]: [x(2) for x in mu()]
+Out[17]: [0, 2, 4, 6]
+
+In [18]: x = 10
+
+In [19]: a = lambda y: x + y
+
+In [20]: x = 20
+
+In [21]: b = lambda y: x + y
+
+In [22]: a(10)
+Out[22]: 30
+
+In [23]: b(10)
+Out[23]: 30
+
+# lambda表达式中用到的x是一个自由变量，在运行进才进行绑定而不是定义的时候进行绑定。因此，lambda表达式中的x是在执行的时候确定的。
+</code></pre><p>再来看这么一个例子：</p>
+<pre><code>In [27]: def multipliers():
+    ...:     return [lambda x: i*x for i in range(4)]
+In [28 print([m(2) for m in multipliers()])
+[6, 6, 6, 6]
+
+# 因为i值是在运行的时候确定的，当调用lambda函数时，for循环已经结束，所以i都是3
+
+
+# 可以把添加一个默认参数绑定变量，默认值只会函数定义的时候初始化一次
+In [33]: def multipliers():
+    ...:     return [lambda x, i=i: i*x for i in range(4)]
+    ...:
+    ...:
+
+In [34]: print([m(2) for m in multipliers()])
+[0, 2, 4, 6]
+
+# 或者可以通过如下方式实现
+In [16]: from functools import partial
+In [17]: from operator import mul
+In [35]: def multipliers():
+    ...:     return [partial(mul, i) for i in range(4)]
+    ...:
+    ...:
+
+In [36]: print([m(2) for m in multipliers()])
+[0, 2, 4, 6]
+</code></pre><hr>
+<p>Ref：<br>1.python cookbook</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/05/找出距离自己最近的指定元素/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2122,254 +2340,6 @@ print(a.__dict__, A.__dict__, c.__dict__)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/20/python面试之装饰器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/20/python面试之装饰器/" class="post-title-link" itemprop="url">python面试之装饰器</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-20 23:31:08" itemprop="dateCreated datePublished" datetime="2018-08-20T23:31:08+08:00">2018-08-20</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>import functools
-
-def a(f):
-    print(&#39;a&#39;)
-
-    @functools.wraps(f)
-    def wraps(*args, **kwargs):
-        print(&#39;wraps&#39;)
-        return f(*args, **kwargs)
-    return wraps
-
-@a
-def b():
-    print(&#39;b&#39;)
-
-b()
-b()
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/doc.png" alt> 第二次调用b()函数，并没有输出’a’,其实调用b(),b()相当于</p>
-<pre><code>import functools
-
-def a(f):
-    print(&#39;a&#39;)
-
-    @functools.wraps(f)
-    def wraps(*args, **kwargs):
-        print(&#39;wraps&#39;)
-        return f(*args, **kwargs)
-    return wraps
-
-def b():
-    print(&#39;b&#39;)
-
-
-b = a(b)                 //此时打印&#39;a&#39;
-b()
-b()
-
-
-
-# 当导入b的时候装饰器已经运行，而不是自己原以为的调用b时装饰器才运行
-In [1]: from t1 import b
-a
-</code></pre><hr>
-<p>update_wrapper是wraps的主要功能提供者，它负责考贝原函数的属性，默认是：’<strong>module</strong>‘, ‘<strong>name</strong>‘, ‘<strong>doc</strong>‘， ‘<strong>dict</strong>‘</p>
-<pre><code>functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES) 
-
-
-# 通过wraps和update_wrapper实现结果是一致的
-In [28]: from functools import wraps, update_wrapper
-
-In [29]: def time1(func):
-    ...:     @wraps(func)
-    ...:     def wrapper(*args, **kwargs):
-    ...:         start = time.time()
-    ...:         func(*args, **kwargs)
-    ...:         end = time.time()
-    ...:         print(func.__name__, end-start)
-    ...:     return wrapper
-    ...: 
-
-In [30]: def time2(func):
-    ...:     
-    ...:     def wrapper(*args, **kwargs):
-    ...:         start = time.time()
-    ...:         func(*args, **kwargs)
-    ...:         end = time.time()
-    ...:         print(func.__name__, end-start)
-    ...:     return update_wrapper(wrapper,func)
-    ...: 
-    ...: 
-
-In [31]: @time1
-    ...: def fori():
-    ...:     for i in range(1000):
-    ...:         pass
-    ...:     
-
-In [32]: fori()
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2416,7 +2386,7 @@ In [32]: fori()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">237</span>
+                    <span class="site-state-item-count">238</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2511,6 +2481,10 @@ In [32]: fori()
                     
                   
                     
+                    
+                      
+                    
+                      
                     
                       
                     

@@ -380,6 +380,560 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/11/redis之链表实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/11/redis之链表实现/" class="post-title-link" itemprop="url">redis之链表实现</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-11 00:20:11" itemprop="dateCreated datePublished" datetime="2018-08-11T00:20:11+08:00">2018-08-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Redis链表的实现代码在src/[adlist.h, adlist.c]</p>
+<pre><code>typedef struct listNode {
+    // 指向前节点的指针
+    struct listNode *prev;
+
+    // 指向后节点的指针
+    struct listNode *next;
+
+    // 节点的值
+    void *value;
+
+} listNode;
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/dualist.png" alt></p>
+<pre><code>typedef struct list {
+
+    // 表头节点
+    listNode *head;
+
+    // 表尾节点
+    listNode *tail;
+
+    // 节点值复制函数
+    void *(*dup)(void *ptr);
+
+    // 节点值释放函数
+    void (*free)(void *ptr);
+
+    // 节点值对比函数
+    int (*match)(void *ptr, void *key);
+
+    // 链表所包含的节点数量
+    unsigned long len;
+
+} list;
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/adlist.png" alt></p>
+<pre><code>// 返回给定链表所包含的节点数量
+// T = O(1)
+#define listLength(l) ((l)-&gt;len)
+// 返回给定链表的表头节点
+// T = O(1)
+#define listFirst(l) ((l)-&gt;head)
+// 返回给定链表的表尾节点
+// T = O(1)
+#define listLast(l) ((l)-&gt;tail)
+// 返回给定节点的前置节点
+// T = O(1)
+#define listPrevNode(n) ((n)-&gt;prev)
+// 返回给定节点的后置节点
+// T = O(1)
+#define listNextNode(n) ((n)-&gt;next)
+// 返回给定节点的值
+// T = O(1)
+#define listNodeValue(n) ((n)-&gt;value)
+
+// 将链表 l 的值复制函数设置为 m
+// T = O(1)
+#define listSetDupMethod(l,m) ((l)-&gt;dup = (m))
+// 将链表 l 的值释放函数设置为 m
+// T = O(1)
+#define listSetFreeMethod(l,m) ((l)-&gt;free = (m))
+// 将链表的对比函数设置为 m
+// T = O(1)
+#define listSetMatchMethod(l,m) ((l)-&gt;match = (m))
+
+// 返回给定链表的值复制函数
+// T = O(1)
+#define listGetDupMethod(l) ((l)-&gt;dup)
+// 返回给定链表的值释放函数
+// T = O(1)
+#define listGetFree(l) ((l)-&gt;free)
+// 返回给定链表的值对比函数
+// T = O(1)
+#define listGetMatchMethod(l) ((l)-&gt;match)
+
+
+// 创建一个新的链表
+list *listCreate(void)
+{
+    struct list *list;
+
+    // 分配内存
+    if ((list = zmalloc(sizeof(*list))) == NULL)
+        return NULL;
+
+    // 初始化属性
+    list-&gt;head = list-&gt;tail = NULL;
+    list-&gt;len = 0;
+    list-&gt;dup = NULL;
+    list-&gt;free = NULL;
+    list-&gt;match = NULL;
+
+    return list;
+}
+
+
+/*
+ * 释放整个链表，以及链表中所有节点
+ *
+ * T = O(N)
+ */
+void listRelease(list *list)
+{
+    unsigned long len;
+    listNode *current, *next;
+
+    // 指向头指针
+    current = list-&gt;head;
+    // 遍历整个链表
+    len = list-&gt;len;
+    while(len--) {
+        next = current-&gt;next;
+
+        // 如果有设置值释放函数，那么调用它
+        if (list-&gt;free) list-&gt;free(current-&gt;value);
+
+        // 释放节点结构
+        zfree(current);
+
+        current = next;
+    }
+
+    // 释放链表结构
+    zfree(list);
+}
+
+
+/*
+ * 将一个包含有给定值指针 value 的新节点添加到链表的表头
+ *
+ * 如果为新节点分配内存出错，那么不执行任何动作，仅返回 NULL
+ *
+ * 如果执行成功，返回传入的链表指针
+ *
+ * T = O(1)
+ */
+list *listAddNodeHead(list *list, void *value)
+{
+    listNode *node;
+
+    // 为节点分配内存
+    if ((node = zmalloc(sizeof(*node))) == NULL)
+        return NULL;
+
+    // 保存值指针
+    node-&gt;value = value;
+
+    // 添加节点到空链表
+    if (list-&gt;len == 0) {
+        list-&gt;head = list-&gt;tail = node;
+        node-&gt;prev = node-&gt;next = NULL;
+    // 添加节点到非空链表
+    } else {
+        node-&gt;prev = NULL;          //新节点前驱置为NULL
+        node-&gt;next = list-&gt;head;    //新节点的后驱置为头节点
+        list-&gt;head-&gt;prev = node;    //头结点的前驱更新为node节点
+        list-&gt;head = node;          //头结点更新为node节点
+    }
+
+    // 更新链表节点数
+    list-&gt;len++;
+
+    return list;
+}
+
+
+/*
+ * 将一个包含有给定值指针 value 的新节点添加到链表的表尾
+ *
+ * 如果为新节点分配内存出错，那么不执行任何动作，仅返回 NULL
+ *
+ * 如果执行成功，返回传入的链表指针
+ *
+ * T = O(1)
+ */
+list *listAddNodeTail(list *list, void *value)
+{
+    listNode *node;
+
+    // 为新节点分配内存
+    if ((node = zmalloc(sizeof(*node))) == NULL)
+        return NULL;
+
+    // 保存值指针
+    node-&gt;value = value;
+
+    // 目标链表为空
+    if (list-&gt;len == 0) {
+        list-&gt;head = list-&gt;tail = node;
+        node-&gt;prev = node-&gt;next = NULL;
+    // 目标链表非空
+    } else {
+        node-&gt;prev = list-&gt;tail;    //node节点前驱为尾结点
+        node-&gt;next = NULL;          //node节点后驱置为NULL
+        list-&gt;tail-&gt;next = node;    //尾结点的后驱更新为node结点
+        list-&gt;tail = node;          //尾结点更新为node结点
+    }
+
+    // 更新链表节点数
+    list-&gt;len++;
+
+    return list;
+}
+
+
+/*
+ * 创建一个包含值 value 的新节点，并将它插入到 old_node 的之前或之后
+ *
+ * 如果 after 为 0 ，将新节点插入到 old_node 之前。
+ * 如果 after 为 1 ，将新节点插入到 old_node 之后。
+ *
+ * T = O(1)
+ */
+list *listInsertNode(list *list, listNode *old_node, void *value, int after) {
+    listNode *node;
+
+    // 创建新节点
+    if ((node = zmalloc(sizeof(*node))) == NULL)
+        return NULL;
+
+    // 保存值
+    node-&gt;value = value;
+
+    // 将新节点添加到给定节点之后
+    if (after) {
+        node-&gt;prev = old_node;
+        node-&gt;next = old_node-&gt;next;
+        // 给定节点是原表尾节点
+        if (list-&gt;tail == old_node) {
+            list-&gt;tail = node;
+        }
+    // 将新节点添加到给定节点之前
+    } else {
+        node-&gt;next = old_node;
+        node-&gt;prev = old_node-&gt;prev;
+        // 给定节点是原表头节点
+        if (list-&gt;head == old_node) {
+            list-&gt;head = node;
+        }
+    }
+
+    // 更新新节点的前置指针
+    if (node-&gt;prev != NULL) {
+        node-&gt;prev-&gt;next = node;
+    }
+    // 更新新节点的后置指针
+    if (node-&gt;next != NULL) {
+        node-&gt;next-&gt;prev = node;
+    }
+
+    // 更新链表节点数
+    list-&gt;len++;
+
+    return list;
+}
+
+
+/*
+ * 取出链表的表尾节点，并将它移动到表头，成为新的表头节点。
+ *
+ * T = O(1)
+ */
+void listRotate(list *list) {
+    listNode *tail = list-&gt;tail;// 取出表尾节点
+
+    if (listLength(list) &lt;= 1) return;
+
+    /* Detach current tail */
+
+    list-&gt;tail = tail-&gt;prev; //尾结点为先尾结点的前一个结点
+    list-&gt;tail-&gt;next = NULL; //新尾结点指向NULL
+
+    /* Move it as head */
+    // 插入到表头
+    list-&gt;head-&gt;prev = tail; //旧头结点的前驱变为旧尾结点
+    tail-&gt;prev = NULL;       //旧尾结点的前驱置为NULL
+    tail-&gt;next = list-&gt;head; //旧尾结点的后驱置为头结点
+    list-&gt;head = tail;       //新头结点置为旧尾结点
+}
+
+
+/*
+ * 从链表 list 中删除给定节点 node 
+ * 
+ * 对节点私有值(private value of the node)的释放工作由调用者进行。
+ *
+ * T = O(1)
+ */
+void listDelNode(list *list, listNode *node)
+{
+    // 调整前置节点的指针
+    if (node-&gt;prev)
+        node-&gt;prev-&gt;next = node-&gt;next;
+    else
+        list-&gt;head = node-&gt;next;
+
+    // 调整后置节点的指针
+    if (node-&gt;next)
+        node-&gt;next-&gt;prev = node-&gt;prev;
+    else
+        list-&gt;tail = node-&gt;prev;
+
+    // 释放值
+    if (list-&gt;free) list-&gt;free(node-&gt;value);
+
+    // 释放节点
+    zfree(node);
+
+    // 链表数减一
+    list-&gt;len--;
+}
+
+
+// 为给定链表创建一个迭代器，之后每次对这个迭代器调用 listNext 都返回被迭代到的链表节点
+listIter *listGetIterator(list *list, int direction)
+{
+    // 为迭代器分配内存
+    listIter *iter;
+    if ((iter = zmalloc(sizeof(*iter))) == NULL) return NULL;
+
+    // 根据迭代方向，设置迭代器的起始节点
+    if (direction == AL_START_HEAD)
+        iter-&gt;next = list-&gt;head;
+    else
+        iter-&gt;next = list-&gt;tail;
+
+    // 记录迭代方向
+    iter-&gt;direction = direction;
+
+    return iter;
+}
+
+
+// 返回迭代器当前所指向的节点
+listNode *listNext(listIter *iter)
+{
+    listNode *current = iter-&gt;next;
+
+    if (current != NULL) {
+        // 根据方向选择下一个节点
+        if (iter-&gt;direction == AL_START_HEAD)
+            // 保存下一个节点，防止当前节点被删除而造成指针丢失
+            iter-&gt;next = current-&gt;next;
+        else
+            // 保存下一个节点，防止当前节点被删除而造成指针丢失
+            iter-&gt;next = current-&gt;prev;
+    }
+
+    return current;
+}
+
+
+listNode *listSearchKey(list *list, void *key)
+{
+    listIter *iter;
+    listNode *node;
+
+    // 迭代整个链表
+    iter = listGetIterator(list, AL_START_HEAD);
+    while((node = listNext(iter)) != NULL) {
+
+        // 对比
+        if (list-&gt;match) {
+            if (list-&gt;match(node-&gt;value, key)) {
+                listReleaseIterator(iter);
+                // 找到
+                return node;
+            }
+        } else {
+            if (key == node-&gt;value) {
+                listReleaseIterator(iter);
+                // 找到
+                return node;
+            }
+        }
+    }
+
+    listReleaseIterator(iter);
+
+    // 未找到
+    return NULL;
+}
+</code></pre><p><a href="https://github.com/hys20151008/datastructures/blob/master/adlist.c" target="_blank" rel="noopener">测试代码</a></p>
+<hr>
+<p>Ref： 1.Redis设计与实现 2.Redis源码</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/08/redis之简单字符串SDS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2523,230 +3077,6 @@ Out[7]: &#39;func&#39;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/20/racket Characters类型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/20/racket Characters类型/" class="post-title-link" itemprop="url">racket Characters类型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 18:19:37" itemprop="dateCreated datePublished" datetime="2018-07-20T18:19:37+08:00">2018-07-20</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>&gt; (char? #\a)                                            ;判断是否是字符
-#t
-
-&gt; (char-&gt;integer #\λ)                                    ;返回字符的整数
-955
-&gt; (char-&gt;integer #\A)
-65
-
-&gt; (integer-&gt;char 65)                                     ;将整数转换为整数
-#\A
-
-
-&gt; (char=? #\a #\a #\a)                                   ;判断多个字符是否相等
-#t
-
-&gt; (char&lt;? #\A #\a)                                       ;根据(char-&gt;integer v)返回的整数值进行比较
-#t
-&gt; (char&lt;? #\A #\λ)
-#t
-
-&gt; (char&lt;=? #\a #\b #\b)
-#t
-
-&gt; (char&gt;? #\a #\A)
-#t
-
-&gt; (char&gt;=? #\a #\A)
-#t
-
-;生成与Unicode定义的1对1映射一致的字符。如果字符没有大写映射，则char-upcase会生成char
-&gt; (char-upcase #\a)
-#\A
-&gt; (char-upcase #\λ)
-#\Λ
-
-&gt; (char-downcase #\A)
-#\a
-&gt; (char-downcase #\Λ)
-#\λ
-
-;和char-upcase类似，但对对应于Unicode case-folding mapping
-&gt; (char-foldcase #\A)
-#\a
-&gt; (char-foldcase #\Σ)
-#\σ
-
-&gt; (char-ci&lt;? #\A #\a)
-#f
-&gt; (char-ci&lt;? #\a #\b)
-#t
-&gt; (char-ci&lt;? #\a #\b #\c)
-#t
-</code></pre><hr>
-<p>Ref： 1.<a href="http://docs.racket-lang.org/reference/characters.html#%28def._%28%28quote._~23~25kernel%29._char-upcase%29%29" target="_blank" rel="noopener">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2793,7 +3123,7 @@ Out[7]: &#39;func&#39;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">237</span>
+                    <span class="site-state-item-count">238</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2888,6 +3218,10 @@ Out[7]: &#39;func&#39;
                     
                   
                     
+                    
+                      
+                    
+                      
                     
                       
                     
