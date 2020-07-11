@@ -380,6 +380,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/11/Linux-Namespace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/07/11/Linux-Namespace/" class="post-title-link" itemprop="url">Linux Namespace</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-11 15:37:38" itemprop="dateCreated datePublished" datetime="2020-07-11T15:37:38+08:00">2020-07-11</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>Linux Namespace</code>是容器的基石，可以说没有<code>Linux Namespace</code>就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过<code>Linux Namespace</code>技术实现了各种资源的隔离。</p>
+<p><code>Linux Namespace</code>总共有6种类别的<code>Namespace</code>，分别为<br>|Namespace|系统调用参考|内核版本|<br>|—-|—-|——|<br>|UTS Namespace|CLONE_NEWUTS|2.6.19|<br>|Mount Namespace|CLONE_NEWNS|2.4.19|<br>|IPC Namespace|CLONE_NEWIPC|2.6.19|<br>|PID Namespace|CLONE_NEWPID|2.6.24|<br>|Network Namespace|CLONE_NEWNET|2.6.29|<br>|User  Namespace|CLONE_NEWUSER|3.8|</p>
+<h4 id="1-UTS-Namespace"><a href="#1-UTS-Namespace" class="headerlink" title="1.UTS Namespace"></a>1.UTS Namespace</h4><p><code>UTS</code>是<code>UNIX Time Sharing</code>的缩写。主要用来隔离<code>hostname</code>，在每个<code>UTS Namespace</code>下，每个<code>Namespace</code>都可以拥有自己的<code>Namespace</code>。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2020-06-11</span></span><br><span class="line"><span class="comment">// UTS Namespace主要用来隔离hostname(主机名用于标识主机)和domainname两个系统标识(已淘汰)</span></span><br><span class="line"><span class="comment">// pstree 命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// https://www.jianshu.com/p/049f13e55840</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"syscall"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//指定被fork出来的新进程内的初始命令</span></span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span>&#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行这段代码会进入一个<code>sh</code>运行运行环境。<br><code>echo $$</code>是输出当前的<code>PID</code>，<code>readlink</code>查看对应的进程是否是在同一个<code>Namespace</code>。<br><code>hostname -b bird</code>修改<code>hostname</code>为<code>bird</code>,重新打开一个终端，输入<code>hostname</code>发现宿主机的<code>hostname</code>并没有被改变。</p>
+<p><img src="http://img.hysyeah.top/2020/6/11/20200611213343-uts-namespace.png" alt></p>
+<h4 id="2-IPC-Namespace"><a href="#2-IPC-Namespace" class="headerlink" title="2.IPC Namespace"></a>2.IPC Namespace</h4><p>用于隔离<code>System V IPC</code>和<code>POSIX message queues</code>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>左边为宿主机，右边为新建的<code>sh</code>环境。新建的<code>message queue</code>在右边的隔离<code>Namespace</code>并不能看到。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ipcs -q   <span class="comment">//查看ipc message queue</span></span><br><span class="line">ipcmk -Q  <span class="comment">//新建一个message queue</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://img.hysyeah.top/2020/7/11/20200711101320.png" alt></p>
+<h4 id="3-PID-Namespace"><a href="#3-PID-Namespace" class="headerlink" title="3.PID Namespace"></a>3.PID Namespace</h4><p><code>PID Namespace</code>用于隔离进程<code>ID</code><br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string">执行上述代码`</span>sudo <span class="keyword">go</span> /opt/<span class="keyword">go</span>/bin/<span class="keyword">go</span> run pidNamespace<span class="string">`。</span></span><br><span class="line"><span class="string">`</span>echo $$<span class="string">`发现当前的PID为1，而通过`</span>pstree<span class="string">`命令发现运行执行上述代码的PID为58329,而隔离命名空间的PID却为1，说明这个58329在新的命令空间PID映射为1。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">![](http://img.hysyeah.top/2020/6/11/20200611221910-pid-namespace.png)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#### 4.Mount Namespace</span></span><br><span class="line"><span class="string">`</span>Mount Namespace<span class="string">`用于隔离各个进程看到的挂载点视图，是`</span>Linux<span class="string">`实现的第一个`</span>Namespace<span class="string">`类型，在不同的`</span>Namespace<span class="string">`中看到的文件系统是不一样的。</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC |syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout  = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run();err != <span class="literal">nil</span>&#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行上述代码，然后执行<code>ls /proc</code>发现<code>/proc</code>中的内容还是宿主机上的。<br>通过命令<code>mount -t proc proc /proc</code>将<code>/proc mount</code>到新建的命名空间,此时再执行<code>ls /proc</code>发现少了很多文件。<br>在当前<code>Namespace</code>中，<code>sh</code>进程是PID为1的进程。这就说明当前的<code>Mount Namespace</code>中的mount和外部空间是隔离的，mount操作并没有影响到外部。Docker volume正是利用了这个特性。</p>
+<p><img src="http://img.hysyeah.top/2020/6/11/20200613095837-mount-namespace.png" alt></p>
+<h4 id="5-User-Namespace"><a href="#5-User-Namespace" class="headerlink" title="5.User Namespace"></a>5.User Namespace</h4><p><code>User Namespace</code>主要是用于隔离用户的用户组ID。一个进程的<code>User ID和</code>Group ID<code>在</code>User Namespace<code>内外是不同的。常用的场景是在宿主机以一个非root用户运行创建一个</code>User Namespace`,然后在命名空间里面却映射成root用户。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWNS | syscall.CLONE_NEWUSER,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 加上下面这行代码会报没有权限的错误</span></span><br><span class="line">	<span class="comment">//cmd.SysProcAttr.Credential = &amp;syscall.Credential&#123;Uid: uint32(1000), Gid: uint32(1000)&#125;</span></span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	os.Exit(<span class="number">-1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到在宿主机和<code>User Namespace</code>中它们的UID是不同的。</p>
+<p><img src="http://img.hysyeah.top/2020/6/11/20200613104253-user-namespace.png" alt></p>
+<h4 id="6-Network-Namespace"><a href="#6-Network-Namespace" class="headerlink" title="6.Network Namespace"></a>6.Network Namespace</h4><p><code>Network Namespace</code>用于隔离网络设备，IP地址，端口，路由表，防火墙规则等网络栈的<code>Namespace</code>。每个容器独占一个<code>Network Namespace</code>，每个容器都能随意使用自己的端口而不会产生冲突。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS |</span><br><span class="line">			syscall.CLONE_NEWNS | syscall.CLONE_NEWUSER |syscall.CLONE_NEWNET,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 加上下面这行代码会报没有权限的错误</span></span><br><span class="line">	<span class="comment">//cmd.SysProcAttr.Credential = &amp;syscall.Credential&#123;Uid: uint32(1000), Gid: uint32(1000)&#125;</span></span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	os.Exit(<span class="number">-1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>分别在宿主机和新建<code>sh</code>环境上分别查看网络设备，发现网络设备是不一样的，说明网络已经隔离。</p>
+<p><img src="http://img.hysyeah.top/2020/6/11/20200613104815-network-namespace.png" alt></p>
+<hr>
+<h5 id="Network-Namespace中的进程如何与宿主机进行通信"><a href="#Network-Namespace中的进程如何与宿主机进行通信" class="headerlink" title="Network Namespace中的进程如何与宿主机进行通信"></a>Network Namespace中的进程如何与宿主机进行通信</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ip netns            <span class="comment">// 查看Network Namespace列表</span></span><br><span class="line"></span><br><span class="line">➜  ~ sudo ip netns add netns1  <span class="comment">//创建一个名称为netns1的Network Namespace</span></span><br><span class="line">➜  ~ ip netns</span><br><span class="line">netns1</span><br></pre></td></tr></table></figure>
+<p>查询名为<code>netns1</code>的网络命名空间下的网络设备，此时网卡状态是<code>DOWN</code><br><img src="http://img.hysyeah.top/2020/7/11/20200711114159.png" alt><br>进行<code>netns1</code>执行本志回环地址，发现网络不通，因为此时设备的状态是<code>DOWN</code>,通过命令<code>ip netns exec netns1 ip link set dev lo lup</code>启动设备后可以PING通。但此时只能PING通<code>Network Namespace</code>中的本地地址，还不能与宿主机进行通信。<br><img src="http://img.hysyeah.top/2020/7/11/20200711114219.png" alt></p>
+<p>我们可以新建一对虚拟的网卡<code>veth pair</code>与宿主机进行通信。<code>veth pair</code>总是成对出现且相互连接，报文从一端进去就会从另一端出来。<br>创建一对虚拟网卡，并查看网络设备；此时<code>veth0</code>和<code>veth1</code>都在宿主机的网络命名空间内。<br><img src="http://img.hysyeah.top/2020/7/11/20200711114607-add-vethpair.png" alt></p>
+<p>将<code>veth1</code>加入到网络命名空间<code>netns1</code>中<code>ip link set veth1 netns netns1</code>，此时再查看网络设备。发现<code>veth1</code>已到了<code>netns</code>下。<br><img src="http://img.hysyeah.top/2020/7/11/20200711144558.png" alt><br><img src="http://img.hysyeah.top/2020/7/11/20200711152741.png" alt></p>
+<p>设置网卡状态并绑定IP。<br>从宿主机PING <code>netns1</code>下的<code>veth1</code>.<br><img src="http://img.hysyeah.top/2020/7/11/20200711145407.png" alt><br>从<code>netns1</code>下PING 宿主机中的<code>veth0</code><br><img src="http://img.hysyeah.top/2020/7/11/20200711145426.png" alt></p>
+<p><code>netns1</code>中的路由表与防火墙规则也是隔离的<br><img src="http://img.hysyeah.top/2020/7/11/20200711150017.png" alt></p>
+<hr>
+<p>Ref:<br>1.<a href="https://book.douban.com/subject/27082348/" target="_blank" rel="noopener">https://book.douban.com/subject/27082348/</a><br>2.<a href="https://book.douban.com/subject/34855927/" target="_blank" rel="noopener">https://book.douban.com/subject/34855927/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/05/Go-reflect/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2122,170 +2291,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/13/istio-bookinfo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/06/13/istio-bookinfo/" class="post-title-link" itemprop="url">istio bookinfo</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-06-13 16:59:57" itemprop="dateCreated datePublished" datetime="2020-06-13T16:59:57+08:00">2020-06-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.安装<a href="https://istio.io/latest/zh/docs/setup/getting-started/" target="_blank" rel="noopener">istio</a>,如未安装k8s集群，可Ref<a href="https://github.com/gotok8s/gotok8s" target="_blank" rel="noopener">gotok8s</a>安装单机版集群<br><img src="http://img.hysyeah.top/2020/6/13/20200613170407-istio-system.png" alt="image"></p>
-<p>2.设置<code>default</code>命名空间自动注入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl label namespace default istio-injection=enabled</span><br></pre></td></tr></table></figure></p>
-<p>3.部署应用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f bookinfo.yaml</span><br></pre></td></tr></table></figure></p>
-<p>4.查看<code>service</code>和<code>pods</code>是否启动<br><img src="http://img.hysyeah.top/2020/6/13/20200613173811-svc-pod.png" alt="image"></p>
-<p>5.设置<code>Istio Gateway</code><br><figure class="highlight plain"><figcaption><span>apply -f bookinfo-gateway```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">6.确认`Ingress`端口和`IP`</span><br><span class="line">![image](http://img.hysyeah.top/2020/6/13/20200613174652-gateway.png)</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">export INGRESS_HOST=10.101.124.143</span><br><span class="line">export INGERSS_PORT=31176</span><br><span class="line">export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT</span><br></pre></td></tr></table></figure></p>
-<p>7.在浏览器访问服务,<br><img src="http://img.hysyeah.top/2020/6/13/20200613170734-bookinfo-sample.png" alt="image"></p>
-<p>8.访问<code>kiali</code>,在浏览器中输入对应的<code>IP</code>和<code>端口</code>。<br><img src="http://img.hysyeah.top/2020/6/13/20200613175529.png" alt="image"><br><img src="http://img.hysyeah.top/2020/6/13/20200613170855-bookinfo-kiali.png" alt="image"></p>
-<hr>
-<p>Ref：<br>1.<a href="https://istio.io/latest/zh/docs/examples/bookinfo/" target="_blank" rel="noopener">https://istio.io/latest/zh/docs/examples/bookinfo/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2332,7 +2337,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">238</span>
+                    <span class="site-state-item-count">239</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2466,7 +2471,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
