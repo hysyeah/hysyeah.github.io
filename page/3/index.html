@@ -380,6 +380,188 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/12/22/go-import/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/22/go-import/" class="post-title-link" itemprop="url">go-import</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-22 12:34:44" itemprop="dateCreated datePublished" datetime="2019-12-22T12:34:44+08:00">2019-12-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>go使用import 命令来导入包文件</p>
+<p>像下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">fmt.Println(&quot;hello go&quot;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;./model&quot;            //当前文件同一目录的model目录,但不建议这种方式</span><br></pre></td></tr></table></figure>
+<h6 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;shorturl/model&quot;    //加载gopath/src/shorturl/model</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="点操作"><a href="#点操作" class="headerlink" title="点操作"></a>点操作</h6><p>使用点操作可以省略前缀的包名,<code>fmt.Println可以缩写成Println</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	. &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">Println(&quot;hello go&quot;)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h6 id="别名操作"><a href="#别名操作" class="headerlink" title="别名操作"></a>别名操作</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	f &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">f.Println(&quot;hello, go&quot;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="操作"><a href="#操作" class="headerlink" title="_操作"></a>_操作</h6><p>_操作其实是引入该包,不直接使用包里面的函数,而是调用了该包里的<code>init</code>函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	_ &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>Ref：<br>1.go web编程</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/30/unp之datetime/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2290,194 +2472,6 @@
             <p><img src="http://img.hysyeah.top/2019/07/17/IMG_0001.JPG" alt="image"></p>
 <p><img src="http://img.hysyeah.top/2019/07/17/IMG_0002.JPG" alt="image"></p>
 <p><img src="http://img.hysyeah.top/2019/07/17/IMG_0003.JPG" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/14/hexo常用命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/14/hexo常用命令/" class="post-title-link" itemprop="url">hexo常用命令</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-14 07:11:41" itemprop="dateCreated datePublished" datetime="2019-07-14T07:11:41+08:00">2019-07-14</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>hexo新建命令<br><code>hexo new [layout] &quot;title&quot;</code></p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>layout</th>
-<th>path</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>post</td>
-<td>source/_post</td>
-<td>新建文章</td>
-</tr>
-<tr>
-<td>draft</td>
-<td>source/_drafts/</td>
-<td>新建草稿</td>
-</tr>
-<tr>
-<td>page</td>
-<td>source</td>
-<td>新建一个页面文件</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>hexo发布草稿中的文章<br><code>hexo publish &lt;title&gt;</code></p>
-<p><code>hexo clean  #清除缓存文件</code><br><code>hexo g      #生成静态文件</code><br><code>hexo d      #部署网站</code></p>
-<hr>
-<p>Ref:<br>1.<a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="noopener">官方文档</a></p>
 
           
         
