@@ -109,13 +109,13 @@
 
 
 
-  <meta name="description" content="Linux Namespace是容器的基石，可以说没有Linux Namespace就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过Linux Namespace技术实现了各种资源的隔离。 Linux Namespace总共有6种类别的Namespace，分别为|Namespace|系统调用参考|内核版本||—-|—-|——||UTS Namespace|CLONE_NEWU">
+  <meta name="description" content="Linux Namespace是容器的基石，可以说没有Linux Namespace就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过Linux Namespace技术实现了各种资源的隔离。 Linux Namespace总共有6种类别的Namespace，分别为       Namespace system call flag kernal version     UTS N">
 <meta name="keywords" content="Linux,Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux Namespace">
-<meta property="og:url" content="https://hysyeah.github.io/2020/07/11/Linux-Namespace/index.html">
+<meta property="og:url" content="https://hysyeah.github.io/1970/01/01/Linux-Namespace/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Linux Namespace是容器的基石，可以说没有Linux Namespace就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过Linux Namespace技术实现了各种资源的隔离。 Linux Namespace总共有6种类别的Namespace，分别为|Namespace|系统调用参考|内核版本||—-|—-|——||UTS Namespace|CLONE_NEWU">
+<meta property="og:description" content="Linux Namespace是容器的基石，可以说没有Linux Namespace就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过Linux Namespace技术实现了各种资源的隔离。 Linux Namespace总共有6种类别的Namespace，分别为       Namespace system call flag kernal version     UTS N">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.hysyeah.top/2020/6/11/20200611213343-uts-namespace.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/7/11/20200711101320.png">
@@ -130,10 +130,10 @@
 <meta property="og:image" content="http://img.hysyeah.top/2020/7/11/20200711145407.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/7/11/20200711145426.png">
 <meta property="og:image" content="http://img.hysyeah.top/2020/7/11/20200711150017.png">
-<meta property="og:updated_time" content="2020-07-11T07:37:38.559Z">
+<meta property="og:updated_time" content="2020-07-11T08:17:37.540Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux Namespace">
-<meta name="twitter:description" content="Linux Namespace是容器的基石，可以说没有Linux Namespace就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过Linux Namespace技术实现了各种资源的隔离。 Linux Namespace总共有6种类别的Namespace，分别为|Namespace|系统调用参考|内核版本||—-|—-|——||UTS Namespace|CLONE_NEWU">
+<meta name="twitter:description" content="Linux Namespace是容器的基石，可以说没有Linux Namespace就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过Linux Namespace技术实现了各种资源的隔离。 Linux Namespace总共有6种类别的Namespace，分别为       Namespace system call flag kernal version     UTS N">
 <meta name="twitter:image" content="http://img.hysyeah.top/2020/6/11/20200611213343-uts-namespace.png">
 
 
@@ -142,7 +142,7 @@
 
   
   
-  <link rel="canonical" href="https://hysyeah.github.io/2020/07/11/Linux-Namespace/">
+  <link rel="canonical" href="https://hysyeah.github.io/1970/01/01/Linux-Namespace/">
 
 
 
@@ -398,7 +398,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/11/Linux-Namespace/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/1970/01/01/Linux-Namespace/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -441,10 +441,24 @@
                 
               
 
-              <time title="创建时间：2020-07-11 15:37:38" itemprop="dateCreated datePublished" datetime="2020-07-11T15:37:38+08:00">2020-07-11</time>
+              <time title="创建时间：1970-01-01 08:00:00" itemprop="dateCreated datePublished" datetime="1970-01-01T08:00:00+08:00">1970-01-01</time>
             </span>
           
 
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-11 16:17:37" itemprop="dateModified" datetime="2020-07-11T16:17:37+08:00">2020-07-11</time>
+              </span>
+            
           
 
           
@@ -480,7 +494,51 @@
 
       
         <p><code>Linux Namespace</code>是容器的基石，可以说没有<code>Linux Namespace</code>就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过<code>Linux Namespace</code>技术实现了各种资源的隔离。</p>
-<p><code>Linux Namespace</code>总共有6种类别的<code>Namespace</code>，分别为<br>|Namespace|系统调用参考|内核版本|<br>|—-|—-|——|<br>|UTS Namespace|CLONE_NEWUTS|2.6.19|<br>|Mount Namespace|CLONE_NEWNS|2.4.19|<br>|IPC Namespace|CLONE_NEWIPC|2.6.19|<br>|PID Namespace|CLONE_NEWPID|2.6.24|<br>|Network Namespace|CLONE_NEWNET|2.6.29|<br>|User  Namespace|CLONE_NEWUSER|3.8|</p>
+<p><code>Linux Namespace</code>总共有6种类别的<code>Namespace</code>，分别为  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Namespace</th>
+<th>system call flag</th>
+<th>kernal version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UTS Namespace</td>
+<td>CLONE_NEWUTS</td>
+<td>2.6.19</td>
+</tr>
+<tr>
+<td>Mount Namespace</td>
+<td>CLONE_NEWNS</td>
+<td>2.4.19</td>
+</tr>
+<tr>
+<td>IPC Namespace</td>
+<td>CLONE_NEWIPC</td>
+<td>2.6.19</td>
+</tr>
+<tr>
+<td>PID Namespace</td>
+<td>CLONE_NEWPID</td>
+<td>2.6.24</td>
+</tr>
+<tr>
+<td>Network Namespace</td>
+<td>CLONE_NEWNET</td>
+<td>2.6.29</td>
+</tr>
+<tr>
+<td>User  Namespace</td>
+<td>CLONE_NEWUSER</td>
+<td>3.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
 <h4 id="1-UTS-Namespace"><a href="#1-UTS-Namespace" class="headerlink" title="1.UTS Namespace"></a>1.UTS Namespace</h4><p><code>UTS</code>是<code>UNIX Time Sharing</code>的缩写。主要用来隔离<code>hostname</code>，在每个<code>UTS Namespace</code>下，每个<code>Namespace</code>都可以拥有自己的<code>Namespace</code>。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2020-06-11</span></span><br><span class="line"><span class="comment">// UTS Namespace主要用来隔离hostname(主机名用于标识主机)和domainname两个系统标识(已淘汰)</span></span><br><span class="line"><span class="comment">// pstree 命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// https://www.jianshu.com/p/049f13e55840</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"syscall"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//指定被fork出来的新进程内的初始命令</span></span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span>&#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>执行这段代码会进入一个<code>sh</code>运行运行环境。<br><code>echo $$</code>是输出当前的<code>PID</code>，<code>readlink</code>查看对应的进程是否是在同一个<code>Namespace</code>。<br><code>hostname -b bird</code>修改<code>hostname</code>为<code>bird</code>,重新打开一个终端，输入<code>hostname</code>发现宿主机的<code>hostname</code>并没有被改变。</p>
 <p><img src="http://img.hysyeah.top/2020/6/11/20200611213343-uts-namespace.png" alt></p>
@@ -548,15 +606,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/05/Go-reflect/" rel="next" title="Go-reflect">
-                <i class="fa fa-chevron-left"></i> Go-reflect
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/25/hello-world/" rel="prev" title="hello-world">
+                hello-world <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>

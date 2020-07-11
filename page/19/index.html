@@ -380,213 +380,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/02/python C API 迭代器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/02/python C API 迭代器/" class="post-title-link" itemprop="url">python C API 迭代器</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-02 23:39:08" itemprop="dateCreated datePublished" datetime="2017-12-02T23:39:08+08:00">2017-12-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>#include &lt;stdio.h&gt;
-#include &quot;python3.5m/Python.h&quot;
-int main(int argc, char* argv[]){
-    long v;
-    Py_Initialize();
-    PyObject *t, *item;
-    t = PyList_New(3);
-    PyList_SetItem(t, 0, PyLong_FromLong(1L));
-    PyList_SetItem(t, 1, PyLong_FromLong(2L));
-    PyList_SetItem(t, 2, PyLong_FromLong(3L));
-    PyObject *iterator = PyObject_GetIter(t);
-    if (iterator == NULL){
-        printf(&quot;error\n&quot;);
-    }
-    while (item = PyIter_Next(iterator)){
-       v = PyLong_AsLong(item);
-       printf(&quot;%ld\n&quot;, v);
-       Py_DECREF(item);
-    }
-    Py_DECREF(iterator);
-    Py_Finalize();
-    return 0;
-}
-
-output:
-1
-2
-3
-</code></pre><hr>
-<pre><code>/*返回迭代器对象*/
-PyObject* PyObject_GetIter(PyObject *o)
-
-/*获取迭代器o的下 一个值*/
-PyObject* PyIter_Next(PyObject *o)
-
-/*将python对象转换为c long*/
-long PyLong_AsLong(PyObject *pylong)
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/30/c调用python3 C API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2371,6 +2164,438 @@ void *memset (void *, int,  size_t);
 
 #endif
 </code></pre><p>如果当前编译单元是C++代码，那么memset会在extern “C”里面被声明；如果是C代码，就直接声明。 Ref： 1.程序员的自我修养 2.<a href="https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html" target="_blank" rel="noopener">https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/09/racket string类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/09/racket string类型/" class="post-title-link" itemprop="url">racket string类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-09 23:58:30" itemprop="dateCreated datePublished" datetime="2017-11-09T23:58:30+08:00">2017-11-09</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>(string-ref str k) → char? ;通过下标获取字符串元素
+  str : string?
+  k : exact-nonnegative-integer?&lt;/pre&gt;
+
+
+
+&gt;(string-ref &quot;hello&quot; 0)
+#\h
+
+
+
+(make-string k [char]) → string?
+  k : exact-nonnegative-integer?
+  char : char? = #\nul
+通过给定一个字符串长度，和一个默认填充字符串，返回一个可改变的字符串
+
+
+
+
+
+&gt;(define s (make-string 5 #\z))
+&gt;s
+&quot;zzzzz&quot;
+
+
+
+(string-set! str k char) → void?
+  str : (and/c string? (not/c immutable?))
+  k : exact-nonnegative-integer?
+  char : char?
+修改可变字符串str的第k个字符串为char&lt;/pre&gt;
+
+
+
+&gt;(string-set! s 2 #\&amp;)
+&gt;s
+&quot;zz&amp;zz&quot;
+
+
+(string&lt;? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+字符串比较，如果str1&lt;str2 ...+,刚返回#t,
+
+(string&lt;=? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+(string=? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+判断str1,str2 ...+是否相等
+(string&gt;? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?&lt;/pre&gt;
+
+
+
+(string-copy! dest  ;目标字符串  
+    dest-start      ;目标字符串起始下标
+    src             ;源字符串
+    [src-start      ;源字符串起始下标
+     src-end]) → void?  ;源字符串结束下标
+    dest : (and/c string? (not/c immutable?))  
+    dest-start : exact-nonnegative-integer?  
+    src : string?  
+    src-start : exact-nonnegative-integer? = 0  
+    src-end : exact-nonnegative-integer? = (string-length src)
+
+
+&gt;(string-copy! s 0 &quot;hello&quot; 0 5)
+&gt;s
+&quot;hello&quot;
+
+
+(string-fill! dest char) → void?
+  dest : (and/c string? (not/c immutable?))
+  char : char?
+  填充字符串&lt;/pre&gt;
+
+
+&gt;(string-fill! s #\q)
+&gt;s
+&quot;qqqqq&quot;
+
+
+(string-append str ...) → string?
+  str : string?
+返回一个新的拼接的字符串&lt;/pre&gt;
+
+
+&gt;(string-append &quot;Apple&quot; &quot;Banana&quot;)
+&quot;AppleBanana&quot;
+
+
+(string-length str) → exact-nonnegative-integer?
+  str : string?
+  返回字符串长度&lt;/pre&gt;
+
+
+&gt;(string-length &quot;Hello&quot;)
+5
+
+
+(substring str start [end]) → string?
+  str : string?
+  start : exact-nonnegative-integer?
+  end : exact-nonnegative-integer? = (string-length str)
+  获取子字符串&lt;/pre&gt;
+
+
+&gt;(substring &quot;hello&quot; 0 4)
+&quot;hell&quot;
+
+
+(string-&gt;list str) → (listof char?)
+  str : string?
+  将字符串转换为列表&lt;/pre&gt;
+
+
+&gt;(string-&gt;list &quot;Apple&quot;)
+&#39;(#\A #\p #\p #\l #\e)
+
+
+(list-&gt;string lst) → string?
+  lst : (listof char?)
+  将列表转换为string&lt;/pre&gt;
+
+
+&gt;(list-&gt;string (list #\A #\p #\p #\l #\e))
+&quot;Apple&quot;
+
+
+(build-string n proc) → string?
+  n : exact-nonnegative-integer?
+  proc : (exact-nonnegative-integer? . -&gt;. char?)
+  通过proc以0-n的顺序创建一个长度为n的字符串&lt;/pre&gt;
+
+
+&gt;(build-string 5 (lambda (i) (integer-&gt;char (+ i 97))))
+&quot;abcde&quot;
+
+
+(string-ci=? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+  当参数str1,str2 ...+经过函数string-foldcase处理，若str1,str2 ...+相等则返回true
+(string-ci&lt;? str1 str2 ...+) → boolean? 
+  str1 : string? 
+  str2 : string? 
+(string-ci&lt;=? str1 str2 ...+) → boolean? 
+  str1 : string? 
+  str2 : string? 
+(string-ci&gt;? str1 str2 ...+) → boolean? 
+  str1 : string? 
+  str2 : string?&lt;/pre&gt;
+
+
+&gt;(string-ci=? &quot;Apple&quot; &quot;apple&quot;)
+#t
+
+
+(string-upcase str) → string?
+  str : string?
+  将字符串转换为大写
+(string-downcase string) → string?
+  string : string?
+  将字符串转换为小写
+(string-titlecase string) → string?
+  string : string?
+  将单词的第一个字母进行大写
+(string-foldcase string) → string?
+  string : string?
+  将字符串转换为小写，特殊字符存在某种转换&lt;/pre&gt;
+
+
+&gt;(string-foldcase &quot;Straße&quot;)
+&quot;strasse&quot;
+&gt;(string-downcase &quot;Straße&quot;)
+&quot;straße&quot;
+
+
+(string-join strs    ;以指定分隔符连接字符串
+   [sep    
+   #:before-first before-first    
+   #:before-last before-last    
+   #:after-last after-last]) → string?  
+  strs : (listof string?)  
+  sep : string? = &quot; &quot;  
+  before-first : string? = &quot;&quot;  
+  before-last : string? = sep  
+  after-last : string? = &quot;&quot;)
+
+
+&gt;(string-join &#39;(&quot;one&quot; &quot;two&quot; &quot;three&quot; &quot;four&quot;) &quot;;&quot;)
+&quot;one;two;three;four&quot;
+
+
+ (string-split str   ;切分字符串，返回一个列表
+    [sep    
+     #:trim? trim?    
+     #:repeat? repeat?]) → (listof string?)  
+    str : string?  
+    sep : (or/c string? regexp?) = #px&quot;\\s+&quot;  
+    trim? : any/c = #t  
+    repeat? : any/c = #f)&lt;/pre&gt;
+
+
+&gt;(string-split &quot; foo bar baz \r\n\t&quot;)
+&#39;(&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;)
+
+
+(string-trim str    ;去掉字符串前后的sep
+   [sep    
+    #:left? left?    
+    #:right? right?    
+    #:repeat? repeat?]) → string?  
+   str : string?  
+   sep : (or/c string? regexp?) = #px&quot;\\s+&quot;  
+   left? : any/c = #t  
+   right? : any/c = #t  repeat? : any/c = #f&lt;/pre&gt;
+
+
+&gt;(string-trim &quot;  foo bar  baz \r\n\t&quot;)
+&quot;foo bar  baz&quot;
+
+
+(non-empty-string? x) → boolean?
+  x : any/c
+当x是字符串且不为空时，返回#t，否则返回#f&lt;/pre&gt;
+
+
+&gt;(non-empty-string? &quot;&quot;)
+#f
+
+
+(string-contains? s contained) → boolean?
+  s : string?
+  contained : string?
+判断containde是否存在于s中&lt;/pre&gt;
+
+
+&gt;(string-contains? &quot;ab&quot; &quot;a&quot;)
+#t
+
+
+(string-prefix? s prefix) → boolean?
+  s : string?
+  prefix : string?
+  判断是否是开头
+(string-suffix? s suffix) → boolean?
+  s : string?
+  suffix : string?
+  判断是否是结尾&lt;/pre&gt;
+
+
+&gt;(string-prefix? &quot;hello&quot; &quot;he&quot;)
+#t
+
+
+&gt;(string-suffix? &quot;hello&quot; &quot;lo&quot;)
+#t
+</code></pre><p>Ref： 1.<a href="https://docs.racket-lang.org/reference/strings.html?q=string#%28def._%28%28quote._~23~25kernel%29._string%29%29" target="_blank" rel="noopener">官方文档</a></p>
 
           
         

@@ -380,242 +380,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/11/redis之字典实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/11/redis之字典实现/" class="post-title-link" itemprop="url">redis之字典实现</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-11 21:14:28" itemprop="dateCreated datePublished" datetime="2018-08-11T21:14:28+08:00">2018-08-11</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:24:13" itemprop="dateModified" datetime="2020-07-05T11:24:13+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>哈希表节点使用dictEntry结构表示，每个dictEntry结构都保存着一个键值对：</p>
-<pre><code>/* key属性保存着键值对中的键，而v属性则保存着键值对中的值，其中键值对的值可以是一个指针，或者是一个uint64_t整数，又或者是一个int64_t整数
-*/
-typedef struct dictEntry {
-       void *key;
-
-       union {
-          void *val;
-          uint64_t u64;
-          int64_t s64;
-       } v;
-
-      struct dictEntry *next;
-   } dictEntry;
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/dictEntry.png" alt></p>
-<pre><code>typedef struct dictht {
-
-    // 哈希表数组
-    dictEntry **table;
-
-    // 哈希表大小
-    unsigned long size;
-
-    // 哈希表大小掩码，用于计算索引值
-    // 总是等于 size - 1
-    unsigned long sizemask;
-
-    // 该哈希表已有节点的数量
-    unsigned long used;
-
-} dictht;
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/08/dictht.png" alt> <a href="http://redisbook.com/preview/dict/datastruct.html" target="_blank" rel="noopener">图片来源</a></p>
-<pre><code>typedef struct dict {
-
-    // 类型特定函数
-    dictType *type;
-
-    // 私有数据
-    void *privdata;
-
-    // 哈希表
-    dictht ht[2];
-
-    // rehash 索引
-    // 当 rehash 不在进行时，值为 -1
-    int rehashidx; /* rehashing not in progress if rehashidx == -1 */
-    // 目前正在运行的安全迭代器的数量
-    int iterators; /* number of iterators currently running */
-
-} dict;
-</code></pre><ul>
-<li>type属性是一个指向dictType结构的指针，每个dictType结构保存了一簇用于操作特定类型键值对的函数，Redis会为用途不同的字典设置不同的类型特定函数。</li>
-<li>而privdata属性则保存了需要传给那些类型特定函数的哥选参数。 <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/dict.png" alt> <a href="http://redisbook.com/preview/dict/datastruct.html" target="_blank" rel="noopener">图片来源</a></li>
-</ul>
-<hr>
-<p>当要将一个新的键值对添加到字典里面时，程度需要先根据键值对的键计算出哈希值和索引值，然后再根据索引值，将包含新键值对的哈希表节点放到哈希表数组的指定索引上面。 Redis计算哈希值和索引值的方法如下：</p>
-<pre><code>hash = dict-&gt;type-&gt;hashFunction(key);
-index = hash &amp; dict-&gt;ht[x].sizemask;
-</code></pre><p>Redis哈希表使用链接地址法来解决键冲突，当多个哈希表节点在一个索引上时，多个哈希表节点可以用next指针构成一个单向链表。</p>
-<hr>
-<h3 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h3><p>随着操作的不断执行， 哈希表保存的键值对会逐渐地增多或者减少， 为了让哈希表的负载因子（load factor）维持在一个合理的范围之内， 当哈希表保存的键值对数量太多或者太少时， 程序需要对哈希表的大小进行相应的扩展或者收缩。 扩展和收缩哈希表的工作可以通过执行 rehash （重新散列）操作来完成， Redis 对字典的哈希表执行 rehash 的步骤如下： 为字典的 ht[1] 哈希表分配空间， 这个哈希表的空间大小取决于要执行的操作， 以及 ht[0] 当前包含的键值对数量 （也即是 ht[0].used 属性的值）： 如果执行的是扩展操作， 那么 ht[1] 的大小为第一个大于等于 ht[0].used * 2 的 2^n （2 的 n 次方幂）； 如果执行的是收缩操作， 那么 ht[1] 的大小为第一个大于等于 ht[0].used 的 2^n 。 将保存在 ht[0] 中的所有键值对 rehash 到 ht[1] 上面： rehash 指的是重新计算键的哈希值和索引值， 然后将键值对放置到 ht[1] 哈希表的指定位置上。 当 ht[0] 包含的所有键值对都迁移到了 ht[1] 之后 （ht[0] 变为空表）， 释放 ht[0] ， 将 ht[1] 设置为 ht[0] ， 并在 ht[1] 新创建一个空白哈希表， 为下一次 rehash 做准备.</p>
-<h3 id="渐进式rehash"><a href="#渐进式rehash" class="headerlink" title="渐进式rehash"></a>渐进式rehash</h3><p>扩展或收缩哈希表需要将 ht[0] 里面的所有键值对 rehash 到 ht[1] 里面， 但是， 这个 rehash 动作并不是一次性、集中式地完成的， 而是分多次、渐进式地完成的。 这样做的原因在于， 如果 ht[0] 里只保存着四个键值对， 那么服务器可以在瞬间就将这些键值对全部 rehash 到 ht[1] ； 但是， 如果哈希表里保存的键值对数量不是四个， 而是四百万、四千万甚至四亿个键值对， 那么要一次性将这些键值对全部 rehash 到 ht[1] 的话， 庞大的计算量可能会导致服务器在一段时间内停止服务。 因此， 为了避免 rehash 对服务器性能造成影响， 服务器不是一次性将 ht[0] 里面的所有键值对全部 rehash 到 ht[1] ， 而是分多次、渐进式地将 ht[0] 里面的键值对慢慢地 rehash 到 ht[1] 。 以下是哈希表渐进式 rehash 的详细步骤： 为 ht[1] 分配空间， 让字典同时持有 ht[0] 和 ht[1] 两个哈希表。 在字典中维持一个索引计数器变量 rehashidx ， 并将它的值设置为 0 ， 表示 rehash 工作正式开始。 在 rehash 进行期间， 每次对字典执行添加、删除、查找或者更新操作时， 程序除了执行指定的操作以外， 还会顺带将 ht[0] 哈希表在 rehashidx 索引上的所有键值对 rehash 到 ht[1] ， 当 rehash 工作完成之后， 程序将 rehashidx 属性的值增一。 随着字典操作的不断执行， 最终在某个时间点上， ht[0] 的所有键值对都会被 rehash 至 ht[1] ， 这时程序将 rehashidx 属性的值设为 -1 ， 表示 rehash 操作已完成。 渐进式 rehash 的好处在于它采取分而治之的方式， 将 rehash 键值对所需的计算工作均滩到对字典的每个添加、删除、查找和更新操作上， 从而避免了集中式 rehash 而带来的庞大计算量.</p>
-<hr>
-<p><a href="https://github.com/hys20151008/redis-related-code/blob/master/dict.c" target="_blank" rel="noopener">简单代码</a></p>
-<hr>
-<p>Ref：<br>1.Redis设计与实现<br>2.Redis源码</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/11/redis之链表实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3067,6 +2831,211 @@ while root:
     root = root.next
 </code></pre><hr>
 <p><img src="http://img.hysyeah.top/wp-content/uploads/2018/07/reverse_list.jpg" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/07/25/python-functools-wraps/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/25/python-functools-wraps/" class="post-title-link" itemprop="url">python functools wraps</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-25 14:23:31" itemprop="dateCreated datePublished" datetime="2018-07-25T14:23:31+08:00">2018-07-25</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>把被封装函数的<strong>name</strong>、<strong>module</strong>、<strong>doc</strong>和<strong>dict</strong>复制到封装函数中，这样在未来排错或者函数自省的进修能够获得正确的源函数的对应属性，所以使用wraps。</p>
+<pre><code>In [1]: import functools
+
+# 不加wraps
+In [2]: def deco(f):
+   ...:     def wrapper(*args, **kwargs):
+   ...:         return f(*args, **kwargs)
+   ...:     return wrapper
+   ...:
+
+In [3]: @deco
+   ...: def func():
+   ...:     return 1
+   ...:
+
+In [4]: func.__name__
+Out[4]: &#39;wrapper&#39;
+
+# 加wraps
+In [5]: def deco2(f):
+   ...:     @functools.wraps(f)
+   ...:     def wrapper(*args, **kwargs):
+   ...:         return f(*args, **kwargs)
+   ...:     return wrapper
+   ...:
+
+In [6]: @deco2
+   ...: def func():
+   ...:     return 1
+   ...:
+
+In [7]: func.__name__
+Out[7]: &#39;func&#39;
+</code></pre><hr>
+<p>Ref： 1.python web开发实战</p>
 
           
         
