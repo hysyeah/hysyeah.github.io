@@ -380,6 +380,216 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/21/python面试之名称修饰(name-mangling)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/21/python面试之名称修饰(name-mangling)/" class="post-title-link" itemprop="url">python面试之名称修饰(name-mangling)</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-21 00:06:03" itemprop="dateCreated datePublished" datetime="2018-08-21T00:06:03+08:00">2018-08-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>&gt;&gt;&gt; class MyClass():
+... def __init__(self):
+... self.__superprivate = &quot;Hello&quot;
+... self._semiprivate = &quot;, world!&quot;
+...
+&gt;&gt;&gt; mc = MyClass()
+&gt;&gt;&gt; print mc.__superprivate
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+AttributeError: myClass instance has no attribute &#39;__superprivate&#39;
+&gt;&gt;&gt; print mc._semiprivate
+, world!
+&gt;&gt;&gt; print mc.__dict__
+{&#39;_MyClass__superprivate&#39;: &#39;Hello&#39;, &#39;_semiprivate&#39;: &#39;, world!&#39;}
+</code></pre><p><strong>foo</strong> :一种约定,Python内部的名字,用来区别其他用户自定义的命名,以防冲突. _foo :一种约定,用来指定变量私有.程序员用来指定私有变量的一种方式. __foo :这个有真正的意义:解析器用 _classname__foo 来代替这个名字,以区别和其他类相同的命名.</p>
+<hr>
+<pre><code>In [1]: class A:
+   ...:     __p = 1
+   ...:
+
+In [2]: A.__p
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+&lt;ipython-input-2-f532f70a0839&gt; in &lt;module&gt;()
+----&gt; 1 A.__p
+
+AttributeError: type object &#39;A&#39; has no attribute &#39;__p&#39;
+
+In [6]: A._A__p
+Out[6]: 1
+
+
+In [7]: print(A.__dict__)
+{&#39;__module__&#39;: &#39;__main__&#39;, &#39;_A__p&#39;: 1, &#39;__dict__&#39;: &lt;attribute &#39;__dict__&#39; of &#39;A&#39; objects&gt;, &#39;__weakref__&#39;: &lt;attribute &#39;__weakref__&#39; of &#39;A&#39; objects&gt;, &#39;__doc__&#39;: None}
+
+
+# 在python中名称修饰用于私有成员，当一个成员名称以双下划线开头和不超过一个下划线结尾，  
+# 它会在运行时被解释器重命名，以避免与任何子类中的方法产生命名冲突。重命名规则为&quot;_类名+变量&quot;,如_A__p。
+</code></pre><hr>
+<p>Ref： 1.<a href="https://en.wikipedia.org/wiki/Name_mangling#Python" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Name_mangling#Python</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/20/python面试之类变量访问顺序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2472,263 +2682,6 @@ func init() {  }
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/12/go概览/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/12/go概览/" class="post-title-link" itemprop="url">go概览</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-12 22:52:54" itemprop="dateCreated datePublished" datetime="2018-08-12T22:52:54+08:00">2018-08-12</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Go是编译型语言。 如果缺少import或者导入之后没有使用，程序都不会进行编译。 Go每行结尾并不需要加分号(加分号也不会报错，但不符合规范) Go提供了gofmt命令来处理编码规范问题。</p>
-<pre><code>$ gofmt --help
-usage: gofmt [flags] [path ...]
-  -cpuprofile string
-        write cpu profile to this file
-  -d    display diffs instead of rewriting files
-  -e    report all errors (not just the first 10 on different lines)
-  -l    list files whose formatting differs from gofmt&#39;s
-  -r string
-        rewrite rule (e.g., &#39;a[b:len(a)] -&gt; a[b:]&#39;)
-  -s    simplify code
-  -w    write result to (source) file instead of stdout
-
-
-os.Args //命令行输入，os.Args[0]表示命令本身
-
-for initialization; condition; post {
-    //zero or more statements
-}
-
-// 相当于while
-for condition {
-
-}
-// 相当于无限循环
-for {
-
-}
-
-range //返回当前索引的索引和值
-
-ch := make(chan string) //初始化字符串类型的通道
-&lt;-ch                    //从通道中取值
-ch &lt;-                   //往通道中写入值
-
-
-strings.Join(&lt;list&gt;, sep)         // 功能和python中join一样
-input := bufio.NewScanner(os.Stdin)        //读取标准输入的数据，并分解为行或单词
-input.Scan() //读取下一行，并去掉换行符
-input.Text() //获取输入内容
-
-
-%d          十进制整数
-%x, %o, %b  十六进制，八进制，二进制整数。
-%f, %g, %e  浮点数： 3.141593 3.141592653589793 3.141593e+00
-%t          布尔：true或false
-%c          字符（rune） (Unicode码点)
-%s          字符串
-%q          带双引号的字符串&quot;abc&quot;或带单引号的字符&#39;c&#39;
-%v          变量的自然形式（natural format）
-%T          变量的类型
-%%          字面上的百分号标志（无操作数）
-
-
-fmt.Sprintf       //返回格式化后的字符串
-fmt.Println       //打印到标准输出，返回字节数和err
-
-// 格式化字符串并写入到w中，返回写入的字节数和err
-func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)       
-
-// 返回一个可读文件对象
-func Open(name string) (*File, error)   //os.Open
-func Exit(code int)                     //os.Open,结束程序，0表示成功
-func ReadFile(filename string) ([]byte, error) //ioutil.ReadFile,读取整个文件并返回内容
-func ReadAll(r io.Reader) ([]byte, error) //ioutil.ReadAll,从r中读取直到EOF或产生错误
-
-func Join(a []string, sep string) string //strings.Join
-func Split(s, sep string) []string       //strings.Split
-func (c *Client) Get(url string) (resp *Response, err error)//http.Get
-func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) //http.HandleFunc,根据pattern注册处理函数
-
-func Fatal(v ...interface{})  //log.Fatal,等同于Print()+os.Exit(1)
-
-func Now() Time        //time.Now,返回本地当前时间
-func Since(t Time) Duration //time.Since
-
-
-//sync.Mutex
-func (m *Mutex) Lock()  
-func (m *Mutex) Unlock()
-
-
-//io
-func Copy(dst Writer, src Reader) (written int64, err error) //copy src to dst, ioutil.Discard相当于/dev/null
-</code></pre><p><a href="https://github.com/hys20151008/gopl/tree/master/src/ch1" target="_blank" rel="noopener">相关代码</a></p>
-<hr>
-<p>Ref： 1.The Go Programming Language</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2775,7 +2728,7 @@ func Copy(dst Writer, src Reader) (written int64, err error) //copy src to dst, 
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">239</span>
+                    <span class="site-state-item-count">240</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

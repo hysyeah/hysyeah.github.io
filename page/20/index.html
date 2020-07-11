@@ -380,6 +380,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/11/extern-c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/11/extern-c/" class="post-title-link" itemprop="url">extern "C"</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-11 10:33:47" itemprop="dateCreated datePublished" datetime="2017-11-11T10:33:47+08:00">2017-11-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>C++为了与C兼容，在符号的管理上，C++提供了一 个用来声明或定义C符号的”extern “C””关键字。C++编译器会将在extern “C”的大括号内部的代码当作C语言处理，C++的名称修饰机制将不起作用。 <img src="http://img.hysyeah.top/wp-content/uploads/2017/11/1.png" alt> 很多时候我们会碰到有些头文件声明了一些C语言的 函数和全局变量，但是这个头文件可能会被C语言代码或c++代码包含。比 如很常见的，我们的C语言库函数中的string.h中声明了memset这个函数，它的原型如下：</p>
+<pre><code>void *memset (void *, int ,size);
+</code></pre><p>如果不加任何处理，当我们的C语言程序包含string.h的时候，并且用到了memset这个函数 ，编译器会将memset符号引用正确处理；但是在C++语言中，编译器会认为这个memset函数是一个C++函数，将memset的符号修饰成_Z6memsetPvii,这样链接器就无法与C语言库中的memset符号进行链接。所以对于C++来说，必须使用extern “C”来声明memset这个函数。但是C语言又不支持extern “C”语法，如果为了兼容C语言和C++语言定义两套头文件，未免于麻烦。幸好我们有一种很好的方法可以解决上述问题，就是使用C++的宏”__cplusplus”,C++编译会在编译c++的程序默认定义这个宏，我们可以使用条件宏来判断当前编译单元是不是C++代码。具体代码如下：</p>
+<pre><code>#ifdef __cplusplus
+
+extern &quot;C&quot; {
+
+#endif
+
+void *memset (void *, int,  size_t);
+
+#ifdef __cplusplus
+
+}
+
+#endif
+</code></pre><p>如果当前编译单元是C++代码，那么memset会在extern “C”里面被声明；如果是C代码，就直接声明。 Ref： 1.程序员的自我修养 2.<a href="https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html" target="_blank" rel="noopener">https://www.cnblogs.com/stonecrazyking/archive/2006/09/23/512552.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/09/racket string类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2395,195 +2582,6 @@ Hello World
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/python异常处理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/python异常处理/" class="post-title-link" itemprop="url">python异常处理</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 13:42:35" itemprop="dateCreated datePublished" datetime="2017-10-02T13:42:35+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="python提供了一个异常类，来处理代码中可能出现的异常"><a href="#python提供了一个异常类，来处理代码中可能出现的异常" class="headerlink" title="python提供了一个异常类，来处理代码中可能出现的异常"></a>python提供了一个异常类，来处理代码中可能出现的异常</h4><p>class BaseException BaseException是所有内建异常都继承于这个类。但用户自定义的异常类用不继承这个类，而是继承自Exception。 class Exception Exception <strong>traceback</strong> 当异常发生时python会自动创建traceback对象，并关联到<strong>traceback</strong>属性中，你可以使用with_traceback()创建异常和设置你自己的traceback。(Python3) raise python2到python3</p>
-<pre><code>raise E, V 改为raise E(V),raise E, V, T 改为raise E(V).with_traceback(T)
-</code></pre><p>兼容python2和python3的写法</p>
-<pre><code>peewee
-PY3:
-def reraise(tp, value, tb=None):#type,value,traceback
-    if value.__traceback__ is not tb:
-        raise value.with_traceback(tb)
-    raise value
-PY2:
-exec(&#39;def reraise(tp, value, tb=None): raise tp, value, tb&#39;) #在python3下会报语法错误，通过exec绕过检查
-
-bottle
-PY3:
-def _raise(*a):
-    raise a[0](a[1]).with_traceback(a[2])
-PY2:
-exec(compile(&#39;def _raise(*a): raise a[0], a[1], a[2]&#39;, &#39;&lt;py3fix&gt;&#39;, &#39;exec&#39;))
-</code></pre><p>Ref： 1.<a href="https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html" target="_blank" rel="noopener">https://mozillazg.github.io/2016/08/python-the-right-way-to-catch-exception-then-reraise-another-exception.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2630,7 +2628,7 @@ exec(compile(&#39;def _raise(*a): raise a[0], a[1], a[2]&#39;, &#39;&lt;py3fix&g
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">239</span>
+                    <span class="site-state-item-count">240</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
