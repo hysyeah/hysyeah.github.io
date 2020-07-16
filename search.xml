@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Go-flag]]></title>
+    <url>%2F2020%2F07%2F16%2FGo-flag%2F</url>
+    <content type="text"><![CDATA[标准库flag实现了命令行参数的解析。 123456789101112131415func main() &#123; //ip类型是指针,存放的是指向flagname的指针 var ip = flag.Int("flagname", 1234, "help message") var flagvar string //将命令行参数值写入到flagvar中,与StringVar对应的还有IntVar,UintVar等 //func StringVar(p *string, name string, value string, usage string) flag.StringVar(&amp;flagvar, "flagvar", "helloflag", "help message") //将命令行解析为定义的标志 flag.Parse() fmt.Printf("the point address of ip is %x:\n", ip) fmt.Printf("the value of flagname is %d\n", *ip) fmt.Printf("the value of flagvar is %s\n",flagvar)&#125; 命令行传参形式：-flag-flag=x-flag x //只支持非布尔类型 其中-和--功能是一样的。 子命令的使用123456789101112func main() &#123; flag.Parse() // 创建一个带有指定名称和错误处理属性的空命令集 goCmd := flag.NewFlagSet("create", flag.ExitOnError) goCmd.StringVar(&amp;name, "name", "go", "help") args := flag.Args() // 对命令进行解析，否则获取不到name中的值 goCmd.Parse(args[1:]) fmt.Println(name)&#125; type Value1234567// 值是存储在标志中的动态值的接口。// 对于每个存在的标志，按命令行顺序调用一次Set。// 可以通过这个接口的方法实现个性化操作type Value interface &#123; String() string Set(string) error&#125; REF:1.https://golang.org/pkg/flag/]]></content>
+      <tags>
+        <tag>Golang</tag>
+        <tag>GoPackage</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Go-syscall]]></title>
     <url>%2F2020%2F07%2F11%2FGo-syscall%2F</url>
     <content type="text"><![CDATA[包syscall提供了操作系统系统调用的接口。不同的操作提供原语会有所区别，所以有些系统是不一样的。godoc会根据当前的操作系统显示对应的文档。如果你想显示对应的文档，可以设置GOOS和GOARCH两个环境变量。大部分的系统调用在其它的Package中提供了兼容性更好的接口，如果可能的话推荐使用其它的Package比如os, time, net。 这个包官方不建议使用，具体可参考,推荐使用go get golang.org/x/sys。 REF:1.https://docs.google.com/document/d/1QXzI9I1pOfZPujQzxhyRy6EeHYTQitKKjHfpq0zpxZs/edit#heading=h.8gsfvmj9td4q]]></content>

@@ -380,6 +380,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/20/皮尔逊相关系数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/20/皮尔逊相关系数/" class="post-title-link" itemprop="url">皮尔逊相关系数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-20 15:11:58" itemprop="dateCreated datePublished" datetime="2018-05-20T15:11:58+08:00">2018-05-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>皮尔逊相关系数 两个变量之间的皮尔逊相关系数定义为两个变量之间的协方差和标准差的商<br>上式定义了总体相关系数，常用希腊小写字母 作为代表符号。估算样本的协方差和标准差，可得到皮尔逊相关系数，常用英文小写字母 代表 $ \rho_{X,Y}=\frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}=\frac{E[(X-\mu_{x})(Y - \mu_{Y})]}{\sigma_{X}\sigma_{Y}} $ $ r = \frac{\sum_{i=1}^n(X_{i}-\overline X)(Y_{i}-\overline Y)}{\sqrt{\sum_{i=1}^n(X_{i}-\overline X)^2}\sqrt{\sum_{i=1}^n(Y_{i}-\overline Y)^2}} $</p>
+<hr>
+<pre><code>from scipy import stats
+import numpy  as np
+a = np.array([0, 0, 0, 1, 1, 1, 1])
+b = np.arange(7)
+stats.pearsonr(a,b)
+(0.8660254037844386, 0.011724811003954654)
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/在客户机添加路由访问docker集群服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2198,238 +2376,11 @@ if __name__ == &#39;__main__&#39;:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/23/python使用最小二乘法求拟合曲线/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/23/python使用最小二乘法求拟合曲线/" class="post-title-link" itemprop="url">python使用最小二乘法求拟合曲线</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-23 22:36:53" itemprop="dateCreated datePublished" datetime="2018-04-23T22:36:53+08:00">2018-04-23</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.<a href="https://blog.csdn.net/yauphy1/article/details/43735763" target="_blank" rel="noopener">最小二乘法</a><br> 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。</p>
-<pre><code>import numpy as np
-x = [1, 2, 3, 4]
-y = [6, 5, 7, 10]
-r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
-f = np.poly1d(r) #f为拟合函数
-</code></pre><p>求出的拟合直线为$ y = r[0]x+r[1] $, $y = 1.4x+3.5 $<br>3.画出拟合直线和数据点</p>
-<pre><code>import matplotlib.pyplot as plt
-fig = plt.subplots()
-plt.plot(1,6,&#39;*-&#39;)
-plt.plot(2,5,&#39;*-&#39;)
-plt.plot(3,7,&#39;*-&#39;)
-plt.plot(4,10,&#39;*-&#39;)
-f = lambda x: 1.4*x + 3.5
-x = [1, 2, 3, 4]
-y = [f(e) for e in x]
-plt.plot(x,y)
-plt.show()
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
-<hr>
-<h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-
-
-x = np.array([ 6,  8, 10, 14, 18])
-y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
-
-plt.plot(x, y, &#39;k.&#39;)
-plt.axis([0, 25, 0, 25])
-
-
-model = LinearRegression()
-model.fit(x.reshape(-1,1),y.reshape(-1,1))
-
-e = [item[0] for item in model.predict(x.reshape(-1,1))]
-
-
-X = list(zip(x,x))
-Y = list(zip(y,e))
-for i in range(len(X)):
-    plt.plot(X[i],Y[i],&#39;r&#39;)
-
-plt.title(&quot;Linear regression use least square method&quot;)
-plt.xlabel(r&#39;$x$&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
-plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
-
-plt.plot(x, e)
-plt.grid(True)
-plt.show()
-</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://img.hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
-<hr>
-<p>选择最小二乘的原因：<br>1.平方能将正残差与负残差都变成正数<br>2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响<br>3.在残差服从均值为0，方差为$ \sigma ^2 $ (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。<br>4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
-<hr>
-<p>Ref：<br>1.<a href="http://greenteapress.com/thinkstats/" target="_blank" rel="noopener">Think Stats Probability and Statistics for Programmers</a><br>2.<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html" target="_blank" rel="noopener">numpy</a><br>3.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank" rel="noopener">scikit-learn</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2471,7 +2422,7 @@ plt.show()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">240</span>
+                    <span class="site-state-item-count">241</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3118,13 +3069,13 @@ plt.show()
   
     
       
-    
-      
-    
-      
-    
-      
         
+      
+    
+      
+    
+      
+    
       
     
       

@@ -380,6 +380,243 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/03/apue第一章 UNIX系统概览-笔记-函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/12/03/apue第一章 UNIX系统概览-笔记-函数/" class="post-title-link" itemprop="url">apue第一章:UNIX系统概览-笔记-函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-03 21:37:42" itemprop="dateCreated datePublished" datetime="2017-12-03T21:37:42+08:00">2017-12-03</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/apue/" itemprop="url" rel="index"><span itemprop="name">apue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>opendir, fdopendidr ---打开目录
+
+#include &lt;sys/types.h&gt;
+#include &lt;dirent.h&gt;
+
+DIR *opendir(const char *name);
+DIR *fdopendir(int fd);
+struct dirent *readdir(DIR *dirp);
+
+struct __dirstream   
+   {   
+    void *__fd;    
+    char *__data;    
+    int __entry_data;    
+    char *__ptr;    
+    int __entry_ptr;    
+    size_t __allocation;    
+    size_t __size;    
+    __libc_lock_define (, __lock)    
+   };   
+
+typedef struct __dirstream DIR;  
+
+struct dirent {
+     ino_t          d_ino;       /* inode number */
+     off_t          d_off;       /* not an offset; see NOTES */
+     unsigned short d_reclen;    /* length of this record */
+     unsigned char  d_type;      /* type of file; not supported by all filesystem types */
+     char           d_name[256]; /* filename */
+};
+</code></pre><hr>
+<p><a href="http://man7.org/linux/man-pages/man2/read.2.html" target="_blank" rel="noopener">read</a> <a href="http://man7.org/linux/man-pages/man2/write.2.html" target="_blank" rel="noopener">write</a></p>
+<pre><code>#include &lt;unistd.h&gt;
+/*从文件描述符fd中读取count字节到buf中*/
+ssize_t read(int fd, void *buf, size_t count);
+ssize_t write(int fd, const void *buf, size_t count);
+</code></pre><hr>
+<pre><code>#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+/*返回进程ID*/
+pid_t getpid(void);
+/*返回进程的父亲进程ID*/
+pid_t getppid(void);
+</code></pre><hr>
+<p><a href="http://man7.org/linux/man-pages/man2/fork.2.html" target="_blank" rel="noopener">fork</a> <a href="http://man7.org/linux/man-pages/man3/execlp.3.html" target="_blank" rel="noopener">execlp</a></p>
+<pre><code>#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+pid_t fork(void);
+</code></pre><hr>
+<pre><code>#include &lt;string.h&gt;
+/*返回指向错误信息字符串的指针*/
+char *strerror(int errnum);
+
+#include &lt;stdio.h&gt;
+/*根据errno的值返回错误信息*/
+void perror(const char *msg);
+</code></pre><hr>
+<p><a href="http://man7.org/linux/man-pages/man3/getuid.3p.html" target="_blank" rel="noopener">getuid</a> <a href="http://man7.org/linux/man-pages/man3/getgid.3p.html" target="_blank" rel="noopener">getgid</a></p>
+<pre><code>#include &lt;unistd.h&gt;
+uid_t getuid(void);
+gid_t getgid(void);
+</code></pre><hr>
+<p><a href="http://man7.org/linux/man-pages/man3/waitpid.3p.html" target="_blank" rel="noopener">waitpid</a></p>
+<pre><code>#include &lt;sys/wait.h&gt;
+pid_t waitpid(pid_t pid, int *stat_loc, int options);
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/03/pue第一章 UNIX系统概览-笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2304,205 +2541,11 @@ return 0;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/12/buntu安装zsh,oh-my-zsh,autojump,terminator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/11/12/buntu安装zsh,oh-my-zsh,autojump,terminator/" class="post-title-link" itemprop="url">ubuntu安装zsh,oh-my-zsh,autojump,terminator</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-12 14:36:05" itemprop="dateCreated datePublished" datetime="2017-11-12T14:36:05+08:00">2017-11-12</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.安装zsh,oh-my-zsh</p>
-<pre><code>sudo apt-get install zsh git wget
-wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-chsh -s /bin/zsh
-</code></pre><p>注销重新进入后生效 2.安装autojump</p>
-<pre><code>git clone git://github.com/joelthelion/autojump.git
-cd autojump
-sudo ./install.py
-. /home/hys/.autojump/etc/profile.d/autojump.sh #在~/.zshrc文件最后添加
-source ~/.zshrc
-
-重启终端后生效
-</code></pre><p>或者直接通过软件仓库安装</p>
-<pre><code>sudo apt-get install autojump
-
-. /usr/share/autojump/autojump.sh #在~/.zshrc文件最后添加
-
-source ~/.zshrc
-
-重启终端后生效
-</code></pre><p>3.安装terminator</p>
-<pre><code>sudo apt-get install terminator
-</code></pre><p>安装oh-my-zsh可能会出现这样的错误 1.you may not change the shell for ‘username’</p>
-<pre><code>sudo usermod -s /bin/zsh username
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2544,7 +2587,7 @@ source ~/.zshrc
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">240</span>
+                    <span class="site-state-item-count">241</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
