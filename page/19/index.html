@@ -380,6 +380,208 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/c语言typedef/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/12/09/c语言typedef/" class="post-title-link" itemprop="url">c语言typedef</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-09 22:35:37" itemprop="dateCreated datePublished" datetime="2017-12-09T22:35:37+08:00">2017-12-09</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>/*定义identifier为宏，指令为identifier后的一系列指令（以前认为只能是一句）*/
+#define identifier replacement-list(optional)
+
+#define PyObject_HEAD                   \
+    Py_ssize_t ob_refcnt;               \
+    struct _typeobject *ob_type;
+
+typedef struct _object {
+    PyObject_HEAD
+} PyObject;
+//相当于：
+typedef struct _object {
+    Py_ssize_t ob_refcnt;
+    struct _typeobject *ob_type;
+} PyObject;
+</code></pre><hr>
+<pre><code>#include &lt;stdio.h&gt;
+
+#define T int b;int c;
+typedef struct gg {
+    T
+} gg;
+int main(int argc, char *argv[]){
+    gg g = {1, 2};
+    printf(&quot;%d\n&quot;, g.b);
+    printf(&quot;%d\n&quot;, g.c);
+    return 0;
+}
+输出：
+1
+2
+</code></pre><hr>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python intobject大小/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2307,215 +2509,6 @@ plt.show()
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/14/sizeof/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/11/14/sizeof/" class="post-title-link" itemprop="url">sizeof</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-14 20:15:41" itemprop="dateCreated datePublished" datetime="2017-11-14T20:15:41+08:00">2017-11-14</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>sizeof是C语言的关键字，返回数据类型长度</p>
-<pre><code>32位系统中返回值类型为 unsigned int
-
-64位系统中返回值类型为 long unsigned int
-
-
-
-#include&lt;stdio&gt;
-
-int main(void){
-    printf(&quot;char_size=%lu\n&quot;, sizeof(char));//32位系统中需改为%u
-    printf(&quot;unsigned_char=%lu\n&quot;, sizeof(unsigned char));
-    printf(&quot;signed_char=%lu\n&quot;, sizeof(signed char));
-
-    printf(&quot;\n\n&quot;);
-    printf(&quot;int_size=%lu\n&quot;, sizeof(int));
-    printf(&quot;short_int_size=%lu\n&quot;, sizeof(short int));
-    printf(&quot;long_int_size=%lu\n&quot;, sizeof(long int));
-    printf(&quot;unsigned_long_size=%lu\n&quot;, sizeof(unsigned long));
-    printf(&quot;float_size=%lu\n&quot;, sizeof(float));
-    printf(&quot;double_size=%lu\n&quot;, sizeof(double));
-    printf(&quot;long_double_size=%lu\n&quot;, sizeof(long double));
-    return 0;
-}
-</code></pre><p>输出</p>
-<pre><code>//32位                                //64位
-char_size=1                           char_size=1
-unsigned_char=1                       unsigned_char=1
-signed_char=1                         signed_char=1
-
-
-int_size=4                            int_size=4
-unsigned_int_size=4                   unsigned_int_size=4
-short_int_size=2                      short_int_size=2
-long_int_size=4                       long_int_size=8
-unsigned_long_size=4                  unsigned_long_size=8
-float_size=4                          float_size=4
-double_size=8                         double_size=8
-long_double_size=12                   long_double_size=16
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2562,7 +2555,7 @@ long_double_size=12                   long_double_size=16
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">242</span>
+                    <span class="site-state-item-count">243</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

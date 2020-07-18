@@ -380,6 +380,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/24/python之else/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/24/python之else/" class="post-title-link" itemprop="url">python之else</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-24 00:20:05" itemprop="dateCreated datePublished" datetime="2018-08-24T00:20:05+08:00">2018-08-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:23:56" itemprop="dateModified" datetime="2020-07-05T11:23:56+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>In [1]: def print_prime(n):
+   ...:     for i in range(2, n):
+   ...:         for j in range(2, i):
+   ...:             if i % j == 0:
+   ...:                 break
+   ...:         else:
+   ...:             print(&quot;%d is a prime number&quot; %i)
+   ...:
+
+In [2]: print_prime(10)
+2 is a prime number
+3 is a prime number
+5 is a prime number
+7 is a prime number
+</code></pre><p>当循环自然结束时(循环条件为假)时else从句会被执行一次，而当循环是由<code>break</code>语句中断时，<code>else</code>子句不会被执行。与<code>for</code>语句相似，<code>while</code>语句中的<code>else</code>子句的语意是一样的：<code>else</code>块在循环正常结束和循环条件不成立时被执行。</p>
+<hr>
+<p>异常处理中的<code>else</code><br><code>try</code>块没有抛出任何异常时，执行<code>else</code>块</p>
+<pre><code>def save(db, obj):
+    try:
+        db.execute(&quot;a sql&quot;, obj.attr1)
+    except DBErrror:
+        db.rollback()
+    else:
+        db.commit()    # 未发生异常时执行
+</code></pre><hr>
+<p>Ref：<br>1.编写高质量代码-改善Python程序的91个建议</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/22/Hyperledger Fabric编译和安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2265,308 +2461,6 @@ func lookup(key string) int {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/15/Go复合数据类型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/15/Go复合数据类型/" class="post-title-link" itemprop="url">Go复合数据类型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-15 21:30:59" itemprop="dateCreated datePublished" datetime="2018-08-15T21:30:59+08:00">2018-08-15</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Go复合数据类型包括：数组，切片，字典，结构体。 数组：</p>
-<pre><code>var a [3]int
-q := [...]int{1, 2, 3}       //数组长度根据初始化元素数量决定
-
-for i, v := range a {
-    fmt.Printf(&quot;%d %d\n&quot;, i, v) //打印索引、值
-}
-
-//数组的大小也是其类型的一部分，[3]int和[4]int是不同的类型。
-
-r :=[...]int{99:-1} //定义了一个大小为100，最后一个元素初始为-1,其余为0
-
-
-c1 := sha256.Sum256([]byte(&quot;x&quot;))      //
-</code></pre><p>切片</p>
-<pre><code>// 切片共享底层数组数据
-months := [...]string{1: &quot;January&quot;, 2: &quot;February&quot;, 3: &quot;March&quot;, 4: &quot;April&quot;, 5: &quot;June&quot;}
-Q1 := months[0:3]
-Q2 := months[2:3]
-fmt.Println(Q1[2], &amp;Q1[2]) //February 0xc042044080
-fmt.Println(Q2[0], &amp;Q2[0]) //February 0xc042044080
-
-Q2[0] = &quot;Hello&quot;   // 修改Q2[0]后，Q1中的数据也发生改变
-fmt.Println(Q1, Q2)  //[ January Hello] [Hello]
-
-//切片的创建
-var array=[5]int{1, 2, 3, 4, 5}
-slice := array[:4]             //基于底层数组创建
-
-var slice = []int{1, 2, 3, 4, 5} //直接创建
-
-var slice = make([]int 5, 10) //使用make函数创建有5个元素的切片，cap为10
-</code></pre><p>字典：</p>
-<pre><code>ages := map[string]int{
-    &quot;alice&quot;: 31,
-    &quot;joke&quot;: 33,
-}
-
-//或者
-ages := make(map[string]int)
-ages[&quot;alice&quot;] = 31
-ages[&quot;joke&quot;] = 33
-
-
-age, ok := ages[&quot;bob&quot;]
-if !ok {/* &quot;bob&quot; is not in this map&quot;*/}
-//也可以写成如下形式
-if age, ok := ages[&quot;bob&quot;]; !ok {/*...*/}
-//不能对字典元素进行取地址的操作，因为字典元素的地址是会发生变化的，当装载因子超过一定数值后，会对字典进行rehash操作。
-</code></pre><p>结构体</p>
-<pre><code>type Point struct {
-    X, Y int
-}
-
-pp := &amp;Point{1, 2}
-
-pp := new(Point)
-*pp = Point{1, 2}           //等价于上种方式
-
-pp.X              //1
-pp.Y              //2
-</code></pre><p>结构体嵌套</p>
-<pre><code>type Point struct {
-    X, Y int
-}
-
-type Circle struct {
-    Center Point
-    Radius int
-}
-
-type Wheel struct {
-    Circle Circle
-    Spokes int
-}
-
-var w Wheel
-w.Circle.Center.X = 8     //这样访问显得过繁琐
-
-
-//结构体中的匿名字段
-type Circle struct {
-    Point
-    Radius int
-}
-
-type Wheel struct {
-    Circle
-    Spokes int
-}
-// 这样我们就可以省略掉中间的名称直接访问w.X
-
-//两种初始化方法
-var w Wheel = Wheel{Circle{Point{8, 8}, 5}, 20}
-var w Wheel = Wheel {
-    Circle: Circle {
-        Point: Point{X: 8, Y: 8},
-        Radius: 5,
-    },
-    Spokes: 20,
-}
-</code></pre><p>JSON</p>
-<pre><code>// 只有导出的结构体成员才会被编码，这也就是我们为什么选择用大写字
-母开头的成员名称。
-type Movie struct {
-    Title string
-    Year int `json:&quot;released&quot;`    //输出json格式时指定的别名
-    Color bool `json:&quot;color, omitempty&quot;` //omitempty表示结构体成员为空时不生成JSON对象
-    Actors []string
-}
-</code></pre><p>文本和HTML模版</p>
-<pre><code>const templ = `{ {.TotalCount}} issues:
-{ {range .Items}}----------------------------------------
-Number: { {.Number}}
-User: { {.User.Login}}
-Title: { {.Title | printf &quot;%.64s&quot;}}
-Age: { {.CreatedAt | daysAgo}} days
-{ {end}}`
-
-func daysAgo(t time.Time) int {
-    return int(time.Since(t).Hours() / 24)
-}
-
-// 创建一个模版，指定过滤函数，调用Parse函数分析模板
-report, err := template.New(&quot;report&quot;).
-Funcs(template.FuncMap{&quot;daysAgo&quot;: daysAgo}).
-Parse(templ)
-
-//执行模版，result为传入的参数
-report.Execute(os.Stdout, result)
-</code></pre><hr>
-<p>Ref： 1.The Go Programming Language</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2613,7 +2507,7 @@ report.Execute(os.Stdout, result)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">242</span>
+                    <span class="site-state-item-count">243</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
