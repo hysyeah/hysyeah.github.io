@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Go-cobra]]></title>
+    <url>%2F2020%2F07%2F18%2FGo-cobra%2F</url>
+    <content type="text"><![CDATA[Cobra是一个构建命令行应用的强有力工具。在许多项目中都有用到Cobra，比如Kubernetes,Hugo等等。 https://github.com/hysyeah/gotour/tree/master/tour REF:1.https://github.com/spf13/cobra]]></content>
+      <tags>
+        <tag>Golang</tag>
+        <tag>GoPackage</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Go-strings]]></title>
     <url>%2F2020%2F07%2F18%2FGo-strings%2F</url>
     <content type="text"><![CDATA[Packagestrings提供了对UTF-8编码字符串的一些简单操作。 安装gomacro,Go版本的REPL,对一些函数进行验证。go get github.com/cosmos72/gomacro 12345678910111213141516171819202122232425262728293031323334353637➜ hysyeah gomacro// Welcome to gomacro. Type :help for help, :copy for copyright and license.// This is free software with ABSOLUTELY NO WARRANTY.gomacro&gt; import "fmt"gomacro&gt; import "strings"gomacro&gt; strings.Compare("hello","hello")0 // intgomacro&gt; strings.Compare("hello","hell")1 // intgomacro&gt; strings.Compare("hell","hello")-1 // intgomacro&gt; strings.Contains("hello","h")true // boolgomacro&gt; strings.ContainsAny("hello","e")true // boolgomacro&gt; strings.ContainsAny("hello编程","编程")true // boolgomacro&gt; strings.Count("hello", "h")1 // intgomacro&gt; strings.Count("hello", "l")2 // intgomacro&gt; strings.HasPrefix("hello","he")true // boolgomacro&gt; strings.Index("hello", "h")0 // intgomacro&gt; strings.IndexAny("hello", "x") //匹配任意一个字符，并返回第一个匹配字符的index,如果不匹配则返回-1-1 // intgomacro&gt; strings.IndexAny("hello","hl")0 // intgomacro&gt; strings.Split("hello,a,b",",")[hello a b] // []stringgomacro&gt; s := []string&#123;"foo", "bar", "baz"&#125;gomacro&gt; fmt.Println(strings.Join(s, ", "))foo, bar, baz14 // int&lt;nil&gt; // error REF:1.https://golang.org/pkg/strings/]]></content>

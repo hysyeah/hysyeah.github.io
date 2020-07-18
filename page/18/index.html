@@ -380,6 +380,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/14/matplotlib.pyplot添加中文显示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/14/matplotlib.pyplot添加中文显示/" class="post-title-link" itemprop="url">matplotlib.pyplot添加中文显示</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-14 20:56:25" itemprop="dateCreated datePublished" datetime="2018-01-14T20:56:25+08:00">2018-01-14</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>1.从C:\Windows\Fonts复制微软雅黑字体到/usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/fonts/ttf
+
+然后将名称修改为
+sudo mv MSYHBD.TTF MSYHBD.ttf
+sudo mv MSYH.TTF MSYH.ttf
+
+2.获取配置文件信息，修改文件
+In [1]: import matplotlib
+
+In [2]: matplotlib.matplotlib_fname()
+Out[2]: &#39;/usr/local/lib/python3.5/dist-packages/matplotlib/mpl-data/matplotlibrc&#39;
+
+font.family         : Microsoft YaHei
+font.sans-serif     : DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif, Microsoft YaHei
+
+3.删除~/.cache/matplotlib下文件fontList.py3k.cache,重启终端。
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/01/matplotlibrc.png" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/06/x86相关寄存器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2195,563 +2382,6 @@ hello
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python c相关结构体/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/python c相关结构体/" class="post-title-link" itemprop="url">python c相关结构体</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 22:51:26" itemprop="dateCreated datePublished" datetime="2017-12-09T22:51:26+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:13" itemprop="dateModified" datetime="2019-08-04T16:34:13+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>/*object.h*/
-#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct _object {
-    PyObject_HEAD
-} PyObject;
-
-typedef struct {
-    Py_ssize_t ob_refcnt;              
-    struct _typeobject *ob_type;
-    Py_ssize_t ob_size;  //容纳元素的个数
-} PyVarObject;
-
-
-/*intobject.h*/
-typedef struct {
-    PyObject_HEAD
-    long ob_ival;
-} PyIntObject;
-
-
-
-/*listobject.h*/
-typedef struct {
-    PyObject_VAR_HEAD
-    /* Vector of pointers to list elements.  list[0] is ob_item[0], etc. */
-    PyObject **ob_item;
-
-    /* ob_item contains space for &#39;allocated&#39; elements.  The number
-     * currently in use is ob_size.
-     * Invariants:
-     *     0 &lt;= ob_size &lt;= allocated
-     *     len(list) == ob_size
-     *     ob_item == NULL implies ob_size == allocated == 0
-     * list.sort() temporarily sets allocated to -1 to detect mutations.
-     *
-     * Items must normally not be NULL, except during construction when
-     * the list is not yet visible outside the function that builds it.
-     */
-    Py_ssize_t allocated;
-} PyListObject;
-
-
-/*iterobject.c*/
-typedef struct {
-    PyObject_HEAD
-    long      it_index;
-    PyObject *it_seq; /* Set to NULL when iterator is exhausted */
-} seqiterobject;
-
-
-
-/*funcobject.h*/
-typedef struct {
-    PyObject_HEAD
-    PyObject *func_code;  /* A code object */
-    PyObject *func_globals; /* A dictionary (other mappings won&#39;t do) */
-    PyObject *func_defaults;  /* NULL or a tuple */
-    PyObject *func_closure; /* NULL or a tuple of cell objects */
-    PyObject *func_doc;   /* The __doc__ attribute, can be anything */
-    PyObject *func_name;  /* The __name__ attribute, a string object */
-    PyObject *func_dict;  /* The __dict__ attribute, a dict or NULL */
-    PyObject *func_weakreflist; /* List of weak references */
-    PyObject *func_module;  /* The __module__ attribute, can be anything */
-
-    /* Invariant:
-     *     func_closure contains the bindings for func_code-&gt;co_freevars, so
-     *     PyTuple_Size(func_closure) == PyCode_GetNumFree(func_code)
-     *     (func_closure may be NULL if PyCode_GetNumFree(func_code) == 0).
-     */
-} PyFunctionObject;
-
-
-
-/*genobject.h*/
-typedef struct {
-  PyObject_HEAD
-  /* The gi_ prefix is intended to remind of generator-iterator. */
-
-  /* Note: gi_frame can be NULL if the generator is &quot;finished&quot; */
-  struct _frame *gi_frame;
-
-  /* True if generator is being executed. */
-  int gi_running;
-
-  /* The code object backing the generator */
-  PyObject *gi_code;
-
-  /* List of weak reference. */
-  PyObject *gi_weakreflist;
-} PyGenObject;
-
-
-
-/*fileobject.h*/
-typedef struct {
-    PyObject_HEAD
-    FILE *f_fp;
-    PyObject *f_name;
-    PyObject *f_mode;
-    int (*f_close)(FILE *);
-    int f_softspace;            /* Flag used by &#39;print&#39; command */
-    int f_binary;               /* Flag which indicates whether the file is
-                               open in binary (1) or text (0) mode */
-    char* f_buf;                /* Allocated readahead buffer */
-    char* f_bufend;             /* Points after last occupied position */
-    char* f_bufptr;             /* Current buffer position */
-    char *f_setbuf;             /* Buffer for setbuf(3) and setvbuf(3) */
-    int f_univ_newline;         /* Handle any newline convention */
-    int f_newlinetypes;         /* Types of newlines seen */
-    int f_skipnextlf;           /* Skip next \n */
-    PyObject *f_encoding;
-    PyObject *f_errors;
-    PyObject *weakreflist; /* List of weak references */
-    int unlocked_count;         /* Num. currently running sections of code
-                               using f_fp with the GIL released. */
-    int readable;
-    int writable;
-} PyFileObject;
-
-
-
-/*floatobject.h*/
-typedef struct {
-    PyObject_HEAD
-    double ob_fval;
-} PyFloatObject;
-
-
-
-/*frameobject.h*/
-typedef struct {
-    int b_type;     /* what kind of block this is */
-    int b_handler;    /* where to jump to find handler */
-    int b_level;    /* value stack level to pop to */
-} PyTryBlock;
-
-typedef struct _frame {
-    PyObject_VAR_HEAD
-    struct _frame *f_back;  /* previous frame, or NULL */
-    PyCodeObject *f_code; /* code segment */
-    PyObject *f_builtins; /* builtin symbol table (PyDictObject) */
-    PyObject *f_globals;  /* global symbol table (PyDictObject) */
-    PyObject *f_locals;   /* local symbol table (any mapping) */
-    PyObject **f_valuestack;  /* points after the last local */
-    /* Next free slot in f_valuestack.  Frame creation sets to f_valuestack.
-       Frame evaluation usually NULLs it, but a frame that yields sets it
-       to the current stack top. */
-    PyObject **f_stacktop;
-    PyObject *f_trace;    /* Trace function */
-
-    /* If an exception is raised in this frame, the next three are used to
-     * record the exception info (if any) originally in the thread state.  See
-     * comments before set_exc_info() -- it&#39;s not obvious.
-     * Invariant:  if _type is NULL, then so are _value and _traceback.
-     * Desired invariant:  all three are NULL, or all three are non-NULL.  That
-     * one isn&#39;t currently true, but &quot;should be&quot;.
-     */
-    PyObject *f_exc_type, *f_exc_value, *f_exc_traceback;
-
-    PyThreadState *f_tstate;
-    int f_lasti;    /* Last instruction if called */
-    /* Call PyFrame_GetLineNumber() instead of reading this field
-       directly.  As of 2.3 f_lineno is only valid when tracing is
-       active (i.e. when f_trace is set).  At other times we use
-       PyCode_Addr2Line to calculate the line from the current
-       bytecode index. */
-    int f_lineno;   /* Current line number */
-    int f_iblock;   /* index in f_blockstack */
-    PyTryBlock f_blockstack[CO_MAXBLOCKS]; /* for try and loop blocks */
-    PyObject *f_localsplus[1];  /* locals+stack, dynamically sized */
-} PyFrameObject;
-
-
-
-/*classobject.h*/
-typedef struct {
-    PyObject_HEAD
-    PyObject  *cl_bases;  /* A tuple of class objects */
-    PyObject  *cl_dict; /* A dictionary */
-    PyObject  *cl_name; /* A string */
-    /* The following three are functions or NULL */
-    PyObject  *cl_getattr;
-    PyObject  *cl_setattr;
-    PyObject  *cl_delattr;
-    PyObject    *cl_weakreflist; /* List of weak references */
-} PyClassObject;
-typedef struct {
-    PyObject_HEAD
-    PyClassObject *in_class;  /* The class object */
-    PyObject    *in_dict; /* A dictionary */
-    PyObject    *in_weakreflist; /* List of weak references */
-} PyInstanceObject;
-typedef struct {
-    PyObject_HEAD
-    PyObject *im_func;   /* The callable object implementing the method */
-    PyObject *im_self;   /* The instance it is bound to, or NULL */
-    PyObject *im_class;  /* The class that asked for the method */
-    PyObject *im_weakreflist; /* List of weak references */
-} PyMethodObject;
-
-
-
-/*dictobject.h*/
-typedef struct {
-    /* Cached hash code of me_key.  Note that hash codes are C longs.
-     * We have to use Py_ssize_t instead because dict_popitem() abuses
-     * me_hash to hold a search finger.
-     */
-    Py_ssize_t me_hash;
-    PyObject *me_key;
-    PyObject *me_value;
-} PyDictEntry;
-typedef struct _dictobject PyDictObject;
-struct _dictobject {
-    PyObject_HEAD
-    Py_ssize_t ma_fill;  /* # Active + # Dummy */
-    Py_ssize_t ma_used;  /* # Active */
-
-    /* The table contains ma_mask + 1 slots, and that&#39;s a power of 2.
-     * We store the mask instead of the size because the mask is more
-     * frequently needed.
-     */
-    Py_ssize_t ma_mask;
-
-    /* ma_table points to ma_smalltable for small tables, else to
-     * additional malloc&#39;ed memory.  ma_table is never NULL!  This rule
-     * saves repeated runtime null-tests in the workhorse getitem and
-     * setitem calls.
-     */
-    PyDictEntry *ma_table;
-    PyDictEntry *(*ma_lookup)(PyDictObject *mp, PyObject *key, long hash);
-    PyDictEntry ma_smalltable[PyDict_MINSIZE];
-};
-
-
-
-
-/*funcobject.h*/
-typedef struct {
-    PyObject_HEAD
-    PyMethodDef *m_ml; /* Description of the C function to call */
-    PyObject    *m_self; /* Passed as &#39;self&#39; arg to the C func, can be NULL */
-    PyObject    *m_module; /* The __module__ attribute, can be anything */
-} PyCFunctionObject;
-
-
-/*code.h*/
-/* Bytecode object */
-typedef struct {
-    PyObject_HEAD
-    int co_argcount;    /* #arguments, except *args */
-    int co_nlocals;   /* #local variables */
-    int co_stacksize;   /* #entries needed for evaluation stack */
-    int co_flags;   /* CO_..., see below */
-    PyObject *co_code;    /* instruction opcodes */
-    PyObject *co_consts;  /* list (constants used) */
-    PyObject *co_names;   /* list of strings (names used) */
-    PyObject *co_varnames;  /* tuple of strings (local variable names) */
-    PyObject *co_freevars;  /* tuple of strings (free variable names) */
-    PyObject *co_cellvars;      /* tuple of strings (cell variable names) */
-    /* The rest doesn&#39;t count for hash/cmp */
-    PyObject *co_filename;  /* string (where it was loaded from) */
-    PyObject *co_name;    /* string (name, for reference) */
-    int co_firstlineno;   /* first source line number */
-    PyObject *co_lnotab;  /* string (encoding addr&lt;-&gt;lineno mapping) See
-           Objects/lnotab_notes.txt for details. */
-    void *co_zombieframe;     /* for optimization only (see frameobject.c) */
-    PyObject *co_weakreflist;   /* to support weakrefs to code objects */
-} PyCodeObject;
-
-
-/*object.h*/
-typedef struct _typeobject {
-    PyObject_VAR_HEAD
-    const char *tp_name; /* For printing, in format &quot;&lt;module&gt;.&lt;name&gt;&quot; */
-    Py_ssize_t tp_basicsize, tp_itemsize; /* For allocation */
-
-    /* Methods to implement standard operations */
-
-    destructor tp_dealloc;
-    printfunc tp_print;
-    getattrfunc tp_getattr;
-    setattrfunc tp_setattr;
-    cmpfunc tp_compare;
-    reprfunc tp_repr;
-
-    /* Method suites for standard classes */
-
-    PyNumberMethods *tp_as_number;
-    PySequenceMethods *tp_as_sequence;
-    PyMappingMethods *tp_as_mapping;
-
-    /* More standard operations (here for binary compatibility) */
-
-    hashfunc tp_hash;
-    ternaryfunc tp_call;
-    reprfunc tp_str;
-    getattrofunc tp_getattro;
-    setattrofunc tp_setattro;
-
-    /* Functions to access object as input/output buffer */
-    PyBufferProcs *tp_as_buffer;
-
-    /* Flags to define presence of optional/expanded features */
-    long tp_flags;
-
-    const char *tp_doc; /* Documentation string */
-
-    /* Assigned meaning in release 2.0 */
-    /* call function for all accessible objects */
-    traverseproc tp_traverse;
-
-    /* delete references to contained objects */
-    inquiry tp_clear;
-
-    /* Assigned meaning in release 2.1 */
-    /* rich comparisons */
-    richcmpfunc tp_richcompare;
-
-    /* weak reference enabler */
-    Py_ssize_t tp_weaklistoffset;
-
-    /* Added in release 2.2 */
-    /* Iterators */
-    getiterfunc tp_iter;
-    iternextfunc tp_iternext;
-
-    /* Attribute descriptor and subclassing stuff */
-    struct PyMethodDef *tp_methods;
-    struct PyMemberDef *tp_members;
-    struct PyGetSetDef *tp_getset;
-    struct _typeobject *tp_base;
-    PyObject *tp_dict;
-    descrgetfunc tp_descr_get;
-    descrsetfunc tp_descr_set;
-    Py_ssize_t tp_dictoffset;
-    initproc tp_init;
-    allocfunc tp_alloc;
-    newfunc tp_new;
-    freefunc tp_free; /* Low-level free-memory routine */
-    inquiry tp_is_gc; /* For PyObject_IS_GC */
-    PyObject *tp_bases;
-    PyObject *tp_mro; /* method resolution order */
-    PyObject *tp_cache;
-    PyObject *tp_subclasses;
-    PyObject *tp_weaklist;
-    destructor tp_del;
-
-    /* Type attribute cache version tag. Added in version 2.6 */
-    unsigned int tp_version_tag;
-
-#ifdef COUNT_ALLOCS
-    /* these must be last and never explicitly initialized */
-    Py_ssize_t tp_allocs;
-    Py_ssize_t tp_frees;
-    Py_ssize_t tp_maxalloc;
-    struct _typeobject *tp_prev;
-    struct _typeobject *tp_next;
-#endif
-} PyTypeObject;
-
-
-
-/*longintrepr.h*/
-/* Long integer representation.
-   The absolute value of a number is equal to
-    SUM(for i=0 through abs(ob_size)-1) ob_digit[i] * 2**(SHIFT*i)
-   Negative numbers are represented with ob_size &lt; 0;
-   zero is represented by ob_size == 0.
-   In a normalized number, ob_digit[abs(ob_size)-1] (the most significant
-   digit) is never zero.  Also, in all cases, for all valid i,
-    0 &lt;= ob_digit[i] &lt;= MASK.
-   The allocation function takes care of allocating extra memory
-   so that ob_digit[0] ... ob_digit[abs(ob_size)-1] are actually available.
-
-   CAUTION:  Generic code manipulating subtypes of PyVarObject has to
-   aware that longs abuse  ob_size&#39;s sign bit.
-*/
-
-struct _longobject {
-  PyObject_VAR_HEAD
-  digit ob_digit[1];
-};
-typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2798,7 +2428,7 @@ typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">244</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
