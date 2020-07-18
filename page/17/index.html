@@ -380,6 +380,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/12/使用docker搭建hadoop,spark集群/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/12/使用docker搭建hadoop,spark集群/" class="post-title-link" itemprop="url">使用docker搭建hadoop,spark集群</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-12 10:20:30" itemprop="dateCreated datePublished" datetime="2018-02-12T10:20:30+08:00">2018-02-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:24:43" itemprop="dateModified" datetime="2020-07-05T11:24:43+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="环境：ubuntu-16-04-64位"><a href="#环境：ubuntu-16-04-64位" class="headerlink" title="环境：ubuntu 16.04 64位"></a>环境：ubuntu 16.04 64位</h5><h5 id="安装所需文件：-Java-SDK-1-8-scala-2-11-11-hadoop-2-7-4-spark-2-2-0-bin-hadoop2-7"><a href="#安装所需文件：-Java-SDK-1-8-scala-2-11-11-hadoop-2-7-4-spark-2-2-0-bin-hadoop2-7" class="headerlink" title="安装所需文件： Java SDK 1.8, scala-2.11.11,hadoop-2.7.4,spark-2.2.0-bin-hadoop2.7"></a>安装所需文件： Java SDK 1.8, scala-2.11.11,hadoop-2.7.4,spark-2.2.0-bin-hadoop2.7</h5><hr>
+<p>1.docker pull ubuntu<br>2.启动镜像，docker run -idt [image_id] /bin/bash<br>3.进入容器，安装必要的工具</p>
+<pre><code>  apt-get install iputils-ping  #ping命令
+  apt-get install net-tools     #ifconfig
+</code></pre><p>4.将安装包复制到容器内部，<a href="http://img.hysyeah.top/2018/02/07/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A42/" title="查看容器主机之间文件复制" target="_blank" rel="noopener">查看容器主机之间文件复制</a><br>5.解压各个安装包，设置环境变量 ~/.bashrc <img src="http://img.hysyeah.top/wp-content/uploads/2018/02/hadoopenv.png" alt="image"> docker commit -m “xx” -a “xx” spark_base #生成一个新的镜像 </p>
+<p>6.新建项目，修改各种<a href="https://github.com/hys20151008/hadoop-cluster-config" title="配置文件" target="_blank" rel="noopener">配置文件</a><br>7.项目目录</p>
+<pre><code># ssh文件夹下面是通过ssh-keygen -t rsa 命令生成的~/.ssh目录下的所有文件（这样不用每次重新启动新的容器后，都要重新配置ssh)
+
+├── master
+│   ├── hadoop
+│   ├── spark
+│   └── ssh
+├── slave1
+│   ├── hadoop
+│   ├── spark
+│   └── ssh
+└── slave2
+|    └── ssh
+|__ docker-compose.yml
+</code></pre><p>8.<a href="http://hysyeah.top/2018/02/01/%E5%90%AF%E5%8A%A8docker%20hadoop%E9%9B%86%E7%BE%A4%E5%A4%B1%E8%B4%A5" target="_blank" rel="noopener">创建网络</a> docker-compose up -d #启动容器，一个namenode,二个datanode<br>9.进入master容器，/opt/hadoop-2.7.4/sbin/start-all.sh #启动集群 10. 进入master容器，输入jps，有如下进程</p>
+<pre><code>3191 NameNode
+3817 Jps
+3433 ResourceManager
+</code></pre><p>进入slave1容器，输入jps，有如下进程</p>
+<pre><code>962 NodeManager
+1235 Jps
+854 DataNode
+</code></pre><p>11.输入hdfs dfsadmin -report可查看节点信息 <img src="http://img.hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png" alt="image"> 12.测试集群是否正常工作。</p>
+<pre><code>vim a.txt                              #创建本地文件
+hdfs dfs -put a.txt /                  #上传到hdfs文件系统
+cd /opt/hadoop-2.7.4/share/hadoop/mapreduce
+hadoop jar hadoop-mapreduce-examples-2.7.4.jar wordcount /a.txt /out  #执行count计算
+hdfs dfs -text /out/part-r-00000                                      #查看执行结果
+若以上都没有出错，说明集群正常
+</code></pre><hr>
+<p>Ref：<br>1.<a href="http://blog.csdn.net/xu470438000/article/details/50512442" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/50512442</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/spark-shell使用mysql存储元数据/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2135,212 +2341,6 @@ DS-Data Segment--数据段寄存器
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/01/elf可重定向目标文件格式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/01/elf可重定向目标文件格式/" class="post-title-link" itemprop="url">elf可重定向目标文件格式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-01 15:40:00" itemprop="dateCreated datePublished" datetime="2018-01-01T15:40:00+08:00">2018-01-01</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ELF头</p>
-<p>.text</p>
-<p>.rodata</p>
-<p>.data</p>
-<p>.bss</p>
-<p>.symtab</p>
-<p>.rel.text</p>
-<p>.rel.data</p>
-<p>.debug</p>
-<p>.line</p>
-<p>.strtab</p>
-<p>节头部表</p>
-<p><strong>典型的ELF可重定位目标文件</strong></p>
-<pre><code>.text:已编译程序的机器代码
-.rodata:只读数据，一般是程序里面的只读变量（如const修饰的变量）和字符串常量。
-.data:已初始化的全局和静态C变量。局部C变量运行被保存在栈中，既不出现在.data节中，也不出现在.bss中
-
-.COMMON 未初始化的全局变量
-.bss:未初始化的静态C变量，以及所有被初始化为0的全局或静态变量。在目标文件中这个节不占实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为0。
-
-.symtab:一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。
-.rel.text:一个.text节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。
-.rel.data:被模块引用或定义的所有全局变量的重定位作息。一般来说，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。
-.debug:一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的C源文件。只有以-g选项调用编译器驱动程序时，才会得到这张表。
-.line:原始C源程序中的行号和.text节中的机器指令这间的映射。只有以-g选项调用编译器驱动程序时，才会得到这张表。
-.strtab:一个字符串表，其内容包括.symtab和.debug节中的符号表，以及节头部中的节名字。字符串就是以null结尾的字符串的序列。
-.comment:存放的是编译器版本信息。
-.dynamic:动态链接作息
-.hash:符号哈希表
-.note:额外的编译器信息
-
-.plt
-.got:动态链接的跳转表和全局入口表
-
-.init
-.fini:程序初始化与终结代码段
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2387,7 +2387,7 @@ DS-Data Segment--数据段寄存器
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">241</span>
+                    <span class="site-state-item-count">242</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

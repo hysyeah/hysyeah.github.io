@@ -380,6 +380,240 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/26/k8s源码结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/26/k8s源码结构/" class="post-title-link" itemprop="url">k8s源码结构</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-26 21:43:34" itemprop="dateCreated datePublished" datetime="2020-06-26T21:43:34+08:00">2020-06-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-27 18:47:09" itemprop="dateModified" datetime="2020-06-27T18:47:09+08:00">2020-06-27</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div class="table-container">
+<table>
+<thead>
+<tr>
+<th>源码目录</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cmd/</td>
+<td>存放可执行文件的入口代码，每个可执行文件都会对应一个main函数</td>
+</tr>
+<tr>
+<td>pkg/</td>
+<td>存放核心库代码，可被项目内部或外部直接引用</td>
+</tr>
+<tr>
+<td>vendor/</td>
+<td>存放项目依赖的库代码，一般为每三方库代码</td>
+</tr>
+<tr>
+<td>api/</td>
+<td>存放OpenAPI/Swagger文件</td>
+</tr>
+<tr>
+<td>build/</td>
+<td>存放构建相关的脚本</td>
+</tr>
+<tr>
+<td>test/</td>
+<td>存放测试工具及测试数据</td>
+</tr>
+<tr>
+<td>docs/</td>
+<td>存放设计或用户使用文档</td>
+</tr>
+<tr>
+<td>hack/</td>
+<td>存放与构建，测试等相关的脚本</td>
+</tr>
+<tr>
+<td>third_party/</td>
+<td>存放第三方工具，代码或其他组件</td>
+</tr>
+<tr>
+<td>plugin/</td>
+<td>存放Kubernetes插件代码目录，例如认证，授权等相关插件</td>
+</tr>
+<tr>
+<td>staging/</td>
+<td>存放部分核心库的暂存目录</td>
+</tr>
+<tr>
+<td>translations/</td>
+<td>存放il8n(国际化)语言包的相关文件，可以在不修改内部代码的情况下支持不同语言及地区</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h6 id="k8s-io-kubernetes-cmd-kubectl-kubectl-go"><a href="#k8s-io-kubernetes-cmd-kubectl-kubectl-go" class="headerlink" title="k8s.io/kubernetes/cmd/kubectl/kubectl.go"></a>k8s.io/kubernetes/cmd/kubectl/kubectl.go</h6><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano()) <span class="comment">//随机数种子</span></span><br><span class="line"></span><br><span class="line">	command := cmd.NewDefaultKubectlCommand()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> once we switch everything over to Cobra commands, we can go back to calling</span></span><br><span class="line">	<span class="comment">// cliflag.InitFlags() (by removing its pflag.Parse() call). For now, we have to set the</span></span><br><span class="line">	<span class="comment">// normalize func and add the go flag set by hand.</span></span><br><span class="line">	pflag.CommandLine.SetNormalizeFunc(cliflag.WordSepNormalizeFunc)</span><br><span class="line">	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)</span><br><span class="line">	<span class="comment">// cliflag.InitFlags()</span></span><br><span class="line">	logs.InitLogs()</span><br><span class="line">	<span class="keyword">defer</span> logs.FlushLogs()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := command.Execute(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>Makefile: 顶层Makefile文件，描述了整个项目所有代码文件的编译顺序，编译规则及编译后的二进制输出等<br>Makefile.generated_files:描述了代码生成的逻辑</p>
+<hr>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install cloc //代码统计工具</span><br></pre></td></tr></table></figure>
+<p>Bazel自动化软件构建和测试工具。</p>
+<p>k8s.io/kubernetes/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/types.go</p>
+<p>结构体，json,protobuf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">type APIResource struct &#123;</span><br><span class="line">	</span><br><span class="line">	Name string `json:<span class="string">"name"</span> protobuf:<span class="string">"bytes,1,opt,name=name"</span>`</span><br><span class="line">	</span><br><span class="line">	SingularName string `json:<span class="string">"singularName"</span> protobuf:<span class="string">"bytes,6,opt,name=singularName"</span>`</span><br><span class="line">	</span><br><span class="line">	Namespaced bool `json:<span class="string">"namespaced"</span> protobuf:<span class="string">"varint,2,opt,name=namespaced"</span>`</span><br><span class="line">	</span><br><span class="line">	Group string `json:<span class="string">"group,omitempty"</span> protobuf:<span class="string">"bytes,8,opt,name=group"</span>`</span><br><span class="line">	</span><br><span class="line">	Version string `json:<span class="string">"version,omitempty"</span> protobuf:<span class="string">"bytes,9,opt,name=version"</span>`</span><br><span class="line">	</span><br><span class="line">	Kind string `json:<span class="string">"kind"</span> protobuf:<span class="string">"bytes,3,opt,name=kind"</span>`</span><br><span class="line">	</span><br><span class="line">	ShortNames []string `json:<span class="string">"shortNames,omitempty"</span> protobuf:<span class="string">"bytes,5,rep,name=shortNames"</span>`</span><br><span class="line"></span><br><span class="line">	Categories []string `json:<span class="string">"categories,omitempty"</span> protobuf:<span class="string">"bytes,7,rep,name=categories"</span>`</span><br><span class="line">	StorageVersionHash string `json:<span class="string">"storageVersionHash,omitempty"</span> protobuf:<span class="string">"bytes,10,opt,name=storageVersionHash"</span>`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 标识一个资源</span><br><span class="line">type GroupVersionResource struct &#123;</span><br><span class="line">	Group    string</span><br><span class="line">	Version  string</span><br><span class="line">	Resource string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type GroupKind struct &#123;</span><br><span class="line">	Group string</span><br><span class="line">	Kind  string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type GroupVersion struct &#123;</span><br><span class="line">	Group   string</span><br><span class="line">	Version string</span><br><span class="line">&#125;</span><br><span class="line">type GroupResource struct &#123;</span><br><span class="line">	Group    string</span><br><span class="line">	Resource string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type GroupVersionKind struct &#123;</span><br><span class="line">	Group   string</span><br><span class="line">	Version string</span><br><span class="line">	Kind    string</span><br><span class="line">&#125;</span><br><span class="line">Kind与Resource有何区别？</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">type TypeMeta struct &#123;</span><br><span class="line">	// Kind <span class="keyword">is</span> a string value representing the REST resource this object represents.</span><br><span class="line">	Kind string `json:<span class="string">"kind,omitempty"</span> protobuf:<span class="string">"bytes,1,opt,name=kind"</span>`</span><br><span class="line"></span><br><span class="line">	APIVersion string `json:<span class="string">"apiVersion,omitempty"</span> protobuf:<span class="string">"bytes,2,opt,name=apiVersion"</span>`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>外部版本的资源定义在<code>vendor/k8s.io/api</code>目录下，完整路径为<code>vendor/k8s.io/api/&lt;group&gt;/&lt;version&gt;/&lt;resource file&gt;</code></p>
+<p><code>kubectl api-versions</code>列出当前支持的资源组和资源版本<br><code>kubectl api-resources</code>列出当前 支持的资源列表</p>
+<h5 id="k8s-io-kubernetes-vendor-k8s-io-apimachinery-pkg-runtime-interfaces-go"><a href="#k8s-io-kubernetes-vendor-k8s-io-apimachinery-pkg-runtime-interfaces-go" class="headerlink" title="k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/interfaces.go"></a>k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/interfaces.go</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// Object interface must be supported by all API types registered <span class="keyword">with</span> Scheme. Since objects <span class="keyword">in</span> a scheme are</span><br><span class="line">// expected to be serialized to the wire, the interface an Object must provide to the Scheme allows</span><br><span class="line">// serializers to set the kind, version, <span class="keyword">and</span> group the object <span class="keyword">is</span> represented <span class="keyword">as</span>. An Object may choose</span><br><span class="line">// to <span class="keyword">return</span> a no-op ObjectKindAccessor <span class="keyword">in</span> cases where it <span class="keyword">is</span> <span class="keyword">not</span> expected to be serialized.</span><br><span class="line">type Object interface &#123;</span><br><span class="line">	GetObjectKind() schema.ObjectKind</span><br><span class="line">	DeepCopyObject() Object</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>目前Kubernetes系统中的所有资源类型都已注册到Scheme资源注册表中，其是一个内存型的注册表<br>UnversionedType:无版本资源类型<br>KnownType:有版本资源类型</p>
+<p>yamlSerializer使用第三方库gopkg.in/yaml.v2来实现序列化和反序列化操作。</p>
+<p>github.com/json-iteractor/go</p>
+<p>可通过kubectl convert命令进行资源版本转换</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/24/k8s代码编码规范/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1964,236 +2198,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/01/13/2020书单/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/01/13/2020书单/" class="post-title-link" itemprop="url">2020书单</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-13 20:44:41" itemprop="dateCreated datePublished" datetime="2020-01-13T20:44:41+08:00">2020-01-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-02-23 21:45:14" itemprop="dateModified" datetime="2020-02-23T21:45:14+08:00">2020-02-23</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在此先列一个计划</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>类别</th>
-<th>书名</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>编译原理</td>
-<td><a href="https://book.douban.com/subject/11628134/" target="_blank" rel="noopener">Programing Languages:Application and Interpretation</a>(cs3520)  <br><a href="https://book.douban.com/subject/1148282/" target="_blank" rel="noopener">SICP</a><br><a href="https://github.com/zpoint/CPython-Internals" target="_blank" rel="noopener">python源码剖析(zpoint/cpython-internals)</a></td>
-</tr>
-<tr>
-<td>计算机基础</td>
-<td><a href="www.cs.cmu.deu/~213/schedule.html">深入理解计算机基础</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System: Principles and Practice</a><br><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating systems three easy pieces</a><br><a href="https://book.douban.com/subject/1782316/" target="_blank" rel="noopener">Concepts,techniques and models of computer programming</a></td>
-</tr>
-<tr>
-<td>设计模式</td>
-<td><a href="https://book.douban.com/subject/26829015/" target="_blank" rel="noopener">Mastering python Design patterns</a><br><a href="https://book.douban.com/subject/25843319/" target="_blank" rel="noopener">设计模式之禅</a></td>
-</tr>
-<tr>
-<td>编程语言</td>
-<td><a href="https://book.douban.com/subject/27013197/" target="_blank" rel="noopener">The Rust Programing Language</a><br><a href="https://book.douban.com/subject/27028517/" target="_blank" rel="noopener">Fluent Python</a></td>
-</tr>
-<tr>
-<td>代码能力</td>
-<td><a href="https://book.douban.com/subject/30218046/" target="_blank" rel="noopener">Aphilosophy of Software</a></td>
-</tr>
-<tr>
-<td>框架类</td>
-<td><a href="https://www.grpc.io/" target="_blank" rel="noopener">grpc</a><br><a href="https://doc.akka.io/docs/akka-http/current/index.html?language=scala" target="_blank" rel="noopener">akka</a></td>
-</tr>
-<tr>
-<td>容器</td>
-<td>k8s, istio, knative</td>
-</tr>
-<tr>
-<td>算法</td>
-<td><a href="https://book.douban.com/subject/19952400/" target="_blank" rel="noopener">算法(第4版)</a>,github上的python算法,<br><a href="https://github.com/wangzheng0822/algo" target="_blank" rel="noopener">https://github.com/wangzheng0822/algo</a><br><a href="https://github.com/algorithm-visualizer/algorithm-visualizer" target="_blank" rel="noopener">https://github.com/algorithm-visualizer/algorithm-visualizer</a><br><a href="https://github.com/TheAlgorithms/Python" target="_blank" rel="noopener">https://github.com/TheAlgorithms/Python</a></td>
-</tr>
-<tr>
-<td>数据库</td>
-<td><a href="https://book.douban.com/subject/23008813/" target="_blank" rel="noopener">高性能MySQL</a><br><a href="https://book.douban.com/subject/34804798/" target="_blank" rel="noopener">Redis设计与源码分析</a><br><a href="https://book.douban.com/subject/25900156/" target="_blank" rel="noopener">Redis设计与实现</a><br><a href="https://book.douban.com/subject/30386804/" target="_blank" rel="noopener">Redis深度历险</a><br><a href="https://book.douban.com/subject/4838430/" target="_blank" rel="noopener">Database system:Implementation 2nd(cmu-15-721)</a></td>
-</tr>
-<tr>
-<td>系统编程</td>
-<td><a href="https://book.douban.com/subject/1788421/" target="_blank" rel="noopener">unix环境高级编程</a><br><a href="https://book.douban.com/subject/1500149/" target="_blank" rel="noopener">unix网络编程</a><br><a href="https://book.douban.com/subject/6097773/" target="_blank" rel="noopener">LINUX内核设计与实现</a></td>
-</tr>
-<tr>
-<td>系统设计</td>
-<td><a href="https://book.douban.com/subject/26197294/" target="_blank" rel="noopener">Designing Data Intensive Applications</a><br><a href="https://book.douban.com/subject/30417742/" target="_blank" rel="noopener">Reactive Design Pattern</a><br><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener">https://github.com/donnemartin/system-design-primer</a></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="https://book.douban.com/subject/6829746/" target="_blank" rel="noopener">A primer on memory consistency and cache coherence</a><br><a href="https://book.douban.com/subject/25732314/" target="_blank" rel="noopener">shared-memory synchronization</a><br><a href="https://book.douban.com/subject/6080692/" target="_blank" rel="noopener">processor micro architecheture: An Implementation perspective</a><br><a href="https://book.douban.com/subject/15306337/" target="_blank" rel="noopener">static program Analysis</a></td>
-</tr>
-<tr>
-<td>操作系统</td>
-<td><a href="https://book.douban.com/subject/19973015/" target="_blank" rel="noopener">Operating system:Three easy pieces</a><br><a href="https://book.douban.com/subject/3735649/" target="_blank" rel="noopener">一个操作系统的实现</a><br><a href="https://book.douban.com/subject/25984145/" target="_blank" rel="noopener">Operating System Principles and Practice</a></td>
-</tr>
-<tr>
-<td>协议</td>
-<td><a href="https://book.douban.com/subject/26825411/" target="_blank" rel="noopener">TCP/IP</a></td>
-</tr>
-<tr>
-<td>面试</td>
-<td><a href="https://github.com/0voice/interview_internal_reference" target="_blank" rel="noopener">https://github.com/0voice/interview_internal_reference</a></td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>多思考！！！</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2240,7 +2244,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">241</span>
+                    <span class="site-state-item-count">242</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

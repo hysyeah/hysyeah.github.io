@@ -380,6 +380,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/01/elf可重定向目标文件格式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/01/elf可重定向目标文件格式/" class="post-title-link" itemprop="url">elf可重定向目标文件格式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-01 15:40:00" itemprop="dateCreated datePublished" datetime="2018-01-01T15:40:00+08:00">2018-01-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ELF头</p>
+<p>.text</p>
+<p>.rodata</p>
+<p>.data</p>
+<p>.bss</p>
+<p>.symtab</p>
+<p>.rel.text</p>
+<p>.rel.data</p>
+<p>.debug</p>
+<p>.line</p>
+<p>.strtab</p>
+<p>节头部表</p>
+<p><strong>典型的ELF可重定位目标文件</strong></p>
+<pre><code>.text:已编译程序的机器代码
+.rodata:只读数据，一般是程序里面的只读变量（如const修饰的变量）和字符串常量。
+.data:已初始化的全局和静态C变量。局部C变量运行被保存在栈中，既不出现在.data节中，也不出现在.bss中
+
+.COMMON 未初始化的全局变量
+.bss:未初始化的静态C变量，以及所有被初始化为0的全局或静态变量。在目标文件中这个节不占实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为0。
+
+.symtab:一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。
+.rel.text:一个.text节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。
+.rel.data:被模块引用或定义的所有全局变量的重定位作息。一般来说，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。
+.debug:一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的C源文件。只有以-g选项调用编译器驱动程序时，才会得到这张表。
+.line:原始C源程序中的行号和.text节中的机器指令这间的映射。只有以-g选项调用编译器驱动程序时，才会得到这张表。
+.strtab:一个字符串表，其内容包括.symtab和.debug节中的符号表，以及节头部中的节名字。字符串就是以null结尾的字符串的序列。
+.comment:存放的是编译器版本信息。
+.dynamic:动态链接作息
+.hash:符号哈希表
+.note:额外的编译器信息
+
+.plt
+.got:动态链接的跳转表和全局入口表
+
+.init
+.fini:程序初始化与终结代码段
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/24/gcc常用选项/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2556,205 +2762,6 @@ int main(int argc, char *argv[]){
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python intobject大小/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/python intobject大小/" class="post-title-link" itemprop="url">python intobject大小</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 21:52:23" itemprop="dateCreated datePublished" datetime="2017-12-09T21:52:23+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 64位系统
-#python3                                        python2
-
-In [4]: sys.getsizeof(1)                       In [4]: sys.getsizeof(1)
-Out[4]: 28                                     Out[4]: 24
-
-In [6]: sys.getsizeof(0)                       In [6]: sys.getsizeof(0)
-Out[6]: 24                                     Out[6]: 24
-</code></pre><p>在python2 int对象为24个字节,</p>
-<pre><code>#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct {
-    PyObject_HEAD
-    long ob_ival;
-} PyIntObject;
-</code></pre><hr>
-<p>python3中已不区分int,long对象，而是将python2中的long对象改名为int对象</p>
-<pre><code>typedef unsigned short digit;
-struct _longobject {
-    PyObject_VAR_HEAD
-    digit ob_digit[1];
-};
-</code></pre><p>python3中sys.getsizeof(0) == 24</p>
-<pre><code> /*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
- ob_digit[1],所以大小为24Bytes.*/
-</code></pre><hr>
-<p>Ref：python源码</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2801,7 +2808,7 @@ struct _longobject {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">241</span>
+                    <span class="site-state-item-count">242</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
