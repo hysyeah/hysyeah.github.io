@@ -3,6 +3,27 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/k8s/</loc>
+        <lastmod>2020-10-13T00:26:09.133Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/tags/service-mesh/</loc>
+        <lastmod>2020-09-28T12:55:32.248Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://hysyeah.github.io/tags/osm/</loc>
+        <lastmod>2020-09-28T12:55:32.248Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/Rust/</loc>
         <lastmod>2020-08-09T10:18:30.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -95,13 +116,6 @@
 
     <url>
         <loc>https://hysyeah.github.io/tags/grpc/</loc>
-        <lastmod>2020-07-05T03:19:28.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/k8s/</loc>
         <lastmod>2020-07-05T03:19:28.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

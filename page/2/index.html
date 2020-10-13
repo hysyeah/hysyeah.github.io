@@ -380,6 +380,471 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/30/Protocol-Buffers-and-GRPC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/30/Protocol-Buffers-and-GRPC/" class="post-title-link" itemprop="url">Protocol Buffers and GRPC</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-30 21:14:45" itemprop="dateCreated datePublished" datetime="2020-06-30T21:14:45+08:00">2020-06-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h4><p><code>Protocol buffers</code>是由Google推出来的用于描述结构化数据的一种数据格式,类似于<code>XML</code>,但更小更快更简单，语言无关，平台无关而且支持可扩展。通过描述性语言定义你所需要的数据结构,可以实现一次定义即可以生成多种语言的相关的代码。目前<code>Protocal buffers</code>基本上已支持大多数的编程语言。</p>
+<p>本文将介绍在<code>Go</code>语言中怎么使用<code>Protocol buffers</code></p>
+<p>1.<code>protoc</code>安装<br><a href="https://github.com/protocolbuffers/protobuf/releases" target="_blank" rel="noopener">下载</a>所需的版本，解压设置环境变量<br>2.<code>protoc-gen-go</code>的安装<br> <code>go install google.golang.org/protobuf/cmd/protoc-gen-go</code></p>
+<p>3.新建一个<code>Go Module</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  gopro mkdir grpc</span><br><span class="line">➜  gopro cd grpc</span><br><span class="line">➜  grpc mkdir src</span><br><span class="line">➜  cd src</span><br><span class="line">➜  src go mod init example.com/grpc</span><br></pre></td></tr></table></figure></p>
+<p>整个目录的结构如下<br><img src="http://img.hysyeah.top/2020/7/4/20200704113839-grpc.png" alt></p>
+<p>4.在<code>protofiles</code>中编辑<code>person.pb.go</code>文件。如下代码用<code>protobuf</code>声明式语言定义了一个数据结构<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">  string name = <span class="number">1</span>;</span><br><span class="line">  int32 id = <span class="number">2</span>;</span><br><span class="line">  string email = <span class="number">3</span>;</span><br><span class="line">  enum PhoneType &#123;</span><br><span class="line">    MOBILE = <span class="number">0</span>;</span><br><span class="line">    HOME = <span class="number">1</span>;</span><br><span class="line">    WORK = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  message PhoneNumber &#123;</span><br><span class="line">    string number = <span class="number">1</span>;</span><br><span class="line">    PhoneType type = <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  repeated PhoneNumber phones = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">  repeated Person people = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.通过<code>proto</code>生成<code>Go</code>语言对应的文件<br>  在<code>grpc/src/protofiles</code>执行<code>protoc --go_out=. *.proto</code>会在当前目录下生成<br>文件<code>person.pb.go</code><br>6.编写<code>main.go</code>和<code>main_json.go</code>文件<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	pb <span class="string">"example.com/grpc/protofiles"</span> <span class="comment">//我们可以使用person.pb.go中的结构傅Person</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/golang/protobuf/proto"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">// 对Person进行初始化，并将指针赋值给变量p</span></span><br><span class="line">	p := &amp;pb.Person&#123;</span><br><span class="line">		Id: <span class="number">1234</span>,</span><br><span class="line">		Name: <span class="string">"Roger F"</span>,</span><br><span class="line">		Email: <span class="string">"rf@gmail.com"</span>,</span><br><span class="line">		Phones: []*pb.Person_PhoneNumber&#123;</span><br><span class="line">			&#123;Number: <span class="string">"555-4321"</span>, Type: pb.Person_HOME&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	p1 := &amp;pb.Person&#123;&#125;</span><br><span class="line">	body, _ := proto.Marshal(p)</span><br><span class="line">	_ = proto.Unmarshal(body, p1)</span><br><span class="line">	fmt.Println(<span class="string">"Original struct loadef from proto file:"</span>,p,<span class="string">"\n"</span>)</span><br><span class="line">	fmt.Println(<span class="string">"Marshaled proto data: "</span>, body, <span class="string">"\n"</span>)</span><br><span class="line">	fmt.Println(<span class="string">"Unmarshaled struct: "</span>, p1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main_json.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	pb <span class="string">"example.com/grpc/protofiles"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	p := &amp;pb.Person&#123;</span><br><span class="line">		Id: <span class="number">1234</span>,</span><br><span class="line">		Name: <span class="string">"Roger F"</span>,</span><br><span class="line">		Email: <span class="string">"rf@gmail.com"</span>,</span><br><span class="line">		Phones: []*pb.Person_PhoneNumber&#123;</span><br><span class="line">			&#123;Number: <span class="string">"555-4321"</span>, Type: pb.Person_HOME&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	body, _ := json.Marshal(p)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="keyword">string</span>(body))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>7.执行<code>go mod tidy</code>安装依赖。<br>8.分别执行<code>main.go</code>和<code>main_json.go</code><br><img src="http://img.hysyeah.top/2020/7/4/20200704161336.png" alt></p>
+<h6 id="Go类型与对应的Protobuf类型"><a href="#Go类型与对应的Protobuf类型" class="headerlink" title="Go类型与对应的Protobuf类型"></a>Go类型与对应的Protobuf类型</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Go</th>
+<th>Protobuf type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float32</td>
+<td>float</td>
+</tr>
+<tr>
+<td>float64</td>
+<td>double</td>
+</tr>
+<tr>
+<td>uint32</td>
+<td>fixed32</td>
+</tr>
+<tr>
+<td>uint64</td>
+<td>fixed64</td>
+</tr>
+<tr>
+<td>[]byte</td>
+<td>bytes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Protobut type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>“”</td>
+</tr>
+<tr>
+<td>bytes</td>
+<td>empty bytes[]</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>false</td>
+</tr>
+<tr>
+<td>int,int32,int64,float,double</td>
+<td>0</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h4 id="GRPC"><a href="#GRPC" class="headerlink" title="GRPC"></a>GRPC</h4><p>1.安装<code>grpc</code>Go语言相关库<br><code>go get google.golang.org/grpc</code><br><code>go get google.golang.org/grpc/cmd/protoc-gen-go-grpc</code><br>2.在<code>src</code>目录下新建<code>grpc</code>文件夹，最终的目录结构如下。<br><img src="http://img.hysyeah.top/2020/7/4/20200704220816.png" alt><br>3.定义<code>transaction.proto</code><br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">"proto3"</span>;</span><br><span class="line"><span class="keyword">package</span> grpc;</span><br><span class="line"></span><br><span class="line">message TransactionRequest &#123;</span><br><span class="line">  <span class="keyword">string</span> from = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">string</span> to = <span class="number">2</span>;</span><br><span class="line">  float amount = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message TransactionResponse &#123;</span><br><span class="line">  <span class="keyword">bool</span> confirmation = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service MoneyTransaction &#123;</span><br><span class="line">  rpc MakeTransaction(TransactionRequest) returns (TransactionResponse) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.执行命令<code>protoc --go_out=plugins=grpc:. transaction.proto</code>,会在<code>grpc</code>目录下生成文件<code>transaction.pb.go</code>,文件中的部分内容。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> TransactionRequest <span class="keyword">struct</span> &#123;</span><br><span class="line">	state         protoimpl.MessageState</span><br><span class="line">	sizeCache     protoimpl.SizeCache</span><br><span class="line">	unknownFields protoimpl.UnknownFields</span><br><span class="line"></span><br><span class="line">	From   <span class="keyword">string</span>  <span class="string">`protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`</span></span><br><span class="line">	To     <span class="keyword">string</span>  <span class="string">`protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`</span></span><br><span class="line">	Amount <span class="keyword">float32</span> <span class="string">`protobuf:"fixed32,3,opt,name=amount,proto3" json:"amount,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> TransactionResponse <span class="keyword">struct</span> &#123;</span><br><span class="line">	state         protoimpl.MessageState</span><br><span class="line">	sizeCache     protoimpl.SizeCache</span><br><span class="line">	unknownFields protoimpl.UnknownFields</span><br><span class="line"></span><br><span class="line">	Confirmation <span class="keyword">bool</span> <span class="string">`protobuf:"varint,1,opt,name=confirmation,proto3" json:"confirmation,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> moneyTransactionClient <span class="keyword">struct</span> &#123;</span><br><span class="line">	cc grpc.ClientConnInterface</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewMoneyTransactionClient</span><span class="params">(cc grpc.ClientConnInterface)</span> <span class="title">MoneyTransactionClient</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;moneyTransactionClient&#123;cc&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *moneyTransactionClient)</span> <span class="title">MakeTransaction</span><span class="params">(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption)</span> <span class="params">(*TransactionResponse, error)</span></span> &#123;</span><br><span class="line">	out := <span class="built_in">new</span>(TransactionResponse)</span><br><span class="line">	err := c.cc.Invoke(ctx, <span class="string">"/grpc.MoneyTransaction/MakeTransaction"</span>, in, out, opts...)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> out, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RegisterMoneyTransactionServer</span><span class="params">(s *grpc.Server, srv MoneyTransactionServer)</span></span> &#123;</span><br><span class="line">	s.RegisterService(&amp;_MoneyTransaction_serviceDesc, srv)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.编写<code>client.go</code>和<code>server.go</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// server.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"net"</span></span><br><span class="line"></span><br><span class="line">	pb <span class="string">"example.com/grpc/grpc"</span></span><br><span class="line">	<span class="string">"golang.org/x/net/context"</span></span><br><span class="line">	<span class="string">"google.golang.org/grpc"</span></span><br><span class="line">	<span class="string">"google.golang.org/grpc/reflection"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	port = <span class="string">":50051"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// server is used to create MoneyTransactionServer.</span></span><br><span class="line"><span class="keyword">type</span> server <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MakeTransaction implements MoneyTransactionServer.MakeTransaction</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *server)</span> <span class="title">MakeTransaction</span><span class="params">(ctx context.Context, in *pb.TransactionRequest)</span> <span class="params">(*pb.TransactionResponse, error)</span></span> &#123;</span><br><span class="line">	log.Printf(<span class="string">"Got request for money Transfer...."</span>)</span><br><span class="line">	log.Printf(<span class="string">"Amount: %f, From A/c:%s, To A/c:%s"</span>, in.Amount, in.From, in.To)</span><br><span class="line">	<span class="comment">// Do database logic here....</span></span><br><span class="line">	<span class="keyword">return</span> &amp;pb.TransactionResponse&#123;Confirmation: <span class="literal">true</span>&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	lis, err := net.Listen(<span class="string">"tcp"</span>, port)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalf(<span class="string">"Failed to listen: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	s := grpc.NewServer()</span><br><span class="line">	pb.RegisterMoneyTransactionServer(s, &amp;server&#123;&#125;)</span><br><span class="line">	<span class="comment">// Register reflection service on gRPC server.</span></span><br><span class="line">	reflection.Register(s)</span><br><span class="line">	<span class="keyword">if</span> err := s.Serve(lis); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalf(<span class="string">"Failed to serve: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line"></span><br><span class="line">	pb <span class="string">"example.com/grpc/grpc"</span></span><br><span class="line">	<span class="string">"golang.org/x/net/context"</span></span><br><span class="line">	<span class="string">"google.golang.org/grpc"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	address = <span class="string">"localhost:50051"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Set up a connection to the server.</span></span><br><span class="line">	conn, err := grpc.Dial(address, grpc.WithInsecure())</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalf(<span class="string">"Did not connect: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="keyword">defer</span> conn.Close()</span><br><span class="line">  <span class="comment">//创建一个rpc客户端</span></span><br><span class="line">	c := pb.NewMoneyTransactionClient(conn)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Prepare data. Get this from clients like Frontend or App</span></span><br><span class="line">	from := <span class="string">"1234"</span></span><br><span class="line">	to := <span class="string">"5678"</span></span><br><span class="line">	amount := <span class="keyword">float32</span>(<span class="number">1250.75</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Contact the server and print out its response.</span></span><br><span class="line">	r, err := c.MakeTransaction(context.Background(), &amp;pb.TransactionRequest&#123;From: from,</span><br><span class="line">		To: to, Amount: amount&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalf(<span class="string">"Could not transact: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	log.Printf(<span class="string">"Transaction confirmed: %t"</span>, r.Confirmation)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6.分别执行<code>server.go</code>和<code>client.go</code><br><img src="http://img.hysyeah.top/2020/7/4/20200704221645.png" alt></p>
+<hr>
+<p>Ref：<br>1.<a href="https://developers.google.com/protocol-buffers/docs/gotutorial" target="_blank" rel="noopener">https://developers.google.com/protocol-buffers/docs/gotutorial</a><br>2.<a href="https://book.douban.com/subject/30154905/" target="_blank" rel="noopener">Building RESTful Web services with Go</a><br>3.<a href="https://grpc.io/" target="_blank" rel="noopener">GRPC</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/27/go-module/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/06/27/go-module/" class="post-title-link" itemprop="url">go-module的使用</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-27 15:10:39" itemprop="dateCreated datePublished" datetime="2020-06-27T15:10:39+08:00">2020-06-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Go 1.11和1.12已经基本上支持<code>Go Modules</code>,<code>Go</code>的新依赖管理系统，更好的管理依赖的版本信息。</p>
+<p>本文使用版本<code>Go1.13</code>.<br>在<code>Go Modules</code>之前，每个项目都必须设置一个<code>GOPATH</code>,并将第三方包安装在各自的目录下，多个项目之间不能共用第三方包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">GO111MODULE</span><br><span class="line">GO111MODULE 有三个值：off, on和auto（默认值）。</span><br><span class="line"></span><br><span class="line">GO111MODULE=off，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找</span><br><span class="line">GO111MODULE=on，go命令行会使用module功能</span><br><span class="line">GO111MODULE=auto，默认值，go命令行将会根据当前目录来决定是否启用module功能</span><br><span class="line"></span><br><span class="line">如下两种情况会启用module功能：</span><br><span class="line">－ 当前目录在GOPATH/src之外且该目录包含go.mod文件</span><br><span class="line">－ 当前文件在包含go.mod文件的目录下面。</span><br><span class="line"></span><br><span class="line">当module功能启用时，依赖包的存放位置变更为$GOPATH/pkg，允许同一个package多个版本并存，且多个项目可以共享缓存的 module。</span><br></pre></td></tr></table></figure>
+<h4 id="新建一个module"><a href="#新建一个module" class="headerlink" title="新建一个module"></a>新建一个<code>module</code></h4><p>在<code>$GOPATH/src</code>目录之外新建一个目录<code>hello</code>,并新建一个文件<code>server.go</code><br>整个目录结构如下：<br><img src="http://img.hysyeah.top/2020/7/4/20200704110458-hello-go-mod.png" alt><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  gopro mkdir hello</span><br><span class="line">➜  gopro cd hello</span><br><span class="line">➜  hello vim hello.go</span><br><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello, world."</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">➜  hello cat hello_test.go </span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"testing"</span></span><br><span class="line"></span><br><span class="line">func TestHello(t *testing.T) &#123;</span><br><span class="line">    want := <span class="string">"Hello, world."</span></span><br><span class="line">    <span class="keyword">if</span> got := Hello(); got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">"Hello() = %q, want %q"</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到目前为止这个目录包含<code>package</code>,但不是一个<code>module</code>，因为不包含<code>go.mod</code>文件。<br>执行<code>go test</code>,将会提示如下错误(使用的go版本为1.13)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test</span><br><span class="line">go: cannot find main module; see <span class="string">'go help modules'</span></span><br></pre></td></tr></table></figure></p>
+<p>使用<code>go mod init</code>把目录转换成为一个<code>module</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go mod init example.com/hello</span><br><span class="line">go: creating new go.mod: module example.com/hello</span><br><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.002</span>s</span><br><span class="line">➜  hello cat go.mod </span><br><span class="line">module example.com/hello  //定义了 module path,是导入路径的根目录</span><br><span class="line"></span><br><span class="line">go <span class="number">1.13</span></span><br></pre></td></tr></table></figure></p>
+<p><code>go.mod</code>文件一般只出现于<code>module</code>的根目录。如果你在<code>module</code>下面新建了一个子目录<code>world</code>,<code>world</code>会自动被认为是<code>example.com/hello</code>的一部分，导入路径为<code>example.com/hello/world</code>。(<code>go.mod</code>所在的目录被认为是一个<code>module</code>的根目录,导入路径为<code>example.com/hello</code>加入对应的<code>package</code>名称)</p>
+<h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"rsc.io/quote"</span></span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quote.Hello()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行<code>go test</code>命令,该命令会自动下载所需要的包。并将所需的依赖写入到<code>go.mod</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test</span><br><span class="line">go: finding rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">go: downloading rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">go: extracting rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">go: downloading rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">go: extracting rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">go: downloading golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c</span><br><span class="line">go: extracting golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c</span><br><span class="line">go: finding rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">go: finding golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat go.mod </span><br><span class="line">module example.com/hello</span><br><span class="line"></span><br><span class="line">go <span class="number">1.13</span></span><br><span class="line"></span><br><span class="line">require rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br></pre></td></tr></table></figure>
+<p>go命令还维护了一个文件<code>go.sum</code>,里面定义了<code>go.mod</code>包中所需的依赖项。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat go.sum </span><br><span class="line">golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c h1:qgOY6WgZOaTkIIMiVjBQcw93ERBE4m30iBm00nkL0i8=</span><br><span class="line">golang.org/x/text v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20170915032832</span><span class="number">-14</span>c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span> h1:w5fcysjrx7yqtD/aO+QwRjYZOKnaM9Uh2b40tElTs3Y=</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span>/go.mod h1:LzX7hefJvL54yjefDEDHNONDjII0t9xZLPXsUe+TKr0=</span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span> h1:<span class="number">7</span>uVkIFmeBqHfdjD+gZwtXXI+RODJ2Wc4O7MPEh/QiW4=</span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span>/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=</span><br></pre></td></tr></table></figure></p>
+<h4 id="更新依赖"><a href="#更新依赖" class="headerlink" title="更新依赖"></a>更新依赖</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go get golang.org/x/text</span><br><span class="line">go: finding golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">go: downloading golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">go: extracting golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure>
+<p>此时查看依赖项,<code>golang.org/x/text</code>已经被升级到v0.3.3<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m all</span><br><span class="line">go: finding golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">➜  hello cat  go.mod</span><br><span class="line">module example.com/hello</span><br><span class="line"></span><br><span class="line">go <span class="number">1.13</span></span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">	golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span> // indirect</span><br><span class="line">	rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>尝试升级<code>rsc.io/sampler</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go get rsc.io/sampler</span><br><span class="line">go: finding rsc.io/sampler v1<span class="number">.99</span><span class="number">.99</span></span><br><span class="line">go: downloading rsc.io/sampler v1<span class="number">.99</span><span class="number">.99</span></span><br><span class="line">go: extracting rsc.io/sampler v1<span class="number">.99</span><span class="number">.99</span></span><br><span class="line">➜  hello go test</span><br><span class="line">--- FAIL: TestHello (<span class="number">0.00</span>s)</span><br><span class="line">    hello_test.go:<span class="number">8</span>: Hello() = <span class="string">"99 bottles of beer on the wall, 99 bottles of beer, ..."</span>, want <span class="string">"Hello, world."</span></span><br><span class="line">FAIL</span><br><span class="line">exit status <span class="number">1</span></span><br><span class="line">FAIL	example.com/hello	<span class="number">0.002</span>s</span><br></pre></td></tr></table></figure></p>
+<p><code>rsc.io/sampler</code>包是更新成功了，但<code>go test</code>命令执行失败。<br>查看<code>rsc.io/sampler</code>版本信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m -versions rsc.io/sampler</span><br><span class="line">rsc.io/sampler v1<span class="number">.0</span><span class="number">.0</span> v1<span class="number">.2</span><span class="number">.0</span> v1<span class="number">.2</span><span class="number">.1</span> v1<span class="number">.3</span><span class="number">.0</span> v1<span class="number">.3</span><span class="number">.1</span> v1<span class="number">.99</span><span class="number">.99</span></span><br></pre></td></tr></table></figure></p>
+<p>导致出错的原因可能是，<code>rsc.io/sampler@v1.99.99</code>与原来版本的包不兼容所致。我们重新安装<br><code>rsc.io/sampler@v1.3.1</code>然后再进行测试。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go get rsc.io/sampler@v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">go: finding rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">go: downloading rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">go: extracting rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<h4 id="添加对新主版本的依赖"><a href="#添加对新主版本的依赖" class="headerlink" title="添加对新主版本的依赖"></a>添加对新主版本的依赖</h4><p>修改<code>hello.go</code>的内容如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"rsc.io/quote"</span></span><br><span class="line">    quoteV3 <span class="string">"rsc.io/quote/v3"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quote.Hello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Proverb() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quoteV3.Concurrency()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>hello_test.go</code>的内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"testing"</span></span><br><span class="line"></span><br><span class="line">func TestHello(t *testing.T) &#123;</span><br><span class="line">    want := <span class="string">"Hello, world."</span></span><br><span class="line">    <span class="keyword">if</span> got := Hello(); got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">"Hello() = %q, want %q"</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func TestProverb(t *testing.T) &#123;</span><br><span class="line">    want := <span class="string">"Concurrency is not parallelism."</span></span><br><span class="line">    <span class="keyword">if</span> got := Proverb(); got != want &#123;</span><br><span class="line">        t.Errorf(<span class="string">"Proverb() = %q, want %q"</span>, got, want)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>go test</code>命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test          </span><br><span class="line">go: finding rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">go: downloading rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">go: extracting rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<p>查看<code>rsc.io/quote</code>,发现存在不同版本的两个包。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m rsc.io/q...</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="升级新主版本的依赖"><a href="#升级新主版本的依赖" class="headerlink" title="升级新主版本的依赖"></a>升级新主版本的依赖</h4><p>因为一些原因我们需要将<code>quote</code>升级到<code>V3</code>版本。<br>修改<code>hello.go</code>的内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜  hello cat hello.go</span><br><span class="line">package hello</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    quoteV3 <span class="string">"rsc.io/quote/v3"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Hello() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quoteV3.HelloV3()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Proverb() string &#123;</span><br><span class="line">    <span class="keyword">return</span> quoteV3.Concurrency()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行<code>go test</code>命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go test</span><br><span class="line">PASS</span><br><span class="line">ok  	example.com/hello	<span class="number">0.003</span>s</span><br></pre></td></tr></table></figure></p>
+<h4 id="移除没有使用的依赖"><a href="#移除没有使用的依赖" class="headerlink" title="移除没有使用的依赖"></a>移除没有使用的依赖</h4><p>在上一步中，我们的代码已经没有使用<code>rsc.io/quote/v1</code>版本，但<code>rsc.io/quote v1.5.2</code>还是存在于依赖中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go list -m all</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote v1<span class="number">.5</span><span class="number">.2</span></span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
+<p>因为构建单个软件包（例如使用go build或go test）可以轻松判断出什么时候缺少什么东西和需要添加什么东西，但是不能确定什么时候可以安全地删除东西。 仅在检查模块中的所有软件包以及这些软件包的所有可能的构建标记组合之后，才能删除依赖项。 普通的build命令不会加载此信息，因此它不能安全地删除依赖项。</p>
+<p>使用<code>go mod tidy</code>命令清除未使用的依赖。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  hello go mod tidy</span><br><span class="line">➜  hello go list -m all</span><br><span class="line">example.com/hello</span><br><span class="line">golang.org/x/text v0<span class="number">.3</span><span class="number">.3</span></span><br><span class="line">golang.org/x/tools v0<span class="number">.0</span><span class="number">.0</span><span class="number">-20180917221912</span><span class="number">-90</span>fa682c2a6e</span><br><span class="line">rsc.io/quote/v3 v3<span class="number">.1</span><span class="number">.0</span></span><br><span class="line">rsc.io/sampler v1<span class="number">.3</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><code>go mod</code>相关命令:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>COMMAND</th>
+<th>DESC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>download</td>
+<td>download modules to local cache</td>
+</tr>
+<tr>
+<td>edit</td>
+<td>edit go.mod from tools or scripts</td>
+</tr>
+<tr>
+<td>graph</td>
+<td>print module requirement graph</td>
+</tr>
+<tr>
+<td>init</td>
+<td>initialize new module in current directory</td>
+</tr>
+<tr>
+<td>tidy</td>
+<td>add missing and remove unused modules</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>make vendored copy of dependencies</td>
+</tr>
+<tr>
+<td>verify</td>
+<td>verify dependencies have expected content</td>
+</tr>
+<tr>
+<td>why</td>
+<td>explain why packages or modules are needed</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>Ref：<br>1.<a href="https://blog.golang.org/using-go-modules" target="_blank" rel="noopener">https://blog.golang.org/using-go-modules</a><br>2.<a href="https://juejin.im/post/5c8e503a6fb9a070d878184a" target="_blank" rel="noopener">https://juejin.im/post/5c8e503a6fb9a070d878184a</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/27/kuberntes-Custom-Resources/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1812,416 +2277,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/23/Golang竞争条件与锁/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/23/Golang竞争条件与锁/" class="post-title-link" itemprop="url">Golang竞争条件与锁</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-23 21:42:00" itemprop="dateCreated datePublished" datetime="2020-03-23T21:42:00+08:00">2020-03-23</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>竞争条件指的是程序在多个线程交叉执行时,引发的不可预知的错误。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">var data int</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		data++</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	if data==0&#123;</span><br><span class="line">		fmt.Printf(&quot;the value is %v.\n&quot;, data)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码可能会出现如下三种不同情况：</p>
-<ul>
-<li>不打印任何东西;第6行早于第9行执行</li>
-<li>打印<code>the value is 0</code>;第9行和第10行早于第6行执行</li>
-<li>打印<code>the value is 1</code>;执行第9行后，然后执行第6行，再执行第10行</li>
-</ul>
-<p>竞态会导致程序的结果是不可预期的，而且不方便发现和调试。<br>怎么解决这个问题呢？<br>最简单的方法就是对访问到了变量的地方进行加锁操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">import &quot;sync&quot;</span><br><span class="line">var data int</span><br><span class="line">var mu sync.Mutex</span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	go func() &#123;</span><br><span class="line">		mu.Lock()</span><br><span class="line">		data++</span><br><span class="line">		mu.Unlock()</span><br><span class="line">	&#125;()</span><br><span class="line">	mu.Lock()</span><br><span class="line"></span><br><span class="line">	if data==0&#123;</span><br><span class="line">		fmt.Printf(&quot;the value is %v.\n&quot;, data)</span><br><span class="line">	&#125;</span><br><span class="line">	mu.Unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://img.hysyeah.top/2020/3/28/basic_race.png" alt="image"><br>这样的话就不会产生竞态问题，但这样看上去不怎么优雅，而且锁用多了会很影响程序的性能。</p>
-<p>也可以使用<code>golang</code>的<code>channel</code>,使<code>data++</code>操作早于<code>print</code>,所以下面的程序不会输出任何东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">var data int</span><br><span class="line"></span><br><span class="line">var d = make(chan int)</span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	go func() &#123;</span><br><span class="line">		data++</span><br><span class="line">		d &lt;- data</span><br><span class="line"></span><br><span class="line">	&#125;()</span><br><span class="line">	data = &lt;-d  //如果没有数据将一直等待</span><br><span class="line">	if data == 0&#123;</span><br><span class="line">		fmt.Printf(&quot;the value is %v.\n&quot;, data)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>数据竞争发生的条件：</p>
-<ul>
-<li>两个或两个以上的线程同时访问相同的变量</li>
-<li>最少一个为写操作</li>
-<li>没有使用任何同步机制</li>
-</ul>
-<p>一.未使用任何同步机制的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// vim bank.go</span><br><span class="line">package bank</span><br><span class="line"></span><br><span class="line">var balance int</span><br><span class="line"></span><br><span class="line">func Deposit(amount int)  &#123;</span><br><span class="line">	balance = balance + amount</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Balance() int  &#123;</span><br><span class="line">	return balance</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// vim bank_main.go</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;github.com/bank&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    // Alice</span><br><span class="line">	go func() &#123;</span><br><span class="line">		bank.Deposit(200)</span><br><span class="line">		fmt.Println(&quot;=&quot;, bank.Balance())</span><br><span class="line">	&#125;()</span><br><span class="line">    // Bob</span><br><span class="line">	go bank.Deposit(100)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行<code>go run src/bank_main.go</code>,意外的发现没有打印任何信息。这是为什么呢?因为运行<code>Go</code>程序时,至少会启动一个<code>main goroutine</code>,当<code>main goroutine</code>早于其它协程执行之前退出,其它协程还没来得及执行就结束了。<br>执行<code>go run -race src/bank_main.go</code>却打印了<code>= 200</code>。<br><img src="http://img.hysyeah.top/2020/3/23/bank-no-sync-race.png" alt="image"></p>
-<p>当两个<code>goroutine</code>同时访问<code>balance</code>变量时,假如Alice读取了<code>balance</code>并要将数据写入到<code>balance</code>的时候,如果此时切换到Bob,并将数据写入到了<code>balance</code>,然后再切换到Alice,并写入<code>balance</code>,这样就会将Bob的操作进行覆盖,这就是发生了数据竞争。<br>二.使用<code>channel</code>避免多个<code>goroutine</code>访问变量,解决数据竞争问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package bank</span><br><span class="line"></span><br><span class="line">var deposits = make(chan int) // send amount to deposit</span><br><span class="line">var balances = make(chan int) // receive balance</span><br><span class="line"></span><br><span class="line">func Deposit(amount int) &#123; deposits &lt;- amount &#125;</span><br><span class="line">func Balance() int       &#123; return &lt;-balances &#125;</span><br><span class="line"></span><br><span class="line">func teller() &#123;</span><br><span class="line">	var balance int // balance is confined to teller goroutine</span><br><span class="line">	for &#123;</span><br><span class="line">		select &#123;</span><br><span class="line">		case amount := &lt;-deposits:</span><br><span class="line">			balance += amount</span><br><span class="line">		case balances &lt;- balance:</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">	go teller() // start the monitor goroutine</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行<code>go run -race src/bank_main.go</code>未发现竟争条件问题<br><img src="http://img.hysyeah.top/2020/3/23/bank1.png" alt="image"></p>
-<p>三.允许多个<code>goroutine</code>访问变量,但是在同一个时刻最多只有一个<code>goroutine</code>访问。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var (</span><br><span class="line">	sema = make(chan struct&#123;&#125;, 1)</span><br><span class="line">	balance int</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func Deposit(amount int)  &#123;</span><br><span class="line">	sema &lt;- struct&#123;&#125;&#123;&#125;</span><br><span class="line">	balance += amount</span><br><span class="line">	fmt.Print(&quot;balance&quot;, balance)</span><br><span class="line">	&lt;-sema</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Balance() int  &#123;</span><br><span class="line">	sema &lt;- struct&#123;&#125;&#123;&#125;</span><br><span class="line">	b := balance</span><br><span class="line">	&lt;-sema</span><br><span class="line">	return b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	go Deposit(10)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import &quot;sync&quot;</span><br><span class="line">var (</span><br><span class="line">mu sync.Mutex // guards balance</span><br><span class="line">balance int</span><br><span class="line">)</span><br><span class="line">func Deposit(amount int) &#123;</span><br><span class="line">mu.Lock()</span><br><span class="line">balance = balance + amount</span><br><span class="line">mu.Unlock()</span><br><span class="line">&#125;</span><br><span class="line">func Balance() int &#123;</span><br><span class="line">mu.Lock()</span><br><span class="line">b := balance</span><br><span class="line">mu.Unlock()</span><br><span class="line">return b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用<code>Lock</code>与<code>channel</code>有什么优缺点？</p>
-<hr>
-<p>Deadlocks, Livelocks, Starvation</p>
-<p>Deadlocks(死锁),在维基百科的解释为:In concurrent computing, a deadlock is a state in which each member of a group is waiting for another member, including itself, to take action, such as sending a message or more commonly releasing a lock.<br><img src="http://img.hysyeah.top/2020/3/28/Process_deadlock.svg.png" alt="image"><br>图片来源：wikipedia</p>
-<p>进程<code>P1</code>持有资源<code>R2</code>,进程<code>P2</code>持有资源<code>R1</code>,当进程<code>P1</code>请求资源<code>R1</code>,进程<code>P2</code>请求资源<code>R2</code>的时候这种情况下就会发生死锁,如果没有外部干预进程会一直卡死。</p>
-<p>死锁发生必须的4个条件,因为这个4个条件来源的于<a href="https://en.wikipedia.org/wiki/Edward_G._Coffman_Jr." target="_blank" rel="noopener">G. Coffman, Jr.</a>的一篇，因此也被称为<code>Coffman conditions</code>。</p>
-<ul>
-<li>互斥：一个资源在同一时间只能被一个进程访问</li>
-<li>等待条件：进程同时占用至少一个资源,而且同时请求对其它的资源</li>
-<li>非抢占：资源只能被占用它的那个进程释放</li>
-<li>循环等待：比如<code>P1</code>等待<code>P2</code>释放资源,<code>P2</code>等待<code>P1</code>释放,形成了环状结构</li>
-</ul>
-<p>使用<code>Golang</code>模拟死锁发生<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;sync&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line">type value struct &#123;</span><br><span class="line">	mu sync.Mutex</span><br><span class="line">	value int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">var printSum = func(v1,v2  *value) &#123;</span><br><span class="line"></span><br><span class="line">	defer wg.Done()</span><br><span class="line"></span><br><span class="line">	v1.mu.Lock()</span><br><span class="line"></span><br><span class="line">	defer v1.mu.Unlock()</span><br><span class="line"></span><br><span class="line">	time.Sleep(2 * time.Second)</span><br><span class="line"></span><br><span class="line">	v2.mu.Lock()</span><br><span class="line"></span><br><span class="line">	defer v2.mu.Unlock()</span><br><span class="line">	fmt.Printf(&quot;sum=%v\n&quot;,v1.value+v2.value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	var a, b value</span><br><span class="line">	wg.Add(2)</span><br><span class="line">	go printSum(&amp;a, &amp;b) //Goroutine p1</span><br><span class="line">	go printSum(&amp;b, &amp;a) // Goroutine p2</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://img.hysyeah.top/2020/3/28/dead_lock_error.png" alt="image"><br><code>Golang</code>居然检测出来发生了死锁，那<code>Golang</code>是如何进行死锁检测的呢？</p>
-<p><img src="http://img.hysyeah.top/2020/3/28/dead_lock.png" alt="image"><br>图片来源：Concurrenecy in Go</p>
-<p>程序运行时,<code>goroutine p1</code>获取<code>a</code>锁,此时<code>p1</code>持有<code>a</code>的锁,休眠,然后<code>goroutine p2</code>开始执行,并持有资源<code>b</code>的锁,然后<code>p1</code>请求资源<code>b</code>,<code>p2</code>请求资源<code>a</code>,发生死锁。</p>
-<p>Livelocks(活锁)<br>活锁就是程序一直在运行，但是一直没有改变进程本身的状态。举个例子，比如你走在一个狭窄的通道，对面迎过来一个人，他看见了你就走到了另一边打算让你通过，而你也走到了另一边，当你们一直重复这两个动作时就发生了活锁。</p>
-<p>Starvation<br>In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work.<br>在计算机科学中，资源匮乏是并发计算中遇到的一个问题，在该问题中，永久拒绝某个进程来处理其工作所需的资源</p>
-<hr>
-<p>Ref：<br>1.<a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Race_condition</a><br>2.<a href="https://www.gopl.io/" target="_blank" rel="noopener">The Go programing language</a><br>3.<a href="https://golang.org/ref/mem" target="_blank" rel="noopener">The Go Memory Model</a><br>4.<a href="https://book.douban.com/subject/26994591/" target="_blank" rel="noopener">Concurrency in Go</a><br>5.<a href="https://en.wikipedia.org/wiki/Deadlock" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Deadlock</a><br>6.(<a href="https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src" target="_blank" rel="noopener">https://github.com/kat-co/concurrency-in-go-src(https://github.com/kat-co/concurrency-in-go-src</a>)<br>7.<a href="https://en.wikipedia.org/wiki/Starvation_(computer_science" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Starvation_(computer_science)</a>)</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/03/22/使用cargo管理外部依赖/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/03/22/使用cargo管理外部依赖/" class="post-title-link" itemprop="url">使用cargo管理外部依赖</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-22 11:40:49" itemprop="dateCreated datePublished" datetime="2020-03-22T11:40:49+08:00">2020-03-22</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-08-09 18:11:06" itemprop="dateModified" datetime="2020-08-09T18:11:06+08:00">2020-08-09</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.使用<code>cargo</code>创建项目,会在当前目录下生成<code>hello_cargo</code>文件夹<br><code>cargo new hello_cargo --bin</code></p>
-<p>2.使用<code>Goland</code>打开项目<code>hello_cargo</code>,目录如下。其中<code>Cargo.toml</code>中<code>[package]</code>定义的是关于项目的一些信息,<code>[dependencies]</code>中定义的是外部依赖<br><img src="http://img.hysyeah.top/2020/3/22/hello-cargo.png" alt="image"></p>
-<p>3.引入外部包<code>rand</code>,<a href="https://docs.rs/rand/0.3.14/rand/" target="_blank" rel="noopener">rand</a><br>在<code>Cargo.toml</code>文件<code>[dependencies]</code>下加入<code>rand = &quot;0.3.14&quot;</code></p>
-<p>4.<code>cargo build</code>将会从远端下载<code>rand</code>包,包括<code>rand</code>的依赖包<br><img src="http://img.hysyeah.top/2020/3/22/rand.png" alt="image"></p>
-<p>5.使用外部包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">extern crate rand; //表明rand是外部依赖</span><br><span class="line"></span><br><span class="line">use std::io;</span><br><span class="line">use rand::Rng;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;Guess the number!&quot;);</span><br><span class="line"></span><br><span class="line">    let secret_number = rand::thread_rng().gen_range(1, 101);</span><br><span class="line">    println!(&quot;The secret number is:&#123;&#125;&quot;, secret_number);</span><br><span class="line">    println!(&quot;Please input your guess.&quot;);</span><br><span class="line"></span><br><span class="line">    let mut guess = String::new();</span><br><span class="line">    io::stdin().read_line(&amp;mut guess)</span><br><span class="line">        .expect(&quot;Failed to read line&quot;);</span><br><span class="line"></span><br><span class="line">    println!(&quot;You guessed:&#123;&#125;&quot;, guess);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>6.编译执行<br><img src="http://img.hysyeah.top/2020/3/22/run-rand.png" alt="image"></p>
-<hr>
-<h5 id="cargo相关命令"><a href="#cargo相关命令" class="headerlink" title="cargo相关命令"></a>cargo相关命令</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>command</th>
-<th>desc</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>rustup doc</td>
-<td>打开本地文档</td>
-</tr>
-<tr>
-<td>rustc main.rs</td>
-<td>编译</td>
-</tr>
-<tr>
-<td>rustup update</td>
-<td>更新Rust工具链和rustup</td>
-</tr>
-<tr>
-<td>cargo new <app_name> —bin</app_name></td>
-<td>新建一个可执行应用</td>
-</tr>
-<tr>
-<td>cargo build</td>
-<td>生成可执行文件</td>
-</tr>
-<tr>
-<td>cargo build —release</td>
-<td>生成可发布的执行文件,Rust有做一些优化</td>
-</tr>
-<tr>
-<td>cargo run</td>
-<td>如果存在目标文件,且Rust认为代码没有改变,则直接执行可执行文件;如果源码改变或可执行文件不存在,则编译后再执行</td>
-</tr>
-<tr>
-<td>cargo check</td>
-<td>检查代码是否能正确编译,速度当然比cargo build,因为不产生可执行文件,编码中用于快速检查代码是否有问题</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>使用过程中遇到的问题：<br>Caused by:<br>  error authenticating: failed connecting agent; class=Ssh (23)<br><img src="http://img.hysyeah.top/2020/3/22/cargo-error.png" alt="image"><br>解决方法：将~/.gitconfig中的两行内容注释,<code>Windows</code>下路径为<code>C:\Users\Administrator\</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#[url &quot;git@github.com:&quot;]</span><br><span class="line"># 	insteadOf = https://github.com/</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>Ref：<br>1.<a href="https://doc.rust-lang.org/book/" target="_blank" rel="noopener">The Rust Programming Language</a><br>2.<a href="https://github.com/rust-lang/cargo/issues/3381" target="_blank" rel="noopener">https://github.com/rust-lang/cargo/issues/3381</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2268,7 +2323,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">244</span>
+                    <span class="site-state-item-count">246</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2400,7 +2455,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

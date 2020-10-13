@@ -380,6 +380,542 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/16/python对函数求导/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/16/python对函数求导/" class="post-title-link" itemprop="url">python对函数求导</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-16 11:16:24" itemprop="dateCreated datePublished" datetime="2018-05-16T11:16:24+08:00">2018-05-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:23:38" itemprop="dateModified" datetime="2020-07-05T11:23:38+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>假设函数[latex]f(x) = x^3+2x[/latex],求[latex]f’(x)[/latex]在x=1的值. 1.通过numpy多项式求导</p>
+<pre><code>import numpy as np
+y = np.poly1d([1,0,2,0])
+
+
+print(y)         # 3*x**2 + 2*x       
+
+
+dy = y.deriv()
+dy(1)                         # 5
+</code></pre><p>2.通过sympy对函数求导,通过命令pip3 install sympy安装</p>
+<pre><code>from sympy import symbols
+from sympy import diff as diff
+from npmath import diff as diff2
+
+x = symbols(&#39;x&#39;)
+f = x**3 + 2*x
+f1 = diff(f)
+print(f1)              # 3*x**2 + 2
+
+diff2(lambda x: x**3+2*x,1)         # 5
+</code></pre><hr>
+<p>Ref：<br>1.<a href="http://docs.sympy.org/latest/tutorial/calculus.html" target="_blank" rel="noopener">sympy文档</a><br>2.<a href="http://mpmath.org/doc/1.0.0/calculus/differentiation.html?highlight=diff#mpmath.diff" target="_blank" rel="noopener">mpmath文档</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/11/latex公式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/11/latex公式/" class="post-title-link" itemprop="url">latex公式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-11 15:35:40" itemprop="dateCreated datePublished" datetime="2018-05-11T15:35:40+08:00">2018-05-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="常见特殊符号"><a href="#常见特殊符号" class="headerlink" title="常见特殊符号"></a>常见特殊符号</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>公式</th>
+<th>语法</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\theta</td>
+<td>$ \theta $</td>
+<td>\alpha</td>
+<td>$ \alpha $</td>
+</tr>
+<tr>
+<td>\beta</td>
+<td>$ \beta $</td>
+<td>\gamma</td>
+<td>$ \gamma $</td>
+</tr>
+<tr>
+<td>\delta</td>
+<td>$ \delta $</td>
+<td>\epsilon</td>
+<td>$ \epsilon $</td>
+</tr>
+<tr>
+<td>\zeta</td>
+<td>$ \zeta $</td>
+<td>\eta</td>
+<td>$ \eta $</td>
+</tr>
+<tr>
+<td>\rho</td>
+<td>$ \rho $</td>
+<td>\lambda</td>
+<td>$ \lambda $</td>
+</tr>
+<tr>
+<td>\mu</td>
+<td>$ \mu $</td>
+<td>\sigma</td>
+<td>$ \sigma $</td>
+</tr>
+<tr>
+<td>\phi</td>
+<td>$ \phi $</td>
+<td>\chi</td>
+<td>$ \chi $</td>
+</tr>
+<tr>
+<td>\psi</td>
+<td>$ \psi $</td>
+<td>\omega</td>
+<td>$ \omega $</td>
+</tr>
+<tr>
+<td>\Theta</td>
+<td>$ \Theta $</td>
+<td>\Phi</td>
+<td>$ \Phi $</td>
+</tr>
+<tr>
+<td>\sim</td>
+<td>$ \sim $</td>
+<td>\mathcal{P}</td>
+<td>$ \mathcal{P} $</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>公式</th>
+<th>语法</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x^2</td>
+<td>$ x^2 $</td>
+<td>x_2</td>
+<td>$ x_2 $</td>
+</tr>
+<tr>
+<td>x_{i,j}</td>
+<td>$ x_{i,j} $</td>
+<td>x_2^3</td>
+<td>$ x_2^3 $</td>
+</tr>
+<tr>
+<td>{}_1^2!X_3^4</td>
+<td>$ {}_1^2!X_3^4 $</td>
+<td>x^{2+2}</td>
+<td>$ x^{2+2} $</td>
+</tr>
+<tr>
+<td>\hat{\gamma}</td>
+<td>$ \hat{\gamma} $</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="导数，积分"><a href="#导数，积分" class="headerlink" title="导数，积分"></a>导数，积分</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>公式</th>
+<th>语法</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x’</td>
+<td>$ x’ $</td>
+<td>x^\prime</td>
+<td>$ x^\prime $</td>
+</tr>
+<tr>
+<td>\dot{x}</td>
+<td>$ \dot{x} $</td>
+<td>\ddot{x}</td>
+<td>$ \ddot{y} $</td>
+</tr>
+<tr>
+<td>\vec{c}</td>
+<td>$ \vec{c} $</td>
+<td>\overleftarrow{a b}</td>
+<td>$ \overleftarrow{a } $</td>
+</tr>
+<tr>
+<td>\sum_{k=1}^N k^2</td>
+<td>$ \sum_{k=1}^N k^2 $</td>
+<td>\prod_{i=1}^N x_i</td>
+<td>$ \prod_{i=1}^N x_i $</td>
+</tr>
+<tr>
+<td>\lim_{n \to \infty}x_n</td>
+<td>$ \lim_{n \to \infty}x_n $</td>
+<td>\int_{-N}^{N} e^x\, dx</td>
+<td>$ \int_{-N}^{N} e^x\, dx $</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="分数"><a href="#分数" class="headerlink" title="分数"></a>分数</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>公式</th>
+<th>语法</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>|\frac{1}{2}| $ \frac{1}{2} $ |</p>
+<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/05/latex.png" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/06/python排列组合，范数, 中位数相关函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2044,374 +2580,6 @@ Out[31]: odict_items([(&#39;accept&#39;, (&#39;aCCEPT&#39;, &#39;application/jso
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/26/python中的native string/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/26/python中的native string/" class="post-title-link" itemprop="url">python中的native string</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-26 22:37:29" itemprop="dateCreated datePublished" datetime="2018-03-26T22:37:29+08:00">2018-03-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/requests/" itemprop="url" rel="index"><span itemprop="name">requests</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 将给定的字符串对象转换为native string
-def to_native_string(string, encoding=&#39;ascii&#39;):
-    if isinstance(string, builtin_str):
-        out = string
-    else:
-        if is_py2:
-            out = string.encode(encoding)
-        else:
-            out = string.decode(encoding)
-
-    return out
-</code></pre><hr>
-<p>1.”Native” strings(指那些类型名为str的字符串类型)，用于请求/响应头和元数据。 2.”Bytestring”(在python3中类型名为bytes,python2中为str),用于请求/响应中的body。</p>
-<hr>
-<p>Ref：<br>1.<a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="noopener">pep3333</a><br>2.<a href="https://github.com/requests/requests/blob/v2.8.0/requests/utils.py#L665" target="_blank" rel="noopener">requests源码</a><br>3.<a href="http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/" target="_blank" rel="noopener">http://img.hysyeah.top/2017/10/02/python%E7%BC%96%E7%A0%81/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/03/21/buntu上搭建git仓库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/21/buntu上搭建git仓库/" class="post-title-link" itemprop="url">ubuntu上搭建git仓库</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-21 11:41:14" itemprop="dateCreated datePublished" datetime="2018-03-21T11:41:14+08:00">2018-03-21</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>1.安装git ,git-core,openssh-server
-2.创建用户git,
-3.客户端生成公钥，ssh-keygen -t rsa -C &quot;xxx@126.com&quot;
-5.将客户端公钥添加到服务端的~/.ssh/authorized_keys文件下
-6.git –bare init /home/git/myRep.git  #在服务端建一个空的仓库
-7.在客户端输入命令拉取代码
-git clone git@gitServerIP:/home/git/myRep.git
-
-
-8.在myRep.git下的hooks 新建post-receive,
-添加git --work-tree=/home/wwwroot/hehe checkout -f
-设置工作目录(代码存放的目录)，每次提交代码后将会触发post-receive下的脚本,
-目标目录必须先创建,注意文件夹git用户写入权限
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2458,7 +2626,7 @@ git clone git@gitServerIP:/home/git/myRep.git
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">244</span>
+                    <span class="site-state-item-count">246</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2590,7 +2758,11 @@ git clone git@gitServerIP:/home/git/myRep.git
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

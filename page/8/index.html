@@ -380,6 +380,376 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/23/mysql之plugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/02/23/mysql之plugin/" class="post-title-link" itemprop="url">mysql之plugin</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-23 09:31:56" itemprop="dateCreated datePublished" datetime="2019-02-23T09:31:56+08:00">2019-02-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:22:16" itemprop="dateModified" datetime="2020-07-05T11:22:16+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>mysql支持可插拔式的认证方式。 插拔式认证拥有以下能力： 1.可选择内置(native)的认证方式 2.外部认证方式，如<code>PAM, Windows login IDs, LDAP, Kerberos</code> 3.代理用户</p>
+<ul>
+<li>mysql包括两种native认证方式<code>mysql_native_password, mysql_old_password</code>都是通过系统表<code>mysql.user</code>和密码hash算法实现的。</li>
+</ul>
+<p><img src="http://img.hysyeah.top/wp-content/uploads/2019/02/mysql_native_password.png" alt> 认证的插件都在存在于客户端和服务端的，服务端的是内置于mysql服务器中。客户端的则在于libmysqlclient中。 - SHA-256 Pluggable Authentication 这种认证方法是比mysql_native_password认证方法安全性更高，采用SHA-256哈希算法对明文进行加密。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/sha256-pulgin.png" alt> 创建SHA-256认证的用户</p>
+<pre><code>CREATE USER &#39;sha256user&#39;@&#39;localhost&#39;
+IDENTIFIED WITH sha256_password BY &#39;password&#39;;
+</code></pre><ul>
+<li><p>Client-Side Cleartext Pluggable Authentication，存储明文 <img src="http://img.hysyeah.top/wp-content/uploads/2019/02/cleartext.png" alt></p>
+</li>
+<li><p>PAM认证 外部认证方式，使mysql服务器通过PAM服务来进行用户认证</p>
+</li>
+<li><p>Windows认证 外部认证方式，使mysql服务器通过原生Windows服务授权客户端连接，当用户登录了 Windows也可以连接mysql服务器(通过环境信息确认用户，不用额外的密码)</p>
+</li>
+<li>LDAP认证 外部认证方式，Lightweight Directory Access Protocol</li>
+<li>No-Login 认证 阻止任何使用此plugin的用户连接mysql服务。此种方式不允许直接登录可以使用代理 方式登录</li>
+<li>Socket Peer-Credential认证 本地用户通过连接Unix socket文件进行认证。</li>
+<li>Test Pluggable Authentication 测试插件用于测试用户认证是否成功，而且会把是否成功的日志打印到server error log。这个插件的目的是用于测试和开发，也可以作为一个如何写认证插件的例子。</li>
+</ul>
+<hr>
+<p>Ref：<br>1.<a href="https://dev.mysql.com/doc/refman/5.7/en/pam-pluggable-authentication.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/pam-pluggable-authentication.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/19/mysql之ubuntu环境下安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/02/19/mysql之ubuntu环境下安装/" class="post-title-link" itemprop="url">mysql之ubuntu环境下安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-19 22:57:15" itemprop="dateCreated datePublished" datetime="2019-02-19T22:57:15+08:00">2019-02-19</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="直接上命令"><a href="#直接上命令" class="headerlink" title="直接上命令"></a>直接上命令</h5><pre><code> sudo apt-get install mysql-server
+ sudo apt-get install mysql-client
+ sudo apt install libmysqlclient-dev   #客户端认证plugin需要依赖这个库
+</code></pre><p>但是在这过程中没有提示设置密码。 在<code>/etc/mysql/</code>目录下有一个debian.cnf文件，文件中有一个系统分配的用户和密码。用户名为<code>debian-sys-maint</code>,通过这个用户就可以操作mysql了。</p>
+<pre><code>可以新建一个root用户并对其进行授权,然后用新用户进行登录。
+
+create user &#39;root&#39;@&#39;%&#39; ;
+grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;hello&#39;;
+flush privileges;
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/19/mysql之flush privileges/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1945,562 +2315,6 @@ print(db.get(b&quot;a&quot;))
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/26/python之ipaddress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/26/python之ipaddress/" class="post-title-link" itemprop="url">python之ipaddress</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-26 15:22:58" itemprop="dateCreated datePublished" datetime="2018-09-26T15:22:58+08:00">2018-09-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ip地址一共32位阿,20的掩码表示使用20位作为网络地址选项,那么就还剩下12位来做主机地址了。粗略就是2^12个主机ip了。 我们通过ipaddress模块，生成类似于”123.45.67.89/27”这样的CIDR(Classless InterDomain Routing)网络地址可表示的全部IP地址范围。</p>
-<pre><code>In [1]: import ipaddress
-
-In [2]: net = ipaddress.ip_network(&#39;123.45.67.64/27&#39;)
-
-In [3]: net
-Out[3]: IPv4Network(&#39;123.45.67.64/27&#39;)
-
-In [4]: for elt in net:
-   ...:     print(elt)
-   ...:
-123.45.67.64
-123.45.67.65
-123.45.67.66
-123.45.67.67
-123.45.67.68
-123.45.67.69
-123.45.67.70
-123.45.67.71
-123.45.67.72
-123.45.67.73
-123.45.67.74
-123.45.67.75
-123.45.67.76
-123.45.67.77
-123.45.67.78
-123.45.67.79
-123.45.67.80
-123.45.67.81
-123.45.67.82
-123.45.67.83
-123.45.67.84
-123.45.67.85
-123.45.67.86
-123.45.67.87
-123.45.67.88
-123.45.67.89
-123.45.67.90
-123.45.67.91
-123.45.67.92
-123.45.67.93
-123.45.67.94
-123.45.67.95
-
-In [5]: net.num_addresses
-Out[5]: 32
-
-In [6]: net[0]
-Out[6]: IPv4Address(&#39;123.45.67.64&#39;)
-
-In [7]: a = ipaddress.ip_address(&#39;123.45.67.69&#39;)
-
-In [8]: a in net           #判断ip是否在CIDR中
-Out[8]: True
-</code></pre><p>ipaddress模块同其他网络相关的模块比如socket库之间的交互是有局限性的。通常不能用IPv4Address的实例作为地址字符串的替代。必须显式的通过str()将其转换为字符串。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/25/工厂模式(Factory Pattern)-创建型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/25/工厂模式(Factory Pattern)-创建型/" class="post-title-link" itemprop="url">工厂模式(Factory Pattern)-创建型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-25 16:52:33" itemprop="dateCreated datePublished" datetime="2018-09-25T16:52:33+08:00">2018-09-25</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简单工厂设计模式：这允许接口创建对象而不暴露对象创建逻辑"><a href="#简单工厂设计模式：这允许接口创建对象而不暴露对象创建逻辑" class="headerlink" title="简单工厂设计模式：这允许接口创建对象而不暴露对象创建逻辑"></a>简单工厂设计模式：这允许接口创建对象而不暴露对象创建逻辑</h4><p>当客户端调用create_type()方法时，工厂会根据type参数的不同，返回Product1或者Product2。 <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/simple-factory-pattern.png" alt></p>
-<pre><code>from abc import ABCMeta, abstractmethod
-class Animal(metaclass = ABCMeta):
-    @abstractmethod
-    def do_say(self):
-        pass
-
-class Dog(Animal):
-    def do_say(self):
-        print(&quot;Bhow Bhow!!&quot;)
-
-class Cat(Animal):
-    def do_say(self):
-        print(&quot;Meow Meow!!&quot;)
-
-class ForestFactory:
-    def make_sound(self, obj_type):
-        return eval(obj_type)().do_say() #根据类型直接调用不同的方法
-
-if __name__ == &#39;__main__&#39;:
-    ff = ForestFactory()
-    ff.make_sound(&#39;Cat&#39;)
-
-[out]:Meow Meos!!                   # 根据不同的参数返回不同的对象，打印不同的信息
-</code></pre><hr>
-<h4 id="工厂设计模式"><a href="#工厂设计模式" class="headerlink" title="工厂设计模式"></a>工厂设计模式</h4><p>提供接口创建对象，但是推迟对子类决定使用哪个类产生对象。定义了一个创建对象的接口，但不是工厂负责创建对象，而是将责任推迟到决定要实例化的类的子类。 <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/factory-method-pattern.png" alt></p>
-<pre><code>from abc import ABCMeta, abstractmethod
-class Section(metaclass=ABCMeta):
-    @abstractmethod
-    def describe(self):
-        pass
-
-
-class PersonalSection(Section):
-    def describe(self):
-        print(&quot;Personal Section&quot;)
-
-
-class AlbumSection(Section):
-    def describe(self):
-        print(&quot;Album Section&quot;)
-
-
-class PatentSection(Section):
-    def describe(self):
-        print(&quot;Patent Section&quot;)
-
-
-class PublicationSection(Section):
-    def describe(self):
-        print(&quot;Publication Section&quot;)
-
-
-class Profile(metaclass=ABCMeta):
-    def __init__(self):
-        self.sections = []
-        self.createProfile()
-    @abstractmethod
-    def createProfile(self):
-        pass
-    def getSections(self):
-        return self.sections
-    def addSections(self, section):
-        self.sections.append(section)
-
-
-class linkedin(Profile):
-    def createProfile(self):
-        self.addSections(PersonalSection())
-        self.addSections(PatentSection())
-        self.addSections(PublicationSection())
-
-
-class facebook(Profile):
-    def createProfile(self):
-        self.addSections(PersonalSection())
-        self.addSections(AlbumSection())
-
-
-if __name__ == &#39;__main__&#39;:
-    profile_type = &#39;linkedin&#39;
-    profile = eval(profile_type)()
-    print(&quot;Creating profile..&quot;, type(profile).__name__)
-    print(&quot;Profile has sections --&quot;, profile.getSections())
-</code></pre><hr>
-<h4 id="抽象工厂设计模式"><a href="#抽象工厂设计模式" class="headerlink" title="抽象工厂设计模式"></a>抽象工厂设计模式</h4><p>抽象工厂是创建相关对象而不指定/公开其类的接口。该模式提供另一个工厂的对象，该工厂在内部创建其他对象。抽象工厂模式的主要目标是提供一个接口来创建相关对象的族，而无需指定具体类。 <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/abstract-factory-pattern.png" alt></p>
-<pre><code>from abc import ABCMeta, abstractmethod
-
-class PizzaFactory(metaclass=ABCMeta):
-    @abstractmethod
-    def createVegPizza(self):
-        pass
-
-    @abstractmethod
-    def createNonVegPizza(self):
-        pass
-
-
-class IndianPizzaFactory(PizzaFactory):
-    def createVegPizza(self):
-        return DeluxVeggiePizza()
-    def createNonVegPizza(self):
-        return ChickenPizza()
-
-
-class USPizzaFactory(PizzaFactory):
-    def createVegPizza(self):
-        return MexicanVegPizza()
-    def createNonVegPizza(self):
-        return HamPizza()
-
-
-class VegPizza(metaclass=ABCMeta):
-    @abstractmethod
-    def prepare(self, VegPizza):
-        pass
-
-class NonVegPizza(metaclass=ABCMeta):
-    @abstractmethod
-    def serve(self, NonVegPizza):
-        pass
-
-
-class DeluxVeggiePizza(VegPizza):
-    def prepare(self):
-        print(&quot;Prepare &quot;, type(self).__name__)
-
-
-class ChickenPizza(NonVegPizza):
-    def serve(self, VegPizza):
-        print(type(self).__name__, &quot; is served with Chicken on &quot;, type(VegPizza).__name__)
-
-
-class MexicanVegPizza(VegPizza):
-    def prepare(self):
-        print(&quot;Prepare &quot;, type(self).__name__)
-
-
-class HamPizza(NonVegPizza):
-    def serve(self, VegPizza):
-        print(type(self).__name__, &quot; is served with Ham on &quot;, type(VegPizza).__name__)
-
-
-
-class PizzaStore:
-    def __init__(self):
-        pass
-    def makePizzas(self):
-        for factory in [IndianPizzaFactory(), USPizzaFactory()]:
-            self.factory = factory
-            self.NonVegPizza = self.factory.createNonVegPizza()
-            self.VegPizza = self.factory.createVegPizza()
-            self.VegPizza.prepare()
-            self.NonVegPizza.serve(self.VegPizza)
-
-
-
-pizza = PizzaStore()
-pizza.makePizzas()
-</code></pre><hr>
-<p>工厂方法和抽象工厂方法的区别 在面象对象编程中，工厂意味着负责创建其它类型对象的类 工厂方法模式：这允许接口创建对象，但是推迟对子类决定使用哪个类产生对象 抽象工厂模式：抽象工厂是创建相关对象而不指定/公开其类的接口。该模式提供另一个工厂的对象，该工厂在内部创建其他对象 工厂模式的优点： 1.松散耦合，其中对象创建可以独立于类实现 2.客户端不必知道具体实现，只需要知道接口，方法和传递参数就可以了 3.可以轻松地将另一个类添加到工厂以创建另一种类型的对象,客户端不用修改代码 4.可以重用已存在的对象</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2547,7 +2361,7 @@ pizza.makePizzas()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">244</span>
+                    <span class="site-state-item-count">246</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2679,7 +2493,11 @@ pizza.makePizzas()
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

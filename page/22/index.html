@@ -380,6 +380,378 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/Django通过qq邮箱发送邮件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/27/Django通过qq邮箱发送邮件/" class="post-title-link" itemprop="url">Django通过qq邮箱发送邮件</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-27 12:43:42" itemprop="dateCreated datePublished" datetime="2017-09-27T12:43:42+08:00">2017-09-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Django/" itemprop="url" rel="index"><span itemprop="name">Django</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>通过Django的send_mail发送邮件，send_mail(‘subject’, content, from_mail,[‘to_mail’]) 企业邮箱和普通邮箱所用的服务是不一样的，要区分开， 配置如下</p>
+<pre><code>EMAIL_USE_TLS = True
+EMAIL_HOST = &#39;smtp.qq.com&#39;  #若是企业邮箱要改为：&#39;smtp.exmail.qq.com&#39;
+EMAIL_PORT = 587
+EMAIL_HOST_USER = &#39;12345678@qq.com&#39;
+EMAIL_HOST_PASSWORD = &#39;xxxxxxxxxxxxxxxx&#39;  #16位授权码(不是登录密码)，通过邮箱中的“设置”获取，可自行百度
+DEFAULT_FROM_EMAIL = &#39;12345678@qq.com&#39;
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/Django权限与分组/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/09/27/Django权限与分组/" class="post-title-link" itemprop="url">Django权限与分组</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-27 12:33:10" itemprop="dateCreated datePublished" datetime="2017-09-27T12:33:10+08:00">2017-09-27</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Django/" itemprop="url" rel="index"><span itemprop="name">Django</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
+
+
+g = Group(name=&#39;group_test&#39;) #创建一个组
+g.save()
+
+g = Group.objects.get(name=&#39;group_test&#39;) #获取存在的组
+
+content_type = ContentType.objects.get_for_model(ViewPermission) # ViewPermission为models.py中的一个类
+class ViewPermission(models.Model):
+    class Meta:
+        permissions = (
+            (&#39;ych_order&#39;, &#39;xxx&#39;),
+        )
+
+p = Permission.objects.create(codename=&#39;view_ych&#39;, name=&#39;Can see ych&#39;, content_type=content_type) #创建权限
+
+p = Permission.objects.get(codename=&#39;view_ych&#39;) #获取已存在的权限
+
+g.permissions.add(p) #为组g添加权限p
+
+user.groups.add(g) #将用户user添加到组g
+
+user.has_perm(&#39;report.view_ych&#39;) #判断权限
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/27/lua变量类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1959,399 +2331,6 @@ lua -e &quot;print(\&quot;hello\&quot;)&quot; -- output: hello
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/21/lua求阶乘发生溢出/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/21/lua求阶乘发生溢出/" class="post-title-link" itemprop="url">lua求阶乘发生溢出</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-21 18:11:57" itemprop="dateCreated datePublished" datetime="2017-09-21T18:11:57+08:00">2017-09-21</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LUA/" itemprop="url" rel="index"><span itemprop="name">LUA</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>function fact(n)
-  if n == 0 then
-    return 1
-  end
-  return n * fact(n-1)
-end
-
-for i=1, 100, 1 do
-  print(i,fact(i)) --发生溢出
-end
-</code></pre><ul>
-<li><p>通过使用lua的’bn’库可以解决这问题，从<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/#lbn" target="_blank" rel="noopener">lbn</a>下载lbn.tar.gz，</p>
-<p>tar -xzvf lbn.tar.gz<br>cd bn</p>
-</li>
-</ul>
-<ul>
-<li>修改Makefile如下</li>
-</ul>
-<p><img src="http://img.hysyeah.top/wp-content/uploads/2017/09/和-1.png" alt="image"></p>
-<pre><code>make
-</code></pre><ul>
-<li><p>在当前目录下会生成一个bn.so文件，将bn.so拷贝到代码文件所在目录，或者通过LUA_CPATH指定require搜索路径</p>
-<p>local bn = require “bn”</p>
-<p>function bn_fact(bn.number(n))<br>  if n:tonumber() == 0 then return 1 end<br>  return n * bn_fact(n-1)<br>end</p>
-<p>function fact(n)<br>  return bn_fact(bn.number(n))<br>end</p>
-<p>for i=1,100,1 do</p>
-<pre><code>print(i,fact(i)) -- 未发生溢出
-</code></pre><p>end</p>
-</li>
-</ul>
-<p>Ref： 1.<a href="https://stackoverflow.com/questions/46317930/why-lua-and-python-factorial-output-was-different" target="_blank" rel="noopener">stackoverflow</a> 2.<a href="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html" target="_blank" rel="noopener">http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/09/20/python魔术方法之__getattribute__,__getattr__/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/09/20/python魔术方法之__getattribute__,__getattr__/" class="post-title-link" itemprop="url">python魔法变量之__getattribute__,__getattr__</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-09-20 16:34:04" itemprop="dateCreated datePublished" datetime="2017-09-20T16:34:04+08:00">2017-09-20</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>object.<strong>getattribute</strong>(self, name) 无条件调用，通过实例访问。如果类同时定义了<strong>getattr</strong>()，不会调用<strong>getattr</strong>()除非显式调用或产生了AttributeError。 object.<strong>getattr(self, name) 当未查找到访问的属性时，将会调用<strong>getattr</strong></strong>()方法</p>
-<pre><code>In [49]: class T(object):
-    ...:     a = &#39;hello&#39;
-    ...:     def __getattribute__(self, *args, **kwargs):
-    ...:         print(&quot;called __getattribute__&quot;)
-    ...:         return object.__getattribute__(self, *args, **kwargs)
-    ...:     def __getattr__(self, name):
-    ...:         print(&quot;called __getattr__&quot;)
-    ...:         return name
-
-
-In [50]: t = T()
-
-In [51]: t.a
-called __getattribute__
-Out[51]: &#39;hello&#39;
-
-In [52]: t.b
-called __getattribute__
-called __getattr__
-Out[52]: &#39;b&#39;
-</code></pre><p>Ref： 1.<a href="https://docs.python.org/3/reference/datamodel.html?highlight=__getattr__#object.__getattr__" target="_blank" rel="noopener">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2398,7 +2377,7 @@ Out[52]: &#39;b&#39;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">244</span>
+                    <span class="site-state-item-count">246</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2530,7 +2509,11 @@ Out[52]: &#39;b&#39;
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
