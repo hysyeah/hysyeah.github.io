@@ -425,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2020-10-13 08:08:55 / 修改时间：08:26:09" itemprop="dateCreated datePublished" datetime="2020-10-13T08:08:55+08:00">2020-10-13</time>
+              <time title="创建时间：2020-10-13 08:08:55 / 修改时间：08:28:14" itemprop="dateCreated datePublished" datetime="2020-10-13T08:08:55+08:00">2020-10-13</time>
             </span>
           
 
@@ -469,7 +469,7 @@
       
         
           
-            <p>在微服务迁移过程中，在进行流量切换的过程中，旧的服务和微服务会共存一段时间。当用户从前端访问时，流量分别会被转发到旧服务和新服务上。<br>为了使用户可以同时访问旧服务和新服务，需要共用一个redis。因为以前使用的都是各自集群内部的redis(新旧服务在不同的k8s集群上)，因此为了让集群外的服务也能访问另一集群的redis服务，所以决定将redis暴露到集群外。</p>
+            <p>在微服务迁移过程中，在进行流量切换的过程中，旧的服务和微服务会共存一段时间。当用户从前端访问时，流量分别会被转发到旧服务和新服务上。<br>为了使用户可以同时访问旧服务和新服务，需要共用一个redis。因为以前使用的都是各自集群内部的redis(新旧服务在不同的k8s集群上)，因此为了让集群外的服务也能访问另一集群的redis服务，所以需要将redis暴露到集群外。</p>
 <p>我们ingress使用的是<code>nginx controller</code>.</p>
 <p>1.找到<code>nginx controller</code>对应的service<code>ingress-nginx</code>,一般在<code>kube-system</code>命名空间下,并编辑。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc -n kube-system</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑ingress-nginx并新增6379端口</span></span><br><span class="line">kubectl edit svc ingress-nginx -n kube-system</span><br><span class="line"></span><br><span class="line">－ name: tcp-redis</span><br><span class="line">   port: <span class="number">6379</span></span><br><span class="line">   protocol: TCP</span><br><span class="line">   targetPort: <span class="number">6379</span></span><br></pre></td></tr></table></figure></p>
 <p>2.修改<code>ingress-nginx</code>对应<code>TCP</code>协议的configmap。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl edit cm tcp-services -n kube-system</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在data字段下添加如下内容</span></span><br><span class="line">data:</span><br><span class="line">  &lt;namespace/service name&gt;:&lt;service port&gt;:[PROXY]:[PROXY]</span><br><span class="line">  <span class="number">6379</span>: &lt;namespace&gt;/redis:<span class="number">6379</span></span><br></pre></td></tr></table></figure></p>
