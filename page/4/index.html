@@ -380,6 +380,367 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/12/22/go-import/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/12/22/go-import/" class="post-title-link" itemprop="url">go-import</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-22 12:34:44" itemprop="dateCreated datePublished" datetime="2019-12-22T12:34:44+08:00">2019-12-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>go使用import 命令来导入包文件</p>
+<p>像下面这样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">fmt.Println(&quot;hello go&quot;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;./model&quot;            //当前文件同一目录的model目录,但不建议这种方式</span><br></pre></td></tr></table></figure>
+<h6 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;shorturl/model&quot;    //加载gopath/src/shorturl/model</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="点操作"><a href="#点操作" class="headerlink" title="点操作"></a>点操作</h6><p>使用点操作可以省略前缀的包名,<code>fmt.Println可以缩写成Println</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	. &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">Println(&quot;hello go&quot;)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h6 id="别名操作"><a href="#别名操作" class="headerlink" title="别名操作"></a>别名操作</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	f &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">f.Println(&quot;hello, go&quot;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="操作"><a href="#操作" class="headerlink" title="_操作"></a>_操作</h6><p>_操作其实是引入该包,不直接使用包里面的函数,而是调用了该包里的<code>init</code>函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">	_ &quot;fmt&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>Ref：<br>1.go web编程</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/30/unp之datetime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/30/unp之datetime/" class="post-title-link" itemprop="url">unp之datetime</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-30 05:42:45" itemprop="dateCreated datePublished" datetime="2019-10-30T05:42:45+08:00">2019-10-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一.配置unp.h<br>1.从<a href="www.unpbook.com">www.unpbook.com</a>下载源码<br>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf unpv13e.tar.gz</span><br><span class="line">cd unpv13e</span><br><span class="line">./configure</span><br><span class="line">cp config.h /usr/include</span><br><span class="line">cp libunp.a /usr/lib</span><br><span class="line">cp key/unp.h /usr/include</span><br></pre></td></tr></table></figure></p>
+<p>将<code>/usr/include/unp.h</code>中的<code>#include &quot;../config.h&quot;</code>改为<code>#include &quot;config.h&quot;</code><br>3.编译如果遇到如下错误,请将<code>unp.h</code>中的<code>struct in_pktinfo</code>定义删除。<br><img src="http://img.hysyeah.top/2019/10/30/unp-error.png" alt="image"></p>
+<hr>
+<h5 id="datetimecli-c"><a href="#datetimecli-c" class="headerlink" title="datetimecli.c"></a>datetimecli.c</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">"unp.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>                 sockfd, n;</span><br><span class="line">    <span class="keyword">char</span>                recvline[MAXLINE + <span class="number">1</span>];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span>  <span class="title">servaddr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc != <span class="number">2</span>)</span><br><span class="line">        err_quit(<span class="string">"usage: a.out &lt;IPaddress&gt;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个字节流套接字,并返回一个描述符</span></span><br><span class="line">    <span class="keyword">if</span> ( (sockfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"socket error"</span>);</span><br><span class="line"></span><br><span class="line">    bzero(&amp;servaddr, <span class="keyword">sizeof</span>(servaddr)); <span class="comment">//对网络套接字结构清零</span></span><br><span class="line">    servaddr.sin_family = AF_INET;</span><br><span class="line">    servaddr.sin_port   = htons(<span class="number">13</span>); <span class="comment">// 端口号必须使用特定格式,所以需要通过htons函数进行转换</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把ASCII命令行参数转换为合适的格式</span></span><br><span class="line">    <span class="keyword">if</span> (inet_pton(AF_INET, argv[<span class="number">1</span>], &amp;servaddr.sin_addr) &lt;= <span class="number">0</span>)</span><br><span class="line">        err_quit(<span class="string">"inet_pton error for %s"</span>, argv[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (connect(sockfd, (SA *) &amp;servaddr, <span class="keyword">sizeof</span>(servaddr)) &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"connect error"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ( (n = read(sockfd, recvline, MAXLINE)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        recvline[n] = <span class="number">0</span>;    <span class="comment">/* null terminate */</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">fputs</span>(recvline, <span class="built_in">stdout</span>) == EOF)</span><br><span class="line">            err_sys(<span class="string">"fputs error"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span>)</span><br><span class="line">        err_sys(<span class="string">"read error"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="datetimesrv-c"><a href="#datetimesrv-c" class="headerlink" title="datetimesrv.c"></a>datetimesrv.c</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">"unp.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span>    <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>                 listenfd, connfd;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span>  <span class="title">servaddr</span>;</span></span><br><span class="line">    <span class="keyword">char</span>                buff[MAXLINE];</span><br><span class="line">    <span class="keyword">time_t</span>              ticks;</span><br><span class="line"></span><br><span class="line">    listenfd = Socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);<span class="comment">// Socket是经过封装的socket函数,增加了错误处理</span></span><br><span class="line"></span><br><span class="line">    bzero(&amp;servaddr, <span class="keyword">sizeof</span>(servaddr));</span><br><span class="line">    servaddr.sin_family      = AF_INET;</span><br><span class="line">    <span class="comment">// 指定IP地址为INADDR_ANY,这样要服务器主机有多信网络接口,服务器进程就可以在任意网络接口上接受客户连接</span></span><br><span class="line">    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">    servaddr.sin_port        = htons(<span class="number">13</span>);   <span class="comment">/* daytime server */</span></span><br><span class="line"></span><br><span class="line">    Bind(listenfd, (SA *) &amp;servaddr, <span class="keyword">sizeof</span>(servaddr));</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//把该套接字转换为一个监听套接字,这样来自客户的外来连接就可在该套接字上由内核接受</span></span><br><span class="line">    Listen(listenfd, LISTENQ); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ( ; ; ) &#123;</span><br><span class="line">        <span class="comment">// 服务器进程在accept调用中被投入睡眠,等待某个客户连接的到来并被内核接受。TCP连接所使用的三路握手来建立连接。握手完毕时accept返回,其返回值是一个称为已连接描述符的新描述符。该描述符用于与新连接的那个客户通信。accept为每个连接到本服务器的客户返回一个新的描述符。</span></span><br><span class="line">        connfd = Accept(listenfd, (SA *) <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">        ticks = time(<span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">snprintf</span>(buff, <span class="keyword">sizeof</span>(buff), <span class="string">"%.24s\r\n"</span>, ctime(&amp;ticks));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 往已连接描述符中写入数据</span></span><br><span class="line">        Write(connfd, buff, <span class="built_in">strlen</span>(buff));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 服务器通过调用close关闭与客户端的连接</span></span><br><span class="line">        Close(connfd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc daytimetcpcli.c -o daytimetcpcli -lunp</span><br><span class="line">gcc daytimetcpsrv.c -o daytimetcpsrv -lunp</span><br></pre></td></tr></table></figure></p>
+<p>先运行<code>daytimetcpsrv</code>,再运行<code>daytimetcpcli</code><br><img src="http://img.hysyeah.top/2019/11/03/unp-intro1.png" alt="image"></p>
+<hr>
+<p>Ref：<br>1.unix网络编程-volume1</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/10/27/认识ucontext/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2152,362 +2513,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/14/hexo常用命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/14/hexo常用命令/" class="post-title-link" itemprop="url">hexo常用命令</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-14 07:11:41" itemprop="dateCreated datePublished" datetime="2019-07-14T07:11:41+08:00">2019-07-14</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>hexo新建命令<br><code>hexo new [layout] &quot;title&quot;</code></p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>layout</th>
-<th>path</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>post</td>
-<td>source/_post</td>
-<td>新建文章</td>
-</tr>
-<tr>
-<td>draft</td>
-<td>source/_drafts/</td>
-<td>新建草稿</td>
-</tr>
-<tr>
-<td>page</td>
-<td>source</td>
-<td>新建一个页面文件</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>hexo发布草稿中的文章<br><code>hexo publish &lt;title&gt;</code></p>
-<p><code>hexo clean  #清除缓存文件</code><br><code>hexo g      #生成静态文件</code><br><code>hexo d      #部署网站</code></p>
-<hr>
-<p>Ref:<br>1.<a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="noopener">官方文档</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/07/14/docker容器使用keepalived模拟mysql主备切换/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/14/docker容器使用keepalived模拟mysql主备切换/" class="post-title-link" itemprop="url">docker容器使用keepalived模拟mysql主备切换</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-14 07:06:13" itemprop="dateCreated datePublished" datetime="2019-07-14T07:06:13+08:00">2019-07-14</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.使用制作的<a href="http://hysyeah.top/2019/07/13/docker-centos%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85mysql/" target="_blank" rel="noopener">centos/keepalived镜像</a>,运行两次，生成两个容器<br><code>docker run -idt --privileged centos/keepalived  init</code><br>容器ip分别为 172.17.0.3, 172.17.0.4(通过命令<code>docker inspect [container_id] | grep IP</code>查看)</p>
-<p>2.分别进入容器<br>IP: 172.17.0.3<br>vim /etc/keepalived/keepalived.conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id mysql_master</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_mysql &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 3306&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance mysql &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth0             #在容器中执行ifconfig查看</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.17.0.5/16</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_mysql</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>IP: 172.17.0.4<br>vim /etc/keepalived/keepalived.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">    router_id mysql_slave</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_mysql &#123;</span><br><span class="line">    script &quot;netstat -lntp | grep 3306&quot;</span><br><span class="line">    interval 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance mysql &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth0</span><br><span class="line">    virtual_router_id 210</span><br><span class="line">    priority 150</span><br><span class="line">    nopreempt</span><br><span class="line">    advert_int 1</span><br><span class="line"></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.17.0.5/16</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_mysql</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.启动keepalived<br><code>systemctl start keepalived</code><br><code>systemctl enable keepalived</code><br><img src="http://img.hysyeah.top/2019/07/13/keepalived-vip.png" alt="image"></p>
-<p>验证：</p>
-<ul>
-<li>停止172.17.0.4中的<code>MySQL</code>服务(systemctl stop mysqld),发现VIP飘到了172.17.0.3上<br><img src="http://img.hysyeah.top/2019/07/13/keepalived-vip2.png" alt="image"></li>
-</ul>
-<hr>
-<p>所遇问题：<br>1.<code>systemctl status keepalived</code>查看keepalived状态,发现提示Can’t initialize ipvs: Protocol not available<br>解决方法：加载ip_vs模块(在宿主机执行如下命令)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">modprobe ip_vs</span><br><span class="line">modprobe ip_vs_wrr</span><br></pre></td></tr></table></figure></p>
-<p>查看内核是否加载ip_vs<br><code>lsmod | grep ip_vs</code></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2554,7 +2559,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">247</span>
+                    <span class="site-state-item-count">249</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

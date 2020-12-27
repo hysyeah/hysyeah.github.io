@@ -380,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/11/09/tcp-ip-subnet/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/12/26/你真的知道子网的作用吗/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -400,7 +400,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2020/11/09/tcp-ip-subnet/" class="post-title-link" itemprop="url">tcp-ip subnet</a>
+                <a href="/2020/12/26/你真的知道子网的作用吗/" class="post-title-link" itemprop="url">你真的知道子网的作用吗</a>
               
             
           </h1>
@@ -425,7 +425,316 @@
                 
               
 
-              <time title="创建时间：2020-11-09 08:16:59 / 修改时间：08:47:17" itemprop="dateCreated datePublished" datetime="2020-11-09T08:16:59+08:00">2020-11-09</time>
+              <time title="创建时间：2020-12-26 07:50:50" itemprop="dateCreated datePublished" datetime="2020-12-26T07:50:50+08:00">2020-12-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-12-27 15:48:39" itemprop="dateModified" datetime="2020-12-27T15:48:39+08:00">2020-12-27</time>
+              </span>
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="知识点回顾"><a href="#知识点回顾" class="headerlink" title="知识点回顾"></a>知识点回顾</h4><p>我们肯定使用过<code>ifconfig</code>命令来查询计算机中的网络设备。不知道你有没有注意过其中的<code>netmask</code>(子网掩码),但你真的知道它的来龙去脉吗?今天我们就来重新认识一下<code>netmask</code>。<br><img src="http://img.hysyeah.top/2020/12/26/20201226075950-ifconfig-netmask.png" alt="image"></p>
+<p>在进入主题内容前我们先来回顾一些关于<code>IP</code>的知识点。每一个需要使用互联网的设备都必须具有一个唯一标识,而这个唯一标识就是<code>IP</code>地址。就像在生活中你要打电话别个时,你必须知道这个人的手机号码不然你就无法联系到他，可以说<code>IP</code>地址就类似于你的手机号码。</p>
+<p><code>IP</code>地址采用分层设计,并可以将其分为如下五类。不同种类的<code>IP</code>地址网络号和主机号都是不一样的。<br><img src="http://img.hysyeah.top/2020/12/26/ip-catagory.png" alt="image"></p>
+<p>各类<code>IP</code>的地址范围如下,方便记忆:</p>
+<p><img src="http://img.hysyeah.top/2020/12/26/ip-address-scope.png" alt="image"></p>
+<hr>
+<h4 id="子网掩码的由来-为什么需要子网掩码"><a href="#子网掩码的由来-为什么需要子网掩码" class="headerlink" title="子网掩码的由来,为什么需要子网掩码"></a>子网掩码的由来,为什么需要子网掩码</h4><p><code>IP</code>地址结构设计之初是两层结构,将<code>IP</code>地址分为<code>网络号</code>和<code>主机号</code>,不同的<code>网络号</code>下包含一系列的主机(网络设备)。在这种结构下大量的主机连接在同一个网络下，当主机数量少的网络还能正常的工作，然而这种方式缺乏弹性,当主机数量过多的时候会带来一系列的问题。举个例子,当一个公司规模较小的时候，分为两个层级<br>｜－－－部门－－－｜－－－员工－－－｜。当有消息要传达到一个部门时只需要把消息一个个传达给指定部门的人员即可，当一个部门人员较少时这样不会有太大的问题。随着公司的快速发展，各个部门的人员越来越多，此时如果有消息传达给一个部门，只能把消息一个一个的发给部门里的员工;部门里并不是所有的员工都需要知道这个消息，但我们没有其它的信息来对员工进行分类，所以只能把消息发给部门里的所有员工。这样做的缺点显而易见，不仅管理不太方便，而且有些员工会收到自己不需要的消息。为了解决这个问题，公司往往会在目前的基础上新增一个层级：组。<br>｜－－－部门－－－｜－－－分组－－－｜－－－员工－－－｜<br>在部门的下面设置组，将对应的员工分配在对应的组，不仅可以方便管理还可以避免消息(资源)的浪费。</p>
+<p>软件设计也是来源于生活。为了更好的适应于更大的网络和更好更方便的管理网络设备，于是提出了子网这个设计。</p>
+<p>增加了子网相对以前的二层<code>IP</code>地址有哪些优点呢？</p>
+<ul>
+<li>弹性，可以自定义子网和子网中的主机数</li>
+<li>对公网的不可见性，对于子网的划分只存在于组织(可以认为是局域网)内。还是上面的例子，不管公司的组织架构怎么调整在公外面看来你还是那个公司</li>
+<li>通过子网可以对网络进行分组，不同分组的主机进行广播只有本组的主机才可以收到消息</li>
+<li>子网掩码将大的网络域，分为更小的子网。较小的网络会创建较小的广播，从而产生较少的广播流量。 此外，子网还通过将网络问题隔离到特定的存在来简化故障排除</li>
+</ul>
+<p><code>IP</code>地址是固定的32位，那如何在原来二层结构的<code>IP</code>地址进行的子网的划分呢？ 此时就是轮到子网掩码上场了。</p>
+<p>为了在不改变<code>IP</code>地址结构的前提下,于是人们提出了子网掩码。<br>但是用哪几位数据来表示子网呢，答案是从主机号中借位来充当子网。</p>
+<p>FOR EXAMPLE：<br>B类地址:154.71.0.0, 如果不使用子网的话，154.71这个网络号可以容纳65534(pow(2,10)-2)个主机。然而你可以通过子网掩码对这个网络进行子网划分。你可以使用1位来表示子网，则剩余的15位来表示主机号；如果使用2位来表示子网，则剩余的14位来表示主机号，以此类推。你使用越多的位数来表示子网，相应的用来表示主机号的位数也就越好。最少要使用2位来表示主机号，因为减去主机后全为0和全为1的两个<code>IP</code>地址。</p>
+<p><img src="http://img.hysyeah.top/2020/12/26/subnet0.png" alt="image"></p>
+<p>假如你要使用5位来作子网，则<code>subnet id</code>这5位在子网掩码中必须为1，表示这5位用于子网。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># RFC950</span><br><span class="line">Special Addresses:</span><br><span class="line"></span><br><span class="line">    From the Assigned Numbers memo [9]:</span><br><span class="line">        &quot;In certain contexts, it is useful to have fixed addresses with functional significance rather than as identifiers of specific hosts. When such usage is called for,   </span><br><span class="line">        the address zero is to be interpreted as meaning &quot;this&quot;, as in &quot;this network&quot;. The address of all ones are to be interpreted as meaning &quot;all&quot;, as in &quot;all hosts&quot;.   </span><br><span class="line">        For example, the address 128.9.255.255 could be interpreted as meaning all hosts on the network 128.9. Or, the address 0.0.0.37 could be interpreted as meaning host 37 on this network.&quot;</span><br><span class="line"></span><br><span class="line">    It is useful to preserve and extend the interpretation of these special addresses in subnetted networks.   </span><br><span class="line">    This means the values of all zeros and all ones in the subnet field should not be assigned to actual (physical) subnets.</span><br></pre></td></tr></table></figure></p>
+<p>上面这段话的大致意思是在<code>IP</code>地址中全为0或全为1的有特殊的含义或特殊的用途。比如<code>IP</code>地址<code>128.9.255.255</code>是网络号为<code>128.9</code>的文播地址，发往<code>128.9.255.255</code>的网络包会广播至该网络的所有主机。地址<code>128.9.0.0</code>会被解释为此网络，也不建议使用。<br>因此上面<code>5-bit</code>的子网建议使用除0和31以外的子网。<br><a href="https://subnet.ninja/" target="_blank" rel="noopener">子网计算器</a></p>
+<h4 id="有无子网通信有何差异"><a href="#有无子网通信有何差异" class="headerlink" title="有无子网通信有何差异"></a>有无子网通信有何差异</h4><p>在无子网这个概念之前，假如主机A访问主机B，主机A会判断主机B和自己是不是在同一个网段，即拥有同样的网络号，如果网络号相同则A会通过ARP获得B的MAC地址然后进行通信；如果网络不相同，则将请求发送给默认网关然后再由网关进行路由。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IF ip_net_number(dg.ip_dest) = ip_net_number(my_ip_addr)</span><br><span class="line">    THEN</span><br><span class="line">        send_dg_locally(dg, dg.ip_dest)</span><br><span class="line">    ELSE</span><br><span class="line">        send_dg_locally(dg, gateway_to(ip_net_number(dg.ip_dest)))</span><br></pre></td></tr></table></figure>
+<p>实现子网划分后，主机A判断和主机B是否在同一个子网，如果在同一个子网A会通过ARP获得B的MAC地址然后进行通信；如果不在同一个子网，则将请求发送给默认网关然后再由网关进行路由。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IF bitwise_and(dg.ip_dest, my_ip_mask) = bitwise_and(my_ip_addr,my_ip_mask)</span><br><span class="line">    THEN</span><br><span class="line">        send_dg_locally(dg, dg.ip_dest)</span><br><span class="line">    ELSE</span><br><span class="line">        send_dg_locally(dg, gateway_to(bitwise_and(dg.ip_dest, my_ip_mask)))</span><br></pre></td></tr></table></figure></p>
+<h4 id="子网掩码是如何发现的"><a href="#子网掩码是如何发现的" class="headerlink" title="子网掩码是如何发现的"></a>子网掩码是如何发现的</h4><p>当网络启动的时候主机如何确定自己的子网掩码呢？</p>
+<p>首先主机会从磁盘文件中获取子网掩码信息，如果存在则直接使用；如果磁盘上没有记录子网掩码信息，主机将会发出广播信息以此请求子网掩码。</p>
+<p>例子:来自rfc950</p>
+<ul>
+<li>假如在A类网络<code>36.0.0.0</code>有主机<code>IP</code>为<code>36.40.0.123</code>,网关为<code>32.40.0.62</code>,使用<code>8-bit</code>作为<code>subnet id</code>则其子掩码为<code>255.255.0.0</code>。</li>
+<li>如果主机不知道自己的<code>IP</code>地址则会通过<code>RARP</code>协议获取自己的<code>IP</code>地址。然后发送<code>ICMP</code>请求到广播地址<code>255.255.255.255</code>:</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address:</td>
+<td>36.40.0.123</td>
+</tr>
+<tr>
+<td>Destination address:</td>
+<td>255.255.255.255</td>
+</tr>
+<tr>
+<td>Protocol:</td>
+<td>ICMP = 1</td>
+</tr>
+<tr>
+<td>Type:</td>
+<td>Address Mask Request = AM1</td>
+</tr>
+<tr>
+<td>Code:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mask:</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>然后网关可以直接回复网络包给主机<code>36.40.0.123</code>,主机便获取到了自己的子网掩码</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address:</td>
+<td>36.40.0.62</td>
+</tr>
+<tr>
+<td>Destination address:</td>
+<td>36.40.0.123</td>
+</tr>
+<tr>
+<td>Protocol:</td>
+<td>ICMP = 1</td>
+</tr>
+<tr>
+<td>Type:</td>
+<td>Address Mask Request = AM2</td>
+</tr>
+<tr>
+<td>Code:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mask:</td>
+<td>255.255.0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>假如主机根本不知道自己的主机号则会发出如下内容的包。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address:</td>
+<td>0.0.0.0</td>
+</tr>
+<tr>
+<td>Destination address:</td>
+<td>255.255.255.255</td>
+</tr>
+<tr>
+<td>Protocol:</td>
+<td>ICMP = 1</td>
+</tr>
+<tr>
+<td>Type:</td>
+<td>Address Mask Request = AM1</td>
+</tr>
+<tr>
+<td>Code:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mask:</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>网关将会收到数据包，然后回复如下内容的数据包：<br>|key|val|<br>|—-|—-|<br>|Source address:|36.40.0.62|<br>|Destination address:|255.255.255.255|<br>|Protocol:|ICMP = 1|<br>|Type:|Address Mask Request = AM2|<br>|Code:|0|<br>|Mask:|255.255.0.0|</p>
+<ul>
+<li>如果主机不允许进行广播消息并且假设主机知道网关的地址，主机刚会直接发数据包给网关请求子网掩码。</li>
+</ul>
+<h4 id="无法获取子网掩码的情况"><a href="#无法获取子网掩码的情况" class="headerlink" title="无法获取子网掩码的情况"></a>无法获取子网掩码的情况</h4><p>在如下三种情况下，经过多次尝试后仍可能无法获取子网掩码：<br>1.网络与其它所有网络隔离<br>2.未使用子网而且没有其它主机可以提供子网掩码<br>3.此网络上的所有网关都未能启动。</p>
+<p>在第一种和第二种情况，子网掩码等于网络号。在第三种情况下，无法确定主机的子网掩码因此最安全的做法就是将子网掩码设置为网络号，虽然可能是错误的。当网关正常工作后，网关会广播<code>Address Mask Reply</code>类型的数据包，主机收到数据包后，会更正自己的子网掩码。</p>
+<hr>
+<p><img src="http://img.hysyeah.top/2020/wx-code.png" alt="image"></p>
+<p>REF：<br>1.<a href="https://tools.ietf.org/pdf/rfc950.pdf" target="_blank" rel="noopener">RFC950</a><br>2.<a href="http://www.tcpipguide.com/free/index.htm" target="_blank" rel="noopener">tcpipguide.com</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/11/21/linux-perf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/11/21/linux-perf/" class="post-title-link" itemprop="url">linux-perf</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-11-21 11:36:00 / 修改时间：12:47:28" itemprop="dateCreated datePublished" datetime="2020-11-21T11:36:00+08:00">2020-11-21</time>
             </span>
           
 
@@ -469,24 +778,161 @@
       
         
           
-            <p>IP地址:互联网中的设备为了能进行通信必须拥有一个唯一的网络地址，这个地址就是IP地址,就像电话号码一样，如果不唯一就无法进行通信。</p>
-<p>ip地址为32位，并且分为不同的地址格式，共A,B,C,D,E类。</p>
-<p><img src="http://img.hysyeah.top/2020/11/9/tcp-ip-address-format.png" alt="image"><br><img src="http://img.hysyeah.top/2020/11/9/tcp-ip-address-scope.png" alt="image"></p>
-<p>如果两个IP具有相同的网络号，刚说明这两个IP在同一个网段，也就是同一个子网。处于同一个子网的主机可以直接通信，而不用通过网关来通信。而子网掩码就是用于来标识两个IP是否位于同一网段。</p>
-<p>对于不同的类型的IP,网络号也是不一样的。网络号的地址可以参考上图。</p>
-<p>子网的计算:对IP地址和子网掩码进行求余<br>对于C类IP地址192.168.0.1，子网掩码:255.255.255.0，先转换为二进制，然后AND每一位</p>
-<p>IP: 11000000.10101000.00000000.00000001</p>
-<p>子网掩码:11111111.11111111.11111111.00000000</p>
-<p>结果:    11000000.10101000.00000000.00000000</p>
-<p>转换为十进制为:192.168.0.0,这就是IP的网络标识</p>
-<p>CIDR表示法:比如IP:192.168.0.1,子网掩码:255.255.255.0,用CIDR的来表示则为 192.168.0.1/24。24表示子网掩码的前24位值为1,其它值都为0。</p>
-<p>子网掩码和对应的CIDR可以参考如下的<a href="https://docs.netgate.com/pfsense/en/latest/network/cidr.html" target="_blank" rel="noopener">表格</a></p>
-<p><a href="https://subnet.ninja/" target="_blank" rel="noopener">子网计算器</a></p>
-<p>子网的作用：<br>子网掩码将大的网络域，分为更小的子网。较小的网络会创建较小的广播，从而产生较少的广播流量。 此外，子网还通过将网络问题隔离到特定的存在来简化故障排除。</p>
+            <hr>
+<p>参考：<br>1.[<a href="https://perf.wiki.kernel.org/index.php/Main_Page" target="_blank" rel="noopener">https://perf.wiki.kernel.org/index.php/Main_Page</a>]</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/11/21/linux-xxd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/11/21/linux-xxd/" class="post-title-link" itemprop="url">linux-xxd</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-11-21 10:57:25 / 修改时间：11:15:24" itemprop="dateCreated datePublished" datetime="2020-11-21T10:57:25+08:00">2020-11-21</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>xxd</code>是<code>Linux</code>平台下的一款工具，可以用于<code>原文件</code>和<code>二进制文件</code>之间的互相转换。<br><code>man page</code>描述：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xxd  creates a hex dump of a given file or standard input.  It can also</span><br><span class="line">convert a hex dump back to its original binary form.  Like  uuencode(1)</span><br><span class="line">and  uudecode(1)  it allows the transmission of binary data in a `mail-</span><br><span class="line">safe&apos; ASCII representation, but has the advantage of decoding to  stan‐</span><br><span class="line">dard output.  Moreover, it can be used to perform binary file patching</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>xxd</code>常用方法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ echo <span class="string">'hello,world'</span> &gt; origin.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将文件内容转换为十六进制内容</span></span><br><span class="line">➜  ~ xxd origin.txt</span><br><span class="line"><span class="number">00000000</span>: <span class="number">6865</span> <span class="number">6</span>c6c <span class="number">6</span>f2c <span class="number">776</span>f <span class="number">726</span>c <span class="number">640</span>a            hello,world.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将十六进制内容恢复到一个新文件中</span></span><br><span class="line">➜  ~ xxd origin.txt |xxd -r &gt; new.text</span><br><span class="line">➜  ~ cat new.text </span><br><span class="line">hello,world</span><br></pre></td></tr></table></figure>
+<p>xxd还支持将文件转换成二进制，格式化输出等。具体可查看官方文档</p>
 <hr>
-<p>两个IP的通信过程:<br>假设A,B两个主机处于同一网段。那A和B是如何通信的呢?假从A中ping主机B,A会通过自己主机的子网掩码计算自己和B是否位于同一网段，如果位于同一网段,A会通过ARP获得B的MAC地址然后进行通信;如果不属于同一网段,跨子网通信需要默认网关的转发,而要和默认网关通信就需要获得其MAC地址,然后A将请求交给默认网关,网关接到请求后再转发给B。</p>
-<hr>
-<p>参考:<br>1.<a href="https://community.fs.com/blog/know-ip-address-and-subnet-mask.html" target="_blank" rel="noopener">https://community.fs.com/blog/know-ip-address-and-subnet-mask.html</a><br>2.<a href="https://docs.netgate.com/pfsense/en/latest/network/addresses.html" target="_blank" rel="noopener">https://docs.netgate.com/pfsense/en/latest/network/addresses.html</a><br>3.<a href="https://docs.netgate.com/pfsense/en/latest/network/addresses.html" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/troubleshoot/windows-client/networking/tcpip-addressing-and-subnetting</a></p>
+<p>参考:<br>1.<a href="https://linux.die.net/man/1/xxd" target="_blank" rel="noopener">linux-man-page-xxd</a></p>
 
           
         
@@ -1607,408 +2053,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/05/Linux-Namespace/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/05/Linux-Namespace/" class="post-title-link" itemprop="url">Linux Namespace</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-05 16:48:22" itemprop="dateCreated datePublished" datetime="2020-07-05T16:48:22+08:00">2020-07-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-11 17:01:22" itemprop="dateModified" datetime="2020-07-11T17:01:22+08:00">2020-07-11</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>Linux Namespace</code>是容器的基石，可以说没有<code>Linux Namespace</code>就不存在现在的容器技术。容器最大的功能就是对资源进行隔离，容器正是通过<code>Linux Namespace</code>技术实现了各种资源的隔离。</p>
-<p><code>Linux Namespace</code>总共有6种类别的<code>Namespace</code>，分别为  </p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Namespace</th>
-<th>system call flag</th>
-<th>kernal version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UTS Namespace</td>
-<td>CLONE_NEWUTS</td>
-<td>2.6.19</td>
-</tr>
-<tr>
-<td>Mount Namespace</td>
-<td>CLONE_NEWNS</td>
-<td>2.4.19</td>
-</tr>
-<tr>
-<td>IPC Namespace</td>
-<td>CLONE_NEWIPC</td>
-<td>2.6.19</td>
-</tr>
-<tr>
-<td>PID Namespace</td>
-<td>CLONE_NEWPID</td>
-<td>2.6.24</td>
-</tr>
-<tr>
-<td>Network Namespace</td>
-<td>CLONE_NEWNET</td>
-<td>2.6.29</td>
-</tr>
-<tr>
-<td>User  Namespace</td>
-<td>CLONE_NEWUSER</td>
-<td>3.8</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<h4 id="1-UTS-Namespace"><a href="#1-UTS-Namespace" class="headerlink" title="1.UTS Namespace"></a>1.UTS Namespace</h4><p><code>UTS</code>是<code>UNIX Time Sharing</code>的缩写。主要用来隔离<code>hostname</code>，在每个<code>UTS Namespace</code>下，每个<code>Namespace</code>都可以拥有自己的<code>Namespace</code>。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2020-06-11</span></span><br><span class="line"><span class="comment">// UTS Namespace主要用来隔离hostname(主机名用于标识主机)和domainname两个系统标识(已淘汰)</span></span><br><span class="line"><span class="comment">// pstree 命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// https://www.jianshu.com/p/049f13e55840</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"syscall"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//指定被fork出来的新进程内的初始命令</span></span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span>&#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行这段代码会进入一个<code>sh</code>运行运行环境。<br><code>echo $$</code>是输出当前的<code>PID</code>，<code>readlink</code>查看对应的进程是否是在同一个<code>Namespace</code>。<br><code>hostname -b bird</code>修改<code>hostname</code>为<code>bird</code>,重新打开一个终端，输入<code>hostname</code>发现宿主机的<code>hostname</code>并没有被改变。</p>
-<p><img src="http://img.hysyeah.top/2020/6/11/20200611213343-uts-namespace.png" alt></p>
-<h4 id="2-IPC-Namespace"><a href="#2-IPC-Namespace" class="headerlink" title="2.IPC Namespace"></a>2.IPC Namespace</h4><p>用于隔离<code>System V IPC</code>和<code>POSIX message queues</code>。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>左边为宿主机，右边为新建的<code>sh</code>环境。新建的<code>message queue</code>在右边的隔离<code>Namespace</code>并不能看到。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ipcs -q   <span class="comment">//查看ipc message queue</span></span><br><span class="line">ipcmk -Q  <span class="comment">//新建一个message queue</span></span><br></pre></td></tr></table></figure></p>
-<p><img src="http://img.hysyeah.top/2020/7/11/20200711101320.png" alt></p>
-<h4 id="3-PID-Namespace"><a href="#3-PID-Namespace" class="headerlink" title="3.PID Namespace"></a>3.PID Namespace</h4><p><code>PID Namespace</code>用于隔离进程<code>ID</code><br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string">执行上述代码`</span>sudo <span class="keyword">go</span> /opt/<span class="keyword">go</span>/bin/<span class="keyword">go</span> run pidNamespace<span class="string">`。</span></span><br><span class="line"><span class="string">`</span>echo $$<span class="string">`发现当前的PID为1，而通过`</span>pstree<span class="string">`命令发现运行执行上述代码的PID为58329,而隔离命名空间的PID却为1，说明这个58329在新的命令空间PID映射为1。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">![](http://img.hysyeah.top/2020/6/11/20200611221910-pid-namespace.png)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#### 4.Mount Namespace</span></span><br><span class="line"><span class="string">`</span>Mount Namespace<span class="string">`用于隔离各个进程看到的挂载点视图，是`</span>Linux<span class="string">`实现的第一个`</span>Namespace<span class="string">`类型，在不同的`</span>Namespace<span class="string">`中看到的文件系统是不一样的。</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC |syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,</span><br><span class="line">	&#125;</span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout  = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run();err != <span class="literal">nil</span>&#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行上述代码，然后执行<code>ls /proc</code>发现<code>/proc</code>中的内容还是宿主机上的。<br>通过命令<code>mount -t proc proc /proc</code>将<code>/proc mount</code>到新建的命名空间,此时再执行<code>ls /proc</code>发现少了很多文件。<br>在当前<code>Namespace</code>中，<code>sh</code>进程是PID为1的进程。这就说明当前的<code>Mount Namespace</code>中的mount和外部空间是隔离的，mount操作并没有影响到外部。Docker volume正是利用了这个特性。</p>
-<p><img src="http://img.hysyeah.top/2020/6/11/20200613095837-mount-namespace.png" alt></p>
-<h4 id="5-User-Namespace"><a href="#5-User-Namespace" class="headerlink" title="5.User Namespace"></a>5.User Namespace</h4><p><code>User Namespace</code>主要是用于隔离用户的用户组ID。一个进程的<code>User ID和</code>Group ID<code>在</code>User Namespace<code>内外是不同的。常用的场景是在宿主机以一个非root用户运行创建一个</code>User Namespace`,然后在命名空间里面却映射成root用户。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWNS | syscall.CLONE_NEWUSER,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 加上下面这行代码会报没有权限的错误</span></span><br><span class="line">	<span class="comment">//cmd.SysProcAttr.Credential = &amp;syscall.Credential&#123;Uid: uint32(1000), Gid: uint32(1000)&#125;</span></span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	os.Exit(<span class="number">-1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到在宿主机和<code>User Namespace</code>中它们的UID是不同的。</p>
-<p><img src="http://img.hysyeah.top/2020/6/11/20200613104253-user-namespace.png" alt></p>
-<h4 id="6-Network-Namespace"><a href="#6-Network-Namespace" class="headerlink" title="6.Network Namespace"></a>6.Network Namespace</h4><p><code>Network Namespace</code>用于隔离网络设备，IP地址，端口，路由表，防火墙规则等网络栈的<code>Namespace</code>。每个容器独占一个<code>Network Namespace</code>，每个容器都能随意使用自己的端口而不会产生冲突。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(<span class="string">"sh"</span>)</span><br><span class="line">	cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWIPC | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS |</span><br><span class="line">			syscall.CLONE_NEWNS | syscall.CLONE_NEWUSER |syscall.CLONE_NEWNET,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 加上下面这行代码会报没有权限的错误</span></span><br><span class="line">	<span class="comment">//cmd.SysProcAttr.Credential = &amp;syscall.Credential&#123;Uid: uint32(1000), Gid: uint32(1000)&#125;</span></span><br><span class="line">	cmd.Stdin = os.Stdin</span><br><span class="line">	cmd.Stdout = os.Stdout</span><br><span class="line">	cmd.Stderr = os.Stderr</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := cmd.Run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	os.Exit(<span class="number">-1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>分别在宿主机和新建<code>sh</code>环境上分别查看网络设备，发现网络设备是不一样的，说明网络已经隔离。</p>
-<p><img src="http://img.hysyeah.top/2020/6/11/20200613104815-network-namespace.png" alt></p>
-<hr>
-<h5 id="Network-Namespace中的进程如何与宿主机进行通信"><a href="#Network-Namespace中的进程如何与宿主机进行通信" class="headerlink" title="Network Namespace中的进程如何与宿主机进行通信"></a>Network Namespace中的进程如何与宿主机进行通信</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ip netns            <span class="comment">// 查看Network Namespace列表</span></span><br><span class="line"></span><br><span class="line">➜  ~ sudo ip netns add netns1  <span class="comment">//创建一个名称为netns1的Network Namespace</span></span><br><span class="line">➜  ~ ip netns</span><br><span class="line">netns1</span><br></pre></td></tr></table></figure>
-<p>查询名为<code>netns1</code>的网络命名空间下的网络设备，此时网卡状态是<code>DOWN</code><br><img src="http://img.hysyeah.top/2020/7/11/20200711114159.png" alt><br>进行<code>netns1</code>执行本志回环地址，发现网络不通，因为此时设备的状态是<code>DOWN</code>,通过命令<code>ip netns exec netns1 ip link set dev lo lup</code>启动设备后可以PING通。但此时只能PING通<code>Network Namespace</code>中的本地地址，还不能与宿主机进行通信。<br><img src="http://img.hysyeah.top/2020/7/11/20200711114219.png" alt></p>
-<p>我们可以新建一对虚拟的网卡<code>veth pair</code>与宿主机进行通信。<code>veth pair</code>总是成对出现且相互连接，报文从一端进去就会从另一端出来。<br>创建一对虚拟网卡，并查看网络设备；此时<code>veth0</code>和<code>veth1</code>都在宿主机的网络命名空间内。<br><img src="http://img.hysyeah.top/2020/7/11/20200711114607-add-vethpair.png" alt></p>
-<p>将<code>veth1</code>加入到网络命名空间<code>netns1</code>中<code>ip link set veth1 netns netns1</code>，此时再查看网络设备。发现<code>veth1</code>已到了<code>netns</code>下。<br><img src="http://img.hysyeah.top/2020/7/11/20200711144558.png" alt><br><img src="http://img.hysyeah.top/2020/7/11/20200711152741.png" alt></p>
-<p>设置网卡状态并绑定IP。<br>从宿主机PING <code>netns1</code>下的<code>veth1</code>.<br><img src="http://img.hysyeah.top/2020/7/11/20200711145407.png" alt><br>从<code>netns1</code>下PING 宿主机中的<code>veth0</code><br><img src="http://img.hysyeah.top/2020/7/11/20200711145426.png" alt></p>
-<p><code>netns1</code>中的路由表与防火墙规则也是隔离的<br><img src="http://img.hysyeah.top/2020/7/11/20200711150017.png" alt></p>
-<hr>
-<p>Ref:<br>1.<a href="https://book.douban.com/subject/27082348/" target="_blank" rel="noopener">https://book.douban.com/subject/27082348/</a><br>2.<a href="https://book.douban.com/subject/34855927/" target="_blank" rel="noopener">https://book.douban.com/subject/34855927/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/05/Go-reflect/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/05/Go-reflect/" class="post-title-link" itemprop="url">Go-reflect</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-05 15:34:21" itemprop="dateCreated datePublished" datetime="2020-07-05T15:34:21+08:00">2020-07-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-08 21:18:30" itemprop="dateModified" datetime="2020-07-08T21:18:30+08:00">2020-07-08</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="Package-reflect实现了运行时反射，允许程序获取任意对象的运行时信息。最常见的用法就是通过调用TypeOf方法获取对象类型；调用ValueOf返回对象运行时数据。反射是程序检查自身结构的一种能力，是一种形式的元编程。"><a href="#Package-reflect实现了运行时反射，允许程序获取任意对象的运行时信息。最常见的用法就是通过调用TypeOf方法获取对象类型；调用ValueOf返回对象运行时数据。反射是程序检查自身结构的一种能力，是一种形式的元编程。" class="headerlink" title="Package reflect实现了运行时反射，允许程序获取任意对象的运行时信息。最常见的用法就是通过调用TypeOf方法获取对象类型；调用ValueOf返回对象运行时数据。反射是程序检查自身结构的一种能力，是一种形式的元编程。"></a>Package <code>reflect</code>实现了运行时反射，允许程序获取任意对象的运行时信息。最常见的用法就是通过调用<code>TypeOf</code>方法获取对象类型；调用<code>ValueOf</code>返回对象运行时数据。反射是程序检查自身结构的一种能力，是一种形式的元编程。</h4><h5 id="类型和接口-Types-and-interfaces"><a href="#类型和接口-Types-and-interfaces" class="headerlink" title="类型和接口(Types and interfaces)"></a>类型和接口(Types and interfaces)</h5><p>反射构建在类型系统之上。<code>Go</code>是静态类型语言，每个变量都有一个静态类型，在编译阶段确认。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> i <span class="keyword">int</span></span><br><span class="line">	<span class="keyword">var</span> j MyInt</span><br><span class="line"></span><br><span class="line">	fmt.Println(reflect.TypeOf(i))</span><br><span class="line">	fmt.Println(reflect.TypeOf(j))</span><br><span class="line">&#125;</span><br><span class="line">output:</span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main.MyInt</span><br></pre></td></tr></table></figure>
-<p>变量<code>i</code>的类型为<code>int</code>,<code>j</code>的类型为<code>MyInt</code>,虽然<code>i</code>和<code>j</code>的底层类型都是<code>int</code>类型，但它们之间如果不进行类型转换则不能进行赋值。<br><code>interface{}</code>可以表示任何类型的数据。</p>
-<hr>
-<h4 id="Go反射三大法则"><a href="#Go反射三大法则" class="headerlink" title="Go反射三大法则"></a>Go反射三大法则</h4><h5 id="1-从interface-开始进行对象的反射"><a href="#1-从interface-开始进行对象的反射" class="headerlink" title="1.从interface{}开始进行对象的反射"></a>1.从<code>interface{}</code>开始进行对象的反射</h5><pre><code>简单来说反射就是一种从`interface`类型的变量取出里面的`Type`和`value`的一种机制。通过`reflect.TypeOf`和`reflect.ValueOf` 可以分别获取反射的类型和值。
-</code></pre><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> x <span class="keyword">float64</span> = <span class="number">3.4</span></span><br><span class="line">	r := reflect.TypeOf(x)</span><br><span class="line">	fmt.Println(<span class="string">"type:"</span>, r)</span><br><span class="line">	<span class="comment">// output: type:float64</span></span><br><span class="line">	fmt.Println(reflect.TypeOf(r))</span><br><span class="line">	<span class="comment">// output: ＊reflect.rtype</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述代码表明变量<code>x</code>的类型为<code>float64</code>，而且传递给函数<code>TypeOf</code>的参数<code>x</code>是<code>float64</code>类型，而不是<code>interface</code>类型，所以这跟<code>interface</code>又有什么关系呢？<br>查看函数<code>TypeOf</code>源码<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TypeOf returns the reflection Type that represents the dynamic type of i.</span></span><br><span class="line"><span class="comment">// If i is a nil interface value, TypeOf returns nil.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TypeOf</span><span class="params">(i <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">Type</span></span> &#123;</span><br><span class="line">	eface := *(*emptyInterface)(unsafe.Pointer(&amp;i))</span><br><span class="line">	<span class="keyword">return</span> toType(eface.typ)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>发现<code>TypeOf</code>的参数类型为<code>interface{}</code>,所以参数<code>x</code>会存储在一个空的<code>interface</code>中，然后再从这个<code>interface</code>中恢复类型信息。<br><code>func ValueOf(i interface{}) Value</code>也是如此。</p>
-<h5 id="2-从反射对象可以获得interface的值"><a href="#2-从反射对象可以获得interface的值" class="headerlink" title="2.从反射对象可以获得interface的值"></a>2.从反射对象可以获得<code>interface</code>的值</h5><p>  对于一个<code>reflect.Value</code>类型的对象(反射对象)，我们可以通过<code>Interfaace</code>方法从中获取<code>interface</code>值。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> x <span class="keyword">float64</span> = <span class="number">3.4</span></span><br><span class="line">	r := reflect.ValueOf(x)</span><br><span class="line">	fmt.Println(r.Interface())</span><br><span class="line">	<span class="comment">// output: 3.4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v Value)</span> <span class="title">Interface</span><span class="params">()</span> <span class="params">(i <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> valueInterface(v, <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>reflect.ValueOf</code>的作用是把<code>float64</code>类型的变量转换成<code>reflect.Value</code>类型，而<code>Interface</code>的作用与<code>reflect.ValueOf</code>正好相反。</p>
-<h5 id="3-要想修改一个反射对象，反射对象必须是可设置的"><a href="#3-要想修改一个反射对象，反射对象必须是可设置的" class="headerlink" title="3.要想修改一个反射对象，反射对象必须是可设置的"></a>3.要想修改一个反射对象，反射对象必须是可设置的</h5><p>执行如下代码<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> x <span class="keyword">float64</span> = <span class="number">3.4</span></span><br><span class="line">	v := reflect.ValueOf(x)</span><br><span class="line">	v.SetFloat(<span class="number">7.1</span>) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://img.hysyeah.top/2020/7/8/20200708204658.png" alt><br>所以报错的原因是什么呢？请看如下代码:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="keyword">float64</span> = <span class="number">3.4</span></span><br><span class="line">v := reflect.ValueOf(x)</span><br></pre></td></tr></table></figure></p>
-<p>因为<code>Go</code>语言的函数调用的参数都是值传递的，所以传递给<code>reflect.ValueOf</code>函数的参数<code>x</code>并不是<code>x</code>本身而是<code>x</code>的一份拷贝。如果<code>v.SetFloat(7.1)</code>可以设置成功，这并不能更新<code>x</code>的值，更新的只是<code>x</code>的拷贝；但是真正的<code>x</code>并没有更新，这样做不但没有用而且会造成很多的疑惑。</p>
-<p>要想对原有变量进行修改可以采用如下方式：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">		i := <span class="number">3.4</span></span><br><span class="line">		v := reflect.ValueOf(&amp;i) <span class="comment">//获取变量指针</span></span><br><span class="line">		v.Elem().SetFloat(<span class="number">10</span>)    <span class="comment">//通过Elem()获取指针指向的变量，SetFloat对变量进行更新</span></span><br><span class="line">		fmt.Println(i)</span><br><span class="line">		<span class="comment">//output :10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>通过反射对结构体进行修改：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">	t := T&#123;<span class="number">23</span>, <span class="string">"skidoo"</span>&#125;</span><br><span class="line">	s := reflect.ValueOf(&amp;t).Elem()</span><br><span class="line"></span><br><span class="line">	s.Field(<span class="number">0</span>).SetInt(<span class="number">10</span>)</span><br><span class="line">	fmt.Println(s.Field(<span class="number">0</span>))</span><br><span class="line">	<span class="comment">// output: 10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>Ref: </p>
-<p>1.<a href="https://golang.org/pkg/reflect/" target="_blank" rel="noopener">https://golang.org/pkg/reflect/</a><br>2.<a href="https://blog.golang.org/laws-of-reflection" target="_blank" rel="noopener">https://blog.golang.org/laws-of-reflection</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2055,7 +2099,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">247</span>
+                    <span class="site-state-item-count">249</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

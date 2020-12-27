@@ -109,18 +109,18 @@
 
 
 
-  <meta name="description" content="Ref：1.https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/">
+  <meta name="description" content="operator本地编译安装 123git checkout mastermake tidymake install 编译后生成的二进制文件operator-sdk会放在$GOPATH/bin/目录下。 步骤：➜  test go mod init myapp.test.com/myappgo: creating new go.mod: module myapp.test.com/myapp➜">
 <meta name="keywords" content="k8s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kubernetes operator">
 <meta property="og:url" content="https://hysyeah.github.io/2020/06/27/kubernetes-operator/index.html">
 <meta property="og:site_name" content="hysyeah">
-<meta property="og:description" content="Ref：1.https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/">
+<meta property="og:description" content="operator本地编译安装 123git checkout mastermake tidymake install 编译后生成的二进制文件operator-sdk会放在$GOPATH/bin/目录下。 步骤：➜  test go mod init myapp.test.com/myappgo: creating new go.mod: module myapp.test.com/myapp➜">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-05T03:19:28.000Z">
+<meta property="og:updated_time" content="2020-12-12T10:08:30.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kubernetes operator">
-<meta name="twitter:description" content="Ref：1.https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/">
+<meta name="twitter:description" content="operator本地编译安装 123git checkout mastermake tidymake install 编译后生成的二进制文件operator-sdk会放在$GOPATH/bin/目录下。 步骤：➜  test go mod init myapp.test.com/myappgo: creating new go.mod: module myapp.test.com/myapp➜">
 
 
 
@@ -442,7 +442,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+                <time title="修改时间：2020-12-12 18:08:30" itemprop="dateModified" datetime="2020-12-12T18:08:30+08:00">2020-12-12</time>
               </span>
             
           
@@ -479,7 +479,13 @@
       
 
       
-        <hr>
+        <p>operator本地编译安装</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">make tidy</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>编译后生成的二进制文件<code>operator-sdk</code>会放在$GOPATH/bin/目录下。</p>
+<p>步骤：<br>➜  test go mod init myapp.test.com/myapp<br>go: creating new go.mod: module myapp.test.com/myapp<br>➜  test operator-sdk init myapp-operator</p>
+<p>创建API</p>
+<p>operator-sdk create api —version=v1alpha1 —kind=MyApp —group=myapp</p>
+<hr>
 <p>Ref：<br>1.<a href="https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/</a></p>
 
       
@@ -592,7 +598,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">247</span>
+                    <span class="site-state-item-count">249</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

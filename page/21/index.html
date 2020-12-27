@@ -380,6 +380,660 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/09/racket string类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/09/racket string类型/" class="post-title-link" itemprop="url">racket string类型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-09 23:58:30" itemprop="dateCreated datePublished" datetime="2017-11-09T23:58:30+08:00">2017-11-09</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>(string-ref str k) → char? ;通过下标获取字符串元素
+  str : string?
+  k : exact-nonnegative-integer?&lt;/pre&gt;
+
+
+
+&gt;(string-ref &quot;hello&quot; 0)
+#\h
+
+
+
+(make-string k [char]) → string?
+  k : exact-nonnegative-integer?
+  char : char? = #\nul
+通过给定一个字符串长度，和一个默认填充字符串，返回一个可改变的字符串
+
+
+
+
+
+&gt;(define s (make-string 5 #\z))
+&gt;s
+&quot;zzzzz&quot;
+
+
+
+(string-set! str k char) → void?
+  str : (and/c string? (not/c immutable?))
+  k : exact-nonnegative-integer?
+  char : char?
+修改可变字符串str的第k个字符串为char&lt;/pre&gt;
+
+
+
+&gt;(string-set! s 2 #\&amp;)
+&gt;s
+&quot;zz&amp;zz&quot;
+
+
+(string&lt;? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+字符串比较，如果str1&lt;str2 ...+,刚返回#t,
+
+(string&lt;=? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+(string=? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+判断str1,str2 ...+是否相等
+(string&gt;? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?&lt;/pre&gt;
+
+
+
+(string-copy! dest  ;目标字符串  
+    dest-start      ;目标字符串起始下标
+    src             ;源字符串
+    [src-start      ;源字符串起始下标
+     src-end]) → void?  ;源字符串结束下标
+    dest : (and/c string? (not/c immutable?))  
+    dest-start : exact-nonnegative-integer?  
+    src : string?  
+    src-start : exact-nonnegative-integer? = 0  
+    src-end : exact-nonnegative-integer? = (string-length src)
+
+
+&gt;(string-copy! s 0 &quot;hello&quot; 0 5)
+&gt;s
+&quot;hello&quot;
+
+
+(string-fill! dest char) → void?
+  dest : (and/c string? (not/c immutable?))
+  char : char?
+  填充字符串&lt;/pre&gt;
+
+
+&gt;(string-fill! s #\q)
+&gt;s
+&quot;qqqqq&quot;
+
+
+(string-append str ...) → string?
+  str : string?
+返回一个新的拼接的字符串&lt;/pre&gt;
+
+
+&gt;(string-append &quot;Apple&quot; &quot;Banana&quot;)
+&quot;AppleBanana&quot;
+
+
+(string-length str) → exact-nonnegative-integer?
+  str : string?
+  返回字符串长度&lt;/pre&gt;
+
+
+&gt;(string-length &quot;Hello&quot;)
+5
+
+
+(substring str start [end]) → string?
+  str : string?
+  start : exact-nonnegative-integer?
+  end : exact-nonnegative-integer? = (string-length str)
+  获取子字符串&lt;/pre&gt;
+
+
+&gt;(substring &quot;hello&quot; 0 4)
+&quot;hell&quot;
+
+
+(string-&gt;list str) → (listof char?)
+  str : string?
+  将字符串转换为列表&lt;/pre&gt;
+
+
+&gt;(string-&gt;list &quot;Apple&quot;)
+&#39;(#\A #\p #\p #\l #\e)
+
+
+(list-&gt;string lst) → string?
+  lst : (listof char?)
+  将列表转换为string&lt;/pre&gt;
+
+
+&gt;(list-&gt;string (list #\A #\p #\p #\l #\e))
+&quot;Apple&quot;
+
+
+(build-string n proc) → string?
+  n : exact-nonnegative-integer?
+  proc : (exact-nonnegative-integer? . -&gt;. char?)
+  通过proc以0-n的顺序创建一个长度为n的字符串&lt;/pre&gt;
+
+
+&gt;(build-string 5 (lambda (i) (integer-&gt;char (+ i 97))))
+&quot;abcde&quot;
+
+
+(string-ci=? str1 str2 ...+) → boolean?
+  str1 : string?
+  str2 : string?
+  当参数str1,str2 ...+经过函数string-foldcase处理，若str1,str2 ...+相等则返回true
+(string-ci&lt;? str1 str2 ...+) → boolean? 
+  str1 : string? 
+  str2 : string? 
+(string-ci&lt;=? str1 str2 ...+) → boolean? 
+  str1 : string? 
+  str2 : string? 
+(string-ci&gt;? str1 str2 ...+) → boolean? 
+  str1 : string? 
+  str2 : string?&lt;/pre&gt;
+
+
+&gt;(string-ci=? &quot;Apple&quot; &quot;apple&quot;)
+#t
+
+
+(string-upcase str) → string?
+  str : string?
+  将字符串转换为大写
+(string-downcase string) → string?
+  string : string?
+  将字符串转换为小写
+(string-titlecase string) → string?
+  string : string?
+  将单词的第一个字母进行大写
+(string-foldcase string) → string?
+  string : string?
+  将字符串转换为小写，特殊字符存在某种转换&lt;/pre&gt;
+
+
+&gt;(string-foldcase &quot;Straße&quot;)
+&quot;strasse&quot;
+&gt;(string-downcase &quot;Straße&quot;)
+&quot;straße&quot;
+
+
+(string-join strs    ;以指定分隔符连接字符串
+   [sep    
+   #:before-first before-first    
+   #:before-last before-last    
+   #:after-last after-last]) → string?  
+  strs : (listof string?)  
+  sep : string? = &quot; &quot;  
+  before-first : string? = &quot;&quot;  
+  before-last : string? = sep  
+  after-last : string? = &quot;&quot;)
+
+
+&gt;(string-join &#39;(&quot;one&quot; &quot;two&quot; &quot;three&quot; &quot;four&quot;) &quot;;&quot;)
+&quot;one;two;three;four&quot;
+
+
+ (string-split str   ;切分字符串，返回一个列表
+    [sep    
+     #:trim? trim?    
+     #:repeat? repeat?]) → (listof string?)  
+    str : string?  
+    sep : (or/c string? regexp?) = #px&quot;\\s+&quot;  
+    trim? : any/c = #t  
+    repeat? : any/c = #f)&lt;/pre&gt;
+
+
+&gt;(string-split &quot; foo bar baz \r\n\t&quot;)
+&#39;(&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;)
+
+
+(string-trim str    ;去掉字符串前后的sep
+   [sep    
+    #:left? left?    
+    #:right? right?    
+    #:repeat? repeat?]) → string?  
+   str : string?  
+   sep : (or/c string? regexp?) = #px&quot;\\s+&quot;  
+   left? : any/c = #t  
+   right? : any/c = #t  repeat? : any/c = #f&lt;/pre&gt;
+
+
+&gt;(string-trim &quot;  foo bar  baz \r\n\t&quot;)
+&quot;foo bar  baz&quot;
+
+
+(non-empty-string? x) → boolean?
+  x : any/c
+当x是字符串且不为空时，返回#t，否则返回#f&lt;/pre&gt;
+
+
+&gt;(non-empty-string? &quot;&quot;)
+#f
+
+
+(string-contains? s contained) → boolean?
+  s : string?
+  contained : string?
+判断containde是否存在于s中&lt;/pre&gt;
+
+
+&gt;(string-contains? &quot;ab&quot; &quot;a&quot;)
+#t
+
+
+(string-prefix? s prefix) → boolean?
+  s : string?
+  prefix : string?
+  判断是否是开头
+(string-suffix? s suffix) → boolean?
+  s : string?
+  suffix : string?
+  判断是否是结尾&lt;/pre&gt;
+
+
+&gt;(string-prefix? &quot;hello&quot; &quot;he&quot;)
+#t
+
+
+&gt;(string-suffix? &quot;hello&quot; &quot;lo&quot;)
+#t
+</code></pre><p>Ref： 1.<a href="https://docs.racket-lang.org/reference/strings.html?q=string#%28def._%28%28quote._~23~25kernel%29._string%29%29" target="_blank" rel="noopener">官方文档</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/09/racket lambda和let/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/09/racket lambda和let/" class="post-title-link" itemprop="url">racket lambda和let</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-09 22:40:39" itemprop="dateCreated datePublished" datetime="2017-11-09T22:40:39+08:00">2017-11-09</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Racket/" itemprop="url" rel="index"><span itemprop="name">Racket</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>lambda</strong></p>
+<pre><code>(lambda kw-formals body ...+);kw-formals：参数，body：表达式
+&gt; ((lambda (x y) (+ x y)) 1 2);参数为x,y,表达式(+ x y),实参1,2
+&gt; 3
+
+&gt; (define add (lambda (x y) (+ x y)))
+&gt; (add 1 2)
+3
+
+&gt; ((lambda (x [y 5]) (list y x)) 1 2);参数y有一个默认值5,若没有提供参数，则y输出5
+&#39;(2 1)
+</code></pre><p><strong>let</strong> location和top-level变量类似，location产生的时候使用一个从未使用过的名称，不能被重新生成和直接访问， 这里top-level变量应该指的是其它语言的全局变量。</p>
+<pre><code>(let ([id val-expr] ...) body ...+)
+(let proc-id ([id init-expr] ...) body ...+)
+
+从左到执行表达式，为每个id创建一个location,并将值赋给这个location，然后执行body中的语句。
+
+&gt; (let ([x 5] [y 5]) (+ x y));
+10
+&gt; (let fac ([n 10])
+    (if (zero? n)
+        1
+        (* n (fac (sub1 n)))))
+3628800
+
+
+(let* ([id val-expr] ...) body ...+)
+和let相像，一个一个执行val-expr,为每个id创建location,绑定ids到val-exprS和bodyS中。
+&gt;(let* ([x 1]
+       [y (+ x 1)])
+   (list y x))
+&#39;(2 1)
+如果此处将let*改为let,则会报错(x未定义,因为x为绑定到var-exprS中)
+
+
+
+(letrec ([id val-expr] ...) body ...+)
+和let相似，从左到右执行val-exprS，但所有idS的location是先创建的，当执行val-expr后，
+idS马上被初始化，绑定到val-exprS和bodyS命名空间中。
+
+
+(let-values ([(id ...) val-expr] ...) body ...+)
+和let相似，val-expr中返回的变量必须和id中的数量一致，绑定到body中，
+
+&gt; (let-values ([(x y) (quotient/remainder 10 3)])
+    (list y x))
+&#39;(1 3)
+(let*-values ([(id ...) val-expr] ...) body ...+);和let-values相似，但会把location绑定到val-exprS中。
+
+(letrec-values ([(id ...) val-expr] ...) body ...+);和letrec相似，对id赋值的方式不一样
+</code></pre><hr>
+<p>Ref： 1.<a href="https://docs.racket-lang.org/reference/lambda.html#%28form._%28%28lib._racket%2Fprivate%2Fbase..rkt%29._lambda%29%29&quot;" target="_blank" rel="noopener">官方文档lambda</a> 2.<a href="https://docs.racket-lang.org/reference/let.html#%28form._%28%28lib._racket%2Fprivate%2Fletstx-scheme..rkt%29._let%29%29" target="_blank" rel="noopener">官方文档let</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/08/racket自定义数据类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1930,369 +2584,6 @@ exec(compile(&#39;def _raise(*a): raise a[0], a[1], a[2]&#39;, &#39;&lt;py3fix&g
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/python魔术方法之__init__,__del__/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/python魔术方法之__init__,__del__/" class="post-title-link" itemprop="url">python魔法变量之__init__,__del__</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 13:15:46" itemprop="dateCreated datePublished" datetime="2017-10-02T13:15:46+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-07 05:18:00" itemprop="dateModified" datetime="2019-08-07T05:18:00+08:00">2019-08-07</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>init</strong>相当于构造函数，<strong>del</strong>相当于析构函数,而事实上<strong>new</strong>才是构造函数，<strong>new</strong>返回一个实例，而<strong>init</strong>则进行一些初始化工作。</p>
-<pre><code>In [3]: class A(object):
-...:        def __init__(self):
-...:            print(&quot;init&quot;)
-...:        def __del__(self):
-...:            print(&quot;del&quot;)
-...:
-
-In [4]: a = A()
-init
-
-In [5]: del a
-del
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/02/python编码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/02/python编码/" class="post-title-link" itemprop="url">python编码</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-02 13:02:16" itemprop="dateCreated datePublished" datetime="2017-10-02T13:02:16+08:00">2017-10-02</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="python2中的默认编码为ASCII-在python3改为了unicode。"><a href="#python2中的默认编码为ASCII-在python3改为了unicode。" class="headerlink" title="python2中的默认编码为ASCII,在python3改为了unicode。"></a>python2中的默认编码为ASCII,在python3改为了unicode。</h4><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/10/u.jpg" alt="image"> <img src="http://img.hysyeah.top/wp-content/uploads/2017/10/u-1.jpg" alt="image"></p>
-<h4 id="python2中-python3中已经没有-unicode-basestring"><a href="#python2中-python3中已经没有-unicode-basestring" class="headerlink" title="python2中,python3中已经没有(unicode,basestring)"></a>python2中,python3中已经没有(unicode,basestring)</h4><pre><code>unicode_type = unicode
-
-string_type = basestring
-</code></pre><p>python3中</p>
-<pre><code>unicode_type = str
-
-string_type = bytes
-</code></pre><hr>
-<p>Ref： 1.<a href="http://www.jianshu.com/p/2bb8a1300bfd" target="_blank" rel="noopener">http://www.jianshu.com/p/2bb8a1300bfd</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2339,7 +2630,7 @@ string_type = bytes
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">247</span>
+                    <span class="site-state-item-count">249</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[tcp-ip subnet]]></title>
-    <url>%2F2020%2F11%2F09%2Ftcp-ip-subnet%2F</url>
-    <content type="text"><![CDATA[IP地址:互联网中的设备为了能进行通信必须拥有一个唯一的网络地址，这个地址就是IP地址,就像电话号码一样，如果不唯一就无法进行通信。 ip地址为32位，并且分为不同的地址格式，共A,B,C,D,E类。 如果两个IP具有相同的网络号，刚说明这两个IP在同一个网段，也就是同一个子网。处于同一个子网的主机可以直接通信，而不用通过网关来通信。而子网掩码就是用于来标识两个IP是否位于同一网段。 对于不同的类型的IP,网络号也是不一样的。网络号的地址可以参考上图。 子网的计算:对IP地址和子网掩码进行求余对于C类IP地址192.168.0.1，子网掩码:255.255.255.0，先转换为二进制，然后AND每一位 IP: 11000000.10101000.00000000.00000001 子网掩码:11111111.11111111.11111111.00000000 结果: 11000000.10101000.00000000.00000000 转换为十进制为:192.168.0.0,这就是IP的网络标识 CIDR表示法:比如IP:192.168.0.1,子网掩码:255.255.255.0,用CIDR的来表示则为 192.168.0.1/24。24表示子网掩码的前24位值为1,其它值都为0。 子网掩码和对应的CIDR可以参考如下的表格 子网计算器 子网的作用：子网掩码将大的网络域，分为更小的子网。较小的网络会创建较小的广播，从而产生较少的广播流量。 此外，子网还通过将网络问题隔离到特定的存在来简化故障排除。 两个IP的通信过程:假设A,B两个主机处于同一网段。那A和B是如何通信的呢?假从A中ping主机B,A会通过自己主机的子网掩码计算自己和B是否位于同一网段，如果位于同一网段,A会通过ARP获得B的MAC地址然后进行通信;如果不属于同一网段,跨子网通信需要默认网关的转发,而要和默认网关通信就需要获得其MAC地址,然后A将请求交给默认网关,网关接到请求后再转发给B。 参考:1.https://community.fs.com/blog/know-ip-address-and-subnet-mask.html2.https://docs.netgate.com/pfsense/en/latest/network/addresses.html3.https://docs.microsoft.com/en-us/troubleshoot/windows-client/networking/tcpip-addressing-and-subnetting]]></content>
+    <title><![CDATA[你真的知道子网的作用吗]]></title>
+    <url>%2F2020%2F12%2F26%2F%E4%BD%A0%E7%9C%9F%E7%9A%84%E7%9F%A5%E9%81%93%E5%AD%90%E7%BD%91%E7%9A%84%E4%BD%9C%E7%94%A8%E5%90%97%2F</url>
+    <content type="text"><![CDATA[知识点回顾我们肯定使用过ifconfig命令来查询计算机中的网络设备。不知道你有没有注意过其中的netmask(子网掩码),但你真的知道它的来龙去脉吗?今天我们就来重新认识一下netmask。 在进入主题内容前我们先来回顾一些关于IP的知识点。每一个需要使用互联网的设备都必须具有一个唯一标识,而这个唯一标识就是IP地址。就像在生活中你要打电话别个时,你必须知道这个人的手机号码不然你就无法联系到他，可以说IP地址就类似于你的手机号码。 IP地址采用分层设计,并可以将其分为如下五类。不同种类的IP地址网络号和主机号都是不一样的。 各类IP的地址范围如下,方便记忆: 子网掩码的由来,为什么需要子网掩码IP地址结构设计之初是两层结构,将IP地址分为网络号和主机号,不同的网络号下包含一系列的主机(网络设备)。在这种结构下大量的主机连接在同一个网络下，当主机数量少的网络还能正常的工作，然而这种方式缺乏弹性,当主机数量过多的时候会带来一系列的问题。举个例子,当一个公司规模较小的时候，分为两个层级｜－－－部门－－－｜－－－员工－－－｜。当有消息要传达到一个部门时只需要把消息一个个传达给指定部门的人员即可，当一个部门人员较少时这样不会有太大的问题。随着公司的快速发展，各个部门的人员越来越多，此时如果有消息传达给一个部门，只能把消息一个一个的发给部门里的员工;部门里并不是所有的员工都需要知道这个消息，但我们没有其它的信息来对员工进行分类，所以只能把消息发给部门里的所有员工。这样做的缺点显而易见，不仅管理不太方便，而且有些员工会收到自己不需要的消息。为了解决这个问题，公司往往会在目前的基础上新增一个层级：组。｜－－－部门－－－｜－－－分组－－－｜－－－员工－－－｜在部门的下面设置组，将对应的员工分配在对应的组，不仅可以方便管理还可以避免消息(资源)的浪费。 软件设计也是来源于生活。为了更好的适应于更大的网络和更好更方便的管理网络设备，于是提出了子网这个设计。 增加了子网相对以前的二层IP地址有哪些优点呢？ 弹性，可以自定义子网和子网中的主机数 对公网的不可见性，对于子网的划分只存在于组织(可以认为是局域网)内。还是上面的例子，不管公司的组织架构怎么调整在公外面看来你还是那个公司 通过子网可以对网络进行分组，不同分组的主机进行广播只有本组的主机才可以收到消息 子网掩码将大的网络域，分为更小的子网。较小的网络会创建较小的广播，从而产生较少的广播流量。 此外，子网还通过将网络问题隔离到特定的存在来简化故障排除 IP地址是固定的32位，那如何在原来二层结构的IP地址进行的子网的划分呢？ 此时就是轮到子网掩码上场了。 为了在不改变IP地址结构的前提下,于是人们提出了子网掩码。但是用哪几位数据来表示子网呢，答案是从主机号中借位来充当子网。 FOR EXAMPLE：B类地址:154.71.0.0, 如果不使用子网的话，154.71这个网络号可以容纳65534(pow(2,10)-2)个主机。然而你可以通过子网掩码对这个网络进行子网划分。你可以使用1位来表示子网，则剩余的15位来表示主机号；如果使用2位来表示子网，则剩余的14位来表示主机号，以此类推。你使用越多的位数来表示子网，相应的用来表示主机号的位数也就越好。最少要使用2位来表示主机号，因为减去主机后全为0和全为1的两个IP地址。 假如你要使用5位来作子网，则subnet id这5位在子网掩码中必须为1，表示这5位用于子网。12345678910# RFC950Special Addresses: From the Assigned Numbers memo [9]: &quot;In certain contexts, it is useful to have fixed addresses with functional significance rather than as identifiers of specific hosts. When such usage is called for, the address zero is to be interpreted as meaning &quot;this&quot;, as in &quot;this network&quot;. The address of all ones are to be interpreted as meaning &quot;all&quot;, as in &quot;all hosts&quot;. For example, the address 128.9.255.255 could be interpreted as meaning all hosts on the network 128.9. Or, the address 0.0.0.37 could be interpreted as meaning host 37 on this network.&quot; It is useful to preserve and extend the interpretation of these special addresses in subnetted networks. This means the values of all zeros and all ones in the subnet field should not be assigned to actual (physical) subnets. 上面这段话的大致意思是在IP地址中全为0或全为1的有特殊的含义或特殊的用途。比如IP地址128.9.255.255是网络号为128.9的文播地址，发往128.9.255.255的网络包会广播至该网络的所有主机。地址128.9.0.0会被解释为此网络，也不建议使用。因此上面5-bit的子网建议使用除0和31以外的子网。子网计算器 有无子网通信有何差异在无子网这个概念之前，假如主机A访问主机B，主机A会判断主机B和自己是不是在同一个网段，即拥有同样的网络号，如果网络号相同则A会通过ARP获得B的MAC地址然后进行通信；如果网络不相同，则将请求发送给默认网关然后再由网关进行路由。 12345IF ip_net_number(dg.ip_dest) = ip_net_number(my_ip_addr) THEN send_dg_locally(dg, dg.ip_dest) ELSE send_dg_locally(dg, gateway_to(ip_net_number(dg.ip_dest))) 实现子网划分后，主机A判断和主机B是否在同一个子网，如果在同一个子网A会通过ARP获得B的MAC地址然后进行通信；如果不在同一个子网，则将请求发送给默认网关然后再由网关进行路由。12345IF bitwise_and(dg.ip_dest, my_ip_mask) = bitwise_and(my_ip_addr,my_ip_mask) THEN send_dg_locally(dg, dg.ip_dest) ELSE send_dg_locally(dg, gateway_to(bitwise_and(dg.ip_dest, my_ip_mask))) 子网掩码是如何发现的当网络启动的时候主机如何确定自己的子网掩码呢？ 首先主机会从磁盘文件中获取子网掩码信息，如果存在则直接使用；如果磁盘上没有记录子网掩码信息，主机将会发出广播信息以此请求子网掩码。 例子:来自rfc950 假如在A类网络36.0.0.0有主机IP为36.40.0.123,网关为32.40.0.62,使用8-bit作为subnet id则其子掩码为255.255.0.0。 如果主机不知道自己的IP地址则会通过RARP协议获取自己的IP地址。然后发送ICMP请求到广播地址255.255.255.255: key val Source address: 36.40.0.123 Destination address: 255.255.255.255 Protocol: ICMP = 1 Type: Address Mask Request = AM1 Code: 0 Mask: 0 然后网关可以直接回复网络包给主机36.40.0.123,主机便获取到了自己的子网掩码 key val Source address: 36.40.0.62 Destination address: 36.40.0.123 Protocol: ICMP = 1 Type: Address Mask Request = AM2 Code: 0 Mask: 255.255.0.0 假如主机根本不知道自己的主机号则会发出如下内容的包。 key val Source address: 0.0.0.0 Destination address: 255.255.255.255 Protocol: ICMP = 1 Type: Address Mask Request = AM1 Code: 0 Mask: 0 网关将会收到数据包，然后回复如下内容的数据包：|key|val||—-|—-||Source address:|36.40.0.62||Destination address:|255.255.255.255||Protocol:|ICMP = 1||Type:|Address Mask Request = AM2||Code:|0||Mask:|255.255.0.0| 如果主机不允许进行广播消息并且假设主机知道网关的地址，主机刚会直接发数据包给网关请求子网掩码。 无法获取子网掩码的情况在如下三种情况下，经过多次尝试后仍可能无法获取子网掩码：1.网络与其它所有网络隔离2.未使用子网而且没有其它主机可以提供子网掩码3.此网络上的所有网关都未能启动。 在第一种和第二种情况，子网掩码等于网络号。在第三种情况下，无法确定主机的子网掩码因此最安全的做法就是将子网掩码设置为网络号，虽然可能是错误的。当网关正常工作后，网关会广播Address Mask Reply类型的数据包，主机收到数据包后，会更正自己的子网掩码。 REF：1.RFC9502.tcpipguide.com]]></content>
       <tags>
-        <tag>tcp-ip</tag>
+        <tag>－网络协议</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux-perf]]></title>
+    <url>%2F2020%2F11%2F21%2Flinux-perf%2F</url>
+    <content type="text"><![CDATA[参考：1.[https://perf.wiki.kernel.org/index.php/Main_Page]]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux-xxd]]></title>
+    <url>%2F2020%2F11%2F21%2Flinux-xxd%2F</url>
+    <content type="text"><![CDATA[xxd是Linux平台下的一款工具，可以用于原文件和二进制文件之间的互相转换。man page描述：12345xxd creates a hex dump of a given file or standard input. It can alsoconvert a hex dump back to its original binary form. Like uuencode(1)and uudecode(1) it allows the transmission of binary data in a `mail-safe&apos; ASCII representation, but has the advantage of decoding to stan‐dard output. Moreover, it can be used to perform binary file patching xxd常用方法 12345678910➜ ~ echo 'hello,world' &gt; origin.txt# 将文件内容转换为十六进制内容➜ ~ xxd origin.txt00000000: 6865 6c6c 6f2c 776f 726c 640a hello,world.# 将十六进制内容恢复到一个新文件中➜ ~ xxd origin.txt |xxd -r &gt; new.text➜ ~ cat new.text hello,world xxd还支持将文件转换成二进制，格式化输出等。具体可查看官方文档 参考:1.linux-man-page-xxd]]></content>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -125,7 +141,7 @@
   <entry>
     <title><![CDATA[kubernetes operator]]></title>
     <url>%2F2020%2F06%2F27%2Fkubernetes-operator%2F</url>
-    <content type="text"><![CDATA[Ref：1.https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/]]></content>
+    <content type="text"><![CDATA[operator本地编译安装 123git checkout mastermake tidymake install 编译后生成的二进制文件operator-sdk会放在$GOPATH/bin/目录下。 步骤：➜ test go mod init myapp.test.com/myappgo: creating new go.mod: module myapp.test.com/myapp➜ test operator-sdk init myapp-operator 创建API operator-sdk create api —version=v1alpha1 —kind=MyApp —group=myapp Ref：1.https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/]]></content>
       <tags>
         <tag>k8s</tag>
       </tags>
