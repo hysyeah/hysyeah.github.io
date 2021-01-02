@@ -380,6 +380,261 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/10/k近邻法-k_Nearest Neighbors/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/10/k近邻法-k_Nearest Neighbors/" class="post-title-link" itemprop="url">k近邻法-k_Nearest Neighbors</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-10 15:47:05" itemprop="dateCreated datePublished" datetime="2018-06-10T15:47:05+08:00">2018-06-10</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>k近邻法(knn)就一种基本分类与回归方法。 <img src="http://img.hysyeah.top/wp-content/uploads/2018/06/knn.png" alt="image"></p>
+<pre><code>from scipy.spatial import minkowski_distance
+def classify0(inX, dataSet, labels, k):
+  #    dataSetSize = dataSet.shape[0]
+  #    diffMat = np.tile(inX, (dataSetSize, 1)) - dataSet
+  #    sqDiffMat = diffMat **2
+  #    sqDistances = sqDiffMat.sum(axis=1)
+  #    distances = sqDistances**0.5
+  #    print(&#39;distances&#39;, distances)
+    distances = minkowski_distance(inX, dataSet) #计算inX与与dataSet各个点的距离，返回个array
+    sortedDistIndicies = distances.argsort()     #返回排序后的元素下标
+    classCount = {}
+
+    for i in range(k):
+        voteIlabel = labels[sortedDistIndicies[i]] #获得对应的label
+        classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
+        # 对classCount根据键值进行排序
+        sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
+    return sortedClassCount[0][0]
+
+# 将txt转换为矩阵
+def file2matrix2(filename):
+    data = np.genfromtxt(filename, dtype=&#39;|U8&#39;)
+    returnMat = data[:, 0:-1].astype(&#39;float64&#39;)
+    return returnMat, data[:,-1]
+
+# 数据进行规格化处理
+def autoNorm(dataSet):
+    minVals = dataSet.min(0)
+    maxVals = dataSet.max(0)
+    ranges = maxVals - minVals
+    normDataSet = np.zeros(dataSet.shape)
+    m = dataSet.shape[0]
+    normDataSet = dataSet - np.tile(minVals, (m, 1))
+    normDataSet = normDataSet/np.tile(ranges, (m,1))
+    return normDataSet, ranges, minVals
+
+ # 这里使用了scikit-learn中的API,结果与autoNorm是一样的
+def autoNorm2(dataSet):
+    from sklearn.preprocessing import normalize
+    minVals = dataSet.min(0)
+    maxVals = dataSet.max(0)
+    normDataSet = normalize(dataSet, norm=&#39;max&#39;,axis=0)
+    return normDataSet, maxVals-minVals, minVals
+
+# 将txt文件转换为向量
+ def img2vec(filename):
+     rVec = np.zeros((1,1024))
+     f = open(filename)
+     for i in range(32):
+         line = f.readline()
+         for j in range(32):
+             rVec[0, 32*i+j] = int(line[j])
+    return rVec
+
+# 对手写数字进行测试
+def handwritingClassTest():
+     hwLabels = []
+     trainFileList = os.listdir(&#39;digits/trainingDigits/&#39;)
+     m = len(trainFileList)
+     trainingMat = np.zeros((m, 1024))
+     for i in range(m):
+         filename = trainFileList[i]
+         className = int(filename.split(&#39;_&#39;)[0])
+         hwLabels.append(className)
+         trainingMat[i,:] = img2vec(&#39;digits/trainingDigits/%s&#39; % filename)
+     testFileList = os.listdir(&#39;digits/testDigits&#39;)
+     accuracyCount = 0.0
+     mTest = len(testFileList)
+     for i in range(mTest):
+         filename = testFileList[i]
+         className = int(filename.split(&#39;_&#39;)[0])
+         vecTest = img2vec(&#39;digits/testDigits/%s&#39; % filename)
+         classifierResult = classify0(vecTest, trainingMat, hwLabels, 1)
+         if classifierResult == className:
+             accuracyCount += 1
+     print(&quot;the total accuracy rate is: %f&quot; % (accuracyCount/mTest))
+</code></pre><p><a href="https://github.com/hys20151008/ml_python/blob/master/knn.py" target="_blank" rel="noopener">完整代码</a></p>
+<hr>
+<p>在正式进行数据挖掘之前，尤其是使用基于对象距离的 挖掘算法时，如：神经网络、最近邻分类等，必须 进行数据规格化。也就是将其缩至特定的范围之内，如：[0,10]。如：对于一 个顾客信息数据库中的年龄属性或工资属性，由于工资属性的取值比年龄属性的 取值要大许多，如果不进行规格化处理，基于工资属性的距离计算值显然将远超 过基于年龄属性的距离计算值，这就意味着工资属性的作用在整个数据对象的距 离计算中被错误地放大了。 规格化就是将一个属性取值范围投射到一个特定范围之内，以消除数值型属 性因大小不一而造成挖掘结果的偏差。规划化处理常常用于神经网络、基于距离 计算的最近邻分类和聚类挖掘的数据预处理。 。对于神经网络，采用规格化后的数据不仅有助于确保学习结果的正确性，而且也会帮助提高学习的速度。对于基于距离计算的挖掘，规格化方法可以帮助消除因属性取值范围不同而影响挖掘结果 的公正性。<br> 三种规格化方法： </p>
+<p> 1.最大最小规格化方法 该方法对初始数据进行一种线性转换。设$ min_{A} $和$ max_{A} $为属性A的最小和最大值。最大最小规格化方法将属性A的一个值映射为$ v^{‘} $且有$ v^{‘} \in [new_min_{A},new_max_{A}] $,具体映射公式如下： $ v^{‘} = \frac{v-min_{A}}{max_{A}-min_{A}} (new_max_{A}-new_min_{A})+new_min_{A} $ </p>
+<p>2.零均值规格化方法。该方法是根据属性A的均值和偏差来对A进行规格化。属性A的v值可以通过以下计算公式获得其映射值$ v^{‘} $ $ v^{‘} = \frac{v-\bar A}{\sigma_{A}} $<br>其中的$ \bar A $和$ \sigma_{A} $分别为属性A的均值和方差。这种规格化方法常用于属性A最大值与最小值未知，或使用最大最小规格化方法时会出现异常数据的情况。 </p>
+<p>3.十基数变换规格化方法。 该方法通过移动属性A值的小数位置来达到规格化的目的。把移动的小数位取决于属性a绝对值的最大值。属性A的v值可以通过以下计算公式获得其映射值$ v^{‘} $。 $ v^{‘} = \frac{v}{10^{j}} $ 其中j为使$ \max(|v^{‘}|) \lt 1 $成立的最小值。</p>
+<hr>
+<p>Ref：<br>1.统计学习方法-李航<br>2.数据挖掘导论<br>3.机器学习实战</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/06/08/感知机算法的对偶形式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2218,182 +2473,6 @@ stats.pearsonr(a,b)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/在客户机添加路由访问docker集群服务/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/17/在客户机添加路由访问docker集群服务/" class="post-title-link" itemprop="url">在客户机添加路由访问docker集群服务</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-17 16:29:54" itemprop="dateCreated datePublished" datetime="2018-05-17T16:29:54+08:00">2018-05-17</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在局域网(网段为10.68.2.0/24)中通过docker搭建了spark服务，docker容器的网段为192.168.2.0/24。 在相同网段的客户机中要访问docker容器中的服务，可以在客户机添加路由</p>
-<pre><code># linux环境下 10.68.2.xx:为网关，也就是搭建服务电脑的ip
-sudo route add -net 192.168.2.0 netmask 255.255.255.0 gw 10.68.2.xx
-
-# windows环境下
-route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2440,7 +2519,7 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">249</span>
+                    <span class="site-state-item-count">250</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2578,7 +2657,9 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
                     
                       
                     
-                    <span class="site-state-item-count">20</span>
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2620,7 +2701,7 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2020</span>
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -3091,11 +3172,11 @@ route add 192.168.0.0 mask 255.255.0.0 10.68.2.xxx
   
     
       
-    
-      
-    
-      
         
+      
+    
+      
+    
       
     
       
