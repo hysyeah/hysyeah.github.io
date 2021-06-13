@@ -380,6 +380,731 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/pandas数据类型DataFrame及基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/23/pandas数据类型DataFrame及基本操作/" class="post-title-link" itemprop="url">pandas数据类型DataFrame及基本操作</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-23 10:54:17" itemprop="dateCreated datePublished" datetime="2018-05-23T10:54:17+08:00">2018-05-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>import pandas as pd
+df = pd.DataFrame()
+df[:n] #取前n行
+
+df.loc[行标签,列标签]
+df.loc[&#39;a&#39;:&#39;b&#39;]#选取ab两行数据,ab为行名
+df.loc[:,&#39;one&#39;]#选取one列的数据
+
+df.iloc(n)    #取第n行
+df.iloc[:,0]  #取第0列
+df.iloc[:,[0,1]] #取第0列和第1列
+
+df2 = df.fillna(pd.NaT)
+df.to_excel(&#39;foo.xlsx&#39;, sheet_name=&#39;Sheet1&#39;) #写入Excel
+
+df.dropna(how=&#39;any&#39;) #当有一项为NaN时，丢弃整行或整列
+df.dropna(how=&#39;all&#39;) #当所有项都为NaN时，丢弃整行或整列
+
+df.describe()        #展示df的相关信息
+
+
+# 创建DataFrame
+In [63]: import pandas as pd
+In [64]: d ={&#39;A&#39;:[1,2,3],&#39;B&#39;:[4,5,6]}
+In [65]: df = pd.DataFrame(df,index=[&#39;x&#39;,&#39;y&#39;,&#39;z&#39;])
+
+In [67]: df
+Out[67]:
+   A  B
+x  1  4
+y  2  5
+z  3  6
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/21/numpy相关函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/21/numpy相关函数/" class="post-title-link" itemprop="url">numpy相关函数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-21 10:24:58" itemprop="dateCreated datePublished" datetime="2018-05-21T10:24:58+08:00">2018-05-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>import numpy as np
+import scipy as sp
+
+a = np.ones((2, 3),dtype=int)
+a.sum(axis=0)#按列相加
+a.sum(axis=1)#按行相加
+
+a.ravel()#转为一维
+
+b = a.reshape #返回一个新的修改后的数组,若修改b中的值,a中相应的值也会改变，若要真正的拷贝改为b = a.reshape().copy()
+a.resize#直接修改数组本身,返回值为None
+a.ndim #返回矩阵的维度
+a.shape #返回矩阵的大小(行数, 列数)
+
+np.argmax(a) #返回最大值的下标
+np.isnan(a) #返回和a一样大小的矩阵，若为nan则为True,否则为False
+a[~np.isnan(a)] #返回过滤nan元素后的矩阵
+np.nan != np.nan is true
+
+sp.sum(np.isnan(a)) # 返回元素值为nan的个数
+np.linspace(start,stop,num) #返回在区间start--stop中的num个点
+np.logspace(start, stop, num=50, endpoint=True, base=10.0) #返回在区间base**start--base**stop中的num个点
+a[:,0] #取a的第0例
+
+d = a[:,0:-1]    #除去最后一列
+d.min(0)         #取每列的最小值
+d.min(1)         #取每行的最大值
+d[i,:]           #取第i行
+d[100:1000,:]    #取[100,1000)行
+
+
+np.eye            #对角矩阵,只有对角线上有非0元素的矩阵称为对角矩阵
+np.identity       #同上
+np.linalg.inv(a)  #求矩阵a的逆矩阵
+np.trace          #矩阵的迹(即对角线元素之和)
+numpy.matrix.getH #共轭转置
+np.ones           #返回一个矩阵元素全为1
+numpy.linalg.det  #计算矩阵的行列式
+
+np.random.uniform(low=0.0, high=1.0, size=None) #从均匀分布中取样,size为返回array元素的个数
+np.linalg.svd              #奇异值分解
+np.mat             #将输入转换为矩阵对象
+
+np.transpose       #矩阵转置,np.transpose(a)相当于a.T
+np.sign(x)            #T函数返回 -1 if x &lt; 0, 0 if x==0, 1 if x &gt; 0. nan if x is nan.
+np.matmul             # 两个矩阵之间的积
+
+numpy.random.normal       #生成高斯矩阵
+numpy.random.choice       #从序列中随机选取
+numpy.asarray             #将python list转换为numpy array
+
+
+np.unique(a)              #返回去重后的array
+
+rng = np.random.RandomState(0)
+X = rng.rand(10, 2000)
+
+
+In:np.linspace(0,10,9)       #在区间[0,10]中,返回含有9个元素的等差数组
+Out:array([ 0.  ,  1.25,  2.5 ,  3.75,  5.  ,  6.25,  7.5 ,  8.75, 10.  ])
+
+In:np.arange(0,10,9)         #返回在区间[0,10],步长为9的数组
+Out: array([0, 9])
+
+
+In [43]: b = np.array([[1,2,3],[4,5,6]])
+
+In [44]: b.reshape(3,-1)   #-1会被自动识别为2
+Out[44]:
+array([[1, 2],
+       [3, 4],
+       [5, 6]])
+
+In [45]: b.reshape(-1,3) #-1会被自动识别为2
+Out[45]:
+array([[1, 2, 3],
+       [4, 5, 6]])
+
+
+
+np.var                             #方差
+In [126]: a = np.array([[1, 2], [3, 4]])
+
+In [127]: np.var(a)   #求展开后所有数的方差
+Out[127]: 1.25
+
+In [128]: np.var(a, axis=0)    #按列计算方差
+Out[128]: array([1., 1.])
+
+In [129]: np.var(a, axis=1)    #按行计算方差
+Out[129]: array([0.25, 0.25])
+
+
+np.cov                             #协方差
+
+
+np.tile(A, reps) 根据reps重复A生成一个矩阵,reps为(行数,列数),可把A看作一个元素
+In [165]: a = np.array([1,2,3])
+In [166]: d = np.tile(a,(3,2))
+
+In [167]: d
+Out[167]:
+array([[1, 2, 3, 1, 2, 3],
+       [1, 2, 3, 1, 2, 3],
+       [1, 2, 3, 1, 2, 3]])
+
+
+# 求矩阵a的秩
+In [3]: a
+Out[3]:
+array([[ 2, -1,  0,  3, -2],
+       [ 0,  3,  1, -2,  5],
+       [ 0,  0,  0,  4, -3],
+       [ 0,  0,  0,  0,  0]])
+
+In [4]: np.linalg.matrix_rank(a)
+Out[4]: 3
+
+
+
+# nonzero 返回非零元素的下标
+In [1]: a = np.array([0,2,0])
+
+In [2]: np.nonzero(a)
+Out[2]: (array([1]),)
+
+In [3]: a[np.nonzero(a)]        # 取数组a的非零元素
+Out[3]: array([2])
+
+In [4]: x = np.array([[1, 0, 0], [0, 2, 0], [1, 1, 0]]) # 二维数组
+
+In [5]: x
+Out[5]:
+array([[1, 0, 0],
+       [0, 2, 0],
+       [1, 1, 0]])
+
+In [6]: np.nonzero(x)
+Out[6]: (array([0, 1, 2, 2]), array([0, 1, 0, 1]))
+
+
+# np.multiply(x, y) == x * y
+In [120]: x = np.array([1, 2, 3])
+In [121]: y = np.array([4, 5, 6])
+
+In [122]: x *y
+Out[122]: array([ 4, 10, 18])
+
+In [123]: np.multiply(x, y)
+Out[123]: array([ 4, 10, 18])
+
+
+# np.mean 求均值
+&gt;&gt;&gt; a = np.array([[1, 2], [3, 4]])           #求所有数的均值
+&gt;&gt;&gt; np.mean(a)
+2.5
+&gt;&gt;&gt; np.mean(a, axis=0)                      # 对列求均值
+array([ 2.,  3.])
+
+&gt;&gt;&gt; np.mean(a, axis=1)                      # 对行求均值
+array([ 1.5,  3.5])
+
+
+In [132]: a = np.array([[1, 2], [3, 4]])
+In [132]: ma = np.mat(a)
+
+In [133]: ma
+Out[133]:
+matrix([[1, 2],
+        [3, 4]])
+
+In [134]: ma.A                       # 返回array形式
+Out[134]:
+array([[1, 2],
+       [3, 4]])
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/20/皮尔逊相关系数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/20/皮尔逊相关系数/" class="post-title-link" itemprop="url">皮尔逊相关系数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-20 15:11:58" itemprop="dateCreated datePublished" datetime="2018-05-20T15:11:58+08:00">2018-05-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>皮尔逊相关系数 两个变量之间的皮尔逊相关系数定义为两个变量之间的协方差和标准差的商<br>上式定义了总体相关系数，常用希腊小写字母 作为代表符号。估算样本的协方差和标准差，可得到皮尔逊相关系数，常用英文小写字母 代表 $ \rho_{X,Y}=\frac{cov(X,Y)}{\sigma_{X}\sigma_{Y}}=\frac{E[(X-\mu_{x})(Y - \mu_{Y})]}{\sigma_{X}\sigma_{Y}} $ $ r = \frac{\sum_{i=1}^n(X_{i}-\overline X)(Y_{i}-\overline Y)}{\sqrt{\sum_{i=1}^n(X_{i}-\overline X)^2}\sqrt{\sum_{i=1}^n(Y_{i}-\overline Y)^2}} $</p>
+<hr>
+<pre><code>from scipy import stats
+import numpy  as np
+a = np.array([0, 0, 0, 1, 1, 1, 1])
+b = np.arange(7)
+stats.pearsonr(a,b)
+(0.8660254037844386, 0.011724811003954654)
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/17/在客户机添加路由访问docker集群服务/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1824,612 +2549,11 @@ factorial(6) # out :array(720.0)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/06/第1章 统计学习方法概论/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/06/第1章 统计学习方法概论/" class="post-title-link" itemprop="url">第1章 统计学习方法概论</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-06 19:49:00" itemprop="dateCreated datePublished" datetime="2018-05-06T19:49:00+08:00">2018-05-06</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>统计学习(statistical learning)是关于计算机基于数据构建概率统计模型并运用模型对数据进行预测与分析的一门学科。<br>统计学习的主要特点：<br> 1.统计学习以计算机及网络为平台，是建立大计算机及网络之上的<br> 2.统计学习以数据为研究对象，是数据驱动的学科<br> 3.统计学习的目的是对数据进行预测与分析<br> 4.统计学习以方法为中心，统计学习方法构建模型并应用模型进行预测与分析<br> 5.统计学习是概率论、统计学、信息论、计算理论、最优化理论及计算机科学等多个领域的交叉学科、并且在发展中逐步形成独自的理论体系与方法论。 </p>
-<p> 统计学习关于数据的基本假设是同类数据具有一定的统计规律性，这是统计学习的前提。 统计学习的方法是基于数据构建统计模型从而对数据进行预测与分析。统计学习由监督学习(supervised learning)、非监督学习(unsupervised learning)、半监督学习(semi-supervised learning)和强化学习(reinforcement learning)等组成。 统计学习方法的步骤如下： 1.得到一个有限的训练数据集合 2.确定包含所有可能的模型的假设空间，即学习模型的集合 3.确定模型选择的准则，即学习的策略 4.实现求解最优模型的算法，即学习的算法 5.通过学习方法选择最优模型 6.利用学习的最优模型对新数据进行预测或分析</p>
-<hr>
-<p>模型就是使用什么方法对数据进行预测与分析，就是所要学习的条件概率分布或决策函数，比如是线性回归，还是用多项式回归 策略就是你你通过什么方法判断哪个模型是最优的， 算法就是求解策略的最优解的算法，如梯度下降，最小二乘法</p>
-<hr>
-<p>根据输入、输出变量的不同类型，对预测任务给予不同的名称：输入变量与输出变量均为连续变量的预测问题称为回归问题；输出变量为有限个离散变量的预测问题称为分类问题；输入变量与输出变量均为变量序列的预测问题称为标注问题。 在监督学习过程中，模型就是所要学习的条件概率分布或决策函数。 假设空间用$ \mathcal{F} $表示。假设空间可以定义为决策函数的集合 $ \mathcal{F}= \{ {\mathcal{f}|Y = f(X)}\} $ 其中，X和Y是定义在输入空间$ \chi $和输出空间$ \mathcal{Y} $上的变量。这时$ \mathcal{F} $通常是由一个参数向量决定的函数族：<br>$ \mathcal{F} = \{ {f|Y=f_{\theta}}(X),\theta\in R^{n}\} $ 参数向量$ \theta $取值于n维欧式空间$ R^{n} $,称为参数空间。 假设空间也可以定义为条件概率的集合$ \mathcal{F}=\{ {P|P(Y|X)}\} $ 策略： 统计学习的目标在于从假设空间中选取最优模型。<br>损失函数度量模型一次预测的好坏，风险函数度量平均意义下模型预测的好坏。 统计学习常用损失函数：<br>(1) 0-1损失函数<br>$ L(Y,f(X))= \begin{cases} 0,&amp; {Y\neq f(X)}\ 1,&amp; {Y\neq f(X)} \end{cases}  $<br>(2) 平方损失函数<br>$ L(Y, f(X)) = (Y - f(X))^2 $ (3) 绝对损失函数<br>$ L(Y, f(X)) = |(Y - f(X))| $ (4) 对数损失函数<br>$ L(Y, P(Y|X)) = -log P(Y|X) $</p>
-<hr>
-<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： $ min_{f\in\mathcal{F}} \frac{1}{N}\sum_{i=1}^NL(y_{(i)}, f(x_{i})) + \lambda J(f)  $ 其中，第一项是经验风险，第二项是正则化项，$ \lambda \geq 0 $为调整两者之间关系的系数。</p>
-<h4 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h4><p>1.简单交叉验证 简单交叉验证方法是：首先随机地将已给数据分为两部分，一部分作为训练，另一部分作为测试集。 2.S折交叉验证 首先随机地将已给数据切分为S个互不相交的大小相同的子集；然后利用S-1个子集的数据训练模型，利用余下的子集测试模型；将这一过程可能的S种选择重复进行；最后选出S次评测中平均测试误差最小的模型。 3.留一交叉验证 S折交叉验证的特殊情形是S=N，称为留一交叉验证，往往在数据缺乏的情况下使用，N是给定的数据集容量。</p>
-<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 $ A = \frac{TP+TN}{TP+FN+FP+TN} $ 精确率 $ P = \frac{TP}{TP+FP} $ 召回率 $ R = \frac{TP}{TP+FN} $ $ F_{1} $值 $ \frac{2}{F_{1}}= \frac{1}{P}+\frac{1}{R} $ $ F_{1} = \frac{2TP}{2TP+FP+FN} $</p>
-<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是$ \hat f $,那么利用这个模型 对未知数据预测的误差就是泛化误差<br>$ R_{exp}(\hat f) = E[L(Y, \hat f(X))] = \int_{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy $ 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合$ \mathcal{F}={f_{1},f_{2},\cdot \cdot \cdot, f_{d}} $时，对于任意一个函数$ f \in \mathcal{F} $,至少以概率$ 1-\delta $,以下不等式成立<br>$ R(f) \leq \hat R(f) + \varepsilon(d, N, \delta) $,其中$ \varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)}  $<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项$ \varepsilon(d, N, \delta) $是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
-<hr>
-<p><img src="http://img.hysyeah.top/wp-content/uploads/2018/05/向量范数.png" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/24/通过梯度下降法求最小值/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/24/通过梯度下降法求最小值/" class="post-title-link" itemprop="url">通过梯度下降法求最小值</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-24 23:02:08" itemprop="dateCreated datePublished" datetime="2018-04-24T23:02:08+08:00">2018-04-24</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。—来源于百度百科 2.给定初始值和步长，通过当前值与上一值的比较，不断进行迭代，直到符合设定的条件后停止。 3.下面是对f(x) = x * x，通过梯度下降法求最小值</p>
-<pre><code>import matplotlib.pyplot as plt
-
-f = lambda x: x*x
-
-fig, ax = plt.subplots()
-def gradient_x(step,init_val):
-    f_change, f_current = f(init_val), f(init_val)
-    count = 0
-    x = init_val
-    while f_change &gt; 0.0001:
-        x = x - 2 * step * x
-        f_change = f_current - f(x)
-        f_current = f(x)
-        count += 1
-        plt.plot(x,f(x), &quot;*-&quot;)
-    print(&quot;after%diteration func found min value %d,x value is %d&quot;,count,f(x),x) 
-    plt.show() 
-if __name__ == &#39;__main__&#39;:
-    gradient_x(0.1, 2)
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/04/gradient.png" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/23/python使用最小二乘法求拟合曲线/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/23/python使用最小二乘法求拟合曲线/" class="post-title-link" itemprop="url">python使用最小二乘法求拟合曲线</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-23 22:36:53" itemprop="dateCreated datePublished" datetime="2018-04-23T22:36:53+08:00">2018-04-23</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.<a href="https://blog.csdn.net/yauphy1/article/details/43735763" target="_blank" rel="noopener">最小二乘法</a><br> 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。</p>
-<pre><code>import numpy as np
-x = [1, 2, 3, 4]
-y = [6, 5, 7, 10]
-r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
-f = np.poly1d(r) #f为拟合函数
-</code></pre><p>求出的拟合直线为$ y = r[0]x+r[1] $, $y = 1.4x+3.5 $<br>3.画出拟合直线和数据点</p>
-<pre><code>import matplotlib.pyplot as plt
-fig = plt.subplots()
-plt.plot(1,6,&#39;*-&#39;)
-plt.plot(2,5,&#39;*-&#39;)
-plt.plot(3,7,&#39;*-&#39;)
-plt.plot(4,10,&#39;*-&#39;)
-f = lambda x: 1.4*x + 3.5
-x = [1, 2, 3, 4]
-y = [f(e) for e in x]
-plt.plot(x,y)
-plt.show()
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
-<hr>
-<h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-
-
-x = np.array([ 6,  8, 10, 14, 18])
-y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
-
-plt.plot(x, y, &#39;k.&#39;)
-plt.axis([0, 25, 0, 25])
-
-
-model = LinearRegression()
-model.fit(x.reshape(-1,1),y.reshape(-1,1))
-
-e = [item[0] for item in model.predict(x.reshape(-1,1))]
-
-
-X = list(zip(x,x))
-Y = list(zip(y,e))
-for i in range(len(X)):
-    plt.plot(X[i],Y[i],&#39;r&#39;)
-
-plt.title(&quot;Linear regression use least square method&quot;)
-plt.xlabel(r&#39;$x$&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
-plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
-
-plt.plot(x, e)
-plt.grid(True)
-plt.show()
-</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://img.hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
-<hr>
-<p>选择最小二乘的原因：<br>1.平方能将正残差与负残差都变成正数<br>2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响<br>3.在残差服从均值为0，方差为$ \sigma ^2 $ (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。<br>4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
-<hr>
-<p>Ref：<br>1.<a href="http://greenteapress.com/thinkstats/" target="_blank" rel="noopener">Think Stats Probability and Statistics for Programmers</a><br>2.<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html" target="_blank" rel="noopener">numpy</a><br>3.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank" rel="noopener">scikit-learn</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2471,7 +2595,7 @@ plt.show()
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2566,6 +2690,8 @@ plt.show()
                     
                   
                     
+                    
+                      
                     
                       
                     
@@ -3128,9 +3254,9 @@ plt.show()
       
     
       
-    
-      
         
+      
+    
       
     
       

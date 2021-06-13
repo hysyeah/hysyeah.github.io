@@ -380,6 +380,579 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp-ip中常见的术语/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/tcp-ip中常见的术语/" class="post-title-link" itemprop="url">tcp/ip中常见的术语</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 21:54:05" itemprop="dateCreated datePublished" datetime="2019-06-12T21:54:05+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>MSS--maximum segment size       最大分节大小
+MTU--maximum transmission unit  最大传输单元  # MSS通常被设置为MTU送去IP和TCP首部的固定长度，IPv4和TCP的首部都是20字节
+PDU--protocol data unit         协议数据单元 # 网络各层对等实体间交换的单位信息
+SDU--Service data uni           服务数据单元 # N层的PDU就是N-1层的SDU
+MSL--maximum segment lifetime   最长分节生命期
+listening socket                监听套接字
+connected socket                已连接套接字
+local area networks(LANs)       局域网
+wide area networks(WANs)        广域网
+
+SMSS--SENDER MAXIMUM SEGMENT SIZE       发送端可发送的最大分节大小
+RMSS--RECEIVER MAXIMUM SEGMENT SIZE     接收端可接收的最大分节大小
+FULL-SIZED SEGMENT                      一个包含了SMSS字节数据的分节
+
+RECEIVER WINDOW--rwnd                   推荐的接收窗口
+CONGESTION WINDOW--cwnd:                限制TCP可以发送多少数据的状态变量。在任何时刻TCP不能发送序号大于最大确认序号加上rwnd,cwnd中的的较小值的数据。
+INITIAL WINDOW--IW:                     初始窗口。三次握手之后的拥塞窗口大小
+LOSS WINDOW--LW:                        丢失窗口。丢失窗口是在一个TCP根据它的重传定时器检测到了数据丢失之后，拥塞窗口的尺寸
+RESTART WINDOW-RW:                     重启窗口。重启窗口是TCP在一段闲置期之后重新开始传送后拥塞窗口的尺寸。
+FLIGHT SIZE:                           在途字节数。已经发送但未确认的数大小。 可Ref [在途字节数](http://hysyeah.top/2019/08/05/TCP%E4%B9%8B%E5%9C%A8%E9%80%94%E5%AD%97%E8%8A%82%E6%95%B0/) 
+
+
+
+RTT--round-trip time                  表示从发送端发送数据开始，到发送端收到来自接收端的确认（接收端收到数据后便立即发送确认），总共经历的时延
+
+RTO-Retransmission Timeout           重传超时
+</code></pre><p>未完</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/12/tcp端口与并发服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/tcp端口与并发服务器/" class="post-title-link" itemprop="url">tcp端口与并发服务器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 07:43:31" itemprop="dateCreated datePublished" datetime="2019-06-12T07:43:31+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/unp/" itemprop="url" rel="index"><span itemprop="name">unp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一、端口的作用是什么？ 在一台服务器中可能有多个进程同时使用TCP,UDP这两种协议中的一种，端口就是用来区分这些进程的。 二、套接字对 一个TCP连接的套接字对是一个定义该连接的两个端点的四元组:本地IP地址、本地TCP端口号、外地IP地址、外地TCP端口号。套接字对唯一标识一个网络上的每个TCP连接。 三、并发服务器 并发服务器中主服务器循环通过派生一个子进程来处理每个新的链接。 我们通过如下代码来理解socket如何处理多个请求。</p>
+<pre><code>import socket
+import threading
+
+bind_ip =&quot;0.0.0.0&quot;
+bind_port = 8080
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((bind_ip, bind_port))
+
+server.listen(3)
+
+
+def handle_client(client_socket):
+    request = client_socket.recv(1024)
+    print(&quot;[*] Received: %s&quot; % request)
+
+    client_socket.close()
+
+
+while True:
+    client, addr = server.accept()
+    print(f&quot;client is {client}, addr is {addr}&quot;)
+
+    client_handler = threading.Thread(target=handle_client, args=(client,))
+    client_handler.start()
+</code></pre><p>1.<code>python3 server.py</code>启动服务器，此时服务器的状态如下图，等待客户端的连接。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_1.png" alt> 我们使用{0.0.0.0:8080, _:_}指出服务器的套接字对。服务器在本地端口8080上等待连接请求。外地IP和外地端口号都没有指定，我们称它为监听套接字(listening socket) 2.在同一台主机上启动一个客户端连接服务器. <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_2.png" alt> 客户端会随机生成一个端口与服务端进行连接，在进行连接时的状态如下图: <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_3.png" alt> 当三次握手后，客户端与服务端建立连接后 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_4.png" alt> 3.我再启动一个客户端 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_5.png" alt> 连接状态如下： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/concurrency_socket_6.png" alt></p>
+<hr>
+<p>总结: TCP必须通过查看套接字对的所有4个元素才能确定由哪个端点接收某个到达的分节。如一个分节来自127.0.0.1端口52822,目的地为127.0.0.1端口8080，它就会被传递给子进程2进行处理。</p>
+<hr>
+<p>Ref： 1.《UNIX网络编程》</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/11/osi模型与tcp-ip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/11/osi模型与tcp-ip/" class="post-title-link" itemprop="url">osi模型与tcp-ip</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-11 23:09:03" itemprop="dateCreated datePublished" datetime="2019-06-11T23:09:03+08:00">2019-06-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:23:08" itemprop="dateModified" datetime="2020-07-05T11:23:08+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>OSI(open systems interconnection)开放系统互连。 OSI是一个七层的概念模型，提供给开发者一个必须的、通用的概念以便开发完善、可以用来解释连接不同系统的框架。 OSI模型与TCP/IP对应的关系： <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/tcp-ip-tour-1.png" alt> TCP/IP通常被认作一个四层协议系统。<br>1.链路层/网络接口层：处理底层物理接口细节<br>2.网络层：处理分组在网络中的活动<br>3.传输层：主要为两台主机上的应用程序提供端到端的通信。TCP和UDP在这一层。 4.应用层：负责处理特定的应用程序细节</p>
+<p>从上层到下层涉及到数据的封装<br><img src="http://img.hysyeah.top/2019/08/10/tcp-ip-encapsulation.png" alt="image"></p>
+<p><img src="http://img.hysyeah.top/2019/08/14/tcp-head.jpg" alt="image"></p>
+<hr>
+<p>Ref：<br>1.《TCP/IP协议详解1》</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/07/通过tcpdump分析tcp中的三次握手和四次挥手/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1892,668 +2465,11 @@ mutation {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/19/docker切换成阿里的源/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/19/docker切换成阿里的源/" class="post-title-link" itemprop="url">docker切换成阿里的源</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-19 15:04:48" itemprop="dateCreated datePublished" datetime="2019-05-19T15:04:48+08:00">2019-05-19</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>环境：ubuntu18.04 <img src="http://img.hysyeah.top/wp-content/uploads/2019/05/docker_version.png" alt> 1.访问<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors" target="_blank" rel="noopener">镜像加速</a>,会生成一个镜像加速地址。 2.按如下命令操作即可</p>
-<pre><code>sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
-{
-  &quot;registry-mirrors&quot;: [&quot;https://xxxxxxx.mirror.aliyuncs.com&quot;]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/05/07/pg_dump和pg_restore的使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/07/pg_dump和pg_restore的使用/" class="post-title-link" itemprop="url">pg_dump和pg_restore的使用</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-07 22:26:24" itemprop="dateCreated datePublished" datetime="2019-05-07T22:26:24+08:00">2019-05-07</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>pg_dump</code>是用于<code>postgresql</code>数据备份的工具。即使数据库在并发的情况下也能保持一致性，并且不阻塞其它用户对数据库进行读和写。</p>
-<pre><code>将表account和host表中数据dump到szd.dump文件中
-pg_dump -n &#39;public&#39;  -Uroot --no-owner --no-privileges --host=100.2.2.1 --port=5432 --disable-triggers -d szd -t account -t host &gt; szd.dump
-
-将数据恢复到指定的数据库中
-pg_restore -n &#39;public&#39; -Uroot --no-owner --host=100.2.2.3 --port=6434 -t account -t host szd.dump
-</code></pre><p>但是发再使用上述命令备份的并不包含索引，查看文档未发现可以恢复索引的选项。经实战发现如下方法可以备份索引，<br>1.通过<code>pg_dump</code>备份表的结构信息，<br>2.通过<code>psql</code>恢复表结构，<br>3.最后通过<code>pg_restore</code>恢复数据。</p>
-<pre><code>1.备份表结构信息
-pg_dump -n &#39;public&#39;  -Uroot --no-owner --schema-only --no-privileges --host=100.2.2.1 --port=5432 --disable-triggers -d szd -t account -t host &gt; szd2.dump
-
-2.恢复表结构信息以及索引
-psql -h100.2.2.3 -p6434 -Uroot szd &lt; szd2.dump
-
-3.恢复数据
-pg_restore -n &#39;public&#39; -Uroot --no-owner --data-only --host=100.2.2.3 --port=6434 -t account -t host szd.dump
-</code></pre><hr>
-<pre><code>create database ptldwh template template0; #To make an empty database without any local additions
-
-
-pg_dump -Fc -v -n &#39;public&#39; --host=127.0.0.1 -p5433 --no-owner --no-privileges --username=ptldwhdata ptldwh -t host &gt;ptldwh.dump
-
--t &#39;t_*&#39; #指定要同步的表名
-
-pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-triggers -d ptldwh -t host ptldwh.dump
-</code></pre><h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-n schema</td>
-<td>指定schema,只备份schema下的数据</td>
-</tr>
-<tr>
-<td>—data-only</td>
-<td>只备份数据</td>
-</tr>
-<tr>
-<td>—format=format</td>
-<td>指定输出格式</td>
-</tr>
-<tr>
-<td>-N schema</td>
-<td>不备份此schema下的数据</td>
-</tr>
-<tr>
-<td>—no-owner</td>
-<td>不输出设置对象ownership的命令</td>
-</tr>
-<tr>
-<td>—schema-only</td>
-<td>只备份表结构信息</td>
-</tr>
-<tr>
-<td>-t table</td>
-<td>指定需要备份的表</td>
-</tr>
-<tr>
-<td>-T table</td>
-<td>不备份此表</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<p>Ref：<br>1.<a href="https://www.postgresql.org/docs/10/app-pgdump.html" target="_blank" rel="noopener">pg_dump</a><br>2.<a href="https://www.postgresql.org/docs/10/app-pgrestore.html" target="_blank" rel="noopener">pg_restore</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/27/mysql之隔离级别(isolation level)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/27/mysql之隔离级别(isolation level)/" class="post-title-link" itemprop="url">mysql之隔离级别(isolation level)</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-27 07:09:12" itemprop="dateCreated datePublished" datetime="2019-04-27T07:09:12+08:00">2019-04-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:22:20" itemprop="dateModified" datetime="2020-07-05T11:22:20+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一、ACID：事务的4个特性"><a href="#一、ACID：事务的4个特性" class="headerlink" title="一、ACID：事务的4个特性"></a>一、ACID：事务的4个特性</h3><ul>
-<li>原子性(atomicity):在一个事务中，操作要么成功，要么失败。如果事务中有一个命令失败，必须回滚操作，回到事务执行之前的状态。</li>
-<li>一致性(consistency):事务在完成时，必须使所有的数据都保持一致状态。</li>
-<li>隔离性(isolation):事务在查看数据时数据所处的状态，要么是另一并发事务修改它之前的状态，要么是另一事务修改它之后的状态，事务是不会查看中间状态的。</li>
-<li>持久性(durability):事务完成之后，它对于系统的影响是永久性的。</li>
-</ul>
-<h3 id="二、隔离级别-ACID中的I"><a href="#二、隔离级别-ACID中的I" class="headerlink" title="二、隔离级别(ACID中的I)"></a>二、隔离级别(ACID中的I)</h3><h6 id="InnoDB提供四种隔离级别"><a href="#InnoDB提供四种隔离级别" class="headerlink" title="InnoDB提供四种隔离级别"></a><code>InnoDB</code>提供四种隔离级别</h6><ul>
-<li>READ UNCOMMITTED: 读未提交</li>
-<li>READ COMMITTED: 读已提交</li>
-<li>REPEATABLE READ: 重复读</li>
-<li>SERIALIZABLE: 串行化</li>
-</ul>
-<p>不一致情况： 脏读：一个事务读取了另一个未提交事务写入的数据。 不可重复读：指一个事务重新读取前面读取过的数据时，发现该数据已经被另一个已提交事务修改了。 幻读：一个事务开始后，需要根据数据库中现有的数据做一些更新，于是重新执行一个查询，返回一套符合查询条件的行，这是发现这些行因为其他最近提交的事务而发生了改变，导致现有的事务如果再进行下去就可能会在逻辑上出现一些错误。（幻读，并不是说两次读取获取的结果集不同，幻读侧重的方面是某一次的 select 操作得到的结果所表征的数据状态无法支撑后续的业务操作。更为具体一些：select 某记录是否存在，不存在，准备插入此记录，但执行 insert 时发现此记录已存在，无法插入，此时就发生了幻读。）</p>
-<h5 id="事务隔离级别的行为"><a href="#事务隔离级别的行为" class="headerlink" title="事务隔离级别的行为"></a>事务隔离级别的行为</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>隔离级别</th>
-<th>脏读</th>
-<th>不可重复读</th>
-<th>幻读</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>读未提交</td>
-<td>可能</td>
-<td>可能</td>
-<td>可能</td>
-</tr>
-<tr>
-<td>读已提交</td>
-<td>不可能</td>
-<td>可能</td>
-<td>可能</td>
-</tr>
-<tr>
-<td>重复读</td>
-<td>不可能</td>
-<td>不可能</td>
-<td>可能</td>
-</tr>
-<tr>
-<td>可串行化</td>
-<td>不可能</td>
-<td>不可能</td>
-<td>不可能</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>模拟发生幻读：</p>
-<h5 id="事务1"><a href="#事务1" class="headerlink" title="事务1"></a>事务1</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB1.png" alt></p>
-<h5 id="事务2"><a href="#事务2" class="headerlink" title="事务2"></a>事务2</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/04/%E5%B9%BB%E8%AF%BB2.png" alt> 事务1：检查表中是否有<code>id=10</code>的记录，没有则插入，这是正常逻辑。 事务2: 干拢了事务1的正常执行。</p>
-<hr>
-<p>用户可以通过<code>SET TRANSACTION</code>命令改变隔离级别，或通过<code>--transaction-isolation</code>配置server级别的隔离性。 <code>MySQL</code>通过使用不同的锁策略实现不同的隔离级别，默认隔离级别是<code>REPEATABLE READ</code>，以提供更高级别的一致性。你也可以指定隔离级别为<code>READ COMMITTED</code>甚至<code>READ UNCOMMITTED</code>一致性要求没那么高的场景(减少锁以提高性能)。<code>SERIALIZABLE</code>提供比<code>REPEATABLE</code>更严格的 规则，一般会用于一些特殊的场景，比如XA事务和用于调试并发或死锁问题。</p>
-<hr>
-<h5 id="REPEATABLE-READ"><a href="#REPEATABLE-READ" class="headerlink" title="REPEATABLE READ"></a>REPEATABLE READ</h5><p>这是MySQL的默认隔离级别。在同一事务中的读取的数据是一致的，在第一次读时会建立一个快照，同一事务中读取到的都是第一个快照中的值。也就是说在同一个事务中，SELECT(noblocking)所获取到的数据都是一致的。对于<code>REPEATABLE READ</code>隔离级别总是读取事务开始时的行数据。</p>
-<hr>
-<h5 id="READ-COMMITTED-读已提交"><a href="#READ-COMMITTED-读已提交" class="headerlink" title="READ COMMITTED 读已提交"></a>READ COMMITTED 读已提交</h5><p>每一次读都会建立一个新的快照并从中读取数据,它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 对于<code>READ COMMITTED</code>只支持 row-based的binlog。 其它影响： - 对于<code>UPDATE</code>,<code>DELETE</code>操作，<code>InnoDB</code>只会锁住需要需要更新或删除的行。对于不匹配的行，在执行完<code>WHERE</code>语句后锁会释放。这极大的降低了死锁的概率，但还是有可能发生。 - 对于<code>UPDATE</code>操作，如果行已经被加锁，<code>InnoDB``表现为semi-consistent读，将返回最近提交的版本，</code>MySQL<code>再决定是否符合</code>WHERE<code>条件。如果匹配，</code>MySQL```会重新读取这行，然后获取锁或者等待锁。</p>
-<hr>
-<h5 id="READ-UNCOMMITTED"><a href="#READ-UNCOMMITTED" class="headerlink" title="READ UNCOMMITTED"></a>READ UNCOMMITTED</h5><p><code>SELECT</code>表现为nonlocking fashion,但是可能会读取到旧版本的数据，所以这种隔离级别不保持一致性读，也称为脏读。</p>
-<hr>
-<h5 id="SERIALIZABLE"><a href="#SERIALIZABLE" class="headerlink" title="SERIALIZABLE"></a>SERIALIZABLE</h5><p><code>SERIALIZABLE</code>和<code>REPEATABLE READ</code>隔离级别类似，当<code>autocommit=false</code>情况下，所有<code>SELECT</code>语句会被转换为<code>SELECT ... LOCK IN SHARE MODE</code>。</p>
-<hr>
-<p>示例： <code>MySQL</code>默认隔离级别为： <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/iso_repeatable_read.png" alt> 在<code>REPEATABLE READ</code>隔离级别情况下，开启两个session,先左边的窗口开启一个事务读取表a中的数据，然后右边的窗口再开启个事务对表a数据进行修改，右边的事务提交后，在左边的事务再次查看表a中的数据。发现两次得到的数据是一致性的，因为对于<code>REPEATABLE READ</code>隔离级别总是读取事务开始时的行数据。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/example_repeatable_read.png" alt> 在<code>READ COMMITTED</code>隔离级别重复上述的操作,发现在右边的事务提交后再查看表a的数据，此时表a的数据已更新。因为在这个隔离级别下，它总是读取行的最新版本，如果行被锁定，则读取该行版本的最新一个快照。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/committed_read.png" alt></p>
-<hr>
-<p>Ref：<br>1.<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html" target="_blank" rel="noopener">innodb-transaction-isolation-levels</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2595,7 +2511,7 @@ pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-trigg
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2690,6 +2606,8 @@ pg_restore -n &#39;public&#39; -Uroot --no-owner --no-privileges --disable-trigg
                     
                   
                     
+                    
+                      
                     
                       
                     

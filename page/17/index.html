@@ -380,6 +380,607 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/06/第1章 统计学习方法概论/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/06/第1章 统计学习方法概论/" class="post-title-link" itemprop="url">第1章 统计学习方法概论</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-06 19:49:00" itemprop="dateCreated datePublished" datetime="2018-05-06T19:49:00+08:00">2018-05-06</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>统计学习(statistical learning)是关于计算机基于数据构建概率统计模型并运用模型对数据进行预测与分析的一门学科。<br>统计学习的主要特点：<br> 1.统计学习以计算机及网络为平台，是建立大计算机及网络之上的<br> 2.统计学习以数据为研究对象，是数据驱动的学科<br> 3.统计学习的目的是对数据进行预测与分析<br> 4.统计学习以方法为中心，统计学习方法构建模型并应用模型进行预测与分析<br> 5.统计学习是概率论、统计学、信息论、计算理论、最优化理论及计算机科学等多个领域的交叉学科、并且在发展中逐步形成独自的理论体系与方法论。 </p>
+<p> 统计学习关于数据的基本假设是同类数据具有一定的统计规律性，这是统计学习的前提。 统计学习的方法是基于数据构建统计模型从而对数据进行预测与分析。统计学习由监督学习(supervised learning)、非监督学习(unsupervised learning)、半监督学习(semi-supervised learning)和强化学习(reinforcement learning)等组成。 统计学习方法的步骤如下： 1.得到一个有限的训练数据集合 2.确定包含所有可能的模型的假设空间，即学习模型的集合 3.确定模型选择的准则，即学习的策略 4.实现求解最优模型的算法，即学习的算法 5.通过学习方法选择最优模型 6.利用学习的最优模型对新数据进行预测或分析</p>
+<hr>
+<p>模型就是使用什么方法对数据进行预测与分析，就是所要学习的条件概率分布或决策函数，比如是线性回归，还是用多项式回归 策略就是你你通过什么方法判断哪个模型是最优的， 算法就是求解策略的最优解的算法，如梯度下降，最小二乘法</p>
+<hr>
+<p>根据输入、输出变量的不同类型，对预测任务给予不同的名称：输入变量与输出变量均为连续变量的预测问题称为回归问题；输出变量为有限个离散变量的预测问题称为分类问题；输入变量与输出变量均为变量序列的预测问题称为标注问题。 在监督学习过程中，模型就是所要学习的条件概率分布或决策函数。 假设空间用$ \mathcal{F} $表示。假设空间可以定义为决策函数的集合 $ \mathcal{F}= \{ {\mathcal{f}|Y = f(X)}\} $ 其中，X和Y是定义在输入空间$ \chi $和输出空间$ \mathcal{Y} $上的变量。这时$ \mathcal{F} $通常是由一个参数向量决定的函数族：<br>$ \mathcal{F} = \{ {f|Y=f_{\theta}}(X),\theta\in R^{n}\} $ 参数向量$ \theta $取值于n维欧式空间$ R^{n} $,称为参数空间。 假设空间也可以定义为条件概率的集合$ \mathcal{F}=\{ {P|P(Y|X)}\} $ 策略： 统计学习的目标在于从假设空间中选取最优模型。<br>损失函数度量模型一次预测的好坏，风险函数度量平均意义下模型预测的好坏。 统计学习常用损失函数：<br>(1) 0-1损失函数<br>$ L(Y,f(X))= \begin{cases} 0,&amp; {Y\neq f(X)}\ 1,&amp; {Y\neq f(X)} \end{cases}  $<br>(2) 平方损失函数<br>$ L(Y, f(X)) = (Y - f(X))^2 $ (3) 绝对损失函数<br>$ L(Y, f(X)) = |(Y - f(X))| $ (4) 对数损失函数<br>$ L(Y, P(Y|X)) = -log P(Y|X) $</p>
+<hr>
+<p>如果一味追求提高对训练数据的预测能力，所选模型的复杂度则往往会比真模型更高。这种现象称为过拟合。过拟合是指学习时选择的模型所包含的参数过多，以致于出现这一模型对已知数据预测得很好，但对未知的数据预测得很差的现象。 模型选择的典型方法是正则化。正则化是结构风险最小化策略的实现，是在经验风险上加一个正则化项或罚项。正则化项一般是模型复杂度的单调函数，模型越复杂，正则化的值就越大。正则化项一般具有如下形式： $ min_{f\in\mathcal{F}} \frac{1}{N}\sum_{i=1}^NL(y_{(i)}, f(x_{i})) + \lambda J(f)  $ 其中，第一项是经验风险，第二项是正则化项，$ \lambda \geq 0 $为调整两者之间关系的系数。</p>
+<h4 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h4><p>1.简单交叉验证 简单交叉验证方法是：首先随机地将已给数据分为两部分，一部分作为训练，另一部分作为测试集。 2.S折交叉验证 首先随机地将已给数据切分为S个互不相交的大小相同的子集；然后利用S-1个子集的数据训练模型，利用余下的子集测试模型；将这一过程可能的S种选择重复进行；最后选出S次评测中平均测试误差最小的模型。 3.留一交叉验证 S折交叉验证的特殊情形是S=N，称为留一交叉验证，往往在数据缺乏的情况下使用，N是给定的数据集容量。</p>
+<h4 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h4><p>TP-将正类预测为正类数 FN-将正类预测为负类数 FP-将负类数预测为正类数 TN-将负数预测为负类数 准确率 $ A = \frac{TP+TN}{TP+FN+FP+TN} $ 精确率 $ P = \frac{TP}{TP+FP} $ 召回率 $ R = \frac{TP}{TP+FN} $ $ F_{1} $值 $ \frac{2}{F_{1}}= \frac{1}{P}+\frac{1}{R} $ $ F_{1} = \frac{2TP}{2TP+FP+FN} $</p>
+<h4 id="泛化能力"><a href="#泛化能力" class="headerlink" title="泛化能力"></a>泛化能力</h4><p>泛化能力是指由该方法学习到的模型对未知数据的预测能力，是学习方法本质上重要的性质。<br>如果学到的模型是$ \hat f $,那么利用这个模型 对未知数据预测的误差就是泛化误差<br>$ R_{exp}(\hat f) = E[L(Y, \hat f(X))] = \int_{\chi \times \mathcal{Y}}L(y,\hat f(x))P(x,y)dxdy $ 泛化误差上界：对二类分类问题，当假设空间是有限个函数集合$ \mathcal{F}={f_{1},f_{2},\cdot \cdot \cdot, f_{d}} $时，对于任意一个函数$ f \in \mathcal{F} $,至少以概率$ 1-\delta $,以下不等式成立<br>$ R(f) \leq \hat R(f) + \varepsilon(d, N, \delta) $,其中$ \varepsilon(d, N, \delta) = \sqrt{\frac{1}{2N}\bigg(\log d + \log \frac{1}{\delta}\bigg)}  $<br>左端R(f)就泛化误差，右端即为泛化误差上界。第二项$ \varepsilon(d, N, \delta) $是N的单调递减函数，当N趋于无穷时趋于0 监督学习方法又可以分为生成方法和判别方法。<br>生成方法由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型<br>判别方法由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型<br>典型的生成模型包括：朴素贝叶斯法和隐马尔可夫模型。典型的判别模型包括：K近邻法、感知机、决策树、逻辑斯谛回归模型、最大熵模型、支持向量机、提升方法和条件随机场等。</p>
+<hr>
+<p><img src="http://img.hysyeah.top/wp-content/uploads/2018/05/向量范数.png" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/24/通过梯度下降法求最小值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/24/通过梯度下降法求最小值/" class="post-title-link" itemprop="url">通过梯度下降法求最小值</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-24 23:02:08" itemprop="dateCreated datePublished" datetime="2018-04-24T23:02:08+08:00">2018-04-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:14" itemprop="dateModified" datetime="2019-08-04T16:34:14+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.梯度下降是迭代法的一种,可以用于求解最小二乘问题(线性和非线性都可以)。在求解机器学习算法的模型参数，即无约束优化问题时，梯度下降（Gradient Descent）是最常采用的方法之一，另一种常用的方法是最小二乘法。在求解损失函数的最小值时，可以通过梯度下降法来一步步的迭代求解，得到最小化的损失函数和模型参数值。—来源于百度百科 2.给定初始值和步长，通过当前值与上一值的比较，不断进行迭代，直到符合设定的条件后停止。 3.下面是对f(x) = x * x，通过梯度下降法求最小值</p>
+<pre><code>import matplotlib.pyplot as plt
+
+f = lambda x: x*x
+
+fig, ax = plt.subplots()
+def gradient_x(step,init_val):
+    f_change, f_current = f(init_val), f(init_val)
+    count = 0
+    x = init_val
+    while f_change &gt; 0.0001:
+        x = x - 2 * step * x
+        f_change = f_current - f(x)
+        f_current = f(x)
+        count += 1
+        plt.plot(x,f(x), &quot;*-&quot;)
+    print(&quot;after%diteration func found min value %d,x value is %d&quot;,count,f(x),x) 
+    plt.show() 
+if __name__ == &#39;__main__&#39;:
+    gradient_x(0.1, 2)
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/04/gradient.png" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/23/python使用最小二乘法求拟合曲线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/04/23/python使用最小二乘法求拟合曲线/" class="post-title-link" itemprop="url">python使用最小二乘法求拟合曲线</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-23 22:36:53" itemprop="dateCreated datePublished" datetime="2018-04-23T22:36:53+08:00">2018-04-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.<a href="https://blog.csdn.net/yauphy1/article/details/43735763" target="_blank" rel="noopener">最小二乘法</a><br> 2.假设4个数据点为：(1, 6),(2, 5),(3, 7),(4, 10),求最佳匹配直线。</p>
+<pre><code>import numpy as np
+x = [1, 2, 3, 4]
+y = [6, 5, 7, 10]
+r = np.polyfit(x, y, deg=1) # 对(x,y)拟合多项式p(x) = p[0] * x**deg + ... + p[deg]
+f = np.poly1d(r) #f为拟合函数
+</code></pre><p>求出的拟合直线为$ y = r[0]x+r[1] $, $y = 1.4x+3.5 $<br>3.画出拟合直线和数据点</p>
+<pre><code>import matplotlib.pyplot as plt
+fig = plt.subplots()
+plt.plot(1,6,&#39;*-&#39;)
+plt.plot(2,5,&#39;*-&#39;)
+plt.plot(3,7,&#39;*-&#39;)
+plt.plot(4,10,&#39;*-&#39;)
+f = lambda x: 1.4*x + 3.5
+x = [1, 2, 3, 4]
+y = [f(e) for e in x]
+plt.plot(x,y)
+plt.show()
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/04/fit.png" alt="image"></p>
+<hr>
+<h4 id="使用scikit-learn"><a href="#使用scikit-learn" class="headerlink" title="使用scikit-learn"></a>使用scikit-learn</h4><pre><code># -*- coding: utf-8 -*-
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+
+x = np.array([ 6,  8, 10, 14, 18])
+y = np.array([ 7. ,  9. , 13. , 17.5, 18. ])
+
+plt.plot(x, y, &#39;k.&#39;)
+plt.axis([0, 25, 0, 25])
+
+
+model = LinearRegression()
+model.fit(x.reshape(-1,1),y.reshape(-1,1))
+
+e = [item[0] for item in model.predict(x.reshape(-1,1))]
+
+
+X = list(zip(x,x))
+Y = list(zip(y,e))
+for i in range(len(X)):
+    plt.plot(X[i],Y[i],&#39;r&#39;)
+
+plt.title(&quot;Linear regression use least square method&quot;)
+plt.xlabel(r&#39;$x$&#39;, horizontalalignment=&#39;right&#39;, x=1.0)
+plt.ylabel(r&#39;$y$&#39;, horizontalalignment=&#39;right&#39;, y=1.0, rotation=0)
+
+plt.plot(x, e)
+plt.grid(True)
+plt.show()
+</code></pre><p><a href="https://github.com/hys20151008/7788/blob/master/least_square.py" target="_blank" rel="noopener">代码</a> <img src="http://img.hysyeah.top/wp-content/uploads/2018/04/least_square.png" alt></p>
+<hr>
+<p>选择最小二乘的原因：<br>1.平方能将正残差与负残差都变成正数<br>2.平方相当于给残差赋予了一个权重，越大的残差(绝对值)被赋予的权重越大。但是并不是所有情况下大的残差都应该被赋予大的权重，因为这样拟合方程就很容易受到异常值的影响<br>3.在残差服从均值为0，方差为$ \sigma ^2 $ (未知，但为常数)的正态分布，且在残差与x独立的假设下，参数的最小二乘估计结果与极大似然估计量相同。<br>4.最小二乘估计的计算简单 在数理统计中,残差是指实际观察值与估计值(拟合值)之间的差。</p>
+<hr>
+<p>Ref：<br>1.<a href="http://greenteapress.com/thinkstats/" target="_blank" rel="noopener">Think Stats Probability and Statistics for Programmers</a><br>2.<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyfit.html" target="_blank" rel="noopener">numpy</a><br>3.<a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank" rel="noopener">scikit-learn</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/04/02/python标准库之OrderedDict/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1813,626 +2414,11 @@ networks:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/24/docker容器启动时设置容器内服务自启动/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/02/24/docker容器启动时设置容器内服务自启动/" class="post-title-link" itemprop="url">docker容器启动时设置容器内服务自启动</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-02-24 14:47:12" itemprop="dateCreated datePublished" datetime="2018-02-24T14:47:12+08:00">2018-02-24</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.编写shell脚本，auto_start.sh</p>
-<pre><code>#！/bin/sh
-/etc/init.d/ssh start  #启动服务
-/bin/bash              #一定要加上这句，否则容器会自动退出
-</code></pre><p>2.修改docker-compose.yml</p>
-<pre><code>volumes:
-  - ./auto_start.sh:/root/auto_start.sh
-command:[&quot;/root/auto_start.sh&quot;]
-</code></pre><p>3.启动容器，便会自动启动auto_start.sh中的服务。</p>
-<hr>
-<p>可能出现的问题： 1.exec: \\”/root/auto_start.sh\\”: permission denied”: unknown’，提示没有权限 解决方法: 修改宿主机上的auto_start.sh文件权限，chmod a+x auto_start.sh,重新启动服务。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/12/使用docker搭建hadoop,spark集群/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/02/12/使用docker搭建hadoop,spark集群/" class="post-title-link" itemprop="url">使用docker搭建hadoop,spark集群</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-02-12 10:20:30" itemprop="dateCreated datePublished" datetime="2018-02-12T10:20:30+08:00">2018-02-12</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:24:42" itemprop="dateModified" datetime="2020-07-05T11:24:42+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="环境：ubuntu-16-04-64位"><a href="#环境：ubuntu-16-04-64位" class="headerlink" title="环境：ubuntu 16.04 64位"></a>环境：ubuntu 16.04 64位</h5><h5 id="安装所需文件：-Java-SDK-1-8-scala-2-11-11-hadoop-2-7-4-spark-2-2-0-bin-hadoop2-7"><a href="#安装所需文件：-Java-SDK-1-8-scala-2-11-11-hadoop-2-7-4-spark-2-2-0-bin-hadoop2-7" class="headerlink" title="安装所需文件： Java SDK 1.8, scala-2.11.11,hadoop-2.7.4,spark-2.2.0-bin-hadoop2.7"></a>安装所需文件： Java SDK 1.8, scala-2.11.11,hadoop-2.7.4,spark-2.2.0-bin-hadoop2.7</h5><hr>
-<p>1.docker pull ubuntu<br>2.启动镜像，docker run -idt [image_id] /bin/bash<br>3.进入容器，安装必要的工具</p>
-<pre><code>  apt-get install iputils-ping  #ping命令
-  apt-get install net-tools     #ifconfig
-</code></pre><p>4.将安装包复制到容器内部，<a href="http://img.hysyeah.top/2018/02/07/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A42/" title="查看容器主机之间文件复制" target="_blank" rel="noopener">查看容器主机之间文件复制</a><br>5.解压各个安装包，设置环境变量 ~/.bashrc <img src="http://img.hysyeah.top/wp-content/uploads/2018/02/hadoopenv.png" alt="image"> docker commit -m “xx” -a “xx” spark_base #生成一个新的镜像 </p>
-<p>6.新建项目，修改各种<a href="https://github.com/hys20151008/hadoop-cluster-config" title="配置文件" target="_blank" rel="noopener">配置文件</a><br>7.项目目录</p>
-<pre><code># ssh文件夹下面是通过ssh-keygen -t rsa 命令生成的~/.ssh目录下的所有文件（这样不用每次重新启动新的容器后，都要重新配置ssh)
-
-├── master
-│   ├── hadoop
-│   ├── spark
-│   └── ssh
-├── slave1
-│   ├── hadoop
-│   ├── spark
-│   └── ssh
-└── slave2
-|    └── ssh
-|__ docker-compose.yml
-</code></pre><p>8.<a href="http://hysyeah.top/2018/02/01/%E5%90%AF%E5%8A%A8docker%20hadoop%E9%9B%86%E7%BE%A4%E5%A4%B1%E8%B4%A5" target="_blank" rel="noopener">创建网络</a> docker-compose up -d #启动容器，一个namenode,二个datanode<br>9.进入master容器，/opt/hadoop-2.7.4/sbin/start-all.sh #启动集群 10. 进入master容器，输入jps，有如下进程</p>
-<pre><code>3191 NameNode
-3817 Jps
-3433 ResourceManager
-</code></pre><p>进入slave1容器，输入jps，有如下进程</p>
-<pre><code>962 NodeManager
-1235 Jps
-854 DataNode
-</code></pre><p>11.输入hdfs dfsadmin -report可查看节点信息 <img src="http://img.hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png" alt="image"> 12.测试集群是否正常工作。</p>
-<pre><code>vim a.txt                              #创建本地文件
-hdfs dfs -put a.txt /                  #上传到hdfs文件系统
-cd /opt/hadoop-2.7.4/share/hadoop/mapreduce
-hadoop jar hadoop-mapreduce-examples-2.7.4.jar wordcount /a.txt /out  #执行count计算
-hdfs dfs -text /out/part-r-00000                                      #查看执行结果
-若以上都没有出错，说明集群正常
-</code></pre><hr>
-<p>Ref：<br>1.<a href="http://blog.csdn.net/xu470438000/article/details/50512442" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/50512442</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/spark-shell使用mysql存储元数据/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/02/07/spark-shell使用mysql存储元数据/" class="post-title-link" itemprop="url">spark-shell使用mysql存储元数据</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-02-07 18:17:51" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:51+08:00">2018-02-07</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.hive安装(依赖于hadoop) - 下载<a href="http://hive.apache.org/downloads.html" target="_blank" rel="noopener">hive</a> - 解压到/opt目录下 - 添加环境变量到~/.bashrc <code>export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH</code> 2.hive-env.sh添加</p>
-<pre><code>HADOOP_HOME=/opt/hadoop-2.7.4
-</code></pre><p>3.hive-site.xml添加[server端，hive目录下]</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
-&lt;configuration&gt;
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
-    &lt;value&gt;jdbc:mysql://10.68.2.55:3307/hivedb?createDatabaseIfNotExist=true&amp;characterEncoding=utf8&amp;useSSL=false&lt;/value&gt; #mysql连接信息
-    &lt;description&gt;
-      JDBC connect string for a JDBC metastore.
-      To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the connection URL.
-      For example, jdbc:postgresql://myhost/db?ssl=true for postgres database.
-    &lt;/description&gt;
-  &lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
-    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
-    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
-    &lt;value&gt;root&lt;/value&gt;
-    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
-    &lt;value&gt;hello&lt;/value&gt;
-    &lt;description&gt;password to use against metastore database&lt;/description&gt;
-&lt;/property&gt;
-
-&lt;property&gt;
-    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
-    &lt;value&gt;hdfs://10.68.2.55:9000/user/hive/warehouse&lt;/value&gt;
-    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
-  &lt;/property&gt;
-&lt;/configuration&gt;
-</code></pre><p>4.hive-site.xml[client端，spark目录下]</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
-&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
-&lt;configuration&gt;
-&lt;property&gt;
-    &lt;name&gt;hive.metastore.uris&lt;/name&gt;
-    &lt;value&gt;thrift://10.68.2.55:8000&lt;/value&gt;
-    &lt;description&gt;Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.&lt;/description&gt;
-  &lt;/property&gt;
-  &lt;property&gt;
-  &lt;name&gt;spark.sql.warehouse.dir&lt;/name&gt;
-  &lt;value&gt;/user/hive/warehouse&lt;/value&gt; #hdfs dfs -mkdir -p /usr/hive/warehouse
-&lt;/property&gt;
-&lt;/configuration&gt;
-</code></pre><p>5.下载mysql-connector-java-5.1.44-bin.jar，放到/opt/apache-hive-2.2.0-bin/lib目录下 6.</p>
-<pre><code>schematool -dbType mysql -initSchema #初始化
-hive --service metastore -p &lt;port&gt;  #启动服务
-启动spark-shell将会将元数据存储到mysql
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2474,7 +2460,7 @@ hive --service metastore -p &lt;port&gt;  #启动服务
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2569,6 +2555,8 @@ hive --service metastore -p &lt;port&gt;  #启动服务
                     
                   
                     
+                    
+                      
                     
                       
                     
@@ -3127,6 +3115,8 @@ hive --service metastore -p &lt;port&gt;  #启动服务
   
     
       
+        
+      
     
       
     
@@ -3148,6 +3138,46 @@ hive --service metastore -p &lt;port&gt;  #启动服务
     
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 

@@ -380,6 +380,591 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/06/x86相关寄存器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/06/x86相关寄存器/" class="post-title-link" itemprop="url">x86相关寄存器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-06 17:27:29" itemprop="dateCreated datePublished" datetime="2018-01-06T17:27:29+08:00">2018-01-06</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>IP-Instruction Pointer--指令指针寄存器
+CS-Code Segment--段寄存器
+DS-Data Segment--数据段寄存器
+
+%rax-%eax-%ax-%al---返回值
+%rbx-%ebx-%bx-%bl---被调用者保存
+%rcx-%ecx-%cx-%cl---第4个参数
+%rdx-%edx-%dx-%dl---第3个参数
+%rsi-%esi-%si-%sil---第2个参数
+%rdi-%edi-%di-%dil---第1个参数
+%rbp-%ebp-%bp-%bpl---基址寄存器(stack pointer),一般在函数中用来保存进入函数时的sp的栈顶基址(被调用者保存)
+%rsp-%esp-%sp-%spl---栈指针
+%r8-%r8d-%r8w-%r8b---第5个参数
+%r9-%r9d-%r9w-%r9b---第6个参数
+
+%r10-%r10d-%r10w-%r10b---调用者保存
+%r11-%r11d-%r11w-%r11b---调用者保存
+%r12-%r12d-%r12w-%r12b---被调用者保存
+%r13-%r13d-%r13w-%r13b---被调用者保存
+%r14-%r14d-%r14w-%r14b---被调用者保存
+%r15-%r15d-%r15w-%r15b---被调用者保存
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/01/register.jpg" alt="image"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/01/elf可重定向目标文件格式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/01/01/elf可重定向目标文件格式/" class="post-title-link" itemprop="url">elf可重定向目标文件格式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-01 15:40:00" itemprop="dateCreated datePublished" datetime="2018-01-01T15:40:00+08:00">2018-01-01</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ELF头</p>
+<p>.text</p>
+<p>.rodata</p>
+<p>.data</p>
+<p>.bss</p>
+<p>.symtab</p>
+<p>.rel.text</p>
+<p>.rel.data</p>
+<p>.debug</p>
+<p>.line</p>
+<p>.strtab</p>
+<p>节头部表</p>
+<p><strong>典型的ELF可重定位目标文件</strong></p>
+<pre><code>.text:已编译程序的机器代码
+.rodata:只读数据，一般是程序里面的只读变量（如const修饰的变量）和字符串常量。
+.data:已初始化的全局和静态C变量。局部C变量运行被保存在栈中，既不出现在.data节中，也不出现在.bss中
+
+.COMMON 未初始化的全局变量
+.bss:未初始化的静态C变量，以及所有被初始化为0的全局或静态变量。在目标文件中这个节不占实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为0。
+
+.symtab:一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。
+.rel.text:一个.text节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。
+.rel.data:被模块引用或定义的所有全局变量的重定位作息。一般来说，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。
+.debug:一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的C源文件。只有以-g选项调用编译器驱动程序时，才会得到这张表。
+.line:原始C源程序中的行号和.text节中的机器指令这间的映射。只有以-g选项调用编译器驱动程序时，才会得到这张表。
+.strtab:一个字符串表，其内容包括.symtab和.debug节中的符号表，以及节头部中的节名字。字符串就是以null结尾的字符串的序列。
+.comment:存放的是编译器版本信息。
+.dynamic:动态链接作息
+.hash:符号哈希表
+.note:额外的编译器信息
+
+.plt
+.got:动态链接的跳转表和全局入口表
+
+.init
+.fini:程序初始化与终结代码段
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/24/gcc常用选项/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/12/24/gcc常用选项/" class="post-title-link" itemprop="url">gcc常用选项</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-24 21:42:25" itemprop="dateCreated datePublished" datetime="2017-12-24T21:42:25+08:00">2017-12-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>/*对源文件hello.c进行预处理,并生成一个ASCII码的中间文件hello.i*/
+gcc -E hello.c -o hello.i /*等同于cpp hello.c hello.i*/
+
+/*将hello.c或hello.i翻译成汇编语言文件hello.s*/
+gcc -S hello.c -o hello.s /*gcc -S hello.i -o hello.s*/
+
+/*将hello.s翻译成可重定向文件hello.o*/
+gcc hello.s -o hello.o
+
+/*编译和汇编(不进行链接)生成hello.o*/
+gcc -c hello.c
+
+/*生成可执行文件hello*/
+gcc hello.c -o hello
+
+/*-fpic(Position-Independent Code)器生成位置无关的代码,共享库的编译必须总是使用这个选项;-shared指示编译器创建一个共享的目标文件*/
+gcc -shared -fpic -o lib.so a.c b.c
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/19/ubuntu安装readelf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2167,649 +2752,11 @@ typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/c语言typedef/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/c语言typedef/" class="post-title-link" itemprop="url">c语言typedef</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 22:35:37" itemprop="dateCreated datePublished" datetime="2017-12-09T22:35:37+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>/*定义identifier为宏，指令为identifier后的一系列指令（以前认为只能是一句）*/
-#define identifier replacement-list(optional)
-
-#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct _object {
-    PyObject_HEAD
-} PyObject;
-//相当于：
-typedef struct _object {
-    Py_ssize_t ob_refcnt;
-    struct _typeobject *ob_type;
-} PyObject;
-</code></pre><hr>
-<pre><code>#include &lt;stdio.h&gt;
-
-#define T int b;int c;
-typedef struct gg {
-    T
-} gg;
-int main(int argc, char *argv[]){
-    gg g = {1, 2};
-    printf(&quot;%d\n&quot;, g.b);
-    printf(&quot;%d\n&quot;, g.c);
-    return 0;
-}
-输出：
-1
-2
-</code></pre><hr>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/09/python intobject大小/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/09/python intobject大小/" class="post-title-link" itemprop="url">python intobject大小</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-09 21:52:23" itemprop="dateCreated datePublished" datetime="2017-12-09T21:52:23+08:00">2017-12-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python源码/" itemprop="url" rel="index"><span itemprop="name">python源码</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code># 64位系统
-#python3                                        python2
-
-In [4]: sys.getsizeof(1)                       In [4]: sys.getsizeof(1)
-Out[4]: 28                                     Out[4]: 24
-
-In [6]: sys.getsizeof(0)                       In [6]: sys.getsizeof(0)
-Out[6]: 24                                     Out[6]: 24
-</code></pre><p>在python2 int对象为24个字节,</p>
-<pre><code>#define PyObject_HEAD                   \
-    Py_ssize_t ob_refcnt;               \
-    struct _typeobject *ob_type;
-
-typedef struct {
-    PyObject_HEAD
-    long ob_ival;
-} PyIntObject;
-</code></pre><hr>
-<p>python3中已不区分int,long对象，而是将python2中的long对象改名为int对象</p>
-<pre><code>typedef unsigned short digit;
-struct _longobject {
-    PyObject_VAR_HEAD
-    digit ob_digit[1];
-};
-</code></pre><p>python3中sys.getsizeof(0) == 24</p>
-<pre><code> /*zero is represented by ob_size == 0.当int值为0时，ob_size=0，所以不会分配  
- ob_digit[1],所以大小为24Bytes.*/
-</code></pre><hr>
-<p>Ref：python源码</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/03/apue第一章 UNIX系统概览-笔记-函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/03/apue第一章 UNIX系统概览-笔记-函数/" class="post-title-link" itemprop="url">apue第一章:UNIX系统概览-笔记-函数</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-03 21:37:42" itemprop="dateCreated datePublished" datetime="2017-12-03T21:37:42+08:00">2017-12-03</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/apue/" itemprop="url" rel="index"><span itemprop="name">apue</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>opendir, fdopendidr ---打开目录
-
-#include &lt;sys/types.h&gt;
-#include &lt;dirent.h&gt;
-
-DIR *opendir(const char *name);
-DIR *fdopendir(int fd);
-struct dirent *readdir(DIR *dirp);
-
-struct __dirstream   
-   {   
-    void *__fd;    
-    char *__data;    
-    int __entry_data;    
-    char *__ptr;    
-    int __entry_ptr;    
-    size_t __allocation;    
-    size_t __size;    
-    __libc_lock_define (, __lock)    
-   };   
-
-typedef struct __dirstream DIR;  
-
-struct dirent {
-     ino_t          d_ino;       /* inode number */
-     off_t          d_off;       /* not an offset; see NOTES */
-     unsigned short d_reclen;    /* length of this record */
-     unsigned char  d_type;      /* type of file; not supported by all filesystem types */
-     char           d_name[256]; /* filename */
-};
-</code></pre><hr>
-<p><a href="http://man7.org/linux/man-pages/man2/read.2.html" target="_blank" rel="noopener">read</a> <a href="http://man7.org/linux/man-pages/man2/write.2.html" target="_blank" rel="noopener">write</a></p>
-<pre><code>#include &lt;unistd.h&gt;
-/*从文件描述符fd中读取count字节到buf中*/
-ssize_t read(int fd, void *buf, size_t count);
-ssize_t write(int fd, const void *buf, size_t count);
-</code></pre><hr>
-<pre><code>#include &lt;sys/types.h&gt;
-#include &lt;unistd.h&gt;
-
-/*返回进程ID*/
-pid_t getpid(void);
-/*返回进程的父亲进程ID*/
-pid_t getppid(void);
-</code></pre><hr>
-<p><a href="http://man7.org/linux/man-pages/man2/fork.2.html" target="_blank" rel="noopener">fork</a> <a href="http://man7.org/linux/man-pages/man3/execlp.3.html" target="_blank" rel="noopener">execlp</a></p>
-<pre><code>#include &lt;sys/types.h&gt;
-#include &lt;unistd.h&gt;
-
-pid_t fork(void);
-</code></pre><hr>
-<pre><code>#include &lt;string.h&gt;
-/*返回指向错误信息字符串的指针*/
-char *strerror(int errnum);
-
-#include &lt;stdio.h&gt;
-/*根据errno的值返回错误信息*/
-void perror(const char *msg);
-</code></pre><hr>
-<p><a href="http://man7.org/linux/man-pages/man3/getuid.3p.html" target="_blank" rel="noopener">getuid</a> <a href="http://man7.org/linux/man-pages/man3/getgid.3p.html" target="_blank" rel="noopener">getgid</a></p>
-<pre><code>#include &lt;unistd.h&gt;
-uid_t getuid(void);
-gid_t getgid(void);
-</code></pre><hr>
-<p><a href="http://man7.org/linux/man-pages/man3/waitpid.3p.html" target="_blank" rel="noopener">waitpid</a></p>
-<pre><code>#include &lt;sys/wait.h&gt;
-pid_t waitpid(pid_t pid, int *stat_loc, int options);
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2851,7 +2798,7 @@ pid_t waitpid(pid_t pid, int *stat_loc, int options);
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2946,6 +2893,8 @@ pid_t waitpid(pid_t pid, int *stat_loc, int options);
                     
                   
                     
+                    
+                      
                     
                       
                     

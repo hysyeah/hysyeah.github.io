@@ -380,7 +380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/01/02/Go-defer陷阱/">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/06/09/docker配置代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hys">
@@ -400,7 +400,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2021/01/02/Go-defer陷阱/" class="post-title-link" itemprop="url">Go defer陷阱</a>
+                <a href="/2021/06/09/docker配置代理/" class="post-title-link" itemprop="url">docker配置代理</a>
               
             
           </h1>
@@ -425,13 +425,503 @@
                 
               
 
-              <time title="创建时间：2021-01-02 13:49:39 / 修改时间：17:05:35" itemprop="dateCreated datePublished" datetime="2021-01-02T13:49:39+08:00">2021-01-02</time>
+              <time title="创建时间：2021-06-09 19:05:31 / 修改时间：19:28:48" itemprop="dateCreated datePublished" datetime="2021-06-09T19:05:31+08:00">2021-06-09</time>
             </span>
           
 
           
             
 
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在k8s编译中需要到很多<code>k8s.gcr.io</code>中的镜像,查了很多资料都没有很好的解决办法。原因是国内同步的镜像都是很久之前的，没有我需要的镜像，所以只能通过代理来解决</p>
+<p>1.首先你需要一个科学上网的工具，这一步不多说，自行查找资料。<br>2.尝试执行如下命令，发现并没有用，原因在于docker并没有使用系统的代理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8123</span></span><br><span class="line">export https_proxy=http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8123</span></span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>3.为docker设置镜像拉取代理<br><code>vim /lib/systemd/system/docker.service</code>系统版本不一样此路径也可能不同<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">TimeoutSec=<span class="number">0</span></span><br><span class="line">RestartSec=<span class="number">2</span></span><br><span class="line">Restart=always</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加如下两行</span></span><br><span class="line">Environment=<span class="string">"HTTP_PROXY=http://127.0.0.1:8123"</span></span><br><span class="line">Environment=<span class="string">"HTTPS_PROXY=http://127.0.0.1:8123"</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>4.然后你就能顺利的拉取<code>k8s.gcr.io</code>上的镜像了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/05/15/k8s-crd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/05/15/k8s-crd/" class="post-title-link" itemprop="url">k8s-crd</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-05-15 12:49:49 / 修改时间：20:47:49" itemprop="dateCreated datePublished" datetime="2021-05-15T12:49:49+08:00">2021-05-15</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>CRD是k8s提供对现有资源进行扩展的一种方式，当现有k8s资源都无法满足你的需求时就可以考虑使用CRD对现有资源进行扩展。</p>
+<p>环境信息：golang 1.16.2,kubernetes v1.19.0</p>
+<p>如何自定义一个k8s CRD(Custom Resource Definition)</p>
+<p>1.新建一个项目，项目名称为<code>k8s-crd</code><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  gopro mkdir k8s-crd</span><br><span class="line">➜  gopro cd k8s-crd </span><br><span class="line">➜  k8s-crd mkdir -p pkg/apis/crd/v1</span><br><span class="line">➜  k8s-crd go mod init hysyeah.top/k8s-crd</span><br></pre></td></tr></table></figure></p>
+<p>2.定义资源注册所需的字段信息，<code>pkg/apis/crd/register.go</code><br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span>  crd</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	GroupName = <span class="string">"crd.alpha.io"</span></span><br><span class="line">	Version = <span class="string">"v1"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>3.定义全局标签，<code>pkg/apis/crd/v1/doc.go</code>.k8s中许多代码都是通过代码生成器生成的，代码生成器通过Tags(标签)来判断一个包如何进行代码生成。k8s中存在如下两种Tag:</p>
+<ul>
+<li>全局Tags: 定义在每个包的doc.文件中，对整个包中的类型自动生成代码</li>
+<li>局部Tags: 定义在Go语言的类型声明上方，只对指定的类型自动生成代码</li>
+</ul>
+<p>可参考<a href="https://pkg.go.dev/k8s.io/gengo/examples/deepcopy-gen" target="_blank" rel="noopener">deepcopy-gen</a></p>
+<p>全局Tags告诉deepcopy-gen代码生成器为该包中的每个类型自动生成DeepCopy函数。其中//+groupNmae定义了资源组名称，一般使用域名形式命名<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// +k8s:deepcopy-gen=package</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// +groupName=crd.hysyeah.top</span></span><br><span class="line"><span class="keyword">package</span> v1</span><br></pre></td></tr></table></figure></p>
+<p>4.定义资源类型，<code>pkg/apis/crd/v1/types.go</code><br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> v1</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	metav1 <span class="string">"k8s.io/apimachinery/pkg/apis/meta/v1"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// +genclient</span></span><br><span class="line"><span class="comment">// +genclient:noStatus</span></span><br><span class="line"><span class="comment">// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Machine describes a Machine resource</span></span><br><span class="line"><span class="keyword">type</span> Dog <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta <span class="string">`json:",inline"`</span></span><br><span class="line">	metav1.ObjectMeta <span class="string">`json:"metadata,omitempty"`</span></span><br><span class="line">	Spec DogSepc <span class="string">`json:"spec"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DogSpec定义资源拥有的属性</span></span><br><span class="line"><span class="keyword">type</span> DogSpec <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">//在这里可以自定义Dog所拥有的属性,我们这种定义了Kg和Age两个属性</span></span><br><span class="line">	Kg <span class="keyword">int</span> <span class="string">`json:"kg"`</span></span><br><span class="line">	Age <span class="keyword">int</span> <span class="string">`json:"age"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// DogList定义列表资源</span></span><br><span class="line"><span class="keyword">type</span> DogList <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta <span class="string">`json:",inline"`</span></span><br><span class="line">	metav1.ListMeta <span class="string">`json:"metadata"`</span></span><br><span class="line">	Items []Dog <span class="string">`json:"items"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Dog</code>上方的Tags为局部Tags。它定义了两个代码生成器genclient和deepcopy-gen。其中genclient代码生 成器为这个资源类型自动生成对应的客户端代码,deepcopy-gen代码生成器为这个资源类型自动生成DeepCopy函数，并为该类型生成返回值为<code>runtime.Object</code>类型的DeepCopyObject函数。</p>
+<p>5.定义资源注册方法,<code>pkg/apis/crd/v1/register.go</code><br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> v1</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	metav1 <span class="string">"k8s.io/apimachinery/pkg/apis/meta/v1"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/runtime"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/runtime/schema"</span></span><br><span class="line">	<span class="string">"hysyeah.top/k8s-crd/pkg/apis/crd"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义注册资源的资源组和版本</span></span><br><span class="line"><span class="keyword">var</span> SchemeGroupVersion = schema.GroupVersion&#123;</span><br><span class="line">	Group: crd.GroupName,</span><br><span class="line">	Version: crd.Version,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	SchemeBuilder = runtime.NewSchemeBuilder(addKnownTypes)</span><br><span class="line">	AddToScheme = SchemeBuilder.AddToScheme</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Resource</span><span class="params">(resource <span class="keyword">string</span>)</span> <span class="title">schema</span>.<span class="title">GroupResource</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> SchemeGroupVersion.WithResource(resource).GroupResource()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Kind</span><span class="params">(kind <span class="keyword">string</span>)</span> <span class="title">schema</span>.<span class="title">GroupKind</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> SchemeGroupVersion.WithKind(kind).GroupKind()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// addKnownTypes 定义注册方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addKnownTypes</span><span class="params">(scheme *runtime.Schema)</span> <span class="title">error</span></span>  &#123;</span><br><span class="line">	scheme.AddKnownType(</span><br><span class="line">		SchemeGroupVersion,</span><br><span class="line">		&amp;Dog&#123;&#125;,</span><br><span class="line">		&amp;DogList&#123;&#125;,</span><br><span class="line">		)</span><br><span class="line">	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>6.配置code-generator,在项目根目录下新建目录<code>hack</code>并新建文件<code>tools.go</code>。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// +build tools</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   Copyright 2019 The Kubernetes Authors.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment">   you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">   You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">   distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment">   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">   See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">   limitations under the License.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// This package imports things required by build scripts, to force `go mod` to see them as dependencies</span></span><br><span class="line"><span class="keyword">package</span> tools</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> _ <span class="string">"k8s.io/code-generator"</span></span><br></pre></td></tr></table></figure></p>
+<p>新建文件<code>hack/boilerplate.go.txt</code>,生成代码需要添加这个license<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Copyright The Kubernetes Authors.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment">you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">limitations under the License.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure></p>
+<p>新建<code>hack/update-codegen.sh</code><br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line"># Copyright <span class="number">2017</span> The Kubernetes Authors.</span><br><span class="line">#</span><br><span class="line"># Licensed under the Apache License, Version <span class="number">2.0</span> (the <span class="string">"License"</span>);</span><br><span class="line"># you may not use this file except in compliance with the License.</span><br><span class="line"># You may obtain a <span class="built_in">copy</span> of the License at</span><br><span class="line">#</span><br><span class="line">#     http:<span class="comment">//www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing, software</span><br><span class="line"># distributed under the License is distributed on an <span class="string">"AS IS"</span> BASIS,</span><br><span class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"># See the License <span class="keyword">for</span> the specific language governing permissions and</span><br><span class="line"># limitations under the License.</span><br><span class="line"></span><br><span class="line">set -o errexit</span><br><span class="line">set -o nounset</span><br><span class="line">set -o pipefail</span><br><span class="line"></span><br><span class="line"># generate the code with:</span><br><span class="line"># --output-base    because this script should also be able to run inside the vendor dir of</span><br><span class="line">#                  k8s.io/kubernetes. The output-base is needed <span class="keyword">for</span> the generators to output into the vendor dir</span><br><span class="line">#                  instead of the $GOPATH directly. For normal projects this can be dropped.</span><br><span class="line">ROOT_PACKAGE=<span class="string">"hysyeah.top/k8s-crd"</span></span><br><span class="line">CUSTOM_RESOURCE_NAME=<span class="string">"crd"</span></span><br><span class="line">CUSTOM_RESOURCE_VERSION=<span class="string">"v1"</span></span><br><span class="line"></span><br><span class="line">chmod +x ../vendor/k8s.io/code-generator/generate-groups.sh</span><br><span class="line">../vendor/k8s.io/code-generator/generate-groups.sh all <span class="string">"$ROOT_PACKAGE/pkg/client"</span> <span class="string">"$ROOT_PACKAGE/pkg/apis"</span> <span class="string">"$CUSTOM_RESOURCE_NAME:$CUSTOM_RESOURCE_VERSION"</span> \</span><br><span class="line">  --<span class="keyword">go</span>-header-file $(pwd)/boilerplate.<span class="keyword">go</span>.txt</span><br></pre></td></tr></table></figure></p>
+<p>7.生成代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//在项目根目录下</span><br><span class="line">➜  k8s-crd go mod vendor</span><br><span class="line">➜  k8s-crd chmod +x hack/update-codegen.sh</span><br><span class="line">➜  k8s-crd cd hack </span><br><span class="line">➜  hack./update-codegen.sh</span><br><span class="line">Generating deepcopy funcs</span><br><span class="line">Generating clientset for crd:v1 at hysyeah.top/k8s-crd/pkg/client/clientset</span><br><span class="line">Generating listers for crd:v1 at hysyeah.top/k8s-crd/pkg/client/listers</span><br><span class="line">Generating informers for crd:v1 at hysyeah.top/k8s-crd/pkg/client/informers</span><br></pre></td></tr></table></figure>
+<p>执行完代码生成命令后，根据日志可能看出代码已经生成出来了，但是你却发现生成的文件并不在项目目录中，这是什么原因呢？<br>其实代码生成的路径是<code>$GOPATH/src/hysyeah.top/k8s-crd</code>，将生成代码拷贝至项目中。此时项目结构如下,其中红框中的代码是自动生成的：<br><img src="http://img.hysyeah.top/2021/5/20210515185844.png" alt="image"></p>
+<p>8.有了自定义资源，我们还需要定义如何使用它，不然这个资源也无用之地。而对于资源的如何使用k8s是通过controller来进行资源控制的。</p>
+<ul>
+<li>新建目录<code>pkg/signals</code>,接收系统信号，直接使用<a href="https://github.com/kubernetes/sample-controller/tree/master/pkg/signals" target="_blank" rel="noopener">社区代码</a></li>
+<li>controller.go,业务逻辑代码，可以针对资源不同的事件注册对应的函数</li>
+<li>main.go, 入口函数</li>
+</ul>
+<p>9.编译，生成一个二进制文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go mod vendor</span><br><span class="line">go build -o dogcontroller</span><br></pre></td></tr></table></figure></p>
+<p>10.创建CRD<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  k8s-crd kubectl apply -f Dog.yaml</span><br><span class="line">customresourcedefinition.apiextensions.k8s.io/dogs.crd.hysyeah.top created</span><br><span class="line">➜  k8s-crd kubectl get crd</span><br><span class="line">NAME                   CREATED AT</span><br><span class="line">dogs.crd.hysyeah.top   2021-05-15T12:25:01Z</span><br></pre></td></tr></table></figure></p>
+<p>11.创建Dog实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  k8s-crd kubectl apply -f example-dog.yaml</span><br><span class="line">dog.crd.hysyeah.top/alpha-dog created</span><br></pre></td></tr></table></figure></p>
+<p>12.运行dogcontroller<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./dogcontroller -kubeconfig=$HOME/.kube/config</span><br></pre></td></tr></table></figure></p>
+<p>13.分别执行相应的操作，controller会解发相应的动作。以删除dog实例为例。<br><img src="http://img.hysyeah.top/2021/5/20210515203544.png" alt="image"></p>
+<hr>
+<p>小结：<br>以上便是手动构建CRD的过程，可以使我们更好的了解CRD和Controller的工作原理。其实工作中如果要自定义一个CRD和Controller大可不必那么麻烦，可以借助一些框架使整个过程更方便，如<a href="https://book.kubebuilder.io/" target="_blank" rel="noopener">kubebuilder</a>,<a href="https://sdk.operatorframework.io/" target="_blank" rel="noopener">operator-sdk</a>。</p>
+<hr>
+<p>参考：<br>1.<a href="https://github.com/kangxiaoning/learn-kubernetes-crd/blob/main/README.md" target="_blank" rel="noopener">https://github.com/kangxiaoning/learn-kubernetes-crd/blob/main/README.md</a><br>2.<a href="https://github.com/kubernetes/code-generator" target="_blank" rel="noopener">https://github.com/kubernetes/code-generator</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/01/31/wireshark-判断两个ip间能否正常通信/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/01/31/wireshark-判断两个ip间能否正常通信/" class="post-title-link" itemprop="url">wireshark-判断两个ip间能否正常通信</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-31 11:08:19 / 修改时间：15:31:04" itemprop="dateCreated datePublished" datetime="2021-01-31T11:08:19+08:00">2021-01-31</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>相关命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">sudo ip netns add netns1   //创建一个network namespace,会在/var/run/netns/路径下生成一个挂载点</span><br><span class="line"></span><br><span class="line">sudo ip netns <span class="keyword">exec</span> netns1 ip link list //进入netns1命名空间查询网卡信息</span><br><span class="line"></span><br><span class="line">sudo ip netns list       //查看系统中有哪些namespace</span><br><span class="line"></span><br><span class="line">sudo ip netns delete netns1  //删除namespace</span><br><span class="line"></span><br><span class="line">sudo ip netns <span class="keyword">exec</span> netns1 ping <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">sudo ip netns <span class="keyword">exec</span> netns1 ip link set dev lo up //把设备状态设置为UP</span><br><span class="line"></span><br><span class="line">sudo ip link add veth0 type veth peer name veth1 //创建一对虚拟网卡</span><br><span class="line"></span><br><span class="line">sudo ip link add eth1 type dummy   //创建一个假网卡</span><br><span class="line">sudo ip link set eth1 netns netns1 //绑定到netns1 network namespace</span><br><span class="line">udo ip netns <span class="keyword">exec</span> netns1 ifconfig eth1 <span class="number">192.168</span><span class="number">.26</span><span class="number">.129</span>/<span class="number">24</span> up  //设置eth1的ip 和子网掩码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">➜  netns sudo ip link add eth2 type dummy</span><br><span class="line">➜  netns sudo ip netns add netns2</span><br><span class="line">➜  netns sudo ip link set eth2 netns netns2</span><br><span class="line">➜  netns sudo ip netns <span class="keyword">exec</span> netns2 ifconfig eth2 <span class="number">192.168</span><span class="number">.26</span><span class="number">.3</span>/<span class="number">27</span> up</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo ip link add mybridge0 type bridge //新建一个桥接设备</span><br><span class="line"></span><br><span class="line">sudo ip link set dev mybridge0 up  //启动</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><a href="https://man7.org/linux/man-pages/man8/ip-link.8.html" target="_blank" rel="noopener">https://man7.org/linux/man-pages/man8/ip-link.8.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/01/02/Go-defer陷阱/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/01/02/Go-defer陷阱/" class="post-title-link" itemprop="url">Go defer陷阱[译]</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-02 13:49:39" itemprop="dateCreated datePublished" datetime="2021-01-02T13:49:39+08:00">2021-01-02</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-06-13 15:45:32" itemprop="dateModified" datetime="2021-06-13T15:45:32+08:00">2021-06-13</time>
+              </span>
             
           
 
@@ -501,7 +991,7 @@
 <p>也许的你期待的返回是“close Error“，但实际返回的err却是nil。</p>
 <p>原因：在if代码块中使用新的err覆盖了name result中的err值,所以release()返回了原来的result-value。<br>这里还有疑惑，既然被被覆盖了难道不应该返回不为nil的值吗</p>
 <p>解决方案：使用<code>=</code>而不<code>:=</code><br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func release(r io.Closer) (err error)  &#123;</span><br><span class="line">	defer func() &#123;</span><br><span class="line">		<span class="keyword">if</span> err = r.Close();err != nil&#123;</span><br><span class="line">			fmt.Println(<span class="string">"err in r.close"</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Quick-to-run-the-params"><a href="#Quick-to-run-the-params" class="headerlink" title="Quick to run the params"></a>Quick to run the params</h4><p>传递给deferred func的参数是在函数注册(调用defer)的时候进行计算的而不是当它执行的时候计算。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">type message struct &#123;</span><br><span class="line">	content string</span><br><span class="line">&#125;</span><br><span class="line">func (p *message) set(c string) &#123;</span><br><span class="line">	p.content = c</span><br><span class="line">&#125;</span><br><span class="line">func (p *message) print() string &#123;</span><br><span class="line">	<span class="keyword">return</span> p.content</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	m := &amp;message&#123;content: <span class="string">"Hello"</span>&#125;</span><br><span class="line">	defer fmt.Print(m.print())</span><br><span class="line">	m.set(<span class="string">"World"</span>)</span><br><span class="line">	// deferred func runs</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//output: Hello</span><br></pre></td></tr></table></figure></p>
+<h4 id="即时计算参数的值"><a href="#即时计算参数的值" class="headerlink" title="即时计算参数的值"></a>即时计算参数的值</h4><p>传递给deferred func的参数是在函数注册(调用defer)的时候进行计算的而不是当它执行的时候计算。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">type message struct &#123;</span><br><span class="line">	content string</span><br><span class="line">&#125;</span><br><span class="line">func (p *message) set(c string) &#123;</span><br><span class="line">	p.content = c</span><br><span class="line">&#125;</span><br><span class="line">func (p *message) print() string &#123;</span><br><span class="line">	<span class="keyword">return</span> p.content</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	m := &amp;message&#123;content: <span class="string">"Hello"</span>&#125;</span><br><span class="line">	defer fmt.Print(m.print())</span><br><span class="line">	m.set(<span class="string">"World"</span>)</span><br><span class="line">	// deferred func runs</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//output: Hello</span><br></pre></td></tr></table></figure></p>
 <p>为什么输出不是”World”<br>在调用defer时，fmt.Print是在函数结束之前执行，但是传递给它的参数m.print()会立即执行，所以传递给fmt.Print的参数是”Hello”,而且这个值会被保存直到defer中的函数执行。</p>
 <h4 id="for循环中的捕获"><a href="#for循环中的捕获" class="headerlink" title="for循环中的捕获"></a>for循环中的捕获</h4><p>在循环中deferred func将会看到最新的值当函数执行的时候，有一种情况除外，就是把值当作参数传递给了deferred func。</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			fmt.Println(i)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//output</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
@@ -519,7 +1009,7 @@
 <h4 id="不检查错误"><a href="#不检查错误" class="headerlink" title="不检查错误"></a>不检查错误</h4><p>不要以后把善后的工作委派给了defer就可以安全的释放资源。你有可能会丢失一些有用的报错信息。</p>
 <p>不推荐：<br>f.Close()可能会报错，但是我们意识不到。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func do() error &#123;</span><br><span class="line">  f, err := os.Open(<span class="string">"book.txt"</span>)</span><br><span class="line">  <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">  defer f.Close()</span><br><span class="line">  // ..code...</span><br><span class="line">  <span class="keyword">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>更好的做法是检查错误并处理错误<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func do() error &#123;</span><br><span class="line">  f, err := os.Open(<span class="string">"book.txt"</span>)</span><br><span class="line">  <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">  defer func() &#123;</span><br><span class="line">    <span class="keyword">if</span> err := f.Close(); err != nil &#123;</span><br><span class="line">      // log etc</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;()</span><br><span class="line">  // ..code...</span><br><span class="line">  <span class="keyword">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>你还可以使用命名结果值返回defer中的错误<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func do() (err error) &#123;</span><br><span class="line">  f, err := os.Open(<span class="string">"book.txt"</span>)</span><br><span class="line">  <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">  defer func() &#123;</span><br><span class="line">    <span class="keyword">if</span> ferr := f.Close(); ferr != nil &#123;</span><br><span class="line">      err = ferr</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;()</span><br><span class="line">  // ..code...</span><br><span class="line">  <span class="keyword">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>你还可以使用命名结果值返回defer中的错误020年10月19日<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func do() (err error) &#123;</span><br><span class="line">  f, err := os.Open(<span class="string">"book.txt"</span>)</span><br><span class="line">  <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">  defer func() &#123;</span><br><span class="line">    <span class="keyword">if</span> ferr := f.Close(); ferr != nil &#123;</span><br><span class="line">      err = ferr</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;()</span><br><span class="line">  // ..code...</span><br><span class="line">  <span class="keyword">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>Note:<br>你可以使用<a href="https://godoc.org/github.com/pkg/errors" target="_blank" rel="noopener">这个包</a>包裹多种错误。这是有必要的，因为f.Close可能会覆盖在其之前的错误。在一个错误中包裹另一个错误并打印到日志中可以更好的排查错误。<br>你也可以使用<a href="https://github.com/kisielk/errcheck" target="_blank" rel="noopener">这个包</a>来捕获你不想检查的错误</p>
 <h4 id="释放相同的资源"><a href="#释放相同的资源" class="headerlink" title="释放相同的资源"></a>释放相同的资源</h4><p>你可能会对一个资源进行多次释放操作，这会发生预料之后的问题。</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">func do() error &#123;</span><br><span class="line">  f, err := os.Open(<span class="string">"book.txt"</span>)</span><br><span class="line">  <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">  defer func() &#123;</span><br><span class="line">    <span class="keyword">if</span> err := f.Close(); err != nil &#123;</span><br><span class="line">      // log etc</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;()</span><br><span class="line">  // ..code...</span><br><span class="line">  f, err = os.Open(<span class="string">"another-book.txt"</span>)</span><br><span class="line">  <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">  defer func() &#123;</span><br><span class="line">    <span class="keyword">if</span> err := f.Close(); err != nil &#123;</span><br><span class="line">      // log etc</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;()</span><br><span class="line">  <span class="keyword">return</span> nil</span><br><span class="line">&#125;</span><br><span class="line">//output</span><br><span class="line">closing resource <span class="comment">#another-book.txt</span></span><br><span class="line">closing resource <span class="comment">#another-book.txt</span></span><br></pre></td></tr></table></figure>
@@ -1638,479 +2128,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/18/Go-strings/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/18/Go-strings/" class="post-title-link" itemprop="url">Go-strings</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-18 16:15:20 / 修改时间：16:42:32" itemprop="dateCreated datePublished" datetime="2020-07-18T16:15:20+08:00">2020-07-18</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Package<code>strings</code>提供了对<code>UTF-8</code>编码字符串的一些简单操作。</p>
-<p>安装<code>gomacro</code>,<code>Go</code>版本的REPL,对一些函数进行验证。<br><code>go get github.com/cosmos72/gomacro</code></p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">➜  hysyeah gomacro</span><br><span class="line"><span class="comment">// Welcome to gomacro. Type :help for help, :copy for copyright and license.</span></span><br><span class="line"><span class="comment">// This is free software with ABSOLUTELY NO WARRANTY.</span></span><br><span class="line">gomacro&gt; <span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line">gomacro&gt; <span class="keyword">import</span> <span class="string">"strings"</span></span><br><span class="line">gomacro&gt; strings.Compare(<span class="string">"hello"</span>,<span class="string">"hello"</span>)</span><br><span class="line"><span class="number">0</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.Compare(<span class="string">"hello"</span>,<span class="string">"hell"</span>)</span><br><span class="line"><span class="number">1</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.Compare(<span class="string">"hell"</span>,<span class="string">"hello"</span>)</span><br><span class="line"><span class="number">-1</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.Contains(<span class="string">"hello"</span>,<span class="string">"h"</span>)</span><br><span class="line"><span class="literal">true</span>	<span class="comment">// bool</span></span><br><span class="line"></span><br><span class="line">gomacro&gt; strings.ContainsAny(<span class="string">"hello"</span>,<span class="string">"e"</span>)</span><br><span class="line"><span class="literal">true</span>	<span class="comment">// bool</span></span><br><span class="line">gomacro&gt; strings.ContainsAny(<span class="string">"hello编程"</span>,<span class="string">"编程"</span>)</span><br><span class="line"><span class="literal">true</span>	<span class="comment">// bool</span></span><br><span class="line">gomacro&gt; strings.Count(<span class="string">"hello"</span>, <span class="string">"h"</span>)</span><br><span class="line"><span class="number">1</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.Count(<span class="string">"hello"</span>, <span class="string">"l"</span>)</span><br><span class="line"><span class="number">2</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.HasPrefix(<span class="string">"hello"</span>,<span class="string">"he"</span>)</span><br><span class="line"><span class="literal">true</span>	<span class="comment">// bool</span></span><br><span class="line">gomacro&gt; strings.Index(<span class="string">"hello"</span>, <span class="string">"h"</span>)</span><br><span class="line"><span class="number">0</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.IndexAny(<span class="string">"hello"</span>, <span class="string">"x"</span>) <span class="comment">//匹配任意一个字符，并返回第一个匹配字符的index,如果不匹配则返回-1</span></span><br><span class="line"><span class="number">-1</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.IndexAny(<span class="string">"hello"</span>,<span class="string">"hl"</span>)</span><br><span class="line"><span class="number">0</span>	<span class="comment">// int</span></span><br><span class="line">gomacro&gt; strings.Split(<span class="string">"hello,a,b"</span>,<span class="string">","</span>)</span><br><span class="line">[hello a b]	<span class="comment">// []string</span></span><br><span class="line">gomacro&gt; s := []<span class="keyword">string</span>&#123;<span class="string">"foo"</span>, <span class="string">"bar"</span>, <span class="string">"baz"</span>&#125;</span><br><span class="line">gomacro&gt; fmt.Println(strings.Join(s, <span class="string">", "</span>))</span><br><span class="line">foo, bar, baz</span><br><span class="line"><span class="number">14</span>	<span class="comment">// int</span></span><br><span class="line">&lt;<span class="literal">nil</span>&gt;	<span class="comment">// error</span></span><br></pre></td></tr></table></figure>
-<hr>
-<p>REF:<br>1.<a href="https://golang.org/pkg/strings/" target="_blank" rel="noopener">https://golang.org/pkg/strings/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/18/Go-error/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/18/Go-error/" class="post-title-link" itemprop="url">Go-error</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-18 10:51:41 / 修改时间：13:16:02" itemprop="dateCreated datePublished" datetime="2020-07-18T10:51:41+08:00">2020-07-18</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Package<code>errors</code>为<code>Go</code>语言提供了错误处理的函数。</p>
-<p><code>error</code>的定义：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> error <span class="keyword">interface</span> &#123;</span><br><span class="line">    Error() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><code>errors</code>中提供的方法<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据给定的字符串返回一个error类型</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">(text <span class="keyword">string</span>)</span> <span class="title">error</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// 在错误链中查找第一个等于<span class="title">target</span>的错误，并将<span class="title">target</span>设置为这个错误返回<span class="title">true</span>,否则返回<span class="title">false</span></span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">As</span><span class="params">(err error, target <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">bool</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// 判断错误链中是否包含<span class="title">target</span>类型的错误</span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">Is</span><span class="params">(err, target error)</span> <span class="title">bool</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">//调用参数<span class="title">err</span>本身的<span class="title">Unwrap</span>方法，如果<span class="title">err</span>存在<span class="title">Unwrap</span>方法返回该方法返回的值，否则返回<span class="title">nil</span></span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">Unwrap</span><span class="params">(err error)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure></p>
-<p><code>Go</code>从<code>1.13</code>开始提供了<code>Unwarp</code>方法来获取嵌套的错误。<br>1.创建一个嵌套的错误<br>方法一：通过<code>fmt.Error(&quot;%w&quot;, err)</code>来创建<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    err1 := errors.New(<span class="string">"new err"</span>)</span><br><span class="line">    err2 := fmt.Errorf(<span class="string">"err2: [%w]"</span>, err1)</span><br><span class="line">    <span class="comment">// err2: [new err]</span></span><br><span class="line">    fmt.Println(err2)</span><br><span class="line">    e := errors.Unwrap(err2)</span><br><span class="line">    <span class="comment">// new err</span></span><br><span class="line">    fmt.Println(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>方法二：自定义结构体，并实现<code>Error()</code>和<code>Unwrap()</code>方法<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> QueryError <span class="keyword">struct</span> &#123;</span><br><span class="line">    Query <span class="keyword">string</span></span><br><span class="line">    Err   error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *QueryError)</span> <span class="title">Error</span><span class="params">()</span> <span class="title">string</span></span>  &#123;</span><br><span class="line">    <span class="keyword">return</span> e.Query</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *QueryError)</span> <span class="title">Unwrap</span><span class="params">()</span> <span class="title">error</span></span>  &#123;</span><br><span class="line">    <span class="keyword">return</span> e.Err</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    err1 := QueryError&#123;<span class="string">"select"</span>, errors.New(<span class="string">"permission denied"</span>)&#125;</span><br><span class="line">    e := errors.Unwrap(&amp;err1)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// output: permission denied</span></span><br><span class="line">    fmt.Println(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.<code>errors.Is</code>判断嵌套的<code>error</code>是否包含特定的错误<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    err1 := errors.New(<span class="string">"new err"</span>)</span><br><span class="line">    err2 := fmt.Errorf(<span class="string">"err2: [%w]"</span>, err1)</span><br><span class="line">    <span class="comment">// output: true</span></span><br><span class="line">    fmt.Println(errors.Is(err2, err1))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.<code>errors.As</code>判断错误链中是否包含target类型的错误<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> QueryError <span class="keyword">struct</span> &#123;</span><br><span class="line">    Query <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *QueryError)</span> <span class="title">Error</span><span class="params">()</span> <span class="title">string</span></span>  &#123;</span><br><span class="line">    <span class="keyword">return</span> e.Query</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> target *QueryError</span><br><span class="line">    err2 := fmt.Errorf(<span class="string">"err2: [%w]"</span>, &amp;QueryError&#123;Query:<span class="string">"select error"</span>&#125;)</span><br><span class="line">    <span class="comment">// output: true</span></span><br><span class="line">    fmt.Println(errors.As(err2, &amp;target))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>REF:<br>1.<a href="https://blog.golang.org/go1.13-errors" target="_blank" rel="noopener">https://blog.golang.org/go1.13-errors</a><br>2.<a href="https://golang.org/pkg/errors/" target="_blank" rel="noopener">https://golang.org/pkg/errors/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/16/Go-flag/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/16/Go-flag/" class="post-title-link" itemprop="url">Go-flag</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-16 19:40:30" itemprop="dateCreated datePublished" datetime="2020-07-16T19:40:30+08:00">2020-07-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-18 13:20:10" itemprop="dateModified" datetime="2020-07-18T13:20:10+08:00">2020-07-18</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>标准库<code>flag</code>实现了命令行参数的解析。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//ip类型是指针,存放的是指向flagname的指针</span></span><br><span class="line">	<span class="keyword">var</span> ip = flag.Int(<span class="string">"flagname"</span>, <span class="number">1234</span>, <span class="string">"help message"</span>)</span><br><span class="line">	<span class="keyword">var</span> flagvar <span class="keyword">string</span></span><br><span class="line">	<span class="comment">//将命令行参数值写入到flagvar中,与StringVar对应的还有IntVar,UintVar等</span></span><br><span class="line">	<span class="comment">//func StringVar(p *string, name string, value string, usage string)</span></span><br><span class="line">	flag.StringVar(&amp;flagvar, <span class="string">"flagvar"</span>, <span class="string">"helloflag"</span>, <span class="string">"help message"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将命令行解析为定义的标志</span></span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">"the point address of ip is %x:\n"</span>, ip)</span><br><span class="line">	fmt.Printf(<span class="string">"the value of flagname is %d\n"</span>, *ip)</span><br><span class="line">	fmt.Printf(<span class="string">"the value of flagvar is %s\n"</span>,flagvar)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>命令行传参形式：<br>-flag<br>-flag=x<br>-flag x          //只支持非布尔类型</p>
-<p>其中<code>-</code>和<code>--</code>功能是一样的。</p>
-<p>子命令的使用<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	<span class="comment">// 创建一个带有指定名称和错误处理属性的空命令集</span></span><br><span class="line">	goCmd := flag.NewFlagSet(<span class="string">"create"</span>, flag.ExitOnError)</span><br><span class="line"></span><br><span class="line">	goCmd.StringVar(&amp;name, <span class="string">"name"</span>, <span class="string">"go"</span>, <span class="string">"help"</span>)</span><br><span class="line">	args := flag.Args()</span><br><span class="line">	<span class="comment">// 对命令进行解析，否则获取不到name中的值</span></span><br><span class="line">	goCmd.Parse(args[<span class="number">1</span>:])</span><br><span class="line">	fmt.Println(name)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>type Value<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值是存储在标志中的动态值的接口。</span></span><br><span class="line"><span class="comment">// 对于每个存在的标志，按命令行顺序调用一次Set。</span></span><br><span class="line"><span class="comment">// 可以通过这个接口的方法实现个性化操作</span></span><br><span class="line"><span class="keyword">type</span> Value <span class="keyword">interface</span> &#123;</span><br><span class="line">    String() <span class="keyword">string</span></span><br><span class="line">    Set(<span class="keyword">string</span>) error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如下代码会对传入的参数值末尾加上<code>_value</code><br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"flag"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Name <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *Name)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span>  &#123;</span><br><span class="line">	<span class="keyword">return</span>  fmt.Sprint(*n)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *Name)</span> <span class="title">Set</span><span class="params">(value <span class="keyword">string</span>)</span> <span class="title">error</span></span>  &#123;</span><br><span class="line">	*n = Name(value + <span class="string">"_value"</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> name Name</span><br><span class="line">	flag.Var(&amp;name, <span class="string">"name"</span>, <span class="string">"help message"</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line">	fmt.Printf(<span class="string">"name is %s"</span>,name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// go run flag2.go -name hys</span></span><br><span class="line"><span class="comment">// output: name is hys_value</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>REF:<br>1.<a href="https://golang.org/pkg/flag/" target="_blank" rel="noopener">https://golang.org/pkg/flag/</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2152,7 +2174,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2247,6 +2269,8 @@
                     
                   
                     
+                    
+                      
                     
                       
                     

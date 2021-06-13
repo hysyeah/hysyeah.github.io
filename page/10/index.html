@@ -380,6 +380,625 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/11/不排序找出前2个最大值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/11/不排序找出前2个最大值/" class="post-title-link" itemprop="url">不排序找出前2个最大值</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-11 22:09:57" itemprop="dateCreated datePublished" datetime="2018-09-11T22:09:57+08:00">2018-09-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>In [90]: lst = [1,2,3,6,3,4,5,4]
+    ...:
+    ...: max = -9999
+    ...: secMax = -99999
+    ...: for x in lst:
+    ...:
+    ...:     if x &gt; max:
+    ...:         max = x
+    ...:     if x &gt; secMax and x &lt; max:
+    ...:         secMax = x
+    ...:
+
+In [91]: print(max)
+6
+
+In [92]: print(secMax)
+5
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/11/python之copy,deepcopy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/11/python之copy,deepcopy/" class="post-title-link" itemprop="url">python之copy,deepcopy</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-11 22:07:47" itemprop="dateCreated datePublished" datetime="2018-09-11T22:07:47+08:00">2018-09-11</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:23:24" itemprop="dateModified" datetime="2020-07-05T11:23:24+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h4><pre><code># c与a指向同一对象
+In [71]: a = [0, [1, 2], 3]
+
+
+In [75]: c = a
+
+In [76]: id(c)
+Out[76]: 140506513737928
+
+In [77]: id(a)
+Out[77]: 140506513737928
+</code></pre><h4 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h4><pre><code># 只拷贝对象的引用
+In [71]: a = [0, [1, 2], 3]
+
+In [72]: b = a[:]
+
+In [73]: id(a)
+Out[73]: 140506513737928
+
+In [74]: id(b)
+Out[74]: 140506514004104
+
+In [78]: b[1].append(3)
+
+In [79]: b
+Out[79]: [0, [1, 2, 3], 3]
+
+In [80]: a
+Out[80]: [0, [1, 2, 3], 3]
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/09/copy.jpg" alt>图片来源于网络</p>
+<h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><pre><code># 复制真实的对象
+In [81]: import copy
+
+In [82]: a = [0, [1, 2], 3]
+
+In [83]: b = copy.deepcopy(a)
+
+In [84]: b
+Out[84]: [0, [1, 2], 3]
+
+In [85]: id(b[1])
+Out[85]: 140506534178056
+
+In [86]: id(a[1])
+Out[86]: 140506522688136
+
+In [87]: b[1].append(3)
+
+In [88]: b
+Out[88]: [0, [1, 2, 3], 3]
+
+In [89]: a
+Out[89]: [0, [1, 2], 3]
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/09/deepcopy.jpg" alt>图片来源于网络</p>
+<hr>
+<p>浅拷贝和深拷贝的不同之处是对于可变对象来说的，因为对于不可变对象复制对象的引用和复制对象是一样的(因为当要改变值时，会重新创建个对象)。当使用浅拷贝时，对于嵌套的列表只会拷贝其引用，而深拷贝则会复制真实的对象。切片也属于浅拷贝。</p>
+<hr>
+<p>Ref：<br>1.<a href="https://my.oschina.net/leejun2005/blog/145911" target="_blank" rel="noopener">https://my.oschina.net/leejun2005/blog/145911</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/10/python之round/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/10/python之round/" class="post-title-link" itemprop="url">python之round</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-10 15:54:26" itemprop="dateCreated datePublished" datetime="2018-09-10T15:54:26+08:00">2018-09-10</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>round(number[, ndigits]) Return number rounded to ndigits precision after the decimal point. If ndigits is omitted or is None, it returns the nearest integer to its input. For the built-in types supporting round(), values are rounded to the closest multiple of 10 to the power minus ndigits; if two multiples are equally close, rounding is done toward the even choice (so, for example, both round(0.5) and round(-0.5) are 0, and round(1.5) is 2). Any integer value is valid for ndigits (positive, zero, or negative). The return value is an integer if called with one argument, otherwise of the same type as number.</p>
+<pre><code># 如果小数部分为0.5,```round```向最近的偶数取整
+In [5]: round(10.5)
+Out[5]: 10
+
+In [6]: round(11.5)
+Out[6]: 12
+
+In [7]: round(10.4)
+Out[7]: 10
+
+In [8]: round(10.6)
+Out[8]: 11
+
+In [9]: round(-1.5)
+Out[9]: -2
+
+In [10]:  round(2.678, 2)
+Out[10]: 2.68
+
+In [11]:  round(2.676, 2)
+Out[11]: 2.68
+
+In [12]:  round(2.686, 2)
+Out[12]: 2.69
+
+
+# 当末位小数为5时，如果前一位也是小数而且是奇数，则返回指定位数;  
+# 如果前一位也是小数而且是偶数，则返回进1后的指定位数
+In [13]:  round(2.675, 2)
+Out[13]: 2.67
+
+In [14]:  round(2.685, 2)
+Out[14]: 2.69
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/09/08/python之鸭子类型(Duck typing)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1821,582 +2440,11 @@ a
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/24/python之else/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/24/python之else/" class="post-title-link" itemprop="url">python之else</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-24 00:20:05" itemprop="dateCreated datePublished" datetime="2018-08-24T00:20:05+08:00">2018-08-24</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:23:56" itemprop="dateModified" datetime="2020-07-05T11:23:56+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>In [1]: def print_prime(n):
-   ...:     for i in range(2, n):
-   ...:         for j in range(2, i):
-   ...:             if i % j == 0:
-   ...:                 break
-   ...:         else:
-   ...:             print(&quot;%d is a prime number&quot; %i)
-   ...:
-
-In [2]: print_prime(10)
-2 is a prime number
-3 is a prime number
-5 is a prime number
-7 is a prime number
-</code></pre><p>当循环自然结束时(循环条件为假)时else从句会被执行一次，而当循环是由<code>break</code>语句中断时，<code>else</code>子句不会被执行。与<code>for</code>语句相似，<code>while</code>语句中的<code>else</code>子句的语意是一样的：<code>else</code>块在循环正常结束和循环条件不成立时被执行。</p>
-<hr>
-<p>异常处理中的<code>else</code><br><code>try</code>块没有抛出任何异常时，执行<code>else</code>块</p>
-<pre><code>def save(db, obj):
-    try:
-        db.execute(&quot;a sql&quot;, obj.attr1)
-    except DBErrror:
-        db.rollback()
-    else:
-        db.commit()    # 未发生异常时执行
-</code></pre><hr>
-<p>Ref：<br>1.编写高质量代码-改善Python程序的91个建议</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/22/Hyperledger Fabric编译和安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/22/Hyperledger Fabric编译和安装/" class="post-title-link" itemprop="url">Hyperledger Fabric编译和安装</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-22 23:22:37" itemprop="dateCreated datePublished" datetime="2018-08-22T23:22:37+08:00">2018-08-22</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/区块链/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="环境：ubuntu-16-04-64位"><a href="#环境：ubuntu-16-04-64位" class="headerlink" title="环境：ubuntu 16.04 64位"></a>环境：ubuntu 16.04 64位</h4><p>1.依次安装<code>go 1.9.x</code>,<code>docker</code>,<code>docker-compose</code> <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/fabric-req.png" alt> 2.</p>
-<pre><code>mkdir -p $GOPATH/src/github.com/hyperledger
-cd $GOPATH/src/github.com/hyperledger
-git clone http://gerrit.hyperledger.org/r/fabric
-cd fabric
-git checkout release-1.0  # release-1.0才支持go 1.9.x
-</code></pre><p>3.安装依赖软件</p>
-<pre><code>go get github.com/golang/protobuf/protoc-gen-go
-mkdir -p $GOPATH/src/github.com/hyperledger/fabric/build/docker/gotools/bin
-# go get之后编译好的文件会放到$GOBIN对应的目录中，如果没有设置$GOBIN的值，生成的文件将默认存放到$GOPATH/bin下面
-cp protoc-gen-go $GOPATH/src/github.com/hyperledger/fabric/build/docker/gotools/bin
-</code></pre><p>4.编译</p>
-<pre><code>cd $GOPATH/src/github.com/hyperledger/fabric
-make release
-
-make docker //生成docker镜像文件
-</code></pre><p>5.编译成功后会在<code>$GOPATH/src/github.com/hyperledger/fabric/release/linux-amd64/bin</code>生成如下可执行文件。 <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/fabric-exe.png" alt> 6.make docker 经过漫长的等待后 <img src="http://img.hysyeah.top/wp-content/uploads/2018/08/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180823091621.png" alt> mysql镜像除外</p>
-<hr>
-<p>遇到的问题： 1.执行make release时报如下错误</p>
-<pre><code>gotools.mk:22: *** target pattern contains no &#39;%&#39;.  Stop
-</code></pre><p>原因是我的$GOPATH设置了多个路径，改成一个路径之后错误消失。</p>
-<pre><code>export GOPATH=&quot;/home/hys/mycode/go:/home/hys/mycode/go/gopl:/home/hys/mycode/go/block&quot;
-==&gt; export GOPATH=&quot;/home/hys/mycode/go/block&quot;
-</code></pre><p>2.<code>golang.org/x</code>不能访问的问题 <a href="http://img.hysyeah.top/2018/08/22/go-get-golang-orgx-%E5%8C%85%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener">解决方法</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/08/22/go-get-golang-orgx-e5-8c-85-e5-a4-b1-e8-b4-a5-e8-a7-a3-e5-86-b3-e6-96-b9-e6-b3-95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/22/go-get-golang-orgx-e5-8c-85-e5-a4-b1-e8-b4-a5-e8-a7-a3-e5-86-b3-e6-96-b9-e6-b3-95/" class="post-title-link" itemprop="url">go get golang.org/x 包失败解决方法</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-22 20:31:35" itemprop="dateCreated datePublished" datetime="2018-08-22T20:31:35+08:00">2018-08-22</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/GO/" itemprop="url" rel="index"><span itemprop="name">GO</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>由于网络问题不能访问<code>golang.org</code>,通过go get安装golang官方包会失败，如</p>
-<pre><code>go get lint
-package golang.org/x/lint: unrecognized import path &quot;golang.org/x/lint&quot; (https fetch: Get https://golang.org/x/lint?go-get=1: dial tcp 216.239.37.1:443: i/o timeout)
-</code></pre><p>不翻墙的情况下怎么解决这个问题？其实 golang 在 github 上建立了一个镜像库，如 <a href="https://github.com/golang/lint" target="_blank" rel="noopener">https://github.com/golang/lint</a> 即是 <a href="https://golang.org/x/lint" target="_blank" rel="noopener">https://golang.org/x/lint</a> 的镜像库 解决方法</p>
-<pre><code>mkdir -p $GOPATH/src/golang.org/x
-cd $GOPATH/src/golang.org/x
-git clone https://github.com/golang/lint.git
-
-go install golang.org/x/lint
-</code></pre><hr>
-<p>Ref：<br>1.<a href="https://blog.csdn.net/alexwoo0501/article/details/73409917" target="_blank" rel="noopener">https://blog.csdn.net/alexwoo0501/article/details/73409917</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2438,7 +2486,7 @@ go install golang.org/x/lint
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2533,6 +2581,8 @@ go install golang.org/x/lint
                     
                   
                     
+                    
+                      
                     
                       
                     

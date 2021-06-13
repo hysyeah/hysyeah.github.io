@@ -380,6 +380,550 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/30/linux命令strace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/30/linux命令strace/" class="post-title-link" itemprop="url">linux命令strace</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-30 22:36:48" itemprop="dateCreated datePublished" datetime="2019-03-30T22:36:48+08:00">2019-03-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>strace</code>是Linux/Unix下的一款可以追踪系统调用的工具。 1.安装<code>strace</code></p>
+<pre><code>apt-get install strace           # ubuntu
+yum install strace               # centos
+</code></pre><h4 id="2-使用示例"><a href="#2-使用示例" class="headerlink" title="2.使用示例"></a>2.使用示例</h4><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace.png" alt></p>
+<h4 id="3-strace-p"><a href="#3-strace-p" class="headerlink" title="3.strace -p"></a>3.strace -p</h4><pre><code>strace -p pid     # 根据进程id,追踪此进程系统调用 
+</code></pre><h5 id="查看nginx-worker-process进程的系统调用"><a href="#查看nginx-worker-process进程的系统调用" class="headerlink" title="查看nginx: worker process进程的系统调用"></a>查看nginx: worker process进程的系统调用</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_p.png" alt></p>
+<h4 id="4-strace-c"><a href="#4-strace-c" class="headerlink" title="4.strace -c"></a>4.strace -c</h4><h5 id="统计时间，调用数，错误"><a href="#统计时间，调用数，错误" class="headerlink" title="统计时间，调用数，错误"></a>统计时间，调用数，错误</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_c.png" alt></p>
+<h4 id="5-strace-e-type-expr"><a href="#5-strace-e-type-expr" class="headerlink" title="5.strace -e type=expr"></a>5.strace -e type=expr</h4><p>expr = set, file, process, network, signal,ipc, desc,memory <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_type.png" alt></p>
+<h5 id="指定追踪系统调用类型"><a href="#指定追踪系统调用类型" class="headerlink" title="指定追踪系统调用类型"></a>指定追踪系统调用类型</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_e.png" alt></p>
+<h4 id="6-strace-o-out-txt"><a href="#6-strace-o-out-txt" class="headerlink" title="6.strace -o out.txt"></a>6.strace -o out.txt</h4><h5 id="将输出重定向一-个文件"><a href="#将输出重定向一-个文件" class="headerlink" title="将输出重定向一 个文件"></a>将输出重定向一 个文件</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_o.png" alt></p>
+<h4 id="7-strace-i"><a href="#7-strace-i" class="headerlink" title="7.strace -i"></a>7.strace -i</h4><h5 id="输出系统调用的指针地址"><a href="#输出系统调用的指针地址" class="headerlink" title="输出系统调用的指针地址"></a>输出系统调用的指针地址</h5><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/strace_i.png" alt></p>
+<h4 id="8-详细参数可通过下面命令查看"><a href="#8-详细参数可通过下面命令查看" class="headerlink" title="8.详细参数可通过下面命令查看"></a>8.详细参数可通过下面命令查看</h4><pre><code>man strace
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/20/zero-copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/20/zero-copy/" class="post-title-link" itemprop="url">zero-copy</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-20 20:37:28" itemprop="dateCreated datePublished" datetime="2019-03-20T20:37:28+08:00">2019-03-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:20:32" itemprop="dateModified" datetime="2020-07-05T11:20:32+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在许多web应用中需要从磁盘中读取数据然后再将数据发送到socket中，而数据复制这一操作是非常消耗资源的。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/cp.png" alt> 当执行<code>content_to_write = content[1024:]</code>时，这个操作是复制从1024字节后的所有数据到变量<code>content_to_write</code>中，这个过程中增加了9.789MB内存。 有没有方法可以在这种操作中不复制数据呢，在实现了<code>buffer protocol</code>的对象中是可以实现的。当一个对象实现了这个协议，你可以使用<code>memoryview</code>构造一个<code>memoryview</code>对象，实现对源对象内存数据的引用。 使用<code>memoryview</code> 并没有产生多余的内存。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/cp_memoryview.png" alt> 在web应用中将数据从磁盘复制，然后发送到socket中。 普通的复制操作是这样的</p>
+<pre><code>file.read(fileDesc, buf, len);
+socket.send(socket, buf, len);
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/copy_traditional.png" alt> 用户请求向web应用请求数据，数据复制的过程如下： 1.web应用调用系统调用<code>read()</code>方法，此处从用户态切换到内核态。1过程使用DMA从磁盘中复制数据到<code>Read buffer</code>中。 2.当<code>read()</code>返回时，此处从内核态切换到用户态，将数据复制到应用缓存中。 3.web应用调用<code>send()</code>方法，此处从用户态切换到内核态，将数据复制到内核空间的内存中。 4. 4过程使用DMA方法从内核空间的缓存中复制数据到<code>socket</code>中。 当数据量很大时，这一过程是极其缓慢的。</p>
+<hr>
+<p>零拷贝方法:直接将数据从源端拷贝到目标端</p>
+<pre><code>os.sendfile(out, in, offset, count, [headers, ][trailers, ]flags=0) 
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2019/03/copy_zero.png" alt> 传统拷贝方法所消耗的时间： <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/normal_time.png" alt> 零拷贝方法所消耗的时间： <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/zero_time.png" alt> 使用传统方法的客户端： <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/normal_client.png" alt> 使用零拷贝方法的客户端：没产生大内存 <img src="http://img.hysyeah.top/wp-content/uploads/2019/03/zero_client.png" alt></p>
+<pre><code>pip3 install memory_profiler
+pip3 install line_profiler
+</code></pre><hr>
+<p>Ref:<br>1.<a href="https://developer.ibm.com/articles/j-zerocopy/" target="_blank" rel="noopener">Efficient data transfer through zero copy</a><br>2.<a href="https://julien.danjou.info/high-performance-in-python-with-zero-copy-and-the-buffer-protocol/" target="_blank" rel="noopener">high-performance-in-python-with-zero-copy-and-the-buffer-protocol/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/20/mysql shell 批量恢复/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/20/mysql shell 批量恢复/" class="post-title-link" itemprop="url">mysql shell 批量恢复</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-20 19:29:17" itemprop="dateCreated datePublished" datetime="2019-03-20T19:29:17+08:00">2019-03-20</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>有多个mysql的数据文件在文件夹在tmp文件夹下</p>
+<pre><code>ls /root/tmp
+network.dump igw.dump vpn.dump vpc.dump
+</code></pre><p>编写shell恢复数据</p>
+<pre><code>#!/root/tmp
+for elt in $(ls *.dump)
+do
+  echo &quot;restore database $elt&quot;
+  mysql -uroot -pxxxxx ${elt%%.*} &lt; $elt
+done
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/11/pip3的一个bug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1646,603 +2190,11 @@ proxies_priv: 代理用户权限
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/18/mysql之修改用户密码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/02/18/mysql之修改用户密码/" class="post-title-link" itemprop="url">mysql之修改用户密码</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-18 21:54:43" itemprop="dateCreated datePublished" datetime="2019-02-18T21:54:43+08:00">2019-02-18</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>mysql中有几种方式可以修改用户密码。 1.直接修改mysql.user中的password字段</p>
-<pre><code>update mysql.user set password=password(&#39;hello&#39;) where user=&#39;t&#39;
-flush privileges;
-</code></pre><p>2.使用<code>create user</code>,<code>grant</code>或<code>set password</code></p>
-<pre><code>create user t identified by &#39;password&#39;;
-
-grant select on cloud.* to &#39;root&#39;@&#39;10.68.6.66&#39; identified by &#39;password&#39;
-
-set password for &#39;root&#39;@&#39;localhost&#39; =&#39;auth_string&#39;; 在5.5.60中执行报错
-
-set password for &#39;root&#39;@&#39;localhost&#39; = password(&#39;auth_string&#39;);  在5.7.6中已废弃这种语法，将来会移除
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/17/sqlacodegen/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/02/17/sqlacodegen/" class="post-title-link" itemprop="url">sqlacodegen</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-17 10:23:49" itemprop="dateCreated datePublished" datetime="2019-02-17T10:23:49+08:00">2019-02-17</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>Generates SQLAlchemy model code from an existing database.
-
-positional arguments:
-  url                SQLAlchemy url to the database
-
-optional arguments:
-  -h, --help         show this help message and exit
-  --version          print the version number and exit
-  --schema SCHEMA    load tables from an alternate schema(指定schema)
-  --tables TABLES    tables to process (comma-separated, default: all)
-  --noviews          ignore views
-  --noindexes        ignore indexes
-  --noconstraints    ignore constraints(忽略外键)
-  --nojoined         don&#39;t autodetect joined table inheritance
-  --noinflect        don&#39;t try to convert tables names to singular form
-  --noclasses        don&#39;t generate classes, only tables
-  --outfile OUTFILE  file to write output to (default: stdout)
-</code></pre><p>例：</p>
-<pre><code>sqlacodegen mysql+pymysql://root:root@127.0.0.1/cloud --noviews --noconstraints --tables host,vpn --outfile out.txt
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/11/13/pgloader的安装与使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/13/pgloader的安装与使用/" class="post-title-link" itemprop="url">pgloader的安装与使用</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-13 22:32:40" itemprop="dateCreated datePublished" datetime="2018-11-13T22:32:40+08:00">2018-11-13</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>pgloader是由postgresql的作者用lisp语言编写的一个用于将数据从其它数据库迁移到postgresql数据库中的命令行工具，亦可编写简单的脚本，保存为<code>xxx.load</code>文件。</p>
-<h4 id="在centos下安装pgloader"><a href="#在centos下安装pgloader" class="headerlink" title="在centos下安装pgloader"></a>在centos下安装pgloader</h4><p>1.安装依赖</p>
-<pre><code>sudo yum -y install yum-utils rpmdevtools @&quot;Development Tools&quot; sqlite-devel zlib-devel  
-sudo yum -y install epel-release sbcl  
-sudo yum -y install freetds freetds-devel
-</code></pre><p>2.<a href="https://github.com/dimitri/pgloader/releases/download/v3.5.1/pgloader-bundle-3.5.1.tgz" title="下载源码" target="_blank" rel="noopener">下载源码</a></p>
-<pre><code>tar -xv pgloader-bundle-3.5.1.tgz
-cd pgloader-bundle-3.5.1.tgz
-make pgloader
-</code></pre><p>3.编译成功后bin文件夹下会出现pgloader可执行文件，将路径添加到环境变量。</p>
-<pre><code>vim ~/.bash_profile
-source ~/.bash_profile
-</code></pre><hr>
-<h4 id="pgloader的使用-from-mysql-to-postgresql"><a href="#pgloader的使用-from-mysql-to-postgresql" class="headerlink" title="pgloader的使用 from mysql to postgresql"></a>pgloader的使用 from mysql to postgresql</h4><pre><code>load database
-    from mysql://username:password@localhost/test
-    into postgresql://username:password@110.110.110.110/datahub
-with include drop, create tables,  create indexes,  reset sequences, disable triggers, foreign keys, workers=8, concurrency=1
-   set work_mem to &#39;16MB&#39;, maintenance_work_mem to &#39;512MB&#39;
-
-   INCLUDING ONLY TABLE NAMES MATCHING &#39;base_job_type&#39;
-
-   CAST type timestamp when default &quot;0000-00-00 00:00:00&quot; with extra on update current timestamp to timestamptz drop default drop not nul drop extra using zero-dates-to-null,
-        type smallint when unsigned to integer drop typemod
-
-# FROM: 源数据库信息
-# INTO: 目标数据库信息
-# 迁移默认选项：no truncate, create schema, create tables, include drop, create indexes,reset sequences,foreign keys,downcase identifiers, uniquify index names
-
-# include drop: 丢弃目标库的表并重新创建
-# include no drop: 不做任何drop操作
-# truncate: 在迁移数据之前清空表
-# no truncate: 不做truncate操作
-# disable triggers: 这个选项允许，迁移数据到已经存在的表并忽略外键约束和用户定义的触发器，迁移后可能会出现无效的外键约束
-# create tables: 根据元数据自动创建表结构
-# create no tables: 不创建表结构，当迁移数据时必须保证表存在
-# create indexes: 创建索引
-# create no indexes: 不创建索引
-# drop indexes: 在迁移数据之前drop indexes,当数据迁移完成之后重新创建索引
-# uniquify index names: 因为mysql的索引是表唯一，postgresql的索引是schema唯一，所以当从mysql到postgresql时索引名称可能会出现冲突，pgloader会通过特定规则对索引进行重新命名
-# preserve index names: 保留索引名称，尽管如此 mysql primary key也会被重新命名，以保持唯一性
-# drop schema: 迁移数据行 drop schema，然后重建
-# foreign keys: 创建外键
-# no foreign keys: 不创建外键
-# reset sequences: 当数据迁移完成后，sequences会设置为当前列的最大值
-# reset no sequences: 不设置sequences
-# downcase identifiers: 将表名，索引名，列名改为小写
-# quote identifiers: 保留大小写
-# schema only: 只迁移表结构
-# data only: 只复制数据
-</code></pre><h4 id="pgloader转换规则中的坑"><a href="#pgloader转换规则中的坑" class="headerlink" title="pgloader转换规则中的坑"></a>pgloader转换规则中的坑</h4><p>假设mysql中有一个字段的类型为datetime,默认值为”0000-00-00 00:00:00” 如果转换规则写为<code>type datetime to timestamptz</code>此时pgloader并不会匹配上，因为pgloader必须全部匹配时，才会执行类型转换。可写为<code>cast type datetime when default &quot;0000-00-00 00:00:00&quot; to timestamptz</code>才能匹配,如果还有其它的限制也必须加上，如<code>with extra on update current timestamp</code>。这种情况和代码异常处理是不一样的。</p>
-<hr>
-<p>Ref： 1.<a href="https://pgloader.readthedocs.io/en/latest/ref/mysql.html" target="_blank" rel="noopener">https://pgloader.readthedocs.io/en/latest/ref/mysql.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2284,7 +2236,7 @@ with include drop, create tables,  create indexes,  reset sequences, disable tri
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2379,6 +2331,8 @@ with include drop, create tables,  create indexes,  reset sequences, disable tri
                     
                   
                     
+                    
+                      
                     
                       
                     

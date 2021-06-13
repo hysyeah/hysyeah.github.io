@@ -380,6 +380,621 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/24/docker容器启动时设置容器内服务自启动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/24/docker容器启动时设置容器内服务自启动/" class="post-title-link" itemprop="url">docker容器启动时设置容器内服务自启动</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-24 14:47:12" itemprop="dateCreated datePublished" datetime="2018-02-24T14:47:12+08:00">2018-02-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.编写shell脚本，auto_start.sh</p>
+<pre><code>#！/bin/sh
+/etc/init.d/ssh start  #启动服务
+/bin/bash              #一定要加上这句，否则容器会自动退出
+</code></pre><p>2.修改docker-compose.yml</p>
+<pre><code>volumes:
+  - ./auto_start.sh:/root/auto_start.sh
+command:[&quot;/root/auto_start.sh&quot;]
+</code></pre><p>3.启动容器，便会自动启动auto_start.sh中的服务。</p>
+<hr>
+<p>可能出现的问题： 1.exec: \\”/root/auto_start.sh\\”: permission denied”: unknown’，提示没有权限 解决方法: 修改宿主机上的auto_start.sh文件权限，chmod a+x auto_start.sh,重新启动服务。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/12/使用docker搭建hadoop,spark集群/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/12/使用docker搭建hadoop,spark集群/" class="post-title-link" itemprop="url">使用docker搭建hadoop,spark集群</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-12 10:20:30" itemprop="dateCreated datePublished" datetime="2018-02-12T10:20:30+08:00">2018-02-12</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:24:42" itemprop="dateModified" datetime="2020-07-05T11:24:42+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="环境：ubuntu-16-04-64位"><a href="#环境：ubuntu-16-04-64位" class="headerlink" title="环境：ubuntu 16.04 64位"></a>环境：ubuntu 16.04 64位</h5><h5 id="安装所需文件：-Java-SDK-1-8-scala-2-11-11-hadoop-2-7-4-spark-2-2-0-bin-hadoop2-7"><a href="#安装所需文件：-Java-SDK-1-8-scala-2-11-11-hadoop-2-7-4-spark-2-2-0-bin-hadoop2-7" class="headerlink" title="安装所需文件： Java SDK 1.8, scala-2.11.11,hadoop-2.7.4,spark-2.2.0-bin-hadoop2.7"></a>安装所需文件： Java SDK 1.8, scala-2.11.11,hadoop-2.7.4,spark-2.2.0-bin-hadoop2.7</h5><hr>
+<p>1.docker pull ubuntu<br>2.启动镜像，docker run -idt [image_id] /bin/bash<br>3.进入容器，安装必要的工具</p>
+<pre><code>  apt-get install iputils-ping  #ping命令
+  apt-get install net-tools     #ifconfig
+</code></pre><p>4.将安装包复制到容器内部，<a href="http://img.hysyeah.top/2018/02/07/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A42/" title="查看容器主机之间文件复制" target="_blank" rel="noopener">查看容器主机之间文件复制</a><br>5.解压各个安装包，设置环境变量 ~/.bashrc <img src="http://img.hysyeah.top/wp-content/uploads/2018/02/hadoopenv.png" alt="image"> docker commit -m “xx” -a “xx” spark_base #生成一个新的镜像 </p>
+<p>6.新建项目，修改各种<a href="https://github.com/hys20151008/hadoop-cluster-config" title="配置文件" target="_blank" rel="noopener">配置文件</a><br>7.项目目录</p>
+<pre><code># ssh文件夹下面是通过ssh-keygen -t rsa 命令生成的~/.ssh目录下的所有文件（这样不用每次重新启动新的容器后，都要重新配置ssh)
+
+├── master
+│   ├── hadoop
+│   ├── spark
+│   └── ssh
+├── slave1
+│   ├── hadoop
+│   ├── spark
+│   └── ssh
+└── slave2
+|    └── ssh
+|__ docker-compose.yml
+</code></pre><p>8.<a href="http://hysyeah.top/2018/02/01/%E5%90%AF%E5%8A%A8docker%20hadoop%E9%9B%86%E7%BE%A4%E5%A4%B1%E8%B4%A5" target="_blank" rel="noopener">创建网络</a> docker-compose up -d #启动容器，一个namenode,二个datanode<br>9.进入master容器，/opt/hadoop-2.7.4/sbin/start-all.sh #启动集群 10. 进入master容器，输入jps，有如下进程</p>
+<pre><code>3191 NameNode
+3817 Jps
+3433 ResourceManager
+</code></pre><p>进入slave1容器，输入jps，有如下进程</p>
+<pre><code>962 NodeManager
+1235 Jps
+854 DataNode
+</code></pre><p>11.输入hdfs dfsadmin -report可查看节点信息 <img src="http://img.hysyeah.top/wp-content/uploads/2018/02/hdfsreport.png" alt="image"> 12.测试集群是否正常工作。</p>
+<pre><code>vim a.txt                              #创建本地文件
+hdfs dfs -put a.txt /                  #上传到hdfs文件系统
+cd /opt/hadoop-2.7.4/share/hadoop/mapreduce
+hadoop jar hadoop-mapreduce-examples-2.7.4.jar wordcount /a.txt /out  #执行count计算
+hdfs dfs -text /out/part-r-00000                                      #查看执行结果
+若以上都没有出错，说明集群正常
+</code></pre><hr>
+<p>Ref：<br>1.<a href="http://blog.csdn.net/xu470438000/article/details/50512442" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/50512442</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/spark-shell使用mysql存储元数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/02/07/spark-shell使用mysql存储元数据/" class="post-title-link" itemprop="url">spark-shell使用mysql存储元数据</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-07 18:17:51" itemprop="dateCreated datePublished" datetime="2018-02-07T18:17:51+08:00">2018-02-07</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.hive安装(依赖于hadoop) - 下载<a href="http://hive.apache.org/downloads.html" target="_blank" rel="noopener">hive</a> - 解压到/opt目录下 - 添加环境变量到~/.bashrc <code>export HIVE_HOME=/opt/apache-hive-2.2.0-bin export PATH=$HIVE_HOME/bin:$PATH</code> 2.hive-env.sh添加</p>
+<pre><code>HADOOP_HOME=/opt/hadoop-2.7.4
+</code></pre><p>3.hive-site.xml添加[server端，hive目录下]</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
+&lt;configuration&gt;
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
+    &lt;value&gt;jdbc:mysql://10.68.2.55:3307/hivedb?createDatabaseIfNotExist=true&amp;characterEncoding=utf8&amp;useSSL=false&lt;/value&gt; #mysql连接信息
+    &lt;description&gt;
+      JDBC connect string for a JDBC metastore.
+      To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the connection URL.
+      For example, jdbc:postgresql://myhost/db?ssl=true for postgres database.
+    &lt;/description&gt;
+  &lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
+    &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
+    &lt;description&gt;Driver class name for a JDBC metastore&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
+    &lt;value&gt;root&lt;/value&gt;
+    &lt;description&gt;Username to use against metastore database&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
+    &lt;value&gt;hello&lt;/value&gt;
+    &lt;description&gt;password to use against metastore database&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;
+    &lt;value&gt;hdfs://10.68.2.55:9000/user/hive/warehouse&lt;/value&gt;
+    &lt;description&gt;location of default database for the warehouse&lt;/description&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><p>4.hive-site.xml[client端，spark目录下]</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;
+&lt;configuration&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.metastore.uris&lt;/name&gt;
+    &lt;value&gt;thrift://10.68.2.55:8000&lt;/value&gt;
+    &lt;description&gt;Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.&lt;/description&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+  &lt;name&gt;spark.sql.warehouse.dir&lt;/name&gt;
+  &lt;value&gt;/user/hive/warehouse&lt;/value&gt; #hdfs dfs -mkdir -p /usr/hive/warehouse
+&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre><p>5.下载mysql-connector-java-5.1.44-bin.jar，放到/opt/apache-hive-2.2.0-bin/lib目录下 6.</p>
+<pre><code>schematool -dbType mysql -initSchema #初始化
+hive --service metastore -p &lt;port&gt;  #启动服务
+启动spark-shell将会将元数据存储到mysql
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/02/07/hadoop,spark踩过的坑/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1715,596 +2330,11 @@ font.sans-serif     : DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, 
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/06/x86相关寄存器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/06/x86相关寄存器/" class="post-title-link" itemprop="url">x86相关寄存器</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-06 17:27:29" itemprop="dateCreated datePublished" datetime="2018-01-06T17:27:29+08:00">2018-01-06</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>IP-Instruction Pointer--指令指针寄存器
-CS-Code Segment--段寄存器
-DS-Data Segment--数据段寄存器
-
-%rax-%eax-%ax-%al---返回值
-%rbx-%ebx-%bx-%bl---被调用者保存
-%rcx-%ecx-%cx-%cl---第4个参数
-%rdx-%edx-%dx-%dl---第3个参数
-%rsi-%esi-%si-%sil---第2个参数
-%rdi-%edi-%di-%dil---第1个参数
-%rbp-%ebp-%bp-%bpl---基址寄存器(stack pointer),一般在函数中用来保存进入函数时的sp的栈顶基址(被调用者保存)
-%rsp-%esp-%sp-%spl---栈指针
-%r8-%r8d-%r8w-%r8b---第5个参数
-%r9-%r9d-%r9w-%r9b---第6个参数
-
-%r10-%r10d-%r10w-%r10b---调用者保存
-%r11-%r11d-%r11w-%r11b---调用者保存
-%r12-%r12d-%r12w-%r12b---被调用者保存
-%r13-%r13d-%r13w-%r13b---被调用者保存
-%r14-%r14d-%r14w-%r14b---被调用者保存
-%r15-%r15d-%r15w-%r15b---被调用者保存
-</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2018/01/register.jpg" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/01/01/elf可重定向目标文件格式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/01/01/elf可重定向目标文件格式/" class="post-title-link" itemprop="url">elf可重定向目标文件格式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-01 15:40:00" itemprop="dateCreated datePublished" datetime="2018-01-01T15:40:00+08:00">2018-01-01</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ELF头</p>
-<p>.text</p>
-<p>.rodata</p>
-<p>.data</p>
-<p>.bss</p>
-<p>.symtab</p>
-<p>.rel.text</p>
-<p>.rel.data</p>
-<p>.debug</p>
-<p>.line</p>
-<p>.strtab</p>
-<p>节头部表</p>
-<p><strong>典型的ELF可重定位目标文件</strong></p>
-<pre><code>.text:已编译程序的机器代码
-.rodata:只读数据，一般是程序里面的只读变量（如const修饰的变量）和字符串常量。
-.data:已初始化的全局和静态C变量。局部C变量运行被保存在栈中，既不出现在.data节中，也不出现在.bss中
-
-.COMMON 未初始化的全局变量
-.bss:未初始化的静态C变量，以及所有被初始化为0的全局或静态变量。在目标文件中这个节不占实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为0。
-
-.symtab:一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。
-.rel.text:一个.text节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。
-.rel.data:被模块引用或定义的所有全局变量的重定位作息。一般来说，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。
-.debug:一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的C源文件。只有以-g选项调用编译器驱动程序时，才会得到这张表。
-.line:原始C源程序中的行号和.text节中的机器指令这间的映射。只有以-g选项调用编译器驱动程序时，才会得到这张表。
-.strtab:一个字符串表，其内容包括.symtab和.debug节中的符号表，以及节头部中的节名字。字符串就是以null结尾的字符串的序列。
-.comment:存放的是编译器版本信息。
-.dynamic:动态链接作息
-.hash:符号哈希表
-.note:额外的编译器信息
-
-.plt
-.got:动态链接的跳转表和全局入口表
-
-.init
-.fini:程序初始化与终结代码段
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/24/gcc常用选项/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/12/24/gcc常用选项/" class="post-title-link" itemprop="url">gcc常用选项</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-24 21:42:25" itemprop="dateCreated datePublished" datetime="2017-12-24T21:42:25+08:00">2017-12-24</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C语言/" itemprop="url" rel="index"><span itemprop="name">C语言</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>/*对源文件hello.c进行预处理,并生成一个ASCII码的中间文件hello.i*/
-gcc -E hello.c -o hello.i /*等同于cpp hello.c hello.i*/
-
-/*将hello.c或hello.i翻译成汇编语言文件hello.s*/
-gcc -S hello.c -o hello.s /*gcc -S hello.i -o hello.s*/
-
-/*将hello.s翻译成可重定向文件hello.o*/
-gcc hello.s -o hello.o
-
-/*编译和汇编(不进行链接)生成hello.o*/
-gcc -c hello.c
-
-/*生成可执行文件hello*/
-gcc hello.c -o hello
-
-/*-fpic(Position-Independent Code)器生成位置无关的代码,共享库的编译必须总是使用这个选项;-shared指示编译器创建一个共享的目标文件*/
-gcc -shared -fpic -o lib.so a.c b.c
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2346,7 +2376,7 @@ gcc -shared -fpic -o lib.so a.c b.c
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2441,6 +2471,8 @@ gcc -shared -fpic -o lib.so a.c b.c
                     
                   
                     
+                    
+                      
                     
                       
                     
