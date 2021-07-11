@@ -380,6 +380,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/scipy entropy求熵/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/23/scipy entropy求熵/" class="post-title-link" itemprop="url">scipy entropy求熵</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-23 17:23:55" itemprop="dateCreated datePublished" datetime="2018-05-23T17:23:55+08:00">2018-05-23</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:24:24" itemprop="dateModified" datetime="2020-07-05T11:24:24+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>熵(entropy)是表示随机变量不确定性的度量,熵越大,随机变量的不确定性就越大。 设X是一个取有限个值的离散随机变量，其概率分布为 [latex]P(X=x_{i}) = p_{i}, i=1,2,\\cdot \\cdot \\cdot,n[/latex] 则随机变量X的熵定义为 [latex]H(X) = -\\sum_{i=1}^n p_{i}\\log {p_{i}}[/latex] 对数以2或e为底</p>
+<pre><code>scipy.stats.entropy(pk, qk=None,base=None)
+计算给定概率值的分布的熵
+
+
+In [213]: from scipy import stats
+
+In [215]: stats.entropy([9/15,6/15],base=2)
+Out[215]: 0.9709505944546688
+</code></pre><hr>
+<p>Ref：<br>1.<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.entropy.html" target="_blank" rel="noopener">scipy文档</a><br>2.统计学习方法</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/23/pandas数据类型DataFrame及基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2359,196 +2540,6 @@ diff2(lambda x: x**3+2*x,1)         # 5
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2018/05/06/python排列组合，范数, 中位数相关函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/06/python排列组合，范数, 中位数相关函数/" class="post-title-link" itemprop="url">python排列组合，范数, 中位数相关函数</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-06 20:47:15" itemprop="dateCreated datePublished" datetime="2018-05-06T20:47:15+08:00">2018-05-06</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <pre><code>import numpy as np
-a = np.array([1, 2, 3])
-np.linalg.norm(a, 1) #1-范数
-np.linalg.norm(a, 2) #2-范数
-
-x = np.array([1, 2])
-y = np.array([1, 4])
-dist = np.linalg.norm(x-y, 2) # x,y之间的欧里几德距离
-</code></pre><p>[latex]C_{5}^2[/latex]</p>
-<pre><code>from scipy.special import comb
-comb(5, 2) # output: 10
-</code></pre><p>[latex]A_{5}^2[/latex]</p>
-<pre><code>from scipy.special import perm
-perm(5, 2) # output: 20
-</code></pre><p>中位数</p>
-<pre><code>x = np.array([1, 2, 5, 4, 9, 0, 6])
-np.median(x)  # 4
-</code></pre><p>阶乘[latex]k![/latex]</p>
-<pre><code>from scipy.special import factorial
-factorial(6) # out :array(720.0)
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2595,7 +2586,7 @@ factorial(6) # out :array(720.0)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">253</span>
+                    <span class="site-state-item-count">254</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2690,6 +2681,8 @@ factorial(6) # out :array(720.0)
                     
                   
                     
+                    
+                      
                     
                       
                     
@@ -3254,9 +3247,9 @@ factorial(6) # out :array(720.0)
       
     
       
-        
-      
     
+      
+        
       
     
       

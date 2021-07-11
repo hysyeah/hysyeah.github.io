@@ -380,6 +380,352 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/pandas数据类型Series及基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/30/pandas数据类型Series及基本操作/" class="post-title-link" itemprop="url">pandas数据类型Series及基本操作</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-30 07:53:24" itemprop="dateCreated datePublished" datetime="2017-08-30T07:53:24+08:00">2017-08-30</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Series类型的数据由一列数据及与之对应的标签（索引，位于数据的左侧）两部分组成。Series对象本质上 是一个NumPy数组，因此NumPy的数组处理函数同样适用于Series对象。每个Series对象都具有index和values 两大属性。 - index:保存标签信息 - values:保存值 1.创建Series对象</p>
+<pre><code>In [1]: import pandas as pd
+
+In [2]: import numpy as np
+
+In [3]: s1 = pd.Series()
+
+In [4]: s1
+Out[4]: Series([], dtype: float64)
+</code></pre><p>2.Series对象的访问</p>
+<pre><code>In [8]: s2 = pd.Series([1, 3, 5, 7, 9], index=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;])
+
+In [9]: s2
+Out[9]: 
+a    1
+b    3
+c    5
+d    7
+e    9
+dtype: int64
+
+In [10]: s2.values
+Out[10]: array([1, 3, 5, 7, 9])
+
+In [11]: s2.index
+Out[11]: Index([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;], dtype=&#39;object&#39;)
+
+In [12]: s2[&#39;e&#39;]
+Out[12]: 9
+</code></pre><p>3.添加新元素</p>
+<pre><code>In [13]: s2[&#39;f&#39;] = 66
+
+In [14]: s2
+Out[14]: 
+a     1
+b     3
+c     5
+d     7
+e     9
+f    66
+dtype: int64
+</code></pre><p>4.将字典对象转换为Series对象</p>
+<pre><code>In [15]: pd.Series({&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: 3})
+Out[15]: 
+a    1
+b    2
+c    3
+dtype: int64
+</code></pre><p>5.Series对象的元素提取与切片</p>
+<pre><code>obj.head(n=5) #默认查看对象的前五个数据
+obj.tail(n=5) #默认查看对象最后五个数据
+obj.take()    #通过传入索引值列表来提取元素
+
+In [18]: s2.head()
+Out[18]: 
+a    1
+b    3
+c    5
+d    7
+e    9
+dtype: int64
+
+In [19]: s2.tail()
+Out[19]: 
+c     5
+d     7
+e     9
+f    66
+g    11
+dtype: int64
+
+In [20]: s2.take([2, 4, 0]) #指定索引值
+Out[20]: 
+c    5
+e    9
+a    1
+dtype: int64
+</code></pre><p>6.切片</p>
+<pre><code>In [22]: s2[0:4] #位置切片，不包括结束位置
+Out[22]: 
+a    1
+b    3
+c    5
+d    7
+dtype: int64
+
+In [23]: s2[&#39;a&#39;:&#39;d&#39;] #标签切片，包括结束位置
+Out[23]: 
+a    1
+b    3
+c    5
+d    7
+dtype: int64
+</code></pre><p>7.时间序列 Timestamp对象由Pandas包中的Timestamp()来创建，参数可以为str类型，也可以为datetime类型。</p>
+<pre><code>In [28]: date
+Out[28]: datetime.datetime(2017, 9, 16, 0, 0)
+
+In [29]: date = pd.Timestamp(date)
+
+In [30]: date
+Out[30]: Timestamp(&#39;2017-09-16 00:00:00&#39;)
+</code></pre><p>通过to_datetime()将Series的index属性转换为DatetimeIndex(实际上对于datetime对象，我们可以直接 将其作为index，Pandas会自动将其转换成Timestamp对象</p>
+<pre><code>In [31]: dates = [&#39;2017-01-01&#39;, &#39;2017-01-02&#39;, &#39;2017-01-03&#39;]
+
+In [32]: ts = pd.Series([1, 2, 3], index=pd.to_datetime(dates))
+
+In [33]: ts
+Out[33]: 
+2017-01-01    1
+2017-01-02    2
+2017-01-03    3
+dtype: int64
+
+In [34]: ts.index
+Out[34]: DatetimeIndex([&#39;2017-01-01&#39;, &#39;2017-01-02&#39;, &#39;2017-01-03&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)
+</code></pre><p>8.截取时间段数据</p>
+<pre><code>In [35]: ts[&#39;20170101&#39;]
+Out[35]: 1
+
+In [36]: ts[&#39;2017-01-01&#39;]
+Out[36]: 1
+
+In [37]: ts[&#39;01/01/2017&#39;]
+Out[37]: 1
+
+In [38]: ts[&#39;2017&#39;]
+Out[38]: 
+2017-01-01    1
+2017-01-02    2
+2017-01-03    3
+dtype: int64
+
+In [39]: ts[&#39;2017-01&#39;: &#39;2017-02&#39;]
+Out[39]: 
+2017-01-01    1
+2017-01-02    2
+2017-01-03    3
+dtype: int64
+
+In [41]: ts.truncate(after=&#39;2017-01-02&#39;)
+Out[41]: 
+2017-01-01    1
+2017-01-02    2
+dtype: int64
+</code></pre><p>9.滞后或者超前操作</p>
+<pre><code>In [43]: ts.shift(1) #正数为滞后
+Out[43]: 
+2017-01-01    NaN   #2017-01-01的数据为前一项的数据，但前一项没有数据所以为NaN
+2017-01-02    1.0   # 2017-01-02数据为2017-01-01的数据，所以为1
+2017-01-03    2.0
+dtype: float64
+
+
+In [44]: ts.shift(-1)  #负数为超前
+Out[44]: 
+2017-01-01    2.0
+2017-01-02    3.0
+2017-01-03    NaN
+dtype: float64
+</code></pre><p>10.计算收益率</p>
+<pre><code>In [45]: (ts - ts.shift(1))/ts.shift(1)
+Out[45]: 
+2017-01-01    NaN
+2017-01-02    1.0
+2017-01-03    0.5
+dtype: float64
+
+
+In [124]: a = pd.Series([&#39;a&#39;,&#39;a&#39;,&#39;b&#39;,&#39;c&#39;])
+
+In [125]: a.value_counts()
+Out[125]:
+a    2
+b    1
+c    1
+dtype: int64
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/08/30/python魔法变量之__all__/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1021,7 +1367,7 @@ Out[6]: 0.17908568603489283
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">253</span>
+                    <span class="site-state-item-count">254</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1116,6 +1462,8 @@ Out[6]: 0.17908568603489283
                     
                   
                     
+                    
+                      
                     
                       
                     
@@ -1674,6 +2022,8 @@ Out[6]: 0.17908568603489283
 
   
   
+    
+      
     
       
     
