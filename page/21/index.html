@@ -380,6 +380,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/26/pyplot-xcorracorr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/11/26/pyplot-xcorracorr/" class="post-title-link" itemprop="url">pyplot.[xcorr,acorr]</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-26 11:57:41" itemprop="dateCreated datePublished" datetime="2017-11-26T11:57:41+08:00">2017-11-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/" itemprop="url" rel="index"><span itemprop="name">pyplot</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/pyplot/python科学计算/" itemprop="url" rel="index"><span itemprop="name">python科学计算</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>自相关（英语：Autocorrelation），也叫序列相关[1]，是一个信号于其自身在不同时间点的互相关。非正式地来说，它就是两次观察之间的相似度对它们之间的时间差的函数。它是找出重复模式（如被噪声掩盖的周期信号），或识别隐含在信号谐波频率中消失的基频的数学工具。它常用于信号处理中，用来分析函数或一系列值，如时域信号。 在统计学中，互相关有时用来表示两个随机矢量X和Y之间的协方差cov（X, Y），以与矢量X的“协方差”概念相区分，矢量X的“协方差”是X的各标量成分之间的协方差矩阵。 在信号处理领域中，互相关（有时也称为“互协方差”）是用来表示两个信号之间相似性的一个度量，通常通过与已知信号比较用于寻找未知信号中的特性。它是两个信号之间相对于时间的一个函数，有时也称为滑动点积，在模式识别以及密码分析学领域都有应用。</p>
+<pre><code>matplotlib.pyplot.acorr(x, hold=None, data=None, **kwargs) #x的自相关
+
+matplotlib.pyplot.xcorr(x, y, normed=True, detrend=&lt;function detrend_none&gt;, usevlines=True, maxlags=10, hold=None, data=None, **kwargs) #画出x与y的互相关关系
+
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(0) #用于指定随机数生成时所用算法开始的整数值，如果使用相同的seed( )值，则每次生成的随即数都相同，如果不设置这个值，则系统根据时间来自己选择这个值，此时每次生成的随机数因时间差异而不同
+
+x, y = np.random.randn(2, 100)#返回一个二维，长度为100的数组
+fig = plt.figure() #添加一个画布
+ax1 = fig.add_subplot(211)#添加个子图，两行一列中的第一个图
+ax1.xcorr(x, y, usevlines=True, maxlags=50, normed=True, lw=2)#互相关函数
+ax1.grid(True) #添加网格
+ax1.axhline(0, color=&#39;black&#39;, lw=2)
+
+ax2 = fig.add_subplot(212, sharex=ax1)
+ax2.acorr(x, usevlines=True, normed=True, maxlags=50, lw=2)#自相关函数
+ax2.grid(True)
+ax2.axhline(0, color=&#39;black&#39;, lw=2)
+
+plt.show()
+</code></pre><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171118102729.png" alt="image"></p>
+<hr>
+<p>Ref： 1.<a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.xcorr" target="_blank" rel="noopener">http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.xcorr</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/11/14/sizeof/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2464,179 +2669,6 @@ A
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/10/28/mysql一些语句/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/10/28/mysql一些语句/" class="post-title-link" itemprop="url">mysql一些语句</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-10-28 08:14:36" itemprop="dateCreated datePublished" datetime="2017-10-28T08:14:36+08:00">2017-10-28</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="获取一张表的所有字段名"><a href="#获取一张表的所有字段名" class="headerlink" title="获取一张表的所有字段名"></a>获取一张表的所有字段名</h3><pre><code>select COLUMN_NAME from information_schema.columns where table_name=&#39;TableName&#39;
-</code></pre><h3 id="对一个数据库进行赋权"><a href="#对一个数据库进行赋权" class="headerlink" title="对一个数据库进行赋权"></a>对一个数据库进行赋权</h3><pre><code>grant all privileges on database.* to username@ip identified by &#39;passwd&#39;
-flush privileges
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2683,7 +2715,7 @@ flush privileges
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">253</span>
+                    <span class="site-state-item-count">254</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
