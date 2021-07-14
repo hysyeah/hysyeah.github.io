@@ -867,154 +867,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/01/31/wireshark-判断两个ip间能否正常通信/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2021/01/31/wireshark-判断两个ip间能否正常通信/" class="post-title-link" itemprop="url">wireshark-判断两个ip间能否正常通信</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2021-01-31 11:08:19 / 修改时间：15:31:04" itemprop="dateCreated datePublished" datetime="2021-01-31T11:08:19+08:00">2021-01-31</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>相关命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">sudo ip netns add netns1   //创建一个network namespace,会在/var/run/netns/路径下生成一个挂载点</span><br><span class="line"></span><br><span class="line">sudo ip netns <span class="keyword">exec</span> netns1 ip link list //进入netns1命名空间查询网卡信息</span><br><span class="line"></span><br><span class="line">sudo ip netns list       //查看系统中有哪些namespace</span><br><span class="line"></span><br><span class="line">sudo ip netns delete netns1  //删除namespace</span><br><span class="line"></span><br><span class="line">sudo ip netns <span class="keyword">exec</span> netns1 ping <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">sudo ip netns <span class="keyword">exec</span> netns1 ip link set dev lo up //把设备状态设置为UP</span><br><span class="line"></span><br><span class="line">sudo ip link add veth0 type veth peer name veth1 //创建一对虚拟网卡</span><br><span class="line"></span><br><span class="line">sudo ip link add eth1 type dummy   //创建一个假网卡</span><br><span class="line">sudo ip link set eth1 netns netns1 //绑定到netns1 network namespace</span><br><span class="line">udo ip netns <span class="keyword">exec</span> netns1 ifconfig eth1 <span class="number">192.168</span><span class="number">.26</span><span class="number">.129</span>/<span class="number">24</span> up  //设置eth1的ip 和子网掩码</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">➜  netns sudo ip link add eth2 type dummy</span><br><span class="line">➜  netns sudo ip netns add netns2</span><br><span class="line">➜  netns sudo ip link set eth2 netns netns2</span><br><span class="line">➜  netns sudo ip netns <span class="keyword">exec</span> netns2 ifconfig eth2 <span class="number">192.168</span><span class="number">.26</span><span class="number">.3</span>/<span class="number">27</span> up</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo ip link add mybridge0 type bridge //新建一个桥接设备</span><br><span class="line"></span><br><span class="line">sudo ip link set dev mybridge0 up  //启动</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><a href="https://man7.org/linux/man-pages/man8/ip-link.8.html" target="_blank" rel="noopener">https://man7.org/linux/man-pages/man8/ip-link.8.html</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/01/02/Go-defer陷阱/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2134,6 +1986,155 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/18/Go-cobra/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/07/18/Go-cobra/" class="post-title-link" itemprop="url">Go-cobra</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-18 16:46:04 / 修改时间：17:07:26" itemprop="dateCreated datePublished" datetime="2020-07-18T16:46:04+08:00">2020-07-18</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><code>Cobra</code>是一个构建命令行应用的强有力工具。在许多项目中都有用到<code>Cobra</code>，比如<code>Kubernetes</code>,<code>Hugo</code>等等。</p>
+<p><a href="https://github.com/hysyeah/gotour/tree/master/tour" target="_blank" rel="noopener">https://github.com/hysyeah/gotour/tree/master/tour</a></p>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/spf13/cobra" target="_blank" rel="noopener">https://github.com/spf13/cobra</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2180,7 +2181,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">254</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

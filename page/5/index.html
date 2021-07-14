@@ -380,269 +380,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/11/python3类型注释/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/11/python3类型注释/" class="post-title-link" itemprop="url">python3类型注释</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-11 07:16:53" itemprop="dateCreated datePublished" datetime="2019-08-11T07:16:53+08:00">2019-08-11</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-05 11:19:28" itemprop="dateModified" datetime="2020-07-05T11:19:28+08:00">2020-07-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>python是一门动态语言,若编码不规范会出现很多运行时错误。为了提高代码可读性，减少运行时bug,python提供了类型注释可以对函数参数，返回值，变量等进行标注。通过静态检查就可以发现一些常见的问题。类型注释的代码在python运行时并不会触发，所以没有性能影响。</p>
-<p>1.类型注释的好处，看如下这个例子。<br><img src="http://img.hysyeah.top/2019/08/11/type-hint-gretting.png" alt="image"></p>
-<p>这两种方法在python3.5之后都是正确的写法，一点问题都没有。但是看左边的代码就会遇到的问题，因为python是动态语言，函数参数<code>name</code>的类型只有在运行时才知道。如果我们这样调用左边的函数<code>gretting([&quot;world&quot;])</code>，这很明显字符串不能和列表相加，这在运行时就会发生异常。<br>如果我们使用右边的写法通过静态检查器就可以提前检查出错误。右边提示了参数<code>name</code>的类型为str,函数的返回值为str。</p>
-<p>通过<code>mypy</code>对代码进行类型检查,可以看到参数传递错误被检查出来了。<br><img src="http://img.hysyeah.top/2019/08/11/type-hint-gretting-err.png" alt="image"></p>
-<p>2.python提供的类型注释<br>python从3.5版本开始将类型注释并入了标准库中。可通过如下方式引用<br><code>from typing import List, Dict</code></p>
-<ul>
-<li><p>对变量进行注释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">In [1]: x: int = 1                            # 表示变量x为int类型                                                                                     </span><br><span class="line">In [2]: x: float = 0.1                        # 表示变量x为float类型                                                                                    </span><br><span class="line">In [3]: x: bool = True                        # 表示变量x为bool类型                                                                                    </span><br><span class="line">In [4]: x: str = &quot;test&quot;                       # 表示变量x为str类型                                                                         </span><br><span class="line">In [5]: x: bytes = b&quot;test&quot;                    # 表示变量x为bytes类型</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">In [8]: from typing import List,Dict,Sequence,Tuple,Set</span><br><span class="line">In [9]: x: Dict[str, float] = &#123;&apos;field&apos;: 2.0&#125;            # x是一个字典key为str类型,值为float类型                                                                           </span><br><span class="line">In [10]: x: Tuple[int, str, float] = (3, &quot;yes&quot;, 7.5)    # x是一个元组，元素类型可以为int, str, float                                                                             </span><br><span class="line">In [11]: x: List[int] = [1]                             # x是一个列表，元素类型为int                                                                             </span><br><span class="line">In [12]: x: Set[int] = &#123;6, 7&#125;                           # x是一个集合，元素类型为int</span><br><span class="line"></span><br><span class="line">In [16]: x: Union[int,str] = 1                         # x类型可以为int或者str         </span><br><span class="line"></span><br><span class="line">In [17]: x: Union[int, None] = 1                       # x类型可以为int或者None,等同于Optional[int]          </span><br><span class="line"></span><br><span class="line">In [18]: x: Optional[int] = 1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>函数注释</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def gretting(name: str) -&gt; str:</span><br><span class="line">    return &quot;Hello &quot; + name</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 对一个可调用的函数进行注释</span><br><span class="line">x: Callable[[int, float], float] = f                  # x是一个可调用的函数，有两个参数，类型分别为int,float,返回值为float类型</span><br></pre></td></tr></table></figure>
-<ul>
-<li>类变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Car:</span><br><span class="line">    seats: ClassVar[int] = 4                         # seats是一个类变量，类型为int</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def f(x: &apos;A&apos;) -&gt; None:  # OK                         # 表示函数f的参数x的类型为A的实例</span><br><span class="line">    ...</span><br><span class="line">class A:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">x: A = A()                                          # 表示x的类型为A的实例，若想表示x的类型为类对象，请看下面</span><br><span class="line">x: Type[A] = A</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>typing模块中的协议类</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>协议</th>
-<th>方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Iterable[T]</code></td>
-<td><code>def __iter__(self) -&gt; Iterator[T]</code></td>
-</tr>
-<tr>
-<td><code>Iterator[T]</code></td>
-<td><code>def __next__(self) -&gt; T</code>  <code>def __iter__(self) -&gt; Iterator[T]</code></td>
-</tr>
-<tr>
-<td><code>Sized</code></td>
-<td><code>def __len__(self) -&gt; int</code></td>
-</tr>
-<tr>
-<td><code>Container[T]</code></td>
-<td><code>def __contains__(self, x: object) -&gt; bool</code></td>
-</tr>
-<tr>
-<td><code>Collection[T]</code></td>
-<td><code>def __len__(self) -&gt; int</code> <code>def __iter__(self) -&gt; Iterator[T]</code> <code>def __contains__(self, x: object) -&gt; bool</code></td>
-</tr>
-<tr>
-<td><code>Awaitable[T]</code></td>
-<td><code>def __await__(self) -&gt; Generator[Any, None, T]</code></td>
-</tr>
-<tr>
-<td><code>AsyncIterable[T]</code></td>
-<td><code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
-</tr>
-<tr>
-<td><code>AsyncIterator[T]</code></td>
-<td><code>def __anext__(self) -&gt; Awaitable[T]</code> <code>def __aiter__(self) -&gt; AsyncIterator[T]</code></td>
-</tr>
-<tr>
-<td><code>ContextManager[T]</code></td>
-<td><code>def __enter__(self) -&gt; T</code> <code>def __exit__(self,exc_type: Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Optional[bool]</code></td>
-</tr>
-<tr>
-<td><code>AsyncContextManager[T]</code></td>
-<td><code>def __aenter__(self) -&gt; Awaitable[T]</code> <code>def __aexit__(self,exc_type:Optional[Type[BaseException]],exc_value: Optional[BaseException],traceback: Optional[TracebackType]) -&gt; Awaitable[Optional[bool]]</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li><p>cast 将静态类型值强制转换为子类型,并不是像其它静态语言真正的进行类型转换，在运行时并不生效。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from typing import cast, List</span><br><span class="line"></span><br><span class="line">o: object = [1]</span><br><span class="line">x = cast(List[int], o)  # OK</span><br><span class="line">y = cast(List[str], o)  # OK (cast performs no actual runtime check)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Generics</p>
-</li>
-</ul>
-<p>python内置的<code>collection classes</code>都是<code>generic classes</code>。Generic types拥有一个或多个类型参数。如<code>Dict[int, str]</code> <code>List[int]</code>。</p>
-<p>自定义一个原生类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from typing import TypeVar, Generic</span><br><span class="line"></span><br><span class="line">T = TypeVar(&apos;T&apos;)</span><br><span class="line"></span><br><span class="line">class Stack(Generic[T]):</span><br><span class="line">    def __init__(self) -&gt; None:</span><br><span class="line">        # Create an empty list with items of type T</span><br><span class="line">        self.items: List[T] = []</span><br><span class="line"></span><br><span class="line">    def push(self, item: T) -&gt; None:</span><br><span class="line">        self.items.append(item)</span><br><span class="line"></span><br><span class="line">    def pop(self) -&gt; T:</span><br><span class="line">        return self.items.pop()</span><br><span class="line"></span><br><span class="line">    def empty(self) -&gt; bool:</span><br><span class="line">        return not self.items</span><br></pre></td></tr></table></figure></p>
-<p>现在<code>Stack</code>类可以用于表示拥有任务类型的<code>stack</code>,如<code>Stack[int],Stack[str],Stack[Tuple[int, str]]</code>等。<br>可以像使用内置容器类型一样使用类<code>Stack</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Construct an empty Stack[int] instance</span><br><span class="line">stack = Stack[int]()</span><br><span class="line">stack.push(2)</span><br><span class="line">stack.pop()</span><br><span class="line">stack.push(&apos;x&apos;)        # Type error</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>Variance of generic types<br>关于它们之间的子类型关系，存在三种主要类型的通用类型：<code>invariant</code>(不变的),<code>covariant</code>(协变的),<code>contravariant</code>(逆变的)</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Animal:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">class Cat(Animal):</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<p>如上,<code>Animal</code>有子类型<code>Cat</code>,<code>Cat</code><strong>可能</strong>可以使用<code>Animal</code>中的某些方法，这个<strong>可能</strong>取决于类型是<code>covariant</code>或者<code>contravariant</code>。</p>
-<p>如果<code>Cat</code>可以使用它的超类型<code>Animal</code>中的一些方法，这种情况被称为<code>convariant</code>;如果超类型<code>Animal</code>可以使用子类型<code>Cat</code>中的某些方法，则被称为<code>contravariant</code>。<br>如果<code>convariant</code>和<code>contravariant</code>都不成立，则被称作<code>invariant</code>,即<code>Cat</code>不能使用<code>Animal</code>中的方法，<code>Animal</code> 也不能使用<code>Cat</code>中的方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from typing import TypeVar, Generic, Iterable, Iterator</span><br><span class="line"></span><br><span class="line">List_co = TypeVar(&apos;List_co&apos;, contravariant=True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class ImmutableList(Generic[List_co]):</span><br><span class="line">    def __init__(self, items: Iterable[List_co]) -&gt; None:</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">    def __iter__(self) -&gt; Iterator[List_co]:</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Employee:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Manager(Employee):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def list_employees(employees: ImmutableList[Employee]) -&gt; None:</span><br><span class="line">    for employee in employees:</span><br><span class="line">        print(employee)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">managers = ImmutableList([Manager()])</span><br><span class="line">list_employees(managers)</span><br></pre></td></tr></table></figure>
-<p>当<code>contravariant=True</code>时，使用命令<code>mypy co.py</code>,出现如下错误：<br><img src="http://img.hysyeah.top/2019/10/13/convariant.png" alt="image"></p>
-<p>默认情况下<code>mypy</code>认为所有用户自定义的原生类型都是<code>invariant</code>的。</p>
-<p>请试下当<code>convariant=True</code>时又是怎样的结果</p>
-<hr>
-<p>Ref：<br>1.<a href="https://www.python.org/dev/peps/pep-0484/" target="_blank" rel="noopener">pep484</a><br>2.<a href="https://www.python.org/dev/peps/pep-0526/" target="_blank" rel="noopener">pep526</a><br>3.<a href="https://mypy.readthedocs.io/en/latest/" target="_blank" rel="noopener">mypy</a><br>4.<a href="https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac" target="_blank" rel="noopener">https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/08/10/tcp之拥塞控制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2239,6 +1976,177 @@ cat /var/log/mysqld.log | grep password
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/06/13/记wordpress一次坑爹的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/13/记wordpress一次坑爹的问题/" class="post-title-link" itemprop="url">记wordpress一次坑爹的问题</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-13 23:52:02" itemprop="dateCreated datePublished" datetime="2019-06-13T23:52:02+08:00">2019-06-13</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天晚上发再更新文章时总是提醒<code>/wp-admin/post.php</code>,但 查看服务器发现文件存在，最近也没有安装插件。 多方尝试最后将下图红框中的数据删除，点击保存，问题解决。 <img src="http://img.hysyeah.top/wp-content/uploads/2019/06/15604410141.png" alt></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2285,7 +2193,7 @@ cat /var/log/mysqld.log | grep password
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">254</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

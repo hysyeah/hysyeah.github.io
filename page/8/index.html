@@ -380,185 +380,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/04/09/shell创建目录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/09/shell创建目录/" class="post-title-link" itemprop="url">shell创建目录</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-09 07:11:32" itemprop="dateCreated datePublished" datetime="2019-04-09T07:11:32+08:00">2019-04-09</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-04 16:34:12" itemprop="dateModified" datetime="2019-08-04T16:34:12+08:00">2019-08-04</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/未分类/" itemprop="url" rel="index"><span itemprop="name">未分类</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在使用shell脚本创建目录的过程中发现一个现象 当解释器为<code>#!/bin/sh</code>时，结果如下 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/Screenshot-from-2019-04-09-07-05-42.png" alt> 当解释器为<code>!/bin/bash</code>时，结果如下 <img src="http://img.hysyeah.top/wp-content/uploads/2019/04/tree_right.png" alt> 原因可能是sh解释器不支持{}语法。</p>
-<pre><code>#!/bin/bash
-
-mkdir -p src/{main,test}/{java,resources,scala}
-mkdir lib project target
-
-echo &#39;name := &quot;myproject&quot;
-version := &quot;1.0&quot;
-scalaVersion := &quot;2.12.0&quot;&#39; &gt; build.sbt
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/03/30/linux命令strace/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2188,6 +2009,187 @@ flush privileges;
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2019/02/19/mysql之flush privileges/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/02/19/mysql之flush privileges/" class="post-title-link" itemprop="url">mysql之flush privileges</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-19 07:53:08" itemprop="dateCreated datePublished" datetime="2019-02-19T07:53:08+08:00">2019-02-19</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-05 11:22:10" itemprop="dateModified" datetime="2020-07-05T11:22:10+08:00">2020-07-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>FLUSH PRIVILEGES # 重新从grant tables加载权限
+
+使用GRANT,CREATE USER, CREATE SERVER, INSTALL PLUGIN产生的缓存并不会因为使用对应的REVOKE, DROP USER, DROP SERVER, UNINSTALL PLUGIN而释放缓存。这些缓存可以通过调用FLUSH PRIVILEGES而释放。
+</code></pre><h5 id="GRANT-TABLES-IN-MYSQL"><a href="#GRANT-TABLES-IN-MYSQL" class="headerlink" title="GRANT TABLES IN MYSQL"></a>GRANT TABLES IN MYSQL</h5><pre><code>user: 用户帐户，全局权限
+db:   database级别的权限
+tables_priv: 表级别的权限
+columns_priv: 列级别的权限
+procs_priv:   存储过程和函数权限
+proxies_priv: 代理用户权限
+</code></pre><hr>
+<p>Ref：<br>1.<a href="https://dev.mysql.com/doc/refman/5.7/en/grant-tables.html" target="_blank" rel="noopener">grant tables</a> 2.<a href="https://dev.mysql.com/doc/refman/5.7/en/flush.html#flush-privileges" target="_blank" rel="noopener">flush privileges</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2234,7 +2236,7 @@ flush privileges;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">254</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
