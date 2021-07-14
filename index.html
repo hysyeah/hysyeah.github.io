@@ -425,10 +425,14 @@
                 
               
 
-              <time title="创建时间：2021-07-14 18:45:55" itemprop="dateCreated datePublished" datetime="2021-07-14T18:45:55+08:00">2021-07-14</time>
+              <time title="创建时间：2021-07-14 18:45:55 / 修改时间：18:48:19" itemprop="dateCreated datePublished" datetime="2021-07-14T18:45:55+08:00">2021-07-14</time>
             </span>
           
 
+          
+            
+
+            
           
 
           
@@ -465,7 +469,7 @@
       
         
           
-            <p>Golang是没有像python一样本身实现set类型，如果在开发过程中需要使用set类型的话则需要自己实现。<br>今天我们来学习一下k8s源码中的int类型的set实现。<br>代码位于<code>https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/apimachinery/pkg/util/sets</code>目录下。</p>
+            <p>Golang是没有像python一样本身实现set类型，如果在开发过程中需要使用set类型的话则需要自己实现。<br>今天我们来学习一下k8s源码中的int类型的set实现。<br>代码位于<br><code>https://github.com/kubernetes/kubernetes/tree/master/staging/src/k8s.io/apimachinery/pkg/util/sets</code>目录下。</p>
 <p>1.set可以看作值为空的map，为了节省内存，这里使用<code>struct{}</code>来充当map中的值。因为空的<code>struct{}</code>大小可以看作为零，因为空的<code>struct{}</code>是指向同一个地址。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义值为空结构体</span></span><br><span class="line"><span class="keyword">type</span> Empty <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Int类型set,值为Empty</span></span><br><span class="line"><span class="keyword">type</span> Int <span class="keyword">map</span>[<span class="keyword">int</span>]Empty</span><br></pre></td></tr></table></figure></p>
 <p>2.sets中提供一个将字典转换为set类型的方法<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将键为int的map转换成set,set的元素为map的key</span></span><br><span class="line"><span class="comment">// 如果theMap的键不为int则会产生panic</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">IntKeySet</span><span class="params">(theMap <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">Int</span></span> &#123;</span><br><span class="line">	v := reflect.ValueOf(theMap)</span><br><span class="line">	ret := Int&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, keyValue := <span class="keyword">range</span> v.MapKeys() &#123;</span><br><span class="line">		ret.Insert(keyValue.Interface().(<span class="keyword">int</span>))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>3.初始化元素为int类型的set<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewInt</span><span class="params">(items ...<span class="keyword">int</span>)</span> <span class="title">Int</span></span> &#123;</span><br><span class="line">	ss := Int&#123;&#125;</span><br><span class="line">	ss.Insert(items...)</span><br><span class="line">	<span class="keyword">return</span> ss</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
