@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="知识点回顾我们肯定使用过ifconfig命令来查询计算机中的网络设备。不知道你有没有注意过其中的netmask(子网掩码),但你真的知道它的来龙去脉吗?今天我们就来重新认识一下netmask。 在进入主题内容前我们先来回顾一些关于IP的知识点。每一个需要使用互联网的设备都必须具有一个唯一标识,而这个唯一标识就是IP地址。就像在生活中你要打电话别个时,你必须知道这个人的手机号码不然你就无法联系到他，">
+<meta name="keywords" content="－网络协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你真的知道子网的作用吗">
+<meta property="og:url" content="https://hysyeah.github.io/2020/12/26/你真的知道子网的作用吗/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="知识点回顾我们肯定使用过ifconfig命令来查询计算机中的网络设备。不知道你有没有注意过其中的netmask(子网掩码),但你真的知道它的来龙去脉吗?今天我们就来重新认识一下netmask。 在进入主题内容前我们先来回顾一些关于IP的知识点。每一个需要使用互联网的设备都必须具有一个唯一标识,而这个唯一标识就是IP地址。就像在生活中你要打电话别个时,你必须知道这个人的手机号码不然你就无法联系到他，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.hysyeah.top/2020/12/26/20201226075950-ifconfig-netmask.png">
+<meta property="og:image" content="http://img.hysyeah.top/2020/12/26/ip-catagory.png">
+<meta property="og:image" content="http://img.hysyeah.top/2020/12/26/ip-address-scope.png">
+<meta property="og:image" content="http://img.hysyeah.top/2020/12/26/subnet0.png">
+<meta property="og:updated_time" content="2023-09-17T05:23:40.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你真的知道子网的作用吗">
+<meta name="twitter:description" content="知识点回顾我们肯定使用过ifconfig命令来查询计算机中的网络设备。不知道你有没有注意过其中的netmask(子网掩码),但你真的知道它的来龙去脉吗?今天我们就来重新认识一下netmask。 在进入主题内容前我们先来回顾一些关于IP的知识点。每一个需要使用互联网的设备都必须具有一个唯一标识,而这个唯一标识就是IP地址。就像在生活中你要打电话别个时,你必须知道这个人的手机号码不然你就无法联系到他，">
+<meta name="twitter:image" content="http://img.hysyeah.top/2020/12/26/20201226075950-ifconfig-netmask.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2020/12/26/你真的知道子网的作用吗/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>你真的知道子网的作用吗 | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/12/26/你真的知道子网的作用吗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你真的知道子网的作用吗
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-12-26 07:50:50" itemprop="dateCreated datePublished" datetime="2020-12-26T07:50:50+08:00">2020-12-26</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="知识点回顾"><a href="#知识点回顾" class="headerlink" title="知识点回顾"></a>知识点回顾</h4><p>我们肯定使用过<code>ifconfig</code>命令来查询计算机中的网络设备。不知道你有没有注意过其中的<code>netmask</code>(子网掩码),但你真的知道它的来龙去脉吗?今天我们就来重新认识一下<code>netmask</code>。<br><img src="http://img.hysyeah.top/2020/12/26/20201226075950-ifconfig-netmask.png" alt="image"></p>
+<p>在进入主题内容前我们先来回顾一些关于<code>IP</code>的知识点。每一个需要使用互联网的设备都必须具有一个唯一标识,而这个唯一标识就是<code>IP</code>地址。就像在生活中你要打电话别个时,你必须知道这个人的手机号码不然你就无法联系到他，可以说<code>IP</code>地址就类似于你的手机号码。</p>
+<p><code>IP</code>地址采用分层设计,并可以将其分为如下五类。不同种类的<code>IP</code>地址网络号和主机号都是不一样的。<br><img src="http://img.hysyeah.top/2020/12/26/ip-catagory.png" alt="image"></p>
+<p>各类<code>IP</code>的地址范围如下,方便记忆:</p>
+<p><img src="http://img.hysyeah.top/2020/12/26/ip-address-scope.png" alt="image"></p>
+<hr>
+<h4 id="子网掩码的由来-为什么需要子网掩码"><a href="#子网掩码的由来-为什么需要子网掩码" class="headerlink" title="子网掩码的由来,为什么需要子网掩码"></a>子网掩码的由来,为什么需要子网掩码</h4><p><code>IP</code>地址结构设计之初是两层结构,将<code>IP</code>地址分为<code>网络号</code>和<code>主机号</code>,不同的<code>网络号</code>下包含一系列的主机(网络设备)。在这种结构下大量的主机连接在同一个网络下，当主机数量少的网络还能正常的工作，然而这种方式缺乏弹性,当主机数量过多的时候会带来一系列的问题。举个例子,当一个公司规模较小的时候，分为两个层级<br>部门—&gt;员工。当有消息要传达到一个部门时只需要把消息一个个传达给指定部门的人员即可，当一个部门人员较少时这样不会有太大的问题。随着公司的快速发展，各个部门的人员越来越多，此时如果有消息传达给一个部门，只能把消息一个一个的发给部门里的员工;部门里并不是所有的员工都需要知道这个消息，但我们没有其它的信息来对员工进行分类，所以只能把消息发给部门里的所有员工。这样做的缺点显而易见，不仅管理不太方便，而且有些员工会收到自己不需要的消息。为了解决这个问题，公司往往会在目前的基础上新增一个层级：组。<br>部门—&gt;分组—&gt;员工<br>在部门的下面设置组，将对应的员工分配在对应的组，不仅可以方便管理还可以避免消息(资源)的浪费。</p>
+<p>软件设计也是来源于生活。为了更好的适应于更大的网络和更好更方便的管理网络设备，于是提出了子网这个设计。</p>
+<p>增加了子网相对以前的二层<code>IP</code>地址有哪些优点呢？</p>
+<ul>
+<li>弹性，可以自定义子网和子网中的主机数</li>
+<li>对公网的不可见性，对于子网的划分只存在于组织(可以认为是局域网)内。还是上面的例子，不管公司的组织架构怎么调整在公外面看来你还是那个公司</li>
+<li>通过子网可以对网络进行分组，不同分组的主机进行广播只有本组的主机才可以收到消息</li>
+<li>子网掩码将大的网络域，分为更小的子网。较小的网络会创建较小的广播，从而产生较少的广播流量。 此外，子网还通过将网络问题隔离到特定的存在来简化故障排除</li>
+</ul>
+<p><code>IP</code>地址是固定的32位，那如何在原来二层结构的<code>IP</code>地址进行的子网的划分呢？ 此时就是轮到子网掩码上场了。</p>
+<p>为了在不改变<code>IP</code>地址结构的前提下,于是人们提出了子网掩码。<br>但是用哪几位数据来表示子网呢，答案是从主机号中借位来充当子网。</p>
+<p>FOR EXAMPLE：<br>B类地址:154.71.0.0, 如果不使用子网的话，154.71这个网络号可以容纳65534(pow(2,10)-2)个主机。然而你可以通过子网掩码对这个网络进行子网划分。你可以使用1位来表示子网，则剩余的15位来表示主机号；如果使用2位来表示子网，则剩余的14位来表示主机号，以此类推。你使用越多的位数来表示子网，相应的用来表示主机号的位数也就越好。最少要使用2位来表示主机号，因为减去主机后全为0和全为1的两个<code>IP</code>地址。</p>
+<p><img src="http://img.hysyeah.top/2020/12/26/subnet0.png" alt="image"></p>
+<p>假如你要使用5位来作子网，则<code>subnet id</code>这5位在子网掩码中必须为1，表示这5位用于子网。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># RFC950</span><br><span class="line">Special Addresses:</span><br><span class="line"></span><br><span class="line">    From the Assigned Numbers memo [9]:</span><br><span class="line">        &quot;In certain contexts, it is useful to have fixed addresses with functional significance rather than as identifiers of specific hosts. When such usage is called for,   </span><br><span class="line">        the address zero is to be interpreted as meaning &quot;this&quot;, as in &quot;this network&quot;. The address of all ones are to be interpreted as meaning &quot;all&quot;, as in &quot;all hosts&quot;.   </span><br><span class="line">        For example, the address 128.9.255.255 could be interpreted as meaning all hosts on the network 128.9. Or, the address 0.0.0.37 could be interpreted as meaning host 37 on this network.&quot;</span><br><span class="line"></span><br><span class="line">    It is useful to preserve and extend the interpretation of these special addresses in subnetted networks.   </span><br><span class="line">    This means the values of all zeros and all ones in the subnet field should not be assigned to actual (physical) subnets.</span><br></pre></td></tr></table></figure></p>
+<p>上面这段话的大致意思是在<code>IP</code>地址中全为0或全为1的有特殊的含义或特殊的用途。比如<code>IP</code>地址<code>128.9.255.255</code>是网络号为<code>128.9</code>的文播地址，发往<code>128.9.255.255</code>的网络包会广播至该网络的所有主机。地址<code>128.9.0.0</code>会被解释为此网络，也不建议使用。<br>因此上面<code>5-bit</code>的子网建议使用除0和31以外的子网。<br><a href="https://subnet.ninja/" target="_blank" rel="noopener">子网计算器</a></p>
+<h4 id="有无子网通信有何差异"><a href="#有无子网通信有何差异" class="headerlink" title="有无子网通信有何差异"></a>有无子网通信有何差异</h4><p>在无子网这个概念之前，假如主机A访问主机B，主机A会判断主机B和自己是不是在同一个网段，即拥有同样的网络号，如果网络号相同则A会通过ARP获得B的MAC地址然后进行通信；如果网络不相同，则将请求发送给默认网关然后再由网关进行路由。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IF ip_net_number(dg.ip_dest) = ip_net_number(my_ip_addr)</span><br><span class="line">    THEN</span><br><span class="line">        send_dg_locally(dg, dg.ip_dest)</span><br><span class="line">    ELSE</span><br><span class="line">        send_dg_locally(dg, gateway_to(ip_net_number(dg.ip_dest)))</span><br></pre></td></tr></table></figure>
+<p>实现子网划分后，主机A判断和主机B是否在同一个子网，如果在同一个子网A会通过ARP获得B的MAC地址然后进行通信；如果不在同一个子网，则将请求发送给默认网关然后再由网关进行路由。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">IF bitwise_and(dg.ip_dest, my_ip_mask) = bitwise_and(my_ip_addr,my_ip_mask)</span><br><span class="line">    THEN</span><br><span class="line">        send_dg_locally(dg, dg.ip_dest)</span><br><span class="line">    ELSE</span><br><span class="line">        send_dg_locally(dg, gateway_to(bitwise_and(dg.ip_dest, my_ip_mask)))</span><br></pre></td></tr></table></figure></p>
+<h4 id="子网掩码是如何发现的"><a href="#子网掩码是如何发现的" class="headerlink" title="子网掩码是如何发现的"></a>子网掩码是如何发现的</h4><p>当网络启动的时候主机如何确定自己的子网掩码呢？</p>
+<p>首先主机会从磁盘文件中获取子网掩码信息，如果存在则直接使用；如果磁盘上没有记录子网掩码信息，主机将会发出广播信息以此请求子网掩码。</p>
+<p>例子:来自rfc950</p>
+<ul>
+<li>假如在A类网络<code>36.0.0.0</code>有主机<code>IP</code>为<code>36.40.0.123</code>,网关为<code>32.40.0.62</code>,使用<code>8-bit</code>作为<code>subnet id</code>则其子掩码为<code>255.255.0.0</code>。</li>
+<li>如果主机不知道自己的<code>IP</code>地址则会通过<code>RARP</code>协议获取自己的<code>IP</code>地址。然后发送<code>ICMP</code>请求到广播地址<code>255.255.255.255</code>:</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address:</td>
+<td>36.40.0.123</td>
+</tr>
+<tr>
+<td>Destination address:</td>
+<td>255.255.255.255</td>
+</tr>
+<tr>
+<td>Protocol:</td>
+<td>ICMP = 1</td>
+</tr>
+<tr>
+<td>Type:</td>
+<td>Address Mask Request = AM1</td>
+</tr>
+<tr>
+<td>Code:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mask:</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>然后网关可以直接回复网络包给主机<code>36.40.0.123</code>,主机便获取到了自己的子网掩码</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address:</td>
+<td>36.40.0.62</td>
+</tr>
+<tr>
+<td>Destination address:</td>
+<td>36.40.0.123</td>
+</tr>
+<tr>
+<td>Protocol:</td>
+<td>ICMP = 1</td>
+</tr>
+<tr>
+<td>Type:</td>
+<td>Address Mask Request = AM2</td>
+</tr>
+<tr>
+<td>Code:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mask:</td>
+<td>255.255.0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>假如主机根本不知道自己的主机号则会发出如下内容的包。</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source address:</td>
+<td>0.0.0.0</td>
+</tr>
+<tr>
+<td>Destination address:</td>
+<td>255.255.255.255</td>
+</tr>
+<tr>
+<td>Protocol:</td>
+<td>ICMP = 1</td>
+</tr>
+<tr>
+<td>Type:</td>
+<td>Address Mask Request = AM1</td>
+</tr>
+<tr>
+<td>Code:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Mask:</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>网关将会收到数据包，然后回复如下内容的数据包：<br>|key|val|<br>|—-|—-|<br>|Source address:|36.40.0.62|<br>|Destination address:|255.255.255.255|<br>|Protocol:|ICMP = 1|<br>|Type:|Address Mask Request = AM2|<br>|Code:|0|<br>|Mask:|255.255.0.0|</p>
+<ul>
+<li>如果主机不允许进行广播消息并且假设主机知道网关的地址，主机刚会直接发数据包给网关请求子网掩码。</li>
+</ul>
+<h4 id="无法获取子网掩码的情况"><a href="#无法获取子网掩码的情况" class="headerlink" title="无法获取子网掩码的情况"></a>无法获取子网掩码的情况</h4><p>在如下三种情况下，经过多次尝试后仍可能无法获取子网掩码：<br>1.网络与其它所有网络隔离<br>2.未使用子网而且没有其它主机可以提供子网掩码<br>3.此网络上的所有网关都未能启动。</p>
+<p>在第一种和第二种情况，子网掩码等于网络号。在第三种情况下，无法确定主机的子网掩码因此最安全的做法就是将子网掩码设置为网络号，虽然可能是错误的。当网关正常工作后，网关会广播<code>Address Mask Reply</code>类型的数据包，主机收到数据包后，会更正自己的子网掩码。</p>
+<hr>
+<p>REF：<br>1.<a href="https://tools.ietf.org/pdf/rfc950.pdf" target="_blank" rel="noopener">RFC950</a><br>2.<a href="http://www.tcpipguide.com/free/index.htm" target="_blank" rel="noopener">tcpipguide.com</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/－网络协议/" rel="tag"><i class="fa fa-tag">－网络协议</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/02/Go-defer陷阱/" rel="prev" title="Go defer陷阱[译]">
+                <i class="fa fa-chevron-left"></i> Go defer陷阱[译]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/21/linux-perf/" rel="prev" title="linux-perf">
+                linux-perf <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">318</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#知识点回顾"><span class="nav-number">1.</span> <span class="nav-text">知识点回顾</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子网掩码的由来-为什么需要子网掩码"><span class="nav-number">2.</span> <span class="nav-text">子网掩码的由来,为什么需要子网掩码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有无子网通信有何差异"><span class="nav-number">3.</span> <span class="nav-text">有无子网通信有何差异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子网掩码是如何发现的"><span class="nav-number">4.</span> <span class="nav-text">子网掩码是如何发现的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无法获取子网掩码的情况"><span class="nav-number">5.</span> <span class="nav-text">无法获取子网掩码的情况</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>

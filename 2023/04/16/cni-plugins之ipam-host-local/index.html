@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="host-local是一种IP地址管理(IPAM)插件。它从一组地址范围中分配IP地址,也可以从主机上的resolv.conf文件中获取DNS配置。它在主机文件系统上存储本地状态，因此可以确保单个主机上IP地址的唯一性。该分配器可以分配多个地址范围，并支持多个(不相交的)子网集。分配策略是在每个范围集中松散的轮询。在 CNI 调用链中，每个插件都会返回一个 JSON 格式的结果，其中会包含网络配置">
+<meta name="keywords" content="k8s,cni">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cni-plugins之ipam-host-local">
+<meta property="og:url" content="https://hysyeah.github.io/2023/04/16/cni-plugins之ipam-host-local/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="host-local是一种IP地址管理(IPAM)插件。它从一组地址范围中分配IP地址,也可以从主机上的resolv.conf文件中获取DNS配置。它在主机文件系统上存储本地状态，因此可以确保单个主机上IP地址的唯一性。该分配器可以分配多个地址范围，并支持多个(不相交的)子网集。分配策略是在每个范围集中松散的轮询。在 CNI 调用链中，每个插件都会返回一个 JSON 格式的结果，其中会包含网络配置">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-09-17T05:23:40.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cni-plugins之ipam-host-local">
+<meta name="twitter:description" content="host-local是一种IP地址管理(IPAM)插件。它从一组地址范围中分配IP地址,也可以从主机上的resolv.conf文件中获取DNS配置。它在主机文件系统上存储本地状态，因此可以确保单个主机上IP地址的唯一性。该分配器可以分配多个地址范围，并支持多个(不相交的)子网集。分配策略是在每个范围集中松散的轮询。在 CNI 调用链中，每个插件都会返回一个 JSON 格式的结果，其中会包含网络配置">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/04/16/cni-plugins之ipam-host-local/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>cni-plugins之ipam-host-local | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/16/cni-plugins之ipam-host-local/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cni-plugins之ipam-host-local
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-04-16 23:22:01" itemprop="dateCreated datePublished" datetime="2023-04-16T23:22:01+08:00">2023-04-16</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="host-local是一种IP地址管理-IPAM-插件。"><a href="#host-local是一种IP地址管理-IPAM-插件。" class="headerlink" title="host-local是一种IP地址管理(IPAM)插件。"></a><code>host-local</code>是一种IP地址管理(IPAM)插件。</h5><p>它从一组地址范围中分配IP地址,也可以从主机上的resolv.conf文件中获取DNS配置。它在主机文件系统上存储本地状态，因此可以确保单个主机上IP地址的唯一性。<br>该分配器可以分配多个地址范围，并支持多个(不相交的)子网集。分配策略是在每个范围集中松散的轮询。<br>在 CNI 调用链中，每个插件都会返回一个 JSON 格式的结果，其中会包含网络配置信息，如 IP 地址、子网掩码、网关等。当一个插件执行完毕，将其返回的结果传递给下一个插件，下一个插件将使用上一个插件返回的网络配置信息来配置网络。当最后一个插件执行完毕后，kubelet 会检查所有插件返回的结果，只有当所有插件都成功设置了 IP 地址，才会认为整个 CNI 调用链执行成功。如果其中一个插件失败，后续的插件将不会被执行，同时整个 CNI 调用链也会被标记为失败。</p>
+<h5 id="配置示例-多个地址范围"><a href="#配置示例-多个地址范围" class="headerlink" title="配置示例(多个地址范围)"></a>配置示例(多个地址范围)</h5><p><code>ranges</code>表示一个列表，元素是<code>rangeSet</code>,下面的<code>ranges</code>包含两个<code>rangeSet</code>。<code>ranges</code>的长度表示返回多少<code>ip</code>。<code>rangeSet</code>表示<code>ip</code>地址的可选范围。<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"ipam"</span>: &#123;</span><br><span class="line">		<span class="attr">"type"</span>: <span class="string">"host-local"</span>,</span><br><span class="line">		<span class="attr">"ranges"</span>: [</span><br><span class="line">			[</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"subnet"</span>: <span class="string">"10.10.0.0/16"</span>,</span><br><span class="line">					<span class="attr">"rangeStart"</span>: <span class="string">"10.10.1.20"</span>,</span><br><span class="line">					<span class="attr">"rangeEnd"</span>: <span class="string">"10.10.3.50"</span>,</span><br><span class="line">					<span class="attr">"gateway"</span>: <span class="string">"10.10.0.254"</span></span><br><span class="line">				&#125;,</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"subnet"</span>: <span class="string">"172.16.5.0/24"</span></span><br><span class="line">				&#125;</span><br><span class="line">			],</span><br><span class="line">			[</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="attr">"subnet"</span>: <span class="string">"3ffe:ffff:0:01ff::/64"</span>,</span><br><span class="line">					<span class="attr">"rangeStart"</span>: <span class="string">"3ffe:ffff:0:01ff::0010"</span>,</span><br><span class="line">					<span class="attr">"rangeEnd"</span>: <span class="string">"3ffe:ffff:0:01ff::0020"</span></span><br><span class="line">				&#125;</span><br><span class="line">			]</span><br><span class="line">		],</span><br><span class="line">		<span class="attr">"routes"</span>: [</span><br><span class="line">			&#123; <span class="attr">"dst"</span>: <span class="string">"0.0.0.0/0"</span> &#125;,</span><br><span class="line">			&#123; <span class="attr">"dst"</span>: <span class="string">"192.168.0.0/16"</span>, <span class="attr">"gw"</span>: <span class="string">"10.10.5.1"</span> &#125;,</span><br><span class="line">			&#123; <span class="attr">"dst"</span>: <span class="string">"3ffe:ffff:0:01ff::1/64"</span> &#125;</span><br><span class="line">		],</span><br><span class="line">		<span class="attr">"dataDir"</span>: <span class="string">"/run/my-orchestrator/container-ipam-state"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="ip地址分配"><a href="#ip地址分配" class="headerlink" title="ip地址分配"></a>ip地址分配</h5><p>对于每一个请求的自定义 IP，host-local 分配器会在它所管理的地址范围中进行请求。因此可以指定多个自定义 IP 和多个地址范围。如果一个IP在使用中或者不在范围内将会分配失败。</p>
+<h5 id="文件存储"><a href="#文件存储" class="headerlink" title="文件存储"></a>文件存储</h5><p><code>host-local</code>将已分配的 IP 地址作为文件存储在 /var/lib/cni/networks/$NETWORK_NAME 目录下。</p>
+<h5 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h5><h6 id="host-local入口"><a href="#host-local入口" class="headerlink" title="host-local入口"></a>host-local入口</h6><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PluginMain 是plugin的main函数，自动进行了错误处理</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	skel.PluginMain(cmdAdd, cmdCheck, cmdDel, version.All, bv.BuildString(<span class="string">"host-local"</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// vendor/github.com/containernetworking/cni/pkg/skel/skel.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PluginMain</span><span class="params">(cmdAdd, cmdCheck, cmdDel <span class="keyword">func</span>(_ *CmdArgs)</span> <span class="title">error</span>, <span class="title">versionInfo</span> <span class="title">version</span>.<span class="title">PluginInfo</span>, <span class="title">about</span> <span class="title">string</span>)</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> e := PluginMainWithError(cmdAdd, cmdCheck, cmdDel, versionInfo, about); e != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> err := e.Print(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Print(<span class="string">"Error writing error JSON to stdout: "</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="三个方法cmdCheck-cmdAdd-cmdDel。"><a href="#三个方法cmdCheck-cmdAdd-cmdDel。" class="headerlink" title="三个方法cmdCheck,cmdAdd, cmdDel。"></a>三个方法cmdCheck,cmdAdd, cmdDel。</h5><h6 id="cmdCheck"><a href="#cmdCheck" class="headerlink" title="cmdCheck"></a>cmdCheck</h6><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据提供的ContainerID和IfName，判断ip是否存在。如不存在则返回一个错误。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">cmdCheck</span><span class="params">(args *skel.CmdArgs)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">    <span class="comment">// 通过传过来的参数(也就是第二步中的json)构建一个IPAMConfig</span></span><br><span class="line">	ipamConf, _, err := allocator.LoadIPAMConfig(args.StdinData, args.Args)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Look to see if there is at least one IP address allocated to the container</span></span><br><span class="line">	<span class="comment">// in the data dir, irrespective of what that address actually is</span></span><br><span class="line">    <span class="comment">// 创建一个store对象，包含一个FileLock和目录.用于文件的操作</span></span><br><span class="line">	store, err := disk.New(ipamConf.Name, ipamConf.DataDir)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> store.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过容器ID和网络接口的名称(如eth0)</span></span><br><span class="line">	containerIPFound := store.FindByID(args.ContainerID, args.IfName)</span><br><span class="line">	<span class="keyword">if</span> !containerIPFound &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"host-local: Failed to find address added by container %v"</span>, args.ContainerID)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="cmdAdd"><a href="#cmdAdd" class="headerlink" title="cmdAdd"></a>cmdAdd</h6><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从可选分配一个ip</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">cmdAdd</span><span class="params">(args *skel.CmdArgs)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">    <span class="comment">// 通过传过来的参数(也就是第二步中的json)构建一个IPAMConfig</span></span><br><span class="line">	ipamConf, confVersion, err := allocator.LoadIPAMConfig(args.StdinData, args.Args)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	result := &amp;current.Result&#123;CNIVersion: current.ImplementedSpecVersion&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ipamConf.ResolvConf != <span class="string">""</span> &#123;</span><br><span class="line">		dns, err := parseResolvConf(ipamConf.ResolvConf)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		result.DNS = *dns</span><br><span class="line">	&#125;</span><br><span class="line">　　 <span class="comment">// 创建一个store对象，包含一个FileLock和目录.用于文件的操作</span></span><br><span class="line">	store, err := disk.New(ipamConf.Name, ipamConf.DataDir)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> store.Close()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Keep the allocators we used, so we can release all IPs if an error</span></span><br><span class="line">	<span class="comment">// occurs after we start allocating</span></span><br><span class="line">    <span class="comment">// 保存分配的ip,如果在分配过程中出现错误可以进行释放</span></span><br><span class="line">	allocs := []*allocator.IPAllocator&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Store all requested IPs in a map, so we can easily remove ones we use</span></span><br><span class="line">	<span class="comment">// and error if some remain</span></span><br><span class="line">	requestedIPs := <span class="keyword">map</span>[<span class="keyword">string</span>]net.IP&#123;&#125; <span class="comment">// net.IP cannot be a key</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// ipamConf.IPArgs为请求的ip列表</span></span><br><span class="line">	<span class="keyword">for</span> _, ip := <span class="keyword">range</span> ipamConf.IPArgs &#123;</span><br><span class="line">		requestedIPs[ip.String()] = ip</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 遍历Ranges</span></span><br><span class="line">	<span class="keyword">for</span> idx, rangeset := <span class="keyword">range</span> ipamConf.Ranges &#123;</span><br><span class="line">        <span class="comment">// 返回IPAllocator指针</span></span><br><span class="line">        <span class="comment">// IPAllocator实现了Get方法获取一个IP</span></span><br><span class="line">        <span class="comment">// Release方法释放为容器分配的IP</span></span><br><span class="line">		allocator := allocator.NewIPAllocator(&amp;rangeset, store, idx)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Check to see if there are any custom IPs requested in this range.</span></span><br><span class="line">		<span class="keyword">var</span> requestedIP net.IP</span><br><span class="line">		<span class="keyword">for</span> k, ip := <span class="keyword">range</span> requestedIPs &#123;</span><br><span class="line">			<span class="keyword">if</span> rangeset.Contains(ip) &#123;</span><br><span class="line">				requestedIP = ip</span><br><span class="line">                <span class="comment">// 在一个rangeset找到了ip,则删除requestedIPs中的记录</span></span><br><span class="line">				<span class="built_in">delete</span>(requestedIPs, k)</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">// 根据容器ID,网络接口的名称和IP返回IPConfig</span></span><br><span class="line">		ipConf, err := allocator.Get(args.ContainerID, args.IfName, requestedIP)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// Deallocate all already allocated IPs</span></span><br><span class="line">            <span class="comment">// 如果获取IP出错，释放对应的IP</span></span><br><span class="line">			<span class="keyword">for</span> _, alloc := <span class="keyword">range</span> allocs &#123;</span><br><span class="line">				_ = alloc.Release(args.ContainerID, args.IfName)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"failed to allocate for range %d: %v"</span>, idx, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		allocs = <span class="built_in">append</span>(allocs, allocator)</span><br><span class="line"></span><br><span class="line">		result.IPs = <span class="built_in">append</span>(result.IPs, ipConf)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If an IP was requested that wasn't fulfilled, fail</span></span><br><span class="line">    <span class="comment">// 如果requestedIPs长度不为0,表示有些IP不符合要求</span></span><br><span class="line">    <span class="comment">// 进行回退操作，释放已分配IP</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(requestedIPs) != <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, alloc := <span class="keyword">range</span> allocs &#123;</span><br><span class="line">			_ = alloc.Release(args.ContainerID, args.IfName)</span><br><span class="line">		&#125;</span><br><span class="line">		errstr := <span class="string">"failed to allocate all requested IPs:"</span></span><br><span class="line">		<span class="keyword">for</span> _, ip := <span class="keyword">range</span> requestedIPs &#123;</span><br><span class="line">			errstr = errstr + <span class="string">" "</span> + ip.String()</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(errstr)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	result.Routes = ipamConf.Routes</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> types.PrintResult(result, confVersion)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="cmdDel"><a href="#cmdDel" class="headerlink" title="cmdDel"></a>cmdDel</h6><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 释放ip</span></span><br><span class="line"><span class="comment">// 通过对cmdAdd的分析，这里应该比较清晰了</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">cmdDel</span><span class="params">(args *skel.CmdArgs)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	ipamConf, _, err := allocator.LoadIPAMConfig(args.StdinData, args.Args)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	store, err := disk.New(ipamConf.Name, ipamConf.DataDir)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> store.Close()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Loop through all ranges, releasing all IPs, even if an error occurs</span></span><br><span class="line">	<span class="keyword">var</span> errors []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">for</span> idx, rangeset := <span class="keyword">range</span> ipamConf.Ranges &#123;</span><br><span class="line">		ipAllocator := allocator.NewIPAllocator(&amp;rangeset, store, idx)</span><br><span class="line"></span><br><span class="line">		err := ipAllocator.Release(args.ContainerID, args.IfName)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			errors = <span class="built_in">append</span>(errors, err.Error())</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> errors != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(strings.Join(errors, <span class="string">";"</span>))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="对应的一些结构体"><a href="#对应的一些结构体" class="headerlink" title="对应的一些结构体"></a>对应的一些结构体</h5><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// plugins/ipam/host-local/backend/allocator/allocator.go</span></span><br><span class="line"><span class="keyword">type</span> IPAllocator <span class="keyword">struct</span> &#123;</span><br><span class="line">	rangeset *RangeSet</span><br><span class="line">	store    backend.Store</span><br><span class="line">	rangeID  <span class="keyword">string</span> <span class="comment">// Used for tracking last reserved ip</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// plugins/ipam/host-local/backend/disk/backend.go</span></span><br><span class="line"><span class="keyword">type</span> Store <span class="keyword">struct</span> &#123;</span><br><span class="line">	*FileLock</span><br><span class="line">	dataDir <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// plugins/ipam/host-local/backend/allocator/config.go</span></span><br><span class="line"><span class="comment">// The top-level network config - IPAM plugins are passed the full configuration</span></span><br><span class="line"><span class="comment">// of the calling plugin, not just the IPAM section.</span></span><br><span class="line"><span class="keyword">type</span> Net <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name          <span class="keyword">string</span>      <span class="string">`json:"name"`</span></span><br><span class="line">	CNIVersion    <span class="keyword">string</span>      <span class="string">`json:"cniVersion"`</span></span><br><span class="line">	IPAM          *IPAMConfig <span class="string">`json:"ipam"`</span></span><br><span class="line">	RuntimeConfig <span class="keyword">struct</span> &#123;</span><br><span class="line">		<span class="comment">// The capability arg</span></span><br><span class="line">		IPRanges []RangeSet <span class="string">`json:"ipRanges,omitempty"`</span></span><br><span class="line">		IPs      []*ip.IP   <span class="string">`json:"ips,omitempty"`</span></span><br><span class="line">	&#125; <span class="string">`json:"runtimeConfig,omitempty"`</span></span><br><span class="line">	Args *<span class="keyword">struct</span> &#123;</span><br><span class="line">		A *IPAMArgs <span class="string">`json:"cni"`</span></span><br><span class="line">	&#125; <span class="string">`json:"args"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// IPAMConfig represents the IP related network configuration.</span></span><br><span class="line"><span class="comment">// This nests Range because we initially only supported a single</span></span><br><span class="line"><span class="comment">// range directly, and wish to preserve backwards compatibility</span></span><br><span class="line"><span class="keyword">type</span> IPAMConfig <span class="keyword">struct</span> &#123;</span><br><span class="line">	*Range</span><br><span class="line">	Name       <span class="keyword">string</span></span><br><span class="line">	Type       <span class="keyword">string</span>         <span class="string">`json:"type"`</span></span><br><span class="line">	Routes     []*types.Route <span class="string">`json:"routes"`</span></span><br><span class="line">	DataDir    <span class="keyword">string</span>         <span class="string">`json:"dataDir"`</span></span><br><span class="line">	ResolvConf <span class="keyword">string</span>         <span class="string">`json:"resolvConf"`</span></span><br><span class="line">	Ranges     []RangeSet     <span class="string">`json:"ranges"`</span></span><br><span class="line">	IPArgs     []net.IP       <span class="string">`json:"-"`</span> <span class="comment">// Requested IPs from CNI_ARGS, args and capabilities</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IPAMEnvArgs <span class="keyword">struct</span> &#123;</span><br><span class="line">	types.CommonArgs</span><br><span class="line">	IP ip.IP <span class="string">`json:"ip,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> IPAMArgs <span class="keyword">struct</span> &#123;</span><br><span class="line">	IPs []*ip.IP <span class="string">`json:"ips"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> RangeSet []Range</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Range <span class="keyword">struct</span> &#123;</span><br><span class="line">	RangeStart net.IP      <span class="string">`json:"rangeStart,omitempty"`</span> <span class="comment">// The first ip, inclusive</span></span><br><span class="line">	RangeEnd   net.IP      <span class="string">`json:"rangeEnd,omitempty"`</span>   <span class="comment">// The last ip, inclusive</span></span><br><span class="line">	Subnet     types.IPNet <span class="string">`json:"subnet"`</span></span><br><span class="line">	Gateway    net.IP      <span class="string">`json:"gateway,omitempty"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>REF:<br>1.<a href="https://www.cni.dev/plugins/current/ipam/host-local/" target="_blank" rel="noopener">https://www.cni.dev/plugins/current/ipam/host-local/</a><br>2.<a href="https://github.com/containernetworking/plugins/blob/release-1.1/plugins/ipam/host-local/main.go" target="_blank" rel="noopener">plugins/ipam/host-local/main.go</a><br>3.<a href="https://github.com/containernetworking/plugins/blob/release-1.1/plugins/ipam/host-local/backend/allocator/allocator.go" target="_blank" rel="noopener">plugins/ipam/host-local/backend/allocator/allocator.go</a><br>4.<a href="https://github.com/containernetworking/plugins/blob/release-1.1/plugins/ipam/host-local/backend/disk/backend.go" target="_blank" rel="noopener">plugins/ipam/host-local/backend/disk/backend.go</a><br>5.<a href="https://github.com/containernetworking/plugins/blob/release-1.1/plugins/ipam/host-local/backend/allocator/config.go" target="_blank" rel="noopener"> plugins/ipam/host-local/backend/allocator/config.go</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/cni/" rel="tag"><i class="fa fa-tag">cni</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/04/17/k8s源码设计模式之Iterator/" rel="prev" title="k8s源码设计模式之Iterator">
+                <i class="fa fa-chevron-left"></i> k8s源码设计模式之Iterator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/04/16/k8s设计模式之Command/" rel="prev" title="k8s设计模式之Command">
+                k8s设计模式之Command <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">318</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#host-local是一种IP地址管理-IPAM-插件。"><span class="nav-number">1.</span> <span class="nav-text">host-local是一种IP地址管理(IPAM)插件。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置示例-多个地址范围"><span class="nav-number">2.</span> <span class="nav-text">配置示例(多个地址范围)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ip地址分配"><span class="nav-number">3.</span> <span class="nav-text">ip地址分配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文件存储"><span class="nav-number">4.</span> <span class="nav-text">文件存储</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#源码分析"><span class="nav-number">5.</span> <span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#host-local入口"><span class="nav-number">5.1.</span> <span class="nav-text">host-local入口</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三个方法cmdCheck-cmdAdd-cmdDel。"><span class="nav-number">6.</span> <span class="nav-text">三个方法cmdCheck,cmdAdd, cmdDel。</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#cmdCheck"><span class="nav-number">6.1.</span> <span class="nav-text">cmdCheck</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#cmdAdd"><span class="nav-number">6.2.</span> <span class="nav-text">cmdAdd</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#cmdDel"><span class="nav-number">6.3.</span> <span class="nav-text">cmdDel</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对应的一些结构体"><span class="nav-number">7.</span> <span class="nav-text">对应的一些结构体</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>

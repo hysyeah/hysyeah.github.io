@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ServiceAccountsController 是 Kubernetes 中的一个控制器，负责管理和维护 Service Account 资源。 Service Account 是 Kubernetes 中用于身份验证和授权的一种机制。它与 Pod 关联，为 Pod 提供一个身份标识。通过 Service Account，Pod 可以与 API 服务器进行身份验证，并根据其与 Service">
+<meta name="keywords" content="k8s,kube-controller">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kube-controller之ServiceAccounts">
+<meta property="og:url" content="https://hysyeah.github.io/2023/05/24/kube-controller之ServiceAccounts/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="ServiceAccountsController 是 Kubernetes 中的一个控制器，负责管理和维护 Service Account 资源。 Service Account 是 Kubernetes 中用于身份验证和授权的一种机制。它与 Pod 关联，为 Pod 提供一个身份标识。通过 Service Account，Pod 可以与 API 服务器进行身份验证，并根据其与 Service">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-09-17T05:23:40.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kube-controller之ServiceAccounts">
+<meta name="twitter:description" content="ServiceAccountsController 是 Kubernetes 中的一个控制器，负责管理和维护 Service Account 资源。 Service Account 是 Kubernetes 中用于身份验证和授权的一种机制。它与 Pod 关联，为 Pod 提供一个身份标识。通过 Service Account，Pod 可以与 API 服务器进行身份验证，并根据其与 Service">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/05/24/kube-controller之ServiceAccounts/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kube-controller之ServiceAccounts | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/24/kube-controller之ServiceAccounts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kube-controller之ServiceAccounts
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-05-24 11:19:51" itemprop="dateCreated datePublished" datetime="2023-05-24T11:19:51+08:00">2023-05-24</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ServiceAccountsController 是 Kubernetes 中的一个控制器，负责管理和维护 Service Account 资源。</p>
+<p>Service Account 是 Kubernetes 中用于身份验证和授权的一种机制。它与 Pod 关联，为 Pod 提供一个身份标识。通过 Service Account，Pod 可以与 API 服务器进行身份验证，并根据其与 Service Account 关联的角色和权限来访问集群中的资源。</p>
+<p>ServiceAccountsController 的主要职责包括以下几个方面：</p>
+<ol>
+<li>创建Service Account：当创建Namespace 时，ServiceAccountsController 会检查该Namespace下是否存在”default” ServiceAccounts,如果不存在则创建。</li>
+</ol>
+<hr>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DefaultServiceAccountsControllerOptions</span><span class="params">()</span> <span class="title">ServiceAccountsControllerOptions</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ServiceAccountsControllerOptions&#123;</span><br><span class="line">		ServiceAccounts: []v1.ServiceAccount&#123;</span><br><span class="line">			&#123;ObjectMeta: metav1.ObjectMeta&#123;Name: <span class="string">"default"</span>&#125;&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// pkg/controller/serviceaccount/serviceaccounts_controller.go</span></span><br><span class="line"><span class="keyword">type</span> ServiceAccountsController <span class="keyword">struct</span> &#123;</span><br><span class="line">	client                  clientset.Interface</span><br><span class="line">	serviceAccountsToEnsure []v1.ServiceAccount</span><br><span class="line"></span><br><span class="line">	<span class="comment">// To allow injection for testing.</span></span><br><span class="line">	syncHandler <span class="function"><span class="keyword">func</span><span class="params">(ctx context.Context, key <span class="keyword">string</span>)</span> <span class="title">error</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">	<span class="title">saLister</span>       <span class="title">corelisters</span>.<span class="title">ServiceAccountLister</span></span></span><br><span class="line"><span class="function">	<span class="title">saListerSynced</span> <span class="title">cache</span>.<span class="title">InformerSynced</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">	<span class="title">nsLister</span>       <span class="title">corelisters</span>.<span class="title">NamespaceLister</span></span></span><br><span class="line"><span class="function">	<span class="title">nsListerSynced</span> <span class="title">cache</span>.<span class="title">InformerSynced</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">	<span class="title">queue</span> <span class="title">workqueue</span>.<span class="title">RateLimitingInterface</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// <span class="title">NewServiceAccountsController</span> 监听两种资源对象</span></span><br><span class="line"><span class="function">// <span class="title">ServiceAccounts</span> 监听删除事件,将<span class="title">key</span>入队</span></span><br><span class="line"><span class="function">// <span class="title">Namespaces</span> 监听创建和更新事件,将<span class="title">key</span>入队</span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">NewServiceAccountsController</span><span class="params">(saInformer coreinformers.ServiceAccountInformer, nsInformer coreinformers.NamespaceInformer, cl clientset.Interface, options ServiceAccountsControllerOptions)</span> <span class="params">(*ServiceAccountsController, error)</span></span> &#123;</span><br><span class="line">	e := &amp;ServiceAccountsController&#123;</span><br><span class="line">		client:                  cl,</span><br><span class="line">        <span class="comment">// serviceAccountsToEnsure, 有一个名为"default"的serviceAccount</span></span><br><span class="line">		serviceAccountsToEnsure: options.ServiceAccounts,</span><br><span class="line">		queue:                   workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), <span class="string">"serviceaccount"</span>),</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	saHandler, _ := saInformer.Informer().AddEventHandlerWithResyncPeriod(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">		DeleteFunc: e.serviceAccountDeleted,</span><br><span class="line">	&#125;, options.ServiceAccountResync)</span><br><span class="line">	e.saLister = saInformer.Lister()</span><br><span class="line">	e.saListerSynced = saHandler.HasSynced</span><br><span class="line"></span><br><span class="line">	nsHandler, _ := nsInformer.Informer().AddEventHandlerWithResyncPeriod(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">		AddFunc:    e.namespaceAdded,</span><br><span class="line">		UpdateFunc: e.namespaceUpdated,</span><br><span class="line">	&#125;, options.NamespaceResync)</span><br><span class="line">	e.nsLister = nsInformer.Lister()</span><br><span class="line">	e.nsListerSynced = nsHandler.HasSynced</span><br><span class="line"></span><br><span class="line">    <span class="comment">// syncHandler为syncNamespace</span></span><br><span class="line">	e.syncHandler = e.syncNamespace</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> e, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *ServiceAccountsController)</span> <span class="title">Run</span><span class="params">(ctx context.Context, workers <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">defer</span> utilruntime.HandleCrash()</span><br><span class="line">	<span class="keyword">defer</span> c.queue.ShutDown()</span><br><span class="line"></span><br><span class="line">	klog.FromContext(ctx).Info(<span class="string">"Starting service account controller"</span>)</span><br><span class="line">	<span class="keyword">defer</span> klog.FromContext(ctx).Info(<span class="string">"Shutting down service account controller"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !cache.WaitForNamedCacheSync(<span class="string">"service account"</span>, ctx.Done(), c.saListerSynced, c.nsListerSynced) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; workers; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> wait.UntilWithContext(ctx, c.runWorker, time.Second)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&lt;-ctx.Done()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *ServiceAccountsController)</span> <span class="title">runWorker</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> c.processNextWorkItem(ctx) &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// processNextWorkItem deals with one key off the queue.  It returns false when it's time to quit.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *ServiceAccountsController)</span> <span class="title">processNextWorkItem</span><span class="params">(ctx context.Context)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	key, quit := c.queue.Get()</span><br><span class="line">	<span class="keyword">if</span> quit &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> c.queue.Done(key)</span><br><span class="line"></span><br><span class="line">	err := c.syncHandler(ctx, key.(<span class="keyword">string</span>))</span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">		c.queue.Forget(key)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	utilruntime.HandleError(fmt.Errorf(<span class="string">"%v failed with : %v"</span>, key, err))</span><br><span class="line">	c.queue.AddRateLimited(key)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *ServiceAccountsController)</span> <span class="title">syncNamespace</span><span class="params">(ctx context.Context, key <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	startTime := time.Now()</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		klog.FromContext(ctx).V(<span class="number">4</span>).Info(<span class="string">"Finished syncing namespace"</span>, <span class="string">"namespace"</span>, key, <span class="string">"duration"</span>, time.Since(startTime))</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	ns, err := c.nsLister.Get(key)</span><br><span class="line">	<span class="keyword">if</span> apierrors.IsNotFound(err) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// Namespace状态不是Active,不做任何事</span></span><br><span class="line">	<span class="keyword">if</span> ns.Status.Phase != v1.NamespaceActive &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	createFailures := []error&#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> _, sa := <span class="keyword">range</span> c.serviceAccountsToEnsure &#123;</span><br><span class="line">        <span class="comment">// 判断对应的命名空间下有没有名为"default"的ServiceAccounts</span></span><br><span class="line">		<span class="keyword">switch</span> _, err := c.saLister.ServiceAccounts(ns.Name).Get(sa.Name); &#123;</span><br><span class="line">		<span class="keyword">case</span> err == <span class="literal">nil</span>:</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">        <span class="comment">// 如果err是NotFound,则会在下面的逻辑中创建新的ServiceAccounts</span></span><br><span class="line">		<span class="keyword">case</span> apierrors.IsNotFound(err):</span><br><span class="line">		<span class="keyword">case</span> err != <span class="literal">nil</span>:</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// this is only safe because we never read it and we always write it</span></span><br><span class="line">		<span class="comment">// TODO eliminate this once the fake client can handle creation without NS</span></span><br><span class="line">		sa.Namespace = ns.Name</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> _, err := c.client.CoreV1().ServiceAccounts(ns.Name).Create(ctx, &amp;sa, metav1.CreateOptions&#123;&#125;); err != <span class="literal">nil</span> &amp;&amp; !apierrors.IsAlreadyExists(err) &#123;</span><br><span class="line">			<span class="comment">// we can safely ignore terminating namespace errors</span></span><br><span class="line">			<span class="keyword">if</span> !apierrors.HasStatusCause(err, v1.NamespaceTerminatingCause) &#123;</span><br><span class="line">				createFailures = <span class="built_in">append</span>(createFailures, err)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> utilerrors.Flatten(utilerrors.NewAggregate(createFailures))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动入口</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// cmd/kube-controller-manager/app/core.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startServiceAccountController</span><span class="params">(ctx context.Context, controllerContext ControllerContext)</span> <span class="params">(controller.Interface, <span class="keyword">bool</span>, error)</span></span> &#123;</span><br><span class="line">	sac, err := serviceaccountcontroller.NewServiceAccountsController(</span><br><span class="line">		controllerContext.InformerFactory.Core().V1().ServiceAccounts(),</span><br><span class="line">		controllerContext.InformerFactory.Core().V1().Namespaces(),</span><br><span class="line">		controllerContext.ClientBuilder.ClientOrDie(<span class="string">"service-account-controller"</span>),</span><br><span class="line">		serviceaccountcontroller.DefaultServiceAccountsControllerOptions(),</span><br><span class="line">	)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">true</span>, fmt.Errorf(<span class="string">"error creating ServiceAccount controller: %v"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">go</span> sac.Run(ctx, <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">true</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>当 Pod 使用 ServiceAccount 运行时，Kubernetes 会自动为该 ServiceAccount 创建一个与之关联的 Token。这个 Token 通常存储在 Pod 的文件系统中的 /var/run/secrets/kubernetes.io/serviceaccount/token 文件中。Pod 中的容器可以通过读取该文件来获取与 ServiceAccount 相关联的 Token。</p>
+<p>Token 是一种用于身份验证的凭据，它可以用于与 Kubernetes API 服务器进行身份验证和授权操作。Pod 中的容器可以使用 Token 来与 Kubernetes API 服务器交互，例如获取或修改资源对象。</p>
+<p>通过 ServiceAccount 和 Token 的组合，Kubernetes 提供了一种安全的身份验证和授权机制。Pod 可以使用与其关联的 ServiceAccount 的 Token 来证明其身份，并在需要访问受保护资源时进行授权。这种机制确保了集群中的各个组件和应用程序具有适当的访问权限，并提供了更细粒度的权限控制。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> TokensControllerOptions <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// TokenGenerator is the generator to use to create new tokens</span></span><br><span class="line">    <span class="comment">// GenerateToken生成一个令牌，用于标识给定的ServiceAccount</span></span><br><span class="line">	TokenGenerator serviceaccount.TokenGenerator</span><br><span class="line">	<span class="comment">// ServiceAccountResync is the time.Duration at which to fully re-list service accounts.</span></span><br><span class="line">	<span class="comment">// If zero, re-list will be delayed as long as possible</span></span><br><span class="line">	ServiceAccountResync time.Duration</span><br><span class="line">	<span class="comment">// SecretResync is the time.Duration at which to fully re-list secrets.</span></span><br><span class="line">	<span class="comment">// If zero, re-list will be delayed as long as possible</span></span><br><span class="line">	SecretResync time.Duration</span><br><span class="line">	<span class="comment">// This CA will be added in the secrets of service accounts</span></span><br><span class="line">	RootCA []<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// MaxRetries controls the maximum number of times a particular key is retried before giving up</span></span><br><span class="line">	<span class="comment">// If zero, a default max is used</span></span><br><span class="line">	MaxRetries <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// pkg/controller/serviceaccount/tokens_controller.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewTokensController</span><span class="params">(serviceAccounts informers.ServiceAccountInformer, secrets informers.SecretInformer, cl clientset.Interface, options TokensControllerOptions)</span> <span class="params">(*TokensController, error)</span></span> &#123;</span><br><span class="line">	maxRetries := options.MaxRetries</span><br><span class="line">	<span class="keyword">if</span> maxRetries == <span class="number">0</span> &#123;</span><br><span class="line">		maxRetries = <span class="number">10</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	e := &amp;TokensController&#123;</span><br><span class="line">		client: cl,</span><br><span class="line">		token:  options.TokenGenerator,</span><br><span class="line">		rootCA: options.RootCA,</span><br><span class="line"></span><br><span class="line">		syncServiceAccountQueue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), <span class="string">"serviceaccount_tokens_service"</span>),</span><br><span class="line">		syncSecretQueue:         workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), <span class="string">"serviceaccount_tokens_secret"</span>),</span><br><span class="line"></span><br><span class="line">		maxRetries: maxRetries,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	e.serviceAccounts = serviceAccounts.Lister()</span><br><span class="line">	e.serviceAccountSynced = serviceAccounts.Informer().HasSynced</span><br><span class="line">	serviceAccounts.Informer().AddEventHandlerWithResyncPeriod(</span><br><span class="line">		cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">            <span class="comment">// 加入syncServiceAccountQueue</span></span><br><span class="line">			AddFunc:    e.queueServiceAccountSync,</span><br><span class="line">			UpdateFunc: e.queueServiceAccountUpdateSync,</span><br><span class="line">			DeleteFunc: e.queueServiceAccountSync,</span><br><span class="line">		&#125;,</span><br><span class="line">		options.ServiceAccountResync,</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	secretCache := secrets.Informer().GetIndexer()</span><br><span class="line">	e.updatedSecrets = cache.NewIntegerResourceVersionMutationCache(secretCache, secretCache, <span class="number">60</span>*time.Second, <span class="literal">true</span>)</span><br><span class="line">	e.secretSynced = secrets.Informer().HasSynced</span><br><span class="line">	secrets.Informer().AddEventHandlerWithResyncPeriod(</span><br><span class="line">		cache.FilteringResourceEventHandler&#123;</span><br><span class="line">			FilterFunc: <span class="function"><span class="keyword">func</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">				<span class="keyword">switch</span> t := obj.(<span class="keyword">type</span>) &#123;</span><br><span class="line">				<span class="keyword">case</span> *v1.Secret:</span><br><span class="line">					<span class="keyword">return</span> t.Type == v1.SecretTypeServiceAccountToken</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					utilruntime.HandleError(fmt.Errorf(<span class="string">"object passed to %T that is not expected: %T"</span>, e, obj))</span><br><span class="line">					<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;,</span><br><span class="line">            <span class="comment">// 加入syncSecretQueue</span></span><br><span class="line">			Handler: cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">				AddFunc:    e.queueSecretSync,</span><br><span class="line">				UpdateFunc: e.queueSecretUpdateSync,</span><br><span class="line">				DeleteFunc: e.queueSecretSync,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">		options.SecretResync,</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> e, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">queueServiceAccountSync</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> serviceAccount, ok := obj.(*v1.ServiceAccount); ok &#123;</span><br><span class="line">		e.syncServiceAccountQueue.Add(makeServiceAccountKey(serviceAccount))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">queueServiceAccountUpdateSync</span><span class="params">(oldObj <span class="keyword">interface</span>&#123;&#125;, newObj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> serviceAccount, ok := newObj.(*v1.ServiceAccount); ok &#123;</span><br><span class="line">		e.syncServiceAccountQueue.Add(makeServiceAccountKey(serviceAccount))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">queueSecretSync</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> secret, ok := obj.(*v1.Secret); ok &#123;</span><br><span class="line">		e.syncSecretQueue.Add(makeSecretQueueKey(secret))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">queueSecretUpdateSync</span><span class="params">(oldObj <span class="keyword">interface</span>&#123;&#125;, newObj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> secret, ok := newObj.(*v1.Secret); ok &#123;</span><br><span class="line">		e.syncSecretQueue.Add(makeSecretQueueKey(secret))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Run runs controller blocks until stopCh is closed</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">Run</span><span class="params">(ctx context.Context, workers <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Shut down queues</span></span><br><span class="line">	<span class="keyword">defer</span> utilruntime.HandleCrash()</span><br><span class="line">	<span class="keyword">defer</span> e.syncServiceAccountQueue.ShutDown()</span><br><span class="line">	<span class="keyword">defer</span> e.syncSecretQueue.ShutDown()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !cache.WaitForNamedCacheSync(<span class="string">"tokens"</span>, ctx.Done(), e.serviceAccountSynced, e.secretSynced) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	logger := klog.FromContext(ctx)</span><br><span class="line">	logger.V(<span class="number">5</span>).Info(<span class="string">"Starting workers"</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; workers; i++ &#123;</span><br><span class="line">        <span class="comment">// 启动了两个sync方法,syncServiceAccount,syncSecret</span></span><br><span class="line">		<span class="keyword">go</span> wait.UntilWithContext(ctx, e.syncServiceAccount, <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">go</span> wait.UntilWithContext(ctx, e.syncSecret, <span class="number">0</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	&lt;-ctx.Done()</span><br><span class="line">	logger.V(<span class="number">1</span>).Info(<span class="string">"Shutting down"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">syncServiceAccount</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">	logger := klog.FromContext(ctx)</span><br><span class="line">	key, quit := e.syncServiceAccountQueue.Get()</span><br><span class="line">	<span class="keyword">if</span> quit &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> e.syncServiceAccountQueue.Done(key)</span><br><span class="line"></span><br><span class="line">	retry := <span class="literal">false</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		e.retryOrForget(logger, e.syncServiceAccountQueue, key, retry)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取serviceAccountQueueKey</span></span><br><span class="line">    <span class="comment">// type serviceAccountQueueKey struct &#123;</span></span><br><span class="line">	<span class="comment">//     namespace string</span></span><br><span class="line">	<span class="comment">//     name      string</span></span><br><span class="line">	<span class="comment">//     uid       types.UID</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">	saInfo, err := parseServiceAccountKey(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		logger.Error(err, <span class="string">"Parsing service account key"</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	sa, err := e.getServiceAccount(saInfo.namespace, saInfo.name, saInfo.uid, <span class="literal">false</span>)</span><br><span class="line">	<span class="keyword">switch</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> err != <span class="literal">nil</span>:</span><br><span class="line">		logger.Error(err, <span class="string">"Getting service account"</span>)</span><br><span class="line">		retry = <span class="literal">true</span></span><br><span class="line">	<span class="keyword">case</span> sa == <span class="literal">nil</span>:</span><br><span class="line">		<span class="comment">// serviceaccount已经不存在，删除对应的token</span></span><br><span class="line">		logger.V(<span class="number">4</span>).Info(<span class="string">"Service account deleted, removing tokens"</span>, <span class="string">"namespace"</span>, saInfo.namespace, <span class="string">"serviceaccount"</span>, saInfo.name)</span><br><span class="line">		sa = &amp;v1.ServiceAccount&#123;ObjectMeta: metav1.ObjectMeta&#123;Namespace: saInfo.namespace, Name: saInfo.name, UID: saInfo.uid&#125;&#125;</span><br><span class="line">		retry, err = e.deleteTokens(sa)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			logger.Error(err, <span class="string">"Error deleting serviceaccount tokens"</span>, <span class="string">"namespace"</span>, saInfo.namespace, <span class="string">"serviceaccount"</span>, saInfo.name)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *TokensController)</span> <span class="title">syncSecret</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">	key, quit := e.syncSecretQueue.Get()</span><br><span class="line">	<span class="keyword">if</span> quit &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> e.syncSecretQueue.Done(key)</span><br><span class="line"></span><br><span class="line">	logger := klog.FromContext(ctx)</span><br><span class="line">	<span class="comment">// Track whether or not we should retry this sync</span></span><br><span class="line">	retry := <span class="literal">false</span></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		e.retryOrForget(logger, e.syncSecretQueue, key, retry)</span><br><span class="line">	&#125;()</span><br><span class="line">    <span class="comment">// type secretQueueKey struct &#123;</span></span><br><span class="line">	<span class="comment">//     namespace string</span></span><br><span class="line">	<span class="comment">//     name      string</span></span><br><span class="line">	<span class="comment">//     uid       types.UID</span></span><br><span class="line">	<span class="comment">//     saName    string</span></span><br><span class="line">	<span class="comment">//     // optional, will be blank when syncing tokens missing the service account uid annotation</span></span><br><span class="line">	<span class="comment">//     saUID types.UID</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">	secretInfo, err := parseSecretQueueKey(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		logger.Error(err, <span class="string">"Parsing secret queue key"</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 获取对应的Secret</span></span><br><span class="line">	secret, err := e.getSecret(secretInfo.namespace, secretInfo.name, secretInfo.uid, <span class="literal">false</span>)</span><br><span class="line">	<span class="keyword">switch</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> err != <span class="literal">nil</span>:</span><br><span class="line">		logger.Error(err, <span class="string">"Getting secret"</span>)</span><br><span class="line">		retry = <span class="literal">true</span></span><br><span class="line">	<span class="keyword">case</span> secret == <span class="literal">nil</span>:</span><br><span class="line">		<span class="comment">// If the service account exists</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> sa, saErr := e.getServiceAccount(secretInfo.namespace, secretInfo.saName, secretInfo.saUID, <span class="literal">false</span>); saErr == <span class="literal">nil</span> &amp;&amp; sa != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// secret no longer exists, so delete references to this secret from the service account</span></span><br><span class="line">            <span class="comment">// serviceaccount存在,secret不存在，删除对secret的引用</span></span><br><span class="line">			<span class="keyword">if</span> err := clientretry.RetryOnConflict(RemoveTokenBackoff, <span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">				<span class="keyword">return</span> e.removeSecretReference(secretInfo.namespace, secretInfo.saName, secretInfo.saUID, secretInfo.name)</span><br><span class="line">			&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				logger.Error(err, <span class="string">"Removing secret reference"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="comment">// Ensure service account exists</span></span><br><span class="line">        <span class="comment">// secret不为nil的情况</span></span><br><span class="line">		sa, saErr := e.getServiceAccount(secretInfo.namespace, secretInfo.saName, secretInfo.saUID, <span class="literal">true</span>)</span><br><span class="line">		<span class="keyword">switch</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> saErr != <span class="literal">nil</span>:</span><br><span class="line">			logger.Error(saErr, <span class="string">"Getting service account"</span>)</span><br><span class="line">			retry = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">case</span> sa == <span class="literal">nil</span>:</span><br><span class="line">			<span class="comment">// Delete token</span></span><br><span class="line">            <span class="comment">// 如果serviceaccount为nil, 则删除对应的token</span></span><br><span class="line">			logger.V(<span class="number">4</span>).Info(<span class="string">"Service account does not exist, deleting token"</span>, <span class="string">"secret"</span>, klog.KRef(secretInfo.namespace, secretInfo.name))</span><br><span class="line">			<span class="keyword">if</span> retriable, err := e.deleteToken(secretInfo.namespace, secretInfo.name, secretInfo.uid); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				logger.Error(err, <span class="string">"Deleting serviceaccount token"</span>, <span class="string">"secret"</span>, klog.KRef(secretInfo.namespace, secretInfo.name), <span class="string">"serviceAccount"</span>, klog.KRef(secretInfo.namespace, secretInfo.saName))</span><br><span class="line">				retry = retriable</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">            <span class="comment">// 更新token</span></span><br><span class="line">			<span class="keyword">if</span> retriable, err := e.generateTokenIfNeeded(logger, sa, secret); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				logger.Error(err, <span class="string">"Populating serviceaccount token"</span>, <span class="string">"secret"</span>, klog.KRef(secretInfo.namespace, secretInfo.name), <span class="string">"serviceAccount"</span>, klog.KRef(secretInfo.namespace, secretInfo.saName))</span><br><span class="line">				retry = retriable</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/controller/serviceaccount/serviceaccounts_controller.go" target="_blank" rel="noopener">pkg/controller/serviceaccount/serviceaccounts_controller.go</a><br>2.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/cmd/kube-controller-manager/app/core.go" target="_blank" rel="noopener">cmd/kube-controller-manager/app/core.go</a><br>3.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/controller/serviceaccount/tokens_controller.go" target="_blank" rel="noopener">pkg/controller/serviceaccount/tokens_controller.go</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/kube-controller/" rel="tag"><i class="fa fa-tag">kube-controller</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/06/01/初识k8sgpt/" rel="prev" title="初识k8sgpt">
+                <i class="fa fa-chevron-left"></i> 初识k8sgpt
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/05/23/k8s之rbac/" rel="prev" title="k8s之rbac">
+                k8s之rbac <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">318</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>

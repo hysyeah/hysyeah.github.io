@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1.unix架构 狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。  2.用户登录 当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。# /etc/passwd hys:x:1">
+<meta name="keywords" content="apue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apue第一章:UNIX系统概览-笔记">
+<meta property="og:url" content="https://hysyeah.github.io/2017/12/03/pue第一章 UNIX系统概览-笔记/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="1.unix架构 狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。  2.用户登录 当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。# /etc/passwd hys:x:1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2017/12/1.png">
+<meta property="og:image" content="http://img.hysyeah.top/wp-content/uploads/2017/12/c-library.png">
+<meta property="og:updated_time" content="2023-09-17T05:23:40.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apue第一章:UNIX系统概览-笔记">
+<meta name="twitter:description" content="1.unix架构 狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。  2.用户登录 当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。# /etc/passwd hys:x:1">
+<meta name="twitter:image" content="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2017/12/03/pue第一章 UNIX系统概览-笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>apue第一章:UNIX系统概览-笔记 | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2017/12/03/pue第一章 UNIX系统概览-笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">apue第一章:UNIX系统概览-笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-03 11:44:10" itemprop="dateCreated datePublished" datetime="2017-12-03T11:44:10+08:00">2017-12-03</time>
+            </span>
+          
+
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/apue/" itemprop="url" rel="index"><span itemprop="name">apue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1.unix架构</p>
+<h6 id="狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。"><a href="#狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。" class="headerlink" title="狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。"></a>狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。</h6><h6 id="广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"><a href="#广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。" class="headerlink" title="广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"></a>广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。</h6><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/11/QQ图片20171127185444.png" alt="image"></p>
+<hr>
+<p>2.用户登录</p>
+<h6 id="当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。"><a href="#当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。" class="headerlink" title="当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。"></a>当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,<a href="http://img.hysyeah.top/2017/11/13/etcshadow%E5%8F%8A%E7%9B%B8%E5%85%B3c%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener">/etc/shadow介绍</a>。</h6><pre><code># /etc/passwd
+hys:x:1000:1000:hys,,,:/home/hys:/bin/zsh
+</code></pre><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用户名</th>
+<th>加密后密码</th>
+<th>用户ID</th>
+<th>组ID</th>
+<th>注释字段</th>
+<th>home目录</th>
+<th>shell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hys</td>
+<td>x</td>
+<td>1000</td>
+<td>1000</td>
+<td>hys,,,</td>
+<td>/home/hys/</td>
+<td>/bin/zsh</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code># 打印出系统中的所有用户
+cat /etc/passwd | awk -F : &#39;{print $1}&#39;
+</code></pre><hr>
+<p>3.以’/‘开头的路径叫<strong>绝对路径</strong>，反之都是<strong>相对路径</strong>。</p>
+<hr>
+<p>4.输入，输出</p>
+<h6 id="文件描述符，通常是一个非负数，内核用于标识被特定进程访问的文件。"><a href="#文件描述符，通常是一个非负数，内核用于标识被特定进程访问的文件。" class="headerlink" title="文件描述符，通常是一个非负数，内核用于标识被特定进程访问的文件。"></a>文件描述符，通常是一个非负数，内核用于标识被特定进程访问的文件。</h6><h6 id="无论何时运行一个程序，shell都会打开三个描述符-标准输入，标准输出，标准错误。"><a href="#无论何时运行一个程序，shell都会打开三个描述符-标准输入，标准输出，标准错误。" class="headerlink" title="无论何时运行一个程序，shell都会打开三个描述符:标准输入，标准输出，标准错误。"></a>无论何时运行一个程序，shell都会打开三个描述符:标准输入，标准输出，标准错误。</h6><h6 id="无缓冲I-O，不使用缓冲的输入-输出，如系统调用-open-read-write-lseek-close。"><a href="#无缓冲I-O，不使用缓冲的输入-输出，如系统调用-open-read-write-lseek-close。" class="headerlink" title="无缓冲I/O，不使用缓冲的输入/输出，如系统调用:open,read,write,lseek,close。"></a>无缓冲I/O，不使用缓冲的输入/输出，如系统调用:open,read,write,lseek,close。</h6><hr>
+<p>5.程序和进程</p>
+<h6 id="程序是指存储在磁盘中的可执行文件。"><a href="#程序是指存储在磁盘中的可执行文件。" class="headerlink" title="程序是指存储在磁盘中的可执行文件。"></a>程序是指存储在磁盘中的可执行文件。</h6><h6 id="程序的执行实例称为进程，进程ID用于标识进程的唯一非负数。"><a href="#程序的执行实例称为进程，进程ID用于标识进程的唯一非负数。" class="headerlink" title="程序的执行实例称为进程，进程ID用于标识进程的唯一非负数。"></a>程序的执行实例称为进程，进程ID用于标识进程的唯一非负数。</h6><h6 id="线程，通常一个进程只有一个线程，多线程可以提高对多核处理器的利用。在同一进程中的所有线程共享相同的地址空间，文件描述符，栈和进程相关属性。"><a href="#线程，通常一个进程只有一个线程，多线程可以提高对多核处理器的利用。在同一进程中的所有线程共享相同的地址空间，文件描述符，栈和进程相关属性。" class="headerlink" title="线程，通常一个进程只有一个线程，多线程可以提高对多核处理器的利用。在同一进程中的所有线程共享相同的地址空间，文件描述符，栈和进程相关属性。"></a>线程，通常一个进程只有一个线程，多线程可以提高对多核处理器的利用。在同一进程中的所有线程共享相同的地址空间，文件描述符，栈和进程相关属性。</h6><p><img src="http://img.hysyeah.top/wp-content/uploads/2017/12/1.png" alt="image"> 图片来源：&lt;&lt;程序员的自我修养&gt;&gt;</p>
+<hr>
+<p>6.用户标识</p>
+<h6 id="User-ID非负数，系统用于标识用户"><a href="#User-ID非负数，系统用于标识用户" class="headerlink" title="User ID非负数，系统用于标识用户"></a>User ID非负数，系统用于标识用户</h6><h6 id="Group-ID，组ID，用于用户分组"><a href="#Group-ID，组ID，用于用户分组" class="headerlink" title="Group ID，组ID，用于用户分组"></a>Group ID，组ID，用于用户分组</h6><pre><code># /etc/group
+adm:x:4:syslog,hys
+</code></pre><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>组名</th>
+<th>口令</th>
+<th>组ID</th>
+<th>所属组用户(用,隔开)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>adm</td>
+<td>x</td>
+<td>4</td>
+<td>syslog,hys</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p>7.信号</p>
+<h6 id="信号的三种处理方式：1-忽略，2-默认动作，3-提供自定义动作"><a href="#信号的三种处理方式：1-忽略，2-默认动作，3-提供自定义动作" class="headerlink" title="信号的三种处理方式：1.忽略，2.默认动作，3.提供自定义动作"></a>信号的三种处理方式：1.忽略，2.默认动作，3.提供自定义动作</h6><p>8.时间值</p>
+<h6 id="Clock-time，程序运行所消耗的时间"><a href="#Clock-time，程序运行所消耗的时间" class="headerlink" title="Clock time，程序运行所消耗的时间"></a>Clock time，程序运行所消耗的时间</h6><h6 id="User-CPU-time-进程获得CPU资源后，在用户态的执行时间"><a href="#User-CPU-time-进程获得CPU资源后，在用户态的执行时间" class="headerlink" title="User CPU time,进程获得CPU资源后，在用户态的执行时间"></a>User CPU time,进程获得CPU资源后，在用户态的执行时间</h6><h6 id="System-CPU-time-进程获得CPU资源后，在内核态的执行时间"><a href="#System-CPU-time-进程获得CPU资源后，在内核态的执行时间" class="headerlink" title="System CPU time,进程获得CPU资源后，在内核态的执行时间"></a>System CPU time,进程获得CPU资源后，在内核态的执行时间</h6><hr>
+<p>9.系统调用与库函数</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>系统调用</th>
+<th>库函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数量有限</td>
+<td>数量较多</td>
+</tr>
+<tr>
+<td>直接调用内核服务</td>
+<td>不能直接调用内核服务</td>
+</tr>
+<tr>
+<td>精简高效，只提供最底层服务</td>
+<td>对用户友好，属于用户层函数</td>
+</tr>
+<tr>
+<td>c函数</td>
+<td>c函数</td>
+</tr>
+<tr>
+<td>不可替换</td>
+<td>库函数可替换，而系统调用不可</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="http://img.hysyeah.top/wp-content/uploads/2017/12/c-library.png" alt="image"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/apue/" rel="tag"><i class="fa fa-tag">apue</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/03/apue第一章 UNIX系统概览-笔记-函数/" rel="prev" title="apue第一章:UNIX系统概览-笔记-函数">
+                <i class="fa fa-chevron-left"></i> apue第一章:UNIX系统概览-笔记-函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/02/python C API 迭代器/" rel="prev" title="python C API 迭代器">
+                python C API 迭代器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">318</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#狭义上说，操作系统被定义为可以利用-控制硬件资源和为程序提供运行环境。"><span class="nav-number">1.</span> <span class="nav-text">狭义上说，操作系统被定义为可以利用,控制硬件资源和为程序提供运行环境。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。"><span class="nav-number">2.</span> <span class="nav-text">广义上说，操作系统就是通过内核和其实相关软件使电脑可以被使用和拥有其属性。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为-etc-passwd-后面的操作系统把加密后的密码存放在-etc-shadow中-etc-shadow介绍。"><span class="nav-number">3.</span> <span class="nav-text">当用户进行登录操作时，系统会从密码文件中查找用户名，通常这个文件为/etc/passwd,后面的操作系统把加密后的密码存放在/etc/shadow中,/etc/shadow介绍。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#文件描述符，通常是一个非负数，内核用于标识被特定进程访问的文件。"><span class="nav-number">4.</span> <span class="nav-text">文件描述符，通常是一个非负数，内核用于标识被特定进程访问的文件。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#无论何时运行一个程序，shell都会打开三个描述符-标准输入，标准输出，标准错误。"><span class="nav-number">5.</span> <span class="nav-text">无论何时运行一个程序，shell都会打开三个描述符:标准输入，标准输出，标准错误。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#无缓冲I-O，不使用缓冲的输入-输出，如系统调用-open-read-write-lseek-close。"><span class="nav-number">6.</span> <span class="nav-text">无缓冲I/O，不使用缓冲的输入/输出，如系统调用:open,read,write,lseek,close。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#程序是指存储在磁盘中的可执行文件。"><span class="nav-number">7.</span> <span class="nav-text">程序是指存储在磁盘中的可执行文件。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#程序的执行实例称为进程，进程ID用于标识进程的唯一非负数。"><span class="nav-number">8.</span> <span class="nav-text">程序的执行实例称为进程，进程ID用于标识进程的唯一非负数。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#线程，通常一个进程只有一个线程，多线程可以提高对多核处理器的利用。在同一进程中的所有线程共享相同的地址空间，文件描述符，栈和进程相关属性。"><span class="nav-number">9.</span> <span class="nav-text">线程，通常一个进程只有一个线程，多线程可以提高对多核处理器的利用。在同一进程中的所有线程共享相同的地址空间，文件描述符，栈和进程相关属性。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#User-ID非负数，系统用于标识用户"><span class="nav-number">10.</span> <span class="nav-text">User ID非负数，系统用于标识用户</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Group-ID，组ID，用于用户分组"><span class="nav-number">11.</span> <span class="nav-text">Group ID，组ID，用于用户分组</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#信号的三种处理方式：1-忽略，2-默认动作，3-提供自定义动作"><span class="nav-number">12.</span> <span class="nav-text">信号的三种处理方式：1.忽略，2.默认动作，3.提供自定义动作</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Clock-time，程序运行所消耗的时间"><span class="nav-number">13.</span> <span class="nav-text">Clock time，程序运行所消耗的时间</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#User-CPU-time-进程获得CPU资源后，在用户态的执行时间"><span class="nav-number">14.</span> <span class="nav-text">User CPU time,进程获得CPU资源后，在用户态的执行时间</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#System-CPU-time-进程获得CPU资源后，在内核态的执行时间"><span class="nav-number">15.</span> <span class="nav-text">System CPU time,进程获得CPU资源后，在内核态的执行时间</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>

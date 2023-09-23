@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在k8s中kubelet是运行在k8s节点中的daemon程序，负责管理节点上的pod并将状态上报给apiserver，并驱动对应的pod更新到预期的状态。为此kubelet需要对pod specs和容器状态进行响应。kubelet从多个源中监听pod specs变化,kubelet会定期调用容器运行时获取容器最新的状态。 随着 pod/容器数量的增加，轮询会产生不可忽略的开销，而且因为kubel">
+<meta name="keywords" content="k8s,kubelet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kubelet之pleg">
+<meta property="og:url" content="https://hysyeah.github.io/2023/05/16/kubelet之pleg/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="在k8s中kubelet是运行在k8s节点中的daemon程序，负责管理节点上的pod并将状态上报给apiserver，并驱动对应的pod更新到预期的状态。为此kubelet需要对pod specs和容器状态进行响应。kubelet从多个源中监听pod specs变化,kubelet会定期调用容器运行时获取容器最新的状态。 随着 pod/容器数量的增加，轮询会产生不可忽略的开销，而且因为kubel">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img.hysyeah.top/2023/5/pleg.png">
+<meta property="og:updated_time" content="2023-09-17T05:23:40.577Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kubelet之pleg">
+<meta name="twitter:description" content="在k8s中kubelet是运行在k8s节点中的daemon程序，负责管理节点上的pod并将状态上报给apiserver，并驱动对应的pod更新到预期的状态。为此kubelet需要对pod specs和容器状态进行响应。kubelet从多个源中监听pod specs变化,kubelet会定期调用容器运行时获取容器最新的状态。 随着 pod/容器数量的增加，轮询会产生不可忽略的开销，而且因为kubel">
+<meta name="twitter:image" content="https://img.hysyeah.top/2023/5/pleg.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/05/16/kubelet之pleg/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kubelet之pleg | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/16/kubelet之pleg/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kubelet之pleg
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-05-16 19:39:38" itemprop="dateCreated datePublished" datetime="2023-05-16T19:39:38+08:00">2023-05-16</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在<code>k8s</code>中<code>kubelet</code>是运行在<code>k8s</code>节点中的<code>daemon</code>程序，负责管理节点上的<code>pod</code>并将状态上报给<code>apiserver</code>，并驱动对应的<code>pod</code>更新到预期的状态。为此<code>kubelet</code>需要对<code>pod specs</code>和容器状态进行响应。<code>kubelet</code>从多个源中监听<code>pod specs</code>变化,<code>kubelet</code>会定期调用容器运行时获取容器最新的状态。</p>
+<p>随着 <code>pod/容器</code>数量的增加，轮询会产生不可忽略的开销，而且因为<code>kubelet</code>的并行性(它会为每一个pod创建一个goroutine调用容器)更加会增加资源的消耗。同期性的大量并发请求将导致容器运行时消耗大量<code>CPU</code>(即使spec/state没有改变)，这将导致极差的性能和一些可靠性问题。 最终，它限制了 Kubelet 的可扩展性。</p>
+<p>这个提案的目标是通过降低<code>pod</code>的管理开销以改善<code>kubelet</code>的可扩展性和性能。</p>
+<ul>
+<li>减少不必要的工作(如果spec/state没有变化则不需要处理)</li>
+<li>降低对容器运行时的并发访问</li>
+</ul>
+<p>通过事件驱动的方式代替轮询<br><img src="https://img.hysyeah.top/2023/5/pleg.png" alt="image"></p>
+<p>通过<code>Relisting</code>获取容器状态变化。为了获取<code>pod</code>生命周期事件，。我们可以通过<code>relisting</code>所有的容器(比如docker ps)，获取<code>PLEG</code>所需要的容器状态变化。虽然这跟原来的轮询有点类似，但这只会有一个线程对容器运行时进行访问。</p>
+<hr>
+<p>以上的内容来自于<a href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/pod-lifecycle-event-generator.md" target="_blank" rel="noopener">k8s-design-proposals</a>,详细的内容可以自己去看看。</p>
+<hr>
+<p><code>PLEG</code>全称<code>Pod Lifecycle Event Generator</code></p>
+<h5 id="PodLifecycleEvent"><a href="#PodLifecycleEvent" class="headerlink" title="PodLifecycleEvent"></a>PodLifecycleEvent</h5><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/pleg/pleg.go</span></span><br><span class="line"><span class="comment">// PodLifecycleEvent is an event that reflects the change of the pod state.</span></span><br><span class="line"><span class="comment">// 描述pod状态变化</span></span><br><span class="line"><span class="keyword">type</span> PodLifecycleEvent <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// The pod ID.</span></span><br><span class="line">	ID types.UID</span><br><span class="line">	<span class="comment">// The type of the event.</span></span><br><span class="line">	Type PodLifeCycleEventType</span><br><span class="line">	<span class="comment">// The accompanied data which varies based on the event type.</span></span><br><span class="line">	<span class="comment">//   - ContainerStarted/ContainerStopped: the container name (string).</span></span><br><span class="line">	<span class="comment">//   - All other event types: unused.</span></span><br><span class="line">	Data <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> PodLifecycleEventGenerator <span class="keyword">interface</span> &#123;</span><br><span class="line">	Start()</span><br><span class="line">	Stop()</span><br><span class="line">	Update(relistDuration *RelistDuration)</span><br><span class="line">	Watch() <span class="keyword">chan</span> *PodLifecycleEvent</span><br><span class="line">	Healthy() (<span class="keyword">bool</span>, error)</span><br><span class="line">	Relist()</span><br><span class="line">	UpdateCache(*kubecontainer.Pod, types.UID) (error, <span class="keyword">bool</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> PodLifeCycleEventType <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> RelistDuration <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// The period for relisting.</span></span><br><span class="line">	<span class="comment">// 相当于轮询周期</span></span><br><span class="line">	RelistPeriod time.Duration</span><br><span class="line">	<span class="comment">// The relisting threshold needs to be greater than the relisting period +</span></span><br><span class="line">	<span class="comment">// the relisting time, which can vary significantly. Set a conservative</span></span><br><span class="line">	<span class="comment">// threshold to avoid flipping between healthy and unhealthy.</span></span><br><span class="line">    <span class="comment">// 这个时间必须大于 relistingPeriod + relisting所花费的时间</span></span><br><span class="line">	RelistThreshold time.Duration</span><br><span class="line">&#125;</span><br><span class="line">changes</span><br><span class="line"><span class="comment">// 事件的类型</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	<span class="comment">// ContainerStarted - event type when the new state of container is running.</span></span><br><span class="line">	ContainerStarted PodLifeCycleEventType = <span class="string">"ContainerStarted"</span></span><br><span class="line">	<span class="comment">// ContainerDied - event type when the new state of container is exited.</span></span><br><span class="line">	ContainerDied PodLifeCycleEventType = <span class="string">"ContainerDied"</span></span><br><span class="line">	<span class="comment">// ContainerRemoved - event type when the old state of container is exited.</span></span><br><span class="line">	ContainerRemoved PodLifeCycleEventType = <span class="string">"ContainerRemoved"</span></span><br><span class="line">	<span class="comment">// PodSync is used to trigger syncing of a pod when the observed change of</span></span><br><span class="line">	<span class="comment">// the state of the pod cannot be captured by any single event above.</span></span><br><span class="line">	<span class="comment">// 当一个pod的状态变化没有被任何一个事件补获到时会触发PodSync</span></span><br><span class="line">	PodSync PodLifeCycleEventType = <span class="string">"PodSync"</span></span><br><span class="line">	<span class="comment">// ContainerChanged - event type when the new state of container is unknown.</span></span><br><span class="line">	ContainerChanged PodLifeCycleEventType = <span class="string">"ContainerChanged"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// pkg/kubelet/kubelet.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewMainKubelet</span><span class="params">(kubeCfg *kubeletconfiginternal.KubeletConfiguration,...)</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// pleg和eventedPleg使用的是同一个channel</span></span><br><span class="line">    eventChannel := <span class="built_in">make</span>(<span class="keyword">chan</span> *pleg.PodLifecycleEvent, plegChannelCapacity)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> utilfeature.DefaultFeatureGate.Enabled(features.EventedPLEG) &#123;</span><br><span class="line">		<span class="comment">// adjust Generic PLEG relisting period and threshold to higher value when Evented PLEG is turned on</span></span><br><span class="line">		genericRelistDuration := &amp;pleg.RelistDuration&#123;</span><br><span class="line">			RelistPeriod:    eventedPlegRelistPeriod,</span><br><span class="line">			RelistThreshold: eventedPlegRelistThreshold,</span><br><span class="line">		&#125;</span><br><span class="line">		klet.pleg = pleg.NewGenericPLEG(klet.containerRuntime, eventChannel, genericRelistDuration, klet.podCache, clock.RealClock&#123;&#125;)</span><br><span class="line">		<span class="comment">// In case Evented PLEG has to fall back on Generic PLEG due to an error,</span></span><br><span class="line">		<span class="comment">// Evented PLEG should be able to reset the Generic PLEG relisting duration</span></span><br><span class="line">		<span class="comment">// to the default value.</span></span><br><span class="line">		eventedRelistDuration := &amp;pleg.RelistDuration&#123;</span><br><span class="line">			RelistPeriod:    genericPlegRelistPeriod,</span><br><span class="line">			RelistThreshold: genericPlegRelistThreshold,</span><br><span class="line">		&#125;</span><br><span class="line">		klet.eventedPleg = pleg.NewEventedPLEG(klet.containerRuntime, klet.runtimeService, eventChannel,</span><br><span class="line">			klet.podCache, klet.pleg, eventedPlegMaxStreamRetries, eventedRelistDuration, clock.RealClock&#123;&#125;)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		genericRelistDuration := &amp;pleg.RelistDuration&#123;</span><br><span class="line">			RelistPeriod:    genericPlegRelistPeriod,</span><br><span class="line">			RelistThreshold: genericPlegRelistThreshold,</span><br><span class="line">		&#125;</span><br><span class="line">		klet.pleg = pleg.NewGenericPLEG(klet.containerRuntime, eventChannel, genericRelistDuration, klet.podCache, clock.RealClock&#123;&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/kubelet.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(kl *Kubelet)</span> <span class="title">Run</span><span class="params">(updates &lt;-<span class="keyword">chan</span> kubetypes.PodUpdate)</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    	<span class="comment">// Start the pod lifecycle event generator.</span></span><br><span class="line">	kl.pleg.Start()</span><br><span class="line">	<span class="comment">// Feature gate打开后才会远行eventedPLEG</span></span><br><span class="line">	<span class="keyword">if</span> utilfeature.DefaultFeatureGate.Enabled(features.EventedPLEG) &#123;</span><br><span class="line">		kl.eventedPleg.Start()</span><br><span class="line">	&#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="GenericPLEG"><a href="#GenericPLEG" class="headerlink" title="GenericPLEG"></a>GenericPLEG</h5><p><code>GenericPLEG</code>通过周期性的<code>listing</code>以发现容器变化，它假设在一个<code>relist</code>周期中容器不会发生创建，终止和垃圾回收。<br>如果在<code>relisting</code>过程中发生了容器变化，<code>GenericPLEG</code>将会丢失这些信息。如果此次<code>relisting</code>发生了错误时间窗口会变得更长。<br>许多kubelet的内部组件都依赖于终止的容器作为保留记录的墓碑。垃圾回收器的实现可以处理这种情况。<br>然而，为了保证kubelet能够处理丢失的容器事件，建议将重列周期设置短，并在kubelet中设置一个辅助的、较长的定期同步作为安全措施<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/pleg/generic.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> GenericPLEG <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// The container runtime.</span></span><br><span class="line">	runtime kubecontainer.Runtime</span><br><span class="line">	<span class="comment">// The channel from which the subscriber listens events.</span></span><br><span class="line">	eventChannel <span class="keyword">chan</span> *PodLifecycleEvent</span><br><span class="line">	<span class="comment">// The internal cache for pod/container information.</span></span><br><span class="line">	podRecords podRecords</span><br><span class="line">	<span class="comment">// Time of the last relisting.</span></span><br><span class="line">	relistTime atomic.Value</span><br><span class="line">	<span class="comment">// Cache for storing the runtime states required for syncing pods.</span></span><br><span class="line">	cache kubecontainer.Cache</span><br><span class="line">	<span class="comment">// For testability.</span></span><br><span class="line">	clock clock.Clock</span><br><span class="line">	<span class="comment">// Pods that failed to have their status retrieved during a relist. These pods will be</span></span><br><span class="line">	<span class="comment">// retried during the next relisting.</span></span><br><span class="line">	podsToReinspect <span class="keyword">map</span>[types.UID]*kubecontainer.Pod</span><br><span class="line">	<span class="comment">// Stop the Generic PLEG by closing the channel.</span></span><br><span class="line">	stopCh <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">	<span class="comment">// Locks the relisting of the Generic PLEG</span></span><br><span class="line">	relistLock sync.Mutex</span><br><span class="line">	<span class="comment">// Indicates if the Generic PLEG is running or not</span></span><br><span class="line">	isRunning <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Locks the start/stop operation of Generic PLEG</span></span><br><span class="line">	runningMu sync.Mutex</span><br><span class="line">	<span class="comment">// Indicates relisting related parameters</span></span><br><span class="line">	relistDuration *RelistDuration</span><br><span class="line">	<span class="comment">// Mutex to serialize updateCache called by relist vs UpdateCache interface</span></span><br><span class="line">	podCacheMutex sync.Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewGenericPLEG 创建一个GenericPLEG</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewGenericPLEG</span><span class="params">(runtime kubecontainer.Runtime, eventChannel <span class="keyword">chan</span> *PodLifecycleEvent,</span></span></span><br><span class="line"><span class="function"><span class="params">	relistDuration *RelistDuration, cache kubecontainer.Cache,</span></span></span><br><span class="line"><span class="function"><span class="params">	clock clock.Clock)</span> <span class="title">PodLifecycleEventGenerator</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;GenericPLEG&#123;</span><br><span class="line">		relistDuration: relistDuration,</span><br><span class="line">		runtime:        runtime,</span><br><span class="line">		eventChannel:   eventChannel,</span><br><span class="line">		podRecords:     <span class="built_in">make</span>(podRecords),</span><br><span class="line">		cache:          cache,</span><br><span class="line">		clock:          clock,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行Relist, 周期为g.relistDuration.RelistPeriod</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *GenericPLEG)</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">	g.runningMu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> g.runningMu.Unlock()</span><br><span class="line">	<span class="keyword">if</span> !g.isRunning &#123;</span><br><span class="line">		g.isRunning = <span class="literal">true</span></span><br><span class="line">		g.stopCh = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">		<span class="keyword">go</span> wait.Until(g.Relist, g.relistDuration.RelistPeriod, g.stopCh)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定期执行的函数</span></span><br><span class="line"><span class="comment">// 查询容器运行时获取pods/containers列表并和本地缓存中的pods/containers比较，然后生成事件</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *GenericPLEG)</span> <span class="title">Relist</span><span class="params">()</span></span> &#123;</span><br><span class="line">	g.relistLock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> g.relistLock.Unlock()</span><br><span class="line"></span><br><span class="line">	ctx := context.Background()</span><br><span class="line">	klog.V(<span class="number">5</span>).InfoS(<span class="string">"GenericPLEG: Relisting"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> lastRelistTime := g.getRelistTime(); !lastRelistTime.IsZero() &#123;</span><br><span class="line">		metrics.PLEGRelistInterval.Observe(metrics.SinceInSeconds(lastRelistTime))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	timestamp := g.clock.Now()</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		metrics.PLEGRelistDuration.Observe(metrics.SinceInSeconds(timestamp))</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获取所的Pod</span></span><br><span class="line">	podList, err := g.runtime.GetPods(ctx, <span class="literal">true</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		klog.ErrorS(err, <span class="string">"GenericPLEG: Unable to retrieve pods"</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	g.updateRelistTime(timestamp)</span><br><span class="line"></span><br><span class="line">	pods := kubecontainer.Pods(podList)</span><br><span class="line">	<span class="comment">// update running pod and container count</span></span><br><span class="line">	updateRunningPodAndContainerMetrics(pods)</span><br><span class="line">	g.podRecords.setCurrent(pods)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Compare the old and the current pods, and generate events.</span></span><br><span class="line">	eventsByPodID := <span class="keyword">map</span>[types.UID][]*PodLifecycleEvent&#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> pid := <span class="keyword">range</span> g.podRecords &#123;</span><br><span class="line">		oldPod := g.podRecords.getOld(pid)</span><br><span class="line">		pod := g.podRecords.getCurrent(pid)</span><br><span class="line">		<span class="comment">// 获取oldPod和pod中的container</span></span><br><span class="line">		allContainers := getContainersFromPods(oldPod, pod)</span><br><span class="line">		<span class="keyword">for</span> _, container := <span class="keyword">range</span> allContainers &#123;</span><br><span class="line">			<span class="comment">// 生成事件</span></span><br><span class="line">			events := computeEvents(oldPod, pod, &amp;container.ID)</span><br><span class="line">			<span class="keyword">for</span> _, e := <span class="keyword">range</span> events &#123;</span><br><span class="line">				updateEvents(eventsByPodID, e)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> needsReinspection <span class="keyword">map</span>[types.UID]*kubecontainer.Pod</span><br><span class="line">	<span class="keyword">if</span> g.cacheEnabled() &#123;</span><br><span class="line">		needsReinspection = <span class="built_in">make</span>(<span class="keyword">map</span>[types.UID]*kubecontainer.Pod)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If there are events associated with a pod, we should update the</span></span><br><span class="line">	<span class="comment">// podCache.</span></span><br><span class="line">	<span class="keyword">for</span> pid, events := <span class="keyword">range</span> eventsByPodID &#123;</span><br><span class="line">		pod := g.podRecords.getCurrent(pid)</span><br><span class="line">		<span class="keyword">if</span> g.cacheEnabled() &#123;</span><br><span class="line">			<span class="comment">// updateCache() will inspect the pod and update the cache. If an</span></span><br><span class="line">			<span class="comment">// error occurs during the inspection, we want PLEG to retry again</span></span><br><span class="line">			<span class="comment">// in the next relist. To achieve this, we do not update the</span></span><br><span class="line">			<span class="comment">// associated podRecord of the pod, so that the change will be</span></span><br><span class="line">			<span class="comment">// detect again in the next relist.</span></span><br><span class="line">			<span class="comment">// <span class="doctag">TODO:</span> If many pods changed during the same relist period,</span></span><br><span class="line">			<span class="comment">// inspecting the pod and getting the PodStatus to update the cache</span></span><br><span class="line">			<span class="comment">// serially may take a while. We should be aware of this and</span></span><br><span class="line">			<span class="comment">// parallelize if needed.</span></span><br><span class="line">			<span class="keyword">if</span> err, updated := g.updateCache(ctx, pod, pid); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="comment">// Rely on updateCache calling GetPodStatus to log the actual error.</span></span><br><span class="line">				klog.V(<span class="number">4</span>).ErrorS(err, <span class="string">"PLEG: Ignoring events for pod"</span>, <span class="string">"pod"</span>, klog.KRef(pod.Namespace, pod.Name))</span><br><span class="line"></span><br><span class="line">				<span class="comment">// make sure we try to reinspect the pod during the next relisting</span></span><br><span class="line">				needsReinspection[pid] = pod</span><br><span class="line"></span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">// this pod was in the list to reinspect and we did so because it had events, so remove it</span></span><br><span class="line">				<span class="comment">// from the list (we don't want the reinspection code below to inspect it a second time in</span></span><br><span class="line">				<span class="comment">// this relist execution)</span></span><br><span class="line">				<span class="built_in">delete</span>(g.podsToReinspect, pid)</span><br><span class="line">				<span class="keyword">if</span> utilfeature.DefaultFeatureGate.Enabled(features.EventedPLEG) &#123;</span><br><span class="line">					<span class="keyword">if</span> !updated &#123;</span><br><span class="line">						<span class="keyword">continue</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Update the internal storage and send out the events.</span></span><br><span class="line">		g.podRecords.update(pid)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Map from containerId to exit code; used as a temporary cache for lookup</span></span><br><span class="line">		containerExitCode := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> i := <span class="keyword">range</span> events &#123;</span><br><span class="line">			<span class="comment">// Filter out events that are not reliable and no other components use yet.</span></span><br><span class="line">			<span class="keyword">if</span> events[i].Type == ContainerChanged &#123;</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="comment">// 将事件发送到eventChannel中</span></span><br><span class="line">			<span class="comment">// 在kubelet的主循环syncLoop中会对eventChannel进行watch</span></span><br><span class="line">			<span class="keyword">case</span> g.eventChannel &lt;- events[i]:</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				metrics.PLEGDiscardEvents.Inc()</span><br><span class="line">				klog.ErrorS(<span class="literal">nil</span>, <span class="string">"Event channel is full, discard this relist() cycle event"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// Log exit code of containers when they finished in a particular event</span></span><br><span class="line">			<span class="keyword">if</span> events[i].Type == ContainerDied &#123;</span><br><span class="line">				<span class="comment">// Fill up containerExitCode map for ContainerDied event when first time appeared</span></span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(containerExitCode) == <span class="number">0</span> &amp;&amp; pod != <span class="literal">nil</span> &amp;&amp; g.cache != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="comment">// Get updated podStatus</span></span><br><span class="line">					status, err := g.cache.Get(pod.ID)</span><br><span class="line">					<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">						<span class="keyword">for</span> _, containerStatus := <span class="keyword">range</span> status.ContainerStatuses &#123;</span><br><span class="line">							containerExitCode[containerStatus.ID.ID] = containerStatus.ExitCode</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> containerID, ok := events[i].Data.(<span class="keyword">string</span>); ok &#123;</span><br><span class="line">					<span class="keyword">if</span> exitCode, ok := containerExitCode[containerID]; ok &amp;&amp; pod != <span class="literal">nil</span> &#123;</span><br><span class="line">						klog.V(<span class="number">2</span>).InfoS(<span class="string">"Generic (PLEG): container finished"</span>, <span class="string">"podID"</span>, pod.ID, <span class="string">"containerID"</span>, containerID, <span class="string">"exitCode"</span>, exitCode)</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> g.cacheEnabled() &#123;</span><br><span class="line">		<span class="comment">// reinspect any pods that failed inspection during the previous relist</span></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(g.podsToReinspect) &gt; <span class="number">0</span> &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">"GenericPLEG: Reinspecting pods that previously failed inspection"</span>)</span><br><span class="line">			<span class="keyword">for</span> pid, pod := <span class="keyword">range</span> g.podsToReinspect &#123;</span><br><span class="line">				<span class="keyword">if</span> err, _ := g.updateCache(ctx, pod, pid); err != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="comment">// Rely on updateCache calling GetPodStatus to log the actual error.</span></span><br><span class="line">					klog.V(<span class="number">5</span>).ErrorS(err, <span class="string">"PLEG: pod failed reinspection"</span>, <span class="string">"pod"</span>, klog.KRef(pod.Namespace, pod.Name))</span><br><span class="line">					needsReinspection[pid] = pod</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Update the cache timestamp.  This needs to happen *after*</span></span><br><span class="line">		<span class="comment">// all pods have been properly updated in the cache.</span></span><br><span class="line">		g.cache.UpdateTime(timestamp)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// make sure we retain the list of pods that need reinspecting the next time relist is called玄武</span></span><br><span class="line">	g.podsToReinspect = needsReinspection</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// pkg/kubelet/kubelet.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(kl *Kubelet)</span> <span class="title">syncLoop</span><span class="params">(ctx context.Context, updates &lt;-<span class="keyword">chan</span> kubetypes.PodUpdate, handler SyncHandler)</span></span> &#123;</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	plegCh := kl.pleg.Watch()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> err := kl.runtimeState.runtimeErrors(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			klog.ErrorS(err, <span class="string">"Skipping pod synchronization"</span>)</span><br><span class="line">			<span class="comment">// exponential backoff</span></span><br><span class="line">			time.Sleep(duration)</span><br><span class="line">			duration = time.Duration(math.Min(<span class="keyword">float64</span>(max), factor*<span class="keyword">float64</span>(duration)))</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// reset backoff if we have a success</span></span><br><span class="line">		duration = base</span><br><span class="line"></span><br><span class="line">		kl.syncLoopMonitor.Store(kl.clock.Now())</span><br><span class="line">		<span class="comment">// 在syncLoopIteration中处理plegCh,也就是上面的eventChannel</span></span><br><span class="line">		<span class="keyword">if</span> !kl.syncLoopIteration(ctx, updates, handler, syncTicker.C, housekeepingTicker.C, plegCh) &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		kl.syncLoopMonitor.Store(kl.clock.Now())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="EventedPLEG"><a href="#EventedPLEG" class="headerlink" title="EventedPLEG"></a>EventedPLEG</h5><p>通过事件驱动的PLEG(pod lifecycle event generator)降低relisting频率以提高性能。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/pleg/evented.go</span></span><br><span class="line"><span class="keyword">type</span> EventedPLEG <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// The container runtime.</span></span><br><span class="line">	runtime kubecontainer.Runtime</span><br><span class="line">	<span class="comment">// The runtime service.</span></span><br><span class="line">	runtimeService internalapi.RuntimeService</span><br><span class="line">	<span class="comment">// The channel from which the subscriber listens events.</span></span><br><span class="line">	eventChannel <span class="keyword">chan</span> *PodLifecycleEvent</span><br><span class="line">	<span class="comment">// Cache for storing the runtime states required for syncing pods.</span></span><br><span class="line">	cache kubecontainer.Cache</span><br><span class="line">	<span class="comment">// For testability.</span></span><br><span class="line">	clock clock.Clock</span><br><span class="line">	<span class="comment">// GenericPLEG is used to force relist when required.</span></span><br><span class="line">	genericPleg PodLifecycleEventGenerator</span><br><span class="line">	<span class="comment">// The maximum number of retries when getting container events from the runtime.</span></span><br><span class="line">	eventedPlegMaxStreamRetries <span class="keyword">int</span></span><br><span class="line">	<span class="comment">// Indicates relisting related parameters</span></span><br><span class="line">	relistDuration *RelistDuration</span><br><span class="line">	<span class="comment">// Stop the Evented PLEG by closing the channel.</span></span><br><span class="line">	stopCh <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">	<span class="comment">// Stops the periodic update of the cache global timestamp.</span></span><br><span class="line">	stopCacheUpdateCh <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">	<span class="comment">// Locks the start/stop operation of the Evented PLEG.</span></span><br><span class="line">	runningMu sync.Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewEventedPLEG instantiates a new EventedPLEG object and return it.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewEventedPLEG</span><span class="params">(runtime kubecontainer.Runtime, runtimeService internalapi.RuntimeService, eventChannel <span class="keyword">chan</span> *PodLifecycleEvent,</span></span></span><br><span class="line"><span class="function"><span class="params">	cache kubecontainer.Cache, genericPleg PodLifecycleEventGenerator, eventedPlegMaxStreamRetries <span class="keyword">int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">	relistDuration *RelistDuration, clock clock.Clock)</span> <span class="title">PodLifecycleEventGenerator</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;EventedPLEG&#123;</span><br><span class="line">		runtime:                     runtime,</span><br><span class="line">		runtimeService:              runtimeService,</span><br><span class="line">		eventChannel:                eventChannel,</span><br><span class="line">		cache:                       cache,</span><br><span class="line">		genericPleg:                 genericPleg,</span><br><span class="line">		eventedPlegMaxStreamRetries: eventedPlegMaxStreamRetries,</span><br><span class="line">		relistDuration:              relistDuration,</span><br><span class="line">		clock:                       clock,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EventedPLEG)</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">	e.runningMu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> e.runningMu.Unlock()</span><br><span class="line">	<span class="keyword">if</span> isEventedPLEGInUse() &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	setEventedPLEGUsage(<span class="literal">true</span>)</span><br><span class="line">	e.stopCh = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">	e.stopCacheUpdateCh = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">	<span class="keyword">go</span> wait.Until(e.watchEventsChannel, <span class="number">0</span>, e.stopCh)</span><br><span class="line">	<span class="keyword">go</span> wait.Until(e.updateGlobalCache, globalCacheUpdatePeriod, e.stopCacheUpdateCh)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EventedPLEG)</span> <span class="title">watchEventsChannel</span><span class="params">()</span></span> &#123;</span><br><span class="line">	containerEventsResponseCh := <span class="built_in">make</span>(<span class="keyword">chan</span> *runtimeapi.ContainerEventResponse, <span class="built_in">cap</span>(e.eventChannel))</span><br><span class="line">	<span class="keyword">defer</span> <span class="built_in">close</span>(containerEventsResponseCh)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get the container events from the runtime.</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		numAttempts := <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="comment">// 如果重试次数超过一定的次数则表示EventedPLEG</span></span><br><span class="line">			<span class="keyword">if</span> numAttempts &gt;= e.eventedPlegMaxStreamRetries &#123;</span><br><span class="line">				<span class="comment">// 判断是否使用EventedPLEG</span></span><br><span class="line">				<span class="comment">// 即使打开了EventedPLEG feature gate,EventedPLEG也可能不可用</span></span><br><span class="line">				<span class="comment">// 原因可能是容器运行时没实现容器事件流(container events stream)</span></span><br><span class="line">				<span class="keyword">if</span> isEventedPLEGInUse() &#123;</span><br><span class="line">					<span class="comment">// Fall back to Generic PLEG relisting since Evented PLEG is not working.</span></span><br><span class="line">					klog.V(<span class="number">4</span>).InfoS(<span class="string">"Fall back to Generic PLEG relisting since Evented PLEG is not working"</span>)</span><br><span class="line">					e.Stop()</span><br><span class="line">					e.genericPleg.Stop()       <span class="comment">// Stop the existing Generic PLEG which runs with longer relisting period when Evented PLEG is in use.</span></span><br><span class="line">					e.Update(e.relistDuration) <span class="comment">// Update the relisting period to the default value for the Generic PLEG.</span></span><br><span class="line">					<span class="comment">// 重新切换加genericPleg</span></span><br><span class="line">					e.genericPleg.Start()</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 从容器运行中获取事件</span></span><br><span class="line">			err := e.runtimeService.GetContainerEvents(containerEventsResponseCh)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				metrics.EventedPLEGConnErr.Inc()</span><br><span class="line">				numAttempts++</span><br><span class="line">				<span class="comment">// 如果获取事件失败，则进行Relist以获取容器的最新状态</span></span><br><span class="line">				e.Relist() <span class="comment">// Force a relist to get the latest container and pods running metric.</span></span><br><span class="line">				klog.V(<span class="number">4</span>).InfoS(<span class="string">"Evented PLEG: Failed to get container events, retrying: "</span>, <span class="string">"err"</span>, err)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> isEventedPLEGInUse() &#123;</span><br><span class="line">		<span class="comment">// 处理容器运行时事件</span></span><br><span class="line">		e.processCRIEvents(containerEventsResponseCh)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EventedPLEG)</span> <span class="title">Watch</span><span class="params">()</span> <span class="title">chan</span> *<span class="title">PodLifecycleEvent</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> e.eventChannel</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Relist relists all containers using GenericPLEG</span></span><br><span class="line"><span class="comment">// 这里使用的是GenericPLEG中的Relist方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EventedPLEG)</span> <span class="title">Relist</span><span class="params">()</span></span> &#123;</span><br><span class="line">	e.genericPleg.Relist()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In case the Evented PLEG experiences undetectable issues in the underlying</span></span><br><span class="line"><span class="comment">// GRPC connection there is a remote chance the pod might get stuck in a</span></span><br><span class="line"><span class="comment">// given state while it has progressed in its life cycle. This function will be</span></span><br><span class="line"><span class="comment">// called periodically to update the global timestamp of the cache so that those</span></span><br><span class="line"><span class="comment">// pods stuck at GetNewerThan in pod workers will get unstuck.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EventedPLEG)</span> <span class="title">updateGlobalCache</span><span class="params">()</span></span> &#123;</span><br><span class="line">	e.cache.UpdateTime(time.Now())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *EventedPLEG)</span> <span class="title">processCRIEvents</span><span class="params">(containerEventsResponseCh <span class="keyword">chan</span> *runtimeapi.ContainerEventResponse)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> event := <span class="keyword">range</span> containerEventsResponseCh &#123;</span><br><span class="line">		<span class="comment">// Ignore the event if PodSandboxStatus is nil.</span></span><br><span class="line">		<span class="comment">// This might happen under some race condition where the podSandbox has</span></span><br><span class="line">		<span class="comment">// been deleted, and therefore container runtime couldn't find the</span></span><br><span class="line">		<span class="comment">// podSandbox for the container when generating the event.</span></span><br><span class="line">		<span class="comment">// It is safe to ignore because</span></span><br><span class="line">		<span class="comment">// a) a event would have been received for the sandbox deletion,</span></span><br><span class="line">		<span class="comment">// b) in worst case, a relist will eventually sync the pod status.</span></span><br><span class="line">		<span class="comment">// TODO(#114371): Figure out a way to handle this case instead of ignoring.</span></span><br><span class="line">		<span class="keyword">if</span> event.PodSandboxStatus == <span class="literal">nil</span> || event.PodSandboxStatus.Metadata == <span class="literal">nil</span> &#123;</span><br><span class="line">			klog.ErrorS(<span class="literal">nil</span>, <span class="string">"Evented PLEG: received ContainerEventResponse with nil PodSandboxStatus or PodSandboxStatus.Metadata"</span>, <span class="string">"containerEventResponse"</span>, event)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		podID := types.UID(event.PodSandboxStatus.Metadata.Uid)</span><br><span class="line">		shouldSendPLEGEvent := <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">		status, err := e.runtime.GeneratePodStatus(event)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// nolint:logcheck // Not using the result of klog.V inside the</span></span><br><span class="line">			<span class="comment">// if branch is okay, we just use it to determine whether the</span></span><br><span class="line">			<span class="comment">// additional "podStatus" key and its value should be added.</span></span><br><span class="line">			<span class="keyword">if</span> klog.V(<span class="number">6</span>).Enabled() &#123;</span><br><span class="line">				klog.ErrorS(err, <span class="string">"Evented PLEG: error generating pod status from the received event"</span>, <span class="string">"podUID"</span>, podID, <span class="string">"podStatus"</span>, status)</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				klog.ErrorS(err, <span class="string">"Evented PLEG: error generating pod status from the received event"</span>, <span class="string">"podUID"</span>, podID, <span class="string">"podStatus"</span>, status)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> klogV := klog.V(<span class="number">6</span>); klogV.Enabled() &#123;</span><br><span class="line">				klogV.InfoS(<span class="string">"Evented PLEG: Generated pod status from the received event"</span>, <span class="string">"podUID"</span>, podID, <span class="string">"podStatus"</span>, status)</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				klog.V(<span class="number">4</span>).InfoS(<span class="string">"Evented PLEG: Generated pod status from the received event"</span>, <span class="string">"podUID"</span>, podID)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// Preserve the pod IP across cache updates if the new IP is empty.</span></span><br><span class="line">			<span class="comment">// When a pod is torn down, kubelet may race with PLEG and retrieve</span></span><br><span class="line">			<span class="comment">// a pod status after network teardown, but the kubernetes API expects</span></span><br><span class="line">			<span class="comment">// the completed pod's IP to be available after the pod is dead.</span></span><br><span class="line">			status.IPs = e.getPodIPs(podID, status)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		e.updateRunningPodMetric(status)</span><br><span class="line">		e.updateRunningContainerMetric(status)</span><br><span class="line">		e.updateLatencyMetric(event)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> event.ContainerEventType == runtimeapi.ContainerEventType_CONTAINER_DELETED_EVENT &#123;</span><br><span class="line">			<span class="keyword">for</span> _, sandbox := <span class="keyword">range</span> status.SandboxStatuses &#123;</span><br><span class="line">				<span class="keyword">if</span> sandbox.Id == event.ContainerId &#123;</span><br><span class="line">					<span class="comment">// When the CONTAINER_DELETED_EVENT is received by the kubelet,</span></span><br><span class="line">					<span class="comment">// the runtime has indicated that the container has been removed</span></span><br><span class="line">					<span class="comment">// by the runtime and hence, it must be removed from the cache</span></span><br><span class="line">					<span class="comment">// of kubelet too.</span></span><br><span class="line">					e.cache.Delete(podID)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			shouldSendPLEGEvent = <span class="literal">true</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> e.cache.Set(podID, status, err, time.Unix(event.GetCreatedAt(), <span class="number">0</span>)) &#123;</span><br><span class="line">				shouldSendPLEGEvent = <span class="literal">true</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> shouldSendPLEGEvent &#123;</span><br><span class="line">			<span class="comment">// 将事件发送到e.eventChannel中</span></span><br><span class="line">			e.processCRIEvent(event)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/kubernetes/design-proposals-archive/blob/main/node/pod-lifecycle-event-generator.md" target="_blank" rel="noopener">https://github.com/kubernetes/design-proposals-archive/blob/main/node/pod-lifecycle-event-generator.md</a><br>2.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/pleg/pleg.go" target="_blank" rel="noopener">pkg/kubelet/pleg/pleg.go</a><br>3.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/kubelet.go" target="_blank" rel="noopener">pkg/kubelet/kubelet.go</a><br>4.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/pleg/evented.go" target="_blank" rel="noopener">pkg/kubelet/pleg/evented.go</a><br>5.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/pleg/generic.go" target="_blank" rel="noopener">pkg/kubelet/pleg/generic.go</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/kubelet/" rel="tag"><i class="fa fa-tag">kubelet</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/05/17/kubelet之pod-manager/" rel="prev" title="kubelet之pod_manager">
+                <i class="fa fa-chevron-left"></i> kubelet之pod_manager
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/05/12/kube-controller之podgc/" rel="prev" title="kube-controller之podgc">
+                kube-controller之podgc <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">318</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#PodLifecycleEvent"><span class="nav-number">1.</span> <span class="nav-text">PodLifecycleEvent</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GenericPLEG"><span class="nav-number">2.</span> <span class="nav-text">GenericPLEG</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#EventedPLEG"><span class="nav-number">3.</span> <span class="nav-text">EventedPLEG</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Kubernetes EndpointSlice是在Kubernetes 1.16版本中引入的一种资源，它提供了一种更有效的方式来表示Kubernetes服务的网络端点。 EndpointSlice为现有的Endpoints资源提供了一种替代方案，对于具有大量网络端点的非常大型服务，Endpoints资源可能会成为性能瓶颈。 EndpointSlice将服务的网络端点分成更小、更易管理的块，每个块">
+<meta name="keywords" content="k8s,kube-controller">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kube-controller之endpointslice">
+<meta property="og:url" content="https://hysyeah.github.io/2023/05/07/kube-controller之endpointslice/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="Kubernetes EndpointSlice是在Kubernetes 1.16版本中引入的一种资源，它提供了一种更有效的方式来表示Kubernetes服务的网络端点。 EndpointSlice为现有的Endpoints资源提供了一种替代方案，对于具有大量网络端点的非常大型服务，Endpoints资源可能会成为性能瓶颈。 EndpointSlice将服务的网络端点分成更小、更易管理的块，每个块">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2023-09-17T05:23:40.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kube-controller之endpointslice">
+<meta name="twitter:description" content="Kubernetes EndpointSlice是在Kubernetes 1.16版本中引入的一种资源，它提供了一种更有效的方式来表示Kubernetes服务的网络端点。 EndpointSlice为现有的Endpoints资源提供了一种替代方案，对于具有大量网络端点的非常大型服务，Endpoints资源可能会成为性能瓶颈。 EndpointSlice将服务的网络端点分成更小、更易管理的块，每个块">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/05/07/kube-controller之endpointslice/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kube-controller之endpointslice | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/07/kube-controller之endpointslice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kube-controller之endpointslice
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-05-07 21:50:14" itemprop="dateCreated datePublished" datetime="2023-05-07T21:50:14+08:00">2023-05-07</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>Kubernetes EndpointSlice</code>是在<code>Kubernetes 1.16</code>版本中引入的一种资源，它提供了一种更有效的方式来表示<code>Kubernetes</code>服务的网络端点。</p>
+<p><code>EndpointSlice</code>为现有的<code>Endpoints</code>资源提供了一种替代方案，对于具有大量网络端点的非常大型服务，<code>Endpoints</code>资源可能会成为性能瓶颈。 <code>EndpointSlice</code>将服务的网络端点分成更小、更易管理的块，每个块由单独的<code>EndpointSlice</code>资源表示。</p>
+<p>每个<code>EndpointSlice</code>包含有关服务的一部分端点的信息，包括它们的IP地址、端口和附加的元数据，例如拓扑信息。这使得<code>Kubernetes</code>更容易有效地管理和更新服务的网络端点。</p>
+<p><code>EndpointSlice</code>还支持其他功能，例如支持多协议服务和支持加权负载平衡，这些功能在原始的<code>Endpoints</code>资源中不可用。</p>
+<p>与 <code>Endpoints</code> 的比较<br>原来的 <code>Endpoints API</code> 提供了在 <code>Kubernetes</code> 中跟踪网络端点的一种简单而直接的方法。随着 <code>Kubernetes</code> 集群和服务逐渐开始为更多的后端 <code>Pod</code> 处理和发送请求， 原来的 <code>API</code> 的局限性变得越来越明显。最明显的是那些因为要处理大量网络端点而带来的挑战。</p>
+<p>由于任一 <code>Service</code> 的所有网络端点都保存在同一个 <code>Endpoints</code> 对象中，这些 <code>Endpoints</code> 对象可能变得非常巨大。对于保持稳定的服务（长时间使用同一组端点），影响不太明显； 即便如此，<code>Kubernetes</code> 的一些使用场景也没有得到很好的服务。</p>
+<p>当某 <code>Service</code>存在很多后端端点并且该工作负载频繁扩缩或上线新更改时，对该 <code>Service</code> 的单个 <code>Endpoints</code> 对象的每次更新都意味着（在控制平面内以及在节点和 API 服务器之间）<code>Kubernetes</code> 集群组件之间会出现大量流量。 这种额外的流量在 <code>CPU</code> 使用方面也有开销。</p>
+<p>使用 <code>EndpointSlices</code> 时，添加或移除单个 <code>Pod</code> 对于正监视变更的客户端会触发相同数量的更新， 但这些更新消息的大小在大规模场景下要小得多。</p>
+<p><code>EndpointSlices</code> 还支持围绕双栈网络和拓扑感知路由等新功能的创新。</p>
+<hr>
+<p>可以使用下面的<code>yaml</code>文件创建<code>Service</code>观察对应的<code>EndpointSlice</code>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; ep.yaml &lt;&lt;EOF</span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: ep</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: ep</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: ep</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">        - name: ep</span><br><span class="line">          image: hysyeah/my-curl:v1</span><br><span class="line">          imagePullPolicy: IfNotPresent</span><br><span class="line">          ports:</span><br><span class="line">            - containerPort: 80</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  name: ep</span><br><span class="line">spec:</span><br><span class="line">  selector:</span><br><span class="line">    app: ep</span><br><span class="line">  ports:</span><br><span class="line">    - name: http</span><br><span class="line">      port: 8080</span><br><span class="line">      targetPort: 8080</span><br><span class="line">  type: NodePort</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  kubernetes git:(master) k get svc --show-labels</span><br><span class="line">NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE    LABELS</span><br><span class="line">ep           NodePort    10.96.112.72     &lt;none&gt;        8080:30143/TCP   23h    &lt;none&gt;</span><br><span class="line">➜  kubernetes git:(master) k get endpointslice --show-labels</span><br><span class="line">NAME           ADDRESSTYPE   PORTS     ENDPOINTS        AGE    LABELS</span><br><span class="line">ep-rsnnk       IPv4          8080      10.244.0.183     23h    endpointslice.kubernetes.io/managed-by=endpointslice-controller.k8s.io,kubernetes.io/service-name=ep</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// staging/src/k8s.io/api/discovery/v1/types.go</span></span><br><span class="line"><span class="comment">// EndpointSlice represents a subset of the endpoints that implement a service.</span></span><br><span class="line"><span class="comment">// For a given service there may be multiple EndpointSlice objects, selected by</span></span><br><span class="line"><span class="comment">// labels, which must be joined to produce the full set of endpoints.</span></span><br><span class="line"><span class="comment">// EndpointSlice表示实现服务的一部分端点。对于给定的服务，可能会有多个EndpointSlice对象，</span></span><br><span class="line"><span class="comment">// 通过标签进行选择，必须将它们合并以产生完整的端点集。</span></span><br><span class="line"><span class="keyword">type</span> EndpointSlice <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta <span class="string">`json:",inline"`</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Standard object's metadata.</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	metav1.ObjectMeta <span class="string">`json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// addressType specifies the type of address carried by this EndpointSlice.</span></span><br><span class="line">	<span class="comment">// All addresses in this slice must be the same type. This field is</span></span><br><span class="line">	<span class="comment">// immutable after creation. The following address types are currently</span></span><br><span class="line">	<span class="comment">// supported:</span></span><br><span class="line">	<span class="comment">// * IPv4: Represents an IPv4 Address.</span></span><br><span class="line">	<span class="comment">// * IPv6: Represents an IPv6 Address.</span></span><br><span class="line">	<span class="comment">// * FQDN: Represents a Fully Qualified Domain Name.</span></span><br><span class="line">	AddressType AddressType <span class="string">`json:"addressType" protobuf:"bytes,4,rep,name=addressType"`</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// endpoints is a list of unique endpoints in this slice. Each slice may</span></span><br><span class="line">	<span class="comment">// include a maximum of 1000 endpoints.</span></span><br><span class="line">	<span class="comment">// +listType=atomic</span></span><br><span class="line">	Endpoints []Endpoint <span class="string">`json:"endpoints" protobuf:"bytes,2,rep,name=endpoints"`</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// ports specifies the list of network ports exposed by each endpoint in</span></span><br><span class="line">	<span class="comment">// this slice. Each port must have a unique name. When ports is empty, it</span></span><br><span class="line">	<span class="comment">// indicates that there are no defined ports. When a port is defined with a</span></span><br><span class="line">	<span class="comment">// nil port value, it indicates "all ports". Each slice may include a</span></span><br><span class="line">	<span class="comment">// maximum of 100 ports.</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	<span class="comment">// +listType=atomic</span></span><br><span class="line">	Ports []EndpointPort <span class="string">`json:"ports" protobuf:"bytes,3,rep,name=ports"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// pkg/controller/endpointslice/endpointslice_controller.go</span></span><br><span class="line"><span class="comment">// 与endpoint_controller有一点区别，endpointslice监听了node</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewController</span><span class="params">(podInformer coreinformers.PodInformer,</span></span></span><br><span class="line"><span class="function"><span class="params">	serviceInformer coreinformers.ServiceInformer,</span></span></span><br><span class="line"><span class="function"><span class="params">	nodeInformer coreinformers.NodeInformer,</span></span></span><br><span class="line"><span class="function"><span class="params">	endpointSliceInformer discoveryinformers.EndpointSliceInformer,</span></span></span><br><span class="line"><span class="function"><span class="params">	maxEndpointsPerSlice <span class="keyword">int32</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">	client clientset.Interface,</span></span></span><br><span class="line"><span class="function"><span class="params">	endpointUpdatesBatchPeriod time.Duration,</span></span></span><br><span class="line"><span class="function"><span class="params">)</span> *<span class="title">Controller</span></span> &#123;</span><br><span class="line">	broadcaster := record.NewBroadcaster()</span><br><span class="line">	recorder := broadcaster.NewRecorder(scheme.Scheme, v1.EventSource&#123;Component: <span class="string">"endpoint-slice-controller"</span>&#125;)</span><br><span class="line"></span><br><span class="line">	endpointslicemetrics.RegisterMetrics()</span><br><span class="line"></span><br><span class="line">	c := &amp;Controller&#123;</span><br><span class="line">		client: client,</span><br><span class="line">		<span class="comment">// This is similar to the DefaultControllerRateLimiter, just with a</span></span><br><span class="line">		<span class="comment">// significantly higher default backoff (1s vs 5ms). This controller</span></span><br><span class="line">		<span class="comment">// processes events that can require significant EndpointSlice changes,</span></span><br><span class="line">		<span class="comment">// such as an update to a Service or Deployment. A more significant</span></span><br><span class="line">		<span class="comment">// rate limit back off here helps ensure that the Controller does not</span></span><br><span class="line">		<span class="comment">// overwhelm the API Server.</span></span><br><span class="line">		queue: workqueue.NewNamedRateLimitingQueue(workqueue.NewMaxOfRateLimiter(</span><br><span class="line">			workqueue.NewItemExponentialFailureRateLimiter(defaultSyncBackOff, maxSyncBackOff),</span><br><span class="line">			<span class="comment">// 10 qps, 100 bucket size. This is only for retry speed and its</span></span><br><span class="line">			<span class="comment">// only the overall factor (not per item).</span></span><br><span class="line">			&amp;workqueue.BucketRateLimiter&#123;Limiter: rate.NewLimiter(rate.Limit(<span class="number">10</span>), <span class="number">100</span>)&#125;,</span><br><span class="line">		), <span class="string">"endpoint_slice"</span>),</span><br><span class="line">		workerLoopPeriod: time.Second,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	serviceInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">		AddFunc: c.onServiceUpdate,</span><br><span class="line">		UpdateFunc: <span class="function"><span class="keyword">func</span><span class="params">(old, cur <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">			c.onServiceUpdate(cur)</span><br><span class="line">		&#125;,</span><br><span class="line">		DeleteFunc: c.onServiceDelete,</span><br><span class="line">	&#125;)</span><br><span class="line">	c.serviceLister = serviceInformer.Lister()</span><br><span class="line">	c.servicesSynced = serviceInformer.Informer().HasSynced</span><br><span class="line"></span><br><span class="line">	podInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">		AddFunc:    c.addPod,</span><br><span class="line">		UpdateFunc: c.updatePod,</span><br><span class="line">		DeleteFunc: c.deletePod,</span><br><span class="line">	&#125;)</span><br><span class="line">	c.podLister = podInformer.Lister()</span><br><span class="line">	c.podsSynced = podInformer.Informer().HasSynced</span><br><span class="line"></span><br><span class="line">	c.nodeLister = nodeInformer.Lister()</span><br><span class="line">	c.nodesSynced = nodeInformer.Informer().HasSynced</span><br><span class="line"></span><br><span class="line">	endpointSliceInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">		AddFunc:    c.onEndpointSliceAdd,</span><br><span class="line">		UpdateFunc: c.onEndpointSliceUpdate,</span><br><span class="line">		DeleteFunc: c.onEndpointSliceDelete,</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	c.endpointSliceLister = endpointSliceInformer.Lister()</span><br><span class="line">	c.endpointSlicesSynced = endpointSliceInformer.Informer().HasSynced</span><br><span class="line">	c.endpointSliceTracker = endpointsliceutil.NewEndpointSliceTracker()</span><br><span class="line"></span><br><span class="line">	c.maxEndpointsPerSlice = maxEndpointsPerSlice</span><br><span class="line"></span><br><span class="line">	c.triggerTimeTracker = endpointutil.NewTriggerTimeTracker()</span><br><span class="line"></span><br><span class="line">	c.eventBroadcaster = broadcaster</span><br><span class="line">	c.eventRecorder = recorder</span><br><span class="line"></span><br><span class="line">	c.endpointUpdatesBatchPeriod = endpointUpdatesBatchPeriod</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> utilfeature.DefaultFeatureGate.Enabled(features.TopologyAwareHints) &#123;</span><br><span class="line">		nodeInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">			AddFunc:    c.addNode,</span><br><span class="line">			UpdateFunc: c.updateNode,</span><br><span class="line">			DeleteFunc: c.deleteNode,</span><br><span class="line">		&#125;)</span><br><span class="line"></span><br><span class="line">		c.topologyCache = topologycache.NewTopologyCache()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	c.reconciler = &amp;reconciler&#123;</span><br><span class="line">		client:               c.client,</span><br><span class="line">		nodeLister:           c.nodeLister,</span><br><span class="line">		maxEndpointsPerSlice: c.maxEndpointsPerSlice,</span><br><span class="line">		endpointSliceTracker: c.endpointSliceTracker,</span><br><span class="line">		metricsCache:         endpointslicemetrics.NewCache(maxEndpointsPerSlice),</span><br><span class="line">		topologyCache:        c.topologyCache,</span><br><span class="line">		eventRecorder:        c.eventRecorder,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> c</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>syncService</code>是循环处理函数，从<code>workqueue</code>中取<code>key</code>然后进行处理</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/controller/endpointslice/endpointslice_controller.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Controller)</span> <span class="title">syncService</span><span class="params">(key <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	startTime := time.Now()</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		klog.V(<span class="number">4</span>).Infof(<span class="string">"Finished syncing service %q endpoint slices. (%v)"</span>, key, time.Since(startTime))</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	namespace, name, err := cache.SplitMetaNamespaceKey(key)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	service, err := c.serviceLister.Services(namespace).Get(name)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> !apierrors.IsNotFound(err) &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		c.triggerTimeTracker.DeleteService(namespace, name)</span><br><span class="line">		c.reconciler.deleteService(namespace, name)</span><br><span class="line">		c.endpointSliceTracker.DeleteService(namespace, name)</span><br><span class="line">		<span class="comment">// The service has been deleted, return nil so that it won't be retried.</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> service.Spec.Type == v1.ServiceTypeExternalName &#123;</span><br><span class="line">		<span class="comment">// services with Type ExternalName receive no endpoints from this controller;</span></span><br><span class="line">		<span class="comment">// Ref: https://issues.k8s.io/105986</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> service.Spec.Selector == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// services without a selector receive no endpoint slices from this controller;</span></span><br><span class="line">		<span class="comment">// these services will receive endpoint slices that are created out-of-band via the REST API.</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	klog.V(<span class="number">5</span>).Infof(<span class="string">"About to update endpoint slices for service %q"</span>, key)</span><br><span class="line"></span><br><span class="line">	podLabelSelector := labels.Set(service.Spec.Selector).AsSelectorPreValidated()</span><br><span class="line">	pods, err := c.podLister.Pods(service.Namespace).List(podLabelSelector)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// Since we're getting stuff from a local cache, it is basically</span></span><br><span class="line">		<span class="comment">// impossible to get this error.</span></span><br><span class="line">		c.eventRecorder.Eventf(service, v1.EventTypeWarning, <span class="string">"FailedToListPods"</span>,</span><br><span class="line">			<span class="string">"Error listing Pods for Service %s/%s: %v"</span>, service.Namespace, service.Name, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	esLabelSelector := labels.Set(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		discovery.LabelServiceName: service.Name,</span><br><span class="line">		discovery.LabelManagedBy:   controllerName,</span><br><span class="line">	&#125;).AsSelectorPreValidated()</span><br><span class="line">	endpointSlices, err := c.endpointSliceLister.EndpointSlices(service.Namespace).List(esLabelSelector)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// Since we're getting stuff from a local cache, it is basically</span></span><br><span class="line">		<span class="comment">// impossible to get this error.</span></span><br><span class="line">		c.eventRecorder.Eventf(service, v1.EventTypeWarning, <span class="string">"FailedToListEndpointSlices"</span>,</span><br><span class="line">			<span class="string">"Error listing Endpoint Slices for Service %s/%s: %v"</span>, service.Namespace, service.Name, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Drop EndpointSlices that have been marked for deletion to prevent the controller from getting stuck.</span></span><br><span class="line">	endpointSlices = dropEndpointSlicesPendingDeletion(endpointSlices)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> c.endpointSliceTracker.StaleSlices(service, endpointSlices) &#123;</span><br><span class="line">		<span class="keyword">return</span> endpointsliceutil.NewStaleInformerCache(<span class="string">"EndpointSlice informer cache is out of date"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// We call ComputeEndpointLastChangeTriggerTime here to make sure that the</span></span><br><span class="line">	<span class="comment">// state of the trigger time tracker gets updated even if the sync turns out</span></span><br><span class="line">	<span class="comment">// to be no-op and we don't update the EndpointSlice objects.</span></span><br><span class="line">	lastChangeTriggerTime := c.triggerTimeTracker.</span><br><span class="line">		ComputeEndpointLastChangeTriggerTime(namespace, service, pods)</span><br><span class="line"></span><br><span class="line">	err = c.reconciler.reconcile(service, pods, endpointSlices, lastChangeTriggerTime)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.eventRecorder.Eventf(service, v1.EventTypeWarning, <span class="string">"FailedToUpdateEndpointSlices"</span>,</span><br><span class="line">			<span class="string">"Error updating Endpoint Slices for Service %s/%s: %v"</span>, service.Namespace, service.Name, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// reconcile takes a set of pods currently matching a service selector and</span></span><br><span class="line"><span class="comment">// compares them with the endpoints already present in any existing endpoint</span></span><br><span class="line"><span class="comment">// slices for the given service. It creates, updates, or deletes endpoint slices</span></span><br><span class="line"><span class="comment">// to ensure the desired set of pods are represented by endpoint slices.</span></span><br><span class="line"><span class="comment">// pkg/controller/endpointslice/reconciler.go</span></span><br><span class="line"><span class="comment">// 参数为service及匹配service selector的pods,已经存在的endpointslice</span></span><br><span class="line"><span class="comment">// 作用:创建，更新或删除endpointslice,确保endpointslice能匹配所有预期的pod</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *reconciler)</span> <span class="title">reconcile</span><span class="params">(service *corev1.Service, pods []*corev1.Pod, existingSlices []*discovery.EndpointSlice, triggerTime time.Time)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	slicesToDelete := []*discovery.EndpointSlice&#123;&#125;                                    <span class="comment">// slices that are no longer  matching any address the service has</span></span><br><span class="line">	errs := []error&#123;&#125;                                                                 <span class="comment">// all errors generated in the process of reconciling</span></span><br><span class="line">	slicesByAddressType := <span class="built_in">make</span>(<span class="keyword">map</span>[discovery.AddressType][]*discovery.EndpointSlice) <span class="comment">// slices by address type</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// addresses that this service supports [o(1) find]</span></span><br><span class="line">    <span class="comment">// 获得server支持的AddressesTypes,serviceSupportedAddressesTypes是一个map实现的set</span></span><br><span class="line">    <span class="comment">// * IPv4: Represents an IPv4 Address.</span></span><br><span class="line">	<span class="comment">// * IPv6: Represents an IPv6 Address.</span></span><br><span class="line">	<span class="comment">// * FQDN: Represents a Fully Qualified Domain Name.</span></span><br><span class="line">	serviceSupportedAddressesTypes := getAddressTypesForService(service)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// loop through slices identifying their address type.</span></span><br><span class="line">	<span class="comment">// slices that no longer match address type supported by services</span></span><br><span class="line">	<span class="comment">// go to delete, other slices goes to the reconciler machinery</span></span><br><span class="line">	<span class="comment">// for further adjustment</span></span><br><span class="line">	<span class="keyword">for</span> _, existingSlice := <span class="keyword">range</span> existingSlices &#123;</span><br><span class="line">		<span class="comment">// service no longer supports that address type, add it to deleted slices</span></span><br><span class="line">		<span class="keyword">if</span> _, ok := serviceSupportedAddressesTypes[existingSlice.AddressType]; !ok &#123;</span><br><span class="line">			<span class="keyword">if</span> r.topologyCache != <span class="literal">nil</span> &#123;</span><br><span class="line">				svcKey, err := serviceControllerKey(existingSlice)</span><br><span class="line">				<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">					klog.Warningf(<span class="string">"Couldn't get key to remove EndpointSlice from topology cache %+v: %v"</span>, existingSlice, err)</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					r.topologyCache.RemoveHints(svcKey, existingSlice.AddressType)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">            <span class="comment">// 如果是这个Service不支持的AddressType则加入删除列表</span></span><br><span class="line">			slicesToDelete = <span class="built_in">append</span>(slicesToDelete, existingSlice)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// add list if it is not on our map</span></span><br><span class="line">		<span class="keyword">if</span> _, ok := slicesByAddressType[existingSlice.AddressType]; !ok &#123;</span><br><span class="line">			slicesByAddressType[existingSlice.AddressType] = <span class="built_in">make</span>([]*discovery.EndpointSlice, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		slicesByAddressType[existingSlice.AddressType] = <span class="built_in">append</span>(slicesByAddressType[existingSlice.AddressType], existingSlice)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// reconcile for existing.</span></span><br><span class="line">	<span class="keyword">for</span> addressType := <span class="keyword">range</span> serviceSupportedAddressesTypes &#123;</span><br><span class="line">		existingSlices := slicesByAddressType[addressType]</span><br><span class="line">        <span class="comment">// 对不同的AddressType进行调谐</span></span><br><span class="line">		err := r.reconcileByAddressType(service, pods, existingSlices, triggerTime, addressType)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			errs = <span class="built_in">append</span>(errs, err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// delete those which are of addressType that is no longer supported</span></span><br><span class="line">	<span class="comment">// by the service</span></span><br><span class="line">	<span class="keyword">for</span> _, sliceToDelete := <span class="keyword">range</span> slicesToDelete &#123;</span><br><span class="line">		err := r.client.DiscoveryV1().EndpointSlices(service.Namespace).Delete(context.TODO(), sliceToDelete.Name, metav1.DeleteOptions&#123;&#125;)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			errs = <span class="built_in">append</span>(errs, fmt.Errorf(<span class="string">"error deleting %s EndpointSlice for Service %s/%s: %w"</span>, sliceToDelete.Name, service.Namespace, service.Name, err))</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			r.endpointSliceTracker.ExpectDeletion(sliceToDelete)</span><br><span class="line">			metrics.EndpointSliceChanges.WithLabelValues(<span class="string">"delete"</span>).Inc()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> utilerrors.NewAggregate(errs)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// reconcileByAddressType takes a set of pods currently matching a service selector and</span></span><br><span class="line"><span class="comment">// compares them with the endpoints already present in any existing endpoint</span></span><br><span class="line"><span class="comment">// slices (by address type) for the given service. It creates, updates, or deletes endpoint slices</span></span><br><span class="line"><span class="comment">// to ensure the desired set of pods are represented by endpoint slices.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *reconciler)</span> <span class="title">reconcileByAddressType</span><span class="params">(service *corev1.Service, pods []*corev1.Pod, existingSlices []*discovery.EndpointSlice, triggerTime time.Time, addressType discovery.AddressType)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	errs := []error&#123;&#125;</span><br><span class="line"></span><br><span class="line">	slicesToCreate := []*discovery.EndpointSlice&#123;&#125;</span><br><span class="line">	slicesToUpdate := []*discovery.EndpointSlice&#123;&#125;</span><br><span class="line">	slicesToDelete := []*discovery.EndpointSlice&#123;&#125;</span><br><span class="line">	events := []*topologycache.EventBuilder&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Build data structures for existing state.</span></span><br><span class="line">	existingSlicesByPortMap := <span class="keyword">map</span>[endpointutil.PortMapKey][]*discovery.EndpointSlice&#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> _, existingSlice := <span class="keyword">range</span> existingSlices &#123;</span><br><span class="line">		<span class="keyword">if</span> ownedBy(existingSlice, service) &#123;</span><br><span class="line">			epHash := endpointutil.NewPortMapKey(existingSlice.Ports)</span><br><span class="line">			existingSlicesByPortMap[epHash] = <span class="built_in">append</span>(existingSlicesByPortMap[epHash], existingSlice)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			slicesToDelete = <span class="built_in">append</span>(slicesToDelete, existingSlice)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Build data structures for desired state.</span></span><br><span class="line">	desiredMetaByPortMap := <span class="keyword">map</span>[endpointutil.PortMapKey]*endpointMeta&#123;&#125;</span><br><span class="line">	desiredEndpointsByPortMap := <span class="keyword">map</span>[endpointutil.PortMapKey]endpointsliceutil.EndpointSet&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, pod := <span class="keyword">range</span> pods &#123;</span><br><span class="line">		<span class="keyword">if</span> !endpointutil.ShouldPodBeInEndpoints(pod, <span class="literal">true</span>) &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		endpointPorts := getEndpointPorts(service, pod)</span><br><span class="line">		epHash := endpointutil.NewPortMapKey(endpointPorts)</span><br><span class="line">		<span class="keyword">if</span> _, ok := desiredEndpointsByPortMap[epHash]; !ok &#123;</span><br><span class="line">			desiredEndpointsByPortMap[epHash] = endpointsliceutil.EndpointSet&#123;&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> _, ok := desiredMetaByPortMap[epHash]; !ok &#123;</span><br><span class="line">			desiredMetaByPortMap[epHash] = &amp;endpointMeta&#123;</span><br><span class="line">				addressType: addressType,</span><br><span class="line">				ports:       endpointPorts,</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		node, err := r.nodeLister.Get(pod.Spec.NodeName)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// we are getting the information from the local informer,</span></span><br><span class="line">			<span class="comment">// an error different than IsNotFound should not happen</span></span><br><span class="line">			<span class="keyword">if</span> !errors.IsNotFound(err) &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// If the Node specified by the Pod doesn't exist we want to requeue the Service so we</span></span><br><span class="line">			<span class="comment">// retry later, but also update the EndpointSlice without the problematic Pod.</span></span><br><span class="line">			<span class="comment">// Theoretically, the pod Garbage Collector will remove the Pod, but we want to avoid</span></span><br><span class="line">			<span class="comment">// situations where a reference from a Pod to a missing node can leave the EndpointSlice</span></span><br><span class="line">			<span class="comment">// stuck forever.</span></span><br><span class="line">			<span class="comment">// On the other side, if the service.Spec.PublishNotReadyAddresses is set we just add the</span></span><br><span class="line">			<span class="comment">// Pod, since the user is explicitly indicating that the Pod address should be published.</span></span><br><span class="line">			<span class="keyword">if</span> !service.Spec.PublishNotReadyAddresses &#123;</span><br><span class="line">				klog.Warningf(<span class="string">"skipping Pod %s for Service %s/%s: Node %s Not Found"</span>, pod.Name, service.Namespace, service.Name, pod.Spec.NodeName)</span><br><span class="line">				errs = <span class="built_in">append</span>(errs, fmt.Errorf(<span class="string">"skipping Pod %s for Service %s/%s: Node %s Not Found"</span>, pod.Name, service.Namespace, service.Name, pod.Spec.NodeName))</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		endpoint := podToEndpoint(pod, node, service, addressType)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(endpoint.Addresses) &gt; <span class="number">0</span> &#123;</span><br><span class="line">			desiredEndpointsByPortMap[epHash].Insert(&amp;endpoint)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	spMetrics := metrics.NewServicePortCache()</span><br><span class="line">	totalAdded := <span class="number">0</span></span><br><span class="line">	totalRemoved := <span class="number">0</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Determine changes necessary for each group of slices by port map.</span></span><br><span class="line">	<span class="keyword">for</span> portMap, desiredEndpoints := <span class="keyword">range</span> desiredEndpointsByPortMap &#123;</span><br><span class="line">		numEndpoints := <span class="built_in">len</span>(desiredEndpoints)</span><br><span class="line">		pmSlicesToCreate, pmSlicesToUpdate, pmSlicesToDelete, added, removed := r.reconcileByPortMapping(</span><br><span class="line">			service, existingSlicesByPortMap[portMap], desiredEndpoints, desiredMetaByPortMap[portMap])</span><br><span class="line"></span><br><span class="line">		totalAdded += added</span><br><span class="line">		totalRemoved += removed</span><br><span class="line"></span><br><span class="line">		spMetrics.Set(portMap, metrics.EfficiencyInfo&#123;</span><br><span class="line">			Endpoints: numEndpoints,</span><br><span class="line">			Slices:    <span class="built_in">len</span>(existingSlicesByPortMap[portMap]) + <span class="built_in">len</span>(pmSlicesToCreate) - <span class="built_in">len</span>(pmSlicesToDelete),</span><br><span class="line">		&#125;)</span><br><span class="line"></span><br><span class="line">		slicesToCreate = <span class="built_in">append</span>(slicesToCreate, pmSlicesToCreate...)</span><br><span class="line">		slicesToUpdate = <span class="built_in">append</span>(slicesToUpdate, pmSlicesToUpdate...)</span><br><span class="line">		slicesToDelete = <span class="built_in">append</span>(slicesToDelete, pmSlicesToDelete...)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If there are unique sets of ports that are no longer desired, mark</span></span><br><span class="line">	<span class="comment">// the corresponding endpoint slices for deletion.</span></span><br><span class="line">	<span class="keyword">for</span> portMap, existingSlices := <span class="keyword">range</span> existingSlicesByPortMap &#123;</span><br><span class="line">		<span class="keyword">if</span> _, ok := desiredEndpointsByPortMap[portMap]; !ok &#123;</span><br><span class="line">			slicesToDelete = <span class="built_in">append</span>(slicesToDelete, existingSlices...)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// When no endpoint slices would usually exist, we need to add a placeholder.</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(existingSlices) == <span class="built_in">len</span>(slicesToDelete) &amp;&amp; <span class="built_in">len</span>(slicesToCreate) &lt; <span class="number">1</span> &#123;</span><br><span class="line">		<span class="comment">// Check for existing placeholder slice outside of the core control flow</span></span><br><span class="line">		placeholderSlice := newEndpointSlice(service, &amp;endpointMeta&#123;ports: []discovery.EndpointPort&#123;&#125;, addressType: addressType&#125;)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(slicesToDelete) == <span class="number">1</span> &amp;&amp; placeholderSliceCompare.DeepEqual(slicesToDelete[<span class="number">0</span>], placeholderSlice) &#123;</span><br><span class="line">			<span class="comment">// We are about to unnecessarily delete/recreate the placeholder, remove it now.</span></span><br><span class="line">			slicesToDelete = slicesToDelete[:<span class="number">0</span>]</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			slicesToCreate = <span class="built_in">append</span>(slicesToCreate, placeholderSlice)</span><br><span class="line">		&#125;</span><br><span class="line">		spMetrics.Set(endpointutil.NewPortMapKey(placeholderSlice.Ports), metrics.EfficiencyInfo&#123;</span><br><span class="line">			Endpoints: <span class="number">0</span>,</span><br><span class="line">			Slices:    <span class="number">1</span>,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	metrics.EndpointsAddedPerSync.WithLabelValues().Observe(<span class="keyword">float64</span>(totalAdded))</span><br><span class="line">	metrics.EndpointsRemovedPerSync.WithLabelValues().Observe(<span class="keyword">float64</span>(totalRemoved))</span><br><span class="line"></span><br><span class="line">	serviceNN := types.NamespacedName&#123;Name: service.Name, Namespace: service.Namespace&#125;</span><br><span class="line">	r.metricsCache.UpdateServicePortCache(serviceNN, spMetrics)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Topology hints are assigned per address type. This means it is</span></span><br><span class="line">	<span class="comment">// theoretically possible for endpoints of one address type to be assigned</span></span><br><span class="line">	<span class="comment">// hints while another endpoints of another address type are not.</span></span><br><span class="line">	si := &amp;topologycache.SliceInfo&#123;</span><br><span class="line">		ServiceKey:  fmt.Sprintf(<span class="string">"%s/%s"</span>, service.Namespace, service.Name),</span><br><span class="line">		AddressType: addressType,</span><br><span class="line">		ToCreate:    slicesToCreate,</span><br><span class="line">		ToUpdate:    slicesToUpdate,</span><br><span class="line">		Unchanged:   unchangedSlices(existingSlices, slicesToUpdate, slicesToDelete),</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> r.topologyCache != <span class="literal">nil</span> &amp;&amp; hintsEnabled(service.Annotations) &#123;</span><br><span class="line">		slicesToCreate, slicesToUpdate, events = r.topologyCache.AddHints(si)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> r.topologyCache != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> r.topologyCache.HasPopulatedHints(si.ServiceKey) &#123;</span><br><span class="line">				klog.InfoS(<span class="string">"TopologyAwareHints annotation has changed, removing hints"</span>, <span class="string">"serviceKey"</span>, si.ServiceKey, <span class="string">"addressType"</span>, si.AddressType)</span><br><span class="line">				events = <span class="built_in">append</span>(events, &amp;topologycache.EventBuilder&#123;</span><br><span class="line">					EventType: corev1.EventTypeWarning,</span><br><span class="line">					Reason:    <span class="string">"TopologyAwareHintsDisabled"</span>,</span><br><span class="line">					Message:   topologycache.FormatWithAddressType(topologycache.TopologyAwareHintsDisabled, si.AddressType),</span><br><span class="line">				&#125;)</span><br><span class="line">			&#125;</span><br><span class="line">			r.topologyCache.RemoveHints(si.ServiceKey, addressType)</span><br><span class="line">		&#125;</span><br><span class="line">		slicesToCreate, slicesToUpdate = topologycache.RemoveHintsFromSlices(si)</span><br><span class="line">	&#125;</span><br><span class="line">	err := r.finalize(service, slicesToCreate, slicesToUpdate, slicesToDelete, triggerTime)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		errs = <span class="built_in">append</span>(errs, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, event := <span class="keyword">range</span> events &#123;</span><br><span class="line">		r.eventRecorder.Event(service, event.EventType, event.Reason, event.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> utilerrors.NewAggregate(errs)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>为了管理服务的<code>EndpointSlices</code>分发，<code>Kubernetes</code>维护了一个名为<code>TopologyCache</code>的<code>EndpointSlices</code>缓存。<code>TopologyCache</code>跟踪服务所有<code>EndpointSlices</code>的状态，并允许<code>Kubernetes</code>快速、高效地将流量路由到适当的端点。</p>
+<p><code>TopologyCache</code>是由服务控制器提供的端点拓扑信息构建的。控制器根据标签和选择器确定服务端点的拓扑，并生成一组基于拓扑信息的<code>EndpointSlices</code>，并使用新的<code>EndpointSlices</code>更新<code>TopologyCache</code>。</p>
+<hr>
+<p>REF:<br>1.<a href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/endpoint-slices/" target="_blank" rel="noopener">https://kubernetes.io/zh-cn/docs/concepts/services-networking/endpoint-slices/</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/kube-controller/" rel="tag"><i class="fa fa-tag">kube-controller</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/05/08/kube-controller之deployment/" rel="prev" title="kube-controller之deployment">
+                <i class="fa fa-chevron-left"></i> kube-controller之deployment
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/05/03/kube-controller之endpoint/" rel="prev" title="kube-controller之endpoint">
+                kube-controller之endpoint <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">318</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>
