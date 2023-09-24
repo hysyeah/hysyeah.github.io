@@ -380,6 +380,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/06/16/kube-controller之daemonset/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2023/06/16/kube-controller之daemonset/" class="post-title-link" itemprop="url">kube-controller之daemonset</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-06-16 22:11:38" itemprop="dateCreated datePublished" datetime="2023-06-16T22:11:38+08:00">2023-06-16</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              Kubernetes中的DaemonSet Controller是负责管理DaemonSet资源的控制器，确保在集群中的每个节点上都运行指定数量的Pod副本。DaemonSet Controller是一种类型的控制器，用于在每个节点上运行一个Pod副本，以便在整个集群中覆盖所有节点。DaemonSe
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2023/06/16/kube-controller之daemonset/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/06/15/kube-controller之resource-quota/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3302,160 +3455,6 @@ Endpoint 可以手动创建，也可以由 Kubernetes 的 service 控制器自�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/29/apiserver-builder-alpha/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2023/04/29/apiserver-builder-alpha/" class="post-title-link" itemprop="url">apiserver-builder-alpha</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2023-04-29 15:54:35" itemprop="dateCreated datePublished" datetime="2023-04-29T15:54:35+08:00">2023-04-29</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              k8s有两种扩展kubernetes API的方式Custom Resources和Kubernetes API Aggregation这两者最大的区别在于CRD通过在kubernetes API内部添加资源来扩展API,而server aggregation则是通过外部服务。
-Aggregatio
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2023/04/29/apiserver-builder-alpha/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3502,7 +3501,7 @@ Aggregatio
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">319</span>
+                    <span class="site-state-item-count">320</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3666,7 +3665,7 @@ Aggregatio
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

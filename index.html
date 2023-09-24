@@ -1010,6 +1010,160 @@ Admission Webhook是Kubernetes提供的一种扩展机制，用于在资源被�
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/09/24/golang-container-list实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2023/09/24/golang-container-list实现/" class="post-title-link" itemprop="url">golang container list实现</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-09-24 12:05:27" itemprop="dateCreated datePublished" datetime="2023-09-24T12:05:27+08:00">2023-09-24</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              golang源码中的container列表实现。
+源码实现// Element 表示列表中的一个节点type Element struct &#123;	// Next and previous pointers in the doubly-linked list of elements.	// T
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2023/09/24/golang-container-list实现/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/09/24/k8s-expiring-lru-cache/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3308,159 +3462,6 @@ resource.k8s.io/v1alpha2 API 组
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/06/16/kube-controller之daemonset/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2023/06/16/kube-controller之daemonset/" class="post-title-link" itemprop="url">kube-controller之daemonset</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2023-06-16 22:11:38" itemprop="dateCreated datePublished" datetime="2023-06-16T22:11:38+08:00">2023-06-16</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              Kubernetes中的DaemonSet Controller是负责管理DaemonSet资源的控制器，确保在集群中的每个节点上都运行指定数量的Pod副本。DaemonSet Controller是一种类型的控制器，用于在每个节点上运行一个Pod副本，以便在整个集群中覆盖所有节点。DaemonSe
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2023/06/16/kube-controller之daemonset/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3507,7 +3508,7 @@ resource.k8s.io/v1alpha2 API 组
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">319</span>
+                    <span class="site-state-item-count">320</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3671,7 +3672,7 @@ resource.k8s.io/v1alpha2 API 组
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

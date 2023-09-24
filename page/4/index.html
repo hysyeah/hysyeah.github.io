@@ -380,6 +380,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/03/01/不同的进程可以同时绑定同一个端口吗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2023/03/01/不同的进程可以同时绑定同一个端口吗/" class="post-title-link" itemprop="url">不同的进程可以同时绑定同一个端口吗</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-03-01 19:34:52" itemprop="dateCreated datePublished" datetime="2023-03-01T19:34:52+08:00">2023-03-01</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              不同的进程可以同时绑定同一个端口吗?当听到这个问题的时候，你的第一反应是不是肯定不行啊(如果你在工作中遇到过address already in use的情况)。大家都知道tcp通过四元组来确定一个唯一的连接，所以说理论上说不同的进程应该不能使用同一个端口。
+其实在Linux3.9内核中引入了一个s
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2023/03/01/不同的进程可以同时绑定同一个端口吗/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2022/04/05/rsync的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3293,160 +3447,6 @@ errors中提供的方法// 根据给定的字符串返回一个error类型func N
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/07/16/Go-flag/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/07/16/Go-flag/" class="post-title-link" itemprop="url">Go-flag</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-07-16 19:40:30" itemprop="dateCreated datePublished" datetime="2020-07-16T19:40:30+08:00">2020-07-16</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              标准库flag实现了命令行参数的解析。
-func main() &#123;	//ip类型是指针,存放的是指向flagname的指针	var ip = flag.Int("flagname", 1234, "help message")	var flagvar string	//将命令行参数值写入到
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/07/16/Go-flag/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3493,7 +3493,7 @@ func main() &#123;	//ip类型是指针,存放的是指向flagname的指针	var i
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">319</span>
+                    <span class="site-state-item-count">320</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3657,7 +3657,7 @@ func main() &#123;	//ip类型是指针,存放的是指向flagname的指针	var i
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
