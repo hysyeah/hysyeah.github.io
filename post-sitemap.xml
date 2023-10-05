@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://hysyeah.github.io/2023/09/24/k8s-list%E8%AF%B7%E6%B1%82%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
+        <lastmod>2023-10-05T11:07:36.549Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/2023/09/24/golang-container-list%E5%AE%9E%E7%8E%B0/</loc>
         <lastmod>2023-09-24T05:29:43.848Z</lastmod>
         <changefreq>weekly</changefreq>
