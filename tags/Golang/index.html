@@ -471,7 +471,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">321</span>
+                    <span class="site-state-item-count">322</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -564,6 +564,8 @@
                     
                   
                     
+                    
+                      
                     
                       
                     
@@ -1223,7 +1225,8 @@
   <script type="text/javascript" src="/js/text.js"></script>
 </body>
 </html>
-                  slice.hits.forEach(function (hit) {
+   var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
                       result += text.substring(prevEnd, hit.position);
                       var end = hit.position + hit.length;
                       result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
