@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="kube-state-metrics（KSM）是一个简单的服务，它监听Kubernetes API服务器并生成关于对象状态的指标（请参见下面“指标”部分中的示例）。它的重点不在于个别Kubernetes组件的健康状况，而是关注其中各种对象（如部署、节点和Pod）的健康状况。 kube-state-metrics通过从Kubernetes API对象生成指标，而无需修改这些对象，确保了其提供的功能与">
+<meta name="keywords" content="k8s,kube-state-metrics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kube-state-metrics">
+<meta property="og:url" content="https://hysyeah.github.io/2023/12/24/kube-state-metrics/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="kube-state-metrics（KSM）是一个简单的服务，它监听Kubernetes API服务器并生成关于对象状态的指标（请参见下面“指标”部分中的示例）。它的重点不在于个别Kubernetes组件的健康状况，而是关注其中各种对象（如部署、节点和Pod）的健康状况。 kube-state-metrics通过从Kubernetes API对象生成指标，而无需修改这些对象，确保了其提供的功能与">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2024-01-13T08:06:23.911Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kube-state-metrics">
+<meta name="twitter:description" content="kube-state-metrics（KSM）是一个简单的服务，它监听Kubernetes API服务器并生成关于对象状态的指标（请参见下面“指标”部分中的示例）。它的重点不在于个别Kubernetes组件的健康状况，而是关注其中各种对象（如部署、节点和Pod）的健康状况。 kube-state-metrics通过从Kubernetes API对象生成指标，而无需修改这些对象，确保了其提供的功能与">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/12/24/kube-state-metrics/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kube-state-metrics | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/12/24/kube-state-metrics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kube-state-metrics
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-12-24 21:52:04" itemprop="dateCreated datePublished" datetime="2023-12-24T21:52:04+08:00">2023-12-24</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>kube-state-metrics（KSM）是一个简单的服务，它监听Kubernetes API服务器并生成关于对象状态的指标（请参见下面“指标”部分中的示例）。它的重点不在于个别Kubernetes组件的健康状况，而是关注其中各种对象（如部署、节点和Pod）的健康状况。</p>
+<p>kube-state-metrics通过从Kubernetes API对象生成指标，而无需修改这些对象，确保了其提供的功能与Kubernetes API对象本身具有相同的稳定性。这意味着在某些情况下，kube-state-metrics可能不会显示与kubectl完全相同的值，因为kubectl会应用一定的启发式方法来显示可理解的消息。kube-state-metrics提供了未经修改的来自Kubernetes API的原始数据，这样用户就可以获得他们所需的所有数据，并根据需要执行启发式方法。</p>
+<p>这些指标通过HTTP端点 /metrics 在监听端口（默认为8080）上以纯文本形式导出。它们旨在被Prometheus本身或与抓取Prometheus客户端端点兼容的抓取器消费。您也可以在浏览器中打开 /metrics 来查看原始指标数据。请注意，/metrics 端点上公开的指标反映了Kubernetes集群的当前状态。当Kubernetes对象被删除时，它们将不再在 /metrics 端点上可见。</p>
+<hr>
+<p>为<code>kube-state-metrics</code>新增自定义的crd指标<br>指标如下  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Metric Name</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_cpu_total</td>
+<td>用户可以使用的cpu</td>
+</tr>
+<tr>
+<td>user_memory_total</td>
+<td>用户可以使用的memory</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code>kube-state-metrics</code>在<code>internal/store</code>目录下记录了所有的<code>metricFamily</code>,所以我们需要的指标写在这个目录下面。</p>
+<p>在<code>internal/store</code>下面新增了三个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user_types.go</span><br><span class="line">user_test.go</span><br><span class="line">user.go</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// internal/store/user_types.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为我们这次监听的CRD是kubeshper User，这里直接把代码copy过来</span></span><br><span class="line"><span class="comment">// 当然也不是一定要使用结构体，一些情况下可以使用unstructured.Unstructured&#123;&#125;</span></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	metav1.TypeMeta <span class="string">`json:",inline"`</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	metav1.ObjectMeta <span class="string">`json:"metadata,omitempty"`</span></span><br><span class="line"></span><br><span class="line">	Spec UserSpec <span class="string">`json:"spec"`</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	Status UserStatus <span class="string">`json:"status,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> FinalizerName <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// UserSpec defines the desired state of User</span></span><br><span class="line"><span class="keyword">type</span> UserSpec <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Unique email address(https://www.ietf.org/rfc/rfc5322.txt).</span></span><br><span class="line">	Email <span class="keyword">string</span> <span class="string">`json:"email"`</span></span><br><span class="line">	<span class="comment">// The preferred written or spoken language for the user.</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	Lang <span class="keyword">string</span> <span class="string">`json:"lang,omitempty"`</span></span><br><span class="line">	<span class="comment">// Description of the user.</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	Description <span class="keyword">string</span> <span class="string">`json:"description,omitempty"`</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	DisplayName <span class="keyword">string</span> <span class="string">`json:"displayName,omitempty"`</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	Groups []<span class="keyword">string</span> <span class="string">`json:"groups,omitempty"`</span></span><br><span class="line"></span><br><span class="line">	EncryptedPassword <span class="keyword">string</span> <span class="string">`json:"password,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> UserState <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// These are the valid phases of a user.</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	<span class="comment">// UserActive means the user is available.</span></span><br><span class="line">	UserActive UserState = <span class="string">"Active"</span></span><br><span class="line">	<span class="comment">// UserDisabled means the user is disabled.</span></span><br><span class="line">	UserDisabled UserState = <span class="string">"Disabled"</span></span><br><span class="line">	<span class="comment">// UserAuthLimitExceeded means restrict user login.</span></span><br><span class="line">	UserAuthLimitExceeded UserState = <span class="string">"AuthLimitExceeded"</span></span><br><span class="line"></span><br><span class="line">	AuthenticatedSuccessfully = <span class="string">"authenticated successfully"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// UserStatus defines the observed state of User</span></span><br><span class="line"><span class="keyword">type</span> UserStatus <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// The user status</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	State UserState <span class="string">`json:"state,omitempty"`</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	Reason <span class="keyword">string</span> <span class="string">`json:"reason,omitempty"`</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	LastTransitionTime *metav1.Time <span class="string">`json:"lastTransitionTime,omitempty"`</span></span><br><span class="line">	<span class="comment">// Last login attempt timestamp</span></span><br><span class="line">	<span class="comment">// +optional</span></span><br><span class="line">	LastLoginTime *metav1.Time <span class="string">`json:"lastLoginTime,omitempty"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// internal/store/user.go</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"context"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/api/resource"</span></span><br><span class="line">	metav1 <span class="string">"k8s.io/apimachinery/pkg/apis/meta/v1"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/runtime"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/runtime/schema"</span></span><br><span class="line">	<span class="string">"k8s.io/apimachinery/pkg/watch"</span></span><br><span class="line">	<span class="string">"k8s.io/client-go/dynamic"</span></span><br><span class="line">	clientset <span class="string">"k8s.io/client-go/kubernetes"</span></span><br><span class="line">	<span class="string">"k8s.io/client-go/tools/cache"</span></span><br><span class="line">	<span class="string">"k8s.io/kube-state-metrics/v2/pkg/metric"</span></span><br><span class="line">	generator <span class="string">"k8s.io/kube-state-metrics/v2/pkg/metric_generator"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> userAnnotationCpuLimitKey = <span class="string">"user-cpu-limit"</span></span><br><span class="line"><span class="keyword">var</span> userAnnotationMemoryLimitKey = <span class="string">"user-memory-limit"</span></span><br><span class="line"><span class="keyword">var</span> schemeGroupVersionResource = schema.GroupVersionResource&#123;Group: <span class="string">"iam.kubesphere.io"</span>, Version: <span class="string">"v1alpha2"</span>, Resource: <span class="string">"users"</span>&#125;</span><br><span class="line"><span class="keyword">var</span> descUserDefaultLabels = []<span class="keyword">string</span>&#123;<span class="string">"user"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CpuOrMemory <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Cpu CpuOrMemory = <span class="string">"cpu"</span></span><br><span class="line"><span class="keyword">var</span> Memory CpuOrMemory = <span class="string">"memory"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义了MetricFamilies</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">userMetricFamilies</span><span class="params">()</span> []<span class="title">generator</span>.<span class="title">FamilyGenerator</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> []generator.FamilyGenerator&#123;</span><br><span class="line">		*generator.NewFamilyGenerator(</span><br><span class="line">			<span class="string">"kube_user_cpu_total"</span>,</span><br><span class="line">			<span class="string">"The number of user's cpu core."</span>,</span><br><span class="line">			metric.Gauge,</span><br><span class="line">			<span class="string">""</span>,</span><br><span class="line">			wrapUserFunc(<span class="function"><span class="keyword">func</span><span class="params">(u *User)</span> *<span class="title">metric</span>.<span class="title">Family</span></span> &#123;</span><br><span class="line">				<span class="keyword">return</span> &amp;metric.Family&#123;</span><br><span class="line">					Metrics: []*metric.Metric&#123;</span><br><span class="line">						&#123;</span><br><span class="line">                            <span class="comment">// 设置metric kube_user_cpu_total的值</span></span><br><span class="line">							Value: getUserLimit(u, Cpu),</span><br><span class="line">						&#125;,</span><br><span class="line">					&#125;,</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;),</span><br><span class="line">		),</span><br><span class="line">		*generator.NewFamilyGenerator(</span><br><span class="line">			<span class="string">"kube_user_memory_total"</span>,</span><br><span class="line">			<span class="string">"The byte of user's memory."</span>,</span><br><span class="line">			metric.Gauge,</span><br><span class="line">			<span class="string">""</span>,</span><br><span class="line">			wrapUserFunc(<span class="function"><span class="keyword">func</span><span class="params">(u *User)</span> *<span class="title">metric</span>.<span class="title">Family</span></span> &#123;</span><br><span class="line">				<span class="keyword">return</span> &amp;metric.Family&#123;</span><br><span class="line">					Metrics: []*metric.Metric&#123;</span><br><span class="line">						&#123;</span><br><span class="line">                            <span class="comment">// 设置metric kube_user_memory_total的值</span></span><br><span class="line">							Value: getUserLimit(u, Memory),</span><br><span class="line">						&#125;,</span><br><span class="line">					&#125;,</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;),</span><br><span class="line">		),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getUserLimit</span><span class="params">(u *User, metricType CpuOrMemory)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	s, _ := u.Annotations[userAnnotationCpuLimitKey]</span><br><span class="line">	<span class="keyword">if</span> metricType == Memory &#123;</span><br><span class="line">		s, _ = u.Annotations[userAnnotationMemoryLimitKey]</span><br><span class="line">	&#125;</span><br><span class="line">	limit, err := resource.ParseQuantity(s)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">float64</span>(<span class="number">0</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> limit.AsApproximateFloat64()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">wrapUserFunc</span><span class="params">(f <span class="keyword">func</span>(*User)</span> *<span class="title">metric</span>.<span class="title">Family</span>) <span class="title">func</span><span class="params">(<span class="keyword">interface</span>&#123;&#125;)</span> *<span class="title">metric</span>.<span class="title">Family</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span> *<span class="title">metric</span>.<span class="title">Family</span></span> &#123;</span><br><span class="line">		<span class="comment">//user := obj.(*User)</span></span><br><span class="line">		<span class="keyword">var</span> user User</span><br><span class="line">		userUnstructured := obj.(*unstructured.Unstructured)</span><br><span class="line">		err := runtime.DefaultUnstructuredConverter.FromUnstructured(userUnstructured.UnstructuredContent(), &amp;user)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="built_in">print</span>(<span class="string">"transfer from unstructured to object error"</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line">		metricFamily := f(&amp;user)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> _, m := <span class="keyword">range</span> metricFamily.Metrics &#123;</span><br><span class="line">			m.LabelKeys = <span class="built_in">append</span>(descUserDefaultLabels, m.LabelKeys...)</span><br><span class="line">			m.LabelValues = <span class="built_in">append</span>([]<span class="keyword">string</span>&#123;user.Name&#125;, m.LabelValues...)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> metricFamily</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// createUserListWatchFunc 为user创建List Watch </span></span><br><span class="line"><span class="comment">// 这里采用多层函数嵌套可以不用返回待定的结构，返回函数只要实现了对应的接口就行</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createUserListWatchFunc</span><span class="params">(userClient dynamic.Interface)</span> <span class="title">func</span><span class="params">(kubeClient clientset.Interface, _ <span class="keyword">string</span>, _ <span class="keyword">string</span>)</span> <span class="title">cache</span>.<span class="title">ListerWatcher</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(kubeClient clientset.Interface, _ <span class="keyword">string</span>, _ <span class="keyword">string</span>)</span> <span class="title">cache</span>.<span class="title">ListerWatcher</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> &amp;cache.ListWatch&#123;</span><br><span class="line">			ListFunc: <span class="function"><span class="keyword">func</span><span class="params">(opts metav1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> &#123;</span><br><span class="line">				<span class="keyword">return</span> userClient.Resource(schemeGroupVersionResource).List(context.TODO(), opts)</span><br><span class="line">			&#125;,</span><br><span class="line">			WatchFunc: <span class="function"><span class="keyword">func</span><span class="params">(opts metav1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> &#123;</span><br><span class="line">				<span class="keyword">return</span> userClient.Resource(schemeGroupVersionResource).Watch(context.TODO(), opts)</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// internal/store/user_test.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestUserStore</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	<span class="keyword">const</span> metadata = <span class="string">`</span></span><br><span class="line"><span class="string">	    # HELP kube_user_cpu_total The number of user's cpu core.</span></span><br><span class="line"><span class="string">		# TYPE kube_user_cpu_total gauge</span></span><br><span class="line"><span class="string">	    # HELP kube_user_memory_total The byte of user's memory.</span></span><br><span class="line"><span class="string">		# TYPE kube_user_memory_total gauge</span></span><br><span class="line"><span class="string">	`</span></span><br><span class="line">	cases := []generateMetricsTestCase&#123;</span><br><span class="line">		&#123;</span><br><span class="line">			AllowAnnotationsList: []<span class="keyword">string</span>&#123;userAnnotationCpuLimitKey, userAnnotationMemoryLimitKey&#125;,</span><br><span class="line">			Obj: &amp;User&#123;</span><br><span class="line">				ObjectMeta: metav1.ObjectMeta&#123;</span><br><span class="line">					Name:      <span class="string">"bob"</span>,</span><br><span class="line">					Namespace: <span class="string">"ns1"</span>,</span><br><span class="line">					Annotations: <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">						userAnnotationCpuLimitKey:    <span class="string">"1"</span>,</span><br><span class="line">						userAnnotationMemoryLimitKey: <span class="string">"1G"</span>,</span><br><span class="line">					&#125;,</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">			Want: metadata + <span class="string">`</span></span><br><span class="line"><span class="string">        kube_user_cpu_total&#123;user="bob"&#125; 1</span></span><br><span class="line"><span class="string">		kube_user_memory_total&#123;user="bob"&#125; 1e+09</span></span><br><span class="line"><span class="string">       `</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i, c := <span class="keyword">range</span> cases &#123;</span><br><span class="line">		c.Func = generator.ComposeMetricGenFuncs(userMetricFamilies())</span><br><span class="line">		c.Headers = generator.ExtractMetricFamilyHeaders(userMetricFamilies())</span><br><span class="line">		<span class="keyword">if</span> err := c.run(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			t.Errorf(<span class="string">"unexpected collecting result in %vth run:\n%s"</span>, i, err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// internal/store/builder.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Builder <span class="keyword">struct</span> &#123;</span><br><span class="line">	kubeClient            clientset.Interface</span><br><span class="line">	vpaClient             vpaclientset.Interface</span><br><span class="line">    <span class="comment">// 因为我们新增监听对象是CRD,所以需要创建一个单独的client才能获取对应的资源对象</span></span><br><span class="line">    <span class="comment">// 新增dynamic.Interface,用于list,watch CRD</span></span><br><span class="line">+	userClient            dynamic.Interface</span><br><span class="line">	namespaces            options.NamespaceList</span><br><span class="line">	namespaceFilter       <span class="keyword">string</span></span><br><span class="line">	ctx                   context.Context</span><br><span class="line">	enabledResources      []<span class="keyword">string</span></span><br><span class="line">	familyGeneratorFilter generator.FamilyGeneratorFilter</span><br><span class="line">	listWatchMetrics      *watch.ListWatchMetrics</span><br><span class="line">	shardingMetrics       *sharding.Metrics</span><br><span class="line">	shard                 <span class="keyword">int32</span></span><br><span class="line">	totalShards           <span class="keyword">int</span></span><br><span class="line">	buildStoresFunc       ksmtypes.BuildStoresFunc</span><br><span class="line">	allowAnnotationsList  <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span></span><br><span class="line">	allowLabelsList       <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span></span><br><span class="line">	useAPIServerCache     <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ <span class="comment">// WithUserClient sets the userClient property of a Builder</span></span><br><span class="line">+ <span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span> <span class="title">WithUserClient</span><span class="params">(c dynamic.Interface)</span></span> &#123;</span><br><span class="line">+	b.userClient = c</span><br><span class="line">+ &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> availableStores = <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="function"><span class="keyword">func</span><span class="params">(f *Builder)</span> []<span class="title">cache</span>.<span class="title">Store</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">+	<span class="string">"users"</span>:                           <span class="function"><span class="keyword">func</span><span class="params">(b *Builder)</span> []<span class="title">cache</span>.<span class="title">Store</span></span> &#123; <span class="keyword">return</span> b.buildUserStores() &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ <span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span> <span class="title">buildUserStores</span><span class="params">()</span> []<span class="title">cache</span>.<span class="title">Store</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> b.buildStoresFunc(userMetricFamilies(), &amp;unstructured.Unstructured&#123;&#125;, createUserListWatchFunc(b.userClient), b.useAPIServerCache)</span><br><span class="line">+ &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 新增创建userClient</span></span><br><span class="line">	kubeClient, vpaClient, userClient, err := createKubeClient(opts.Apiserver, opts.Kubeconfig)</span><br><span class="line">    ...</span><br><span class="line">    storeBuilder.WithUserClient(userClient)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createKubeClient</span><span class="params">(apiserver <span class="keyword">string</span>, kubeconfig <span class="keyword">string</span>)</span> <span class="params">(clientset.Interface, vpaclientset.Interface, dynamic.Interface, error)</span></span> &#123;</span><br><span class="line">	config, err := clientcmd.BuildConfigFromFlags(apiserver, kubeconfig)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	config.UserAgent = version.Version</span><br><span class="line">	config.AcceptContentTypes = <span class="string">"application/vnd.kubernetes.protobuf,application/json"</span></span><br><span class="line">	config.ContentType = <span class="string">"application/vnd.kubernetes.protobuf"</span></span><br><span class="line"></span><br><span class="line">	kubeClient, err := clientset.NewForConfig(config)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	vpaClient, err := vpaclientset.NewForConfig(config)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	+ userClient, err := dynamic.NewForConfig(config)</span><br><span class="line">	+ <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	+ 	 <span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, err</span><br><span class="line">	+ &#125;</span><br><span class="line">	<span class="comment">// Informers don't seem to do a good job logging error messages when it</span></span><br><span class="line">	<span class="comment">// can't reach the server, making debugging hard. This makes it easier to</span></span><br><span class="line">	<span class="comment">// figure out if apiserver is configured incorrectly.</span></span><br><span class="line">	klog.Infof(<span class="string">"Testing communication with server"</span>)</span><br><span class="line">	v, err := kubeClient.Discovery().ServerVersion()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span>, <span class="literal">nil</span>, errors.Wrap(err, <span class="string">"error while trying to communicate with apiserver"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	klog.Infof(<span class="string">"Running with Kubernetes cluster version: v%s.%s. git version: %s. git tree state: %s. commit: %s. platform: %s"</span>,</span><br><span class="line">		v.Major, v.Minor, v.GitVersion, v.GitTreeState, v.GitCommit, v.Platform)</span><br><span class="line">	klog.Infof(<span class="string">"Communication with server successful"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> kubeClient, vpaClient, userClient, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/options/resource.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	<span class="comment">// DefaultNamespaces is the default namespace selector for selecting and filtering across all namespaces.</span></span><br><span class="line">	DefaultNamespaces = NamespaceList&#123;metav1.NamespaceAll&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// DefaultResources represents the default set of resources in kube-state-metrics.</span></span><br><span class="line">	DefaultResources = ResourceSet&#123;</span><br><span class="line">		<span class="string">"certificatesigningrequests"</span>:      <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"configmaps"</span>:                      <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"cronjobs"</span>:                        <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"daemonsets"</span>:                      <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"deployments"</span>:                     <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"endpoints"</span>:                       <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"horizontalpodautoscalers"</span>:        <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"ingresses"</span>:                       <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"jobs"</span>:                            <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"leases"</span>:                          <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"limitranges"</span>:                     <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"mutatingwebhookconfigurations"</span>:   <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"namespaces"</span>:                      <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"networkpolicies"</span>:                 <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"nodes"</span>:                           <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"persistentvolumes"</span>:               <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"persistentvolumeclaims"</span>:          <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"poddisruptionbudgets"</span>:            <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"pods"</span>:                            <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"replicasets"</span>:                     <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"replicationcontrollers"</span>:          <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"resourcequotas"</span>:                  <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"secrets"</span>:                         <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"services"</span>:                        <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"statefulsets"</span>:                    <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"storageclasses"</span>:                  <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"validatingwebhookconfigurations"</span>: <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">		<span class="string">"volumeattachments"</span>:               <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">+		<span class="string">"users"</span>:                           <span class="keyword">struct</span>&#123;&#125;&#123;&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/kubernetes/kube-state-metrics" target="_blank" rel="noopener">https://github.com/kubernetes/kube-state-metrics</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/kube-state-metrics/" rel="tag"><i class="fa fa-tag">kube-state-metrics</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/01/11/kube-state-metrics源码分析/" rel="prev" title="kube-state-metrics源码分析">
+                <i class="fa fa-chevron-left"></i> kube-state-metrics源码分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/11/04/golang-net-http路由实现/" rel="prev" title="golang net/http路由实现">
+                golang net/http路由实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">324</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+  <script type="text/javascript" src="/js/text.js"></script>
+</body>
+</html>
