@@ -380,6 +380,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/07/k8s源码设计模式之Visitor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2023/04/07/k8s源码设计模式之Visitor/" class="post-title-link" itemprop="url">k8s源码设计模式之Visitor</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-04-07 14:36:08" itemprop="dateCreated datePublished" datetime="2023-04-07T14:36:08+08:00">2023-04-07</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              Visitor模式也叫访问模式
+// vendor/k8s.io/cli-runtime/pkg/resource/interfaces.gotype Visitor interface &#123;	Visit(VisitorFunc) error&#125;type VisitorFunc fu
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2023/04/07/k8s源码设计模式之Visitor/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/07/k8s源码设计模式之Strategy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3288,159 +3442,6 @@ Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/10/13/通过nginx-controller将redis服务暴露到集群外/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/10/13/通过nginx-controller将redis服务暴露到集群外/" class="post-title-link" itemprop="url">通过nginx-controller将redis服务暴露到集群外</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-10-13 08:08:55" itemprop="dateCreated datePublished" datetime="2020-10-13T08:08:55+08:00">2020-10-13</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              在微服务迁移过程中，在进行流量切换的过程中，旧的服务和微服务会共存一段时间。当用户从前端访问时，流量分别会被转发到旧服务和新服务上。为了使用户可以同时访问旧服务和新服务，需要共用一个redis。因为以前使用的都是各自集群内部的redis(新旧服务在不同的k8s集群上)，因此为了让集群外的服务也能访问
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2020/10/13/通过nginx-controller将redis服务暴露到集群外/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3487,7 +3488,7 @@ Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">324</span>
+                    <span class="site-state-item-count">325</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3655,7 +3656,7 @@ Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
