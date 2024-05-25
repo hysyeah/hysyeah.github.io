@@ -111,7 +111,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="hysyeah">
-<meta property="og:url" content="https://hysyeah.github.io/tags/docker/index.html">
+<meta property="og:url" content="https://hysyeah.github.io/tags/Docker/index.html">
 <meta property="og:site_name" content="hysyeah">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -123,7 +123,7 @@
 
   
   
-  <link rel="canonical" href="https://hysyeah.github.io/tags/docker/">
+  <link rel="canonical" href="https://hysyeah.github.io/tags/Docker/">
 
 
 
@@ -133,7 +133,7 @@
   };
 </script>
 
-  <title>标签: docker | hysyeah</title>
+  <title>标签: Docker | hysyeah</title>
   
 
 
@@ -392,7 +392,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>docker<small>标签</small>
+        <h1>Docker<small>标签</small>
         </h1>
       </div>
 
@@ -404,43 +404,17 @@
 
       <h2 class="post-title">
         
-          <a class="post-title-link" href="/2021/06/09/docker配置代理/" itemprop="url">
+          <a class="post-title-link" href="/2020/07/05/Linux-Namespace/" itemprop="url">
             
-              <span itemprop="name">docker配置代理</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2021-06-09T19:05:31+08:00" content="2021-06-09">
-          06-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/05/19/docker切换成阿里的源/" itemprop="url">
-            
-              <span itemprop="name">docker切换成阿里的源</span>
+              <span itemprop="name">Linux Namespace</span>
             
           </a>
         
       </h2>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-05-19T15:04:48+08:00" content="2019-05-19">
-          05-19
+        <time class="post-time" itemprop="dateCreated" datetime="2020-07-05T16:48:22+08:00" content="2020-07-05">
+          07-05
         </time>
       </div>
 
@@ -497,7 +471,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">325</span>
+                    <span class="site-state-item-count">326</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1222,6 +1196,38 @@
       
         if (result) $(this).text('复制成功');
         else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>
+败');
       
       ta.blur(); // For iOS
       $(this).blur();

@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. helm项目主要目录1234567891011pkg/action: 包含执行Helm操作的主要客户端。和CLI处理过程中使用的是同一个包。如果你仅仅需要执行来自另一个Go程序的最基本的Helm命令，这个包会很适合你pkg/&amp;#123;chart,chartutil&amp;#125;: 加载和控制chart时使用的方法和帮助内容pkg/cli 和它的子包： 包含标准Helm环境变量所有的处理程序以">
+<meta name="keywords" content="k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="helm chart install源码分析">
+<meta property="og:url" content="https://hysyeah.github.io/2024/05/19/helm-chart-install源码分析/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="1. helm项目主要目录1234567891011pkg/action: 包含执行Helm操作的主要客户端。和CLI处理过程中使用的是同一个包。如果你仅仅需要执行来自另一个Go程序的最基本的Helm命令，这个包会很适合你pkg/&amp;#123;chart,chartutil&amp;#125;: 加载和控制chart时使用的方法和帮助内容pkg/cli 和它的子包： 包含标准Helm环境变量所有的处理程序以">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2024-05-25T12:14:17.816Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="helm chart install源码分析">
+<meta name="twitter:description" content="1. helm项目主要目录1234567891011pkg/action: 包含执行Helm操作的主要客户端。和CLI处理过程中使用的是同一个包。如果你仅仅需要执行来自另一个Go程序的最基本的Helm命令，这个包会很适合你pkg/&amp;#123;chart,chartutil&amp;#125;: 加载和控制chart时使用的方法和帮助内容pkg/cli 和它的子包： 包含标准Helm环境变量所有的处理程序以">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2024/05/19/helm-chart-install源码分析/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>helm chart install源码分析 | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2024/05/19/helm-chart-install源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">helm chart install源码分析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2024-05-19 14:34:58" itemprop="dateCreated datePublished" datetime="2024-05-19T14:34:58+08:00">2024-05-19</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-helm项目主要目录"><a href="#1-helm项目主要目录" class="headerlink" title="1. helm项目主要目录"></a>1. helm项目主要目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pkg/action: 包含执行Helm操作的主要客户端。和CLI处理过程中使用的是同一个包。如果你仅仅需要执行来自另一个Go程序的最基本的Helm命令，这个包会很适合你</span><br><span class="line"></span><br><span class="line">pkg/&#123;chart,chartutil&#125;: 加载和控制chart时使用的方法和帮助内容</span><br><span class="line"></span><br><span class="line">pkg/cli 和它的子包： 包含标准Helm环境变量所有的处理程序以及子包涵盖了输出和正在处理的value文件</span><br><span class="line"></span><br><span class="line">pkg/release: 定义了 Release 对象和状态值</span><br><span class="line"></span><br><span class="line">pkg/storage: 后端存储，支持memory, configmap, secret</span><br><span class="line"></span><br><span class="line">pkg/kube: 封装了对k8s资源的操作</span><br></pre></td></tr></table></figure>
+<h3 id="2-示例"><a href="#2-示例" class="headerlink" title="2. 示例"></a>2. 示例</h3><p><code>helm version: v3.10.1</code><br>通过<code>SDK</code>安装一个指定的chart包<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"context"</span></span><br><span class="line">	<span class="string">"helm.sh/helm/v3/pkg/action"</span></span><br><span class="line">	<span class="string">"helm.sh/helm/v3/pkg/chart/loader"</span></span><br><span class="line">	<span class="string">"helm.sh/helm/v3/pkg/cli"</span></span><br><span class="line">	<span class="string">"k8s.io/client-go/rest"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"os"</span></span><br><span class="line">	<span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// must be run in k8s cluster</span></span><br><span class="line">	kubeConfig, _ := rest.InClusterConfig()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// init action config</span></span><br><span class="line">	actionConfig := <span class="built_in">new</span>(action.Configuration)</span><br><span class="line">	settings := cli.New()</span><br><span class="line">	helmDriver := os.Getenv(<span class="string">"HELM_DRIVER"</span>)</span><br><span class="line">	settings.KubeAPIServer = kubeConfig.Host</span><br><span class="line">	settings.KubeToken = kubeConfig.BearerToken</span><br><span class="line">	settings.KubeInsecureSkipTLSVerify = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">	err := actionConfig.Init(settings.RESTClientGetter(), <span class="string">"namespace"</span>, helmDriver, log.Printf)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// create install client and set</span></span><br><span class="line">	client := action.NewInstall(actionConfig)</span><br><span class="line">	client.CreateNamespace = <span class="literal">true</span></span><br><span class="line">	client.Namespace = <span class="string">"namespace"</span></span><br><span class="line">	client.Timeout = <span class="number">300</span> * time.Second</span><br><span class="line">	client.RepoURL = <span class="string">"change to your repoURL"</span></span><br><span class="line">	client.ReleaseName = <span class="string">"release name"</span></span><br><span class="line">	cp, err := client.ChartPathOptions.LocateChart(<span class="string">"chart name"</span>, settings)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	chartRequested, err := loader.Load(cp)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// values is the value set in Values.yaml or --set command</span></span><br><span class="line">	values := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;)</span><br><span class="line">	_, err = client.RunWithContext(context.TODO(), chartRequested, values)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-源码分析"><a href="#3-源码分析" class="headerlink" title="3. 源码分析"></a>3. 源码分析</h3><h4 id="3-1-RunWithContext"><a href="#3-1-RunWithContext" class="headerlink" title="3.1 RunWithContext"></a>3.1 RunWithContext</h4><p>执行安装操作</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/action/install.go</span></span><br><span class="line"><span class="comment">// Run executes the installation with Context</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i *Install)</span> <span class="title">RunWithContext</span><span class="params">(ctx context.Context, chrt *chart.Chart, vals <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;)</span> <span class="params">(*release.Release, error)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Check reachability of cluster unless in client-only mode (e.g. `helm template` without `--validate`)</span></span><br><span class="line">	<span class="comment">// 如果不是ClientOnly,检测集群是否能连通</span></span><br><span class="line">	<span class="keyword">if</span> !i.ClientOnly &#123;</span><br><span class="line">		<span class="keyword">if</span> err := i.cfg.KubeClient.IsReachable(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 检查ReleaseName是否合法</span></span><br><span class="line">	<span class="comment">// 1. name是否为空;长度是否大于53个chart;是否符合正则表达式`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`</span></span><br><span class="line">	<span class="comment">// 2. name是否正在使用当中</span></span><br><span class="line">	<span class="comment">// 3. 判断release的状态(针对已经删除的release),如果状态为uninstalled或failed且i.Replace=true,这种情况下是合法的</span></span><br><span class="line">	<span class="keyword">if</span> err := i.availableName(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 这里是获取子chart中Value.yaml中的值，递归的获取子chart的values</span></span><br><span class="line">	<span class="comment">// 最后会与父chart的values进行合并</span></span><br><span class="line">	<span class="keyword">if</span> err := chartutil.ProcessDependencies(chrt, vals); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Pre-install anything in the crd/ directory. We do this before Helm</span></span><br><span class="line">	<span class="comment">// contacts the upstream server and builds the capabilities object.</span></span><br><span class="line">	<span class="keyword">if</span> crds := chrt.CRDObjects(); !i.ClientOnly &amp;&amp; !i.SkipCRDs &amp;&amp; <span class="built_in">len</span>(crds) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="comment">// On dry run, bail here</span></span><br><span class="line">		<span class="keyword">if</span> i.DryRun &#123;</span><br><span class="line">			i.cfg.Log(<span class="string">"WARNING: This chart or one of its subcharts contains CRDs. Rendering may fail or contain inaccuracies."</span>)</span><br><span class="line">                <span class="comment">//优先安装CRD,通过kubeClient.Build构建Resource,然后发送请求给k8s apiserver</span></span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> err := i.installCRDs(crds); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ClientOnly 不连接k8s apiserver</span></span><br><span class="line">	<span class="keyword">if</span> i.ClientOnly &#123;</span><br><span class="line">		<span class="comment">// Add mock objects in here so it doesn't use Kube API server</span></span><br><span class="line">		<span class="comment">// NOTE(bacongobbler): used for `helm template`</span></span><br><span class="line">		i.cfg.Capabilities = chartutil.DefaultCapabilities.Copy()</span><br><span class="line">		<span class="keyword">if</span> i.KubeVersion != <span class="literal">nil</span> &#123;</span><br><span class="line">			i.cfg.Capabilities.KubeVersion = *i.KubeVersion</span><br><span class="line">		&#125;</span><br><span class="line">		i.cfg.Capabilities.APIVersions = <span class="built_in">append</span>(i.cfg.Capabilities.APIVersions, i.APIVersions...)</span><br><span class="line">		i.cfg.KubeClient = &amp;kubefake.PrintingKubeClient&#123;Out: ioutil.Discard&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 使用内存存储数据</span></span><br><span class="line">		mem := driver.NewMemory()</span><br><span class="line">		mem.SetNamespace(i.Namespace)</span><br><span class="line">		i.cfg.Releases = storage.Init(mem)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> !i.ClientOnly &amp;&amp; <span class="built_in">len</span>(i.APIVersions) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		i.cfg.Log(<span class="string">"API Version list given outside of client only mode, this list will be ignored"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make sure if Atomic is set, that wait is set as well. This makes it so</span></span><br><span class="line">	<span class="comment">// the user doesn't have to specify both</span></span><br><span class="line">	i.Wait = i.Wait || i.Atomic</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">	caps, err := i.cfg.getCapabilities()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// special case for helm template --is-upgrade</span></span><br><span class="line">	isUpgrade := i.IsUpgrade &amp;&amp; i.DryRun</span><br><span class="line">	options := chartutil.ReleaseOptions&#123;</span><br><span class="line">		Name:      i.ReleaseName,</span><br><span class="line">		Namespace: i.Namespace,</span><br><span class="line">		Revision:  <span class="number">1</span>,</span><br><span class="line">		IsInstall: !isUpgrade,</span><br><span class="line">		IsUpgrade: isUpgrade,</span><br><span class="line">	&#125;</span><br><span class="line">        <span class="comment">// 设置值到Values中</span></span><br><span class="line">	valuesToRender, err := chartutil.ToRenderValues(chrt, vals, options, caps)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建release对象,此时的状态为unknown</span></span><br><span class="line">	rel := i.createRelease(chrt, vals)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> manifestDoc *bytes.Buffer</span><br><span class="line">        <span class="comment">// 对资源进行渲染, 这里会根据不同的资源类型进行排序</span></span><br><span class="line">        <span class="comment">// InstallOrder</span></span><br><span class="line">	rel.Hooks, manifestDoc, rel.Info.Notes, err = i.cfg.renderResources(chrt, valuesToRender, i.ReleaseName, i.OutputDir, i.SubNotes, i.UseReleaseName, i.IncludeCRDs, i.PostRenderer, i.DryRun)</span><br><span class="line">	<span class="comment">// Even for errors, attach this if available</span></span><br><span class="line">	<span class="keyword">if</span> manifestDoc != <span class="literal">nil</span> &#123;</span><br><span class="line">		rel.Manifest = manifestDoc.String()</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Check error from render</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		rel.SetStatus(release.StatusFailed, fmt.Sprintf(<span class="string">"failed to render resource: %s"</span>, err.Error()))</span><br><span class="line">		<span class="comment">// Return a release with partial data so that the client can show debugging information.</span></span><br><span class="line">		<span class="keyword">return</span> rel, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Mark this release as in-progress</span></span><br><span class="line">    <span class="comment">// 设置release状态为pending-install</span></span><br><span class="line">	rel.SetStatus(release.StatusPendingInstall, <span class="string">"Initial install underway"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> toBeAdopted kube.ResourceList</span><br><span class="line">    <span class="comment">// 构建资源对象</span></span><br><span class="line">	resources, err := i.cfg.KubeClient.Build(bytes.NewBufferString(rel.Manifest), !i.DisableOpenAPIValidation)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, errors.Wrap(err, <span class="string">"unable to build kubernetes objects from release manifest"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// It is safe to use "force" here because these are resources currently rendered by the chart.</span></span><br><span class="line">	err = resources.Visit(setMetadataVisitor(rel.Name, rel.Namespace, <span class="literal">true</span>))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Install requires an extra validation step of checking that resources</span></span><br><span class="line">	<span class="comment">// don't already exist before we actually create resources. If we continue</span></span><br><span class="line">	<span class="comment">// forward and create the release object with resources that already exist,</span></span><br><span class="line">	<span class="comment">// we'll end up in a state where we will delete those resources upon</span></span><br><span class="line">	<span class="comment">// deleting the release because the manifest will be pointing at that</span></span><br><span class="line">	<span class="comment">// resource</span></span><br><span class="line">	<span class="keyword">if</span> !i.ClientOnly &amp;&amp; !isUpgrade &amp;&amp; <span class="built_in">len</span>(resources) &gt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="comment">// toBeadopted是指已经存在的资源且是由helm管理的(通过label和annotation来判断)</span></span><br><span class="line">		toBeAdopted, err = existingResourceConflict(resources, rel.Name, rel.Namespace)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, errors.Wrap(err, <span class="string">"rendered manifests contain a resource that already exists. Unable to continue with install"</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Bail out here if it is a dry run</span></span><br><span class="line">	<span class="keyword">if</span> i.DryRun &#123;</span><br><span class="line">		rel.Info.Description = <span class="string">"Dry run complete"</span></span><br><span class="line">		<span class="keyword">return</span> rel, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建Namespace</span></span><br><span class="line">	<span class="keyword">if</span> i.CreateNamespace &#123;</span><br><span class="line">		ns := &amp;v1.Namespace&#123;</span><br><span class="line">			TypeMeta: metav1.TypeMeta&#123;</span><br><span class="line">				APIVersion: <span class="string">"v1"</span>,</span><br><span class="line">				Kind:       <span class="string">"Namespace"</span>,</span><br><span class="line">			&#125;,</span><br><span class="line">			ObjectMeta: metav1.ObjectMeta&#123;</span><br><span class="line">				Name: i.Namespace,</span><br><span class="line">				Labels: <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">					<span class="string">"name"</span>: i.Namespace,</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;</span><br><span class="line">		buf, err := yaml.Marshal(ns)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">		resourceList, err := i.cfg.KubeClient.Build(bytes.NewBuffer(buf), <span class="literal">true</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> _, err := i.cfg.KubeClient.Create(resourceList); err != <span class="literal">nil</span> &amp;&amp; !apierrors.IsAlreadyExists(err) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If Replace is true, we need to supercede the last release.</span></span><br><span class="line">	<span class="keyword">if</span> i.Replace &#123;</span><br><span class="line">		<span class="keyword">if</span> err := i.replaceRelease(rel); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Store the release in history before continuing (new in Helm 3). We always know</span></span><br><span class="line">	<span class="comment">// that this is a create operation.</span></span><br><span class="line">	<span class="keyword">if</span> err := i.cfg.Releases.Create(rel); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// We could try to recover gracefully here, but since nothing has been installed</span></span><br><span class="line">		<span class="comment">// yet, this is probably safer than trying to continue when we know storage is</span></span><br><span class="line">		<span class="comment">// not working.</span></span><br><span class="line">		<span class="keyword">return</span> rel, err</span><br><span class="line">	&#125;</span><br><span class="line">	rChan := <span class="built_in">make</span>(<span class="keyword">chan</span> resultMessage)</span><br><span class="line">	doneChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">	<span class="keyword">defer</span> <span class="built_in">close</span>(doneChan)</span><br><span class="line">    <span class="comment">// 开始进行安装操作</span></span><br><span class="line">	<span class="keyword">go</span> i.performInstall(rChan, rel, toBeAdopted, resources)</span><br><span class="line">	<span class="keyword">go</span> i.handleContext(ctx, rChan, doneChan, rel)</span><br><span class="line">	result := &lt;-rChan</span><br><span class="line">	<span class="comment">//start preformInstall go routine</span></span><br><span class="line">	<span class="keyword">return</span> result.r, result.e</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-Load"><a href="#3-2-Load" class="headerlink" title="3.2 Load"></a>3.2 Load</h4><p>将chart转换成chart.Chart对象</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/chart/loader/load.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载一个chart</span></span><br><span class="line"><span class="comment">// 如果存在.helmignore文件，directory loader将会跳过匹配的文件</span></span><br><span class="line"><span class="comment">// 如果是压缩包的话则不会读取.helmignore</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Load</span><span class="params">(name <span class="keyword">string</span>)</span> <span class="params">(*chart.Chart, error)</span></span> &#123;</span><br><span class="line">	l, err := Loader(name)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> l.Load()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ChartLoader loads a chart.</span></span><br><span class="line"><span class="comment">// ChartLoader 是一个接口</span></span><br><span class="line"><span class="comment">// 目前有两个ChartLoader: DirLoader, FileLoader</span></span><br><span class="line"><span class="keyword">type</span> ChartLoader <span class="keyword">interface</span> &#123;</span><br><span class="line">	Load() (*chart.Chart, error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Loader returns a new ChartLoader appropriate for the given chart name</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Loader</span><span class="params">(name <span class="keyword">string</span>)</span> <span class="params">(ChartLoader, error)</span></span> &#123;</span><br><span class="line">	fi, err := os.Stat(name)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 如果name对应的是一个目录,创建一个DirLoader</span></span><br><span class="line">	<span class="keyword">if</span> fi.IsDir() &#123;</span><br><span class="line">		<span class="keyword">return</span> DirLoader(name), <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 如果不是目录则创建一个FileLoader</span></span><br><span class="line">	<span class="keyword">return</span> FileLoader(name), <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DirLoader,FileLoader读取目录或压缩包，并将文件信息放到BufferedFile</span></span><br><span class="line"><span class="comment">// 最终DirLoader, FileLoader都会调用LoadFiles转换成chart.Chart</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoadFiles</span><span class="params">(files []*BufferedFile)</span> <span class="params">(*chart.Chart, error)</span></span> &#123;</span><br><span class="line">	c := <span class="built_in">new</span>(chart.Chart)</span><br><span class="line">	subcharts := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>][]*BufferedFile)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// do not rely on assumed ordering of files in the chart and crash</span></span><br><span class="line">	<span class="comment">// if Chart.yaml was not coming early enough to initialize metadata</span></span><br><span class="line">	<span class="comment">// 遍历所有文件初始化一个chart.Chart对象</span></span><br><span class="line">	<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">		<span class="comment">// c.Raw记录原始的文件信息</span></span><br><span class="line">		c.Raw = <span class="built_in">append</span>(c.Raw, &amp;chart.File&#123;Name: f.Name, Data: f.Data&#125;)</span><br><span class="line">		<span class="keyword">if</span> f.Name == <span class="string">"Chart.yaml"</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> c.Metadata == <span class="literal">nil</span> &#123;</span><br><span class="line">				c.Metadata = <span class="built_in">new</span>(chart.Metadata)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> err := yaml.Unmarshal(f.Data, c.Metadata); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> c, errors.Wrap(err, <span class="string">"cannot load Chart.yaml"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// NOTE(bacongobbler): while the chart specification says that APIVersion must be set,</span></span><br><span class="line">			<span class="comment">// Helm 2 accepted charts that did not provide an APIVersion in their chart metadata.</span></span><br><span class="line">			<span class="comment">// Because of that, if APIVersion is unset, we should assume we're loading a v1 chart.</span></span><br><span class="line">			<span class="keyword">if</span> c.Metadata.APIVersion == <span class="string">""</span> &#123;</span><br><span class="line">				c.Metadata.APIVersion = chart.APIVersionV1</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">		<span class="keyword">switch</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> f.Name == <span class="string">"Chart.yaml"</span>:</span><br><span class="line">			<span class="comment">// already processed</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		<span class="keyword">case</span> f.Name == <span class="string">"Chart.lock"</span>:</span><br><span class="line">			c.Lock = <span class="built_in">new</span>(chart.Lock)</span><br><span class="line">			<span class="keyword">if</span> err := yaml.Unmarshal(f.Data, &amp;c.Lock); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> c, errors.Wrap(err, <span class="string">"cannot load Chart.lock"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> f.Name == <span class="string">"values.yaml"</span>:</span><br><span class="line">			c.Values = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;)</span><br><span class="line">			<span class="keyword">if</span> err := yaml.Unmarshal(f.Data, &amp;c.Values); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> c, errors.Wrap(err, <span class="string">"cannot load values.yaml"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> f.Name == <span class="string">"values.schema.json"</span>:</span><br><span class="line">			c.Schema = f.Data</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Deprecated: requirements.yaml is deprecated use Chart.yaml.</span></span><br><span class="line">		<span class="comment">// We will handle it for you because we are nice people</span></span><br><span class="line">		<span class="keyword">case</span> f.Name == <span class="string">"requirements.yaml"</span>:</span><br><span class="line">			<span class="keyword">if</span> c.Metadata == <span class="literal">nil</span> &#123;</span><br><span class="line">				c.Metadata = <span class="built_in">new</span>(chart.Metadata)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> c.Metadata.APIVersion != chart.APIVersionV1 &#123;</span><br><span class="line">				log.Printf(<span class="string">"Warning: Dependencies are handled in Chart.yaml since apiVersion \"v2\". We recommend migrating dependencies to Chart.yaml."</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> err := yaml.Unmarshal(f.Data, c.Metadata); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> c, errors.Wrap(err, <span class="string">"cannot load requirements.yaml"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> c.Metadata.APIVersion == chart.APIVersionV1 &#123;</span><br><span class="line">				c.Files = <span class="built_in">append</span>(c.Files, &amp;chart.File&#123;Name: f.Name, Data: f.Data&#125;)</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="comment">// Deprecated: requirements.lock is deprecated use Chart.lock.</span></span><br><span class="line">		<span class="keyword">case</span> f.Name == <span class="string">"requirements.lock"</span>:</span><br><span class="line">			c.Lock = <span class="built_in">new</span>(chart.Lock)</span><br><span class="line">			<span class="keyword">if</span> err := yaml.Unmarshal(f.Data, &amp;c.Lock); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> c, errors.Wrap(err, <span class="string">"cannot load requirements.lock"</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> c.Metadata == <span class="literal">nil</span> &#123;</span><br><span class="line">				c.Metadata = <span class="built_in">new</span>(chart.Metadata)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> c.Metadata.APIVersion == chart.APIVersionV1 &#123;</span><br><span class="line">				c.Files = <span class="built_in">append</span>(c.Files, &amp;chart.File&#123;Name: f.Name, Data: f.Data&#125;)</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> strings.HasPrefix(f.Name, <span class="string">"templates/"</span>):</span><br><span class="line">			c.Templates = <span class="built_in">append</span>(c.Templates, &amp;chart.File&#123;Name: f.Name, Data: f.Data&#125;)</span><br><span class="line">		<span class="keyword">case</span> strings.HasPrefix(f.Name, <span class="string">"charts/"</span>):</span><br><span class="line">			<span class="keyword">if</span> filepath.Ext(f.Name) == <span class="string">".prov"</span> &#123;</span><br><span class="line">				c.Files = <span class="built_in">append</span>(c.Files, &amp;chart.File&#123;Name: f.Name, Data: f.Data&#125;)</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			fname := strings.TrimPrefix(f.Name, <span class="string">"charts/"</span>)</span><br><span class="line">			cname := strings.SplitN(fname, <span class="string">"/"</span>, <span class="number">2</span>)[<span class="number">0</span>]</span><br><span class="line">			subcharts[cname] = <span class="built_in">append</span>(subcharts[cname], &amp;BufferedFile&#123;Name: fname, Data: f.Data&#125;)</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			c.Files = <span class="built_in">append</span>(c.Files, &amp;chart.File&#123;Name: f.Name, Data: f.Data&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> c.Metadata == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> c, errors.New(<span class="string">"Chart.yaml file is missing"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := c.Validate(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> c, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> n, files := <span class="keyword">range</span> subcharts &#123;</span><br><span class="line">		<span class="keyword">var</span> sc *chart.Chart</span><br><span class="line">		<span class="keyword">var</span> err error</span><br><span class="line">		<span class="keyword">switch</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> strings.IndexAny(n, <span class="string">"_."</span>) == <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		<span class="keyword">case</span> filepath.Ext(n) == <span class="string">".tgz"</span>:</span><br><span class="line">			file := files[<span class="number">0</span>]</span><br><span class="line">			<span class="keyword">if</span> file.Name != n &#123;</span><br><span class="line">				<span class="keyword">return</span> c, errors.Errorf(<span class="string">"error unpacking tar in %s: expected %s, got %s"</span>, c.Name(), n, file.Name)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// Untar the chart and add to c.Dependencies</span></span><br><span class="line">			sc, err = LoadArchive(bytes.NewBuffer(file.Data))</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="comment">// We have to trim the prefix off of every file, and ignore any file</span></span><br><span class="line">			<span class="comment">// that is in charts/, but isn't actually a chart.</span></span><br><span class="line">			buff := <span class="built_in">make</span>([]*BufferedFile, <span class="number">0</span>, <span class="built_in">len</span>(files))</span><br><span class="line">			<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">				parts := strings.SplitN(f.Name, <span class="string">"/"</span>, <span class="number">2</span>)</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(parts) &lt; <span class="number">2</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				f.Name = parts[<span class="number">1</span>]</span><br><span class="line">				buff = <span class="built_in">append</span>(buff, f)</span><br><span class="line">			&#125;</span><br><span class="line">			sc, err = LoadFiles(buff)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> c, errors.Wrapf(err, <span class="string">"error unpacking %s in %s"</span>, n, c.Name())</span><br><span class="line">		&#125;</span><br><span class="line">		c.AddDependency(sc)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> c, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/chart/loader/directory.go</span></span><br><span class="line"><span class="comment">// DirLoader 实现</span></span><br><span class="line"> <span class="keyword">var</span> utf8bom = []<span class="keyword">byte</span>&#123;<span class="number">0xEF</span>, <span class="number">0xBB</span>, <span class="number">0xBF</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DirLoader loads a chart from a directory</span></span><br><span class="line"><span class="keyword">type</span> DirLoader <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Load loads the chart</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l DirLoader)</span> <span class="title">Load</span><span class="params">()</span> <span class="params">(*chart.Chart, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> LoadDir(<span class="keyword">string</span>(l))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// LoadDir loads from a directory.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// This loads charts only from directories.</span></span><br><span class="line"><span class="comment">// 遍历整个目录，将文件加载到内存对象中</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoadDir</span><span class="params">(dir <span class="keyword">string</span>)</span> <span class="params">(*chart.Chart, error)</span></span> &#123;</span><br><span class="line">	topdir, err := filepath.Abs(dir)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Just used for errors.</span></span><br><span class="line">	c := &amp;chart.Chart&#123;&#125;</span><br><span class="line"></span><br><span class="line">	rules := ignore.Empty()</span><br><span class="line">	ifile := filepath.Join(topdir, ignore.HelmIgnore)</span><br><span class="line">	<span class="keyword">if</span> _, err := os.Stat(ifile); err == <span class="literal">nil</span> &#123;</span><br><span class="line">		r, err := ignore.ParseFile(ifile)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> c, err</span><br><span class="line">		&#125;</span><br><span class="line">		rules = r</span><br><span class="line">	&#125;</span><br><span class="line">	rules.AddDefaults()</span><br><span class="line"></span><br><span class="line">	files := []*BufferedFile&#123;&#125;</span><br><span class="line">	topdir += <span class="keyword">string</span>(filepath.Separator)</span><br><span class="line"></span><br><span class="line">	walk := <span class="function"><span class="keyword">func</span><span class="params">(name <span class="keyword">string</span>, fi os.FileInfo, err error)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">		n := strings.TrimPrefix(name, topdir)</span><br><span class="line">		<span class="keyword">if</span> n == <span class="string">""</span> &#123;</span><br><span class="line">			<span class="comment">// No need to process top level. Avoid bug with helmignore .* matching</span></span><br><span class="line">			<span class="comment">// empty names. See issue 1779.</span></span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Normalize to / since it will also work on Windows</span></span><br><span class="line">		n = filepath.ToSlash(n)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> fi.IsDir() &#123;</span><br><span class="line">			<span class="comment">// Directory-based ignore rules should involve skipping the entire</span></span><br><span class="line">			<span class="comment">// contents of that directory.</span></span><br><span class="line">			<span class="keyword">if</span> rules.Ignore(n, fi) &#123;</span><br><span class="line">				<span class="keyword">return</span> filepath.SkipDir</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// If a .helmignore file matches, skip this file.</span></span><br><span class="line">		<span class="keyword">if</span> rules.Ignore(n, fi) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Irregular files include devices, sockets, and other uses of files that</span></span><br><span class="line">		<span class="comment">// are not regular files. In Go they have a file mode type bit set.</span></span><br><span class="line">		<span class="comment">// See https://golang.org/pkg/os/#FileMode for examples.</span></span><br><span class="line">		<span class="keyword">if</span> !fi.Mode().IsRegular() &#123;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"cannot load irregular file %s as it has file mode type bits set"</span>, name)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		data, err := ioutil.ReadFile(name)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> errors.Wrapf(err, <span class="string">"error reading %s"</span>, n)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		data = bytes.TrimPrefix(data, utf8bom)</span><br><span class="line"></span><br><span class="line">		files = <span class="built_in">append</span>(files, &amp;BufferedFile&#123;Name: n, Data: data&#125;)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err = sympath.Walk(topdir, walk); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> c, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> LoadFiles(files)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-3-ToRenderValues"><a href="#3-3-ToRenderValues" class="headerlink" title="3.3 ToRenderValues"></a>3.3 ToRenderValues</h4><p>将合并后values值设置到Values中</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/chartutil/values.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ToRenderValues composes the struct from the data coming from the Releases, Charts and Values files</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// This takes both ReleaseOptions and Capabilities to merge into the render values.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToRenderValues</span><span class="params">(chrt *chart.Chart, chrtVals <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;, options ReleaseOptions, caps *Capabilities)</span> <span class="params">(Values, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> caps == <span class="literal">nil</span> &#123;</span><br><span class="line">		caps = DefaultCapabilities</span><br><span class="line">	&#125;</span><br><span class="line">	top := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;</span><br><span class="line">		<span class="string">"Chart"</span>:        chrt.Metadata,</span><br><span class="line">		<span class="string">"Capabilities"</span>: caps,</span><br><span class="line">		<span class="string">"Release"</span>: <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;</span><br><span class="line">			<span class="string">"Name"</span>:      options.Name,</span><br><span class="line">			<span class="string">"Namespace"</span>: options.Namespace,</span><br><span class="line">			<span class="string">"IsUpgrade"</span>: options.IsUpgrade,</span><br><span class="line">			<span class="string">"IsInstall"</span>: options.IsInstall,</span><br><span class="line">			<span class="string">"Revision"</span>:  options.Revision,</span><br><span class="line">			<span class="string">"Service"</span>:   <span class="string">"Helm"</span>,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 合并所有的values,包括子chart</span></span><br><span class="line">	vals, err := CoalesceValues(chrt, chrtVals)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> top, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := ValidateAgainstSchema(chrt, vals); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		errFmt := <span class="string">"values don't meet the specifications of the schema(s) in the following chart(s):\n%s"</span></span><br><span class="line">		<span class="keyword">return</span> top, fmt.Errorf(errFmt, err.Error())</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	top[<span class="string">"Values"</span>] = vals</span><br><span class="line">	<span class="keyword">return</span> top, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-4-renderResources"><a href="#3-4-renderResources" class="headerlink" title="3.4 renderResources"></a>3.4 renderResources</h4><p>对资源进行渲染，因为chart支持了模版，用户可以自己配置一些值，所以在安装时需要对这些<br>参数渲染成实际的值</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cfg *Configuration)</span> <span class="title">renderResources</span><span class="params">(ch *chart.Chart, values chartutil.Values, releaseName, outputDir <span class="keyword">string</span>, subNotes, useReleaseName, includeCrds <span class="keyword">bool</span>, pr postrender.PostRenderer, dryRun <span class="keyword">bool</span>)</span> <span class="params">([]*release.Hook, *bytes.Buffer, <span class="keyword">string</span>, error)</span></span> &#123;</span><br><span class="line">	hs := []*release.Hook&#123;&#125;</span><br><span class="line">	b := bytes.NewBuffer(<span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line">	caps, err := cfg.getCapabilities()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> hs, b, <span class="string">""</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ch.Metadata.KubeVersion != <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> !chartutil.IsCompatibleRange(ch.Metadata.KubeVersion, caps.KubeVersion.String()) &#123;</span><br><span class="line">			<span class="keyword">return</span> hs, b, <span class="string">""</span>, errors.Errorf(<span class="string">"chart requires kubeVersion: %s which is incompatible with Kubernetes %s"</span>, ch.Metadata.KubeVersion, caps.KubeVersion.String())</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> files <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> err2 error</span><br><span class="line"></span><br><span class="line">	<span class="comment">// A `helm template` or `helm install --dry-run` should not talk to the remote cluster.</span></span><br><span class="line">	<span class="comment">// It will break in interesting and exotic ways because other data (e.g. discovery)</span></span><br><span class="line">	<span class="comment">// is mocked. It is not up to the template author to decide when the user wants to</span></span><br><span class="line">	<span class="comment">// connect to the cluster. So when the user says to dry run, respect the user's</span></span><br><span class="line">	<span class="comment">// wishes and do not connect to the cluster.</span></span><br><span class="line">	<span class="keyword">if</span> !dryRun &amp;&amp; cfg.RESTClientGetter != <span class="literal">nil</span> &#123;</span><br><span class="line">		restConfig, err := cfg.RESTClientGetter.ToRESTConfig()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> hs, b, <span class="string">""</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">		files, err2 = engine.RenderWithClient(ch, values, restConfig)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		files, err2 = engine.Render(ch, values)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err2 != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> hs, b, <span class="string">""</span>, err2</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// NOTES.txt gets rendered like all the other files, but because it's not a hook nor a resource,</span></span><br><span class="line">	<span class="comment">// pull it out of here into a separate file so that we can actually use the output of the rendered</span></span><br><span class="line">	<span class="comment">// text file. We have to spin through this map because the file contains path information, so we</span></span><br><span class="line">	<span class="comment">// look for terminating NOTES.txt. We also remove it from the files so that we don't have to skip</span></span><br><span class="line">	<span class="comment">// it in the sortHooks.</span></span><br><span class="line">	<span class="keyword">var</span> notesBuffer bytes.Buffer</span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> files &#123;</span><br><span class="line">		<span class="keyword">if</span> strings.HasSuffix(k, notesFileSuffix) &#123;</span><br><span class="line">			<span class="keyword">if</span> subNotes || (k == path.Join(ch.Name(), <span class="string">"templates"</span>, notesFileSuffix)) &#123;</span><br><span class="line">				<span class="comment">// If buffer contains data, add newline before adding more</span></span><br><span class="line">				<span class="keyword">if</span> notesBuffer.Len() &gt; <span class="number">0</span> &#123;</span><br><span class="line">					notesBuffer.WriteString(<span class="string">"\n"</span>)</span><br><span class="line">				&#125;</span><br><span class="line">				notesBuffer.WriteString(v)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">delete</span>(files, k)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	notes := notesBuffer.String()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Sort hooks, manifests, and partials. Only hooks and manifests are returned,</span></span><br><span class="line">	<span class="comment">// as partials are not used after renderer.Render. Empty manifests are also</span></span><br><span class="line">	<span class="comment">// removed here.</span></span><br><span class="line">	hs, manifests, err := releaseutil.SortManifests(files, caps.APIVersions, releaseutil.InstallOrder)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// By catching parse errors here, we can prevent bogus releases from going</span></span><br><span class="line">		<span class="comment">// to Kubernetes.</span></span><br><span class="line">		<span class="comment">//</span></span><br><span class="line">		<span class="comment">// We return the files as a big blob of data to help the user debug parser</span></span><br><span class="line">		<span class="comment">// errors.</span></span><br><span class="line">		<span class="keyword">for</span> name, content := <span class="keyword">range</span> files &#123;</span><br><span class="line">			<span class="keyword">if</span> strings.TrimSpace(content) == <span class="string">""</span> &#123;</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line">			fmt.Fprintf(b, <span class="string">"---\n# Source: %s\n%s\n"</span>, name, content)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> hs, b, <span class="string">""</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Aggregate all valid manifests into one big doc.</span></span><br><span class="line">	fileWritten := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">bool</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> includeCrds &#123;</span><br><span class="line">		<span class="keyword">for</span> _, crd := <span class="keyword">range</span> ch.CRDObjects() &#123;</span><br><span class="line">			<span class="keyword">if</span> outputDir == <span class="string">""</span> &#123;</span><br><span class="line">				fmt.Fprintf(b, <span class="string">"---\n# Source: %s\n%s\n"</span>, crd.Name, <span class="keyword">string</span>(crd.File.Data[:]))</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				err = writeToFile(outputDir, crd.Filename, <span class="keyword">string</span>(crd.File.Data[:]), fileWritten[crd.Name])</span><br><span class="line">				<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="keyword">return</span> hs, b, <span class="string">""</span>, err</span><br><span class="line">				&#125;</span><br><span class="line">				fileWritten[crd.Name] = <span class="literal">true</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, m := <span class="keyword">range</span> manifests &#123;</span><br><span class="line">		<span class="keyword">if</span> outputDir == <span class="string">""</span> &#123;</span><br><span class="line">			fmt.Fprintf(b, <span class="string">"---\n# Source: %s\n%s\n"</span>, m.Name, m.Content)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			newDir := outputDir</span><br><span class="line">			<span class="keyword">if</span> useReleaseName &#123;</span><br><span class="line">				newDir = filepath.Join(outputDir, releaseName)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// <span class="doctag">NOTE:</span> We do not have to worry about the post-renderer because</span></span><br><span class="line">			<span class="comment">// output dir is only used by `helm template`. In the next major</span></span><br><span class="line">			<span class="comment">// release, we should move this logic to template only as it is not</span></span><br><span class="line">			<span class="comment">// used by install or upgrade</span></span><br><span class="line">			err = writeToFile(newDir, m.Name, m.Content, fileWritten[m.Name])</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> hs, b, <span class="string">""</span>, err</span><br><span class="line">			&#125;</span><br><span class="line">			fileWritten[m.Name] = <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> pr != <span class="literal">nil</span> &#123;</span><br><span class="line">		b, err = pr.Run(b)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> hs, b, notes, errors.Wrap(err, <span class="string">"error while running post render on files"</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> hs, b, notes, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-5-KindSortOrder"><a href="#3-5-KindSortOrder" class="headerlink" title="3.5 KindSortOrder"></a>3.5 KindSortOrder</h4><p>k8s资源的创建顺序</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/releaseutil/kind_sorter.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// InstallOrder is the order in which manifests should be installed (by Kind).</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Those occurring earlier in the list get installed before those occurring later in the list.</span></span><br><span class="line"><span class="comment">// helm安装的资源根据下面的顺序进行排序</span></span><br><span class="line"><span class="keyword">var</span> InstallOrder KindSortOrder = []<span class="keyword">string</span>&#123;</span><br><span class="line">	<span class="string">"Namespace"</span>,</span><br><span class="line">	<span class="string">"NetworkPolicy"</span>,</span><br><span class="line">	<span class="string">"ResourceQuota"</span>,</span><br><span class="line">	<span class="string">"LimitRange"</span>,</span><br><span class="line">	<span class="string">"PodSecurityPolicy"</span>,</span><br><span class="line">	<span class="string">"PodDisruptionBudget"</span>,</span><br><span class="line">	<span class="string">"ServiceAccount"</span>,</span><br><span class="line">	<span class="string">"Secret"</span>,</span><br><span class="line">	<span class="string">"SecretList"</span>,</span><br><span class="line">	<span class="string">"ConfigMap"</span>,</span><br><span class="line">	<span class="string">"StorageClass"</span>,</span><br><span class="line">	<span class="string">"PersistentVolume"</span>,</span><br><span class="line">	<span class="string">"PersistentVolumeClaim"</span>,</span><br><span class="line">	<span class="string">"CustomResourceDefinition"</span>,</span><br><span class="line">	<span class="string">"ClusterRole"</span>,</span><br><span class="line">	<span class="string">"ClusterRoleList"</span>,</span><br><span class="line">	<span class="string">"ClusterRoleBinding"</span>,</span><br><span class="line">	<span class="string">"ClusterRoleBindingList"</span>,</span><br><span class="line">	<span class="string">"Role"</span>,</span><br><span class="line">	<span class="string">"RoleList"</span>,</span><br><span class="line">	<span class="string">"RoleBinding"</span>,</span><br><span class="line">	<span class="string">"RoleBindingList"</span>,</span><br><span class="line">	<span class="string">"Service"</span>,</span><br><span class="line">	<span class="string">"DaemonSet"</span>,</span><br><span class="line">	<span class="string">"Pod"</span>,</span><br><span class="line">	<span class="string">"ReplicationController"</span>,</span><br><span class="line">	<span class="string">"ReplicaSet"</span>,</span><br><span class="line">	<span class="string">"Deployment"</span>,</span><br><span class="line">	<span class="string">"HorizontalPodAutoscaler"</span>,</span><br><span class="line">	<span class="string">"StatefulSet"</span>,</span><br><span class="line">	<span class="string">"Job"</span>,</span><br><span class="line">	<span class="string">"CronJob"</span>,</span><br><span class="line">	<span class="string">"IngressClass"</span>,</span><br><span class="line">	<span class="string">"Ingress"</span>,</span><br><span class="line">	<span class="string">"APIService"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-6-performInstall"><a href="#3-6-performInstall" class="headerlink" title="3.6 performInstall"></a>3.6 performInstall</h4><p>真正执行资源创建的函数，将渲染后的chart转换成k8s资源yaml,并发送请求给kubernetes</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i *Install)</span> <span class="title">performInstall</span><span class="params">(c <span class="keyword">chan</span>&lt;- resultMessage, rel *release.Release, toBeAdopted kube.ResourceList, resources kube.ResourceList)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// pre-install hooks</span></span><br><span class="line">    <span class="comment">// 执行pre-install hooks</span></span><br><span class="line">	<span class="keyword">if</span> !i.DisableHooks &#123;</span><br><span class="line">		<span class="keyword">if</span> err := i.cfg.execHook(rel, release.HookPreInstall, i.Timeout); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			i.reportToRun(c, rel, fmt.Errorf(<span class="string">"failed pre-install: %s"</span>, err))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// At this point, we can do the install. Note that before we were detecting whether to</span></span><br><span class="line">	<span class="comment">// do an update, but it's not clear whether we WANT to do an update if the re-use is set</span></span><br><span class="line">	<span class="comment">// to true, since that is basically an upgrade operation.</span></span><br><span class="line">        <span class="comment">// 没有需要升级的对象,直接创建所有的resources</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(toBeAdopted) == <span class="number">0</span> &amp;&amp; <span class="built_in">len</span>(resources) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> _, err := i.cfg.KubeClient.Create(resources); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			i.reportToRun(c, rel, err)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">len</span>(resources) &gt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="comment">// 更新已存在的资源，创建不存在的资源</span></span><br><span class="line">		<span class="keyword">if</span> _, err := i.cfg.KubeClient.Update(toBeAdopted, resources, <span class="literal">false</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			i.reportToRun(c, rel, err)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果设置了Wait则会进行等待</span></span><br><span class="line">	<span class="keyword">if</span> i.Wait &#123;</span><br><span class="line">		<span class="keyword">if</span> i.WaitForJobs &#123;</span><br><span class="line">			<span class="keyword">if</span> err := i.cfg.KubeClient.WaitWithJobs(resources, i.Timeout); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				i.reportToRun(c, rel, err)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> err := i.cfg.KubeClient.Wait(resources, i.Timeout); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				i.reportToRun(c, rel, err)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !i.DisableHooks &#123;</span><br><span class="line">		<span class="keyword">if</span> err := i.cfg.execHook(rel, release.HookPostInstall, i.Timeout); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			i.reportToRun(c, rel, fmt.Errorf(<span class="string">"failed post-install: %s"</span>, err))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(i.Description) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		rel.SetStatus(release.StatusDeployed, i.Description)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		rel.SetStatus(release.StatusDeployed, <span class="string">"Install complete"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// This is a tricky case. The release has been created, but the result</span></span><br><span class="line">	<span class="comment">// cannot be recorded. The truest thing to tell the user is that the</span></span><br><span class="line">	<span class="comment">// release was created. However, the user will not be able to do anything</span></span><br><span class="line">	<span class="comment">// further with this release.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// One possible strategy would be to do a timed retry to see if we can get</span></span><br><span class="line">	<span class="comment">// this stored in the future.</span></span><br><span class="line">	<span class="keyword">if</span> err := i.recordRelease(rel); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		i.cfg.Log(<span class="string">"failed to record the release: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	i.reportToRun(c, rel, <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<ol>
+<li><a href="https://helm.sh/zh/docs/topics/advanced/" target="_blank" rel="noopener">https://helm.sh/zh/docs/topics/advanced/</a></li>
+<li><a href="https://github.com/helm/helm/blob/main/pkg/action/install.go" target="_blank" rel="noopener">https://github.com/helm/helm/blob/main/pkg/action/install.go</a></li>
+<li><a href="https://github.com/helm/helm/blob/main/pkg/chartutil/values.go" target="_blank" rel="noopener">https://github.com/helm/helm/blob/main/pkg/chartutil/values.go</a></li>
+<li><a href="https://github.com/helm/helm/blob/main/pkg/releaseutil/kind_sorter.go" target="_blank" rel="noopener">https://github.com/helm/helm/blob/main/pkg/releaseutil/kind_sorter.go</a></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/03/31/proxy-protocol/" rel="prev" title="proxy protocol">
+                proxy protocol <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">326</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-helm项目主要目录"><span class="nav-number">1.</span> <span class="nav-text">1. helm项目主要目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-示例"><span class="nav-number">2.</span> <span class="nav-text">2. 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-源码分析"><span class="nav-number">3.</span> <span class="nav-text">3. 源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-RunWithContext"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 RunWithContext</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Load"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Load</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-ToRenderValues"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 ToRenderValues</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-renderResources"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 renderResources</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-KindSortOrder"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 KindSortOrder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-performInstall"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 performInstall</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2024</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>
