@@ -1010,6 +1010,165 @@ Admission Webhook是Kubernetes提供的一种扩展机制，用于在资源被�
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2024/06/01/k8s-subresource-status/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2024/06/01/k8s-subresource-status/" class="post-title-link" itemprop="url">k8s subresource status</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2024-06-01 19:54:59" itemprop="dateCreated datePublished" datetime="2024-06-01T19:54:59+08:00">2024-06-01</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              什么是subresource statusstatus是k8s中常见的一种子资源。
+
+/status 子资源用于更新和获取主资源的状态部
+通常由控制器或操作系统更新，以反映系统中对象的当前状态
+通过将状态更新与主资源的其他修改隔离开来，可以防止用户意外覆盖状态信息
+
+subresource stat
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2024/06/01/k8s-subresource-status/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2024/05/19/helm-chart-install源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1030,7 +1189,7 @@ Admission Webhook是Kubernetes提供的一种扩展机制，用于在资源被�
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2024/05/19/helm-chart-install源码分析/" class="post-title-link" itemprop="url">helm chart install源码分析</a>
+                <a href="/2024/05/19/helm-chart-install源码分析/" class="post-title-link" itemprop="url">helm chart install/uninstall源码分析</a>
               
             
           </h1>
@@ -3325,159 +3484,6 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/06/25/kube-controller之history/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2023/06/25/kube-controller之history/" class="post-title-link" itemprop="url">kube-controller之history</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2023-06-25 12:03:15" itemprop="dateCreated datePublished" datetime="2023-06-25T12:03:15+08:00">2023-06-25</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              ControllerRevisionControllerRevision 实现了一个不可变的状态数据快照。客户端负责序列化和反序列化包含其内部状态的对象一旦成功创建了 ControllerRevision，就不能对其进行更新,但是可以被删除。APIServer会拒绝所有试图修改 Data 字段的请求
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2023/06/25/kube-controller之history/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3524,7 +3530,7 @@ StatefulSet 用来管理某 Pod 集合的部署和扩缩， 并为这些 Pod 提
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">326</span>
+                    <span class="site-state-item-count">327</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
