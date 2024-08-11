@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/http/</loc>
+        <lastmod>2024-08-11T09:55:56.234Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/k8s/</loc>
         <lastmod>2024-06-02T01:47:52.104Z</lastmod>
         <changefreq>weekly</changefreq>
