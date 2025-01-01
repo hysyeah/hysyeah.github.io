@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="背景在使用k8s应用(可理解为一个命名空间的所有pod)的过程中,从prometheus中看到这个应用占用的内存大小为24G,而概览中显示集群中使用的内存大小为15G。此时问题就出来了为什么一个命名空间下占用的内存大小会大于节点占用的内存占用？ 分析第一猜测可能就是统计的指标不一样。 概览中的内存使用统计在集群概览中，显示的内存使用为宿主机的已使用内存大小，由 Prometheus 的以下指标计算">
+<meta name="keywords" content="k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kubernetes内存使用分析">
+<meta property="og:url" content="https://hysyeah.github.io/2025/01/01/kubernetes内存使用分析/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="背景在使用k8s应用(可理解为一个命名空间的所有pod)的过程中,从prometheus中看到这个应用占用的内存大小为24G,而概览中显示集群中使用的内存大小为15G。此时问题就出来了为什么一个命名空间下占用的内存大小会大于节点占用的内存占用？ 分析第一猜测可能就是统计的指标不一样。 概览中的内存使用统计在集群概览中，显示的内存使用为宿主机的已使用内存大小，由 Prometheus 的以下指标计算">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2025-01-01T13:13:40.876Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kubernetes内存使用分析">
+<meta name="twitter:description" content="背景在使用k8s应用(可理解为一个命名空间的所有pod)的过程中,从prometheus中看到这个应用占用的内存大小为24G,而概览中显示集群中使用的内存大小为15G。此时问题就出来了为什么一个命名空间下占用的内存大小会大于节点占用的内存占用？ 分析第一猜测可能就是统计的指标不一样。 概览中的内存使用统计在集群概览中，显示的内存使用为宿主机的已使用内存大小，由 Prometheus 的以下指标计算">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2025/01/01/kubernetes内存使用分析/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kubernetes内存使用分析 | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2025/01/01/kubernetes内存使用分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kubernetes内存使用分析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2025-01-01 16:53:07" itemprop="dateCreated datePublished" datetime="2025-01-01T16:53:07+08:00">2025-01-01</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在使用k8s应用(可理解为一个命名空间的所有pod)的过程中,从<code>prometheus</code>中看到这个应用占用的内存大小为<code>24G</code>,而概览中显示集群中使用的内存大小为<code>15G</code>。此时问题就出来了为什么一个命名空间下占用的内存大小会大于节点占用的内存占用？</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>第一猜测可能就是统计的指标不一样。</p>
+<h2 id="概览中的内存使用统计"><a href="#概览中的内存使用统计" class="headerlink" title="概览中的内存使用统计"></a>概览中的内存使用统计</h2><p>在集群概览中，显示的内存使用为宿主机的已使用内存大小，由 Prometheus 的以下指标计算得出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 已使用内存 = 内存总量-可用内存数</span><br><span class="line">cluster_memory_usage_wo_cache = </span><br><span class="line">    sum(node:node_memory_bytes_total:sum) - sum(node:node_memory_bytes_available:sum)</span><br></pre></td></tr></table></figure></p>
+<p>其中：</p>
+<ul>
+<li><code>node:node_memory_bytes_total:sum</code>：每个节点的内存总量,其中<code>node_memory_MemFree_bytes</code>是从对应节点的<code>/proc/meminfo</code>的<code>MemTotal</code>获取的。</li>
+<li><code>node:node_memory_bytes_available:sum</code>：每个节点的可用内存大小<br> 计算方法：<br> <code>available = free + cache + buffers + SReclaimble</code>,这些值是由<code>node-exporter</code>从<code>proc/meminfo</code>中读取的,然后将单位换成了<code>bytes</code>。<br><a href="https://github.com/prometheus/procfs/blob/master/meminfo.go#L241" target="_blank" rel="noopener">链接</a></li>
+</ul>
+<p>这里并没有直接使用MemAvailable？，不清楚是基于什么原因考虑的。<br>使用free -h命令时有一列是available, 这个值跟node:node_memory_bytes_available:sum的计算还有点不太一样。<br>所以通过free -h查看内存的使用信息和直接通过dashboard查看内存使用信息也是会出现一不致的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">free = node_memory_MemFree_bytes&#123;job=&quot;node-exporter&quot;&#125;              --&gt; MemFree</span><br><span class="line">cache = node_memory_Cached_bytes&#123;job=&quot;node-exporter&quot;&#125;              --&gt; Cached</span><br><span class="line">buffers = node_memory_Buffers_bytes&#123;job=&quot;node-exporter&quot;&#125;           --&gt; Buffers</span><br><span class="line">SReclaimble = node_memory_SReclaimable_bytes&#123;job=&quot;node-exporter&quot;&#125;  --&gt; SReclaimable</span><br></pre></td></tr></table></figure>
+<p><a href="https://man7.org/linux/man-pages/man5/proc_meminfo.5.html" target="_blank" rel="noopener">proc meminfo</a></p>
+<h3 id="已使用内存"><a href="#已使用内存" class="headerlink" title="已使用内存"></a>已使用内存</h3><p>假设集群为一个节点的情况下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">已使用内存 = MemTotal - (MemFree + Cached + Buffers + SReclaimble)</span><br></pre></td></tr></table></figure></p>
+<h2 id="应用中的已使用内存大小"><a href="#应用中的已使用内存大小" class="headerlink" title="应用中的已使用内存大小"></a>应用中的已使用内存大小</h2><p>应用中的已使用内存大小，<code>metric</code>名称为<code>namespace:container_memory_usage_bytes_wo_cache:sum</code><br><code>namespace:container_memory_usage_bytes_wo_cache:sum</code> 也通过自定义的prometheusRule进行预计算的。通过与 kube_namespace_labels join 聚合得到每个namespace的working_set。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- expr: |</span><br><span class="line">  sum(container_memory_working_set_bytes&#123;job=&quot;kubelet&quot;, image!=&quot;&quot;&#125; * on(namespace) group_left(workspace) kube_namespace_labels&#123;job=&quot;kube-state-metrics&quot;&#125;) by (namespace, workspace)</span><br><span class="line">  or on(namespace, workspace) max by(namespace, workspace) (kube_namespace_labels * 0)</span><br><span class="line">record: namespace:container_memory_usage_bytes_wo_cache:sum</span><br></pre></td></tr></table></figure></p>
+<p>接下来看下<code>container_memory_working_set_bytes</code>这个指标是怎么计算出来的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">container_memory_working_set_bytes = usage - inactive_file</span><br><span class="line"></span><br><span class="line">container_memory_usage_bytes = usage  // 包括所有使用的内存</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>usage</code>和<code>inactive_file</code>都是由<code>cadvisor</code>通过读取cgroup下的文件然后计算出来的。<br><a href="https://github.com/google/cadvisor/blob/4cf47a79f1447087399131adca6bd6513391d4eb/container/libcontainer/handler.go#L827" target="_blank" rel="noopener">cadvisor</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// cadvisor/info/v1/container.go</span><br><span class="line">// The amount of working set memory, this includes recently accessed memory,</span><br><span class="line">// dirty memory, and kernel memory. Working set is &lt;= &quot;usage&quot;.</span><br><span class="line">// Units: Bytes.</span><br><span class="line">WorkingSet uint64 `json:&quot;working_set&quot;`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func setMemoryStats(s *cgroups.Stats, ret *info.ContainerStats) &#123;</span><br><span class="line">    ret.Memory.Usage = s.MemoryStats.Usage.Usage</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    inactiveFileKeyName := &quot;total_inactive_file&quot;</span><br><span class="line">    if cgroups.IsCgroup2UnifiedMode() &#123;</span><br><span class="line">       inactiveFileKeyName = &quot;inactive_file&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    workingSet := ret.Memory.Usage</span><br><span class="line">    // s.MemoryStats.Stats是读取的对应的memory.stat文件</span><br><span class="line">    if v, ok := s.MemoryStats.Stats[inactiveFileKeyName]; ok &#123;</span><br><span class="line">       if workingSet &lt; v &#123;</span><br><span class="line">          workingSet = 0</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">          workingSet -= v</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ret.Memory.WorkingSet = workingSet</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中s.MemoryStats.Usage.Usage(usage)的值是直接读取/sys/fs/cgroup下对应的文件<br>memeory.usage_in_bytes(cgroupv1)/memory.current(cgroupv2)得到的。<br>s.MemoryStats.Stat读取的是对应的memory.stat文件。</p>
+<p><a href="https://facebookmicrosites.github.io/cgroup2/docs/memory-controller.html" target="_blank" rel="noopener">memory controller</a></p>
+<p>从下面的代码可以看出cadvisor<br><a href="https://github.com/opencontainers/runc/blob/main/libcontainer/cgroups/fs2/memory.go#L140" target="_blank" rel="noopener">get memory.current value with cgroupv2</a></p>
+<p>以cgroupV2为例<br>memory.current: Shows the total amount of memory currently being used by the cgroup and its descendants. It includes page cache, in-kernel data structures such as inodes, and network buffers.</p>
+<p><code>memory.stat</code><br>anno: Amount of memory used in anonymous mappings such as<br>                brk(), sbrk(), and mmap(MAP_ANONYMOUS)<br>file: Amount of memory used to cache filesystem data,<br>                including tmpfs and shared memory. Include pageCache.</p>
+<p>inactive_file: bytes of file-backed memory on inactive LRU list</p>
+<p>可以看出container_memory_working_set_bytes是包括了活跃的pageCache</p>
+<h2 id="两个指标的差异"><a href="#两个指标的差异" class="headerlink" title="两个指标的差异"></a>两个指标的差异</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">已使用内存 = MemTotal - (MemFree + Cached + Buffers + SReclaimble)</span><br><span class="line"></span><br><span class="line">container_memory_working_set_bytes = usage - inactive_file</span><br><span class="line"></span><br><span class="line">这两个指标最大的差异在于`已使用内存`没有将`PageCache`计入</span><br><span class="line">而`container_memory_working_set_bytes`则计入了活跃的`pageCache`</span><br><span class="line"></span><br><span class="line">活跃的`pageCache`越大，会导致这两个值的大小相距越大。</span><br><span class="line"></span><br><span class="line">如果inactive_file == 0, 则`已使用内存`比`container_memory_working_set_bytes`相当于多减去一项</span><br><span class="line">`pageCache`</span><br></pre></td></tr></table></figure>
+<p>回到最上面的问题，应用应该是读取或写入大量文件导致pageCache很大， container_memory_working_set_bytes  显示为24G，减去活跃的pageCahce的话内存占用为10G</p>
+<p>·<br><code>node:node_memory_bytes_total:sum</code>和<code>node:node_memory_bytes_available:sum</code>这两个指标是通过<code>promethuesRule</code>聚合计算而来,默认是一分钟计算一次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- expr: |</span><br><span class="line">    sum by (node, host_ip, role) (</span><br><span class="line">      (node_memory_MemFree_bytes&#123;job=&quot;node-exporter&quot;&#125; + node_memory_Cached_bytes&#123;job=&quot;node-exporter&quot;&#125; + node_memory_Buffers_bytes&#123;job=&quot;node-exporter&quot;&#125; + node_memory_SReclaimable_bytes&#123;job=&quot;node-exporter&quot;&#125;)</span><br><span class="line">      * on (namespace, pod) group_left(node, host_ip, role)</span><br><span class="line">        node_namespace_pod:kube_pod_info:</span><br><span class="line">    )</span><br><span class="line">  record: node:node_memory_bytes_available:sum</span><br><span class="line">- expr: |</span><br><span class="line">    sum by (node, host_ip, role) (</span><br><span class="line">      node_memory_MemTotal_bytes&#123;job=&quot;node-exporter&quot;&#125;</span><br><span class="line">      * on (namespace, pod) group_left(node, host_ip, role)</span><br><span class="line">        node_namespace_pod:kube_pod_info:</span><br><span class="line">    )</span><br><span class="line">  record: node:node_memory_bytes_total:sum</span><br><span class="line">  </span><br><span class="line">  - expr: |</span><br><span class="line">    sum(container_memory_working_set_bytes&#123;job=&quot;kubelet&quot;, image!=&quot;&quot;&#125; * on(namespace) group_left(workspace) kube_namespace_labels&#123;job=&quot;kube-state-metrics&quot;&#125;) by (namespace, workspace)</span><br><span class="line">    or on(namespace, workspace) max by(namespace, workspace) (kube_namespace_labels * 0)</span><br><span class="line">  record: namespace:container_memory_usage_bytes_wo_cache:sum</span><br></pre></td></tr></table></figure>
+<h2 id="linux系统-proc-meminfo-available值的计算"><a href="#linux系统-proc-meminfo-available值的计算" class="headerlink" title="linux系统/proc/meminfo available值的计算"></a>linux系统/proc/meminfo available值的计算</h2><p><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773" target="_blank" rel="noopener">available</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">for_each_zone(zone)</span><br><span class="line">+                wmark_low += zone-&gt;watermark[WMARK_LOW];</span><br><span class="line">+</span><br><span class="line">+        <span class="comment">/*</span></span><br><span class="line"><span class="comment">+         * Estimate the amount of memory available for userspace allocations,</span></span><br><span class="line"><span class="comment">+         * without causing swapping.</span></span><br><span class="line"><span class="comment">+         *</span></span><br><span class="line"><span class="comment">+         * Free memory cannot be taken below the low watermark, before the</span></span><br><span class="line"><span class="comment">+         * system starts swapping.</span></span><br><span class="line"><span class="comment">+         */</span></span><br><span class="line">+        available = i.freeram - wmark_low;</span><br><span class="line">+</span><br><span class="line">+        <span class="comment">/*</span></span><br><span class="line"><span class="comment">+         * Not all the page cache can be freed, otherwise the system will</span></span><br><span class="line"><span class="comment">+         * start swapping. Assume at least half of the page cache, or the</span></span><br><span class="line"><span class="comment">+         * low watermark worth of cache, needs to stay.</span></span><br><span class="line"><span class="comment">+         */</span></span><br><span class="line">+        pagecache = pages[LRU_ACTIVE_FILE] + pages[LRU_INACTIVE_FILE];</span><br><span class="line">         <span class="comment">// 直接假设一半pageCache是可用的</span></span><br><span class="line">+        pagecache -= min(pagecache / <span class="number">2</span>, wmark_low);</span><br><span class="line">+        available += pagecache;</span><br><span class="line">+</span><br><span class="line">+        <span class="comment">/*</span></span><br><span class="line"><span class="comment">+         * Part of the reclaimable swap consists of items that are in use,</span></span><br><span class="line"><span class="comment">+         * and cannot be freed. Cap this estimate at the low watermark.</span></span><br><span class="line"><span class="comment">+         */</span></span><br><span class="line">+        available += global_page_state(NR_SLAB_RECLAIMABLE) -</span><br><span class="line">+                     min(global_page_state(NR_SLAB_RECLAIMABLE) / <span class="number">2</span>, wmark_low);</span><br><span class="line">+</span><br><span class="line">+        <span class="keyword">if</span> (available &lt; <span class="number">0</span>)</span><br><span class="line">+                available = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Pod之间能否共享PageCache"><a href="#Pod之间能否共享PageCache" class="headerlink" title="Pod之间能否共享PageCache"></a>Pod之间能否共享PageCache</h2><p>PageCache由内核控制，当Pod读取宿主机上相同的文件，产生的PageCache是可以共享的。<br>先后启动两个pod(poda -&gt; podb), 两个pod先后分别读取同一个文件。<br>查看poda, podb的监控信息.<br>发现poda的container_memory_cache大小约为1.2M, 而podb的container_memory_cache大小一直基本为0(实际监控数值为4096字节)。</p>
+<h2 id="pod驱逐"><a href="#pod驱逐" class="headerlink" title="pod驱逐"></a>pod驱逐</h2><p>kubelet通过判断memory.avaible是否小于10% 来进行对pod的驱逐。<br>memory.avaible = 内存总量 - WorkingSet<br>计算规则参考如下shell script<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># for cgroupV2</span><br><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># This script reproduces what the kubelet does</span><br><span class="line"># to calculate memory.available relative to kubepods cgroup.</span><br><span class="line"></span><br><span class="line"># current memory usage</span><br><span class="line">memory_capacity_in_kb=$(cat /proc/meminfo | grep MemTotal | awk &apos;&#123;print $2&#125;&apos;)</span><br><span class="line">memory_capacity_in_bytes=$((memory_capacity_in_kb * 1024))</span><br><span class="line">memory_usage_in_bytes=$(cat /sys/fs/cgroup/kubepods.slice/memory.current)</span><br><span class="line">memory_total_inactive_file=$(cat /sys/fs/cgroup/kubepods.slice/memory.stat | grep inactive_file | awk &apos;&#123;print $2&#125;&apos;)</span><br><span class="line"></span><br><span class="line">memory_working_set=$&#123;memory_usage_in_bytes&#125;</span><br><span class="line">if [ &quot;$memory_working_set&quot; -lt &quot;$memory_total_inactive_file&quot; ];</span><br><span class="line">then</span><br><span class="line">    memory_working_set=0</span><br><span class="line">else</span><br><span class="line">    memory_working_set=$((memory_usage_in_bytes - memory_total_inactive_file))</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">memory_available_in_bytes=$((memory_capacity_in_bytes - memory_working_set))</span><br><span class="line">memory_available_in_kb=$((memory_available_in_bytes / 1024))</span><br><span class="line">memory_available_in_mb=$((memory_available_in_kb / 1024))</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#memory-signals" target="_blank" rel="noopener">https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#memory-signals</a></p>
+<h3 id="驱逐策略"><a href="#驱逐策略" class="headerlink" title="驱逐策略"></a>驱逐策略</h3><p><a href="https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/node-pressure-eviction/" target="_blank" rel="noopener">https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/node-pressure-eviction/</a><br>如果 kubelet 回收节点级资源的尝试没有使驱逐信号低于条件， 则 kubelet 开始驱逐最终用户 Pod。</p>
+<p>kubelet 使用以下参数来确定 Pod 驱逐顺序：</p>
+<p>Pod 的资源使用是否超过其请求<br>Pod 优先级<br>Pod 相对于请求的资源使用情况</p>
+<ul>
+<li>首先根据pod是否超出request.memory进行排序，这一步会将Qos为BestEffort的pod排在前面,guaranteed的pod排在后面</li>
+<li>然后是根据优先级排序</li>
+<li>最后再根据workingSet-request.memory的值进行排序，值越大排序越靠前。</li>
+</ul>
+<hr>
+<p>REF:<br><a href="https://www.kernel.org/doc/Documentation/cgroup-v2.txt" target="_blank" rel="noopener">https://www.kernel.org/doc/Documentation/cgroup-v2.txt</a><br><a href="https://www.kernel.org/doc/Documentation/cgroup-v1/memory.txt" target="_blank" rel="noopener">https://www.kernel.org/doc/Documentation/cgroup-v1/memory.txt</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/08/11/http-sse-x-ndjson/" rel="prev" title="http sse/x-ndjson">
+                http sse/x-ndjson <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+  <div>
+  
+<div>
+<script src="https://giscus.app/client.js" data-repo="hysyeah/comment" data-repo-id="R_kgDOJXD3Cw" data-category="General" data-category-id="DIC_kwDOJXD3C84CVy5V" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+</div>
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">329</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览中的内存使用统计"><span class="nav-number">2.1.</span> <span class="nav-text">概览中的内存使用统计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#已使用内存"><span class="nav-number">2.1.1.</span> <span class="nav-text">已使用内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用中的已使用内存大小"><span class="nav-number">2.2.</span> <span class="nav-text">应用中的已使用内存大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两个指标的差异"><span class="nav-number">2.3.</span> <span class="nav-text">两个指标的差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux系统-proc-meminfo-available值的计算"><span class="nav-number">2.4.</span> <span class="nav-text">linux系统/proc/meminfo available值的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod之间能否共享PageCache"><span class="nav-number">2.5.</span> <span class="nav-text">Pod之间能否共享PageCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pod驱逐"><span class="nav-number">2.6.</span> <span class="nav-text">pod驱逐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#驱逐策略"><span class="nav-number">2.6.1.</span> <span class="nav-text">驱逐策略</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>
