@@ -380,6 +380,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/10/k8s源码设计模式之Template-Method/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2023/04/10/k8s源码设计模式之Template-Method/" class="post-title-link" itemprop="url">k8s源码设计模式之Template Method</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-04-10 22:18:07" itemprop="dateCreated datePublished" datetime="2023-04-10T22:18:07+08:00">2023-04-10</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              模板方法是一种行为设计模式，用于定义一个操作的算法骨架，而将一些步骤的实现推迟到子类中。它可以使子类在不改变算法结构的情况下重定义算法中的某些步骤。
+k8s源码中client-go中模版方法
+// staging/src/k8s.io/client-go/rest/client.gotype Int
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2023/04/10/k8s源码设计模式之Template-Method/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/10/k8s源码设计模式之Observer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3288,160 +3443,6 @@ Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/01/02/Go-defer陷阱/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2021/01/02/Go-defer陷阱/" class="post-title-link" itemprop="url">Go defer陷阱[译]</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2021-01-02 13:49:39" itemprop="dateCreated datePublished" datetime="2021-01-02T13:49:39+08:00">2021-01-02</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              对等于nil的函数defer操作如果通过defer调用一个值等于nil的函数，会引发panic错误。func main() &#123;	var run func() = nil	defer run()	fmt.Println("runs")&#125;
-输出：runspanic: runtime 
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2021/01/02/Go-defer陷阱/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3488,7 +3489,7 @@ Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">328</span>
+                    <span class="site-state-item-count">329</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3700,7 +3701,7 @@ Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2024</span>
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

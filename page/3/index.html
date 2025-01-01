@@ -380,6 +380,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/18/kubelet之imagegc-manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2023/05/18/kubelet之imagegc-manager/" class="post-title-link" itemprop="url">kubelet之imagegc-manager</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-05-18 13:12:25" itemprop="dateCreated datePublished" datetime="2023-05-18T13:12:25+08:00">2023-05-18</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              imagegc-manager负责管理容器镜像生命周期。当磁盘的使用率达到所设置的值时会将没有使用的镜像给删除掉。
+kubelet通过如下的的参数来设置ImageGC策略：
+
+ImageGCHighThresholdPercent：触发gc的阈值，超过该值将会执行gc，当值为100时，不启动gc
+I
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2023/05/18/kubelet之imagegc-manager/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/17/kubelet之pod-manager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3295,161 +3452,6 @@ k8s使用代码生成的方式为每个资源对象实现了DeepCopy()方法。
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/04/10/k8s源码设计模式之Template-Method/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hys">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hysyeah">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2023/04/10/k8s源码设计模式之Template-Method/" class="post-title-link" itemprop="url">k8s源码设计模式之Template Method</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2023-04-10 22:18:07" itemprop="dateCreated datePublished" datetime="2023-04-10T22:18:07+08:00">2023-04-10</time>
-            </span>
-          
-
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              模板方法是一种行为设计模式，用于定义一个操作的算法骨架，而将一些步骤的实现推迟到子类中。它可以使子类在不改变算法结构的情况下重定义算法中的某些步骤。
-k8s源码中client-go中模版方法
-// staging/src/k8s.io/client-go/rest/client.gotype Int
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2023/04/10/k8s源码设计模式之Template-Method/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3496,7 +3498,7 @@ k8s源码中client-go中模版方法
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">328</span>
+                    <span class="site-state-item-count">329</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3708,7 +3710,7 @@ k8s源码中client-go中模版方法
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2024</span>
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
