@@ -1,27 +1,1372 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
-{% import '_macro/discus.swig' as discus_template %}
+<!DOCTYPE html>
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
 
-{% block content %}
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Kubernetes Namespace Controller是Kubernetes中的一个控制器，负责管理Kubernetes中的命名空间。命名空间是Kubernetes资源的一个逻辑分组，用于将资源隔离在不同的命名空间中，从而实现更好的资源管理和隔离。 Namespace Controller主要负责以下任务：在删除命名空间时，确保所有在该命名空间中创建的资源都被正确地清理和回收。 12345">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kube-controller之namespace">
+<meta property="og:url" content="https://hysyeah.github.io/2023/05/11/kube-controller%E4%B9%8Bnamespace/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="Kubernetes Namespace Controller是Kubernetes中的一个控制器，负责管理Kubernetes中的命名空间。命名空间是Kubernetes资源的一个逻辑分组，用于将资源隔离在不同的命名空间中，从而实现更好的资源管理和隔离。 Namespace Controller主要负责以下任务：在删除命名空间时，确保所有在该命名空间中创建的资源都被正确地清理和回收。 12345">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-11T01:27:40.000Z">
+<meta property="article:modified_time" content="2023-09-17T05:23:40.576Z">
+<meta property="article:author" content="hys">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kube-controller">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/05/11/kube-controller%E4%B9%8Bnamespace/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kube-controller之namespace | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/11/kube-controller%E4%B9%8Bnamespace/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys"/>
+      <meta itemprop="description" content=""/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kube-controller之namespace
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-05-11 09:27:40" itemprop="dateCreated datePublished" datetime="2023-05-11T09:27:40+08:00">2023-05-11</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br/>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>Kubernetes Namespace Controller</code>是<code>Kubernetes</code>中的一个控制器，负责管理<code>Kubernetes</code>中的命名空间。命名空间是<code>Kubernetes</code>资源的一个逻辑分组，用于将资源隔离在不同的命名空间中，从而实现更好的资源管理和隔离。</p>
+<p><code>Namespace Controller</code>主要负责以下任务：<br>在删除命名空间时，确保所有在该命名空间中创建的资源都被正确地清理和回收。</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 启动函数</span></span><br><span class="line"><span class="comment">// cmd/kube-controller-manager/app/core.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startNamespaceController</span><span class="params">(ctx context.Context, controllerContext ControllerContext)</span></span> (controller.Interface, <span class="type">bool</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">// the namespace cleanup controller is very chatty.  It makes lots of discovery calls and then it makes lots of delete calls</span></span><br><span class="line">	<span class="comment">// the ratelimiter negatively affects its speed.  Deleting 100 total items in a namespace (that&#x27;s only a few of each resource</span></span><br><span class="line">	<span class="comment">// including events), takes ~10 seconds by default.</span></span><br><span class="line">	nsKubeconfig := controllerContext.ClientBuilder.ConfigOrDie(<span class="string">&quot;namespace-controller&quot;</span>)</span><br><span class="line">	nsKubeconfig.QPS *= <span class="number">20</span></span><br><span class="line">	nsKubeconfig.Burst *= <span class="number">100</span></span><br><span class="line">	namespaceKubeClient := clientset.NewForConfigOrDie(nsKubeconfig)</span><br><span class="line">	<span class="keyword">return</span> startModifiedNamespaceController(ctx, controllerContext, namespaceKubeClient, nsKubeconfig)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startModifiedNamespaceController</span><span class="params">(ctx context.Context, controllerContext ControllerContext, namespaceKubeClient clientset.Interface, nsKubeconfig *restclient.Config)</span></span> (controller.Interface, <span class="type">bool</span>, <span class="type">error</span>) &#123;</span><br><span class="line"></span><br><span class="line">	metadataClient, err := metadata.NewForConfig(nsKubeconfig)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">true</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	discoverResourcesFn := namespaceKubeClient.Discovery().ServerPreferredNamespacedResources</span><br><span class="line"></span><br><span class="line">	namespaceController := namespacecontroller.NewNamespaceController(</span><br><span class="line">		ctx,</span><br><span class="line">		namespaceKubeClient,</span><br><span class="line">		metadataClient,</span><br><span class="line">		discoverResourcesFn,</span><br><span class="line">		controllerContext.InformerFactory.Core().V1().Namespaces(),</span><br><span class="line">		controllerContext.ComponentConfig.NamespaceController.NamespaceSyncPeriod.Duration,</span><br><span class="line">		v1.FinalizerKubernetes,</span><br><span class="line">	)</span><br><span class="line">	<span class="keyword">go</span> namespaceController.Run(ctx, <span class="type">int</span>(controllerContext.ComponentConfig.NamespaceController.ConcurrentNamespaceSyncs))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">true</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/controller/namespace/namespace_controller.go</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	<span class="comment">// namespaceDeletionGracePeriod is the time period to wait before processing a received namespace event.</span></span><br><span class="line">	<span class="comment">// This allows time for the following to occur:</span></span><br><span class="line">	<span class="comment">// * lifecycle admission plugins on HA apiservers to also observe a namespace</span></span><br><span class="line">	<span class="comment">//   deletion and prevent new objects from being created in the terminating namespace</span></span><br><span class="line">	<span class="comment">// * non-leader etcd servers to observe last-minute object creations in a namespace</span></span><br><span class="line">	<span class="comment">//   so this controller&#x27;s cleanup can actually clean up all objects</span></span><br><span class="line">    <span class="comment">// 延迟入队时间</span></span><br><span class="line">	namespaceDeletionGracePeriod = <span class="number">5</span> * time.Second</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// NamespaceController is responsible for performing actions dependent upon a namespace phase</span></span><br><span class="line"><span class="keyword">type</span> NamespaceController <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// lister that can list namespaces from a shared cache</span></span><br><span class="line">	lister corelisters.NamespaceLister</span><br><span class="line">	<span class="comment">// returns true when the namespace cache is ready</span></span><br><span class="line">	listerSynced cache.InformerSynced</span><br><span class="line">	<span class="comment">// namespaces that have been queued up for processing by workers</span></span><br><span class="line">	queue workqueue.RateLimitingInterface</span><br><span class="line">	<span class="comment">// helper to delete all resources in the namespace when the namespace is deleted.</span></span><br><span class="line">	namespacedResourcesDeleter deletion.NamespacedResourcesDeleterInterface</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewNamespaceController creates a new NamespaceController</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewNamespaceController</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">	ctx context.Context,</span></span></span><br><span class="line"><span class="params"><span class="function">	kubeClient clientset.Interface,</span></span></span><br><span class="line"><span class="params"><span class="function">	metadataClient metadata.Interface,</span></span></span><br><span class="line"><span class="params"><span class="function">	discoverResourcesFn <span class="keyword">func</span>()</span></span> ([]*metav1.APIResourceList, <span class="type">error</span>),</span><br><span class="line">	namespaceInformer coreinformers.NamespaceInformer,</span><br><span class="line">	resyncPeriod time.Duration,</span><br><span class="line">	finalizerToken v1.FinalizerName) *NamespaceController &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// create the controller so we can inject the enqueue function</span></span><br><span class="line">	namespaceController := &amp;NamespaceController&#123;</span><br><span class="line">		queue:                      workqueue.NewNamedRateLimitingQueue(nsControllerRateLimiter(), <span class="string">&quot;namespace&quot;</span>),</span><br><span class="line">		namespacedResourcesDeleter: deletion.NewNamespacedResourcesDeleter(ctx, kubeClient.CoreV1().Namespaces(), metadataClient, kubeClient.CoreV1(), discoverResourcesFn, finalizerToken),</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// configure the namespace informer event handlers</span></span><br><span class="line">	namespaceInformer.Informer().AddEventHandlerWithResyncPeriod(</span><br><span class="line">		cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">			AddFunc: <span class="function"><span class="keyword">func</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">				namespace := obj.(*v1.Namespace)</span><br><span class="line">				namespaceController.enqueueNamespace(namespace)</span><br><span class="line">			&#125;,</span><br><span class="line">			UpdateFunc: <span class="function"><span class="keyword">func</span><span class="params">(oldObj, newObj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">				namespace := newObj.(*v1.Namespace)</span><br><span class="line">				namespaceController.enqueueNamespace(namespace)</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">		resyncPeriod,</span><br><span class="line">	)</span><br><span class="line">	namespaceController.lister = namespaceInformer.Lister()</span><br><span class="line">	namespaceController.listerSynced = namespaceInformer.Informer().HasSynced</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> namespaceController</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nm *NamespaceController)</span></span> enqueueNamespace(obj <span class="keyword">interface</span>&#123;&#125;) &#123;</span><br><span class="line">	key, err := controller.KeyFunc(obj)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utilruntime.HandleError(fmt.Errorf(<span class="string">&quot;Couldn&#x27;t get key for object %+v: %v&quot;</span>, obj, err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	namespace := obj.(*v1.Namespace)</span><br><span class="line">	<span class="comment">// don&#x27;t queue if we aren&#x27;t deleted</span></span><br><span class="line">    <span class="comment">// !! 只有删除操作才会入队，所以说NamespaceController只处理删除操作</span></span><br><span class="line">	<span class="keyword">if</span> namespace.DeletionTimestamp == <span class="literal">nil</span> || namespace.DeletionTimestamp.IsZero() &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// delay processing namespace events to allow HA api servers to observe namespace deletion,</span></span><br><span class="line">	<span class="comment">// and HA etcd servers to observe last minute object creations inside the namespace</span></span><br><span class="line">	nm.queue.AddAfter(key, namespaceDeletionGracePeriod)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nm *NamespaceController)</span></span> Run(ctx context.Context, workers <span class="type">int</span>) &#123;</span><br><span class="line">	<span class="keyword">defer</span> utilruntime.HandleCrash()</span><br><span class="line">	<span class="keyword">defer</span> nm.queue.ShutDown()</span><br><span class="line">	logger := klog.FromContext(ctx)</span><br><span class="line">	logger.Info(<span class="string">&quot;Starting namespace controller&quot;</span>)</span><br><span class="line">	<span class="keyword">defer</span> logger.Info(<span class="string">&quot;Shutting down namespace controller&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !cache.WaitForNamedCacheSync(<span class="string">&quot;namespace&quot;</span>, ctx.Done(), nm.listerSynced) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	logger.V(<span class="number">5</span>).Info(<span class="string">&quot;Starting workers of namespace controller&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; workers; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> wait.UntilWithContext(ctx, nm.worker, time.Second)</span><br><span class="line">	&#125;</span><br><span class="line">	&lt;-ctx.Done()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nm *NamespaceController)</span></span> worker(ctx context.Context) &#123;</span><br><span class="line">    <span class="comment">// workFunc 返回值是一个bool, 表明有队列是否被关闭</span></span><br><span class="line">	workFunc := <span class="function"><span class="keyword">func</span><span class="params">(ctx context.Context)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">        <span class="comment">// 从队列中获取一个key, 如果队列已经关闭，直接退出</span></span><br><span class="line">		key, quit := nm.queue.Get()</span><br><span class="line">		<span class="keyword">if</span> quit &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">defer</span> nm.queue.Done(key)</span><br><span class="line"></span><br><span class="line">		err := nm.syncNamespaceFromKey(ctx, key.(<span class="type">string</span>))</span><br><span class="line">		<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// no error, forget this entry and return</span></span><br><span class="line">			nm.queue.Forget(key)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ok=true,表明资源未完全清除完</span></span><br><span class="line">        <span class="comment">// 这里会有一个延迟入队,等待资源被清除</span></span><br><span class="line">		<span class="keyword">if</span> estimate, ok := err.(*deletion.ResourcesRemainingError); ok &#123;</span><br><span class="line">			t := estimate.Estimate/<span class="number">2</span> + <span class="number">1</span></span><br><span class="line">			klog.FromContext(ctx).V(<span class="number">4</span>).Info(<span class="string">&quot;Content remaining in namespace&quot;</span>, <span class="string">&quot;namespace&quot;</span>, key, <span class="string">&quot;waitSeconds&quot;</span>, t)</span><br><span class="line">			nm.queue.AddAfter(key, time.Duration(t)*time.Second)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// rather than wait for a full resync, re-add the namespace to the queue to be processed</span></span><br><span class="line">            <span class="comment">// 其它错误，直接重新入队</span></span><br><span class="line">			nm.queue.AddRateLimited(key)</span><br><span class="line">			utilruntime.HandleError(fmt.Errorf(<span class="string">&quot;deletion of namespace %v failed: %v&quot;</span>, key, err))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		quit := workFunc(ctx)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 队列已关闭</span></span><br><span class="line">		<span class="keyword">if</span> quit &#123;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// syncNamespaceFromKey looks for a namespace with the specified key in its store and synchronizes it</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(nm *NamespaceController)</span></span> syncNamespaceFromKey(ctx context.Context, key <span class="type">string</span>) (err <span class="type">error</span>) &#123;</span><br><span class="line">	startTime := time.Now()</span><br><span class="line">	logger := klog.FromContext(ctx)</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		logger.V(<span class="number">4</span>).Info(<span class="string">&quot;Finished syncing namespace&quot;</span>, <span class="string">&quot;namespace&quot;</span>, key, <span class="string">&quot;duration&quot;</span>, time.Since(startTime))</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	namespace, err := nm.lister.Get(key)</span><br><span class="line">	<span class="keyword">if</span> errors.IsNotFound(err) &#123;</span><br><span class="line">		logger.Info(<span class="string">&quot;Namespace has been deleted&quot;</span>, <span class="string">&quot;namespace&quot;</span>, key)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utilruntime.HandleError(fmt.Errorf(<span class="string">&quot;Unable to retrieve namespace %v from store: %v&quot;</span>, key, err))</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> nm.namespacedResourcesDeleter.Delete(ctx, namespace.Name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/controller/namespace/deletion/namespaced_resources_deleter.go</span></span><br><span class="line"><span class="comment">// Delete deletes all resources in the given namespace.</span></span><br><span class="line"><span class="comment">// Before deleting resources:</span></span><br><span class="line"><span class="comment">//   - It ensures that deletion timestamp is set on the</span></span><br><span class="line"><span class="comment">//     namespace (does nothing if deletion timestamp is missing).</span></span><br><span class="line"><span class="comment">//   - Verifies that the namespace is in the &quot;terminating&quot; phase</span></span><br><span class="line"><span class="comment">//     (updates the namespace phase if it is not yet marked terminating)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// After deleting the resources:</span></span><br><span class="line"><span class="comment">// * It removes finalizer token from the given namespace.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Returns an error if any of those steps fail.</span></span><br><span class="line"><span class="comment">// Returns ResourcesRemainingError if it deleted some resources but needs</span></span><br><span class="line"><span class="comment">// to wait for them to go away.</span></span><br><span class="line"><span class="comment">// Caller is expected to keep calling this until it succeeds.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *namespacedResourcesDeleter)</span></span> Delete(ctx context.Context, nsName <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">// Multiple controllers may edit a namespace during termination</span></span><br><span class="line">	<span class="comment">// first get the latest state of the namespace before proceeding</span></span><br><span class="line">	<span class="comment">// if the namespace was deleted already, don&#x27;t do anything</span></span><br><span class="line">	namespace, err := d.nsClient.Get(context.TODO(), nsName, metav1.GetOptions&#123;&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> errors.IsNotFound(err) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> namespace.DeletionTimestamp == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	klog.FromContext(ctx).V(<span class="number">5</span>).Info(<span class="string">&quot;Namespace controller - syncNamespace&quot;</span>, <span class="string">&quot;namespace&quot;</span>, namespace.Name, <span class="string">&quot;finalizerToken&quot;</span>, d.finalizerToken)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ensure that the status is up to date on the namespace</span></span><br><span class="line">	<span class="comment">// if we get a not found error, we assume the namespace is truly gone</span></span><br><span class="line">	namespace, err = d.retryOnConflictError(namespace, d.updateNamespaceStatusFunc)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> errors.IsNotFound(err) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// the latest view of the namespace asserts that namespace is no longer deleting..</span></span><br><span class="line">	<span class="keyword">if</span> namespace.DeletionTimestamp.IsZero() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// return if it is already finalized.</span></span><br><span class="line">    <span class="comment">// 如果len(Spec.Finalizers)==0, return</span></span><br><span class="line">	<span class="keyword">if</span> finalized(namespace) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// there may still be content for us to remove</span></span><br><span class="line">	estimate, err := d.deleteAllContent(ctx, namespace)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 还有资源未删除</span></span><br><span class="line">	<span class="keyword">if</span> estimate &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> &amp;ResourcesRemainingError&#123;estimate&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// we have removed content, so mark it finalized by us</span></span><br><span class="line">	_, err = d.retryOnConflictError(namespace, d.finalizeNamespace)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// in normal practice, this should not be possible, but if a deployment is running</span></span><br><span class="line">		<span class="comment">// two controllers to do namespace deletion that share a common finalizer token it&#x27;s</span></span><br><span class="line">		<span class="comment">// possible that a not found could occur since the other controller would have finished the delete.</span></span><br><span class="line">		<span class="keyword">if</span> errors.IsNotFound(err) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用dynamic client删除命名空间下的所有资源</span></span><br><span class="line"><span class="comment">// 返回一个时间(估计资源删除需要的时间)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *namespacedResourcesDeleter)</span></span> deleteAllContent(ctx context.Context, ns *v1.Namespace) (<span class="type">int64</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	namespace := ns.Name</span><br><span class="line">	namespaceDeletedAt := *ns.DeletionTimestamp</span><br><span class="line">	<span class="keyword">var</span> errs []<span class="type">error</span></span><br><span class="line">	conditionUpdater := namespaceConditionUpdater&#123;&#125;</span><br><span class="line">	estimate := <span class="type">int64</span>(<span class="number">0</span>)</span><br><span class="line">	logger := klog.FromContext(ctx)</span><br><span class="line">	logger.V(<span class="number">4</span>).Info(<span class="string">&quot;namespace controller - deleteAllContent&quot;</span>, <span class="string">&quot;namespace&quot;</span>, namespace)</span><br><span class="line"></span><br><span class="line">	resources, err := d.discoverResourcesFn()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// discovery errors are not fatal.  We often have some set of resources we can operate against even if we don&#x27;t have a complete list</span></span><br><span class="line">		errs = <span class="built_in">append</span>(errs, err)</span><br><span class="line">		conditionUpdater.ProcessDiscoverResourcesErr(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// TODO(sttts): get rid of opCache and pass the verbs (especially &quot;deletecollection&quot;) down into the deleter</span></span><br><span class="line">	deletableResources := discovery.FilteredBy(discovery.SupportsAllVerbs&#123;Verbs: []<span class="type">string</span>&#123;<span class="string">&quot;delete&quot;</span>&#125;&#125;, resources)</span><br><span class="line">	groupVersionResources, err := discovery.GroupVersionResources(deletableResources)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// discovery errors are not fatal.  We often have some set of resources we can operate against even if we don&#x27;t have a complete list</span></span><br><span class="line">		errs = <span class="built_in">append</span>(errs, err)</span><br><span class="line">		conditionUpdater.ProcessGroupVersionErr(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	numRemainingTotals := allGVRDeletionMetadata&#123;</span><br><span class="line">		gvrToNumRemaining:        <span class="keyword">map</span>[schema.GroupVersionResource]<span class="type">int</span>&#123;&#125;,</span><br><span class="line">		finalizersToNumRemaining: <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> gvr := <span class="keyword">range</span> groupVersionResources &#123;</span><br><span class="line">		gvrDeletionMetadata, err := d.deleteAllContentForGroupVersionResource(ctx, gvr, namespace, namespaceDeletedAt)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// If there is an error, hold on to it but proceed with all the remaining</span></span><br><span class="line">			<span class="comment">// groupVersionResources.</span></span><br><span class="line">			errs = <span class="built_in">append</span>(errs, err)</span><br><span class="line">			conditionUpdater.ProcessDeleteContentErr(err)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> gvrDeletionMetadata.finalizerEstimateSeconds &gt; estimate &#123;</span><br><span class="line">			estimate = gvrDeletionMetadata.finalizerEstimateSeconds</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> gvrDeletionMetadata.numRemaining &gt; <span class="number">0</span> &#123;</span><br><span class="line">			numRemainingTotals.gvrToNumRemaining[gvr] = gvrDeletionMetadata.numRemaining</span><br><span class="line">			<span class="keyword">for</span> finalizer, numRemaining := <span class="keyword">range</span> gvrDeletionMetadata.finalizersToNumRemaining &#123;</span><br><span class="line">				<span class="keyword">if</span> numRemaining == <span class="number">0</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				numRemainingTotals.finalizersToNumRemaining[finalizer] = numRemainingTotals.finalizersToNumRemaining[finalizer] + numRemaining</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	conditionUpdater.ProcessContentTotals(numRemainingTotals)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// we always want to update the conditions because if we have set a condition to &quot;it worked&quot; after it was previously, &quot;it didn&#x27;t work&quot;,</span></span><br><span class="line">	<span class="comment">// we need to reflect that information.  Recall that additional finalizers can be set on namespaces, so this finalizer may clear itself and</span></span><br><span class="line">	<span class="comment">// NOT remove the resource instance.</span></span><br><span class="line">	<span class="keyword">if</span> hasChanged := conditionUpdater.Update(ns); hasChanged &#123;</span><br><span class="line">		<span class="keyword">if</span> _, err = d.nsClient.UpdateStatus(context.TODO(), ns, metav1.UpdateOptions&#123;&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			utilruntime.HandleError(fmt.Errorf(<span class="string">&quot;couldn&#x27;t update status condition for namespace %q: %v&quot;</span>, namespace, err))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// if len(errs)==0, NewAggregate returns nil.</span></span><br><span class="line">	err = utilerrors.NewAggregate(errs)</span><br><span class="line">	logger.V(<span class="number">4</span>).Info(<span class="string">&quot;namespace controller - deleteAllContent&quot;</span>, <span class="string">&quot;namespace&quot;</span>, namespace, <span class="string">&quot;estimate&quot;</span>, estimate, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">	<span class="keyword">return</span> estimate, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结：<br><code>NamespaceController</code>相对比较简单，只有一个删除的调谐操作。</p>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/cmd/kube-controller-manager/app/core.go">cmd/kube-controller-manager/app/core.go</a><br>2.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/controller/namespace/namespace_controller.go">pkg/controller/namespace/namespace_controller.go</a><br>3.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/controller/namespace/deletion/namespaced_resources_deleter.go">pkg/controller/namespace/deletion/namespaced_resources_deleter.go</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/kube-controller/" rel="tag"><i class="fa fa-tag">kube-controller</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/05/12/kube-controller%E4%B9%8Bpodgc/" rel="prev" title="kube-controller之podgc">
+                <i class="fa fa-chevron-left"></i> kube-controller之podgc
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/05/10/kube-controller%E4%B9%8Breplicaset/" rel="prev" title="kube-controller之replicaset">
+                kube-controller之replicaset <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
   <div>
-  {{ discus_template.render(true)}}
+  
+<div>
+<script src="https://giscus.app/client.js"
+        data-repo="hysyeah/comment"
+        data-repo-id="R_kgDOJXD3Cw"
+        data-category="General"
+        data-category-id="DIC_kwDOJXD3C84CVy5V"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">329</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn/" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>

@@ -3,8 +3,15 @@
 
 
     <url>
+        <loc>https://hysyeah.github.io/tags/etcd/</loc>
+        <lastmod>2025-08-17T11:42:50.772Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://hysyeah.github.io/tags/k8s/</loc>
-        <lastmod>2025-01-01T13:13:40.876Z</lastmod>
+        <lastmod>2025-08-17T11:42:50.772Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -187,13 +194,6 @@
     <url>
         <loc>https://hysyeah.github.io/tags/go/</loc>
         <lastmod>2023-09-17T05:23:40.570Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://hysyeah.github.io/tags/etcd/</loc>
-        <lastmod>2023-09-17T05:23:40.569Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

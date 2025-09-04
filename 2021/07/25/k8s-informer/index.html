@@ -1,27 +1,1412 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
-{% import '_macro/discus.swig' as discus_template %}
+<!DOCTYPE html>
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
 
-{% block content %}
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="今天通过一张图和一段代码来完全掌握k8s中的informer机制。 图片来源 Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO中.监听的对象需要实现ListAndWatch方法.监听的对象可以是k8s中的内置资源也可以自定义资源DeltaFIFO: 一个存储资源对象的先进先出队列Indexer: 自带索引功能的本地存储.可参考k8s-indexerk8s代码版本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s informer">
+<meta property="og:url" content="https://hysyeah.github.io/2021/07/25/k8s-informer/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="今天通过一张图和一段代码来完全掌握k8s中的informer机制。 图片来源 Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO中.监听的对象需要实现ListAndWatch方法.监听的对象可以是k8s中的内置资源也可以自定义资源DeltaFIFO: 一个存储资源对象的先进先出队列Indexer: 自带索引功能的本地存储.可参考k8s-indexerk8s代码版本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://img.hysyeah.top/2021/7/k8s-informer.jpg">
+<meta property="og:image" content="http://img.hysyeah.top/2021/7/20210725201508-podinformercreate.png">
+<meta property="article:published_time" content="2021-07-25T13:51:04.000Z">
+<meta property="article:modified_time" content="2023-09-17T05:23:40.571Z">
+<meta property="article:author" content="hys">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.hysyeah.top/2021/7/k8s-informer.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2021/07/25/k8s-informer/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>k8s informer | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2021/07/25/k8s-informer/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys"/>
+      <meta itemprop="description" content=""/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">k8s informer
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-07-25 21:51:04" itemprop="dateCreated datePublished" datetime="2021-07-25T21:51:04+08:00">2021-07-25</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br/>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天通过一张图和一段代码来完全掌握k8s中的informer机制。</p>
+<p><a href="https://github.com/kubernetes/sample-controller/blob/master/docs/images/client-go-controller-interaction.jpeg">图片来源</a><br><img src="http://img.hysyeah.top/2021/7/k8s-informer.jpg" alt="image"></p>
+<h5 id="Reflector-用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO中-监听的对象需要实现ListAndWatch方法-监听的对象可以是k8s中的内置资源也可以自定义资源"><a href="#Reflector-用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO中-监听的对象需要实现ListAndWatch方法-监听的对象可以是k8s中的内置资源也可以自定义资源" class="headerlink" title="Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO中.监听的对象需要实现ListAndWatch方法.监听的对象可以是k8s中的内置资源也可以自定义资源"></a>Reflector: 用于监听指定k8s资源的变化，并将事件推送到<code>DeltaFIFO</code>中.监听的对象需要实现<code>ListAndWatch</code>方法.监听的对象可以是k8s中的内置资源也可以自定义资源</h5><h5 id="DeltaFIFO-一个存储资源对象的先进先出队列"><a href="#DeltaFIFO-一个存储资源对象的先进先出队列" class="headerlink" title="DeltaFIFO: 一个存储资源对象的先进先出队列"></a>DeltaFIFO: 一个存储资源对象的先进先出队列</h5><h5 id="Indexer-自带索引功能的本地存储-可参考k8s-indexer"><a href="#Indexer-自带索引功能的本地存储-可参考k8s-indexer" class="headerlink" title="Indexer: 自带索引功能的本地存储.可参考k8s-indexer"></a>Indexer: 自带索引功能的本地存储.可参考<a href="http://hysyeah.top/2021/07/11/k8s-Indexer%E7%B4%A2%E5%BC%95%E5%99%A8%E5%AE%9E%E7%8E%B0/">k8s-indexer</a></h5><p>k8s代码版本为<code>V1.21</code></p>
+<h4 id="Reflector结构定义"><a href="#Reflector结构定义" class="headerlink" title="Reflector结构定义"></a>Reflector结构定义</h4><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// staging/src/k8s.io/client-go/tools/cache/reflector.go</span></span><br><span class="line"><span class="comment">// Reflector 监听指定资源变化并将变化事件推送到指定存储</span></span><br><span class="line"><span class="keyword">type</span> Reflector <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="comment">// 只列出部分字段</span></span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    <span class="comment">// 指定存储</span></span><br><span class="line">    <span class="comment">// 需实现Add,Update,Delete,List,ListKeys,Get,GetByKey,Replace,Resync方法</span></span><br><span class="line">    store Store</span><br><span class="line">    listerWatcher ListerWatcher</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// staging/src/k8s.io/client-go/tools/cache/listwatch.go</span></span><br><span class="line"><span class="keyword">type</span> Lister <span class="keyword">interface</span> &#123;</span><br><span class="line">	List(options metav1.ListOptions) (runtime.Object, <span class="type">error</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Watcher <span class="keyword">interface</span> &#123;</span><br><span class="line">	Watch(options metav1.ListOptions) (watch.Interface, <span class="type">error</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ListerWatcher <span class="keyword">interface</span> &#123;</span><br><span class="line">	Lister</span><br><span class="line">	Watcher</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ListFunc knows how to list resources</span></span><br><span class="line"><span class="keyword">type</span> ListFunc <span class="function"><span class="keyword">func</span><span class="params">(options metav1.ListOptions)</span></span> (runtime.Object, <span class="type">error</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// WatchFunc knows how to watch resources</span></span><br><span class="line"><span class="keyword">type</span> WatchFunc <span class="function"><span class="keyword">func</span><span class="params">(options metav1.ListOptions)</span></span> (watch.Interface, <span class="type">error</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ListWatch knows how to list and watch a set of apiserver resources.  It satisfies the ListerWatcher interface.</span></span><br><span class="line"><span class="comment">// It is a convenience function for users of NewReflector, etc.</span></span><br><span class="line"><span class="comment">// ListFunc and WatchFunc must not be nil</span></span><br><span class="line"><span class="keyword">type</span> ListWatch <span class="keyword">struct</span> &#123;</span><br><span class="line">	ListFunc  ListFunc</span><br><span class="line">	WatchFunc WatchFunc</span><br><span class="line">	<span class="comment">// DisableChunking requests no chunking for this list watcher.</span></span><br><span class="line">	DisableChunking <span class="type">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewListWatchFromClient creates a new ListWatch from the specified client, resource, namespace and field selector.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewListWatchFromClient</span><span class="params">(c Getter, resource <span class="type">string</span>, namespace <span class="type">string</span>, fieldSelector fields.Selector)</span></span> *ListWatch &#123;</span><br><span class="line">	optionsModifier := <span class="function"><span class="keyword">func</span><span class="params">(options *metav1.ListOptions)</span></span> &#123;</span><br><span class="line">		options.FieldSelector = fieldSelector.String()</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> NewFilteredListWatchFromClient(c, resource, namespace, optionsModifier)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewFilteredListWatchFromClient creates a new ListWatch from the specified client, resource, namespace, and option modifier.</span></span><br><span class="line"><span class="comment">// Option modifier is a function takes a ListOptions and modifies the consumed ListOptions. Provide customized modifier function</span></span><br><span class="line"><span class="comment">// to apply modification to ListOptions with a field selector, a label selector, or any other desired options.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewFilteredListWatchFromClient</span><span class="params">(c Getter, resource <span class="type">string</span>, namespace <span class="type">string</span>, optionsModifier <span class="keyword">func</span>(options *metav1.ListOptions)</span></span>) *ListWatch &#123;</span><br><span class="line">	listFunc := <span class="function"><span class="keyword">func</span><span class="params">(options metav1.ListOptions)</span></span> (runtime.Object, <span class="type">error</span>) &#123;</span><br><span class="line">		optionsModifier(&amp;options)</span><br><span class="line">		<span class="keyword">return</span> c.Get().</span><br><span class="line">			Namespace(namespace).</span><br><span class="line">			Resource(resource).</span><br><span class="line">			VersionedParams(&amp;options, metav1.ParameterCodec).</span><br><span class="line">			Do(context.TODO()).</span><br><span class="line">			Get()</span><br><span class="line">	&#125;</span><br><span class="line">	watchFunc := <span class="function"><span class="keyword">func</span><span class="params">(options metav1.ListOptions)</span></span> (watch.Interface, <span class="type">error</span>) &#123;</span><br><span class="line">		options.Watch = <span class="literal">true</span></span><br><span class="line">		optionsModifier(&amp;options)</span><br><span class="line">		<span class="keyword">return</span> c.Get().</span><br><span class="line">			Namespace(namespace).</span><br><span class="line">			Resource(resource).</span><br><span class="line">			VersionedParams(&amp;options, metav1.ParameterCodec).</span><br><span class="line">			Watch(context.TODO())</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &amp;ListWatch&#123;ListFunc: listFunc, WatchFunc: watchFunc&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// List a set of apiserver resources</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(lw *ListWatch)</span></span> List(options metav1.ListOptions) (runtime.Object, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">// ListWatch is used in Reflector, which already supports pagination.</span></span><br><span class="line">	<span class="comment">// Don&#x27;t paginate here to avoid duplication.</span></span><br><span class="line">	<span class="keyword">return</span> lw.ListFunc(options)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Watch a set of apiserver resources</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(lw *ListWatch)</span></span> Watch(options metav1.ListOptions) (watch.Interface, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> lw.WatchFunc(options)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="DeltaFIFO结构定义"><a href="#DeltaFIFO结构定义" class="headerlink" title="DeltaFIFO结构定义"></a>DeltaFIFO结构定义</h4><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// staging/src/k8s.io/client-go/tools/cache/delta_fifo.go</span></span><br><span class="line"><span class="keyword">type</span> DeltaFIFO <span class="keyword">struct</span> &#123;</span><br><span class="line">	lock sync.RWMutex</span><br><span class="line">	cond sync.Cond</span><br><span class="line"></span><br><span class="line">	items <span class="keyword">map</span>[<span class="type">string</span>]Deltas</span><br><span class="line">    queue []<span class="type">string</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Delta <span class="keyword">struct</span> &#123;</span><br><span class="line">	Type   DeltaType    <span class="comment">// 事件类型：string</span></span><br><span class="line">	Object <span class="keyword">interface</span>&#123;&#125;  <span class="comment">// 资源对象: k8s对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Deltas []Delta</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="通过一段代码来搞清楚informer是怎么工作的"><a href="#通过一段代码来搞清楚informer是怎么工作的" class="headerlink" title="通过一段代码来搞清楚informer是怎么工作的"></a>通过一段代码来搞清楚informer是怎么工作的</h4><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 构建config</span></span><br><span class="line">	config, err := clientcmd.BuildConfigFromFlags(<span class="string">&quot;&quot;</span>,<span class="string">&quot;/root/.kube/config&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	clientset, err := kubernetes.NewForConfig(config)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	stopCh := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">    <span class="keyword">defer</span> <span class="built_in">close</span>(stopCh)</span><br><span class="line">    <span class="comment">// informer的工厂函数,返回的是sharedInformerFactory对象</span></span><br><span class="line">    factory := informers.NewSharedInformerFactory(clientset, time.Minute)</span><br><span class="line">    <span class="comment">// 创建Pod资源对象的Informer</span></span><br><span class="line">    informer := factory.Core().V1().Pods().Informer()</span><br><span class="line">    <span class="comment">// 注册事件回调函数</span></span><br><span class="line">	informer.AddEventHandler(cache.ResourceEventHandlerFuncs&#123;</span><br><span class="line">		AddFunc: <span class="function"><span class="keyword">func</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">			p := obj.(*corev1.Pod)</span><br><span class="line">			fmt.Println(<span class="string">&quot;add a pod:&quot;</span>, p.Name)</span><br><span class="line">		&#125;,</span><br><span class="line">		UpdateFunc: <span class="function"><span class="keyword">func</span><span class="params">(oldObj, newObj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">			fmt.Println(<span class="string">&quot;update a pod&quot;</span>)</span><br><span class="line">		&#125;,</span><br><span class="line">		DeleteFunc: <span class="function"><span class="keyword">func</span><span class="params">(obj <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">			fmt.Println(<span class="string">&quot;delete a pod&quot;</span>)</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;)</span><br><span class="line">	informer.Run(stopCh)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>1.获取informer工厂函数</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/informers/factory.go</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="keyword">type</span> sharedInformerFactory <span class="keyword">struct</span> &#123;</span><br><span class="line">	client           kubernetes.Interface</span><br><span class="line">	namespace        <span class="type">string</span></span><br><span class="line">	tweakListOptions internalinterfaces.TweakListOptionsFunc</span><br><span class="line">	lock             sync.Mutex</span><br><span class="line">	defaultResync    time.Duration</span><br><span class="line">	customResync     <span class="keyword">map</span>[reflect.Type]time.Duration</span><br><span class="line"></span><br><span class="line">	informers <span class="keyword">map</span>[reflect.Type]cache.SharedIndexInformer</span><br><span class="line">	<span class="comment">// startedInformers is used for tracking which informers have been started.</span></span><br><span class="line">	<span class="comment">// This allows Start() to be called multiple times safely.</span></span><br><span class="line">	startedInformers <span class="keyword">map</span>[reflect.Type]<span class="type">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用NewSharedInformerFactoryWithOptions创建一个sharedInformerFactory并最先实例化</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewSharedInformerFactoryWithOptions</span><span class="params">(client kubernetes.Interface, defaultResync time.Duration, options ...SharedInformerOption)</span></span> SharedInformerFactory &#123;</span><br><span class="line">	factory := &amp;sharedInformerFactory&#123;</span><br><span class="line">		client:           client,</span><br><span class="line">		namespace:        v1.NamespaceAll,</span><br><span class="line">		defaultResync:    defaultResync,</span><br><span class="line">		informers:        <span class="built_in">make</span>(<span class="keyword">map</span>[reflect.Type]cache.SharedIndexInformer),</span><br><span class="line">		startedInformers: <span class="built_in">make</span>(<span class="keyword">map</span>[reflect.Type]<span class="type">bool</span>),</span><br><span class="line">		customResync:     <span class="built_in">make</span>(<span class="keyword">map</span>[reflect.Type]time.Duration),</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Apply all options</span></span><br><span class="line">	<span class="keyword">for</span> _, opt := <span class="keyword">range</span> options &#123;</span><br><span class="line">		factory = opt(factory)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> factory</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// SharedIndexInformer provides add and get Indexers ability based on SharedInformer.</span><br><span class="line">// 在SharedInformer的基础上提供了Indexers能力</span><br><span class="line">type SharedIndexInformer interface &#123;</span><br><span class="line">	SharedInformer</span><br><span class="line">	// AddIndexers add indexers to the informer before it starts.</span><br><span class="line">	AddIndexers(indexers Indexers) error</span><br><span class="line">	GetIndexer() Indexer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.<code>informer</code>的创建流程<br><img src="http://img.hysyeah.top/2021/7/20210725201508-podinformercreate.png" alt="image"><br><code>informer := factory.Core().V1().Pods().Informer()</code><br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/informers/factory.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *sharedInformerFactory)</span></span> Core() core.Interface &#123;</span><br><span class="line">	<span class="keyword">return</span> core.New(f, f.namespace, f.tweakListOptions)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/informers/core/interface.go</span></span><br><span class="line"><span class="keyword">type</span> group <span class="keyword">struct</span> &#123;</span><br><span class="line">	factory          internalinterfaces.SharedInformerFactory</span><br><span class="line">	namespace        <span class="type">string</span></span><br><span class="line">	tweakListOptions internalinterfaces.TweakListOptionsFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// New(core.New) returns a new Interface.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">(f internalinterfaces.SharedInformerFactory, namespace <span class="type">string</span>, tweakListOptions internalinterfaces.TweakListOptionsFunc)</span></span> Interface &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;group&#123;factory: f, namespace: namespace, tweakListOptions: tweakListOptions&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// V1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *group)</span></span> V1() v1.Interface &#123;</span><br><span class="line">	<span class="keyword">return</span> v1.New(g.factory, g.namespace, g.tweakListOptions)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/informers/core/v1/interface.go</span></span><br><span class="line"><span class="keyword">type</span> version <span class="keyword">struct</span> &#123;</span><br><span class="line">	factory          internalinterfaces.SharedInformerFactory</span><br><span class="line">	namespace        <span class="type">string</span></span><br><span class="line">	tweakListOptions internalinterfaces.TweakListOptionsFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// New(V1.New) returns a new Interface.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">(f internalinterfaces.SharedInformerFactory, namespace <span class="type">string</span>, tweakListOptions internalinterfaces.TweakListOptionsFunc)</span></span> Interface &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;version&#123;factory: f, namespace: namespace, tweakListOptions: tweakListOptions&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Pods返回PodInformer实例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v *version)</span></span> Pods() PodInformer &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;podInformer&#123;factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/informers/core/v1/pod.go</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *podInformer)</span></span> Informer() cache.SharedIndexInformer &#123;</span><br><span class="line">	<span class="keyword">return</span> f.factory.InformerFor(&amp;corev1.Pod&#123;&#125;, f.defaultInformer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/informers/factory.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *sharedInformerFactory)</span></span> InformerFor(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer &#123;</span><br><span class="line">	f.lock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> f.lock.Unlock()</span><br><span class="line"></span><br><span class="line">	informerType := reflect.TypeOf(obj)</span><br><span class="line">	informer, exists := f.informers[informerType]</span><br><span class="line">	<span class="keyword">if</span> exists &#123;</span><br><span class="line">		<span class="keyword">return</span> informer</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	resyncPeriod, exists := f.customResync[informerType]</span><br><span class="line">	<span class="keyword">if</span> !exists &#123;</span><br><span class="line">		resyncPeriod = f.defaultResync</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	informer = newFunc(f.client, resyncPeriod)</span><br><span class="line">	f.informers[informerType] = informer</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> informer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.informer是如何启动的<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/tools/cache/shared_informer.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *sharedIndexInformer)</span></span> Run(stopCh &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;) &#123;</span><br><span class="line">	<span class="keyword">defer</span> utilruntime.HandleCrash()</span><br><span class="line">    <span class="comment">// 创建一个FIFO队列</span></span><br><span class="line">	fifo := NewDeltaFIFOWithOptions(DeltaFIFOOptions&#123;</span><br><span class="line">		KnownObjects:          s.indexer,</span><br><span class="line">		EmitDeltaTypeReplaced: <span class="literal">true</span>,</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	cfg := &amp;Config&#123;</span><br><span class="line">        Queue:            fifo,</span><br><span class="line">        <span class="comment">// 设置ListerWatcher函数</span></span><br><span class="line">        ListerWatcher:    s.listerWatcher,</span><br><span class="line">        <span class="comment">// 对象类型v1.Pod</span></span><br><span class="line">		ObjectType:       s.objectType,</span><br><span class="line">		FullResyncPeriod: s.resyncCheckPeriod,</span><br><span class="line">		RetryOnError:     <span class="literal">false</span>,</span><br><span class="line">		ShouldResync:     s.processor.shouldResync,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里应该是设置事件回调函数</span></span><br><span class="line">		Process:           s.HandleDeltas,</span><br><span class="line">		WatchErrorHandler: s.watchErrorHandler,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		s.startedLock.Lock()</span><br><span class="line">		<span class="keyword">defer</span> s.startedLock.Unlock()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据上面的配置文件,创建一个Controller对象</span></span><br><span class="line">		s.controller = New(cfg)</span><br><span class="line">		s.controller.(*controller).clock = s.clock</span><br><span class="line">		s.started = <span class="literal">true</span></span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Separate stop channel because Processor should be stopped strictly after controller</span></span><br><span class="line">	processorStopCh := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">	<span class="keyword">var</span> wg wait.Group</span><br><span class="line">	<span class="keyword">defer</span> wg.Wait()              <span class="comment">// Wait for Processor to stop</span></span><br><span class="line">    <span class="keyword">defer</span> <span class="built_in">close</span>(processorStopCh) <span class="comment">// Tell Processor to stop</span></span><br><span class="line">    <span class="comment">// 启动两个goroutine</span></span><br><span class="line">    wg.StartWithChannel(processorStopCh, s.cacheMutationDetector.Run)</span><br><span class="line">	wg.StartWithChannel(processorStopCh, s.processor.run)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		s.startedLock.Lock()</span><br><span class="line">		<span class="keyword">defer</span> s.startedLock.Unlock()</span><br><span class="line">		s.stopped = <span class="literal">true</span> <span class="comment">// Don&#x27;t want any new listeners</span></span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="comment">// 运行控制器</span></span><br><span class="line">	s.controller.Run(stopCh)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 进入到s.controller.Run(stopCh),在这里会创建Reflector对象</span></span><br><span class="line"><span class="comment">// client-go/tools/cache/controller.go</span></span><br><span class="line"><span class="comment">// s.controller.Run(stopCh)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *controller)</span></span> Run(stopCh &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;) &#123;</span><br><span class="line">	<span class="keyword">defer</span> utilruntime.HandleCrash()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		&lt;-stopCh</span><br><span class="line">		c.config.Queue.Close()</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="comment">// 创建Reflector</span></span><br><span class="line"></span><br><span class="line">	r := NewReflector(</span><br><span class="line">		c.config.ListerWatcher,</span><br><span class="line">		c.config.ObjectType,</span><br><span class="line">		c.config.Queue,</span><br><span class="line">		c.config.FullResyncPeriod,</span><br><span class="line">	)</span><br><span class="line">	r.ShouldResync = c.config.ShouldResync</span><br><span class="line">	r.WatchListPageSize = c.config.WatchListPageSize</span><br><span class="line">	r.clock = c.clock</span><br><span class="line">	<span class="keyword">if</span> c.config.WatchErrorHandler != <span class="literal">nil</span> &#123;</span><br><span class="line">		r.watchErrorHandler = c.config.WatchErrorHandler</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	c.reflectorMutex.Lock()</span><br><span class="line">	c.reflector = r</span><br><span class="line">	c.reflectorMutex.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> wg wait.Group</span><br><span class="line">    <span class="comment">// 以goroutine的形式启动Reflector</span></span><br><span class="line">	wg.StartWithChannel(stopCh, r.Run)</span><br><span class="line">    <span class="comment">// 以goroutine的形式启动c.processLoop,</span></span><br><span class="line">	wait.Until(c.processLoop, time.Second, stopCh)</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从工作队列中获取元素,并进行处理</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *controller)</span></span> processLoop() &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		obj, err := c.config.Queue.Pop(PopProcessFunc(c.config.Process))</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> err == ErrFIFOClosed &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> c.config.RetryOnError &#123;</span><br><span class="line">				<span class="comment">// This is the safe way to re-enqueue.</span></span><br><span class="line">				c.config.Queue.AddIfNotPresent(obj)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/tools/cache/delta_fifo.go</span></span><br><span class="line"><span class="comment">// 从队列中Pop元素，并执行用户自定义的事件回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *DeltaFIFO)</span></span> Pop(process PopProcessFunc) (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>) &#123;</span><br><span class="line">	f.lock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> f.lock.Unlock()</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> <span class="built_in">len</span>(f.queue) == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="comment">// When the queue is empty, invocation of Pop() is blocked until new item is enqueued.</span></span><br><span class="line">			<span class="comment">// When Close() is called, the f.closed is set and the condition is broadcasted.</span></span><br><span class="line">			<span class="comment">// Which causes this loop to continue and return from the Pop().</span></span><br><span class="line">			<span class="keyword">if</span> f.closed &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">nil</span>, ErrFIFOClosed</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			f.cond.Wait()</span><br><span class="line">		&#125;</span><br><span class="line">		id := f.queue[<span class="number">0</span>]</span><br><span class="line">		f.queue = f.queue[<span class="number">1</span>:]</span><br><span class="line">		<span class="keyword">if</span> f.initialPopulationCount &gt; <span class="number">0</span> &#123;</span><br><span class="line">			f.initialPopulationCount--</span><br><span class="line">		&#125;</span><br><span class="line">		item, ok := f.items[id]</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			<span class="comment">// This should never happen</span></span><br><span class="line">			klog.Errorf(<span class="string">&quot;Inconceivable! %q was in f.queue but not f.items; ignoring.&quot;</span>, id)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">        <span class="built_in">delete</span>(f.items, id)</span><br><span class="line">        <span class="comment">// 用户自定义的事件 处理函数</span></span><br><span class="line">		err := process(item)</span><br><span class="line">		<span class="keyword">if</span> e, ok := err.(ErrRequeue); ok &#123;</span><br><span class="line">			f.addIfNotPresent(id, item)</span><br><span class="line">			err = e.Err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Don&#x27;t need to copyDeltas here, because we&#x27;re transferring</span></span><br><span class="line">		<span class="comment">// ownership to the caller.</span></span><br><span class="line">		<span class="keyword">return</span> item, err</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们进入process(item)函数<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/tools/cache/shared_informer.go</span></span><br><span class="line"><span class="comment">// 真正处理DeltaFIFO数据的函数</span></span><br><span class="line"><span class="comment">// 这里会将获取到的数据存入indexer中(如果数据存在的话进行更新操作，否则直接插入)，完成后还会进行distribute操作</span></span><br><span class="line"><span class="comment">// 将事件分发给监听者</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *sharedIndexInformer)</span></span> HandleDeltas(obj <span class="keyword">interface</span>&#123;&#125;) <span class="type">error</span> &#123;</span><br><span class="line">	s.blockDeltas.Lock()</span><br><span class="line">	<span class="keyword">defer</span> s.blockDeltas.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// from oldest to newest</span></span><br><span class="line">	<span class="keyword">for</span> _, d := <span class="keyword">range</span> obj.(Deltas) &#123;</span><br><span class="line">		<span class="keyword">switch</span> d.Type &#123;</span><br><span class="line">		<span class="keyword">case</span> Sync, Replaced, Added, Updated:</span><br><span class="line">			s.cacheMutationDetector.AddObject(d.Object)</span><br><span class="line">			<span class="keyword">if</span> old, exists, err := s.indexer.Get(d.Object); err == <span class="literal">nil</span> &amp;&amp; exists &#123;</span><br><span class="line">				<span class="keyword">if</span> err := s.indexer.Update(d.Object); err != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="keyword">return</span> err</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				isSync := <span class="literal">false</span></span><br><span class="line">				<span class="keyword">switch</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> d.Type == Sync:</span><br><span class="line">					<span class="comment">// Sync events are only propagated to listeners that requested resync</span></span><br><span class="line">					isSync = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">case</span> d.Type == Replaced:</span><br><span class="line">					<span class="keyword">if</span> accessor, err := meta.Accessor(d.Object); err == <span class="literal">nil</span> &#123;</span><br><span class="line">						<span class="keyword">if</span> oldAccessor, err := meta.Accessor(old); err == <span class="literal">nil</span> &#123;</span><br><span class="line">							<span class="comment">// Replaced events that didn&#x27;t change resourceVersion are treated as resync events</span></span><br><span class="line">							<span class="comment">// and only propagated to listeners that requested resync</span></span><br><span class="line">							isSync = accessor.GetResourceVersion() == oldAccessor.GetResourceVersion()</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				s.processor.distribute(updateNotification&#123;oldObj: old, newObj: d.Object&#125;, isSync)</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> err := s.indexer.Add(d.Object); err != <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="keyword">return</span> err</span><br><span class="line">				&#125;</span><br><span class="line">				s.processor.distribute(addNotification&#123;newObj: d.Object&#125;, <span class="literal">false</span>)</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> Deleted:</span><br><span class="line">			<span class="keyword">if</span> err := s.indexer.Delete(d.Object); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">			s.processor.distribute(deleteNotification&#123;oldObj: d.Object&#125;, <span class="literal">false</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将事件分发给监听者</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *sharedProcessor)</span></span> distribute(obj <span class="keyword">interface</span>&#123;&#125;, sync <span class="type">bool</span>) &#123;</span><br><span class="line">	p.listenersLock.RLock()</span><br><span class="line">	<span class="keyword">defer</span> p.listenersLock.RUnlock()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> sync &#123;</span><br><span class="line">		<span class="keyword">for</span> _, listener := <span class="keyword">range</span> p.syncingListeners &#123;</span><br><span class="line">			listener.add(obj)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, listener := <span class="keyword">range</span> p.listeners &#123;</span><br><span class="line">			listener.add(obj)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>那存量的pod列表信息是何时放入到DeltaFIFO中的呢,也就是说何时调用ListFunc？<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client-go/tools/cache/reflector.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Reflector)</span></span> ListAndWatch(stopCh &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;) <span class="type">error</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 此处会调用client-go/informers/core/v1/pod.go中NewFilteredPodInformer中的ListFunc,获取pod资源对象列表</span></span><br><span class="line">    pager := pager.New(pager.SimplePageFunc(<span class="function"><span class="keyword">func</span><span class="params">(opts metav1.ListOptions)</span></span> (runtime.Object, <span class="type">error</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> r.listerWatcher.List(opts)</span><br><span class="line">    &#125;))</span><br><span class="line">    <span class="comment">// 此处将pod资源对象列表插入到DeltaFIFO中</span></span><br><span class="line">    <span class="keyword">if</span> err := r.syncWith(items, resourceVersion); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;unable to sync list result: %v&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将list接口中的数据存放到cache.DeltaFIFO中</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *Reflector)</span></span> syncWith(items []runtime.Object, resourceVersion <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	found := <span class="built_in">make</span>([]<span class="keyword">interface</span>&#123;&#125;, <span class="number">0</span>, <span class="built_in">len</span>(items))</span><br><span class="line">	<span class="keyword">for</span> _, item := <span class="keyword">range</span> items &#123;</span><br><span class="line">		found = <span class="built_in">append</span>(found, item)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 对store中已存在的元素进行替换操作</span></span><br><span class="line">	<span class="keyword">return</span> r.store.Replace(found, resourceVersion)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 真正执行入队的操作</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *DeltaFIFO)</span></span> queueActionLocked(actionType DeltaType, obj <span class="keyword">interface</span>&#123;&#125;) <span class="type">error</span> &#123;</span><br><span class="line">	id, err := f.KeyOf(obj)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> KeyError&#123;obj, err&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    oldDeltas := f.items[id]</span><br><span class="line">    <span class="comment">// 入队</span></span><br><span class="line">    newDeltas := <span class="built_in">append</span>(oldDeltas, Delta&#123;actionType, obj&#125;)</span><br><span class="line">    <span class="comment">// 去重</span></span><br><span class="line">	newDeltas = dedupDeltas(newDeltas)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(newDeltas) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> _, exists := f.items[id]; !exists &#123;</span><br><span class="line">			f.queue = <span class="built_in">append</span>(f.queue, id)</span><br><span class="line">		&#125;</span><br><span class="line">		f.items[id] = newDeltas</span><br><span class="line">		f.cond.Broadcast()</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// This never happens, because dedupDeltas never returns an empty list</span></span><br><span class="line">		<span class="comment">// when given a non-empty list (as it is here).</span></span><br><span class="line">		<span class="comment">// If somehow it happens anyway, deal with it but complain.</span></span><br><span class="line">		<span class="keyword">if</span> oldDeltas == <span class="literal">nil</span> &#123;</span><br><span class="line">			klog.Errorf(<span class="string">&quot;Impossible dedupDeltas for id=%q: oldDeltas=%#+v, obj=%#+v; ignoring&quot;</span>, id, oldDeltas, obj)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		klog.Errorf(<span class="string">&quot;Impossible dedupDeltas for id=%q: oldDeltas=%#+v, obj=%#+v; breaking invariant by storing empty Deltas&quot;</span>, id, oldDeltas, obj)</span><br><span class="line">		f.items[id] = newDeltas</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;Impossible dedupDeltas for id=%q: oldDeltas=%#+v, obj=%#+v; broke DeltaFIFO invariant by storing empty Deltas&quot;</span>, id, oldDeltas, obj)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>使用IDE对文中的示例代码进行调试，因为这段代码会启动多个不会退出的协程，所以为调试增加了难度。执行<code>informer.Run(stopCh)</code>会运行多个<code>goroutine</code>,可以在对应的协程代码里面打断点进行调试，更好的理解<code>informer</code>机制。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wg.StartWithChannel(processorStopCh, s.cacheMutationDetector.Run)</span><br><span class="line">wg.StartWithChannel(processorStopCh, s.processor.run)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行Reflector实例</span></span><br><span class="line">wg.StartWithChannel(stopCh, r.Run)</span><br><span class="line">wait.Until(c.processLoop, time.Second, stopCh)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/kubernetes/sample-controller/blob/master/docs/controller-client-go.md">https://github.com/kubernetes/sample-controller/blob/master/docs/controller-client-go.md</a><br>2.<a href="https://cloudnative.to/blog/client-go-informer-source-code/">https://cloudnative.to/blog/client-go-informer-source-code</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/30/golang-struct-option-val/" rel="prev" title="golang-struct-option-value">
+                <i class="fa fa-chevron-left"></i> golang-struct-option-value
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/25/k8s-workqueue/" rel="prev" title="k8s-workqueue">
+                k8s-workqueue <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
   <div>
-  {{ discus_template.render(true)}}
+  
+<div>
+<script src="https://giscus.app/client.js"
+        data-repo="hysyeah/comment"
+        data-repo-id="R_kgDOJXD3Cw"
+        data-category="General"
+        data-category-id="DIC_kwDOJXD3C84CVy5V"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">329</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Reflector-%E7%94%A8%E4%BA%8E%E7%9B%91%E5%90%AC%E6%8C%87%E5%AE%9Ak8s%E8%B5%84%E6%BA%90%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%8C%E5%B9%B6%E5%B0%86%E4%BA%8B%E4%BB%B6%E6%8E%A8%E9%80%81%E5%88%B0DeltaFIFO%E4%B8%AD-%E7%9B%91%E5%90%AC%E7%9A%84%E5%AF%B9%E8%B1%A1%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0ListAndWatch%E6%96%B9%E6%B3%95-%E7%9B%91%E5%90%AC%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%8F%AF%E4%BB%A5%E6%98%AFk8s%E4%B8%AD%E7%9A%84%E5%86%85%E7%BD%AE%E8%B5%84%E6%BA%90%E4%B9%9F%E5%8F%AF%E4%BB%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B5%84%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">Reflector: 用于监听指定k8s资源的变化，并将事件推送到DeltaFIFO中.监听的对象需要实现ListAndWatch方法.监听的对象可以是k8s中的内置资源也可以自定义资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#DeltaFIFO-%E4%B8%80%E4%B8%AA%E5%AD%98%E5%82%A8%E8%B5%84%E6%BA%90%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%85%88%E8%BF%9B%E5%85%88%E5%87%BA%E9%98%9F%E5%88%97"><span class="nav-number">2.</span> <span class="nav-text">DeltaFIFO: 一个存储资源对象的先进先出队列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Indexer-%E8%87%AA%E5%B8%A6%E7%B4%A2%E5%BC%95%E5%8A%9F%E8%83%BD%E7%9A%84%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8-%E5%8F%AF%E5%8F%82%E8%80%83k8s-indexer"><span class="nav-number">3.</span> <span class="nav-text">Indexer: 自带索引功能的本地存储.可参考k8s-indexer</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflector%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89"><span class="nav-number"></span> <span class="nav-text">Reflector结构定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DeltaFIFO%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89"><span class="nav-number"></span> <span class="nav-text">DeltaFIFO结构定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E4%B8%80%E6%AE%B5%E4%BB%A3%E7%A0%81%E6%9D%A5%E6%90%9E%E6%B8%85%E6%A5%9Ainformer%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number"></span> <span class="nav-text">通过一段代码来搞清楚informer是怎么工作的</span></a></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn/" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>

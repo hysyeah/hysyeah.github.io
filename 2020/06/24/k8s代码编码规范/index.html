@@ -1,27 +1,1427 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
-{% import '_macro/discus.swig' as discus_template %}
+<!DOCTYPE html>
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
 
-{% block content %}
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="总结下k8s项目编码规范，加深记忆。 编码规范可参阅Effective Go. 1.Gofmt 所有的代码都必须使用gofmt进行格式化，可选的工具还包括goimports(可看作gofmt的超集) 2.注释语句 注释必须完整，清楚，允许一定的冗余。注释应该必须以描述的资源开头。 比如你注释的是一个函数就应该以函数名开头，注释的是一个结构体就应该以结构体的名称开头并以.结尾 12345 &#x2F;&#x2F; Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s Golang代码编码规范">
+<meta property="og:url" content="https://hysyeah.github.io/2020/06/24/k8s%E4%BB%A3%E7%A0%81%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="总结下k8s项目编码规范，加深记忆。 编码规范可参阅Effective Go. 1.Gofmt 所有的代码都必须使用gofmt进行格式化，可选的工具还包括goimports(可看作gofmt的超集) 2.注释语句 注释必须完整，清楚，允许一定的冗余。注释应该必须以描述的资源开头。 比如你注释的是一个函数就应该以函数名开头，注释的是一个结构体就应该以结构体的名称开头并以.结尾 12345 &#x2F;&#x2F; Re">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-24T12:49:42.000Z">
+<meta property="article:modified_time" content="2023-09-17T05:23:40.573Z">
+<meta property="article:author" content="hys">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2020/06/24/k8s%E4%BB%A3%E7%A0%81%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>k8s Golang代码编码规范 | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2020/06/24/k8s%E4%BB%A3%E7%A0%81%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys"/>
+      <meta itemprop="description" content=""/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">k8s Golang代码编码规范
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-24 20:49:42" itemprop="dateCreated datePublished" datetime="2020-06-24T20:49:42+08:00">2020-06-24</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br/>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>总结下k8s项目编码规范，加深记忆。</p>
+<p>编码规范可参阅<a href="https://golang.org/doc/effective_go.html">Effective Go</a>.</p>
+<h4 id="1-Gofmt"><a href="#1-Gofmt" class="headerlink" title="1.Gofmt"></a>1.Gofmt</h4><p> 所有的代码都必须使用<code>gofmt</code>进行格式化，可选的工具还包括<code>goimports</code>(可看作gofmt的超集)</p>
+<h4 id="2-注释语句"><a href="#2-注释语句" class="headerlink" title="2.注释语句"></a>2.注释语句</h4><p> 注释必须完整，清楚，允许一定的冗余。注释应该必须以描述的资源开头。<br> 比如你注释的是一个函数就应该以函数名开头，注释的是一个结构体就应该以结构体的名称开头并以<code>.</code>结尾<br> <figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// Request represents a request to run a command.</span></span><br><span class="line"><span class="keyword">type</span> Request <span class="keyword">struct</span> &#123; ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// Encode writes the JSON encoding of req to w.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Encode</span><span class="params">(w io.Writer, req *Request)</span></span> &#123; ...</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-Context"><a href="#3-Context" class="headerlink" title="3.Context"></a>3.Context</h4><p>如果一个函数中有参数类型为<code>Context</code>,一般把它作为第一个Ref<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">F</span><span class="params">(ctx context.Context, /* other arguments */)</span></span> &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-复制"><a href="#4-复制" class="headerlink" title="4.复制"></a>4.复制</h4><p>To avoid unexpected aliasing, be careful when copying a struct from another package. For example, the bytes.Buffer type contains a []byte slice. If you copy a Buffer, the slice in the copy may alias the array in the original, causing subsequent method calls to have surprising effects.</p>
+<p>In general, do not copy a value of type T if its methods are associated with the pointer type, *T.</p>
+<h4 id="5-Crypto-Rand"><a href="#5-Crypto-Rand" class="headerlink" title="5.Crypto Rand"></a>5.Crypto Rand</h4><p>不要使用<code>math/rand</code>来生成私钥，即使只生成一次。如果没有设置种子，生成器生成的随机数完成是可预测的。使用<code>time.Nanosecond()</code>作为种子，种子差异比较小，使用<code>crypto/rand</code>来生成。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;crypto/rand&quot;</span></span><br><span class="line">	<span class="comment">// &quot;encoding/base64&quot;</span></span><br><span class="line">	<span class="comment">// &quot;encoding/hex&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Key</span><span class="params">()</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	buf := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="number">16</span>)</span><br><span class="line">	_, err := rand.Read(buf)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)  <span class="comment">// out of randomness, should never happen</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%x&quot;</span>, buf)</span><br><span class="line">	<span class="comment">// or hex.EncodeToString(buf)</span></span><br><span class="line">	<span class="comment">// or base64.StdEncoding.EncodeToString(buf)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-空切片"><a href="#6-空切片" class="headerlink" title="6.空切片"></a>6.空切片</h4><p>定义一个空切片，使用<code>var t []string</code>而不是<code>t := []string&#123;&#125;</code>。前者描述的是一个空的切片,后者是non-nil但长度为0的切片。两者在功能上是一样的(len和cap都为0)，但是我们倾向于使用前者。</p>
+<p>当编码为一个<code>JSON</code>对象时，<code>nil</code>—&gt; null,<code>[]string&#123;&#125;</code> —&gt; <code>JSON array []</code>。</p>
+<h4 id="7-文档注释－Doc-Comments"><a href="#7-文档注释－Doc-Comments" class="headerlink" title="7.文档注释－Doc Comments"></a>7.文档注释－Doc Comments</h4><p>All top-level, exported names should have doc comments, as should non-trivial unexported type or function declarations. See <a href="https://golang.org/doc/effective_go.html#commentary">https://golang.org/doc/effective_go.html#commentary</a> for more information about commentary conventions.</p>
+<h4 id="8-Don’t-Panic"><a href="#8-Don’t-Panic" class="headerlink" title="8.Don’t Panic"></a>8.Don’t Panic</h4><p>不要使用<code>panic</code>处理普通的错误。使用多返回值进行处理。</p>
+<h4 id="9-Error-Strings"><a href="#9-Error-Strings" class="headerlink" title="9.Error Strings"></a>9.Error Strings</h4><p>日志字符串，一般不进行首字母大写(除非是专有名词)<br>use<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Errorf(<span class="string">&quot;something bad&quot;</span>)</span><br></pre></td></tr></table></figure><br>not<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Errorf(<span class="string">&quot;Something bad&quot;</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="10-示例"><a href="#10-示例" class="headerlink" title="10.示例"></a>10.示例</h4><p>当我们新增一个<code>package</code>时，需要提供一些可运行的例子或者简单的测试例子。</p>
+<p><a href="https://blog.golang.org/examples">https://blog.golang.org/examples</a></p>
+<h4 id="11-Goroutine生命周期"><a href="#11-Goroutine生命周期" class="headerlink" title="11.Goroutine生命周期"></a>11.Goroutine生命周期</h4><p>Goroutine会导致内存泄漏当channel阻塞于发送或接收：垃圾收集器并不会终止Goroutine即使channel一直阻塞。<br>尽量使并发代码简单明了，Goroutine生命周期明显。如果过于复杂，可以添加注释表明Goroutine何时和为什么退出.</p>
+<h4 id="12-处理错误"><a href="#12-处理错误" class="headerlink" title="12.处理错误"></a>12.处理错误</h4><p><a href="https://golang.org/doc/effective_go.html#errors">https://golang.org/doc/effective_go.html#errors</a></p>
+<h4 id="13-Imports"><a href="#13-Imports" class="headerlink" title="13. Imports"></a>13. Imports</h4><p>避免重命名imports,除非为了避免命名冲突;好的模块名一般不需要进行重命名。</p>
+<p>对imports进行分类排序，<code>goimports</code>可以帮你完成这个操作。</p>
+<h4 id="14-控制流"><a href="#14-控制流" class="headerlink" title="14. 控制流"></a>14. 控制流</h4><p>use<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	<span class="comment">// error handling</span></span><br><span class="line">	<span class="keyword">return</span> <span class="comment">// or continue, etc.</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// normal code</span></span><br></pre></td></tr></table></figure><br>not<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	<span class="comment">// error handling</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="comment">// normal code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="15-首字母缩略词"><a href="#15-首字母缩略词" class="headerlink" title="15. 首字母缩略词"></a>15. 首字母缩略词</h4><p> 专有名词缩略词采用全大写。<br> 如：<code>URL</code>,<code>URLPony</code>,<code>ServeHTTP</code>,<code>appID</code></p>
+<h4 id="16-Interfaces"><a href="#16-Interfaces" class="headerlink" title="16.Interfaces"></a>16.Interfaces</h4><p>Go接口通常属于使用接口类型的值的包，而不是实现这些值的包。 实现包应返回具体的（通常是指针或结构）类型：这样，可以将新方法添加到实现中，而无需进行大量重构。</p>
+<p>不要在“用于模拟”的API的实现者端定义接口； 而是设计API，以便可以使用实际实现的公共API对其进行测试。</p>
+<p>在使用接口之前，不要先定义它们：如果没有实际的用法示例，很难知道接口是否是必需的，更不用说接口应该包含什么方法了。</p>
+<h4 id="17-模块注释"><a href="#17-模块注释" class="headerlink" title="17.模块注释"></a>17.模块注释</h4><p>模块注释必须在<code>package main</code>上面，而且不能有空格。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Package math provides basic constants and mathematical functions.</span></span><br><span class="line"><span class="keyword">package</span> math</span><br></pre></td></tr></table></figure></p>
+<h4 id="18-模块"><a href="#18-模块" class="headerlink" title="18.模块"></a>18.模块</h4><ul>
+<li>Import Blank<br><code>import _ &quot;pkg</code>,<code>_</code>操作其实是引入该包,不直接使用包里面的函数,而是调用了该包里的init函数。不要这样使用，除非在<code>main package</code>中或者测试需要<br>－ Import Dot<br><code>import . &quot;fmt&quot;</code>可以省略包名调用包中的函数，这样会使代码可读性变差。除了在以一测试这种情况下尽量不要使用这种导入。<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> foo_test</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bar/testutil&quot;</span> <span class="comment">// also imports &quot;foo&quot;</span></span><br><span class="line">	. <span class="string">&quot;foo&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+在上面这种情况下，测试文件不能导入<code>package foo</code>因为<code>bar/testutil</code>中已经导入了<code>foo</code>。<br>使用<code>import .</code>表示假装引入了包。这里还是有点不太明白？<br>－ Package Names<br>所有对包内资源的引用都必须通过包名，所以包名的命名是很重要的而且你可以适当省略掉一些无用的名称。<br>如<code>chubby.File</code>better than <code>chubby.ChubbyFile</code>。</li>
+</ul>
+<h4 id="19-传值"><a href="#19-传值" class="headerlink" title="19.传值"></a>19.传值</h4><p>不要试图通过传递指针来节省空间。常见的实例包括传递指向字符串的指针（<em> string）或指向接口值的指针（</em> io.Reader）。 在这两种情况下，值本身都是固定大小，可以直接传递。 此建议不适用于大型<code>struct</code>，甚至不适用于可能增长的小型<code>struct</code>。</p>
+<h4 id="20-接收者名称与接收者类型"><a href="#20-接收者名称与接收者类型" class="headerlink" title="20.接收者名称与接收者类型"></a>20.接收者名称与接收者类型</h4><p>  － 接收者名称<br>接收者名称必须使用有意义的名称，不能使用一些通用的名称，如<code>me,this,self</code>等。<br>  － 接收者类型<br>1.如果接收者是<code>map,func,chan</code>,不要使用指针。如果接收者是<code>slice</code>而且函数没有对<code>slice</code>进行reslice和reallocate操作，不要使用指针。<br>2.如果函数需要对接收都进行修改，则必须使用指针。<br>3.如果接收者是一个结构体并且包含<code>sync.Mutext</code>或者类似的同步字段，必须使用指针防止拷贝。<br>4.如果接收者是大的数组，结构体，使用指针会更高效。<br>Assume it’s equivalent to passing all its elements as arguments to the method. If that feels too large, it’s also too large for the receiver。<br>5.如果接收者是<code>struct,array,slice</code>，它们其中有字段指向可变的结构，最好使用指针。<br>6.如果接收方是一个很小的数组或结构，自然是一个值类型（例如，诸如time.Time类型），没有可变字段且没有指针，或者仅仅是一个简单的基本类型（如int或string），则<code>value</code>接收者是有道理的。 值接收器可以减少可以生成的垃圾数量； 如果将值传递给value方法，则可以使用堆栈上的副本来代替在堆上分配。 （编译器会尽量避免这种分配，但是它不可能总是成功。）由于这个原因，请勿在没有进行概要分析的情况下选择值接收器类型。<br>7.如果不确认使用如种类型，使用指针接收者。</p>
+<h4 id="21-同步函数"><a href="#21-同步函数" class="headerlink" title="21.同步函数"></a>21.同步函数</h4><p>最好使用同步函数，同步函数直接返回结果，在返回之前完成所的调用或<code>channel ops</code>。同步函数更容易使用<code>goroutine</code>,更好的避免内存泄漏和数据竞争。还有一个好处就是使用同步方法可以更好的进行测试。如果调用者需要更高的并发性，可以将这个改造成一个单独的<code>goroutine</code>。</p>
+<h4 id="22-出现错误必须提供有用的信息"><a href="#22-出现错误必须提供有用的信息" class="headerlink" title="22.出现错误必须提供有用的信息"></a>22.出现错误必须提供有用的信息</h4><p>对必要的地方，可能出错的地方打印日志。应该包含如下信息<code>什么错误，输入是什么，实际的结果是什么，预期的结果是什么</code>。<br><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> got != tt.want &#123;</span><br><span class="line">	t.Errorf(<span class="string">&quot;Foo(%q) = %d; want %d&quot;</span>, tt.in, got, tt.want) <span class="comment">// or Fatalf, if test can&#x27;t test anything more past this point</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="23-变量名称"><a href="#23-变量名称" class="headerlink" title="23.变量名称"></a>23.变量名称</h4><p>在<code>Go</code>中变量尽量简单明了。对于有限作用域的局部变量，尽量使用简短的变量。如<code>lincCount</code>—&gt;<code>c</code>,<code>sliceIndex</code>—&gt;<code>i</code>。</p>
+<hr>
+<p>内建函数<code>new</code>和<code>make</code>。<code>new</code>这个一个用来分配内存的内建函数，但它不初始化内存，只是将其置零。<code>new(T)</code>会为<code>T</code>类型的新项目分配被置零的存储，并且返回它的地址，一个类型为<code>*T</code>的值(返回一个指向新分配的类型为<code>T</code>,值为零的指针)<br>。<br><code>new([]int)</code>返回一个指向新分配的，被置零的<code>slice</code>结构体的指针，即指向<code>nil slice</code>值的指针。</p>
+<p>内建函数<code>make(T, args)</code>与<code>new(T)的用途不一样，它只用于来创建</code>slice,map,channel<code>,并且返回一个初始化的的(而不是置零)，类型为</code>T`的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var p *[]<span class="built_in">int</span> = new([]<span class="built_in">int</span>)</span><br><span class="line">var v []<span class="built_in">int</span> = make([]<span class="built_in">int</span>, <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p>Ref：<br>1.<a href="https://github.com/kubernetes/community/blob/master/contributors/guide/coding-conventions.md">https://github.com/kubernetes/community/blob/master/contributors/guide/coding-conventions.md</a><br>2.<a href="https://golang.org/doc/effective_go.html">effective-go</a><br>3.<a href="https://godoc.org/golang.org/x/tools/cmd/goimports">https://godoc.org/golang.org/x/tools/cmd/goimports</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/26/k8s%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84/" rel="prev" title="k8s源码结构">
+                <i class="fa fa-chevron-left"></i> k8s源码结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/24/Golang-prng/" rel="prev" title="Golang prng">
+                Golang prng <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
   <div>
-  {{ discus_template.render(true)}}
+  
+<div>
+<script src="https://giscus.app/client.js"
+        data-repo="hysyeah/comment"
+        data-repo-id="R_kgDOJXD3Cw"
+        data-category="General"
+        data-category-id="DIC_kwDOJXD3C84CVy5V"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">329</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Gofmt"><span class="nav-number">1.</span> <span class="nav-text">1.Gofmt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%B3%A8%E9%87%8A%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.</span> <span class="nav-text">2.注释语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Context"><span class="nav-number">3.</span> <span class="nav-text">3.Context</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%A4%8D%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">4.复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Crypto-Rand"><span class="nav-number">5.</span> <span class="nav-text">5.Crypto Rand</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E7%A9%BA%E5%88%87%E7%89%87"><span class="nav-number">6.</span> <span class="nav-text">6.空切片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A%EF%BC%8DDoc-Comments"><span class="nav-number">7.</span> <span class="nav-text">7.文档注释－Doc Comments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Don%E2%80%99t-Panic"><span class="nav-number">8.</span> <span class="nav-text">8.Don’t Panic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-Error-Strings"><span class="nav-number">9.</span> <span class="nav-text">9.Error Strings</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-%E7%A4%BA%E4%BE%8B"><span class="nav-number">10.</span> <span class="nav-text">10.示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-Goroutine%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">11.</span> <span class="nav-text">11.Goroutine生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF"><span class="nav-number">12.</span> <span class="nav-text">12.处理错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-Imports"><span class="nav-number">13.</span> <span class="nav-text">13. Imports</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="nav-number">14.</span> <span class="nav-text">14. 控制流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-%E9%A6%96%E5%AD%97%E6%AF%8D%E7%BC%A9%E7%95%A5%E8%AF%8D"><span class="nav-number">15.</span> <span class="nav-text">15. 首字母缩略词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-Interfaces"><span class="nav-number">16.</span> <span class="nav-text">16.Interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-%E6%A8%A1%E5%9D%97%E6%B3%A8%E9%87%8A"><span class="nav-number">17.</span> <span class="nav-text">17.模块注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-%E6%A8%A1%E5%9D%97"><span class="nav-number">18.</span> <span class="nav-text">18.模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-%E4%BC%A0%E5%80%BC"><span class="nav-number">19.</span> <span class="nav-text">19.传值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-%E6%8E%A5%E6%94%B6%E8%80%85%E5%90%8D%E7%A7%B0%E4%B8%8E%E6%8E%A5%E6%94%B6%E8%80%85%E7%B1%BB%E5%9E%8B"><span class="nav-number">20.</span> <span class="nav-text">20.接收者名称与接收者类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-%E5%90%8C%E6%AD%A5%E5%87%BD%E6%95%B0"><span class="nav-number">21.</span> <span class="nav-text">21.同步函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E5%BF%85%E9%A1%BB%E6%8F%90%E4%BE%9B%E6%9C%89%E7%94%A8%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">22.</span> <span class="nav-text">22.出现错误必须提供有用的信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-%E5%8F%98%E9%87%8F%E5%90%8D%E7%A7%B0"><span class="nav-number">23.</span> <span class="nav-text">23.变量名称</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn/" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>

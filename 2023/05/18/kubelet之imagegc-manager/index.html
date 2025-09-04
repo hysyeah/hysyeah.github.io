@@ -1,27 +1,1379 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
-{% import '_macro/discus.swig' as discus_template %}
+<!DOCTYPE html>
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
 
-{% block content %}
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="imagegc-manager负责管理容器镜像生命周期。当磁盘的使用率达到所设置的值时会将没有使用的镜像给删除掉。 kubelet通过如下的的参数来设置ImageGC策略：  ImageGCHighThresholdPercent：触发gc的阈值，超过该值将会执行gc，当值为100时，不启动gc ImageGCLowThresholdPercent：低于这个值不会进行gc ImageMinimum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kubelet之imagegc-manager">
+<meta property="og:url" content="https://hysyeah.github.io/2023/05/18/kubelet%E4%B9%8Bimagegc-manager/index.html">
+<meta property="og:site_name" content="hysyeah">
+<meta property="og:description" content="imagegc-manager负责管理容器镜像生命周期。当磁盘的使用率达到所设置的值时会将没有使用的镜像给删除掉。 kubelet通过如下的的参数来设置ImageGC策略：  ImageGCHighThresholdPercent：触发gc的阈值，超过该值将会执行gc，当值为100时，不启动gc ImageGCLowThresholdPercent：低于这个值不会进行gc ImageMinimum">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-18T05:12:25.000Z">
+<meta property="article:modified_time" content="2023-09-17T05:23:40.577Z">
+<meta property="article:author" content="hys">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="kubelet">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://hysyeah.github.io/2023/05/18/kubelet%E4%B9%8Bimagegc-manager/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kubelet之imagegc-manager | hysyeah</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/hysyeah/" class="github-corner" aria-label="View source on GitHub">
+    <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hysyeah</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">知易行难</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
 
   <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hysyeah.github.io/2023/05/18/kubelet%E4%B9%8Bimagegc-manager/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hys"/>
+      <meta itemprop="description" content=""/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hysyeah"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kubelet之imagegc-manager
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2023-05-18 13:12:25" itemprop="dateCreated datePublished" datetime="2023-05-18T13:12:25+08:00">2023-05-18</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          <br/>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>imagegc-manager</code>负责管理容器镜像生命周期。当磁盘的使用率达到所设置的值时会将没有使用的镜像给删除掉。</p>
+<p><code>kubelet</code>通过如下的的参数来设置<code>ImageGC</code>策略：</p>
+<ul>
+<li>ImageGCHighThresholdPercent：触发gc的阈值，超过该值将会执行gc，当值为100时，不启动gc</li>
+<li>ImageGCLowThresholdPercent：低于这个值不会进行gc</li>
+<li>ImageMinimumGCAge：最短GC年龄（即距离首次被探测到的间隔），小于该阈值时不会被gc</li>
+</ul>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/kubelet.go</span></span><br><span class="line">imageGCPolicy := images.ImageGCPolicy&#123;</span><br><span class="line">	MinAge:               kubeCfg.ImageMinimumGCAge.Duration,</span><br><span class="line">	HighThresholdPercent: <span class="type">int</span>(kubeCfg.ImageGCHighThresholdPercent),</span><br><span class="line">	LowThresholdPercent:  <span class="type">int</span>(kubeCfg.ImageGCLowThresholdPercent),</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// pkg/kubelet/images/types.go</span></span><br><span class="line"><span class="comment">// 定义了镜像拉取时的一些错误类型</span></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	<span class="comment">// ErrImagePullBackOff - Container image pull failed, kubelet is backing off image pull</span></span><br><span class="line">	ErrImagePullBackOff = errors.New(<span class="string">&quot;ImagePullBackOff&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ErrImageInspect - Unable to inspect image</span></span><br><span class="line">	ErrImageInspect = errors.New(<span class="string">&quot;ImageInspectError&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ErrImagePull - General image pull error</span></span><br><span class="line">	ErrImagePull = errors.New(<span class="string">&quot;ErrImagePull&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ErrImageNeverPull - Required Image is absent on host and PullPolicy is NeverPullImage</span></span><br><span class="line">    <span class="comment">// 镜像拉取策略为Never且镜像不存在对应的节点上</span></span><br><span class="line">	ErrImageNeverPull = errors.New(<span class="string">&quot;ErrImageNeverPull&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ErrInvalidImageName - Unable to parse the image name.</span></span><br><span class="line">	ErrInvalidImageName = errors.New(<span class="string">&quot;InvalidImageName&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ImageManager provides an interface to manage the lifecycle of images.</span></span><br><span class="line"><span class="comment">// Implementations of this interface are expected to deal with pulling (downloading),</span></span><br><span class="line"><span class="comment">// managing, and deleting container images.</span></span><br><span class="line"><span class="comment">// Implementations are expected to abstract the underlying runtimes.</span></span><br><span class="line"><span class="comment">// Implementations are expected to be thread safe.</span></span><br><span class="line"><span class="keyword">type</span> ImageManager <span class="keyword">interface</span> &#123;</span><br><span class="line">    <span class="comment">// 判断镜像是否被使用</span></span><br><span class="line">	EnsureImageExists(ctx context.Context, pod *v1.Pod, container *v1.Container, pullSecrets []v1.Secret, podSandboxConfig *runtimeapi.PodSandboxConfig) (<span class="type">string</span>, <span class="type">string</span>, <span class="type">error</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// pkg/kubelet/images/puller.go</span></span><br><span class="line"><span class="keyword">type</span> pullResult <span class="keyword">struct</span> &#123;</span><br><span class="line">	imageRef     <span class="type">string</span></span><br><span class="line">	err          <span class="type">error</span></span><br><span class="line">	pullDuration time.Duration</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> imagePuller <span class="keyword">interface</span> &#123;</span><br><span class="line">	pullImage(context.Context, kubecontainer.ImageSpec, []v1.Secret, <span class="keyword">chan</span>&lt;- pullResult, *runtimeapi.PodSandboxConfig)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 确保parallelImagePuller,serialImagePuller都实现了imagePuller接口</span></span><br><span class="line"><span class="keyword">var</span> _, _ imagePuller = &amp;parallelImagePuller&#123;&#125;, &amp;serialImagePuller&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过channel实现并行拉取镜像</span></span><br><span class="line"><span class="keyword">type</span> parallelImagePuller <span class="keyword">struct</span> &#123;</span><br><span class="line">	imageService kubecontainer.ImageService</span><br><span class="line">	tokens       <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newParallelImagePuller</span><span class="params">(imageService kubecontainer.ImageService, maxParallelImagePulls *<span class="type">int32</span>)</span></span> imagePuller &#123;</span><br><span class="line">	<span class="keyword">if</span> maxParallelImagePulls == <span class="literal">nil</span> || *maxParallelImagePulls &lt; <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> &amp;parallelImagePuller&#123;imageService, <span class="literal">nil</span>&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &amp;parallelImagePuller&#123;imageService, <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;, *maxParallelImagePulls)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(pip *parallelImagePuller)</span></span> pullImage(ctx context.Context, spec kubecontainer.ImageSpec, pullSecrets []v1.Secret, pullChan <span class="keyword">chan</span>&lt;- pullResult, podSandboxConfig *runtimeapi.PodSandboxConfig) &#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// 如果pip.tokens不为nil</span></span><br><span class="line">		<span class="keyword">if</span> pip.tokens != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="comment">// 发送数据到pip.tokens,如果channel已满则会阻塞</span></span><br><span class="line">            <span class="comment">// 否则往下走拉取镜像</span></span><br><span class="line">			pip.tokens &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;</span><br><span class="line">            <span class="comment">// 从channel读取数据，释放一个空位</span></span><br><span class="line">			<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; &lt;-pip.tokens &#125;()</span><br><span class="line">		&#125;</span><br><span class="line">		startTime := time.Now()</span><br><span class="line">		imageRef, err := pip.imageService.PullImage(ctx, spec, pullSecrets, podSandboxConfig)</span><br><span class="line">		pullChan &lt;- pullResult&#123;</span><br><span class="line">			imageRef:     imageRef,</span><br><span class="line">			err:          err,</span><br><span class="line">			pullDuration: time.Since(startTime),</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Maximum number of image pull requests than can be queued.</span></span><br><span class="line"><span class="comment">// 最大请求排队数，如果超过了这个数则会发生阻塞</span></span><br><span class="line"><span class="keyword">const</span> maxImagePullRequests = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> serialImagePuller <span class="keyword">struct</span> &#123;</span><br><span class="line">	imageService kubecontainer.ImageService</span><br><span class="line">	pullRequests <span class="keyword">chan</span> *imagePullRequest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newSerialImagePuller</span><span class="params">(imageService kubecontainer.ImageService)</span></span> imagePuller &#123;</span><br><span class="line">	imagePuller := &amp;serialImagePuller&#123;imageService, <span class="built_in">make</span>(<span class="keyword">chan</span> *imagePullRequest, maxImagePullRequests)&#125;</span><br><span class="line">    <span class="comment">// 启动一个协程不断的从pullRequest通道中获取数据并串行拉取镜像</span></span><br><span class="line">	<span class="keyword">go</span> wait.Until(imagePuller.processImagePullRequests, time.Second, wait.NeverStop)</span><br><span class="line">	<span class="keyword">return</span> imagePuller</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> imagePullRequest <span class="keyword">struct</span> &#123;</span><br><span class="line">	ctx              context.Context</span><br><span class="line">	spec             kubecontainer.ImageSpec</span><br><span class="line">	pullSecrets      []v1.Secret</span><br><span class="line">	pullChan         <span class="keyword">chan</span>&lt;- pullResult</span><br><span class="line">	podSandboxConfig *runtimeapi.PodSandboxConfig</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这方法会在EnsureImageExists中调用</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(sip *serialImagePuller)</span></span> pullImage(ctx context.Context, spec kubecontainer.ImageSpec, pullSecrets []v1.Secret, pullChan <span class="keyword">chan</span>&lt;- pullResult, podSandboxConfig *runtimeapi.PodSandboxConfig) &#123;</span><br><span class="line">	sip.pullRequests &lt;- &amp;imagePullRequest&#123;</span><br><span class="line">		ctx:              ctx,</span><br><span class="line">		spec:             spec,</span><br><span class="line">		pullSecrets:      pullSecrets,</span><br><span class="line">		pullChan:         pullChan,</span><br><span class="line">		podSandboxConfig: podSandboxConfig,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(sip *serialImagePuller)</span></span> processImagePullRequests() &#123;</span><br><span class="line">	<span class="keyword">for</span> pullRequest := <span class="keyword">range</span> sip.pullRequests &#123;</span><br><span class="line">		startTime := time.Now()</span><br><span class="line">		imageRef, err := sip.imageService.PullImage(pullRequest.ctx, pullRequest.spec, pullRequest.pullSecrets, pullRequest.podSandboxConfig)</span><br><span class="line">		pullRequest.pullChan &lt;- pullResult&#123;</span><br><span class="line">			imageRef:     imageRef,</span><br><span class="line">			err:          err,</span><br><span class="line">			pullDuration: time.Since(startTime),</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/images/image_manager.go</span></span><br><span class="line"><span class="keyword">type</span> ImagePodPullingTimeRecorder <span class="keyword">interface</span> &#123;</span><br><span class="line">	RecordImageStartedPulling(podUID types.UID)</span><br><span class="line">	RecordImageFinishedPulling(podUID types.UID)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// imageManager provides the functionalities for image pulling.</span></span><br><span class="line"><span class="keyword">type</span> imageManager <span class="keyword">struct</span> &#123;</span><br><span class="line">	recorder     record.EventRecorder</span><br><span class="line">	imageService kubecontainer.ImageService</span><br><span class="line">	backOff      *flowcontrol.Backoff</span><br><span class="line">	<span class="comment">// It will check the presence of the image, and report the &#x27;image pulling&#x27;, image pulled&#x27; events correspondingly.</span></span><br><span class="line">	puller imagePuller</span><br><span class="line"></span><br><span class="line">	podPullingTimeRecorder ImagePodPullingTimeRecorder</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 确保imageManager实现了ImageManager接口</span></span><br><span class="line"><span class="keyword">var</span> _ ImageManager = &amp;imageManager&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewImageManager instantiates a new ImageManager object.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewImageManager</span><span class="params">(recorder record.EventRecorder, imageService kubecontainer.ImageService, imageBackOff *flowcontrol.Backoff, serialized <span class="type">bool</span>, maxParallelImagePulls *<span class="type">int32</span>, qps <span class="type">float32</span>, burst <span class="type">int</span>, podPullingTimeRecorder ImagePodPullingTimeRecorder)</span></span> ImageManager &#123;</span><br><span class="line">	imageService = throttleImagePulling(imageService, qps, burst)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> puller imagePuller</span><br><span class="line">    <span class="comment">// 判断使用哪种镜像拉取策略(串行或并行)</span></span><br><span class="line">	<span class="keyword">if</span> serialized &#123;</span><br><span class="line">		puller = newSerialImagePuller(imageService)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		puller = newParallelImagePuller(imageService, maxParallelImagePulls)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &amp;imageManager&#123;</span><br><span class="line">		recorder:               recorder,</span><br><span class="line">		imageService:           imageService,</span><br><span class="line">		backOff:                imageBackOff,</span><br><span class="line">		puller:                 puller,</span><br><span class="line">		podPullingTimeRecorder: podPullingTimeRecorder,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// shouldPullImage returns whether we should pull an image according to</span></span><br><span class="line"><span class="comment">// the presence and pull policy of the image.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">shouldPullImage</span><span class="params">(container *v1.Container, imagePresent <span class="type">bool</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> container.ImagePullPolicy == v1.PullNever &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> container.ImagePullPolicy == v1.PullAlways ||</span><br><span class="line">		(container.ImagePullPolicy == v1.PullIfNotPresent &amp;&amp; (!imagePresent)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// records an event using ref, event msg.  log to glog using prefix, msg, logFn</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *imageManager)</span></span> logIt(ref *v1.ObjectReference, eventtype, event, prefix, msg <span class="type">string</span>, logFn <span class="function"><span class="keyword">func</span><span class="params">(args ...<span class="keyword">interface</span>&#123;&#125;)</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> ref != <span class="literal">nil</span> &#123;</span><br><span class="line">		m.recorder.Event(ref, eventtype, event, msg)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		logFn(fmt.Sprint(prefix, <span class="string">&quot; &quot;</span>, msg))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// EnsureImageExists pulls the image for the specified pod and container, and returns</span></span><br><span class="line"><span class="comment">// (imageRef, error message, error).</span></span><br><span class="line"><span class="comment">// 为pod和container拉取指定的镜像</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *imageManager)</span></span> EnsureImageExists(ctx context.Context, pod *v1.Pod, container *v1.Container, pullSecrets []v1.Secret, podSandboxConfig *runtimeapi.PodSandboxConfig) (<span class="type">string</span>, <span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	logPrefix := fmt.Sprintf(<span class="string">&quot;%s/%s/%s&quot;</span>, pod.Namespace, pod.Name, container.Image)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回*v1.ObjectReference,指向container(如果这个container属于这个pod)</span></span><br><span class="line">	ref, err := kubecontainer.GenerateContainerRef(pod, container)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		klog.ErrorS(err, <span class="string">&quot;Couldn&#x27;t make a ref to pod&quot;</span>, <span class="string">&quot;pod&quot;</span>, klog.KObj(pod), <span class="string">&quot;containerName&quot;</span>, container.Name)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果镜像不包含tag和摘要,为这个镜像设置默认的tag, latest</span></span><br><span class="line">	image, err := applyDefaultImageTag(container.Image)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		msg := fmt.Sprintf(<span class="string">&quot;Failed to apply default image tag %q: %v&quot;</span>, container.Image, err)</span><br><span class="line">		m.logIt(ref, v1.EventTypeWarning, events.FailedToInspectImage, logPrefix, msg, klog.Warning)</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, msg, ErrInvalidImageName</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取容器注解</span></span><br><span class="line">	<span class="keyword">var</span> podAnnotations []kubecontainer.Annotation</span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> pod.GetAnnotations() &#123;</span><br><span class="line">		podAnnotations = <span class="built_in">append</span>(podAnnotations, kubecontainer.Annotation&#123;</span><br><span class="line">			Name:  k,</span><br><span class="line">			Value: v,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	spec := kubecontainer.ImageSpec&#123;</span><br><span class="line">		Image:       image,</span><br><span class="line">		Annotations: podAnnotations,</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 返回镜像ID或digest,如果不存在则返回(&quot;&quot;, nil)</span></span><br><span class="line">	imageRef, err := m.imageService.GetImageRef(ctx, spec)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		msg := fmt.Sprintf(<span class="string">&quot;Failed to inspect image %q: %v&quot;</span>, container.Image, err)</span><br><span class="line">		m.logIt(ref, v1.EventTypeWarning, events.FailedToInspectImage, logPrefix, msg, klog.Warning)</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, msg, ErrImageInspect</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// present为true,表示镜像已存在</span></span><br><span class="line">	present := imageRef != <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="keyword">if</span> !shouldPullImage(container, present) &#123;</span><br><span class="line">		<span class="keyword">if</span> present &#123;</span><br><span class="line">			msg := fmt.Sprintf(<span class="string">&quot;Container image %q already present on machine&quot;</span>, container.Image)</span><br><span class="line">			m.logIt(ref, v1.EventTypeNormal, events.PulledImage, logPrefix, msg, klog.Info)</span><br><span class="line">			<span class="keyword">return</span> imageRef, <span class="string">&quot;&quot;</span>, <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		msg := fmt.Sprintf(<span class="string">&quot;Container image %q is not present with pull policy of Never&quot;</span>, container.Image)</span><br><span class="line">		m.logIt(ref, v1.EventTypeWarning, events.ErrImageNeverPullPolicy, logPrefix, msg, klog.Warning)</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, msg, ErrImageNeverPull</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	backOffKey := fmt.Sprintf(<span class="string">&quot;%s_%s&quot;</span>, pod.UID, container.Image)</span><br><span class="line">	<span class="keyword">if</span> m.backOff.IsInBackOffSinceUpdate(backOffKey, m.backOff.Clock.Now()) &#123;</span><br><span class="line">		msg := fmt.Sprintf(<span class="string">&quot;Back-off pulling image %q&quot;</span>, container.Image)</span><br><span class="line">		m.logIt(ref, v1.EventTypeNormal, events.BackOffPullImage, logPrefix, msg, klog.Info)</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, msg, ErrImagePullBackOff</span><br><span class="line">	&#125;</span><br><span class="line">	m.podPullingTimeRecorder.RecordImageStartedPulling(pod.UID)</span><br><span class="line">	m.logIt(ref, v1.EventTypeNormal, events.PullingImage, logPrefix, fmt.Sprintf(<span class="string">&quot;Pulling image %q&quot;</span>, container.Image), klog.Info)</span><br><span class="line">	startTime := time.Now()</span><br><span class="line">	pullChan := <span class="built_in">make</span>(<span class="keyword">chan</span> pullResult)</span><br><span class="line">    <span class="comment">// 拉取镜像</span></span><br><span class="line">	m.puller.pullImage(ctx, spec, pullSecrets, pullChan, podSandboxConfig)</span><br><span class="line">	imagePullResult := &lt;-pullChan</span><br><span class="line">	<span class="keyword">if</span> imagePullResult.err != <span class="literal">nil</span> &#123;</span><br><span class="line">		m.logIt(ref, v1.EventTypeWarning, events.FailedToPullImage, logPrefix, fmt.Sprintf(<span class="string">&quot;Failed to pull image %q: %v&quot;</span>, container.Image, imagePullResult.err), klog.Warning)</span><br><span class="line">		m.backOff.Next(backOffKey, m.backOff.Clock.Now())</span><br><span class="line"></span><br><span class="line">		msg, err := evalCRIPullErr(container, imagePullResult.err)</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, msg, err</span><br><span class="line">	&#125;</span><br><span class="line">	m.podPullingTimeRecorder.RecordImageFinishedPulling(pod.UID)</span><br><span class="line">	m.logIt(ref, v1.EventTypeNormal, events.PulledImage, logPrefix, fmt.Sprintf(<span class="string">&quot;Successfully pulled image %q in %v (%v including waiting)&quot;</span>,</span><br><span class="line">		container.Image, imagePullResult.pullDuration.Truncate(time.Millisecond), time.Since(startTime).Truncate(time.Millisecond)), klog.Info)</span><br><span class="line">	m.backOff.GC()</span><br><span class="line">	<span class="keyword">return</span> imagePullResult.imageRef, <span class="string">&quot;&quot;</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pkg/kubelet/images/image_gc_manager.go</span></span><br><span class="line"><span class="comment">// 定义了ImageGCManager要实现的方法</span></span><br><span class="line"><span class="keyword">type</span> ImageGCManager <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="comment">// Applies the garbage collection policy. Errors include being unable to free</span></span><br><span class="line">	<span class="comment">// enough space as per the garbage collection policy.</span></span><br><span class="line">	GarbageCollect(ctx context.Context) <span class="type">error</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Start async garbage collection of images.</span></span><br><span class="line">	Start()</span><br><span class="line"></span><br><span class="line">	GetImageList() ([]container.Image, <span class="type">error</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Delete all unused images.</span></span><br><span class="line">	DeleteUnusedImages(ctx context.Context) <span class="type">error</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ImageGCPolicy <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Any usage above this threshold will always trigger garbage collection.</span></span><br><span class="line">	<span class="comment">// This is the highest usage we will allow.</span></span><br><span class="line">    <span class="comment">// 超过高水位总会解发gc</span></span><br><span class="line">	HighThresholdPercent <span class="type">int</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Any usage below this threshold will never trigger garbage collection.</span></span><br><span class="line">	<span class="comment">// This is the lowest threshold we will try to garbage collect to.</span></span><br><span class="line">	LowThresholdPercent <span class="type">int</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Minimum age at which an image can be garbage collected.</span></span><br><span class="line">	MinAge time.Duration</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> realImageGCManager <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Container runtime</span></span><br><span class="line">	runtime container.Runtime</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Records of images and their use.</span></span><br><span class="line">	imageRecords     <span class="keyword">map</span>[<span class="type">string</span>]*imageRecord</span><br><span class="line">	imageRecordsLock sync.Mutex</span><br><span class="line"></span><br><span class="line">	<span class="comment">// The image garbage collection policy in use.</span></span><br><span class="line">	policy ImageGCPolicy</span><br><span class="line"></span><br><span class="line">	<span class="comment">// statsProvider provides stats used during image garbage collection.</span></span><br><span class="line">	statsProvider StatsProvider</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Recorder for Kubernetes events.</span></span><br><span class="line">	recorder record.EventRecorder</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Reference to this node.</span></span><br><span class="line">	nodeRef *v1.ObjectReference</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Track initialization</span></span><br><span class="line">	initialized <span class="type">bool</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// imageCache is the cache of latest image list.</span></span><br><span class="line">	imageCache imageCache</span><br><span class="line"></span><br><span class="line">	<span class="comment">// sandbox image exempted from GC</span></span><br><span class="line">	sandboxImage <span class="type">string</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// tracer for recording spans</span></span><br><span class="line">	tracer trace.Tracer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// imageCache实现了set和get方法</span></span><br><span class="line"><span class="keyword">type</span> imageCache <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// sync.Mutex is the mutex protects the image cache.</span></span><br><span class="line">	sync.Mutex</span><br><span class="line">	<span class="comment">// images is the image cache.</span></span><br><span class="line">	images []container.Image</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i *imageCache)</span></span> set(images []container.Image) &#123;</span><br><span class="line">	i.Lock()</span><br><span class="line">	<span class="keyword">defer</span> i.Unlock()</span><br><span class="line">	<span class="comment">// The image list needs to be sorted when it gets read and used in</span></span><br><span class="line">	<span class="comment">// setNodeStatusImages. We sort the list on write instead of on read,</span></span><br><span class="line">	<span class="comment">// because the image cache is more often read than written</span></span><br><span class="line">	sort.Sort(sliceutils.ByImageSize(images))</span><br><span class="line">	i.images = images</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i *imageCache)</span></span> get() []container.Image &#123;</span><br><span class="line">	i.Lock()</span><br><span class="line">	<span class="keyword">defer</span> i.Unlock()</span><br><span class="line">	<span class="keyword">return</span> i.images</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录追踪的镜像的一些信息</span></span><br><span class="line"><span class="keyword">type</span> imageRecord <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Time when this image was first detected.</span></span><br><span class="line">	firstDetected time.Time</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Time when we last saw this image being used.</span></span><br><span class="line">	lastUsed time.Time</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Size of the image in bytes.</span></span><br><span class="line">	size <span class="type">int64</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Pinned status of the image</span></span><br><span class="line">	pinned <span class="type">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建ImageGCManager</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewImageGCManager</span><span class="params">(runtime container.Runtime, statsProvider StatsProvider, recorder record.EventRecorder, nodeRef *v1.ObjectReference, policy ImageGCPolicy, sandboxImage <span class="type">string</span>, tracerProvider trace.TracerProvider)</span></span> (ImageGCManager, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">// 对策略的一些判断</span></span><br><span class="line">	<span class="keyword">if</span> policy.HighThresholdPercent &lt; <span class="number">0</span> || policy.HighThresholdPercent &gt; <span class="number">100</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;invalid HighThresholdPercent %d, must be in range [0-100]&quot;</span>, policy.HighThresholdPercent)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> policy.LowThresholdPercent &lt; <span class="number">0</span> || policy.LowThresholdPercent &gt; <span class="number">100</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;invalid LowThresholdPercent %d, must be in range [0-100]&quot;</span>, policy.LowThresholdPercent)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> policy.LowThresholdPercent &gt; policy.HighThresholdPercent &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;LowThresholdPercent %d can not be higher than HighThresholdPercent %d&quot;</span>, policy.LowThresholdPercent, policy.HighThresholdPercent)</span><br><span class="line">	&#125;</span><br><span class="line">	tracer := tracerProvider.Tracer(instrumentationScope)</span><br><span class="line">	im := &amp;realImageGCManager&#123;</span><br><span class="line">		runtime:       runtime,</span><br><span class="line">		policy:        policy,</span><br><span class="line">		imageRecords:  <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]*imageRecord),</span><br><span class="line">		statsProvider: statsProvider,</span><br><span class="line">		recorder:      recorder,</span><br><span class="line">		nodeRef:       nodeRef,</span><br><span class="line">		initialized:   <span class="literal">false</span>,</span><br><span class="line">		sandboxImage:  sandboxImage,</span><br><span class="line">		tracer:        tracer,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> im, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(im *realImageGCManager)</span></span> Start() &#123;</span><br><span class="line">	ctx := context.Background()</span><br><span class="line">    <span class="comment">// 5分钟执行一次detectImages</span></span><br><span class="line">	<span class="keyword">go</span> wait.Until(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="comment">// Initial detection make detected time &quot;unknown&quot; in the past.</span></span><br><span class="line">		<span class="keyword">var</span> ts time.Time</span><br><span class="line">		<span class="keyword">if</span> im.initialized &#123;</span><br><span class="line">			ts = time.Now()</span><br><span class="line">		&#125;</span><br><span class="line">		_, err := im.detectImages(ctx, ts)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			klog.InfoS(<span class="string">&quot;Failed to monitor images&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			im.initialized = <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, <span class="number">5</span>*time.Minute, wait.NeverStop)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Start a goroutine periodically updates image cache.</span></span><br><span class="line">    <span class="comment">// 每30s更新下imageCache</span></span><br><span class="line">	<span class="keyword">go</span> wait.Until(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// 获取镜像列表</span></span><br><span class="line">		images, err := im.runtime.ListImages(ctx)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			klog.InfoS(<span class="string">&quot;Failed to update image list&quot;</span>, <span class="string">&quot;err&quot;</span>, err)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			im.imageCache.set(images)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, <span class="number">30</span>*time.Second, wait.NeverStop)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(im *realImageGCManager)</span></span> detectImages(ctx context.Context, detectTime time.Time) (sets.String, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="comment">// 定义一个集合记录正在使用中的镜像</span></span><br><span class="line">	imagesInUse := sets.NewString()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Always consider the container runtime pod sandbox image in use</span></span><br><span class="line">	<span class="comment">// sandboxImage永远被认为在使用中</span></span><br><span class="line">	imageRef, err := im.runtime.GetImageRef(ctx, container.ImageSpec&#123;Image: im.sandboxImage&#125;)</span><br><span class="line">	<span class="keyword">if</span> err == <span class="literal">nil</span> &amp;&amp; imageRef != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		imagesInUse.Insert(imageRef)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 获取当前节点上的所有镜像</span></span><br><span class="line">	images, err := im.runtime.ListImages(ctx)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> imagesInUse, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 返回pod列表</span></span><br><span class="line">	pods, err := im.runtime.GetPods(ctx, <span class="literal">true</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> imagesInUse, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make a set of images in use by containers.</span></span><br><span class="line">	<span class="comment">// 遍历pod中的container将镜像ID添加到集合中</span></span><br><span class="line">	<span class="keyword">for</span> _, pod := <span class="keyword">range</span> pods &#123;</span><br><span class="line">		<span class="keyword">for</span> _, container := <span class="keyword">range</span> pod.Containers &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Container uses image&quot;</span>, <span class="string">&quot;pod&quot;</span>, klog.KRef(pod.Namespace, pod.Name), <span class="string">&quot;containerName&quot;</span>, container.Name, <span class="string">&quot;containerImage&quot;</span>, container.Image, <span class="string">&quot;imageID&quot;</span>, container.ImageID)</span><br><span class="line">			imagesInUse.Insert(container.ImageID)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Add new images and record those being used.</span></span><br><span class="line">	now := time.Now()</span><br><span class="line">	currentImages := sets.NewString()</span><br><span class="line">	im.imageRecordsLock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> im.imageRecordsLock.Unlock()</span><br><span class="line">	<span class="comment">// 遍历当前节点上的所有镜像</span></span><br><span class="line">	<span class="keyword">for</span> _, image := <span class="keyword">range</span> images &#123;</span><br><span class="line">		klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Adding image ID to currentImages&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.ID)</span><br><span class="line">		currentImages.Insert(image.ID)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// New image, set it as detected now.</span></span><br><span class="line">		<span class="keyword">if</span> _, ok := im.imageRecords[image.ID]; !ok &#123;</span><br><span class="line">			<span class="comment">// 镜像不存在imageRecords中</span></span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID is new&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.ID)</span><br><span class="line">			im.imageRecords[image.ID] = &amp;imageRecord&#123;</span><br><span class="line">				firstDetected: detectTime,</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Set last used time to now if the image is being used.</span></span><br><span class="line">		<span class="keyword">if</span> isImageUsed(image.ID, imagesInUse) &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Setting Image ID lastUsed&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.ID, <span class="string">&quot;lastUsed&quot;</span>, now)</span><br><span class="line">			im.imageRecords[image.ID].lastUsed = now</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID has size&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.ID, <span class="string">&quot;size&quot;</span>, image.Size)</span><br><span class="line">		im.imageRecords[image.ID].size = image.Size</span><br><span class="line"></span><br><span class="line">		klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID is pinned&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.ID, <span class="string">&quot;pinned&quot;</span>, image.Pinned)</span><br><span class="line">		im.imageRecords[image.ID].pinned = image.Pinned</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Remove old images from our records.</span></span><br><span class="line">	<span class="keyword">for</span> image := <span class="keyword">range</span> im.imageRecords &#123;</span><br><span class="line">		<span class="keyword">if</span> !currentImages.Has(image) &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID is no longer present; removing from imageRecords&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image)</span><br><span class="line">			<span class="comment">// 如果一个不存在这个节点的镜像列表</span></span><br><span class="line">			<span class="built_in">delete</span>(im.imageRecords, image)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> imagesInUse, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 会在StartGarbageCollection中被调用，每5分钟执行一次</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(im *realImageGCManager)</span></span> GarbageCollect(ctx context.Context) <span class="type">error</span> &#123;</span><br><span class="line">	ctx, otelSpan := im.tracer.Start(ctx, <span class="string">&quot;Images/GarbageCollect&quot;</span>)</span><br><span class="line">	<span class="keyword">defer</span> otelSpan.End()</span><br><span class="line">	<span class="comment">// Get disk usage on disk holding images.</span></span><br><span class="line">	fsStats, err := im.statsProvider.ImageFsStats(ctx)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> capacity, available <span class="type">int64</span></span><br><span class="line">	<span class="keyword">if</span> fsStats.CapacityBytes != <span class="literal">nil</span> &#123;</span><br><span class="line">		capacity = <span class="type">int64</span>(*fsStats.CapacityBytes)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> fsStats.AvailableBytes != <span class="literal">nil</span> &#123;</span><br><span class="line">		available = <span class="type">int64</span>(*fsStats.AvailableBytes)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> available &gt; capacity &#123;</span><br><span class="line">		klog.InfoS(<span class="string">&quot;Availability is larger than capacity&quot;</span>, <span class="string">&quot;available&quot;</span>, available, <span class="string">&quot;capacity&quot;</span>, capacity)</span><br><span class="line">		available = capacity</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check valid capacity.</span></span><br><span class="line">	<span class="keyword">if</span> capacity == <span class="number">0</span> &#123;</span><br><span class="line">		err := goerrors.New(<span class="string">&quot;invalid capacity 0 on image filesystem&quot;</span>)</span><br><span class="line">		im.recorder.Eventf(im.nodeRef, v1.EventTypeWarning, events.InvalidDiskCapacity, err.Error())</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If over the max threshold, free enough to place us at the lower threshold.</span></span><br><span class="line">	usagePercent := <span class="number">100</span> - <span class="type">int</span>(available*<span class="number">100</span>/capacity)</span><br><span class="line">	<span class="keyword">if</span> usagePercent &gt;= im.policy.HighThresholdPercent &#123;</span><br><span class="line">		amountToFree := capacity*<span class="type">int64</span>(<span class="number">100</span>-im.policy.LowThresholdPercent)/<span class="number">100</span> - available</span><br><span class="line">		klog.InfoS(<span class="string">&quot;Disk usage on image filesystem is over the high threshold, trying to free bytes down to the low threshold&quot;</span>, <span class="string">&quot;usage&quot;</span>, usagePercent, <span class="string">&quot;highThreshold&quot;</span>, im.policy.HighThresholdPercent, <span class="string">&quot;amountToFree&quot;</span>, amountToFree, <span class="string">&quot;lowThreshold&quot;</span>, im.policy.LowThresholdPercent)</span><br><span class="line">        <span class="comment">// 删除不使用的镜像</span></span><br><span class="line">		freed, err := im.freeSpace(ctx, amountToFree, time.Now())</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> freed &lt; amountToFree &#123;</span><br><span class="line">			err := fmt.Errorf(<span class="string">&quot;Failed to garbage collect required amount of images. Attempted to free %d bytes, but only found %d bytes eligible to free.&quot;</span>, amountToFree, freed)</span><br><span class="line">			im.recorder.Eventf(im.nodeRef, v1.EventTypeWarning, events.FreeDiskSpaceFailed, err.Error())</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(im *realImageGCManager)</span></span> freeSpace(ctx context.Context, bytesToFree <span class="type">int64</span>, freeTime time.Time) (<span class="type">int64</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	imagesInUse, err := im.detectImages(ctx, freeTime)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	im.imageRecordsLock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> im.imageRecordsLock.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get all images in eviction order.</span></span><br><span class="line">	images := <span class="built_in">make</span>([]evictionInfo, <span class="number">0</span>, <span class="built_in">len</span>(im.imageRecords))</span><br><span class="line">	<span class="keyword">for</span> image, record := <span class="keyword">range</span> im.imageRecords &#123;</span><br><span class="line">		<span class="keyword">if</span> isImageUsed(image, imagesInUse) &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID is being used&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Check if image is pinned, prevent garbage collection</span></span><br><span class="line">		<span class="keyword">if</span> record.pinned &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image is pinned, skipping garbage collection&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		images = <span class="built_in">append</span>(images, evictionInfo&#123;</span><br><span class="line">			id:          image,</span><br><span class="line">			imageRecord: *record,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	sort.Sort(byLastUsedAndDetected(images))</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Delete unused images until we&#x27;ve freed up enough space.</span></span><br><span class="line">	<span class="keyword">var</span> deletionErrors []<span class="type">error</span></span><br><span class="line">	spaceFreed := <span class="type">int64</span>(<span class="number">0</span>)</span><br><span class="line">	<span class="keyword">for</span> _, image := <span class="keyword">range</span> images &#123;</span><br><span class="line">		klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Evaluating image ID for possible garbage collection&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.id)</span><br><span class="line">		<span class="comment">// Images that are currently in used were given a newer lastUsed.</span></span><br><span class="line">		<span class="keyword">if</span> image.lastUsed.Equal(freeTime) || image.lastUsed.After(freeTime) &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID was used too recently, not eligible for garbage collection&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.id, <span class="string">&quot;lastUsed&quot;</span>, image.lastUsed, <span class="string">&quot;freeTime&quot;</span>, freeTime)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Avoid garbage collect the image if the image is not old enough.</span></span><br><span class="line">		<span class="comment">// In such a case, the image may have just been pulled down, and will be used by a container right away.</span></span><br><span class="line">		<span class="comment">// 如果镜像加入缓存的时间 &lt; im.policy.MinAge,则不会对镜像进行回收</span></span><br><span class="line">		<span class="keyword">if</span> freeTime.Sub(image.firstDetected) &lt; im.policy.MinAge &#123;</span><br><span class="line">			klog.V(<span class="number">5</span>).InfoS(<span class="string">&quot;Image ID&#x27;s age is less than the policy&#x27;s minAge, not eligible for garbage collection&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.id, <span class="string">&quot;age&quot;</span>, freeTime.Sub(image.firstDetected), <span class="string">&quot;minAge&quot;</span>, im.policy.MinAge)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Remove image. Continue despite errors.</span></span><br><span class="line">		klog.InfoS(<span class="string">&quot;Removing image to free bytes&quot;</span>, <span class="string">&quot;imageID&quot;</span>, image.id, <span class="string">&quot;size&quot;</span>, image.size)</span><br><span class="line">		err := im.runtime.RemoveImage(ctx, container.ImageSpec&#123;Image: image.id&#125;)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			deletionErrors = <span class="built_in">append</span>(deletionErrors, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">delete</span>(im.imageRecords, image.id)</span><br><span class="line">		spaceFreed += image.size</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> spaceFreed &gt;= bytesToFree &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(deletionErrors) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> spaceFreed, fmt.Errorf(<span class="string">&quot;wanted to free %d bytes, but freed %d bytes space with errors in image deletion: %v&quot;</span>, bytesToFree, spaceFreed, errors.NewAggregate(deletionErrors))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> spaceFreed, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// cmd/kubelet/app/server.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createAndInitKubelet</span><span class="params">(kubeServer *options.KubeletServer,</span></span></span><br><span class="line"><span class="params"><span class="function">	kubeDeps *kubelet.Dependencies,</span></span></span><br><span class="line"><span class="params"><span class="function">	hostname <span class="type">string</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">	hostnameOverridden <span class="type">bool</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">	nodeName types.NodeName,</span></span></span><br><span class="line"><span class="params"><span class="function">	nodeIPs []net.IP)</span></span> (k kubelet.Bootstrap, err <span class="type">error</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">        k.StartGarbageCollection()</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(kl *Kubelet)</span></span> StartGarbageCollection() &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> kl.kubeletConfiguration.ImageGCHighThresholdPercent == <span class="number">100</span> &#123;</span><br><span class="line">		klog.V(<span class="number">2</span>).InfoS(<span class="string">&quot;ImageGCHighThresholdPercent is set 100, Disable image GC&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">go</span> wait.Until(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		ctx := context.Background()</span><br><span class="line">		<span class="keyword">if</span> err := kl.imageManager.GarbageCollect(ctx); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> prevImageGCFailed &#123;</span><br><span class="line">				klog.ErrorS(err, <span class="string">&quot;Image garbage collection failed multiple times in a row&quot;</span>)</span><br><span class="line">				<span class="comment">// Only create an event for repeated failures</span></span><br><span class="line">				kl.recorder.Eventf(kl.nodeRef, v1.EventTypeWarning, events.ImageGCFailed, err.Error())</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				klog.ErrorS(err, <span class="string">&quot;Image garbage collection failed once. Stats initialization may not have completed yet&quot;</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			prevImageGCFailed = <span class="literal">true</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">var</span> vLevel klog.Level = <span class="number">4</span></span><br><span class="line">			<span class="keyword">if</span> prevImageGCFailed &#123;</span><br><span class="line">				vLevel = <span class="number">1</span></span><br><span class="line">				prevImageGCFailed = <span class="literal">false</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			klog.V(vLevel).InfoS(<span class="string">&quot;Image garbage collection succeeded&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, ImageGCPeriod, wait.NeverStop)</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>REF:<br>1.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/images/types.go">pkg/kubelet/images/types.go</a><br>2.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/images/image_gc_manager.go">pkg/kubelet/images/image_gc_manager.go</a><br>3.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/images/image_manager.go">pkg/kubelet/images/image_manager.go</a><br>4.<a href="https://github.com/kubernetes/kubernetes/blob/release-1.27/pkg/kubelet/images/puller.go">pkg/kubelet/images/puller.go</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag">k8s</i></a>
+          
+            <a href="/tags/kubelet/" rel="tag"><i class="fa fa-tag">kubelet</i></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/05/19/kubelet%E4%B9%8Bprober/" rel="prev" title="kubelet之prober">
+                <i class="fa fa-chevron-left"></i> kubelet之prober
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/05/17/kubelet%E4%B9%8Bpod-manager/" rel="prev" title="kubelet之pod_manager">
+                kubelet之pod_manager <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
   <div>
-  {{ discus_template.render(true)}}
+  
+<div>
+<script src="https://giscus.app/client.js"
+        data-repo="hysyeah/comment"
+        data-repo-id="R_kgDOJXD3Cw"
+        data-category="General"
+        data-category-id="DIC_kwDOJXD3C84CVy5V"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+          </div>
+          
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">hys</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">329</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/%20%7C%7C%20th">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/%20%7C%7C%20tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">hysyeah.top &copy; <span itemprop="copyrightYear">2019-2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"><a href="http://www.beian.miit.gov.cn/" class="theme-link" rel="noopener" target="_blank">粤ICP备19077752号</a></span>
+
+  
+
+  
+</div>
+
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.2</div>
+-->
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      const selection = document.getSelection();
+      const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+        if (result) $(this).text('复制成功');
+        else $(this).text('复制失败');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+      if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+
+  
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+  <script type="text/javascript" src="/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="/js/clipboard-use.js"></script>
+
+
+</body>
+</html>
