@@ -10,15 +10,6 @@
     
     
     <url>
-        <loc>https://hysyeah.github.io/sample-page/</loc>
-        <lastmod>2023-09-17T05:23:40.593Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
         <loc>https://hysyeah.github.io/tags/</loc>
         <lastmod>2023-09-17T05:23:40.593Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -28,8 +19,8 @@
     
     
     <url>
-        <loc>https://hysyeah.github.io/about/</loc>
-        <lastmod>2023-09-17T05:23:40.592Z</lastmod>
+        <loc>https://hysyeah.github.io/sample-page/</loc>
+        <lastmod>2023-09-17T05:23:40.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -38,6 +29,15 @@
     
     <url>
         <loc>https://hysyeah.github.io/categories/</loc>
+        <lastmod>2023-09-17T05:23:40.592Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://hysyeah.github.io/about/</loc>
         <lastmod>2023-09-17T05:23:40.592Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
